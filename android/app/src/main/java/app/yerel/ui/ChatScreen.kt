@@ -545,7 +545,7 @@ private fun StatsLine(s: GenStats) {
         if (s.genTokens > 0) add(String.format(Locale.ROOT, "%.1f tok/sn", s.tokensPerSecond))
         add("${s.genTokens} token")
         if (s.promptTokens - s.reusedTokens > 8 && s.promptMs > 0) add(String.format(Locale.ROOT, "ön işleme %.0f tok/sn", s.prefillPerSecond))
-        if (s.stop == "max_tokens") add("uzunluk sınırı")
+        if (s.stop == "length") add("uzunluk sınırı")
         if (s.stop == "ctx_full") add("bağlam doldu")
         if (s.stop == "cancel") add("durduruldu")
     }

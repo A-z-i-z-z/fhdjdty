@@ -33,13 +33,14 @@ jbyteArray to_bytes(JNIEnv * env, const std::string & s) {
     return arr;
 }
 
+// INFO and above only: debug output (graph dumps) costs time on every context build
 void log_callback(ggml_log_level level, const char * text, void *) {
-    int prio = ANDROID_LOG_DEBUG;
+    int prio;
     switch (level) {
         case GGML_LOG_LEVEL_ERROR: prio = ANDROID_LOG_ERROR; break;
         case GGML_LOG_LEVEL_WARN:  prio = ANDROID_LOG_WARN;  break;
         case GGML_LOG_LEVEL_INFO:  prio = ANDROID_LOG_INFO;  break;
-        default: break;
+        default: return;
     }
     __android_log_write(prio, "yerel-llama", text);
 }

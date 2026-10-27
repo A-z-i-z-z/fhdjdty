@@ -4,6 +4,7 @@
 
 #include "engine.h"
 #include "json.h"
+#include "llama.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -57,6 +58,12 @@ int main(int argc, char ** argv) {
     }
     const int n_threads = argc > 2 ? atoi(argv[2]) : 4;
 
+    // keep the output readable: llama.cpp warnings and errors only
+    llama_log_set([](ggml_log_level level, const char * text, void *) {
+        if (level == GGML_LOG_LEVEL_WARN || level == GGML_LOG_LEVEL_ERROR) {
+            fputs(text, stderr);
+        }
+    }, nullptr);
     Engine::init_backends("");
     note("system", Engine::system_info());
 
