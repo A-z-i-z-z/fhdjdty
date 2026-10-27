@@ -291,6 +291,7 @@ void load_cpu_backend_by_name() {
         const int s = score ? score() : 1; // single-variant builds have no score function
         dlclose(handle);
         if (s <= 0) {
+            log_android(ANDROID_LOG_INFO, name + ": not supported by this CPU");
             continue;
         }
         if (ggml_backend_load(name.c_str())) {

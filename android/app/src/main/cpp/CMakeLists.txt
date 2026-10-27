@@ -26,15 +26,17 @@ if(ANDROID_ABI STREQUAL "arm64-v8a")
     set(GGML_CPU_KLEIDIAI     ON CACHE BOOL "" FORCE)
     set(GGML_OPENMP           ON CACHE BOOL "" FORCE)
 else()
-    # x86_64 is only built for the emulator smoke test
+    # x86_64 is only built for the emulator smoke test: SSE4.2 is what the Android x86_64 ABI
+    # guarantees, emulators often lack AVX
     set(GGML_CPU_ALL_VARIANTS OFF CACHE BOOL "" FORCE)
     set(GGML_CPU_KLEIDIAI     OFF CACHE BOOL "" FORCE)
     set(GGML_OPENMP           OFF CACHE BOOL "" FORCE)
-    set(GGML_SSE42 ON CACHE BOOL "" FORCE)
-    set(GGML_AVX   ON CACHE BOOL "" FORCE)
-    set(GGML_AVX2  ON CACHE BOOL "" FORCE)
-    set(GGML_FMA   ON CACHE BOOL "" FORCE)
-    set(GGML_F16C  ON CACHE BOOL "" FORCE)
+    set(GGML_SSE42 ON  CACHE BOOL "" FORCE)
+    set(GGML_AVX   OFF CACHE BOOL "" FORCE)
+    set(GGML_AVX2  OFF CACHE BOOL "" FORCE)
+    set(GGML_FMA   OFF CACHE BOOL "" FORCE)
+    set(GGML_F16C  OFF CACHE BOOL "" FORCE)
+    set(GGML_BMI2  OFF CACHE BOOL "" FORCE)
 endif()
 
 set(LLAMA_SRC ${CMAKE_CURRENT_LIST_DIR}/../../../../third_party/llama.cpp)

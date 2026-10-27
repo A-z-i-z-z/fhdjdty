@@ -97,6 +97,7 @@ shot 09-dark-chat
 adb shell cmd uimode night no
 
 adb logcat -d -v time -s YerelTest:I LlamaEngine:* yerel-llama:* yerel-engine:* Yerel:* AndroidRuntime:E DEBUG:* > "$OUT/logcat.txt" || true
+adb shell grep -m1 -E "^flags" /proc/cpuinfo > "$OUT/cpuinfo.txt" || true
 adb shell dumpsys package "$PKG" | grep -E "legacyNativeLibraryDir|nativeLibraryDir|primaryCpuAbi" > "$OUT/package.txt" || true
 adb shell dumpsys meminfo "$PKG" > "$OUT/meminfo.txt" || true
 log "failures: $FAILS"
