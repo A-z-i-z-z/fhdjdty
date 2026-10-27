@@ -39,6 +39,33 @@ else()
     set(GGML_BMI2  OFF CACHE BOOL "" FORCE)
 endif()
 
+# Accelerators (arm64 only), each a separate backend library loaded on demand:
+#   YEREL_OPENCL_ROOT       include/CL headers + lib/libOpenCL.so to link against (the device's own
+#                           libOpenCL.so is used at runtime, it is not packaged)
+#   YEREL_HEXAGON_SDK_ROOT  Hexagon SDK, builds the NPU backend and its DSP-side kernels (HTP skels)
+set(YEREL_OPENCL_ROOT      "" CACHE PATH "OpenCL headers and link library for the GPU backend")
+set(YEREL_HEXAGON_SDK_ROOT "" CACHE PATH "Hexagon SDK for the NPU backend")
+set(YEREL_HEXAGON_TOOLS_ROOT "" CACHE PATH "Hexagon tools (default: from the SDK)")
+set(YEREL_HTP_VERSIONS v73 v75 v79 v81 v85)
+
+if(ANDROID_ABI STREQUAL "arm64-v8a" AND YEREL_OPENCL_ROOT)
+    message(STATUS "yerel: OpenCL GPU backend from ${YEREL_OPENCL_ROOT}")
+    set(GGML_OPENCL                    ON CACHE BOOL "" FORCE)
+    set(GGML_OPENCL_USE_ADRENO_KERNELS ON CACHE BOOL "" FORCE)
+    set(GGML_OPENCL_EMBED_KERNELS      ON CACHE BOOL "" FORCE)
+    set(OpenCL_INCLUDE_DIR "${YEREL_OPENCL_ROOT}/include"          CACHE PATH     "" FORCE)
+    set(OpenCL_LIBRARY     "${YEREL_OPENCL_ROOT}/lib/libOpenCL.so" CACHE FILEPATH "" FORCE)
+endif()
+
+if(ANDROID_ABI STREQUAL "arm64-v8a" AND YEREL_HEXAGON_SDK_ROOT)
+    message(STATUS "yerel: Hexagon NPU backend from ${YEREL_HEXAGON_SDK_ROOT}")
+    set(GGML_HEXAGON       ON CACHE BOOL "" FORCE)
+    set(HEXAGON_SDK_ROOT   "${YEREL_HEXAGON_SDK_ROOT}" CACHE PATH "" FORCE)
+    if(YEREL_HEXAGON_TOOLS_ROOT)
+        set(HEXAGON_TOOLS_ROOT "${YEREL_HEXAGON_TOOLS_ROOT}" CACHE PATH "" FORCE)
+    endif()
+endif()
+
 set(LLAMA_SRC ${CMAKE_CURRENT_LIST_DIR}/../../../../third_party/llama.cpp)
 add_subdirectory(${LLAMA_SRC} build-llama)
 
@@ -47,3 +74,15 @@ target_include_directories(yerel PRIVATE ${LLAMA_SRC}/common)
 target_link_libraries(yerel llama llama-common android log)
 # smaller library, no exported internals
 target_link_options(yerel PRIVATE -Wl,--gc-sections -Wl,--exclude-libs,ALL)
+
+if(GGML_HEXAGON)
+    # the HTP skels run on the DSP; packaged next to the other libraries, the app copies them out
+    # of the APK to a directory on ADSP_LIBRARY_PATH before the NPU backend is loaded
+    foreach(V ${YEREL_HTP_VERSIONS})
+        add_dependencies(yerel htp-${V})
+        add_custom_command(TARGET yerel POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                    ${CMAKE_CURRENT_BINARY_DIR}/build-llama/ggml/src/ggml-hexagon/libggml-htp-${V}.so
+                    $<TARGET_FILE_DIR:yerel>/libggml-htp-${V}.so)
+    endforeach()
+endif()

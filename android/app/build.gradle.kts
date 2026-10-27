@@ -27,6 +27,10 @@ android {
                 // llama.cpp is always built optimized, also for debug APKs
                 // 16 KB-page-compatible libraries for newer Android releases
                 arguments += listOf("-DCMAKE_BUILD_TYPE=Release", "-DANDROID_STL=c++_shared", "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON")
+                // GPU (OpenCL) and NPU (Hexagon) backends, when their SDKs are available (see CI)
+                for (name in listOf("YEREL_OPENCL_ROOT", "YEREL_HEXAGON_SDK_ROOT", "YEREL_HEXAGON_TOOLS_ROOT")) {
+                    System.getenv(name)?.takeIf { it.isNotBlank() }?.let { arguments += "-D$name=$it" }
+                }
             }
         }
     }

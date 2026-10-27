@@ -6,6 +6,7 @@
 #include "json.h"
 #include "llama.h"
 #include "sampling.h"
+#include "speculative.h"
 
 #include <algorithm>
 #include <chrono>
@@ -137,6 +138,9 @@ GenParams GenParams::from_json(const std::string & text) {
     if (j.contains("enable_thinking") && j.at("enable_thinking").is_boolean()) {
         p.enable_thinking = j.at("enable_thinking").get<bool>();
     }
+    if (j.contains("continue") && j.at("continue").is_boolean()) {
+        p.continue_final = j.at("continue").get<bool>();
+    }
     return p;
 }
 
@@ -146,6 +150,19 @@ struct Engine::Impl {
     const llama_vocab *       vocab = nullptr;
     common_chat_templates_ptr tmpls;
     ContextParams             cparams;
+    LoadParams                lparams;
+    std::string               device_desc = "CPU";
+    std::string               device_note; // why the requested device is not used
+
+    // speculative decoding
+    llama_model *        model_dft = nullptr; // separate draft model, if any
+    llama_context *      ctx_dft   = nullptr; // draft model or MTP context, kept in lockstep with ctx
+    common_speculative * spec      = nullptr;
+    bool                 has_mtp   = false;   // the GGUF carries MTP (nextn) layers and they were loaded
+    bool                 draft_is_mtp = false; // the draft GGUF is an exported MTP head
+    int                  n_spec_max = 0;
+    std::string          spec_desc;           // active speculative types
+    std::string          spec_note;           // why speculative decoding is (partly) off
 
     // tokens currently held in the memory of sequence 0
     llama_tokens            cached;
@@ -154,7 +171,21 @@ struct Engine::Impl {
 
     std::atomic<bool> cancel_flag{false};
 
+    void free_spec() {
+        if (spec) {
+            common_speculative_free(spec);
+            spec = nullptr;
+        }
+        if (ctx_dft) {
+            llama_free(ctx_dft);
+            ctx_dft = nullptr;
+        }
+        spec_desc.clear();
+        n_spec_max = 0;
+    }
+
     void free_context() {
+        free_spec();
         if (ctx) {
             llama_free(ctx);
             ctx = nullptr;
@@ -163,10 +194,25 @@ struct Engine::Impl {
         checkpoints.clear();
     }
 
+    void clear_dft() {
+        if (ctx_dft && llama_get_memory(ctx_dft)) {
+            llama_memory_clear(llama_get_memory(ctx_dft), true);
+        }
+    }
+
     void reset_memory() {
         llama_memory_clear(llama_get_memory(ctx), true);
+        clear_dft();
         cached.clear();
         checkpoints.clear();
+    }
+
+    // drops positions >= n from the draft context; false if it cannot be truncated there
+    bool truncate_dft(size_t n) {
+        if (!ctx_dft || !llama_get_memory(ctx_dft)) {
+            return true;
+        }
+        return llama_memory_seq_rm(llama_get_memory(ctx_dft), 0, (llama_pos) n, -1);
     }
 
     void save_checkpoint() {
@@ -189,6 +235,15 @@ struct Engine::Impl {
     // makes the memory hold exactly tokens[0, n_keep) and returns the number of tokens kept,
     // which can be smaller than n_keep when the memory cannot be truncated there
     size_t truncate_to(size_t n_keep) {
+        const size_t n = truncate_target(n_keep);
+        if (!truncate_dft(n)) {
+            reset_memory();
+            return 0;
+        }
+        return n;
+    }
+
+    size_t truncate_target(size_t n_keep) {
         auto * mem = llama_get_memory(ctx);
         if (n_keep >= cached.size()) {
             return cached.size();
@@ -224,14 +279,29 @@ struct Engine::Impl {
         return 0;
     }
 
+    // decodes a batch on the target and feeds it to the speculative implementations
+    int decode(common_batch & batch) {
+        const int rc = llama_process(ctx, LLAMA_PROCESS_TYPE_DECODE, batch.get());
+        if (rc == 0 && spec && !common_speculative_process(spec, batch)) {
+            // the draft state no longer follows the target, continue without speculation
+            free_spec();
+            spec_note = "hızlandırma hata verdi ve kapatıldı";
+        }
+        return rc;
+    }
+
     // decodes tokens[cached.size(), end) in batches; returns false on error or cancel
     bool prefill(const llama_tokens & tokens, size_t end, std::string & err) {
         const size_t n_batch = (size_t) std::max(1, cparams.n_batch);
+        common_batch batch(ctx);
         while (cached.size() < end) {
             const size_t start = cached.size();
             const size_t n     = std::min(n_batch, end - start);
-            auto batch = llama_batch_get_one(const_cast<llama_token *>(tokens.data() + start), (int32_t) n);
-            const int rc = llama_decode(ctx, batch);
+            batch.clear();
+            for (size_t i = 0; i < n; ++i) {
+                batch.add(tokens[start + i], (llama_pos) (start + i), 0, false);
+            }
+            const int rc = decode(batch);
             if (rc != 0) {
                 // aborted or failed batches can leave a partial state behind
                 reset_memory();
@@ -242,6 +312,8 @@ struct Engine::Impl {
         }
         return true;
     }
+
+    void setup_spec(const llama_context_params & cp);
 };
 
 Engine::Engine() : impl(std::make_unique<Impl>()) {}
@@ -252,13 +324,38 @@ Engine::~Engine() {
 
 namespace {
 
-bool has_cpu_backend() {
+// cpu, gpu (OpenCL, Vulkan, ...), npu (Hexagon) or other
+std::string device_kind(ggml_backend_dev_t dev) {
+    switch (ggml_backend_dev_type(dev)) {
+        case GGML_BACKEND_DEVICE_TYPE_CPU:
+            return "cpu";
+        case GGML_BACKEND_DEVICE_TYPE_GPU:
+        case GGML_BACKEND_DEVICE_TYPE_IGPU: {
+            const std::string reg = ggml_backend_reg_name(ggml_backend_dev_backend_reg(dev));
+            return reg.find("HTP") != std::string::npos || reg.find("Hexagon") != std::string::npos ? "npu" : "gpu";
+        }
+        default:
+            return "other";
+    }
+}
+
+std::vector<ggml_backend_dev_t> devices_of_kind(const std::string & kind) {
+    std::vector<ggml_backend_dev_t> out;
     for (size_t i = 0; i < ggml_backend_dev_count(); ++i) {
-        if (ggml_backend_dev_type(ggml_backend_dev_get(i)) == GGML_BACKEND_DEVICE_TYPE_CPU) {
-            return true;
+        auto * dev = ggml_backend_dev_get(i);
+        if (device_kind(dev) == kind) {
+            out.push_back(dev);
         }
     }
-    return false;
+    return out;
+}
+
+bool has_cpu_backend() {
+    return !devices_of_kind("cpu").empty();
+}
+
+bool has_reg(const char * name) {
+    return ggml_backend_reg_by_name(name) != nullptr;
 }
 
 #if defined(__ANDROID__)
@@ -306,15 +403,19 @@ void load_cpu_backend_by_name() {
 } // namespace
 
 void Engine::init_backends(const std::string & lib_dir) {
+#if defined(__ANDROID__)
+    // accelerators are loaded on demand (load_backend): initialising OpenCL compiles its kernels
+    // and Hexagon opens a DSP session, neither is wanted when the model runs on the CPU
+    (void) lib_dir;
+    load_cpu_backend_by_name();
+#else
     if (lib_dir.empty()) {
         ggml_backend_load_all();
     } else {
         ggml_backend_load_all_from_path(lib_dir.c_str());
     }
+#endif
 #if defined(__ANDROID__)
-    if (!has_cpu_backend()) {
-        load_cpu_backend_by_name();
-    }
     if (!has_cpu_backend()) {
         log_android(ANDROID_LOG_ERROR, "no CPU backend could be loaded from " + lib_dir);
     }
@@ -335,11 +436,72 @@ std::string Engine::system_info() {
     return info;
 }
 
+bool Engine::load_backend(const std::string & kind) {
+#if defined(__ANDROID__)
+    std::vector<std::pair<const char *, const char *>> libs; // registry name, library
+    if (kind == "gpu") {
+        libs = { { "OpenCL", "libggml-opencl.so" }, { "Vulkan", "libggml-vulkan.so" } };
+    } else if (kind == "npu") {
+        libs = { { "HTP", "libggml-hexagon.so" } };
+    }
+    for (const auto & [reg, lib] : libs) {
+        if (has_reg(reg) || !devices_of_kind(kind).empty()) {
+            break;
+        }
+        if (ggml_backend_load(lib)) {
+            log_android(ANDROID_LOG_INFO, std::string(lib) + " loaded");
+        } else {
+            log_android(ANDROID_LOG_INFO, std::string(lib) + " not available on this device");
+        }
+    }
+#endif
+    return !devices_of_kind(kind).empty();
+}
+
+std::string Engine::devices_json() {
+    std::string out = "[";
+    for (size_t i = 0; i < ggml_backend_dev_count(); ++i) {
+        auto * dev = ggml_backend_dev_get(i);
+        size_t free = 0;
+        size_t total = 0;
+        ggml_backend_dev_memory(dev, &free, &total);
+        if (i > 0) {
+            out += ",";
+        }
+        out += "{\"name\":" + json_escape(ggml_backend_dev_name(dev));
+        out += ",\"desc\":" + json_escape(ggml_backend_dev_description(dev));
+        out += ",\"kind\":" + json_escape(device_kind(dev));
+        out += ",\"mem_total\":" + std::to_string(total);
+        out += ",\"mem_free\":" + std::to_string(free) + "}";
+    }
+    return out + "]";
+}
+
 std::string Engine::load(const std::string & path, const LoadParams & params, const ProgressFn & progress) {
     unload();
+    auto & d   = *impl;
+    d.lparams  = params;
+
+    // device selection: the layers go to the first device of the requested kind, the rest stays on the CPU
+    static std::vector<ggml_backend_dev_t> devs; // the model keeps the list for its lifetime
+    devs.clear();
+    d.device_desc = "CPU";
+    d.device_note.clear();
+    if (params.device == "gpu" || params.device == "npu") {
+        if (load_backend(params.device)) {
+            const auto found = devices_of_kind(params.device);
+            devs.push_back(found.front());
+            d.device_desc = std::string(ggml_backend_dev_description(found.front())) + " (" +
+                            ggml_backend_dev_name(found.front()) + ")";
+        } else {
+            d.device_note = params.device == "gpu" ? "GPU bulunamadı, CPU kullanılıyor" : "NPU bulunamadı, CPU kullanılıyor";
+        }
+    }
+    devs.push_back(nullptr);
 
     auto mparams         = llama_model_default_params();
-    mparams.n_gpu_layers = params.n_gpu_layers;
+    mparams.devices      = devs.data();
+    mparams.n_gpu_layers = devs.size() > 1 ? params.n_gpu_layers : 0;
     if (params.use_mmap) {
         mparams.load_mode = params.use_mlock ? LLAMA_LOAD_MODE_MMAP_MLOCK : LLAMA_LOAD_MODE_MMAP;
     } else {
@@ -347,28 +509,150 @@ std::string Engine::load(const std::string & path, const LoadParams & params, co
     }
     struct ProgressCtx {
         const ProgressFn * fn;
-    } pctx{ &progress };
+        float              scale;
+        float              offset;
+    } pctx{ &progress, 1.0f, 0.0f };
     if (progress) {
         mparams.progress_callback = [](float p, void * ud) {
-            return (*static_cast<ProgressCtx *>(ud)->fn)(p);
+            auto * c = static_cast<ProgressCtx *>(ud);
+            return (*c->fn)(c->offset + p * c->scale);
         };
         mparams.progress_callback_user_data = &pctx;
     }
 
-    impl->model = llama_model_load_from_file(path.c_str(), mparams);
-    if (!impl->model) {
+    // MTP layers are only loaded when they will be used
+    const bool want_mtp = params.spec_mode == "auto" || params.spec_mode == "mtp";
+    if (want_mtp) {
+        const auto types = common_speculative_types_from_gguf(path);
+        d.has_mtp = std::find(types.begin(), types.end(), COMMON_SPECULATIVE_TYPE_DRAFT_MTP) != types.end();
+        mparams.load_mtp = d.has_mtp;
+    }
+    const bool want_draft = !params.draft_path.empty() && (params.spec_mode == "draft" ||
+                                                           (params.spec_mode == "auto" && !d.has_mtp));
+    if (want_draft) {
+        pctx.scale = 0.85f;
+    }
+
+    d.model = llama_model_load_from_file(path.c_str(), mparams);
+    if (!d.model) {
+        d.has_mtp = false;
         return "model açılamadı: bu mimari desteklenmiyor ya da dosya bozuk/eksik";
     }
-    impl->vocab = llama_model_get_vocab(impl->model);
+    d.vocab = llama_model_get_vocab(d.model);
     try {
-        impl->tmpls = common_chat_templates_init(impl->model, "");
+        d.tmpls = common_chat_templates_init(d.model, "");
     } catch (const std::exception & e) {
         unload();
         return std::string("sohbet şablonu hatası: ") + e.what();
     }
-    impl->needs_checkpoints = llama_model_is_recurrent(impl->model) || llama_model_is_hybrid(impl->model) ||
-                              llama_model_n_swa(impl->model) > 0;
+    d.needs_checkpoints = llama_model_is_recurrent(d.model) || llama_model_is_hybrid(d.model) ||
+                          llama_model_n_swa(d.model) > 0;
+    if (d.has_mtp && llama_model_n_layer_nextn(d.model) <= 0) {
+        d.has_mtp = false;
+    }
+
+    d.spec_note.clear();
+    if (want_draft) {
+        pctx.offset = 0.85f;
+        pctx.scale  = 0.15f;
+        const auto dtypes = common_speculative_types_from_gguf(params.draft_path);
+        d.draft_is_mtp = std::find(dtypes.begin(), dtypes.end(), COMMON_SPECULATIVE_TYPE_DRAFT_MTP) != dtypes.end();
+        const bool unsupported = !dtypes.empty() && !d.draft_is_mtp;
+        auto dparams = mparams;
+        dparams.load_mtp = d.draft_is_mtp;
+        d.model_dft = unsupported ? nullptr : llama_model_load_from_file(params.draft_path.c_str(), dparams);
+        if (unsupported) {
+            d.spec_note = "bu taslak model türü (DFlash) desteklenmiyor";
+        } else if (!d.model_dft) {
+            d.spec_note = "taslak model açılamadı";
+        } else if (!common_speculative_are_compatible(d.model, d.model_dft)) {
+            llama_model_free(d.model_dft);
+            d.model_dft = nullptr;
+            d.spec_note = "taslak modelin sözlüğü bu modelle uyumsuz";
+        }
+    }
     return "";
+}
+
+void Engine::Impl::setup_spec(const llama_context_params & cp) {
+    free_spec();
+    const std::string & mode = lparams.spec_mode;
+    if (mode != "auto" && mode != "ngram" && mode != "draft" && mode != "mtp") {
+        return;
+    }
+    const auto seq_rm = common_context_can_seq_rm(ctx);
+    if (seq_rm != COMMON_CONTEXT_SEQ_RM_TYPE_PART && seq_rm != COMMON_CONTEXT_SEQ_RM_TYPE_RS) {
+        spec_note = "bu model mimarisinde hızlandırma desteklenmiyor";
+        return;
+    }
+
+    common_params_speculative sp;
+    sp.types.clear();
+    sp.draft.n_max = std::clamp(lparams.n_draft, 1, 16);
+    // prompt lookup: when the last 4 tokens appeared before, propose the 12 that followed them
+    sp.ngram_simple.size_n = 4;
+    sp.ngram_simple.size_m = 12;
+    if (mode == "auto" || mode == "ngram") {
+        sp.types.push_back(COMMON_SPECULATIVE_TYPE_NGRAM_SIMPLE);
+    }
+
+    const bool use_mtp   = has_mtp && (mode == "auto" || mode == "mtp");
+    const bool use_draft = !use_mtp && model_dft && (mode == "auto" || mode == "draft");
+    if (mode == "mtp" && !has_mtp) {
+        spec_note = "bu modelde MTP katmanı yok";
+    }
+    if (mode == "draft" && !model_dft && spec_note.empty()) {
+        spec_note = "taslak model seçilmedi";
+    }
+    if (use_mtp || use_draft) {
+        auto dp            = llama_context_default_params();
+        dp.n_ctx           = llama_n_ctx(ctx);
+        dp.n_batch         = cp.n_batch;
+        dp.n_ubatch        = cp.n_ubatch;
+        dp.n_seq_max       = 1;
+        dp.n_threads       = cp.n_threads;
+        dp.n_threads_batch = cp.n_threads_batch;
+        dp.type_k          = cp.type_k;
+        dp.type_v          = cp.type_v;
+        dp.flash_attn_type = cp.flash_attn_type;
+        dp.n_outputs_max         = 1;
+        dp.n_outputs_max_per_seq = 1;
+        dp.n_rs_seq        = 0;
+        dp.ctx_other       = ctx;
+        dp.abort_callback      = cp.abort_callback;
+        dp.abort_callback_data = cp.abort_callback_data;
+        const bool mtp_ctx = use_mtp || draft_is_mtp;
+        if (mtp_ctx) {
+            dp.ctx_type = LLAMA_CONTEXT_TYPE_MTP;
+        }
+        ctx_dft = llama_init_from_model(use_mtp ? model : model_dft, dp);
+        if (!ctx_dft) {
+            spec_note = mtp_ctx ? "MTP bağlamı oluşturulamadı" : "taslak model bağlamı oluşturulamadı";
+        } else if (!mtp_ctx && common_context_can_seq_rm(ctx_dft) != COMMON_CONTEXT_SEQ_RM_TYPE_PART) {
+            llama_free(ctx_dft);
+            ctx_dft   = nullptr;
+            spec_note = "taslak model mimarisi desteklenmiyor (yalnız transformer modeller)";
+        } else {
+            sp.types.push_back(mtp_ctx ? COMMON_SPECULATIVE_TYPE_DRAFT_MTP : COMMON_SPECULATIVE_TYPE_DRAFT_SIMPLE);
+            sp.draft.ctx_tgt = ctx;
+            sp.draft.ctx_dft = ctx_dft;
+        }
+    }
+    if (sp.types.empty()) {
+        if (ctx_dft) {
+            llama_free(ctx_dft);
+            ctx_dft = nullptr;
+        }
+        return;
+    }
+    n_spec_max = common_speculative_n_max(&sp);
+    spec       = common_speculative_init(sp, 1);
+    if (!spec) {
+        free_spec();
+        spec_note = "hızlandırma başlatılamadı";
+        return;
+    }
+    spec_desc = common_speculative_type_name_str(sp.types);
 }
 
 std::string Engine::create_context(const ContextParams & params) {
@@ -402,6 +686,12 @@ std::string Engine::create_context(const ContextParams & params) {
         return static_cast<Impl *>(ud)->cancel_flag.load();
     };
     cp.abort_callback_data = impl.get();
+    // recurrent models keep snapshots of their last states so rejected draft tokens can be rolled back
+    const std::string & mode = impl->lparams.spec_mode;
+    if (mode == "auto" || mode == "ngram" || mode == "draft" || mode == "mtp") {
+        const int n_draft = std::clamp(impl->lparams.n_draft, 1, 16);
+        cp.n_rs_seq = (uint32_t) (mode == "auto" || mode == "ngram" ? std::max(12, n_draft) : n_draft);
+    }
 
     impl->ctx = llama_init_from_model(impl->model, cp);
     if (!impl->ctx) {
@@ -410,12 +700,19 @@ std::string Engine::create_context(const ContextParams & params) {
     impl->cparams       = params;
     impl->cparams.n_ctx = (int) llama_n_ctx(impl->ctx);
     impl->cparams.n_batch = (int) cp.n_batch;
+    impl->setup_spec(cp);
     return "";
 }
 
 void Engine::unload() {
     impl->free_context();
     impl->tmpls.reset();
+    if (impl->model_dft) {
+        llama_model_free(impl->model_dft);
+        impl->model_dft = nullptr;
+    }
+    impl->has_mtp      = false;
+    impl->draft_is_mtp = false;
     if (impl->model) {
         llama_model_free(impl->model);
         impl->model = nullptr;
@@ -457,6 +754,12 @@ std::string Engine::model_info_json() const {
     if (impl->ctx) {
         out += ",\"n_ctx\":" + std::to_string(llama_n_ctx(impl->ctx));
     }
+    out += ",\"device\":" + json_escape(impl->device_desc);
+    out += ",\"device_note\":" + json_escape(impl->device_note);
+    out += ",\"has_mtp\":" + std::string(impl->has_mtp ? "true" : "false");
+    out += ",\"has_draft\":" + std::string(impl->model_dft ? "true" : "false");
+    out += ",\"spec\":" + json_escape(impl->spec_desc);
+    out += ",\"spec_note\":" + json_escape(impl->spec_note);
     out += "}";
     return out;
 }
@@ -500,6 +803,9 @@ std::string Engine::generate(const std::string & messages_json,
     inputs.parallel_tool_calls   = false;
     inputs.reasoning_format      = COMMON_REASONING_FORMAT_DEEPSEEK;
     inputs.enable_thinking       = params.enable_thinking;
+    if (params.continue_final && !inputs.messages.empty() && inputs.messages.back().role == "assistant") {
+        inputs.continue_final_message = COMMON_CHAT_CONTINUATION_AUTO;
+    }
 
     std::unique_ptr<common_chat_session> session;
     try {
@@ -547,7 +853,8 @@ std::string Engine::generate(const std::string & messages_json,
         }
         d.save_checkpoint();
     }
-    if (!d.prefill(tokens, tokens.size(), err)) {
+    // the last prompt token is decoded by the generation loop, together with the first draft
+    if (!d.prefill(tokens, tokens.size() - 1, err)) {
         return error_json(err);
     }
     const double prompt_ms     = ms_since(t_start);
@@ -589,6 +896,8 @@ std::string Engine::generate(const std::string & messages_json,
     common_chat_input generated;
     size_t            n_fed    = 0; // bytes of `generated` given to the parser
     int               n_gen    = 0;
+    int               n_drafted  = 0;
+    int               n_accepted = 0;
     std::string       stop     = "length";
     auto              t_gen    = clock_type::now();
     auto              t_update = t_gen;
@@ -605,58 +914,129 @@ std::string Engine::generate(const std::string & messages_json,
         return final ? session->finish(chunk) : session->feed(chunk);
     };
 
+    if (d.spec) {
+        common_speculative_begin(d.spec, 0, d.cached);
+    }
+
+    // id_last is sampled but not decoded yet; each step decodes it together with the draft tokens
+    // proposed after it, then keeps the longest prefix of the draft that the target agrees with
+    llama_token  id_last = tokens.back();
+    llama_tokens draft;
+    common_batch batch(d.ctx);
+    bool         done = false;
+
     try {
-        while (n_gen < params.max_tokens) {
+        while (!done) {
             if (d.cancel_flag) {
                 stop = "cancel";
+                break;
+            }
+            if (n_gen >= params.max_tokens) {
+                stop = "length";
                 break;
             }
             if (d.cached.size() + 1 >= n_ctx) {
                 stop = "ctx_full";
                 break;
             }
-            const llama_token id = common_sampler_sample(smpl, d.ctx, -1);
-            common_sampler_accept(smpl, id, true);
-            if (llama_vocab_is_eog(d.vocab, id)) {
-                stop = "eos";
-                break;
-            }
-            const bool special = sp.preserved_tokens.count(id) > 0;
-            generated.append(common_token_to_piece(d.vocab, id, special), id);
-            ++n_gen;
 
-            bool hit_stop = false;
-            for (const auto & s : stops) {
-                if (s.empty()) {
-                    continue;
+            draft.clear();
+            if (d.spec) {
+                const int n_max = std::min({ (int) n_ctx - (int) d.cached.size() - 2, params.max_tokens - n_gen - 1,
+                                             d.n_spec_max });
+                if (n_max > 0) {
+                    common_speculative_get_draft_params(d.spec, 0) = {
+                        /* .drafting = */ true,
+                        /* .n_max    = */ n_max,
+                        /* .pos0     = */ (llama_pos) d.cached.size(),
+                        /* .id_last  = */ id_last,
+                        /* .prompt   = */ &d.cached,
+                        /* .result   = */ &draft,
+                    };
+                    common_speculative_draft(d.spec);
+                    if ((int) draft.size() > n_max) {
+                        draft.resize(n_max);
+                    }
+                    // the draft model decoded its own proposals, the verification batch replaces them
+                    if (!d.truncate_dft(d.cached.size())) {
+                        d.free_spec();
+                        d.spec_note = "taslak bağlam geri alınamadı, hızlandırma kapatıldı";
+                        draft.clear();
+                    }
                 }
-                const size_t from = generated.size() > s.size() + 32 ? generated.size() - s.size() - 32 : 0;
-                const size_t pos  = generated.text.find(s, from);
-                if (pos != std::string::npos) {
-                    generated.truncate(pos);
-                    hit_stop = true;
-                    break;
-                }
-            }
-            if (hit_stop) {
-                stop = "stop";
-                break;
             }
 
-            llama_token tok = id;
-            const int rc = llama_decode(d.ctx, llama_batch_get_one(&tok, 1));
+            const llama_pos pos = (llama_pos) d.cached.size();
+            batch.clear();
+            batch.add(id_last, pos, 0, true);
+            for (size_t i = 0; i < draft.size(); ++i) {
+                batch.add(draft[i], pos + 1 + (llama_pos) i, 0, true);
+            }
+            const int rc = d.decode(batch);
             if (rc != 0) {
-                if (rc == 2) {
-                    stop = "cancel";
-                } else {
-                    stop = "error";
-                }
+                stop = rc == 2 ? "cancel" : "error";
                 d.reset_memory();
                 break;
             }
-            d.cached.push_back(id);
+            d.cached.push_back(id_last);
 
-            if (on_update && ms_since(t_update) >= 50.0) {
+            // at least one token: the accepted draft prefix plus the target's own next token
+            const auto   ids   = common_sampler_sample_and_accept_n(smpl, d.ctx, draft);
+            const size_t n_acc = ids.size() - 1;
+            n_drafted  += (int) draft.size();
+            n_accepted += (int) n_acc;
+            d.cached.insert(d.cached.end(), draft.begin(), draft.begin() + n_acc);
+            if (d.spec) {
+                common_speculative_accept(d.spec, 0, (uint16_t) n_acc);
+            }
+            if (n_acc < draft.size()) {
+                // drop the rejected tail of the draft from both contexts
+                if (!llama_memory_seq_rm(llama_get_memory(d.ctx), 0, (llama_pos) d.cached.size(), -1)) {
+                    d.reset_memory();
+                    stop = "error";
+                    break;
+                }
+                if (!d.truncate_dft(d.cached.size())) {
+                    d.free_spec();
+                    d.spec_note = "taslak bağlam geri alınamadı, hızlandırma kapatıldı";
+                }
+            }
+
+            for (const llama_token id : ids) {
+                if (llama_vocab_is_eog(d.vocab, id)) {
+                    stop = "eos";
+                    done = true;
+                    break;
+                }
+                const bool special = sp.preserved_tokens.count(id) > 0;
+                generated.append(common_token_to_piece(d.vocab, id, special), id);
+                ++n_gen;
+
+                for (const auto & s : stops) {
+                    if (s.empty()) {
+                        continue;
+                    }
+                    const size_t from = generated.size() > s.size() + 32 ? generated.size() - s.size() - 32 : 0;
+                    const size_t p    = generated.text.find(s, from);
+                    if (p != std::string::npos) {
+                        generated.truncate(p);
+                        stop = "stop";
+                        done = true;
+                        break;
+                    }
+                }
+                if (done) {
+                    break;
+                }
+                if (n_gen >= params.max_tokens) {
+                    stop = "length";
+                    done = true;
+                    break;
+                }
+            }
+            id_last = ids.back();
+
+            if (!done && on_update && ms_since(t_update) >= 50.0) {
                 t_update = clock_type::now();
                 const auto & msg = feed_parser(false);
                 const double gen_ms = ms_since(t_gen);
@@ -690,6 +1070,8 @@ std::string Engine::generate(const std::string & messages_json,
     out += ",\"ctx_used\":" + std::to_string(d.cached.size());
     out += ",\"n_ctx\":" + std::to_string(n_ctx);
     out += ",\"stop\":" + json_escape(stop);
+    out += ",\"draft_tokens\":" + std::to_string(n_drafted);
+    out += ",\"draft_accepted\":" + std::to_string(n_accepted);
     out += "}}";
     return out;
 }

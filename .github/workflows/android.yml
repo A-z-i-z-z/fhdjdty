@@ -30,13 +30,14 @@ jobs:
         uses: actions/cache@v4
         with:
           path: models
-          key: models-v1-${{ env.TEST_MODEL_REPO }}-${{ env.TEST_MODEL_QUANT }}
+          key: models-v2-${{ env.TEST_MODEL_REPO }}-${{ env.TEST_MODEL_QUANT }}
       - name: Download test models
         run: |
           mkdir -p models
           [ -f models/qwen3.gguf ] || python3 ci/hf_fetch.py "$TEST_MODEL_REPO" "$TEST_MODEL_QUANT" models/qwen3.gguf
           [ -f models/lfm3.gguf ] || python3 ci/hf_fetch.py LiquidAI/LFM3-1.7B-GGUF Q4_0 models/lfm3.gguf || true
           [ -f models/lfm25.gguf ] || python3 ci/hf_fetch.py LiquidAI/LFM2.5-1.2B-Instruct-GGUF Q4_0 models/lfm25.gguf || true
+          [ -f models/mtp.gguf ] || python3 ci/find_mtp.py models/mtp.gguf || true
           ls -la models
       - name: Build engine test
         run: |
@@ -56,6 +57,12 @@ jobs:
         run: |
           [ -f models/lfm25.gguf ] || { echo "LFM2.5 GGUF not available" | tee engine-lfm25.txt; exit 1; }
           build-nt/engine_test models/lfm25.gguf "$(nproc)" 2>&1 | tee engine-lfm25.txt; test "${PIPESTATUS[0]}" = 0
+      - name: Test with an MTP model (Qwen3.5)
+        if: always()
+        continue-on-error: true
+        run: |
+          [ -f models/mtp.gguf ] || { echo "no MTP GGUF available" | tee engine-mtp.txt; exit 1; }
+          build-nt/engine_test models/mtp.gguf "$(nproc)" 2>&1 | tee engine-mtp.txt; test "${PIPESTATUS[0]}" = 0
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -79,14 +86,67 @@ jobs:
         run: |
           ls "$ANDROID_HOME/ndk" || true
           [ -d "$ANDROID_HOME/ndk/$NDK_VERSION" ] || yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;$NDK_VERSION" > /dev/null
+      - name: Free disk space for the Hexagon SDK
+        run: |
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/share/boost /opt/hostedtoolcache/CodeQL /usr/local/lib/node_modules || true
+          df -h /
+      - name: OpenCL headers and link library (GPU backend)
+        run: |
+          set -e
+          O=$RUNNER_TEMP/ocl
+          git clone -q --depth 1 -b v2024.10.24 https://github.com/KhronosGroup/OpenCL-Headers $O/OpenCL-Headers
+          git clone -q --depth 1 -b v2024.10.24 https://github.com/KhronosGroup/OpenCL-ICD-Loader $O/OpenCL-ICD-Loader
+          cmake -S $O/OpenCL-ICD-Loader -B $O/build -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_TOOLCHAIN_FILE=$ANDROID_HOME/ndk/$NDK_VERSION/build/cmake/android.toolchain.cmake \
+            -DOPENCL_ICD_LOADER_HEADERS_DIR=$O/OpenCL-Headers -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=28 \
+            -DANDROID_STL=c++_shared -DBUILD_TESTING=OFF > /dev/null
+          cmake --build $O/build -j "$(nproc)" > /dev/null
+          mkdir -p $O/sdk/include $O/sdk/lib
+          cp -r $O/OpenCL-Headers/CL $O/sdk/include/
+          cp $O/build/libOpenCL.so $O/sdk/lib/
+          echo "YEREL_OPENCL_ROOT=$O/sdk" >> "$GITHUB_ENV"
+      - name: Hexagon SDK from the Snapdragon toolchain image (NPU backend)
+        continue-on-error: true
+        run: |
+          set -e
+          IMG=ghcr.io/snapdragon-toolchain/arm64-android:v0.8
+          docker pull -q $IMG
+          docker inspect --format '{{range .Config.Env}}{{println .}}{{end}}' $IMG | tee image-env.txt
+          SDK=$(grep '^HEXAGON_SDK_ROOT=' image-env.txt | cut -d= -f2-)
+          TOOLS=$(grep '^HEXAGON_TOOLS_ROOT=' image-env.txt | cut -d= -f2- || true)
+          [ -n "$SDK" ] || { echo "no HEXAGON_SDK_ROOT in the image"; exit 1; }
+          CID=$(docker create $IMG)
+          mkdir -p $RUNNER_TEMP/hexagon
+          docker cp "$CID:$SDK" $RUNNER_TEMP/hexagon/sdk
+          echo "YEREL_HEXAGON_SDK_ROOT=$RUNNER_TEMP/hexagon/sdk" >> "$GITHUB_ENV"
+          if [ -n "$TOOLS" ]; then
+            case "$TOOLS" in
+              "$SDK"/*) echo "YEREL_HEXAGON_TOOLS_ROOT=$RUNNER_TEMP/hexagon/sdk/${TOOLS#$SDK/}" >> "$GITHUB_ENV" ;;
+              *) docker cp "$CID:$TOOLS" $RUNNER_TEMP/hexagon/tools
+                 echo "YEREL_HEXAGON_TOOLS_ROOT=$RUNNER_TEMP/hexagon/tools" >> "$GITHUB_ENV" ;;
+            esac
+          fi
+          docker rm "$CID" > /dev/null
+          docker rmi $IMG > /dev/null || true
+          du -sh $RUNNER_TEMP/hexagon; df -h /
       - name: Unit tests
         working-directory: android
         run: ./gradlew --no-daemon :app:testDebugUnitTest -Pyerel.ndkVersion=$NDK_VERSION
-      - name: Release APK (arm64)
+      - name: Release APK (arm64, CPU + GPU + NPU)
         working-directory: android
         run: |
-          ./gradlew --no-daemon :app:assembleRelease -Pyerel.ndkVersion=$NDK_VERSION -Pyerel.abis=arm64-v8a \
-            -Pyerel.versionCode=${{ github.run_number }} -Pyerel.versionName=1.0.${{ github.run_number }}
+          build() {
+            ./gradlew --no-daemon :app:assembleRelease -Pyerel.ndkVersion=$NDK_VERSION -Pyerel.abis=arm64-v8a \
+              -Pyerel.versionCode=${{ github.run_number }} -Pyerel.versionName=1.0.${{ github.run_number }}
+          }
+          if ! build; then
+            # keep the release going without the NPU backend when the Hexagon build breaks
+            [ -n "$YEREL_HEXAGON_SDK_ROOT" ] || exit 1
+            echo "::warning::build with the Hexagon NPU backend failed, retrying without it"
+            echo "npu-build-failed" > ../npu-build-failed
+            rm -rf app/.cxx app/build/intermediates/cxx
+            YEREL_HEXAGON_SDK_ROOT= YEREL_HEXAGON_TOOLS_ROOT= build
+          fi
       - name: Debug APK (x86_64, emulator)
         working-directory: android
         run: ./gradlew --no-daemon :app:assembleDebug -Pyerel.ndkVersion=$NDK_VERSION -Pyerel.abis=x86_64
@@ -97,6 +157,7 @@ jobs:
           cp android/app/build/outputs/apk/debug/app-debug.apk out/yerel-debug-x86_64.apk
           ls -la out
           unzip -l out/Yerel-*-arm64.apk | grep "\.so$" | tee out/native-libs.txt
+          [ -f npu-build-failed ] && echo "NPU backend build failed, see the job log" | tee -a out/native-libs.txt || true
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -160,6 +160,27 @@ int main(int argc, char ** argv) {
         check(content_of(r4).find("18") != std::string::npos, "final answer uses the tool result (18)", content_of(r4));
     }
 
+    // 3b. continue a truncated answer
+    {
+        yerel::GenParams gs = gp;
+        gs.max_tokens       = 12;
+        const std::string qc = R"([{"role":"user","content":"Count from 1 to 30, separated by commas."}])";
+        auto rc1 = run(eng, qc, "", gs);
+        const std::string part = content_of(rc1);
+        const bool truncated = rc1.contains("stats") && rc1.at("stats").at("stop").get<std::string>() == "length";
+        check(truncated, "short answer is cut by max_tokens", part);
+        yerel::GenParams gc = gp;
+        gc.max_tokens       = 160;
+        gc.continue_final   = true;
+        const std::string qc2 = R"([{"role":"user","content":"Count from 1 to 30, separated by commas."},)"
+                                R"({"role":"assistant","content":)" + common_json(part).dump() + "}]";
+        auto rc2 = run(eng, qc2, "", gc);
+        const std::string rest = content_of(rc2);
+        check(!rc2.contains("error") && !rest.empty(), "continue the truncated answer", rest.substr(0, 200));
+        check((part + rest).find("29") != std::string::npos, "the continuation goes on with the count",
+              (part + "|" + rest).substr(0, 300));
+    }
+
     // 4. thinking
     if (supports_thinking) {
         yerel::GenParams gt = gp;
@@ -210,6 +231,90 @@ int main(int argc, char ** argv) {
         check(r.contains("error") && r.at("error").get<std::string>() == "context_overflow", "context overflow is reported",
               r.dump());
     }
+
+    // 8. speculative decoding: n-gram lookup, the model as its own draft, MTP heads when present
+    const std::string text = "The quick brown fox jumps over the lazy dog. A journey of a thousand miles begins "
+                             "with a single step. All that glitters is not gold. Knowledge is power.";
+    const std::string q_rep = R"([{"role":"user","content":)" +
+                              common_json("Repeat the following text exactly, without any changes:\n\n" + text).dump() + "}]";
+    yerel::GenParams gr = gp;
+    gr.max_tokens       = 96;
+    std::string baseline;
+    {
+        check(eng.create_context(cp).empty(), "recreate context for the speculative baseline");
+        baseline = content_of(run(eng, q_rep, "", gr));
+    }
+    auto spec_run = [&](const char * mode, const std::string & draft_path) {
+        yerel::LoadParams lp;
+        lp.spec_mode  = mode;
+        lp.draft_path = draft_path;
+        std::string e = eng.load(argv[1], lp, nullptr);
+        if (e.empty()) {
+            e = eng.create_context(cp);
+        }
+        check(e.empty(), (std::string("load with spec_mode=") + mode).c_str(), e);
+        const auto mi = common_json::parse(eng.model_info_json());
+        note("spec", mi.at("spec").get<std::string>() + " / " + mi.at("spec_note").get<std::string>());
+        return mi;
+    };
+    auto check_spec = [&](const char * label, bool require_accept) {
+        auto r = run(eng, q_rep, "", gr);
+        check(!r.contains("error"), (std::string(label) + ": generation").c_str(), r.dump().substr(0, 300));
+        if (r.contains("error")) {
+            return;
+        }
+        const auto & st = r.at("stats");
+        const int drafted  = st.at("draft_tokens").get<int>();
+        const int accepted = st.at("draft_accepted").get<int>();
+        const double tps   = st.at("gen_tokens").get<double>() * 1000.0 / std::max(1.0, st.at("gen_ms").get<double>());
+        note(label, std::to_string(accepted) + "/" + std::to_string(drafted) + " draft tokens accepted, " +
+                        std::to_string((int) tps) + " tok/s, spec after run: " +
+                        common_json::parse(eng.model_info_json()).at("spec_note").get<std::string>());
+        if (require_accept) {
+            check(accepted > 0, (std::string(label) + ": draft tokens accepted").c_str());
+        }
+        // batched verification can change the last bits of the logits, so a different greedy path is possible
+        const bool same = content_of(r) == baseline;
+        if (same) {
+            check(true, (std::string(label) + ": output identical to plain decoding").c_str());
+        } else {
+            note((std::string(label) + ": output differs from plain decoding").c_str(), content_of(r).substr(0, 200));
+        }
+        // multi-turn: the speculative state must follow prompt reuse
+        auto r2 = run(eng, q1, "", gp);
+        auto r3 = run(eng, q2, "", gp);
+        check(content_of(r2).find("12") != std::string::npos && !r3.contains("error"),
+              (std::string(label) + ": follow-up turns").c_str(), content_of(r2) + " | " + content_of(r3));
+    };
+    {
+        const auto mi = spec_run("ngram", "");
+        if (mi.at("spec").get<std::string>().empty()) {
+            note("ngram", "not available for this architecture");
+        } else {
+            check_spec("ngram", true);
+        }
+    }
+    {
+        const auto mi = spec_run("draft", argv[1]);
+        if (mi.at("spec").get<std::string>().empty()) {
+            note("draft", "not available for this architecture");
+        } else {
+            check_spec("draft (self)", true);
+        }
+    }
+    {
+        const auto mi = spec_run("mtp", "");
+        if (!mi.at("has_mtp").get<bool>()) {
+            note("mtp", "model has no MTP layers");
+        } else {
+            check(!mi.at("spec").get<std::string>().empty(), "MTP speculative decoding is active",
+                  mi.at("spec_note").get<std::string>());
+            check_spec("mtp", true);
+        }
+    }
+
+    // 9. devices
+    note("devices", Engine::devices_json());
 
     eng.unload();
     printf("\n%s: %d check(s) failed\n", g_failed ? "FAILED" : "OK", g_failed);

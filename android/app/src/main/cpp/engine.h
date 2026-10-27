@@ -13,9 +13,16 @@
 namespace yerel {
 
 struct LoadParams {
-    int  n_gpu_layers = 0;
-    bool use_mmap     = true;
-    bool use_mlock    = false;
+    std::string device       = "cpu"; // cpu | gpu | npu, falls back to cpu when not available
+    int         n_gpu_layers = 999;   // layers offloaded when device is gpu or npu
+    bool        use_mmap     = true;
+    bool        use_mlock    = false;
+
+    // speculative decoding: off | auto | ngram | draft | mtp
+    // auto = n-gram lookup plus MTP heads of the model when present, otherwise the draft model if given
+    std::string spec_mode  = "off";
+    std::string draft_path;     // GGUF of a small model sharing the target's vocabulary
+    int         n_draft    = 3; // max tokens proposed by the draft model / MTP head per step
 };
 
 struct ContextParams {
@@ -40,6 +47,7 @@ struct GenParams {
     uint32_t seed             = 0xFFFFFFFF;
     bool     enable_thinking  = true;
     int      reasoning_budget = -1; // -1 = unlimited
+    bool     continue_final   = false; // extend the last (assistant) message instead of starting a new one
 
     // parses the JSON object sent by the app, missing keys keep their defaults
     static GenParams from_json(const std::string & json);
@@ -56,6 +64,11 @@ class Engine {
     // loads ggml backends (CPU variants, GPU) from a directory, call once per process
     static void init_backends(const std::string & lib_dir);
     static std::string system_info();
+    // loads an accelerator backend on demand: "gpu" (OpenCL/Vulkan) or "npu" (Hexagon);
+    // returns true when a device of that kind is available afterwards
+    static bool load_backend(const std::string & kind);
+    // JSON array of the available devices: [{"name","desc","kind","mem_total","mem_free"}]
+    static std::string devices_json();
 
     // all methods returning std::string return "" on success or an error message
     std::string load(const std::string & path, const LoadParams & params, const ProgressFn & progress);

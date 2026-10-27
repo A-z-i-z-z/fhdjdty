@@ -60,14 +60,49 @@ Java_app_yerel_engine_NativeBridge_systemInfo(JNIEnv * env, jobject) {
     return to_bytes(env, yerel::Engine::system_info());
 }
 
+JNIEXPORT jboolean JNICALL
+Java_app_yerel_engine_NativeBridge_loadBackend(JNIEnv * env, jobject, jbyteArray kind) {
+    return yerel::Engine::load_backend(to_string(env, kind));
+}
+
+JNIEXPORT jbyteArray JNICALL
+Java_app_yerel_engine_NativeBridge_devices(JNIEnv * env, jobject) {
+    return to_bytes(env, yerel::Engine::devices_json());
+}
+
+// params_json: {"device","n_gpu_layers","use_mmap","use_mlock","spec_mode","draft_path","n_draft"}
 // progress: object with `boolean onProgress(float)`, may be null
 JNIEXPORT jbyteArray JNICALL
-Java_app_yerel_engine_NativeBridge_load(JNIEnv * env, jobject, jbyteArray path, jint n_gpu_layers,
-                                        jboolean use_mmap, jboolean use_mlock, jobject progress) {
+Java_app_yerel_engine_NativeBridge_load(JNIEnv * env, jobject, jbyteArray path, jbyteArray params_json,
+                                        jobject progress) {
     yerel::LoadParams params;
-    params.n_gpu_layers = n_gpu_layers;
-    params.use_mmap     = use_mmap;
-    params.use_mlock    = use_mlock;
+    try {
+        const auto j = common_json::parse(to_string(env, params_json));
+        auto str = [&](const char * key, std::string & dst) {
+            if (j.contains(key) && j.at(key).is_string()) {
+                dst = j.at(key).get<std::string>();
+            }
+        };
+        auto num = [&](const char * key, int & dst) {
+            if (j.contains(key) && j.at(key).is_number()) {
+                dst = j.at(key).get<int>();
+            }
+        };
+        auto flag = [&](const char * key, bool & dst) {
+            if (j.contains(key) && j.at(key).is_boolean()) {
+                dst = j.at(key).get<bool>();
+            }
+        };
+        str("device", params.device);
+        num("n_gpu_layers", params.n_gpu_layers);
+        flag("use_mmap", params.use_mmap);
+        flag("use_mlock", params.use_mlock);
+        str("spec_mode", params.spec_mode);
+        str("draft_path", params.draft_path);
+        num("n_draft", params.n_draft);
+    } catch (const std::exception & e) {
+        return to_bytes(env, std::string("invalid load params: ") + e.what());
+    }
 
     yerel::ProgressFn fn;
     jmethodID on_progress = nullptr;
