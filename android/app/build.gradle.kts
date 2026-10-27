@@ -77,8 +77,9 @@ android {
     }
 
     packaging {
-        // ggml looks for its CPU backend .so files in nativeLibraryDir, so they must be extracted
-        jniLibs.useLegacyPackaging = true
+        // libraries stay uncompressed in the APK and load from there (no extracted copy on disk);
+        // the engine picks the CPU backend variant by library name
+        jniLibs.useLegacyPackaging = false
         resources.excludes += listOf("/META-INF/{AL2.0,LGPL2.1}", "/META-INF/*.version", "DebugProbesKt.bin", "kotlin-tooling-metadata.json")
     }
 

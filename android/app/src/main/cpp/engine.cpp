@@ -12,6 +12,11 @@
 #include <cstdio>
 #include <stdexcept>
 
+#if defined(__ANDROID__)
+#include <android/log.h>
+#include <dlfcn.h>
+#endif
+
 namespace yerel {
 
 namespace {
@@ -245,22 +250,86 @@ Engine::~Engine() {
     unload();
 }
 
+namespace {
+
+bool has_cpu_backend() {
+    for (size_t i = 0; i < ggml_backend_dev_count(); ++i) {
+        if (ggml_backend_dev_type(ggml_backend_dev_get(i)) == GGML_BACKEND_DEVICE_TYPE_CPU) {
+            return true;
+        }
+    }
+    return false;
+}
+
+#if defined(__ANDROID__)
+void log_android(int prio, const std::string & msg) {
+    __android_log_write(prio, "yerel-engine", msg.c_str());
+}
+
+// Loads the CPU backend by library name. The dynamic linker finds names inside the APK, so this
+// also works when native libraries are not extracted to nativeLibraryDir. Variants are tried from
+// the most capable down; each reports through ggml_backend_score() whether this CPU can run it.
+void load_cpu_backend_by_name() {
+    std::vector<std::string> names;
+#if defined(__aarch64__)
+    for (const char * v : {"android_armv9.2_2", "android_armv9.2_1", "android_armv9.0_1", "android_armv8.6_1",
+                           "android_armv8.2_2", "android_armv8.2_1", "android_armv8.0_1"}) {
+        names.push_back(std::string("libggml-cpu-") + v + ".so");
+    }
+#endif
+    names.push_back("libggml-cpu.so");
+
+    for (const auto & name : names) {
+        void * handle = dlopen(name.c_str(), RTLD_NOW | RTLD_LOCAL);
+        if (!handle) {
+            const char * err = dlerror();
+            log_android(ANDROID_LOG_DEBUG, name + ": " + (err ? err : "not found"));
+            continue;
+        }
+        using score_fn = int (*)();
+        auto score = reinterpret_cast<score_fn>(dlsym(handle, "ggml_backend_score"));
+        const int s = score ? score() : 1; // single-variant builds have no score function
+        dlclose(handle);
+        if (s <= 0) {
+            continue;
+        }
+        if (ggml_backend_load(name.c_str())) {
+            log_android(ANDROID_LOG_INFO, "CPU backend: " + name);
+            return;
+        }
+        log_android(ANDROID_LOG_WARN, "ggml_backend_load failed for " + name);
+    }
+}
+#endif
+
+} // namespace
+
 void Engine::init_backends(const std::string & lib_dir) {
     if (lib_dir.empty()) {
         ggml_backend_load_all();
     } else {
         ggml_backend_load_all_from_path(lib_dir.c_str());
     }
+#if defined(__ANDROID__)
+    if (!has_cpu_backend()) {
+        load_cpu_backend_by_name();
+    }
+    if (!has_cpu_backend()) {
+        log_android(ANDROID_LOG_ERROR, "no CPU backend could be loaded from " + lib_dir);
+    }
+#endif
     llama_backend_init();
 }
 
 std::string Engine::system_info() {
     std::string info = llama_print_system_info();
     info += "\nbackends:";
-    for (size_t i = 0; i < ggml_backend_dev_count(); ++i) {
-        auto * dev = ggml_backend_dev_get(i);
+    for (size_t i = 0; i < ggml_backend_reg_count(); ++i) {
         info += " ";
-        info += ggml_backend_dev_name(dev);
+        info += ggml_backend_reg_name(ggml_backend_reg_get(i));
+    }
+    if (!has_cpu_backend()) {
+        info += " (CPU backend missing)";
     }
     return info;
 }

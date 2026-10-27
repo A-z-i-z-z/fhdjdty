@@ -432,6 +432,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             } catch (e: EngineException) {
                 _live.value = null
                 appendMessage(ChatMessage(role = Role.ASSISTANT, content = "", error = "Model yüklenemedi: ${e.message}"))
+                if (BuildConfig.DEBUG) Log.i("YerelTest", "REPLY_DONE ERROR: ${e.message}")
                 return@launch
             }
             if (cancelled) {
@@ -472,7 +473,13 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                 }
             }
             _live.value = null
-            if (BuildConfig.DEBUG) Log.i("YerelTest", "REPLY_DONE ${lastReply.replace('\n', ' ').take(400)}")
+            if (BuildConfig.DEBUG) {
+                val last = _conversation.value.messages.lastOrNull()
+                val stats = last?.stats?.let { " [${it.genTokens} tok, ${"%.1f".format(it.tokensPerSecond)} tok/s, prompt ${it.promptTokens}]" } ?: ""
+                val text = last?.error?.let { "ERROR: $it" } ?: lastReply.replace('\n', ' ').take(400)
+                val tools = _conversation.value.messages.filter { it.role == Role.TOOL }.joinToString(",") { it.toolName ?: "?" }
+                Log.i("YerelTest", "REPLY_DONE $text$stats tools=[$tools]")
+            }
         }
     }
 

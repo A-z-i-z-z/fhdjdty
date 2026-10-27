@@ -107,7 +107,10 @@ int main(int argc, char ** argv) {
     auto r1 = run(eng, q1, "", gp, &n_updates);
     check(!r1.contains("error"), "basic generation", r1.dump());
     check(content_of(r1).find("12") != std::string::npos, "answer contains 12", content_of(r1));
-    check(n_updates > 0, "streaming updates were sent", std::to_string(n_updates));
+    // updates are throttled to one per 50 ms, so a one-token answer may legitimately have none
+    const double gen_ms = r1.contains("stats") ? r1.at("stats").at("gen_ms").get<double>() : 0.0;
+    check(n_updates > 0 || gen_ms < 150, "streaming updates were sent",
+          std::to_string(n_updates) + " in " + std::to_string((int) gen_ms) + " ms");
 
     // 2. second turn reuses the cached prompt
     const std::string a1 = content_of(r1);

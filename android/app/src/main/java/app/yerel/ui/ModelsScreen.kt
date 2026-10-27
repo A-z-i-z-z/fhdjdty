@@ -242,7 +242,7 @@ private fun AddCard(link: String, onLink: (String) -> Unit, onLookup: () -> Unit
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true,
                 leadingIcon = { Icon(Icons.Rounded.Link, null) },
-                placeholder = { Text("huggingface.co bağlantısı veya kullanıcı/depo") },
+                placeholder = { Text("Hugging Face bağlantısı", maxLines = 1) },
                 trailingIcon = {
                     if (link.isEmpty()) {
                         IconButton(onClick = { clipboard.getText()?.text?.let { onLink(it.trim()); if (it.isNotBlank()) onLookup() } }) {

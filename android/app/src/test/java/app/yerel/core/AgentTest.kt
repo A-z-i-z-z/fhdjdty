@@ -120,6 +120,18 @@ class AgentTest {
     }
 
     @Test
+    fun strayThinkingMovesToReasoning() {
+        val m = EngineJson.parseMessage(org.json.JSONObject("""{"content":"Still thinking.\n</think>\n\n12","reasoning_content":"Okay"}"""))!!
+        assertEquals("12", m.content)
+        assertEquals("Okay\nStill thinking.", m.reasoning)
+        val n = EngineJson.parseMessage(org.json.JSONObject("""{"content":"24</think>24"}"""))!!
+        assertEquals("24", n.content)
+        assertEquals("24", n.reasoning)
+        val plain = EngineJson.parseMessage(org.json.JSONObject("""{"content":"a <b> c"}"""))!!
+        assertEquals("a <b> c", plain.content)
+    }
+
+    @Test
     fun systemPromptIncludesMemories() {
         val s = Prompt.systemPrompt("Base", listOf(MemoryItem(id = "12345678-abcd", text = "Adı Deniz")), Date(0), toolsOn = true)
         assertTrue(s.startsWith("Base\n\nBugünün tarihi: 1 Ocak 1970, Perşembe."))

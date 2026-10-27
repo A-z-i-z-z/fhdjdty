@@ -36,7 +36,20 @@ object EngineJson {
             }
         } ?: emptyList()
         val content = o.opt("content").let { if (it is String) it else "" }
-        return ParsedMessage(content, o.optString("reasoning_content"), calls)
+        return splitStrayThinking(ParsedMessage(content, o.optString("reasoning_content"), calls))
+    }
+
+    private val THINK_END = Regex("</think>|<\\|end_of_thought\\|>|</thinking>")
+
+    /**
+     * Some models keep thinking after the template's end tag (e.g. when a reasoning budget forces it
+     * early) and close it again inside the answer; that text belongs to the reasoning.
+     */
+    fun splitStrayThinking(m: ParsedMessage): ParsedMessage {
+        val last = THINK_END.findAll(m.content).lastOrNull() ?: return m
+        val extra = m.content.substring(0, last.range.first).replace(THINK_END, "").trim()
+        val reasoning = listOf(m.reasoning.trimEnd(), extra).filter { it.isNotEmpty() }.joinToString("\n")
+        return m.copy(content = m.content.substring(last.range.last + 1).trimStart(), reasoning = reasoning)
     }
 
     fun parseResult(json: String): EngineResult = try {
