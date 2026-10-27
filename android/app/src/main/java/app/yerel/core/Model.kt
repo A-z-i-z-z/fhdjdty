@@ -99,6 +99,8 @@ data class GenStats(
     val ctxUsed: Int = 0,
     val nCtx: Int = 0,
     val stop: String = "",
+    val draftTokens: Int = 0,
+    val draftAccepted: Int = 0,
 ) {
     val tokensPerSecond get() = if (genMs > 0) genTokens * 1000.0 / genMs else 0.0
     val prefillPerSecond get() = if (promptMs > 0) (promptTokens - reusedTokens) * 1000.0 / promptMs else 0.0
@@ -112,7 +114,19 @@ data class GenStats(
         put("ctx_used", ctxUsed)
         put("n_ctx", nCtx)
         put("stop", stop)
+        if (draftTokens > 0) {
+            put("draft_tokens", draftTokens)
+            put("draft_accepted", draftAccepted)
+        }
     }
+
+    /** Stats of a reply that was generated in two parts (continued after hitting the token limit). */
+    fun plus(next: GenStats) = next.copy(
+        genTokens = genTokens + next.genTokens,
+        genMs = genMs + next.genMs,
+        draftTokens = draftTokens + next.draftTokens,
+        draftAccepted = draftAccepted + next.draftAccepted,
+    )
 
     companion object {
         fun fromJson(o: JSONObject?) = o?.let {
@@ -125,6 +139,8 @@ data class GenStats(
                 ctxUsed = it.optInt("ctx_used"),
                 nCtx = it.optInt("n_ctx"),
                 stop = it.optString("stop"),
+                draftTokens = it.optInt("draft_tokens"),
+                draftAccepted = it.optInt("draft_accepted"),
             )
         }
     }
@@ -148,6 +164,8 @@ data class ChatMessage(
     val toolName: String? = null,
     val stats: GenStats? = null,
     val error: String? = null,
+    /** written by the app, not the user (automatic code check feedback) */
+    val auto: Boolean = false,
     val createdAt: Long = System.currentTimeMillis(),
 ) {
     fun toJson() = JSONObject().apply {
@@ -160,6 +178,7 @@ data class ChatMessage(
         toolName?.let { put("tool_name", it) }
         stats?.let { put("stats", it.toJson()) }
         error?.let { put("error", it) }
+        if (auto) put("auto", true)
         put("created", createdAt)
     }
 
@@ -174,6 +193,7 @@ data class ChatMessage(
             toolName = o.optStringOrNull("tool_name"),
             stats = GenStats.fromJson(o.optJSONObject("stats")),
             error = o.optStringOrNull("error"),
+            auto = o.optBoolean("auto"),
             createdAt = o.optLong("created"),
         )
     }

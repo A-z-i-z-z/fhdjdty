@@ -9,6 +9,7 @@ import app.yerel.data.ModelManager
 import app.yerel.data.ModelStore
 import app.yerel.data.SettingsStore
 import app.yerel.engine.LlamaEngine
+import app.yerel.engine.WebJsSandbox
 
 /** Process-wide singletons, created on first use. */
 class AppContainer(context: Context) {
@@ -19,6 +20,7 @@ class AppContainer(context: Context) {
     val engine = LlamaEngine(context)
     val manager = ModelManager(context, models) { settings.value.hfToken }
     val http = AndroidHttp()
+    val js = WebJsSandbox(context)
 }
 
 class YerelApp : Application() {

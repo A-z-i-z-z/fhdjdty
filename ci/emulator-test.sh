@@ -75,6 +75,18 @@ prompt 03-tool-calc "17 ile 23'ün çarpımı kaç? Hesap makinesi aracını kul
 prompt 04-markdown "Türkiye'nin en kalabalık 3 şehrini nüfuslarıyla birlikte madde madde yaz." --ez test_thinking false --ez test_tools false --ei test_max_tokens 300
 prompt 05-memory "Benim adım Deniz, bunu hafızana kaydet." --ez test_thinking false --ez test_tools true --ei test_max_tokens 300
 
+# code mode: an SVG shown in the in-app preview, and JavaScript the model can run with run_javascript
+prompt 10-code-svg "Write an SVG image of a yellow sun on a blue sky with a green hill. Reply with one svg code block." --ez test_code true --ez test_thinking false --ez test_tools true --ei test_max_tokens 900
+start --ez test_open_code true
+sleep 6
+shot 10b-svg-preview
+start --ez test_close_code true
+prompt 11-code-js "Write a JavaScript function that returns the first 10 Fibonacci numbers, run it with the run_javascript tool and tell me the output." --ez test_code true --ez test_thinking false --ez test_tools true --ei test_max_tokens 900
+start --ez test_open_code true
+sleep 5
+shot 11b-js-console
+start --ez test_close_code true --ez test_code false
+
 start --es test_screen MODELS
 sleep 3
 shot 06-models

@@ -125,6 +125,62 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit, onMemory: () -> Unit) {
                 }
             }
             item {
+                val devices by vm.devices.collectAsState()
+                val probing by vm.probing.collectAsState()
+                val info = (status as? EngineStatus.Ready)?.info
+                Group("Donanım ve hız") {
+                    Choice(
+                        "Hesaplama birimi",
+                        "GPU: Adreno ekran kartı (OpenCL). NPU: Snapdragon Hexagon yapay zekâ birimi, deneysel. " +
+                            "En iyi sonuç Q4_0 ve Q8_0 dosyalarla alınır; desteklenmeyen kısımlar CPU'da çalışır.",
+                        listOf("cpu", "gpu", "npu"), s.device, { when (it) { "gpu" -> "GPU"; "npu" -> "NPU (deneysel)"; else -> "CPU" } },
+                    ) { v -> set { it.copy(device = v) } }
+                    if (s.device != "cpu") {
+                        val layers = model?.info?.nLayer?.takeIf { it > 0 } ?: 48
+                        SliderRow(
+                            "GPU/NPU'ya taşınan katman", s.gpuLayers.coerceAtMost(layers + 1).toFloat(), 0f..(layers + 1).toFloat(), 0,
+                            { if (it.roundToInt() > layers) "Tümü" else "${it.roundToInt()}" },
+                        ) { v -> set { it.copy(gpuLayers = if (v.roundToInt() > layers) 999 else v.roundToInt()) } }
+                    }
+                    if (info != null) {
+                        InfoLine("Şu an: ${info.device}" + info.deviceNote.takeIf { it.isNotBlank() }?.let { " · $it" }.orEmpty())
+                    }
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        TextButton(onClick = vm::probeDevices, enabled = !probing) { Text(if (probing) "Taranıyor…" else "Cihazları tara") }
+                        devices?.let { list ->
+                            val acc = list.filter { it.kind != "cpu" }
+                            Text(
+                                if (acc.isEmpty()) "Hızlandırıcı bulunamadı" else acc.joinToString { "${it.kind.uppercase()}: ${it.description}" },
+                                style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
+                    Choice(
+                        "Hızlandırma (spekülatif çözümleme)",
+                        "Önce ucuz bir tahmin üretilir, model tek adımda doğrular; cevap aynı kalır, hız artar. " +
+                            "N-gram: tekrar eden metin ve kodda (ek bellek yok). MTP: modelin kendi tahmin katmanı (Qwen3.5 vb.). " +
+                            "Taslak model: aynı aileden küçük bir model. Otomatik: N-gram + MTP ya da taslak model.",
+                        listOf("off", "auto", "ngram", "mtp", "draft"), s.specMode,
+                        { when (it) { "off" -> "Kapalı"; "auto" -> "Otomatik"; "ngram" -> "N-gram"; "mtp" -> "MTP"; else -> "Taslak model" } },
+                    ) { v -> set { it.copy(specMode = v) } }
+                    if (s.specMode in setOf("auto", "draft")) {
+                        val candidates = models.filter { it.id != s.lastModelId && it.path != null }
+                        Choice(
+                            "Taslak model", "Ana modelle aynı sözlüğü kullanan küçük bir model (ör. Qwen3 4B için Qwen3 0.6B). RAM ister.",
+                            listOf<String?>(null) + candidates.map { it.id }, s.draftModelId,
+                            { id -> if (id == null) "Yok" else candidates.firstOrNull { it.id == id }?.name ?: "?" },
+                        ) { v -> set { it.copy(draftModelId = v) } }
+                    }
+                    if (s.specMode != "off") {
+                        Choice("Taslak uzunluğu", "MTP ve taslak modelin bir adımda önerdiği token sayısı.", listOf(1, 2, 3, 4, 6, 8), s.nDraft, { "$it" }) { v -> set { it.copy(nDraft = v) } }
+                    }
+                    if (info != null && s.specMode != "off") {
+                        val active = info.spec.split(',').filter { it.isNotBlank() }.joinToString { specLabel(it) }
+                        InfoLine("Etkin: " + active.ifEmpty { "yok" } + info.specNote.takeIf { it.isNotBlank() }?.let { " · $it" }.orEmpty())
+                    }
+                }
+            }
+            item {
                 Group("Örnekleme") {
                     val preset = model?.preset
                     if (preset != null) {
@@ -155,7 +211,7 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit, onMemory: () -> Unit) {
                     if (s.agentEnabled) {
                         ToolCatalog.all.forEach { t ->
                             if (!s.memoryEnabled && (t.name == "remember" || t.name == "forget")) return@forEach
-                            Toggle("   ${t.title}", null, t.name !in s.disabledTools) { on ->
+                            Toggle("   ${t.title}", if (t.coding) "Kod modunda" else null, t.name !in s.disabledTools) { on ->
                                 set { it.copy(disabledTools = if (on) it.disabledTools - t.name else it.disabledTools + t.name) }
                             }
                         }
@@ -163,6 +219,21 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit, onMemory: () -> Unit) {
                     }
                     Toggle("Uzun süreli hafıza", "Model kalıcı bilgileri kaydeder ve her sohbette hatırlar.", s.memoryEnabled) { v -> set { it.copy(memoryEnabled = v) } }
                     SettingRow("Hafızayı yönet", "Kayıtlı bilgileri gör, düzenle, sil", onClick = onMemory)
+                }
+            }
+            item {
+                Group("Kodlama") {
+                    Toggle(
+                        "Kod modu", "Kod yazarken düşük sıcaklık, uzun cevap, kodlama kuralları ve JavaScript çalıştırma / kod kontrol araçları. " +
+                            "Sohbet ekranındaki \"Kod\" düğmesiyle de açılır.", s.codeMode,
+                    ) { v -> set { it.copy(codeMode = v) } }
+                    Toggle(
+                        "Otomatik kontrol ve düzeltme", "Kod modunda cevaptaki HTML, SVG, JSON, CSS ve JavaScript kontrol edilir; hata varsa model en fazla 2 kez düzeltmesi için uyarılır.",
+                        s.codeAutoCheck,
+                    ) { v -> set { it.copy(codeAutoCheck = v) } }
+                    Toggle(
+                        "Önizlemede internete izin ver", "Kapalıyken önizlenen sayfalar hiçbir yere bağlanamaz (önerilir).", s.previewNetwork,
+                    ) { v -> set { it.copy(previewNetwork = v) } }
                 }
             }
             item {
@@ -235,6 +306,18 @@ fun SettingsScreen(vm: AppViewModel, onBack: () -> Unit, onMemory: () -> Unit) {
 }
 
 private fun fmt(v: Float, digits: Int) = String.format(Locale.ROOT, "%.${digits}f", v)
+
+private fun specLabel(type: String) = when (type.trim()) {
+    "ngram-simple" -> "N-gram"
+    "draft-mtp" -> "MTP"
+    "draft-simple" -> "Taslak model"
+    else -> type.trim()
+}
+
+@Composable
+private fun InfoLine(text: String) {
+    Text(text, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.primary)
+}
 
 @Composable
 fun Group(title: String, content: @Composable () -> Unit) {

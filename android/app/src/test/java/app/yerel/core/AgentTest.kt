@@ -3,6 +3,7 @@ package app.yerel.core
 import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.util.Date
@@ -134,8 +135,12 @@ class AgentTest {
     @Test
     fun systemPromptIncludesMemories() {
         val s = Prompt.systemPrompt("Base", listOf(MemoryItem(id = "12345678-abcd", text = "Adı Deniz")), Date(0), toolsOn = true)
-        assertTrue(s.startsWith("Base\n\nBugünün tarihi: 1 Ocak 1970, Perşembe."))
+        assertTrue(s.startsWith("Base\n\nToday's date: Thursday, 1 January 1970."))
         assertTrue(s.contains("- 12345678: Adı Deniz"))
         assertTrue(s.contains("remember"))
+        assertFalse(s.contains("Coding mode"))
+        val c = Prompt.systemPrompt("Base", emptyList(), Date(0), toolsOn = true, code = true, codeToolsOn = true)
+        assertTrue(c.contains("Coding mode is on"))
+        assertTrue(c.contains("run_javascript"))
     }
 }

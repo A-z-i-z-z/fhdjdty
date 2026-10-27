@@ -12,6 +12,7 @@ import app.yerel.core.AgentEvent
 import app.yerel.core.AgentRunner
 import app.yerel.core.AppSettings
 import app.yerel.core.ChatMessage
+import app.yerel.core.JsRun
 import app.yerel.core.Conversation
 import app.yerel.core.HfFile
 import app.yerel.core.HfRef
@@ -29,8 +30,10 @@ import app.yerel.core.genParamsJson
 import app.yerel.data.ModelManager
 import app.yerel.data.RamInfo
 import app.yerel.data.UserFacingException
+import app.yerel.engine.DeviceInfo
 import app.yerel.engine.EngineException
 import app.yerel.engine.EngineStatus
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -84,6 +87,24 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     private val _live = MutableStateFlow<LiveReply?>(null)
     val live: StateFlow<LiveReply?> = _live.asStateFlow()
 
+    private val _studio = MutableStateFlow<Pair<app.yerel.core.CodeBlock, CodeTab>?>(null)
+    /** The code block open in the full screen code studio. */
+    val studio: StateFlow<Pair<app.yerel.core.CodeBlock, CodeTab>?> = _studio.asStateFlow()
+    fun openStudio(block: app.yerel.core.CodeBlock, tab: CodeTab) { _studio.value = block to tab }
+    fun closeStudio() { _studio.value = null }
+
+    /** Debug/CI: opens the newest previewable (else any) code block of the chat. */
+    fun openLastCode() {
+        val blocks = _conversation.value.messages.filter { it.role == Role.ASSISTANT }
+            .flatMap { app.yerel.core.CodeBlocks.extract(it.content) }
+        val b = blocks.lastOrNull { it.kind.previewable } ?: blocks.lastOrNull() ?: return
+        openStudio(b, if (b.kind.previewable) CodeTab.PREVIEW else if (b.kind.runnable) CodeTab.CONSOLE else CodeTab.CODE)
+    }
+
+    private val _continuing = MutableStateFlow<String?>(null)
+    /** Id of the message being continued; the live bubble shows it until it is done. */
+    val continuing: StateFlow<String?> = _continuing.asStateFlow()
+
     private val _hf = MutableStateFlow<HfLookup>(HfLookup.Idle)
     val hf: StateFlow<HfLookup> = _hf.asStateFlow()
 
@@ -108,7 +129,31 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     private val tools = ToolRunner(c.http, c.memory, {
         val s = settings.value
         ToolConfig(searchProvider = s.searchProvider, searxngUrl = s.searxngUrl, fetchMaxChars = s.fetchMaxChars)
-    })
+    }, js = c.js)
+
+    private val _devices = MutableStateFlow<List<DeviceInfo>?>(null)
+    /** Compute devices found by [probeDevices]; null until probed. */
+    val devices: StateFlow<List<DeviceInfo>?> = _devices.asStateFlow()
+    private val _probing = MutableStateFlow(false)
+    val probing: StateFlow<Boolean> = _probing.asStateFlow()
+
+    fun probeDevices() {
+        if (_probing.value) return
+        _probing.value = true
+        viewModelScope.launch {
+            _devices.value = try {
+                c.engine.probeDevices()
+            } catch (e: Exception) {
+                emptyList()
+            }
+            _probing.value = false
+        }
+    }
+
+    private fun draftEntry(s: AppSettings = settings.value) = s.draftModelId?.let { c.models.get(it) }
+
+    /** Runs JavaScript from a code block in the sandbox (the "Çalıştır" button). */
+    suspend fun runJs(code: String): JsRun = withContext(Dispatchers.IO) { c.js.run(code, 5000) }
 
     init {
         viewModelScope.launch {
@@ -134,7 +179,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             val entry = c.models.get(id) ?: return
             viewModelScope.launch {
                 try {
-                    c.engine.ensureLoaded(entry, settings.value)
+                    c.engine.ensureLoaded(entry, settings.value, draftEntry())
                 } catch (e: EngineException) {
                     toast("Model yüklenemedi: ${e.message}")
                 }
@@ -297,7 +342,9 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         val before = settings.value
         c.settings.update(fn)
         val after = settings.value
-        if (before.contextKey() != after.contextKey() || before.loadKey() != after.loadKey()) scheduleReload()
+        val changed = before.contextKey() != after.contextKey() ||
+            before.loadKey(draftEntry(before)?.path) != after.loadKey(draftEntry(after)?.path)
+        if (changed) scheduleReload()
     }
 
     /** Applies context changes to an already loaded model once the user stops dragging sliders. */
@@ -309,7 +356,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             if (genJob?.isActive == true) return@launch
             val entry = c.models.get(loaded) ?: return@launch
             try {
-                c.engine.ensureLoaded(entry, settings.value)
+                c.engine.ensureLoaded(entry, settings.value, draftEntry())
             } catch (e: EngineException) {
                 toast("Ayarlar uygulanamadı: ${e.message}")
             }
@@ -382,6 +429,13 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         runAgent()
     }
 
+    /** Sends a message written by the app on the user's behalf (e.g. "fix this error"), shown as a note. */
+    fun sendAuto(text: String) {
+        if (isGenerating || text.isBlank()) return
+        appendMessage(ChatMessage(role = Role.USER, content = text, auto = true))
+        runAgent()
+    }
+
     /** Drops everything after the last user message and answers it again. */
     fun regenerate() {
         if (isGenerating) return
@@ -416,7 +470,34 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         persist()
     }
 
-    private fun runAgent() {
+    /** The reply ended at the token limit; asks the model to go on from where it stopped. */
+    fun continueLast() {
+        if (isGenerating) return
+        val last = _conversation.value.messages.lastOrNull() ?: return
+        if (last.role != Role.ASSISTANT || last.stats?.stop != "length") return
+        runAgent(continueReply = true)
+    }
+
+    private fun agentConfig(entry: ModelEntry, info: app.yerel.engine.LoadedModelInfo?): AgentConfig {
+        val s = settings.value
+        val toolsOn = s.agentEnabled && (info?.supportsTools ?: entry.info?.templateTools ?: true)
+        val enabled = ToolCatalog.all
+            .filter { it.name !in s.disabledTools && (s.memoryEnabled || it.name !in MEMORY_TOOLS) && (s.codeMode || !it.coding) }
+            .map { it.name }
+        val codeTools = toolsOn && enabled.any { ToolCatalog.byName(it)?.coding == true }
+        return AgentConfig(
+            systemPrompt = Prompt.systemPrompt(
+                s.systemPrompt, if (s.memoryEnabled) memories.value else emptyList(), Date(), toolsOn && enabled.isNotEmpty(),
+                code = s.codeMode, codeToolsOn = codeTools,
+            ),
+            toolsJson = if (toolsOn) ToolCatalog.toolsJson(enabled) else "[]",
+            paramsJson = s.genParamsJson(entry.preset, s.thinking, code = s.codeMode),
+            maxSteps = if (toolsOn) s.maxAgentSteps else 1,
+            autoCheck = s.codeMode && s.codeAutoCheck,
+        )
+    }
+
+    private fun runAgent(continueReply: Boolean = false) {
         val entry = selectedModel()
         if (entry == null) {
             appendMessage(ChatMessage(role = Role.ASSISTANT, content = "", error = "Önce bir model seçin veya indirin (Modeller ekranı)."))
@@ -428,7 +509,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         genJob = viewModelScope.launch {
             _live.value = LiveReply(loadingModel = c.engine.loadedModelId != entry.id)
             val info = try {
-                c.engine.ensureLoaded(entry, settings.value)
+                c.engine.ensureLoaded(entry, settings.value, draftEntry())
             } catch (e: EngineException) {
                 _live.value = null
                 appendMessage(ChatMessage(role = Role.ASSISTANT, content = "", error = "Model yüklenemedi: ${e.message}"))
@@ -440,42 +521,55 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                 return@launch
             }
             _live.value = LiveReply()
-            val s = settings.value
-            val toolsOn = s.agentEnabled && (info?.supportsTools ?: entry.info?.templateTools ?: true)
-            val enabled = ToolCatalog.all.map { it.name }
-                .filter { it !in s.disabledTools && (s.memoryEnabled || it !in MEMORY_TOOLS) }
-            val config = AgentConfig(
-                systemPrompt = Prompt.systemPrompt(s.systemPrompt, if (s.memoryEnabled) memories.value else emptyList(), Date(), toolsOn && enabled.isNotEmpty()),
-                toolsJson = if (toolsOn) ToolCatalog.toolsJson(enabled) else "[]",
-                paramsJson = s.genParamsJson(entry.preset, s.thinking),
-                maxSteps = if (toolsOn) s.maxAgentSteps else 1,
-            )
+            val config = agentConfig(entry, info)
             val history = _conversation.value.messages
             var lastReply = ""
-            withContext(c.engine.dispatcher) {
-                AgentRunner(c.engine, tools) { cancelled }.run(history, config) emit@{ ev ->
-                    if (_conversation.value.id != convId) return@emit
-                    when (ev) {
-                        is AgentEvent.Partial -> _live.update {
-                            (it ?: LiveReply()).copy(
-                                content = ev.content, reasoning = ev.reasoning, toolCalls = ev.toolCalls,
-                                nGen = ev.nGen, tps = ev.tps, activeTool = null,
-                            )
-                        }
-                        is AgentEvent.Added -> {
-                            if (ev.message.role == Role.ASSISTANT) lastReply = ev.message.content
-                            appendMessage(ev.message)
-                            _live.value = LiveReply()
-                        }
-                        is AgentEvent.ToolStarted -> _live.value = LiveReply(activeTool = ev.call)
-                        is AgentEvent.Trimmed -> toast("Bağlam doldu: en eski ${ev.droppedMessages} mesaj modele gönderilmedi.")
+            val emit: (AgentEvent) -> Unit = emit@{ ev ->
+                if (_conversation.value.id != convId) return@emit
+                when (ev) {
+                    is AgentEvent.Partial -> _live.update {
+                        (it ?: LiveReply()).copy(
+                            content = ev.content, reasoning = ev.reasoning, toolCalls = ev.toolCalls,
+                            nGen = ev.nGen, tps = ev.tps, activeTool = null,
+                        )
                     }
+                    is AgentEvent.Added -> {
+                        if (ev.message.role == Role.ASSISTANT) lastReply = ev.message.content
+                        appendMessage(ev.message)
+                        _live.value = LiveReply()
+                    }
+                    is AgentEvent.ToolStarted -> _live.value = LiveReply(activeTool = ev.call)
+                    is AgentEvent.Trimmed -> toast("Bağlam doldu: en eski ${ev.droppedMessages} mesaj modele gönderilmedi.")
+                }
+            }
+            withContext(c.engine.dispatcher) {
+                val runner = AgentRunner(c.engine, tools, c.js) { cancelled }
+                if (continueReply) {
+                    // the continued text replaces the last message, which hides while it is extended
+                    _continuing.value = history.last().id
+                    _live.value = LiveReply(content = history.last().content)
+                    val updated = try {
+                        runner.continueLast(history, config, emit)
+                    } finally {
+                        _continuing.value = null
+                    }
+                    if (updated != null && _conversation.value.id == convId) {
+                        lastReply = updated.content
+                        _conversation.update { conv ->
+                            conv.copy(messages = conv.messages.map { if (it.id == updated.id) updated else it }, updatedAt = System.currentTimeMillis())
+                        }
+                        persist()
+                    } else if (updated == null) {
+                        toast("Devam ettirilemedi")
+                    }
+                } else {
+                    runner.run(history, config, emit)
                 }
             }
             _live.value = null
             if (BuildConfig.DEBUG) {
                 val last = _conversation.value.messages.lastOrNull()
-                val stats = last?.stats?.let { " [${it.genTokens} tok, ${"%.1f".format(it.tokensPerSecond)} tok/s, prompt ${it.promptTokens}]" } ?: ""
+                val stats = last?.stats?.let { " [${it.genTokens} tok, ${"%.1f".format(it.tokensPerSecond)} tok/s, prompt ${it.promptTokens}, draft ${it.draftAccepted}/${it.draftTokens}]" } ?: ""
                 val text = last?.error?.let { "ERROR: $it" } ?: lastReply.replace('\n', ' ').take(400)
                 val tools = _conversation.value.messages.filter { it.role == Role.TOOL }.joinToString(",") { it.toolName ?: "?" }
                 Log.i("YerelTest", "REPLY_DONE $text$stats tools=[$tools]")

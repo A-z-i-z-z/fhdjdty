@@ -23,7 +23,7 @@ class HtmlTextTest {
     fun truncates() {
         val text = HtmlText.toText("<p>" + "a".repeat(100) + "</p>", 10)
         assertTrue(text.startsWith("aaaaaaaaaa\n"))
-        assertTrue(text.endsWith("kısaltıldı]"))
+        assertTrue(text.endsWith("truncated]"))
     }
 
     @Test

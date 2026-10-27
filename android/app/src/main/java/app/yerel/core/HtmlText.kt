@@ -50,7 +50,7 @@ object HtmlText {
         s = decodeEntities(s)
         s = s.lines().joinToString("\n") { SPACES.replace(it, " ").trim() }
         s = BLANK_LINES.replace(s, "\n\n").trim()
-        return if (s.length > maxChars) s.take(maxChars).trimEnd() + "\n[… kısaltıldı]" else s
+        return if (s.length > maxChars) s.take(maxChars).trimEnd() + "\n[… truncated]" else s
     }
 
     private fun clean(fragment: String) = decodeEntities(TAGS.replace(fragment, "")).replace(Regex("\\s+"), " ").trim()

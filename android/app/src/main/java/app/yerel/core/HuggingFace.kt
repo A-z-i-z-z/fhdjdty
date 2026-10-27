@@ -159,6 +159,24 @@ object Catalog {
             listOf("Güçlü", "Araçlar", "Düşünme"),
         ),
         CatalogModel(
+            "Qwen2.5 Coder 1.5B", "Qwen/Qwen2.5-Coder-1.5B-Instruct-GGUF", "Q4_K_M", 1120 * MB,
+            "Kod için eğitilmiş küçük model: HTML, SVG, JavaScript, Python. Kod moduyla kullanın.",
+            SamplingPreset(temperature = 0.2f, topK = 20, topP = 0.8f, minP = 0.0f, repeatPenalty = 1.05f),
+            listOf("Kod", "Araçlar"),
+        ),
+        CatalogModel(
+            "Qwen2.5 Coder 3B", "Qwen/Qwen2.5-Coder-3B-Instruct-GGUF", "Q4_K_M", 2100 * MB,
+            "Daha iyi kod yazar; ~2.5 GB RAM ister. Taslak model olarak Coder 0.5B ile hızlanır.",
+            SamplingPreset(temperature = 0.2f, topK = 20, topP = 0.8f, minP = 0.0f, repeatPenalty = 1.05f),
+            listOf("Kod", "Araçlar"),
+        ),
+        CatalogModel(
+            "Qwen2.5 Coder 0.5B", "Qwen/Qwen2.5-Coder-0.5B-Instruct-GGUF", "Q8_0", 530 * MB,
+            "Çok küçük kod modeli; Coder 1.5B/3B için taslak model (hızlandırma) olarak idealdir.",
+            SamplingPreset(temperature = 0.2f, topK = 20, topP = 0.8f, minP = 0.0f, repeatPenalty = 1.05f),
+            listOf("Kod", "Taslak"),
+        ),
+        CatalogModel(
             "Gemma 3 1B", "ggml-org/gemma-3-1b-it-GGUF", "Q4_K_M", 806 * MB,
             "Google'ın küçük sohbet modeli.",
             SamplingPreset(temperature = 1.0f, topK = 64, topP = 0.95f, minP = 0.0f, repeatPenalty = 1.0f),

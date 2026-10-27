@@ -8,6 +8,7 @@ import app.yerel.core.AppSettings
 import app.yerel.core.LlmBackend
 import app.yerel.core.ModelEntry
 import app.yerel.core.contextParamsJson
+import app.yerel.core.loadParamsJson
 import kotlinx.coroutines.asCoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,6 +29,13 @@ data class LoadedModelInfo(
     val recurrent: Boolean,
     val supportsThinking: Boolean,
     val supportsTools: Boolean,
+    /** the device the layers run on, e.g. "CPU" or "QUALCOMM Adreno(TM) 750 (GPUOpenCL)" */
+    val device: String = "CPU",
+    val deviceNote: String = "",
+    val hasMtp: Boolean = false,
+    /** active speculative decoding methods, empty when off */
+    val spec: String = "",
+    val specNote: String = "",
 ) {
     companion object {
         fun parse(json: String): LoadedModelInfo? = try {
@@ -42,9 +50,28 @@ data class LoadedModelInfo(
                 recurrent = o.optBoolean("recurrent"),
                 supportsThinking = o.optBoolean("supports_thinking"),
                 supportsTools = o.optBoolean("supports_tools"),
+                device = o.optString("device", "CPU"),
+                deviceNote = o.optString("device_note"),
+                hasMtp = o.optBoolean("has_mtp"),
+                spec = o.optString("spec"),
+                specNote = o.optString("spec_note"),
             )
         } catch (e: Exception) {
             null
+        }
+    }
+}
+
+data class DeviceInfo(val name: String, val description: String, val kind: String, val memTotal: Long) {
+    companion object {
+        fun parse(json: String): List<DeviceInfo> = try {
+            val a = org.json.JSONArray(json)
+            (0 until a.length()).map { i ->
+                val o = a.getJSONObject(i)
+                DeviceInfo(o.optString("name"), o.optString("desc"), o.optString("kind"), o.optLong("mem_total"))
+            }
+        } catch (e: Exception) {
+            emptyList()
         }
     }
 }
@@ -90,10 +117,51 @@ class LlamaEngine(private val context: Context) : LlmBackend {
     /** Loads the native libraries and CPU backend off the main thread. */
     suspend fun warmUp() = withContext(dispatcher) { ensureInit() }
 
-    /** Loads [entry] (if not already loaded with the same options) and (re)creates its context. */
-    suspend fun ensureLoaded(entry: ModelEntry, settings: AppSettings) = withContext(dispatcher) {
+    /** Accelerators found on this phone ("gpu", "npu"), loading their backends on first use. */
+    suspend fun probeDevices(): List<DeviceInfo> = withContext(dispatcher) {
         ensureInit()
-        val wantLoad = settings.loadKey()
+        prepareHexagon()
+        NativeBridge.loadBackend("gpu".utf8())
+        NativeBridge.loadBackend("npu".utf8())
+        DeviceInfo.parse(NativeBridge.devices().utf8())
+    }
+
+    /**
+     * The NPU kernels (HTP skels) run on the DSP, which loads them from a directory on ADSP_LIBRARY_PATH;
+     * they ship inside the APK next to the other native libraries and are copied out once per app version.
+     */
+    private fun prepareHexagon() {
+        val dir = File(context.filesDir, "htp")
+        try {
+            val apks = listOfNotNull(context.applicationInfo.sourceDir) + (context.applicationInfo.splitSourceDirs ?: emptyArray())
+            for (apk in apks) {
+                java.util.zip.ZipFile(apk).use { zip ->
+                    for (e in zip.entries()) {
+                        val name = e.name.substringAfterLast('/')
+                        if (!e.name.startsWith("lib/arm64-v8a/") || !name.startsWith("libggml-htp-")) continue
+                        val out = File(dir, name)
+                        if (out.length() == e.size) continue
+                        dir.mkdirs()
+                        zip.getInputStream(e).use { input -> out.outputStream().use { input.copyTo(it) } }
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.w(TAG, "cannot extract HTP skels", e)
+        }
+        val paths = listOf(dir.path, context.applicationInfo.nativeLibraryDir, "/vendor/dsp/cdsp", "/vendor/lib/rfsa/adsp", "/system/lib/rfsa/adsp", "/vendor/dsp", "/dsp")
+        try {
+            android.system.Os.setenv("ADSP_LIBRARY_PATH", paths.joinToString(";"), true)
+        } catch (e: Exception) {
+            Log.w(TAG, "cannot set ADSP_LIBRARY_PATH", e)
+        }
+    }
+
+    /** Loads [entry] (if not already loaded with the same options) and (re)creates its context. */
+    suspend fun ensureLoaded(entry: ModelEntry, settings: AppSettings, draft: ModelEntry? = null) = withContext(dispatcher) {
+        ensureInit()
+        val draftPath = draft?.takeIf { it.id != entry.id && settings.specMode in setOf("auto", "draft") }?.path
+        val wantLoad = settings.loadKey(draftPath)
         if (modelId != entry.id || loadKey != wantLoad || _status.value is EngineStatus.Failed) {
             unloadNow()
             abortLoad = false
@@ -103,8 +171,9 @@ class LlamaEngine(private val context: Context) : LlmBackend {
             } catch (e: Exception) {
                 fail(entry.id, "Model dosyası açılamadı: ${e.message}")
             }
+            if (settings.device == "npu") prepareHexagon()
             var last = 0f
-            val err = NativeBridge.load(path.utf8(), 0, settings.useMmap, settings.useMlock) { p ->
+            val err = NativeBridge.load(path.utf8(), settings.loadParamsJson(draftPath).utf8()) { p ->
                 if (p - last >= 0.02f || p >= 1f) {
                     last = p
                     _status.value = EngineStatus.Loading(entry.id, p)

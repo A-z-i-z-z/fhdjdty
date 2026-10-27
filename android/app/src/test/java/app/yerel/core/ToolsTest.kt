@@ -43,7 +43,7 @@ class ToolsTest {
         val r = runner.run("get_datetime", "")
         val o = JSONObject(r.content)
         assertEquals("2025-10-27T13:00:00+03:00", o.getString("iso"))
-        assertEquals("Pazartesi", o.getString("weekday"))
+        assertEquals("Monday", o.getString("weekday"))
         assertEquals("Europe/Istanbul", o.getString("time_zone"))
     }
 
@@ -105,7 +105,7 @@ class ToolsTest {
         val o = JSONObject(r.content)
         assertEquals("T", o.getString("title"))
         assertEquals("https://a.example/final", o.getString("url"))
-        assertTrue(o.getString("text").endsWith("kısaltıldı]"))
+        assertTrue(o.getString("text").endsWith("truncated]"))
         assertFalse(runner.run("fetch_url", """{"url":"file:///etc/passwd"}""").ok)
     }
 

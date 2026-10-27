@@ -85,6 +85,13 @@ class MainActivity : ComponentActivity() {
                 val n = intent.getIntExtra("test_max_tokens", 1024)
                 vm.updateSettings { it.copy(maxTokens = n) }
             }
+            if (intent.hasExtra("test_code")) {
+                val on = intent.getBooleanExtra("test_code", false)
+                vm.updateSettings { it.copy(codeMode = on) }
+            }
+            intent.getStringExtra("test_spec")?.let { mode -> vm.updateSettings { it.copy(specMode = mode) } }
+            if (intent.getBooleanExtra("test_open_code", false)) { requestedScreen = Screen.CHAT; vm.openLastCode(); return }
+            if (intent.getBooleanExtra("test_close_code", false)) vm.closeStudio()
             intent.getStringExtra("test_screen")?.let { name ->
                 Screen.entries.firstOrNull { it.name == name }?.let { requestedScreen = it }
             }

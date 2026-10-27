@@ -22,7 +22,9 @@ object NativeBridge {
 
     external fun initBackends(libDir: ByteArray)
     external fun systemInfo(): ByteArray
-    external fun load(path: ByteArray, nGpuLayers: Int, mmap: Boolean, mlock: Boolean, progress: LoadProgress?): ByteArray
+    external fun loadBackend(kind: ByteArray): Boolean
+    external fun devices(): ByteArray
+    external fun load(path: ByteArray, paramsJson: ByteArray, progress: LoadProgress?): ByteArray
     external fun createContext(paramsJson: ByteArray): ByteArray
     external fun modelInfo(): ByteArray
     external fun generate(messages: ByteArray, tools: ByteArray, params: ByteArray, listener: UpdateListener?): ByteArray

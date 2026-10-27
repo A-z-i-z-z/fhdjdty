@@ -46,6 +46,8 @@ import androidx.compose.material.icons.rounded.ArrowUpward
 import androidx.compose.material.icons.rounded.Bookmark
 import androidx.compose.material.icons.rounded.BookmarkBorder
 import androidx.compose.material.icons.rounded.Build
+import androidx.compose.material.icons.rounded.PlayArrow
+import androidx.compose.material.icons.rounded.Code
 import androidx.compose.material.icons.rounded.Calculate
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.ContentCopy
@@ -144,6 +146,9 @@ fun ChatScreen(vm: AppViewModel, snackbar: SnackbarHostState, onOpen: (Screen) -
     val scope = rememberCoroutineScope()
     var showPicker by rememberSaveable { mutableStateOf(false) }
     var editing by remember { mutableStateOf<ChatMessage?>(null) }
+    val studio by vm.studio.collectAsState()
+    val codeActions = remember { CodeActions(open = vm::openStudio) }
+    val continuing by vm.continuing.collectAsState()
     val selected = models.firstOrNull { it.id == settings.lastModelId }
 
     ModalNavigationDrawer(
@@ -191,14 +196,17 @@ fun ChatScreen(vm: AppViewModel, snackbar: SnackbarHostState, onOpen: (Screen) -
                             toolsOn = settings.agentEnabled,
                         )
                     } else {
-                        MessageList(
-                            messages = conv.messages,
-                            live = live,
-                            status = status,
-                            settings = settings,
-                            onRegenerate = vm::regenerate,
-                            onEdit = { editing = it },
-                        )
+                        androidx.compose.runtime.CompositionLocalProvider(LocalCodeActions provides codeActions) {
+                            MessageList(
+                                messages = conv.messages.filter { it.id != continuing },
+                                live = live,
+                                status = status,
+                                settings = settings,
+                                onRegenerate = vm::regenerate,
+                                onContinue = vm::continueLast,
+                                onEdit = { editing = it },
+                            )
+                        }
                     }
                 }
                 Composer(
@@ -209,6 +217,7 @@ fun ChatScreen(vm: AppViewModel, snackbar: SnackbarHostState, onOpen: (Screen) -
                     onStop = vm::stop,
                     onToggleTools = { vm.updateSettings { s -> s.copy(agentEnabled = !s.agentEnabled) } },
                     onToggleThinking = { vm.updateSettings { s -> s.copy(thinking = !s.thinking) } },
+                    onToggleCode = { vm.updateSettings { s -> s.copy(codeMode = !s.codeMode) } },
                 )
             }
         }
@@ -223,6 +232,15 @@ fun ChatScreen(vm: AppViewModel, snackbar: SnackbarHostState, onOpen: (Screen) -
             onManage = { showPicker = false; onOpen(Screen.MODELS) },
             onUnload = { vm.unloadModel(); showPicker = false },
             onDismiss = { showPicker = false },
+        )
+    }
+
+    studio?.let { (block, tab) ->
+        CodeStudio(
+            initial = block, initialTab = tab, allowNetwork = settings.previewNetwork,
+            runJs = vm::runJs,
+            onAskFix = vm::sendAuto,
+            onDismiss = vm::closeStudio,
         )
     }
 
@@ -246,7 +264,11 @@ private fun ModelChip(model: ModelEntry?, status: EngineStatus, onClick: () -> U
     val (dot, sub) = when {
         model == null -> scheme.outline to "Model yok"
         status is EngineStatus.Loading && status.modelId == model.id -> scheme.tertiary to "Yükleniyor %${(status.progress * 100).toInt()}"
-        status is EngineStatus.Ready && status.modelId == model.id -> scheme.primary to "Hazır"
+        status is EngineStatus.Ready && status.modelId == model.id -> scheme.primary to "Hazır" + when {
+            status.info?.device?.contains("Hexagon", true) == true || status.info?.device?.contains("HTP") == true -> " · NPU"
+            status.info?.device?.startsWith("CPU") == false -> " · GPU"
+            else -> ""
+        }
         status is EngineStatus.Failed && status.modelId == model.id -> scheme.error to "Hata"
         else -> scheme.outline to "Bellekte değil"
     }
@@ -436,6 +458,7 @@ private fun MessageList(
     status: EngineStatus,
     settings: AppSettings,
     onRegenerate: () -> Unit,
+    onContinue: () -> Unit,
     onEdit: (ChatMessage) -> Unit,
 ) {
     val toolResults = remember(messages) { messages.filter { it.role == Role.TOOL }.associateBy { it.toolCallId } }
@@ -456,13 +479,15 @@ private fun MessageList(
             item(key = "live") { LiveBubble(live, status) }
         }
         items(visible, key = { it.id }) { m ->
-            when (m.role) {
-                Role.USER -> UserBubble(m, onEdit = { onEdit(m) }, canEdit = live == null)
+            when {
+                m.role == Role.USER && m.auto -> AutoNote(m)
+                m.role == Role.USER -> UserBubble(m, onEdit = { onEdit(m) }, canEdit = live == null)
                 else -> AssistantMessage(
                     m, toolResults, settings.showStats,
                     isLast = m.id == lastAssistantId && live == null,
                     generating = live != null,
                     onRegenerate = onRegenerate,
+                    onContinue = onContinue,
                 )
             }
         }
@@ -506,6 +531,7 @@ private fun AssistantMessage(
     isLast: Boolean,
     generating: Boolean,
     onRegenerate: () -> Unit,
+    onContinue: () -> Unit,
 ) {
     val clipboard = LocalClipboardManager.current
     Column(Modifier.fillMaxWidth().animateContentSize()) {
@@ -528,6 +554,42 @@ private fun AssistantMessage(
                 if (isLast) SmallAction(Icons.Rounded.Refresh, "Yeniden oluştur", onRegenerate)
                 if (showStats) m.stats?.let { StatsLine(it) }
             }
+            if (isLast && m.stats?.stop == "length") {
+                androidx.compose.material3.OutlinedButton(onClick = onContinue, modifier = Modifier.padding(top = 2.dp)) {
+                    Icon(Icons.Rounded.PlayArrow, null, Modifier.size(18.dp))
+                    Spacer(Modifier.width(6.dp))
+                    Text("Devam et")
+                }
+            }
+        }
+    }
+}
+
+/** Feedback the app sent to the model (automatic code check, "fix this error"). */
+@Composable
+private fun AutoNote(m: ChatMessage) {
+    var open by remember { mutableStateOf(false) }
+    val scheme = MaterialTheme.colorScheme
+    val problems = remember(m.content) { m.content.lines().count { it.startsWith("- ") } }
+    Surface(
+        shape = RoundedCornerShape(14.dp), color = scheme.tertiaryContainer.copy(alpha = 0.55f),
+        modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(14.dp)).clickable { open = !open },
+    ) {
+        Column(Modifier.padding(horizontal = 12.dp, vertical = 9.dp).animateContentSize()) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Icon(Icons.Rounded.Code, null, Modifier.size(17.dp), tint = scheme.tertiary)
+                Spacer(Modifier.width(8.dp))
+                Text(
+                    if (m.content.startsWith("Automatic check")) "Otomatik kontrol: $problems sorun bulundu, düzeltme istendi"
+                    else "Hata modele gönderildi, düzeltme istendi",
+                    style = MaterialTheme.typography.labelLarge, color = scheme.onTertiaryContainer, modifier = Modifier.weight(1f),
+                )
+                Icon(if (open) Icons.Rounded.ExpandLess else Icons.Rounded.ExpandMore, null, Modifier.size(18.dp), tint = scheme.onSurfaceVariant)
+            }
+            if (open) {
+                Spacer(Modifier.height(6.dp))
+                Text(m.content, style = MonoStyle.copy(fontSize = 11.5.sp, lineHeight = 16.sp), color = scheme.onSurfaceVariant, maxLines = 30, overflow = TextOverflow.Ellipsis)
+            }
         }
     }
 }
@@ -545,6 +607,7 @@ private fun StatsLine(s: GenStats) {
         if (s.genTokens > 0) add(String.format(Locale.ROOT, "%.1f tok/sn", s.tokensPerSecond))
         add("${s.genTokens} token")
         if (s.promptTokens - s.reusedTokens > 8 && s.promptMs > 0) add(String.format(Locale.ROOT, "ön işleme %.0f tok/sn", s.prefillPerSecond))
+        if (s.draftTokens > 0) add("tahmin %${s.draftAccepted * 100 / s.draftTokens} isabet")
         if (s.stop == "length") add("uzunluk sınırı")
         if (s.stop == "ctx_full") add("bağlam doldu")
         if (s.stop == "cancel") add("durduruldu")
@@ -584,14 +647,12 @@ private fun ThinkingBlock(reasoning: String, live: Boolean) {
             )
             Icon(if (open) Icons.Rounded.ExpandLess else Icons.Rounded.ExpandMore, null, Modifier.size(18.dp), tint = scheme.onSurfaceVariant)
         }
-        AnimatedVisibility(open || live, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
+        // closed until tapped, also while the model is still thinking
+        AnimatedVisibility(open, enter = expandVertically() + fadeIn(), exit = shrinkVertically() + fadeOut()) {
             Row(Modifier.padding(start = 8.dp, top = 4.dp).height(androidx.compose.foundation.layout.IntrinsicSize.Min)) {
                 Box(Modifier.width(2.dp).fillMaxSize().background(scheme.outlineVariant))
                 Spacer(Modifier.width(10.dp))
-                Text(
-                    if (live && !open) reasoning.takeLast(280).let { if (reasoning.length > 280) "…$it" else it } else reasoning.trim(),
-                    style = MaterialTheme.typography.bodyMedium, color = scheme.onSurfaceVariant,
-                )
+                Text(reasoning.trim(), style = MaterialTheme.typography.bodyMedium, color = scheme.onSurfaceVariant)
             }
         }
     }
@@ -612,12 +673,14 @@ private fun toolIcon(name: String): ImageVector = when (name) {
     "get_datetime" -> Icons.Rounded.Schedule
     "remember" -> Icons.Rounded.Bookmark
     "forget" -> Icons.Rounded.BookmarkBorder
+    "run_javascript" -> Icons.Rounded.PlayArrow
+    "check_code" -> Icons.Rounded.Code
     else -> Icons.Rounded.Build
 }
 
 private fun toolArgSummary(call: ToolCall): String = try {
     val o = JSONObject(call.arguments.ifBlank { "{}" })
-    listOf("query", "url", "expression", "fact", "memory_id").firstNotNullOfOrNull { k -> o.optString(k).takeIf { it.isNotBlank() } } ?: ""
+    listOf("query", "url", "expression", "fact", "memory_id", "language", "code").firstNotNullOfOrNull { k -> o.optString(k).takeIf { it.isNotBlank() } } ?: ""
 } catch (e: Exception) {
     call.arguments.take(60)
 }
@@ -729,6 +792,7 @@ private fun Composer(
     onStop: () -> Unit,
     onToggleTools: () -> Unit,
     onToggleThinking: () -> Unit,
+    onToggleCode: () -> Unit,
 ) {
     var text by rememberSaveable { mutableStateOf("") }
     val scheme = MaterialTheme.colorScheme
@@ -755,6 +819,8 @@ private fun Composer(
                 ToggleChip(Icons.Rounded.Build, "Araçlar", settings.agentEnabled, onToggleTools)
                 Spacer(Modifier.width(6.dp))
                 ToggleChip(Icons.Rounded.Lightbulb, "Düşün", settings.thinking, onToggleThinking)
+                Spacer(Modifier.width(6.dp))
+                ToggleChip(Icons.Rounded.Code, "Kod", settings.codeMode, onToggleCode)
                 Spacer(Modifier.weight(1f))
                 ctxUsed?.takeIf { it.nCtx > 0 }?.let {
                     Text(

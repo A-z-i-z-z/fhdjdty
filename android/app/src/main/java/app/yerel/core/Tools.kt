@@ -27,6 +27,8 @@ data class ToolSpec(
     val description: String,
     val parameters: JSONObject,
     val needsNetwork: Boolean = false,
+    /** only offered in code mode */
+    val coding: Boolean = false,
 )
 
 data class ToolOutcome(val ok: Boolean, val content: String, val summary: String)
@@ -84,6 +86,24 @@ object ToolCatalog {
             "Delete a saved memory by its id, when the user asks to forget it or it is wrong.",
             schema(Triple("memory_id", "string", "Id of the memory shown in the system prompt"), required = listOf("memory_id")),
         ),
+        ToolSpec(
+            "run_javascript", "JavaScript çalıştır",
+            "Run JavaScript in a sandbox (no DOM, no network) and get the console output, the value of the last " +
+                "expression and any error with its line number. Use it to test functions and algorithms before you answer.",
+            schema(Triple("code", "string", "JavaScript source; use console.log to print values"), required = listOf("code")),
+            coding = true,
+        ),
+        ToolSpec(
+            "check_code", "Kodu kontrol et",
+            "Check code for syntax errors without running it. Supports html, svg, javascript, json, css and xml. " +
+                "Returns the problems found with line numbers, or ok.",
+            schema(
+                Triple("language", "string", "html, svg, javascript, json, css or xml"),
+                Triple("code", "string", "The complete code to check"),
+                required = listOf("language", "code"),
+            ),
+            coding = true,
+        ),
     )
 
     fun byName(name: String) = all.firstOrNull { it.name == name }
@@ -117,6 +137,7 @@ class ToolRunner(
     private val config: () -> ToolConfig,
     private val now: () -> Date = { Date() },
     private val timeZone: () -> TimeZone = { TimeZone.getDefault() },
+    private val js: JsSandbox? = null,
 ) {
     private val ua = mapOf(
         "User-Agent" to "Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Mobile Safari/537.36",
@@ -138,6 +159,8 @@ class ToolRunner(
                 "get_datetime" -> datetime()
                 "remember" -> remember(args.optString("fact"))
                 "forget" -> forget(args.optString("memory_id"))
+                "run_javascript" -> runJavascript(args.optString("code"))
+                "check_code" -> checkCode(args.optString("language"), args.optString("code"))
                 else -> fail("unknown tool '$name'")
             }
         } catch (e: Exception) {
@@ -227,8 +250,8 @@ class ToolRunner(
         fun f(p: String, loc: Locale = Locale.ROOT) = SimpleDateFormat(p, loc).apply { timeZone = tz }.format(d)
         val out = JSONObject()
             .put("iso", f("yyyy-MM-dd'T'HH:mm:ssXXX"))
-            .put("date", f("d MMMM yyyy", Locale("tr")))
-            .put("weekday", f("EEEE", Locale("tr")))
+            .put("date", f("d MMMM yyyy", Locale.ENGLISH))
+            .put("weekday", f("EEEE", Locale.ENGLISH))
             .put("time", f("HH:mm"))
             .put("time_zone", tz.id)
         return ToolOutcome(true, out.toString(), "${f("d MMMM yyyy HH:mm", Locale("tr"))}")
@@ -249,5 +272,26 @@ class ToolRunner(
             ?: return fail("no memory with id '$id'")
         memory.remove(match.id)
         return ToolOutcome(true, JSONObject().put("deleted", true).put("memory_id", match.id).toString(), match.text.take(60))
+    }
+
+    private fun runJavascript(code: String): ToolOutcome {
+        if (code.isBlank()) return fail("code is empty")
+        val sandbox = js ?: return fail("JavaScript is not available")
+        val r = sandbox.run(code)
+        val summary = when {
+            r.timedOut -> "zaman aşımı"
+            r.error != null -> r.error.take(60)
+            else -> r.logs.lastOrNull()?.take(60) ?: r.result?.take(60) ?: "tamam"
+        }
+        return ToolOutcome(r.ok, r.toJson(), summary)
+    }
+
+    private fun checkCode(language: String, code: String): ToolOutcome {
+        if (code.isBlank()) return fail("code is empty")
+        val lang = CodeLang.of(language, code)
+        if (!lang.checkable) return fail("cannot check '$language'; supported: html, svg, javascript, json, css, xml")
+        val problems = CodeCheck.check(lang, code, js)
+        val out = JSONObject().put("language", lang.label).put("ok", problems.isEmpty()).put("problems", JSONArray(problems))
+        return ToolOutcome(true, out.toString(), if (problems.isEmpty()) "sorun yok" else "${problems.size} sorun")
     }
 }

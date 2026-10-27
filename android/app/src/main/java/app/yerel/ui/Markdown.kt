@@ -220,7 +220,7 @@ fun MarkdownText(text: String, modifier: Modifier = Modifier, style: TextStyle =
                         modifier = Modifier.padding(top = 4.dp),
                     )
                     is MdBlock.Paragraph -> Text(inlineMarkdown(b.text, colors), style = style, color = color)
-                    is MdBlock.Code -> CodeBlock(b.lang, b.code)
+                    is MdBlock.Code -> CodeBlockView(b.lang, b.code)
                     is MdBlock.ListItem -> Row(Modifier.padding(start = (b.depth * 16).dp)) {
                         Text(
                             b.marker, style = style, color = if (b.ordered) color else scheme.onSurfaceVariant,
@@ -263,36 +263,6 @@ private fun MdTable(t: MdBlock.Table, colors: InlineColors, style: TextStyle) {
                 }
                 if (r < t.rows.size) HorizontalDivider(color = scheme.outlineVariant)
             }
-        }
-    }
-}
-
-@Composable
-fun CodeBlock(lang: String, code: String) {
-    val clipboard = LocalClipboardManager.current
-    val scheme = MaterialTheme.colorScheme
-    var copied by remember { mutableStateOf(false) }
-    LaunchedEffect(copied) {
-        if (copied) { delay(1500); copied = false }
-    }
-    Surface(shape = RoundedCornerShape(14.dp), color = scheme.surfaceContainerHigh, modifier = Modifier.fillMaxWidth()) {
-        Column {
-            Row(
-                Modifier.fillMaxWidth().background(scheme.surfaceContainerHighest).padding(start = 14.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(lang.ifBlank { "kod" }, style = MaterialTheme.typography.labelMedium, color = scheme.onSurfaceVariant, modifier = Modifier.weight(1f))
-                IconButton(onClick = { clipboard.setText(AnnotatedString(code)); copied = true }, modifier = Modifier.size(40.dp)) {
-                    Icon(if (copied) Icons.Rounded.Check else Icons.Rounded.ContentCopy, "Kopyala", Modifier.size(18.dp), tint = scheme.onSurfaceVariant)
-                }
-            }
-            Text(
-                code,
-                style = MonoStyle,
-                color = scheme.onSurface,
-                softWrap = false,
-                modifier = Modifier.horizontalScroll(rememberScrollState()).padding(14.dp),
-            )
         }
     }
 }

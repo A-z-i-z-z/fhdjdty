@@ -70,21 +70,48 @@ object EngineJson {
 }
 
 object Prompt {
-    fun systemPrompt(base: String, memories: List<MemoryItem>, now: Date, toolsOn: Boolean, locale: Locale = Locale("tr")): String {
+    /** Coding rules that keep small models on track: complete, self-contained, checked code. */
+    const val CODE_GUIDE =
+        "Coding mode is on. Follow these rules when you write code:\n" +
+            "- Think about the requirements first, then write complete, working code. Never leave placeholders or \"...\".\n" +
+            "- Put every file in its own fenced code block with a language tag (```html, ```svg, ```javascript, ```python, ...).\n" +
+            "- Web pages: one self-contained HTML file with inline <style> and <script>, no external files, CDNs or network requests.\n" +
+            "- SVG: a complete <svg> element with xmlns=\"http://www.w3.org/2000/svg\" and a viewBox.\n" +
+            "- Keep it simple and readable. Prefer plain JavaScript and standard libraries.\n" +
+            "- When changing existing code, output the whole updated file, not only the changed lines.\n" +
+            "- After the code, explain briefly how to use it."
+
+    private const val CODE_TOOLS_GUIDE =
+        "\n- Before you answer, test JavaScript with run_javascript and check HTML, SVG, JSON or CSS with check_code. " +
+            "If a tool reports an error, fix the code and test again."
+
+    fun systemPrompt(
+        base: String,
+        memories: List<MemoryItem>,
+        now: Date,
+        toolsOn: Boolean,
+        code: Boolean = false,
+        codeToolsOn: Boolean = false,
+        locale: Locale = Locale.ENGLISH,
+    ): String {
         val sb = StringBuilder(base.trim())
         // day precision only: a changing system prompt would invalidate the whole KV cache every turn
-        val date = SimpleDateFormat("d MMMM yyyy, EEEE", locale).format(now)
-        sb.append("\n\nBugünün tarihi: ").append(date).append('.')
+        val date = SimpleDateFormat("EEEE, d MMMM yyyy", locale).format(now)
+        sb.append("\n\nToday's date: ").append(date).append('.')
         if (memories.isNotEmpty()) {
-            sb.append("\n\nKullanıcı hakkında hafızada kayıtlı bilgiler (id: bilgi):")
+            sb.append("\n\nSaved facts about the user (id: fact):")
             for (m in memories) sb.append("\n- ").append(m.id.take(8)).append(": ").append(m.text)
         }
         if (toolsOn) {
             sb.append(
-                "\n\nAraçların var. Güncel bilgi, hesaplama veya web sayfası gerektiğinde araç çağır; " +
-                    "araç sonucunu kullanarak cevap ver ve kaynak URL'lerini belirt. Kullanıcı kalıcı bir bilgi " +
-                    "paylaşırsa (adı, tercihleri) remember aracıyla kaydet.",
+                "\n\nYou have tools. Call a tool when you need current information, a calculation or a web page; " +
+                    "answer from the tool results and cite the source URLs. When the user shares a lasting fact " +
+                    "about themselves (their name, preferences), save it with the remember tool.",
             )
+        }
+        if (code) {
+            sb.append("\n\n").append(CODE_GUIDE)
+            if (codeToolsOn) sb.append(CODE_TOOLS_GUIDE)
         }
         return sb.toString()
     }
@@ -144,20 +171,44 @@ data class AgentConfig(
     val toolsJson: String,
     val paramsJson: String,
     val maxSteps: Int,
+    /** check the code blocks of the final answer and ask the model to fix what is broken */
+    val autoCheck: Boolean = false,
+    val maxRepairs: Int = 2,
 )
 
 /** Runs generate → tool calls → generate until the model answers without tools. */
 class AgentRunner(
     private val backend: LlmBackend,
     private val tools: ToolRunner,
+    private val js: JsSandbox? = null,
     private val isCancelled: () -> Boolean,
 ) {
     private var callCounter = 0
+
+    /**
+     * Extends the last assistant message of [history], which stopped at the token limit.
+     * Returns the updated message, or null when nothing could be generated.
+     */
+    fun continueLast(history: List<ChatMessage>, config: AgentConfig, emit: (AgentEvent) -> Unit): ChatMessage? {
+        val last = history.lastOrNull()?.takeIf { it.role == Role.ASSISTANT } ?: return null
+        val params = JSONObject(config.paramsJson).put("continue", true).toString()
+        val raw = backend.generate(Prompt.engineMessages(config.systemPrompt, history), config.toolsJson, params) { partial ->
+            EngineJson.parsePartial(partial)?.let {
+                emit(AgentEvent.Partial(last.content + it.message.content, last.reasoning, emptyList(), it.nGen, it.tps))
+            }
+        }
+        val result = EngineJson.parseResult(raw)
+        val msg = result.message ?: return null
+        if (result.error != null || msg.content.isEmpty()) return null
+        val stats = result.stats?.let { s -> last.stats?.plus(s) ?: s }
+        return last.copy(content = last.content + msg.content, stats = stats)
+    }
 
     fun run(history: List<ChatMessage>, config: AgentConfig, emit: (AgentEvent) -> Unit): List<ChatMessage> {
         var context = history
         val added = mutableListOf<ChatMessage>()
         var step = 0
+        var repairs = 0
         while (step < config.maxSteps.coerceAtLeast(1)) {
             if (isCancelled()) break
             val messages = Prompt.engineMessages(config.systemPrompt, context + added)
@@ -201,6 +252,22 @@ class AgentRunner(
             )
             added += assistant
             emit(AgentEvent.Added(assistant))
+            val truncated = result.stats?.stop == "length"
+            if (!stopped && !truncated && calls.isEmpty() && config.autoCheck && repairs < config.maxRepairs) {
+                val problems = CodeCheck.review(assistant.content, js)
+                if (problems.isNotEmpty()) {
+                    repairs++
+                    val feedback = ChatMessage(
+                        role = Role.USER, auto = true,
+                        content = "Automatic check of your code found these problems:\n" +
+                            problems.joinToString("\n") { "- $it" } +
+                            "\nFix all of them and reply with the complete corrected code.",
+                    )
+                    added += feedback
+                    emit(AgentEvent.Added(feedback))
+                    continue
+                }
+            }
             if (stopped || calls.isEmpty()) break
 
             for (call in calls) {
