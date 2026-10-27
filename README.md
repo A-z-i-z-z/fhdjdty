@@ -12,6 +12,12 @@ Bu repoda iki şey var:
 
 ## Yerel uygulaması
 
+| Sohbet + araç çağrısı | Hugging Face bağlantısı | Ayarlar | Hafıza (koyu tema) |
+|---|---|---|---|
+| ![](docs/screenshots/tool-calculator.png) | ![](docs/screenshots/hf-link.png) | ![](docs/screenshots/settings.png) | ![](docs/screenshots/dark-memory.png) |
+
+*Ekran görüntüleri CI'daki emülatörde, gerçek bir modelle (Qwen3 0.6B) çekildi.*
+
 ### Kurulum
 
 1. [Releases](../../releases/latest) sayfasından `Yerel-…-arm64.apk` dosyasını telefona indirin.
@@ -68,8 +74,10 @@ Ayarlar ekranındaki kutu, seçili model için gereken RAM'i (model + KV + ek) b
 
 ### RAM ve hız için ipuçları (S24 Ultra, 12 GB)
 
-- Uygulamanın kendisi küçük tutuldu (Compose, ek kütüphane yok, R8 ile küçültülmüş); asıl RAM'i model
-  ve KV önbelleği kullanır. *Modeller* ekranı anlık boş RAM'i gösterir.
+- Uygulamanın kendisi küçük tutuldu: APK ~22 MB, native kütüphaneler APK'nın içinden yüklenir (ayrıca
+  diske açılmaz), ek kütüphane yok, R8 ile küçültülmüş. Model yüklü değilken uygulama ~100 MB RAM kullanır
+  (emülatörde, debug sürümle ölçüldü). Asıl RAM'i model ve KV önbelleği kullanır; *Modeller* ekranı
+  anlık boş RAM'i gösterir.
 - Sistem ve diğer uygulamalar genelde 6-8 GB kullanır. 1-2B modeller (Q4_0, ~1 GB) her zaman rahat sığar;
   4B Q4_K_M (~2.5 GB) çoğu zaman sığar.
 - **Q4_0** dosyalarını tercih edin: ARM'de en hızlı yol (KleidiAI + i8mm çekirdekleri). Uygulama,
@@ -84,6 +92,21 @@ Ayarlar ekranındaki kutu, seçili model için gereken RAM'i (model + KV + ek) b
 Uygulamadaki llama.cpp sürümü LFM3 desteği eklenmiş sürümdür, yani `LiquidAI/LFM3-1.7B-GGUF` doğrudan
 indirilip çalıştırılabilir (katalogda ilk sırada). Görüntü/ses modelleri (VL, Omni) bu sürümde
 desteklenmiyor; uygulama `mmproj` dosyalarını gizler.
+
+### Test durumu
+
+Her derlemede otomatik olarak:
+
+| Test | Sonuç |
+|---|---|
+| Çekirdek birim testleri (ajan döngüsü, araçlar, GGUF okuyucu, HF bağlantıları, hesap makinesi, HTML) | ✅ |
+| Motor, Qwen3 0.6B ile: yükleme, akış, KV yeniden kullanımı, araç çağrısı + sonuç turu, düşünme, düşünme bütçesi, iptal, bağlam taşması | ✅ hepsi |
+| Motor, **LFM3 1.7B** (Q4_0) ile: aynı testler | ✅ hepsi |
+| Motor, LFM2.5 1.2B ile | mekanik testler ✅; model bir aritmetik sorusunu yanlış cevapladı ve düşünme modu yok |
+| Emülatörde uygulama: model yükleme, hesap makinesi aracı (17×23 → 391), Markdown cevap, `remember` ile hafızaya kayıt, HF bağlantısı | ✅ |
+
+Not: 0.6B model sadece test içindir; Türkçe cevapları çoğu zaman anlamsızdır (ekran görüntüsündeki şehir
+listesi gibi). Günlük kullanım için LFM3 1.7B, Qwen3 1.7B veya Qwen3 4B önerilir.
 
 ### Kaynak koddan derleme
 

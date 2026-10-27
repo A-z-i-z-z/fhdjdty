@@ -25,7 +25,8 @@ android {
         externalNativeBuild {
             cmake {
                 // llama.cpp is always built optimized, also for debug APKs
-                arguments += listOf("-DCMAKE_BUILD_TYPE=Release", "-DANDROID_STL=c++_shared")
+                // 16 KB-page-compatible libraries for newer Android releases
+                arguments += listOf("-DCMAKE_BUILD_TYPE=Release", "-DANDROID_STL=c++_shared", "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON")
             }
         }
     }

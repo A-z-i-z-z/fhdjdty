@@ -781,7 +781,7 @@ private fun Composer(
     }
 }
 
-private fun shortK(n: Int) = if (n >= 1000) String.format(Locale.ROOT, "%.1fK", n / 1000.0).replace(".0K", "K") else n.toString()
+private fun shortK(n: Int) = if (n >= 1024) String.format(Locale.ROOT, "%.1fK", n / 1024.0).replace(".0K", "K") else n.toString()
 
 @Composable
 private fun ToggleChip(icon: ImageVector, label: String, on: Boolean, onClick: () -> Unit) {

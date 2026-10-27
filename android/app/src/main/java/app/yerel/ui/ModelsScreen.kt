@@ -290,7 +290,7 @@ private fun HfFiles(found: HfLookup.Found, vm: AppViewModel) {
             ) {
                 RadioButton(selected = chosen == f, onClick = { chosen = f }, enabled = !f.isSplitPart)
                 Column(Modifier.weight(1f)) {
-                    Text(f.fileName, style = MaterialTheme.typography.bodyMedium, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    Text(f.fileName, style = MaterialTheme.typography.bodyMedium, maxLines = 2, overflow = TextOverflow.Ellipsis)
                     Text(
                         listOfNotNull(f.quant.ifBlank { null }, if (f.size > 0) formatBytes(f.size) else null, if (f.isSplitPart) "parçalı, desteklenmiyor" else null)
                             .joinToString(" · "),
