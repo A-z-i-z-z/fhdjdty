@@ -78,6 +78,10 @@ prompt 05-memory "Benim adım Deniz, bunu hafızana kaydet." --ez test_thinking 
 start --es test_screen MODELS
 sleep 3
 shot 06-models
+# a Hugging Face link opened from the browser lists the repo's GGUF files
+adb shell am start -n "$ACT" -a android.intent.action.VIEW -d "https://huggingface.co/LiquidAI/LFM3-1.7B-GGUF" > /dev/null
+sleep 12
+shot 06b-hf-link
 start --es test_screen SETTINGS
 sleep 3
 shot 07-settings

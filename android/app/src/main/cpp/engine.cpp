@@ -356,14 +356,14 @@ std::string Engine::load(const std::string & path, const LoadParams & params, co
 
     impl->model = llama_model_load_from_file(path.c_str(), mparams);
     if (!impl->model) {
-        return "model could not be loaded (unsupported architecture or damaged file?)";
+        return "model açılamadı: bu mimari desteklenmiyor ya da dosya bozuk/eksik";
     }
     impl->vocab = llama_model_get_vocab(impl->model);
     try {
         impl->tmpls = common_chat_templates_init(impl->model, "");
     } catch (const std::exception & e) {
         unload();
-        return std::string("chat template error: ") + e.what();
+        return std::string("sohbet şablonu hatası: ") + e.what();
     }
     impl->needs_checkpoints = llama_model_is_recurrent(impl->model) || llama_model_is_hybrid(impl->model) ||
                               llama_model_n_swa(impl->model) > 0;
@@ -372,7 +372,7 @@ std::string Engine::load(const std::string & path, const LoadParams & params, co
 
 std::string Engine::create_context(const ContextParams & params) {
     if (!impl->model) {
-        return "no model loaded";
+        return "yüklü model yok";
     }
     impl->free_context();
 
@@ -404,7 +404,7 @@ std::string Engine::create_context(const ContextParams & params) {
 
     impl->ctx = llama_init_from_model(impl->model, cp);
     if (!impl->ctx) {
-        return "context could not be created (not enough memory for this context size?)";
+        return "bağlam oluşturulamadı: bu bağlam boyutu için bellek yetmiyor olabilir, Ayarlar'dan küçültün";
     }
     impl->cparams       = params;
     impl->cparams.n_ctx = (int) llama_n_ctx(impl->ctx);
@@ -477,7 +477,7 @@ std::string Engine::generate(const std::string & messages_json,
                              const UpdateFn &    on_update) {
     auto & d = *impl;
     if (!d.model || !d.ctx) {
-        return error_json("no model loaded");
+        return error_json("yüklü model yok");
     }
     d.cancel_flag = false;
 
@@ -491,7 +491,7 @@ std::string Engine::generate(const std::string & messages_json,
             }
         }
     } catch (const std::exception & e) {
-        return error_json(std::string("invalid request: ") + e.what());
+        return error_json(std::string("geçersiz istek: ") + e.what());
     }
     inputs.add_generation_prompt = true;
     inputs.use_jinja             = true;
@@ -504,14 +504,14 @@ std::string Engine::generate(const std::string & messages_json,
     try {
         session = std::make_unique<common_chat_session>(d.tmpls.get(), d.vocab, inputs);
     } catch (const std::exception & e) {
-        return error_json(std::string("chat template error: ") + e.what());
+        return error_json(std::string("sohbet şablonu hatası: ") + e.what());
     }
 
     const auto t_start = clock_type::now();
     const llama_tokens tokens = common_tokenize(d.vocab, session->prompt().str(), true, true);
     const size_t n_ctx = (size_t) d.cparams.n_ctx;
     if (tokens.empty()) {
-        return error_json("empty prompt");
+        return error_json("boş istem");
     }
     if (tokens.size() + 8 >= n_ctx) {
         return "{\"error\":\"context_overflow\",\"prompt_tokens\":" + std::to_string(tokens.size()) +
@@ -577,7 +577,7 @@ std::string Engine::generate(const std::string & messages_json,
     }
     common_sampler * smpl = common_sampler_init(d.model, sp);
     if (!smpl) {
-        return error_json("sampler could not be created (invalid grammar?)");
+        return error_json("örnekleyici oluşturulamadı");
     }
     const auto & stops = session->additional_stops();
     size_t max_stop_len = 0;
@@ -665,7 +665,7 @@ std::string Engine::generate(const std::string & messages_json,
         }
     } catch (const std::exception & e) {
         common_sampler_free(smpl);
-        return error_json(std::string("generation error: ") + e.what());
+        return error_json(std::string("üretim hatası: ") + e.what());
     }
     common_sampler_free(smpl);
 
