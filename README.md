@@ -1,4 +1,114 @@
-# LFM3 → Galaxy S24 Ultra
+# Yerel + LFM3 → Galaxy S24 Ultra
+
+Bu repoda iki şey var:
+
+1. **Yerel** — telefonda tamamen çevrimdışı çalışan, ChatGPT tarzı arayüzlü bir yapay zekâ asistanı
+   (Android APK). Model indirme, sohbet, düşünme modu, ajan araçları (web araması vb.) ve uzun süreli
+   hafıza içerir. → [Yerel uygulaması](#yerel-uygulaması)
+2. Liquid AI'ın **LFM3** serisinin araştırma notları ve S24 Ultra'da Termux ile çalıştırma rehberi
+   ([`lfm3.sh`](lfm3.sh)). → [LFM3 serisi](#1-lfm3-serisi)
+
+---
+
+## Yerel uygulaması
+
+### Kurulum
+
+1. [Releases](../../releases/latest) sayfasından `Yerel-…-arm64.apk` dosyasını telefona indirin.
+2. Dosyaya dokunun. Android "bilinmeyen uygulama" uyarısı verirse tarayıcıya/dosya yöneticisine
+   **Bu kaynaktan izin ver** deyin ve **Yükle**'ye basın.
+3. Uygulamayı açın. İlk ekrandaki **Hızlı başlangıç: Qwen3 0.6B** düğmesi ~640 MB'lık küçük bir model
+   indirir (bildirim çubuğundan takip edilir). İndirme bitince model kendiliğinden seçilir; mesaj yazıp
+   gönderin.
+
+Yeni bir sürüm çıktığında aynı şekilde üzerine kurun; sohbetler, modeller ve ayarlar korunur.
+
+### Model ekleme (üç yol)
+
+| Yol | Nasıl |
+|---|---|
+| **Önerilen modeller** | *Modeller* ekranında LFM3 1.7B, LFM2.5 1.2B, Qwen3 0.6B/1.7B/4B, Gemma 3 1B, Llama 3.2 1B → **İndir** |
+| **Hugging Face bağlantısı** | Bağlantıyı kutuya yapıştırın (ör. `https://huggingface.co/LiquidAI/LFM3-1.7B-GGUF` veya `LiquidAI/LFM3-1.7B-GGUF:Q4_0`). Uygulama depodaki GGUF dosyalarını listeler, telefona uygun 4-bit dosyayı önceden seçer ve her dosya için "Rahat sığar / RAM yetmeyebilir" tahmini gösterir. Tarayıcıda bir HF sayfasındayken **Paylaş → Yerel** ya da **Yerel ile aç** da olur. |
+| **Telefondaki GGUF** | **Telefondan GGUF dosyası seç** → *Kopyala* (en hızlı yükleme) veya *Bağlantı* (ek yer kaplamaz). Bilgisayardan USB ile `Android/data/app.yerel/files/models/` klasörüne attığınız dosyaları da uygulama kendiliğinden bulur. |
+
+Özel/izinli (gated) modeller için *Ayarlar → Hugging Face* altına bir "read" token girin.
+
+### Özellikler
+
+- **Sohbet:** akışlı cevap, Markdown (kod blokları, tablolar, listeler), sohbet geçmişi (yan menü),
+  yeniden adlandırma, mesajı düzenleyip yeniden gönderme, yeniden oluşturma, durdurma.
+- **Model seçici:** üst ortadaki model adına dokunun. Seçilen model arka planda belleğe yüklenir.
+- **Düşünme modu** (*Düşün* düğmesi): Qwen3 ve LFM3 gibi modeller cevaptan önce düşünür; düşünce
+  katlanabilir bir kartta görünür. *Ayarlar*'dan düşünme bütçesi (token sınırı) verilebilir.
+- **Ajan araçları** (*Araçlar* düğmesi): model gerektiğinde kendi başına araç çağırır, sonucu okuyup
+  cevaba devam eder: `web_search` (DuckDuckGo veya kendi SearXNG sunucunuz), `fetch_url` (sayfa okuma),
+  `wikipedia`, `calculator`, `get_datetime`, `remember`/`forget` (hafıza). Her araç çağrısı sohbette
+  açılabilir bir kart olarak görünür. Araçlar tek tek kapatılabilir.
+- **Uzun süreli hafıza:** "Benim adım Deniz, bunu hatırla" dediğinizde model `remember` aracıyla kaydeder;
+  kayıtlar her sohbetin başında modele verilir. *Hafıza* ekranından görüntüleyin, düzenleyin, silin.
+- **İnternet sadece araçlar ve model indirme için kullanılır.** Sohbetler telefondan çıkmaz.
+
+### Ayarlar (neyi ne için değiştirmeli)
+
+| Ayar | Varsayılan | Açıklama |
+|---|---|---|
+| Bağlam penceresi | 4K | Modelin aynı anda gördüğü token sayısı. Büyüdükçe KV önbelleği RAM'i artar. LFM3'te KV sadece 6 dikkat katmanında tutulduğu için 32K bile ucuzdur. |
+| KV önbelleği K / V | q8_0 / q8_0 | f16'ya göre yarı bellek, kalite farkı ölçülemeyecek kadar az. Bellek darsa q4_0 (dörtte bir). Kuantize V seçilince Flash Attention kendiliğinden açılır. |
+| Flash Attention | Otomatik | Genelde açık kalmalı. |
+| Toplu işlem (batch) | 256 | Uzun istemleri işleme hızı ↔ geçici RAM. |
+| İş parçacığı | Otomatik (6) | S24 Ultra'da 6 en iyisi; 8 yavaşlatır (küçük çekirdekler beklenir). |
+| mmap | Açık | Model dosyadan eşlenir; RAM sistemle paylaşılır, açılış hızlıdır. |
+| mlock | Kapalı | Modeli RAM'de kilitler; RAM azsa diğer uygulamalar kapanır. |
+| Arka planda kaldır | Kapalı | Açarsanız uygulamadan çıktıktan 1 dk sonra model RAM'den boşaltılır. |
+| Örnekleme | 0.7 / 40 / 0.95 / 0.05 | Sıcaklık, top-k, top-p, min-p, tekrar cezası, en uzun cevap, seed. Katalog modelleri üreticinin önerdiği değerlerle gelir (*Modelin önerdiği değerleri kullan*). |
+| Görünüm | Sistem teması | Açık/koyu, 7 vurgu rengi, Android 12+ duvar kağıdı renkleri, yazı boyutu, hız istatistikleri. |
+
+Bağlam/KV/thread ayarları değiştirildiğinde model yeniden yüklenmeden sadece bağlam yeniden kurulur.
+Ayarlar ekranındaki kutu, seçili model için gereken RAM'i (model + KV + ek) boş RAM ile karşılaştırır.
+
+### RAM ve hız için ipuçları (S24 Ultra, 12 GB)
+
+- Uygulamanın kendisi küçük tutuldu (Compose, ek kütüphane yok, R8 ile küçültülmüş); asıl RAM'i model
+  ve KV önbelleği kullanır. *Modeller* ekranı anlık boş RAM'i gösterir.
+- Sistem ve diğer uygulamalar genelde 6-8 GB kullanır. 1-2B modeller (Q4_0, ~1 GB) her zaman rahat sığar;
+  4B Q4_K_M (~2.5 GB) çoğu zaman sığar.
+- **Q4_0** dosyalarını tercih edin: ARM'de en hızlı yol (KleidiAI + i8mm çekirdekleri). Uygulama,
+  telefonun işlemcisine en uygun CPU çekirdek kodunu açılışta kendisi seçer.
+- Bağlam penceresinin bağlamı dolarsa en eski mesajlar modele gönderilmez (ekranda kalır); bunu bildiren
+  kısa bir uyarı çıkar.
+- Uzun sohbetlerde önceki tur hesaplamaları yeniden kullanılır; yalnızca yeni mesaj işlenir
+  (LFM2/LFM3 gibi hibrit modellerde durum kontrol noktalarıyla).
+
+### LFM3 hakkında
+
+Uygulamadaki llama.cpp sürümü LFM3 desteği eklenmiş sürümdür, yani `LiquidAI/LFM3-1.7B-GGUF` doğrudan
+indirilip çalıştırılabilir (katalogda ilk sırada). Görüntü/ses modelleri (VL, Omni) bu sürümde
+desteklenmiyor; uygulama `mmproj` dosyalarını gizler.
+
+### Kaynak koddan derleme
+
+```bash
+git clone --recursive https://github.com/A-z-i-z-z/fhdjdty && cd fhdjdty/android
+./gradlew :app:assembleRelease          # app/build/outputs/apk/release/app-release.apk
+```
+
+Android SDK + NDK 27 gerekir. Her push'ta GitHub Actions ([`android.yml`](.github/workflows/android.yml))
+şunları yapar: birim testleri, motorun gerçek küçük modellerle testi (Qwen3 0.6B, LFM3 1.7B, LFM2.5 1.2B),
+x86_64 emülatörde uygulamanın uçtan uca testi (ekran görüntüleriyle) ve APK'nın Releases'e yüklenmesi.
+
+| Klasör | İçerik |
+|---|---|
+| `android/app/src/main/cpp` | llama.cpp üstünde çıkarım motoru (KV önbelleği yeniden kullanımı, akış, araç çağrısı ayrıştırma) ve JNI köprüsü |
+| `android/app/src/main/java/app/yerel/core` | Platformdan bağımsız çekirdek: ajan döngüsü, araçlar, GGUF okuyucu, HF bağlantı ayrıştırıcı |
+| `android/app/src/main/java/app/yerel/ui` | Compose arayüzü |
+| `android/native-test` | Motorun masaüstü testi |
+
+APK'yı imzalayan anahtar (`android/app/yerel-release.jks`) bilerek repoda; her derleme bir öncekinin
+üzerine kurulabilsin diye. Uygulamayı başka yerde dağıtacaksanız kendi anahtarınızla değiştirin.
+
+---
+
+# LFM3 araştırma notları
 
 Liquid AI'ın 27 Ekim 2026'da çıkardığı **LFM3** serisinin araştırma notları ve S24 Ultra'da
 (Snapdragon 8 Gen 3) çalıştırma rehberi. Tek komutla kurulum ve çalıştırma için [`lfm3.sh`](lfm3.sh).

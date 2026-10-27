@@ -461,6 +461,7 @@ private fun MessageList(
                 else -> AssistantMessage(
                     m, toolResults, settings.showStats,
                     isLast = m.id == lastAssistantId && live == null,
+                    generating = live != null,
                     onRegenerate = onRegenerate,
                 )
             }
@@ -503,6 +504,7 @@ private fun AssistantMessage(
     toolResults: Map<String?, ChatMessage>,
     showStats: Boolean,
     isLast: Boolean,
+    generating: Boolean,
     onRegenerate: () -> Unit,
 ) {
     val clipboard = LocalClipboardManager.current
@@ -512,7 +514,8 @@ private fun AssistantMessage(
             Spacer(Modifier.height(8.dp))
         }
         m.toolCalls.forEach { call ->
-            ToolCard(call, toolResults[call.id], running = false)
+            val result = toolResults[call.id]
+            ToolCard(call, result, running = result == null && generating)
             Spacer(Modifier.height(6.dp))
         }
         if (m.content.isNotBlank()) MarkdownText(m.content)
@@ -687,8 +690,8 @@ private fun LiveBubble(live: LiveReply, status: EngineStatus) {
             ThinkingBlock(live.reasoning, live = live.content.isBlank() && live.toolCalls.isEmpty())
             Spacer(Modifier.height(8.dp))
         }
+        // tool calls being written; once sent they show (with a spinner) on the saved message above
         live.toolCalls.forEach { ToolCard(it, null, running = false); Spacer(Modifier.height(6.dp)) }
-        live.activeTool?.let { ToolCard(it, null, running = true); Spacer(Modifier.height(6.dp)) }
         when {
             live.content.isNotBlank() -> MarkdownText(live.content + " ●")
             live.reasoning.isBlank() && live.activeTool == null && live.toolCalls.isEmpty() -> TypingDots()
