@@ -80,6 +80,8 @@ prompt 10-code-svg "Write an SVG image of a yellow sun on a blue sky with a gree
 start --ez test_open_code true
 sleep 6
 shot 10b-svg-preview
+sleep 8
+shot 10c-svg-preview-later
 start --ez test_close_code true
 prompt 11-code-js "Write a JavaScript function that returns the first 10 Fibonacci numbers, run it with the run_javascript tool and tell me the output." --ez test_code true --ez test_thinking false --ez test_tools true --ei test_max_tokens 900
 start --ez test_open_code true
@@ -108,7 +110,7 @@ sleep 3
 shot 09-dark-chat
 adb shell cmd uimode night no
 
-adb logcat -d -v time -s YerelTest:I LlamaEngine:* yerel-llama:* yerel-engine:* Yerel:* AndroidRuntime:E DEBUG:* > "$OUT/logcat.txt" || true
+adb logcat -d -v time -s YerelTest:I LlamaEngine:* yerel-llama:* yerel-engine:* Yerel:* YerelPreview:* chromium:* cr_AwContents:* AndroidRuntime:E DEBUG:* > "$OUT/logcat.txt" || true
 adb shell grep -m1 -E "^flags" /proc/cpuinfo > "$OUT/cpuinfo.txt" || true
 adb shell dumpsys package "$PKG" | grep -E "legacyNativeLibraryDir|nativeLibraryDir|primaryCpuAbi" > "$OUT/package.txt" || true
 adb shell dumpsys meminfo "$PKG" > "$OUT/meminfo.txt" || true

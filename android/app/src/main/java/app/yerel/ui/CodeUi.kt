@@ -2,6 +2,7 @@ package app.yerel.ui
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.util.Log
 import android.webkit.ConsoleMessage
 import android.webkit.JsResult
 import android.webkit.RenderProcessGoneDetail
@@ -304,7 +305,7 @@ fun CodeStudio(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(kind.label, maxLines = 1) },
+                    title = { Text(kind.label, maxLines = 1, overflow = TextOverflow.Ellipsis, style = MaterialTheme.typography.titleMedium) },
                     navigationIcon = { IconButton(onClick = onDismiss) { Icon(Icons.AutoMirrored.Rounded.ArrowBack, "Kapat") } },
                     actions = {
                         if (kind.previewable) {
@@ -460,6 +461,10 @@ fun PreviewWebView(html: String, reloadKey: Int, allowNetwork: Boolean, onConsol
                     // links do not navigate away from the preview
                     override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest) = true
 
+                    override fun onPageFinished(view: WebView, url: String?) {
+                        Log.i(PREVIEW_TAG, "loaded, view ${view.width}x${view.height}, content height ${view.contentHeight}")
+                    }
+
                     override fun onRenderProcessGone(view: WebView, detail: RenderProcessGoneDetail): Boolean {
                         crashed = true
                         return true
@@ -497,3 +502,4 @@ fun PreviewWebView(html: String, reloadKey: Int, allowNetwork: Boolean, onConsol
 }
 
 private const val PREVIEW_BASE = "https://preview.yerel.invalid/"
+private const val PREVIEW_TAG = "YerelPreview"
