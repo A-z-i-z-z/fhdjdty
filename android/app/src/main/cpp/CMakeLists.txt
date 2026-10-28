@@ -64,6 +64,8 @@ if(ANDROID_ABI STREQUAL "arm64-v8a" AND YEREL_HEXAGON_SDK_ROOT)
     if(YEREL_HEXAGON_TOOLS_ROOT)
         set(HEXAGON_TOOLS_ROOT "${YEREL_HEXAGON_TOOLS_ROOT}" CACHE PATH "" FORCE)
     endif()
+    # the SDK's prebuilt host libraries for Android (as in llama.cpp's Snapdragon preset)
+    set(PREBUILT_LIB_DIR "android_aarch64" CACHE STRING "" FORCE)
 endif()
 
 set(LLAMA_SRC ${CMAKE_CURRENT_LIST_DIR}/../../../../third_party/llama.cpp)

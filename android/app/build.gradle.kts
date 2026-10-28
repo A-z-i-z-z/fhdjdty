@@ -65,6 +65,8 @@ android {
     externalNativeBuild {
         cmake {
             path = file("src/main/cpp/CMakeLists.txt")
+            // the Hexagon skels need CMake 3.22.2+ (CI installs a newer one from the SDK)
+            (prop("yerel.cmakeVersion") ?: System.getenv("YEREL_CMAKE_VERSION")?.takeIf { it.isNotBlank() })?.let { version = it }
         }
     }
 

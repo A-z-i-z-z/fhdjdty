@@ -86,6 +86,15 @@ jobs:
         run: |
           ls "$ANDROID_HOME/ndk" || true
           [ -d "$ANDROID_HOME/ndk/$NDK_VERSION" ] || yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;$NDK_VERSION" > /dev/null
+      - name: Newer CMake (the Hexagon skels need 3.22.2+)
+        run: |
+          SDKM="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          V=$("$SDKM" --list 2>/dev/null | grep -oE '^ *cmake;3\.[0-9]+\.[0-9]+' | sed 's/.*;//' | sort -uV | tail -1)
+          echo "newest SDK CMake 3.x: $V"
+          if [ -n "$V" ]; then
+            [ -d "$ANDROID_HOME/cmake/$V" ] || yes | "$SDKM" "cmake;$V" > /dev/null
+            echo "YEREL_CMAKE_VERSION=$V" >> "$GITHUB_ENV"
+          fi
       - name: Free disk space for the Hexagon SDK
         run: |
           sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/share/boost /opt/hostedtoolcache/CodeQL /usr/local/lib/node_modules || true
