@@ -53,6 +53,21 @@ Yeni bir sürüm çıktığında aynı şekilde üzerine kurun; sohbetler, model
 - **Uzun süreli hafıza:** "Benim adım Deniz, bunu hatırla" dediğinizde model `remember` aracıyla kaydeder;
   kayıtlar her sohbetin başında modele verilir. *Hafıza* ekranından görüntüleyin, düzenleyin, silin.
 - **İnternet sadece araçlar ve model indirme için kullanılır.** Sohbetler telefondan çıkmaz.
+- **Kod modu** (*Kod* düğmesi): küçük modellerin daha düzgün kod yazması için kodlama kuralları (tek dosyalık,
+  dış bağlantısız HTML; `xmlns`/`viewBox`'lı SVG; tam dosya, "…" yok), düşük sıcaklık ve uzun cevap.
+  Model `run_javascript` ile kodunu deneyip `check_code` ile HTML/SVG/JSON/CSS sözdizimini kontrol edebilir.
+  Cevap gelince uygulama kod bloklarını kendisi de kontrol eder; hata varsa modelden en fazla 2 kez düzeltmesini ister
+  (sohbette "Otomatik kontrol" notu olarak görünür).
+- **Kod stüdyosu:** kod blokları renklendirilir. HTML/SVG bloklarında 👁 *Önizle* (uygulama içi, internetsiz tarayıcı),
+  JavaScript bloklarında ▶ *Çalıştır* (konsol çıktısı), her blokta tam ekran düzenleyici, kopyala, paylaş, dosyaya kaydet.
+  Hata çıkarsa *Modele düzelt* düğmesi hatayı ve kodu modele gönderir.
+- **Devam et:** cevap "en uzun cevap" sınırında kesilirse model kaldığı yerden devam eder (aynı mesaja eklenir).
+- **Hızlandırma (spekülatif çözümleme):** önce ucuz bir tahmin üretilir, model tek adımda doğrular; cevap aynı
+  kalır, hız artar. *N-gram* (tekrar eden metin/kod, ek bellek yok), *MTP* (modelin kendi tahmin katmanı;
+  Qwen3.5 gibi MTP katmanlı GGUF'lar), *Taslak model* (aynı aileden küçük model, ör. Qwen2.5 Coder 3B + 0.5B).
+  İsabet oranı cevabın altındaki istatistikte görünür.
+- **GPU / NPU:** *Ayarlar → Donanım ve hız*. GPU = Adreno (OpenCL, Q4_0/Q8_0 için özel çekirdekler),
+  NPU = Hexagon (deneysel). Desteklenmeyen işlemler kendiliğinden CPU'da çalışır; cihaz bulunamazsa CPU'ya döner.
 
 ### Ayarlar (neyi ne için değiştirmeli)
 
@@ -67,6 +82,9 @@ Yeni bir sürüm çıktığında aynı şekilde üzerine kurun; sohbetler, model
 | mlock | Kapalı | Modeli RAM'de kilitler; RAM azsa diğer uygulamalar kapanır. |
 | Arka planda kaldır | Kapalı | Açarsanız uygulamadan çıktıktan 1 dk sonra model RAM'den boşaltılır. |
 | Örnekleme | 0.7 / 40 / 0.95 / 0.05 | Sıcaklık, top-k, top-p, min-p, tekrar cezası, en uzun cevap, seed. Katalog modelleri üreticinin önerdiği değerlerle gelir (*Modelin önerdiği değerleri kullan*). |
+| Hesaplama birimi | CPU | GPU (Adreno/OpenCL) veya NPU (Hexagon, deneysel). Model yeniden yüklenir. *Cihazları tara* telefonda bulunanları listeler. |
+| Hızlandırma | Otomatik | Kapalı / Otomatik (N-gram + MTP ya da taslak model) / N-gram / MTP / Taslak model. Taslak uzunluğu 1-8. |
+| Kod modu | Kapalı | Sohbetteki *Kod* düğmesiyle aynı. *Otomatik kontrol ve düzeltme* ve *Önizlemede internete izin ver* (kapalı) ayarları da burada. |
 | Görünüm | Sistem teması | Açık/koyu, 7 vurgu rengi, Android 12+ duvar kağıdı renkleri, yazı boyutu, hız istatistikleri. |
 
 Bağlam/KV/thread ayarları değiştirildiğinde model yeniden yüklenmeden sadece bağlam yeniden kurulur.
