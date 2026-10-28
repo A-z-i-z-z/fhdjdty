@@ -222,7 +222,7 @@ jobs:
   release:
     name: Publish release
     needs: [apk, native-test, emulator]
-    if: always() && needs.apk.result == 'success'
+    if: ${{ !cancelled() && needs.apk.result == 'success' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
