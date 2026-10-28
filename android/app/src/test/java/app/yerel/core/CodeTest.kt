@@ -137,6 +137,18 @@ class CodeTest {
     }
 
     @Test
+    fun continuationIncludingThePrefillIsNotDoubled() {
+        val backend = Scripted(mutableListOf(answer("1, 2, 3, 4, 5, 6")))
+        val tools = ToolRunner(FakeHttp(), FakeMemory(), { ToolConfig() })
+        val last = ChatMessage(role = Role.ASSISTANT, content = "1, 2, 3, ", stats = GenStats(stop = "length"))
+        val out = AgentRunner(backend, tools) { false }.continueLast(listOf(ChatMessage(role = Role.USER, content = "count"), last), AgentConfig("s", "[]", "{}", 1)) {}!!
+        assertEquals("1, 2, 3, 4, 5, 6", out.content)
+        val empty = EngineJson.parseMessage(JSONObject().put("content", "<think></think>1, 2"))!!
+        assertEquals("1, 2", empty.content)
+        assertEquals("", empty.reasoning)
+    }
+
+    @Test
     fun continuesATruncatedAnswer() {
         val backend = Scripted(mutableListOf(answer(" world")))
         val tools = ToolRunner(FakeHttp(), FakeMemory(), { ToolConfig() })

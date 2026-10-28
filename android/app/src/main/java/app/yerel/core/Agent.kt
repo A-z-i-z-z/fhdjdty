@@ -40,6 +40,7 @@ object EngineJson {
     }
 
     private val THINK_END = Regex("</think>|<\\|end_of_thought\\|>|</thinking>")
+    private val THINK_START = Regex("<think>|<\\|begin_of_thought\\|>|<thinking>")
 
     /**
      * Some models keep thinking after the template's end tag (e.g. when a reasoning budget forces it
@@ -47,7 +48,7 @@ object EngineJson {
      */
     fun splitStrayThinking(m: ParsedMessage): ParsedMessage {
         val last = THINK_END.findAll(m.content).lastOrNull() ?: return m
-        val extra = m.content.substring(0, last.range.first).replace(THINK_END, "").trim()
+        val extra = m.content.substring(0, last.range.first).replace(THINK_END, "").replace(THINK_START, "").trim()
         val reasoning = listOf(m.reasoning.trimEnd(), extra).filter { it.isNotEmpty() }.joinToString("\n")
         return m.copy(content = m.content.substring(last.range.last + 1).trimStart(), reasoning = reasoning)
     }
@@ -194,15 +195,19 @@ class AgentRunner(
         val params = JSONObject(config.paramsJson).put("continue", true).toString()
         val raw = backend.generate(Prompt.engineMessages(config.systemPrompt, history), config.toolsJson, params) { partial ->
             EngineJson.parsePartial(partial)?.let {
-                emit(AgentEvent.Partial(last.content + it.message.content, last.reasoning, emptyList(), it.nGen, it.tps))
+                emit(AgentEvent.Partial(joinContinuation(last.content, it.message.content), last.reasoning, emptyList(), it.nGen, it.tps))
             }
         }
         val result = EngineJson.parseResult(raw)
         val msg = result.message ?: return null
         if (result.error != null || msg.content.isEmpty()) return null
         val stats = result.stats?.let { s -> last.stats?.plus(s) ?: s }
-        return last.copy(content = last.content + msg.content, stats = stats)
+        return last.copy(content = joinContinuation(last.content, msg.content), stats = stats)
     }
+
+    /** The engine reports a continued message including its prefill; older engines only the new text. */
+    private fun joinContinuation(prev: String, cont: String): String =
+        if (cont.trimStart().startsWith(prev.trim())) cont.trimStart() else prev + cont
 
     fun run(history: List<ChatMessage>, config: AgentConfig, emit: (AgentEvent) -> Unit): List<ChatMessage> {
         var context = history
