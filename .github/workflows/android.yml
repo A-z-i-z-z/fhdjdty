@@ -116,13 +116,17 @@ jobs:
           TOOLS=$(grep '^HEXAGON_TOOLS_ROOT=' image-env.txt | cut -d= -f2- || true)
           [ -n "$SDK" ] || { echo "no HEXAGON_SDK_ROOT in the image"; exit 1; }
           CID=$(docker create $IMG)
-          mkdir -p $RUNNER_TEMP/hexagon
-          docker cp "$CID:$SDK" $RUNNER_TEMP/hexagon/sdk
+          # streamed through tar: a plain docker cp fails on the SDK's read-only directories
+          mkdir -p $RUNNER_TEMP/hexagon/sdk
+          docker cp "$CID:$SDK" - | tar -x -C $RUNNER_TEMP/hexagon/sdk --strip-components=1 --no-same-owner
+          chmod -R u+rwX $RUNNER_TEMP/hexagon
           echo "YEREL_HEXAGON_SDK_ROOT=$RUNNER_TEMP/hexagon/sdk" >> "$GITHUB_ENV"
           if [ -n "$TOOLS" ]; then
             case "$TOOLS" in
               "$SDK"/*) echo "YEREL_HEXAGON_TOOLS_ROOT=$RUNNER_TEMP/hexagon/sdk/${TOOLS#$SDK/}" >> "$GITHUB_ENV" ;;
-              *) docker cp "$CID:$TOOLS" $RUNNER_TEMP/hexagon/tools
+              *) mkdir -p $RUNNER_TEMP/hexagon/tools
+                 docker cp "$CID:$TOOLS" - | tar -x -C $RUNNER_TEMP/hexagon/tools --strip-components=1 --no-same-owner
+                 chmod -R u+rwX $RUNNER_TEMP/hexagon/tools
                  echo "YEREL_HEXAGON_TOOLS_ROOT=$RUNNER_TEMP/hexagon/tools" >> "$GITHUB_ENV" ;;
             esac
           fi
