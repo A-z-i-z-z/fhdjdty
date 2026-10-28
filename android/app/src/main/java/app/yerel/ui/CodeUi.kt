@@ -463,6 +463,9 @@ fun PreviewWebView(html: String, reloadKey: Int, allowNetwork: Boolean, onConsol
 
                     override fun onPageFinished(view: WebView, url: String?) {
                         Log.i(PREVIEW_TAG, "loaded, view ${view.width}x${view.height}, content height ${view.contentHeight}")
+                        view.evaluateJavascript("JSON.stringify({w: innerWidth, h: innerHeight, body: document.body ? document.body.scrollHeight : -1})") {
+                            Log.i(PREVIEW_TAG, "page $it")
+                        }
                     }
 
                     override fun onRenderProcessGone(view: WebView, detail: RenderProcessGoneDetail): Boolean {

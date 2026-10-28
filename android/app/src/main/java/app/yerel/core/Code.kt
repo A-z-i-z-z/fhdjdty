@@ -78,13 +78,27 @@ object CodeBlocks {
 
     /** A complete HTML page for the in-app preview. */
     fun previewHtml(block: CodeBlock): String = when (block.kind) {
+        // no viewport-relative heights: the WebView can be laid out at height 0 first
         CodeLang.SVG -> """<!doctype html><html><head><meta charset="utf-8">
             |<meta name="viewport" content="width=device-width, initial-scale=1">
-            |<style>html,body{margin:0;height:100%;background:#fff}body{display:flex;align-items:center;justify-content:center}
-            |svg{max-width:100%;max-height:100vh;height:auto}</style></head><body>${block.code}</body></html>""".trimMargin()
+            |<style>html,body{margin:0;background:#eeeeee}body{padding:12px}
+            |svg{display:block;margin:0 auto;max-width:100%;height:auto;background:#fff}</style></head><body>${withViewBox(block.code)}</body></html>""".trimMargin()
         else -> if (Regex("<html|<!doctype", RegexOption.IGNORE_CASE).containsMatchIn(block.code)) block.code else
             """<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head>
             |<body>${block.code}</body></html>""".trimMargin()
+    }
+
+    private val SVG_OPEN = Regex("<svg\\b[^>]*>", RegexOption.IGNORE_CASE)
+
+    /** Small models write width/height without a viewBox; adding one lets the image scale to the screen. */
+    fun withViewBox(svg: String): String {
+        val m = SVG_OPEN.find(svg) ?: return svg
+        val tag = m.value
+        if (Regex("\\bviewBox\\s*=", RegexOption.IGNORE_CASE).containsMatchIn(tag)) return svg
+        fun size(name: String) = Regex("(?<![\\w-])$name\\s*=\\s*[\"']?\\s*([0-9]+(?:\\.[0-9]+)?)\\s*(?:px)?[\"'\\s/>]").find(tag)?.groupValues?.get(1)
+        val w = size("width") ?: return svg
+        val h = size("height") ?: return svg
+        return svg.replaceRange(m.range, "<svg viewBox=\"0 0 $w $h\"" + tag.substring(4))
     }
 }
 

@@ -39,6 +39,19 @@ class CodeTest {
     }
 
     @Test
+    fun svgPreviewGetsAViewBox() {
+        val svg = """<svg width="300" height="200" xmlns="http://www.w3.org/2000/svg"><rect width="300" height="200"/></svg>"""
+        assertTrue(CodeBlocks.withViewBox(svg).startsWith("""<svg viewBox="0 0 300 200" width="300""""))
+        val kept = """<svg viewBox="0 0 10 10" width="300" height="200"></svg>"""
+        assertEquals(kept, CodeBlocks.withViewBox(kept))
+        // percentages and a missing height leave it alone
+        assertEquals("<svg width=\"100%\" height=\"100%\"></svg>", CodeBlocks.withViewBox("<svg width=\"100%\" height=\"100%\"></svg>"))
+        assertEquals("<svg stroke-width=\"2\" width=\"40\"></svg>", CodeBlocks.withViewBox("<svg stroke-width=\"2\" width=\"40\"></svg>"))
+        assertTrue(CodeBlocks.withViewBox("<svg width='64px' height='32px'>").startsWith("<svg viewBox=\"0 0 64 32\""))
+        assertTrue(CodeBlocks.previewHtml(CodeBlock("svg", svg)).contains("viewBox=\"0 0 300 200\""))
+    }
+
+    @Test
     fun checksJson() {
         assertNull(CodeCheck.json("""{"a": [1, 2, {"b": null}]}"""))
         val err = CodeCheck.json("{\n  \"a\": 1,\n  \"b\": \n}")
