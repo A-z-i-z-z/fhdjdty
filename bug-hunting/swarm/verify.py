@@ -78,6 +78,7 @@ def static_gate(claim: dict, package: str) -> str | None:
     if not tests:
         return "no test_ function"
     imports_target = False
+    imported_modules: list[str] = []
     for node in ast.walk(tree):
         if isinstance(node, ast.Import):
             mods = [a.name for a in node.names]
@@ -85,6 +86,7 @@ def static_gate(claim: dict, package: str) -> str | None:
             mods = [node.module or ""]
         else:
             mods = []
+        imported_modules.extend(mods)
         for m in mods:
             root = m.split(".")[0]
             if root == package:
@@ -106,9 +108,14 @@ def static_gate(claim: dict, package: str) -> str | None:
                 return "test raises AssertionError itself"
     if not imports_target:
         return f"test never imports {package}"
-    leaf = claim["symbol"].split(".")[-1]
-    if leaf not in code:
-        return f"test never mentions the claimed symbol {leaf}"
+    # The test must be about the claimed code. Dunder methods (`a == b` for __eq__) and private
+    # helpers are usually reached through the owning class or a public caller in the same module,
+    # so naming any part of the dotted symbol, or importing the claimed module, is enough.
+    parts = [p for p in claim["symbol"].split(".") if p]
+    module = claim.get("file", "").removesuffix(".py").replace("/", ".")
+    imported = {m for m in imported_modules if m}
+    if not any(p in code for p in parts) and module not in imported:
+        return f"test never mentions {claim['symbol']} or imports {module}"
     return None
 
 
@@ -311,6 +318,9 @@ class Verifier:
                 return "still_fails", f"claim test is {res.outcome} after the fix"
             if self.baseline_passing is None:
                 self.compute_baseline()
+            if not self.baseline_passing:
+                # A suite that did not run proves nothing about the patch.
+                return "no_baseline", "the target's own test suite did not run before patching"
             suite = self.runner.pytest(ws, self.test_paths, self.suite_timeout_s)
             broken = sorted(
                 c["id"] for c in suite.cases
