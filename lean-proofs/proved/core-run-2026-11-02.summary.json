@@ -1,0 +1,44 @@
+{
+  "backend": "claude-cli",
+  "model": "claude-haiku-5-5",
+  "agents_per_lemma": 1,
+  "rounds": 4,
+  "lemmas": 6,
+  "proved": 6,
+  "attempts": 6,
+  "by_tier": {
+    "calibration": "2/2",
+    "exercise": "4/4"
+  },
+  "attempt_outcomes": {
+    "ok": 6
+  },
+  "reported_cost_usd": 0.0115,
+  "solved": {
+    "core_fib_sum": {
+      "agent": 0,
+      "round": 1
+    },
+    "core_mul_mod": {
+      "agent": 0,
+      "round": 1
+    },
+    "core_replicate_sum": {
+      "agent": 0,
+      "round": 1
+    },
+    "core_sq_mod_four": {
+      "agent": 0,
+      "round": 1
+    },
+    "core_sum_to": {
+      "agent": 0,
+      "round": 1
+    },
+    "core_three_dvd": {
+      "agent": 0,
+      "round": 1
+    }
+  },
+  "unsolved": []
+}
