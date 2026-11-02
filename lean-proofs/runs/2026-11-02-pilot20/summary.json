@@ -1,0 +1,109 @@
+{
+  "backend": "claude-cli",
+  "model": "claude-haiku-5-5",
+  "agents_per_lemma": 1,
+  "rounds": 4,
+  "lemmas": 20,
+  "proved": 20,
+  "attempts": 21,
+  "by_tier": {
+    "calibration": "6/6",
+    "exercise": "10/10",
+    "stretch": "4/4"
+  },
+  "attempt_outcomes": {
+    "compile": 1,
+    "ok": 20
+  },
+  "reported_cost_usd": 0.0369,
+  "solved": {
+    "core_fib_sum": {
+      "agent": 0,
+      "round": 1
+    },
+    "core_mul_mod": {
+      "agent": 0,
+      "round": 2
+    },
+    "core_replicate_sum": {
+      "agent": 0,
+      "round": 1
+    },
+    "core_sq_mod_four": {
+      "agent": 0,
+      "round": 1
+    },
+    "core_sum_to": {
+      "agent": 0,
+      "round": 1
+    },
+    "core_three_dvd": {
+      "agent": 0,
+      "round": 1
+    },
+    "ml_basel_partial": {
+      "agent": 0,
+      "round": 1
+    },
+    "ml_central_binom_even": {
+      "agent": 0,
+      "round": 1
+    },
+    "ml_cubes_amgm": {
+      "agent": 0,
+      "round": 1
+    },
+    "ml_cyclic_ratio": {
+      "agent": 0,
+      "round": 1
+    },
+    "ml_fib_sum": {
+      "agent": 0,
+      "round": 1
+    },
+    "ml_nesbitt": {
+      "agent": 0,
+      "round": 1
+    },
+    "ml_no_sol_mod_three": {
+      "agent": 0,
+      "round": 1
+    },
+    "ml_odd_sq_mod_eight": {
+      "agent": 0,
+      "round": 1
+    },
+    "ml_prod_telescope": {
+      "agent": 0,
+      "round": 1
+    },
+    "ml_six_dvd": {
+      "agent": 0,
+      "round": 1
+    },
+    "ml_succ_dvd_central_binom": {
+      "agent": 0,
+      "round": 1
+    },
+    "ml_sum_cubes": {
+      "agent": 0,
+      "round": 1
+    },
+    "ml_thirty_dvd": {
+      "agent": 0,
+      "round": 1
+    },
+    "ml_two_pow_gt_sq": {
+      "agent": 0,
+      "round": 1
+    }
+  },
+  "unsolved": [],
+  "already_in_library": {
+    "core_mul_mod": "Try this:\n  [apply] exact Nat.mul_mod a b n",
+    "core_replicate_sum": "Try this:\n  [apply] exact List.sum_replicate_nat",
+    "ml_fib_sum": "Try this:\n  [apply] exact Eq.symm (Nat.fib_succ_eq_succ_sum n)",
+    "ml_succ_dvd_central_binom": "Try this:\n  [apply] exact Nat.succ_dvd_centralBinom n",
+    "ml_central_binom_even": "Try this:\n  [apply] exact Nat.two_dvd_centralBinom_of_one_le hn"
+  }
+}
