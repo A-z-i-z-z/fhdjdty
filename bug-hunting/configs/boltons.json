@@ -1,0 +1,12 @@
+{
+  "_comment": "Pilot target: boltons, a pure-Python utility library with ~40 small, independent modules and its own pytest suite. Pinned so every run sees the same code.",
+  "name": "boltons",
+  "repo": "https://github.com/mahmoud/boltons",
+  "ref": "25.0.0",
+  "commit": "c013375c8157e722da0a5d26564cc0284ab1f2da",
+  "package": "boltons",
+  "source_globs": ["boltons/*.py"],
+  "exclude_globs": ["boltons/__init__.py", "boltons/deprutils.py"],
+  "test_paths": ["tests"],
+  "max_unit_lines": 300
+}
