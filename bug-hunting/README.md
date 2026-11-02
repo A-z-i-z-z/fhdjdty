@@ -33,7 +33,7 @@ Nothing is filed, posted or opened anywhere. Findings stay in `runs/`, which is 
 independent modules (`strutils`, `iterutils`, `cacheutils`, `urlutils`, ...), each with clear
 docstrings and its own pytest suite, and no compiled code or services to stand up. That makes
 it a good fit for "one agent, one slice, one test". The config pins tag `25.0.0` at commit
-`c013375c` so every run sees the same code. Swap in another target by writing a config like
+`c23dbdad` so every run sees the same code. Swap in another target by writing a config like
 `configs/boltons.json`.
 
 ## Running it
