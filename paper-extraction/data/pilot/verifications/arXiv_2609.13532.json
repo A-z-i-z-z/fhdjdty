@@ -1,0 +1,59 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2609.13532#001",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "sintering_temperature_C",
+            "correct_value": null,
+            "evidence": "Pellets are uniaxially pressed at 150 MPa and sintered for 12 h at 1225 \u00b0C (Na3) or 1300 \u00b0C (Na3.4)"
+          },
+          {
+            "field": "sintering_time_h",
+            "correct_value": null,
+            "evidence": "The material and electrochemical characterization of Na .\u00b0 . follows the same logic as the other batches and the respective results are reported in the Supporting Information."
+          }
+        ],
+        "explanation": "The 3.82 mS\u00b7cm\u207b\u00b9 room-temperature total conductivity for the 20% P-excess Na3.4 electrolyte is stated in the abstract and conclusions. The sintering conditions are only given per base composition (Na3.4 at 1300 \u00b0C), and the paper never states them for the P-compensated sample, so those two fields should be null."
+      },
+      {
+        "record_id": "arXiv:2609.13532#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract states total conductivity rising from 1.60 to 2.95 mS\u00b7cm\u207b\u00b9 for Na3.4 powders calcined at 900 and 1200 \u00b0C, and the results sentence orders the two highest-calcination totals as Na3 (0.98) then Na3.4 (2.95). The Na3.4 sintering at 1300 \u00b0C for 12 h is stated in Methods, and no measurement temperature is given, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2609.13532#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The results sentence gives total conductivities of 0.98 and 2.95 mS\u00b7cm\u207b\u00b9 for the highest-calcination electrolytes, in the order Na3 then Na3.4, so 0.98 belongs to Na3 calcined at 1100 \u00b0C. The Na3 sintering at 1225 \u00b0C for 12 h is stated in Methods, and no measurement temperature is given."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 20790,
+        "outputTokens": 3770,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 20980,
+        "webSearchRequests": 0,
+        "costUSD": 0.00817963,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 3002,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 20980,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 16313,
+    "notional_cost_usd": 0.00817963
+  },
+  "paper_id": "arXiv:2609.13532",
+  "model": "haiku"
+}

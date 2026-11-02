@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2511.08449#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract and Section 2.3 give 1.91 mS/cm at 25\u2103 for Mg0.25 NZSP, and the 0.200 eV activation energy is stated for the 1200/1100\u2103-12h protocol. The 1100\u2103 value is the stated hold temperature of that two-step protocol, and relative density is correctly null."
+      },
+      {
+        "record_id": "arXiv:2511.08449#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.3 gives 0.62 mS/cm at 25\u2103 for the undoped Mg0 NZSP sample, and Section 2.2 gives 96.4% relative density for Mg0 at 1200/1100\u2103-12h. No activation energy is stated for Mg0 in the text, so null is correct, and the dopant list is correctly empty."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 22143,
+        "outputTokens": 1494,
+        "cacheReadInputTokens": 840,
+        "cacheCreationInputTokens": 23456,
+        "webSearchRequests": 0,
+        "costUSD": 0.0076609,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1098,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23456,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6921,
+    "notional_cost_usd": 0.0076609
+  },
+  "paper_id": "arXiv:2511.08449",
+  "model": "haiku"
+}

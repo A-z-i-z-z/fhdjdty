@@ -1,0 +1,42 @@
+[
+  {
+    "record_id": "arXiv:2411.07583#001",
+    "paper_id": "arXiv:2411.07583",
+    "record": {
+      "material_as_written": "Li6.75+xLa3-xSrxZr1.75Ta0.25O12 (x = 0.05, 0.05 Sr ceramic sample)",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Sr",
+        "Ta"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "conventional solid-state reaction",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": 8,
+      "relative_density_pct": 93,
+      "conductivity_value_as_reported": "3.5 x 10 -4",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.29,
+      "measurement_method": "EIS",
+      "evidence_quote": "the maximum room temperature ionic conductivity of 3.5 x 10 -4 S/cm and minimum activation energy of 0.29 eV is achieved by the 0.05 Sr ceramic sample sintered at 1050\u00ba C",
+      "evidence_location": "abstract",
+      "notes": "Only the 0.05 Sr composition was recorded. The other compositions (0, 0.10, 0.15, 0.20 Sr) appear only in Table 1, whose rows are split across lines in the extracted text, so they could not be quoted verbatim and were omitted. Relative density 93% and the 1050 C/8 h sintering are stated in the text for this sample. Room temperature is not a numeric value in the paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00035,
+    "log10_conductivity": -3.456
+  }
+]

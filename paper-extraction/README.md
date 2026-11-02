@@ -113,9 +113,33 @@ python3 -m unittest discover -s tests -t .
 
 ## What has been tested so far
 
-The cloud environment this was built in cannot reach arXiv, PubMed Central or Crossref (its
-network policy blocks them), so **the real 15-paper run has not happened yet**. What was
-tested:
+### Real 15-paper pilot (2026-11-02)
+
+Run with `fetch --n 15` and `run --concurrency 8` on Haiku. Full outputs are in
+[`data/pilot/`](data/pilot/) ([`report.md`](data/pilot/report.md),
+[`records.csv`](data/pilot/records.csv), [`rejected.csv`](data/pilot/rejected.csv)); the
+paper PDFs and text are git-ignored because they are not ours to redistribute.
+
+- 15 papers fetched (4 seeds + 11 from the search); the extractor judged 12 in scope. The
+  three out of scope were theory or simulation papers with no conductivity value.
+- 31 records extracted, **30 kept** (29 verified, 1 verified with a correction), 27
+  experimental and 3 labelled `literature_cited`.
+- The checker rejected 1: a cited value of `10−12 mS/cm` (an upper bound from another
+  dataset) that converts to 1e-15 S/cm, below the plausible range.
+- The verifier corrected 1 (dropped an unsupported sintering temperature) and rejected none.
+  It did handle a PDF artefact correctly: `250C` in one paper is "25 °C" with the degree sign
+  lost, and the record's 25 °C was kept.
+- About 0.9M input and 58k output tokens in total, roughly 60k tokens per paper across both
+  waves. The CLI's notional API-price figure was $0.16; on a Claude plan it is plan usage.
+
+Caveat: a verifier that rejects nothing on real papers is either facing a good extractor or
+being too lenient. The hand check of 30 kept and 30 rejected records is still needed to tell
+which; there are too few rejections here for the second half of that check.
+
+### Before the real run
+
+
+What was tested on the synthetic paper and unit tests:
 
 - **Checker unit tests** (8 tests): unit parsing across ten notations, verbatim matching
   across PDF line-break hyphens, rejection of paraphrased quotes, values missing from the

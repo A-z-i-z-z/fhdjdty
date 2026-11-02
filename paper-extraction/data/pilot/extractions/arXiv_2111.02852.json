@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about solid ionic conductors, but it reports ion mobilities (cm2/V s) in Table I and never gives an ionic conductivity value in S/cm, so there is nothing to extract as a conductivity record.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 11937,
+        "outputTokens": 864,
+        "cacheReadInputTokens": 3132,
+        "cacheCreationInputTokens": 12125,
+        "webSearchRequests": 0,
+        "costUSD": 0.0040820200000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 666,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12125,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3203,
+    "notional_cost_usd": 0.0040820200000000004
+  },
+  "paper_id": "arXiv:2111.02852",
+  "model": "haiku"
+}

@@ -1,0 +1,167 @@
+[
+  {
+    "record_id": "arXiv:2508.07826#001",
+    "paper_id": "arXiv:2508.07826",
+    "record": {
+      "material_as_written": "Li6.4Ga0.2La3Zr2-xCexO12 (x = 0.10, 0.10 Ce)",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ga",
+        "Ce"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": 8,
+      "relative_density_pct": 95.96,
+      "conductivity_value_as_reported": "4 x 10 -4",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.29,
+      "measurement_method": "AC impedance spectroscopy",
+      "evidence_quote": "owing to maximum ionic conductivity of 4 x 10 -4 S/cm.",
+      "evidence_location": "Section 3.4.1",
+      "notes": "Best composition in the series (0.10 Ce). Activation energy 0.29 eV is from Section 3.4.2 and the abstract/conclusion. Relative density 95.96% is from Section 3.2. Conductivity kind not specified; the text mentions bulk resistance but also fits grain and grain-boundary resistances."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0004,
+    "log10_conductivity": -3.398
+  },
+  {
+    "record_id": "arXiv:2508.07826#002",
+    "paper_id": "arXiv:2508.07826",
+    "record": {
+      "material_as_written": "Li6.4Ga0.2La3Zr2-xCexO12 (x = 0)",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ga"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": 8,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.41 x 10-5",
+      "conductivity_unit_as_reported": "(S/cm)",
+      "unit_evidence_quote": "(S/cm)",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.44,
+      "measurement_method": "AC impedance spectroscopy",
+      "evidence_quote": "2.41 x 10-5",
+      "evidence_location": "Table 2",
+      "notes": "Value taken from the Table 2 row for Ce content 0. The quote is only the table cell because the row is split across lines in the PDF text; the material is identified from the table row label, not the quote. Dopant Ce is absent at x = 0, so only Ga is listed."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 2.41e-05,
+    "log10_conductivity": -4.618
+  },
+  {
+    "record_id": "arXiv:2508.07826#003",
+    "paper_id": "arXiv:2508.07826",
+    "record": {
+      "material_as_written": "Li6.4Ga0.2La3Zr2-xCexO12 (x = 0.20)",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ga",
+        "Ce"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": 8,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "9.93 x 10-5",
+      "conductivity_unit_as_reported": "(S/cm)",
+      "unit_evidence_quote": "(S/cm)",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.34,
+      "measurement_method": "AC impedance spectroscopy",
+      "evidence_quote": "9.93 x 10-5",
+      "evidence_location": "Table 2",
+      "notes": "Value taken from the Table 2 row for Ce content 0.20. The quote is only the table cell because the row is split across lines in the PDF text; the material is identified from the table row label, not the quote."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 9.93e-05,
+    "log10_conductivity": -4.003
+  },
+  {
+    "record_id": "arXiv:2508.07826#004",
+    "paper_id": "arXiv:2508.07826",
+    "record": {
+      "material_as_written": "Li6.4Ga0.2La3Zr2-xCexO12 (x = 0.30)",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ga",
+        "Ce"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": 8,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "4.26 x 10-5",
+      "conductivity_unit_as_reported": "(S/cm)",
+      "unit_evidence_quote": "(S/cm)",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.41,
+      "measurement_method": "AC impedance spectroscopy",
+      "evidence_quote": "4.26 x 10-5",
+      "evidence_location": "Table 2",
+      "notes": "Value taken from the Table 2 row for Ce content 0.30. The quote is only the table cell because the row is split across lines in the PDF text; the material is identified from the table row label, not the quote."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 4.26e-05,
+    "log10_conductivity": -4.371
+  }
+]

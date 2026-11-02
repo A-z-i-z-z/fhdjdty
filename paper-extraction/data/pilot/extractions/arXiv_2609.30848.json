@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about the reliability of molecular-dynamics-predicted ionic conductivity in cubic LLZO, but it reports only relative diffusivity trends (ln D) and figure-based results with no numeric ionic conductivity value in S/cm or similar, so there is nothing to extract.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 12141,
+        "outputTokens": 498,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 12329,
+        "webSearchRequests": 0,
+        "costUSD": 0.00396027,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 268,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12329,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2484,
+    "notional_cost_usd": 0.00396027
+  },
+  "paper_id": "arXiv:2609.30848",
+  "model": "haiku"
+}

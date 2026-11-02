@@ -1,0 +1,117 @@
+[
+  {
+    "record_id": "arXiv:2609.13532#001",
+    "paper_id": "arXiv:2609.13532",
+    "record": {
+      "material_as_written": "Na3.4+0.2P (Na3.4Zr2Si2.4P0.6O12 with 20% P excess, calcined at 1200 \u00b0C)",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1300,
+      "sintering_time_h": 12,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.82",
+      "conductivity_unit_as_reported": "mS\u00b7cm\u207b\u00b9",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "PEIS",
+      "evidence_quote": "a room-temperature conductivity of 3.82 mS\u00b7cm\u207b\u00b9 with over 400 hours of stable cycling",
+      "evidence_location": "abstract",
+      "notes": "Phosphorus-compensated Na3.4 material; sintering conditions (1300 \u00b0C, 12 h) are those stated for the Na3.4 series in Methods and are assumed to apply here, not stated explicitly for this sample. Quote names only the abstract result, which is the 3.82 mS\u00b7cm\u207b\u00b9 value cited in the text as the Na3.4+0.2P electrolyte."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00382,
+    "log10_conductivity": -2.418
+  },
+  {
+    "record_id": "arXiv:2609.13532#002",
+    "paper_id": "arXiv:2609.13532",
+    "record": {
+      "material_as_written": "Na3.4Zr2Si2.4P0.6O12 (calcined at 1200 \u00b0C, inferred label Na3.4 1200 \u00b0C)",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1300,
+      "sintering_time_h": 12,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.95",
+      "conductivity_unit_as_reported": "mS\u2219cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "PEIS",
+      "evidence_quote": "Their total conductivities are, respectively, 0.98 and 2.95 mS\u2219cm-1.",
+      "evidence_location": "results",
+      "notes": "The superscript labels are garbled in the PDF text. The sentence refers to the highest-calcination electrolytes of each series (Na3 at 1100 \u00b0C and Na3.4 at 1200 \u00b0C), so 2.95 is assigned to Na3.4 by inference. The abstract's 1.60 to 2.95 range is ambiguous about composition, so it was not recorded. Measurement temperature is not stated for this value."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00295,
+    "log10_conductivity": -2.53
+  },
+  {
+    "record_id": "arXiv:2609.13532#003",
+    "paper_id": "arXiv:2609.13532",
+    "record": {
+      "material_as_written": "Na3Zr2Si2PO12 (calcined at 1100 \u00b0C, inferred label Na3 1100 \u00b0C)",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1225,
+      "sintering_time_h": 12,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.98",
+      "conductivity_unit_as_reported": "mS\u2219cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "PEIS",
+      "evidence_quote": "Their total conductivities are, respectively, 0.98 and 2.95 mS\u2219cm-1.",
+      "evidence_location": "results",
+      "notes": "Superscripts are garbled in the PDF text. The sentence refers to the highest-calcination electrolytes of each series, so 0.98 is assigned to Na3 calcined at 1100 \u00b0C by inference. Measurement temperature is not stated for this value."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00098,
+    "log10_conductivity": -3.009
+  }
+]

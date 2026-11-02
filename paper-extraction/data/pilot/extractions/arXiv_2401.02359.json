@@ -1,0 +1,161 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper studies Li-ion conduction in Ge/Ta/Ca co-doped garnet LLZO solid electrolytes and reports room-temperature ionic conductivities in the text and in Table 2.",
+    "records": [
+      {
+        "material_as_written": "Li6.55+xGe0.05La3-xCaxZr1.75Ta0.25O12 (x = 0.05, 0.05 Ca)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ca",
+          "Ge",
+          "Ta"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 7.3,
+        "relative_density_pct": 95.09,
+        "conductivity_value_as_reported": "9.95 x 10-4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.23,
+        "measurement_method": "EIS",
+        "evidence_quote": "The inset graph depicts that 0.05 Ca offers the minimum resistance with the maximum ionic conductivity of 9.95 x 10-4 S/cm among the synthesized ceramic samples at room temperature.",
+        "evidence_location": "results, section 3.4.1",
+        "notes": "Highest-conductivity sample of the series. Relative density 95.09% is stated in the text for the 0.05 Ca sample. Activation energy 0.23 eV is stated in the Arrhenius section and Table 2 for this sample. Conductivity kind not specified; EIS-derived total value."
+      },
+      {
+        "material_as_written": "Li6.55+xGe0.05La3-xCaxZr1.75Ta0.25O12 (x = 0)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ge",
+          "Ta"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 7.3,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "6.61 x 10-4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic Conductivity (S/cm)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.25,
+        "measurement_method": "EIS",
+        "evidence_quote": "6.61 x 10-4",
+        "evidence_location": "Table 2",
+        "notes": "Value taken from Table 2 row for Ca content x = 0; the table cell is split in the PDF text, so the quote is the value alone. Measurement temperature not stated for table values; presumed room temperature but not confirmed in the paper."
+      },
+      {
+        "material_as_written": "Li6.55+xGe0.05La3-xCaxZr1.75Ta0.25O12 (x = 0.10)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ca",
+          "Ge",
+          "Ta"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 7.3,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "4.07 x 10-4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic Conductivity (S/cm)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.32,
+        "measurement_method": "EIS",
+        "evidence_quote": "4.07 x 10-4",
+        "evidence_location": "Table 2",
+        "notes": "Value from Table 2 row for Ca content x = 0.10; quote is the value alone because the table row is split in the PDF text. Measurement temperature not stated for table values."
+      },
+      {
+        "material_as_written": "Li6.55+xGe0.05La3-xCaxZr1.75Ta0.25O12 (x = 0.15)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ca",
+          "Ge",
+          "Ta"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 7.3,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.75 x 10-4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic Conductivity (S/cm)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.34,
+        "measurement_method": "EIS",
+        "evidence_quote": "1.75 x 10-4",
+        "evidence_location": "Table 2",
+        "notes": "Value from Table 2 row for Ca content x = 0.15; quote is the value alone because the table row is split in the PDF text. Measurement temperature not stated for table values."
+      },
+      {
+        "material_as_written": "Li6.55+xGe0.05La3-xCaxZr1.75Ta0.25O12 (x = 0.20)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ca",
+          "Ge",
+          "Ta"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 7.3,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "5.72 x 10-5",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.36,
+        "measurement_method": "EIS",
+        "evidence_quote": "5.72 x 10-5 S/cm, respectively.",
+        "evidence_location": "results, section 3.4.2",
+        "notes": "Value for 0.20 Ca is given in the text as the end point of the conductivity decrease from 0.05 to 0.20 Ca; the activation energy 0.36 eV is from Table 2. Measurement temperature not stated."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 11903,
+        "outputTokens": 5235,
+        "cacheReadInputTokens": 2014,
+        "cacheCreationInputTokens": 13213,
+        "webSearchRequests": 0,
+        "costUSD": 0.00647054,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2981,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13213,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 18748,
+    "notional_cost_usd": 0.00647054
+  },
+  "paper_id": "arXiv:2401.02359",
+  "model": "haiku"
+}

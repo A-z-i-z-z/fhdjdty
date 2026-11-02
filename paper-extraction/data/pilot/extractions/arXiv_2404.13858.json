@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about machine-learning prediction of ionic conductivity in Li- and Na-based solid electrolytes and quotes experimental room-temperature conductivities for specific materials, so it is in scope, though only two literature-derived values are stated in the text.",
+    "records": [
+      {
+        "material_as_written": "Li3P",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.0 \u00b4 10-3",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "Figure 2(a) and (b) show the phonon dispersion curves of Li3P (s = 1.0 \u00b4 10-3 S/cm) and b-Li3N (s = 2.085 \u00b4 10-4 S/cm), respectively, as representative examples.",
+        "evidence_location": "results (Figure 2 discussion)",
+        "notes": "Value is from the paper's compiled RT experimental dataset (Table S1, 'collected from previous literature'); the RT condition is stated in the paper's general text ('ionic conductivity at RT'), not in this sentence. Conductivity symbol appears as 's' in the PDF text."
+      },
+      {
+        "material_as_written": "b-Li3N",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.085 \u00b4 10-4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "Figure 2(a) and (b) show the phonon dispersion curves of Li3P (s = 1.0 \u00b4 10-3 S/cm) and b-Li3N (s = 2.085 \u00b4 10-4 S/cm), respectively, as representative examples.",
+        "evidence_location": "results (Figure 2 discussion)",
+        "notes": "Value is from the paper's compiled RT experimental dataset (Table S1, 'collected from previous literature'); the RT condition is stated in the paper's general text ('ionic conductivity at RT'), not in this sentence. Conductivity symbol appears as 's' in the PDF text."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 13998,
+        "outputTokens": 2028,
+        "cacheReadInputTokens": 3132,
+        "cacheCreationInputTokens": 14186,
+        "webSearchRequests": 0,
+        "costUSD": 0.00528232,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 922,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14186,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8069,
+    "notional_cost_usd": 0.00528232
+  },
+  "paper_id": "arXiv:2404.13858",
+  "model": "haiku"
+}

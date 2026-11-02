@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper benchmarks MD methods for ionic conductivity in solid Li electrolytes, but its own computed conductivities appear only in figures; the one numeric conductivity in the text is an experimental value taken from the OBELiX dataset for Li4P2O7.",
+    "records": [
+      {
+        "material_as_written": "Li4 P2 O7 (OBELiX ID 47i)",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10\u221212",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "the experimental value \u03c3 = 10\u221212 mS/cm",
+        "evidence_location": "Section 3 (Results)",
+        "notes": "Experimental room-temperature value from the OBELiX dataset (Therrien et al., 2025) that the authors use for 47i (Li4 P2 O7); the material name is in the following line of the paper, not in the quote. The authors state the literature gives only an upper bound (<10^-7 mS/cm), so the value may be too low. Not a conductivity measured in this work. Value is written with a Unicode minus sign as in the paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14574,
+        "outputTokens": 1882,
+        "cacheReadInputTokens": 2014,
+        "cacheCreationInputTokens": 15887,
+        "webSearchRequests": 0,
+        "costUSD": 0.00559594,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1235,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15887,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8604,
+    "notional_cost_usd": 0.00559594
+  },
+  "paper_id": "arXiv:2603.28012",
+  "model": "haiku"
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "record_id": "arXiv:2608.06895#001",
+    "paper_id": "arXiv:2608.06895",
+    "record": {
+      "material_as_written": "LSPBI-a5",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.4",
+      "conductivity_unit_as_reported": "mS cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "Experimentally, LSPBI-a5 xhibits a peak lithium ionic conductivity of 2.4 mS cm-1,16 which has previously17 been linked to BS4-PS4 corner-sharing",
+      "evidence_location": "Section 2.3 (Composition-dependent Li+ hopping)",
+      "notes": "Experimental value quoted from the cited work (ref. 16, Song et al., Nature 2025), not measured in this paper. Composition 30Li2S-25B2S3-45LiI-5P2S5 per the paper's general formula. Measurement temperature not stated. The quote contains the PDF typo 'xhibits', copied as-is. The paper's own simulated conductivities/diffusivities are only shown in figures or as qualitative trends, so no computational records were made."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.0024,
+    "log10_conductivity": -2.62
+  }
+]

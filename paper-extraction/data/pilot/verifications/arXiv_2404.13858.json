@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2404.13858#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states Li3P (s = 1.0 \u00d7 10-3 S/cm) in the Figure 2 discussion, and Section 3 says the RT conductivities were compiled from previous literature (Table S1). The RT condition comes from the general text, so measurement_temperature_C null is acceptable, and all secondary fields are null as the paper gives none for Li3P."
+      },
+      {
+        "record_id": "arXiv:2404.13858#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states b-Li3N (s = 2.085 \u00d7 10-4 S/cm) in the same sentence, from the compiled RT literature dataset (Table S1). The value, unit, RT condition and literature origin match, and all secondary fields are correctly null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14769,
+        "outputTokens": 910,
+        "cacheReadInputTokens": 840,
+        "cacheCreationInputTokens": 16084,
+        "webSearchRequests": 0,
+        "costUSD": 0.0051571,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 538,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16084,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4528,
+    "notional_cost_usd": 0.0051571
+  },
+  "paper_id": "arXiv:2404.13858",
+  "model": "haiku"
+}

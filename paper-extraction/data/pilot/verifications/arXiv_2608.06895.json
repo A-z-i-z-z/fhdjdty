@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2608.06895#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that LSPBI-a5 'exhibits a peak lithium ionic conductivity of 2.4 mS cm-1,16' with the value attributed to cited experimental work (ref. 16), so the value, unit, and literature_cited origin are right. No measurement temperature is given, so null is correct, and the other secondary fields are null or consistent with the paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 30377,
+        "outputTokens": 780,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 30563,
+        "webSearchRequests": 0,
+        "costUSD": 0.009559930000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 534,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 30563,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4019,
+    "notional_cost_usd": 0.009559930000000001
+  },
+  "paper_id": "arXiv:2608.06895",
+  "model": "haiku"
+}

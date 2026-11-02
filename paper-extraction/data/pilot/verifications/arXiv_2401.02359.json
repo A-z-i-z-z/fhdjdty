@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2401.02359#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 0.05 Ca sample's 9.95 x 10-4 S/cm at room temperature, Ea 0.23 eV, 95.09% relative density, and 1050 \u00b0C / 7.3 h sintering all match the paper. Null numeric temperature is correct since the paper gives only 'room temperature'."
+      },
+      {
+        "record_id": "arXiv:2401.02359#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 row x = 0 gives 6.61 x 10-4 S/cm and Ea 0.25 eV in S/cm units, matching the record. The paper gives no measurement temperature for table values, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2401.02359#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 row x = 0.10 gives 4.07 x 10-4 S/cm and Ea 0.32 eV, matching the record. No temperature is stated for these values, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2401.02359#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 row x = 0.15 gives 1.75 x 10-4 S/cm and Ea 0.34 eV, matching the record. No temperature is stated, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2401.02359#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text and Table 2 both give 5.72 x 10-5 S/cm and Ea 0.36 eV for x = 0.20, with units in the evidence quote. No temperature is stated, so null is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14306,
+        "outputTokens": 1691,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 14496,
+        "webSearchRequests": 0,
+        "costUSD": 0.00519493,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1012,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14496,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6872,
+    "notional_cost_usd": 0.00519493
+  },
+  "paper_id": "arXiv:2401.02359",
+  "model": "haiku"
+}

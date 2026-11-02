@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2508.07826#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 4 x 10-4 S/cm value is the 0.10 Ce sample at room temperature, as stated in Section 3.4.1 and Table 2. The 0.29 eV activation energy, 1050 C / 8 h sintering, and 95.96% relative density (maximum, at 0.10 Ce, Section 3.2) all match the paper."
+      },
+      {
+        "record_id": "arXiv:2508.07826#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 gives 2.41 x 10-5 S/cm and 0.44 eV for Ce content 0 at room temperature. Relative density is correctly null for this composition, since the paper only reports density for the 0.10 Ce sample."
+      },
+      {
+        "record_id": "arXiv:2508.07826#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 gives 9.93 x 10-5 S/cm and 0.34 eV for Ce content 0.20 at room temperature. Sintering conditions match Section 2.1."
+      },
+      {
+        "record_id": "arXiv:2508.07826#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 gives 4.26 x 10-5 S/cm and 0.41 eV for Ce content 0.30 at room temperature. Sintering conditions match Section 2.1."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14769,
+        "outputTokens": 1317,
+        "cacheReadInputTokens": 840,
+        "cacheCreationInputTokens": 16082,
+        "webSearchRequests": 0,
+        "costUSD": 0.0053602,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 739,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16082,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5361,
+    "notional_cost_usd": 0.0053602
+  },
+  "paper_id": "arXiv:2508.07826",
+  "model": "haiku"
+}

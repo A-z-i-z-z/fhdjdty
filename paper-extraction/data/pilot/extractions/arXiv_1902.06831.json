@@ -1,0 +1,128 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about Bi-doped Li7La3Zr2O12 garnet solid electrolytes and reports room-temperature (27 \u00b0C) ionic conductivities for pellets in Table I.",
+    "records": [
+      {
+        "material_as_written": "Li6.75La3Zr1.75Bi0.25O12",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Bi"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "Pechini citrate-gel method",
+        "sintering_temperature_C": 900,
+        "sintering_time_h": 10,
+        "relative_density_pct": 80,
+        "conductivity_value_as_reported": "5.0 x 10-6",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "27 \u00b0C",
+        "measurement_temperature_C": 27,
+        "activation_energy_eV": null,
+        "measurement_method": "AC impedance spectroscopy",
+        "evidence_quote": "Ionic conductivity (S/cm) at 27 \u2070C\nNot measurable\n5.0 x 10-6\n7.2 x 10-6\n2.0 x 10-4\n1.2 x 10-5",
+        "evidence_location": "Table I",
+        "notes": "Table row label is Li6.75La3Zr1.75Bi0.25O12 (x = 0.25). The quote is the conductivity column of Table I; values map to rows in order (Li7La3Zr2O12 'Not measurable', then x = 0.25, 0.5, 0.75, 1.0). Relative density 0.80 is from the same table. Total resistance from the low-frequency intercept was used, so kind is recorded as total."
+      },
+      {
+        "material_as_written": "Li6.5La3Zr1.5Bi0.5O12",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Bi"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "Pechini citrate-gel method",
+        "sintering_temperature_C": 900,
+        "sintering_time_h": 10,
+        "relative_density_pct": 81,
+        "conductivity_value_as_reported": "7.2 x 10-6",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "27 \u00b0C",
+        "measurement_temperature_C": 27,
+        "activation_energy_eV": null,
+        "measurement_method": "AC impedance spectroscopy",
+        "evidence_quote": "Ionic conductivity (S/cm) at 27 \u2070C\nNot measurable\n5.0 x 10-6\n7.2 x 10-6\n2.0 x 10-4\n1.2 x 10-5",
+        "evidence_location": "Table I",
+        "notes": "Table row label is Li6.5La3Zr1.5Bi0.5O12 (x = 0.5). Value is assigned by row order in Table I, so the row mapping is inferred from the PDF-extracted table layout. Relative density 0.81 is from the same table."
+      },
+      {
+        "material_as_written": "Li6.25La3Zr1.25Bi0.75O12",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Bi"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "Pechini citrate-gel method",
+        "sintering_temperature_C": 900,
+        "sintering_time_h": 10,
+        "relative_density_pct": 83,
+        "conductivity_value_as_reported": "2.0 x 10-4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "27 \u00b0C",
+        "measurement_temperature_C": 27,
+        "activation_energy_eV": null,
+        "measurement_method": "AC impedance spectroscopy",
+        "evidence_quote": "Ionic conductivity (S/cm) at 27 \u2070C\nNot measurable\n5.0 x 10-6\n7.2 x 10-6\n2.0 x 10-4\n1.2 x 10-5",
+        "evidence_location": "Table I",
+        "notes": "Table row label is Li6.25La3Zr1.25Bi0.75O12 (x = 0.75). Row mapping inferred from table order. The text states this composition exhibits the highest ionic conductivity, which is consistent with this value. Relative density 0.83 is from the same table."
+      },
+      {
+        "material_as_written": "Li6La3ZrBiO12",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Bi"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "Pechini citrate-gel method",
+        "sintering_temperature_C": 900,
+        "sintering_time_h": 10,
+        "relative_density_pct": 84,
+        "conductivity_value_as_reported": "1.2 x 10-5",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "27 \u00b0C",
+        "measurement_temperature_C": 27,
+        "activation_energy_eV": null,
+        "measurement_method": "AC impedance spectroscopy",
+        "evidence_quote": "Ionic conductivity (S/cm) at 27 \u2070C\nNot measurable\n5.0 x 10-6\n7.2 x 10-6\n2.0 x 10-4\n1.2 x 10-5",
+        "evidence_location": "Table I",
+        "notes": "Table row label is Li6La3ZrBiO12 (x = 1.0). Row mapping inferred from table order. Relative density 0.84 is from the same table."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 9075,
+        "outputTokens": 3287,
+        "cacheReadInputTokens": 3132,
+        "cacheCreationInputTokens": 9263,
+        "webSearchRequests": 0,
+        "costUSD": 0.00443492,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1298,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 9263,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11689,
+    "notional_cost_usd": 0.00443492
+  },
+  "paper_id": "arXiv:1902.06831",
+  "model": "haiku"
+}

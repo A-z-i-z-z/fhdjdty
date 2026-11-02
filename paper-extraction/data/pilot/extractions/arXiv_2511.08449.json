@@ -1,0 +1,78 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper studies Mg-doped Na3Zr2Si2PO12 (NASICON) solid electrolytes for sodium batteries and reports room-temperature ionic conductivities from EIS.",
+    "records": [
+      {
+        "material_as_written": "Mg0.25 NZSP",
+        "material_class": "NASICON",
+        "mobile_ion": "Na",
+        "dopants": [
+          "Mg"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "swirling spray flame synthesis followed by reactive two-step sintering",
+        "sintering_temperature_C": 1100,
+        "sintering_time_h": 12,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.91",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "room temperature (25\u2103)",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.2,
+        "measurement_method": "EIS",
+        "evidence_quote": "conductivity of 1.91 mS/cm at room temperature (25\u2103) and",
+        "evidence_location": "abstract",
+        "notes": "Abstract names the material as Mg\ud835\udfe2.\ud835\udfe4\ud835\udfe7 NZSP (Mg0.25 NZSP). Sintering was 1200/1100\u2103-12h two-step reactive sintering (1200 \u00b0C heating, 1100 \u00b0C 12 h hold); 1100 is recorded as the hold temperature. Activation energy 0.200 eV is from the same composition and protocol (abstract). Relative density for this composition is not stated."
+      },
+      {
+        "material_as_written": "Mg0 NZSP",
+        "material_class": "NASICON",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "swirling spray flame synthesis followed by reactive two-step sintering",
+        "sintering_temperature_C": 1100,
+        "sintering_time_h": 12,
+        "relative_density_pct": 96.4,
+        "conductivity_value_as_reported": "0.62",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "room temperature (25\u2103)",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "compared to the undoped sample (0.62 mS/cm).",
+        "evidence_location": "results (Section 2.3)",
+        "notes": "Undoped Mg0 NZSP sintered at 1200/1100\u2103-12h (two-step; 1100 recorded as hold temperature). Relative density 96.4% for Mg0 NZSP at 1200/1100\u2103-12h is from the Section 2.2 text, not from the quoted sentence. No activation energy is given for Mg0 in the text."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 21358,
+        "outputTokens": 4033,
+        "cacheReadInputTokens": 3132,
+        "cacheCreationInputTokens": 21548,
+        "webSearchRequests": 0,
+        "costUSD": 0.00849322,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2969,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 21548,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 16607,
+    "notional_cost_usd": 0.00849322
+  },
+  "paper_id": "arXiv:2511.08449",
+  "model": "haiku"
+}
