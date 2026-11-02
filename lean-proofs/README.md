@@ -83,8 +83,8 @@ Backends:
 ## What was and wasn't tested
 
 - Verified in development: all verifier tests pass against Lean 4.35.0 core, the 6 core statements elaborate, and a mock run exercised the full retry and logging loop.
-- Not yet run: the 14 Mathlib statements were not compiled locally (the Mathlib cache download was blocked in the build environment). The `lean-proofs` GitHub Actions workflow fetches Mathlib and checks every statement on each pull request.
-- No real agent run yet. The first one is a cheap way to get the baseline numbers.
+- The 14 Mathlib statements were not compiled locally because the Mathlib cache download was blocked in the build environment. The `lean-proofs` GitHub Actions workflow fetches Mathlib and checks every statement on each pull request.
+- First real run (2026-11-02, core lemmas only, 1 Haiku 5.5 agent each via `claude -p`): 6 of 6 proved on the first try, about $0.012 in total reported cost. The verified proofs are in `proved/`, and CI re-checks them. The 14 Mathlib lemmas are still waiting for a run in an environment that can download Mathlib.
 
 ## Scaling up later
 
