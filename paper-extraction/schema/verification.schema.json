@@ -1,0 +1,38 @@
+{
+  "title": "Second-wave verification verdicts (one paper)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["verdicts"],
+  "properties": {
+    "verdicts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["record_id", "verdict", "field_errors", "explanation"],
+        "properties": {
+          "record_id": { "type": "string" },
+          "verdict": {
+            "type": "string",
+            "enum": ["supported", "supported_with_corrections", "unsupported"],
+            "description": "supported = every non-null field is backed by the paper. supported_with_corrections = conductivity and material are right but some secondary field is wrong (list it in field_errors). unsupported = the conductivity, the material, or the temperature is wrong or not in the paper."
+          },
+          "field_errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["field", "correct_value", "evidence"],
+              "properties": {
+                "field": { "type": "string" },
+                "correct_value": { "type": ["string", "number", "null"] },
+                "evidence": { "type": "string", "description": "Verbatim span from the paper that shows the correct value." }
+              }
+            }
+          },
+          "explanation": { "type": "string", "description": "One or two sentences." }
+        }
+      }
+    }
+  }
+}

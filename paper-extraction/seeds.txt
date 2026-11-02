@@ -1,0 +1,6 @@
+# arXiv ids for the pilot. Found by web search on 2026-11-02; titles confirmed from the search results.
+# The fetcher tops this list up to --n papers with the arXiv query in pipeline/fetch.py.
+2401.02359   # Effect of Ca doping on Li ion conductivity of Ge and Ta doped garnet LLZO
+2405.04831   # Influence of Ga-Ge doping on the structural and electrical properties of LLZO
+1902.06831   # Ionic conductivity enhancements and low temperature synthesis of LLZO garnets by Bi substitution
+2609.13532   # Non-reactive sintering enhances density and ionic conductivity of NASICON solid electrolytes

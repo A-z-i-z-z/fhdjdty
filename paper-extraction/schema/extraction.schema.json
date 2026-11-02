@@ -1,0 +1,184 @@
+{
+  "title": "Solid electrolyte ionic conductivity extraction (one paper)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "paper_in_scope",
+    "scope_note",
+    "records"
+  ],
+  "properties": {
+    "paper_in_scope": {
+      "type": "boolean",
+      "description": "True if the paper reports at least one ionic conductivity of a solid Li/Na-ion conductor."
+    },
+    "scope_note": {
+      "type": "string",
+      "description": "One sentence on why the paper is or is not in scope."
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "material_as_written",
+          "material_class",
+          "mobile_ion",
+          "dopants",
+          "data_origin",
+          "synthesis_method",
+          "sintering_temperature_C",
+          "sintering_time_h",
+          "relative_density_pct",
+          "conductivity_value_as_reported",
+          "conductivity_unit_as_reported",
+          "unit_evidence_quote",
+          "conductivity_kind",
+          "measurement_temperature_as_reported",
+          "measurement_temperature_C",
+          "activation_energy_eV",
+          "measurement_method",
+          "evidence_quote",
+          "evidence_location",
+          "notes"
+        ],
+        "properties": {
+          "material_as_written": {
+            "type": "string",
+            "description": "Composition exactly as written in the paper, e.g. 'Li6.55Ge0.05La2.95Ca0.05Zr1.75Ta0.25O12' or 'LLZO-0.05Ca'."
+          },
+          "material_class": {
+            "type": "string",
+            "enum": [
+              "garnet",
+              "NASICON",
+              "perovskite",
+              "LISICON",
+              "argyrodite",
+              "thiophosphate_other",
+              "halide",
+              "anti_perovskite",
+              "LiPON_or_thin_film",
+              "polymer",
+              "composite",
+              "other"
+            ]
+          },
+          "mobile_ion": {
+            "type": "string",
+            "enum": [
+              "Li",
+              "Na",
+              "other"
+            ]
+          },
+          "dopants": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Element symbols of intentional substituents, e.g. ['Ga','Ta']. Empty if undoped."
+          },
+          "data_origin": {
+            "type": "string",
+            "enum": [
+              "experimental",
+              "computational",
+              "literature_cited"
+            ],
+            "description": "literature_cited = a value the paper quotes from another paper. Still record it, but mark it."
+          },
+          "synthesis_method": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Short phrase, e.g. 'solid-state reaction', 'sol-gel', 'ball milling', 'spark plasma sintering'. null if not stated."
+          },
+          "sintering_temperature_C": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "sintering_time_h": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "relative_density_pct": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "conductivity_value_as_reported": {
+            "type": "string",
+            "description": "The number exactly as it appears in evidence_quote, without the unit, e.g. '9.95 x 10-4' or '1.2'. Copy character for character; do not tidy '10-4' into '10^-4'."
+          },
+          "conductivity_unit_as_reported": {
+            "type": "string",
+            "description": "The unit exactly as the paper writes it, e.g. 'S/cm', 'mS cm-1', 'S cm−1'."
+          },
+          "unit_evidence_quote": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "null if the unit is inside evidence_quote. Otherwise (typical for table cells) a verbatim span that shows the unit, such as the column header or caption."
+          },
+          "conductivity_kind": {
+            "type": "string",
+            "enum": [
+              "total",
+              "bulk",
+              "grain_boundary",
+              "unspecified"
+            ]
+          },
+          "measurement_temperature_as_reported": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Copied from the paper, e.g. '25 °C', 'room temperature', '300 K'. null if not stated anywhere."
+          },
+          "measurement_temperature_C": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "description": "Only if the paper gives a number. Do NOT convert 'room temperature' to 25; leave null."
+          },
+          "activation_energy_eV": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "measurement_method": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "e.g. 'EIS', 'AIMD', 'NMR'. null if not stated."
+          },
+          "evidence_quote": {
+            "type": "string",
+            "description": "A verbatim span of the paper text (max ~300 characters) that contains conductivity_value_as_reported and, where possible, identifies the material. For a table, copy the whole row. Copy exactly; do not fix typos or spacing."
+          },
+          "evidence_location": {
+            "type": "string",
+            "description": "Where the quote is: 'abstract', 'results', 'Table 2', 'conclusion', etc."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Anything ambiguous. Empty string if none."
+          }
+        }
+      }
+    }
+  }
+}
