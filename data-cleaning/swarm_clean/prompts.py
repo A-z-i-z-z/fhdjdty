@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from . import DOLLY_CATEGORIES
 
-PROMPT_VERSION = "v1"
+PROMPT_VERSION = "v2"
 
 ISSUES = [
     "response_incorrect",
@@ -52,25 +52,38 @@ LABEL_SCHEMA = {
 }
 
 CATEGORY_GUIDE = {
-    "open_qa": "a factual question answered from general knowledge, no passage given",
-    "general_qa": "an open-ended or advice-style question with no single right answer",
-    "classification": "sort or label given items into classes",
-    "closed_qa": "answer a question using only the given passage",
+    "open_qa": "a question with a factual answer from general knowledge, no passage given",
+    "general_qa": "a broad, how/why or advice question needing an explanation or opinion, no passage given",
+    "classification": "sort or label items listed in the instruction into classes",
+    "closed_qa": "answer one specific question about the given passage",
     "brainstorming": "generate a list of ideas or options",
-    "information_extraction": "pull specific facts out of the given passage",
-    "summarization": "summarise the given passage",
+    "information_extraction": "pull out or list several facts, names, dates or items from the given passage",
+    "summarization": "summarise or describe what the given passage says, even when phrased as a question",
     "creative_writing": "write a story, poem, letter or other creative text",
 }
 
 RULES = """Rules:
 - You are a data reviewer. Only judge the record. Never rewrite, improve or
   continue the instruction or the response, and never write an answer yourself.
-- quality: 5 = correct, complete, helpful; 3 = usable with minor flaws;
-  1 = wrong, empty or useless.
+- The records were written by people in early 2023. Judge facts as of then;
+  "most recent" or "current" means as of early 2023.
+- quality: 5 = correct, complete, helpful; 4 = good with small gaps;
+  3 = usable: answers the main ask, maybe brief, narrow, or with typos;
+  2 = a clear factual error or the main ask is not answered;
+  1 = wrong, empty, off-topic or useless.
+- Short, plain or narrow answers are fine for training. Missing extra detail,
+  small typos or a confident tone are not reasons to drop.
+- response_incorrect: only when you are confident a stated fact is wrong. If
+  you simply cannot verify an obscure fact, do not flag it.
+- For opinion, advice or recommendation questions, judge whether the answer is
+  reasonable, not whether it is the only right one.
 - issues: list every issue that applies, or an empty list.
 - needs_missing_context: the instruction refers to a passage, text, article or
   reference that is not provided.
-- keep: true only if this pair would be a good, safe training example as is.
+- truncated_or_incomplete: the response stops mid-thought, or skips a part of
+  the instruction that was explicitly asked for.
+- keep: true if this pair would be a usable, correct and safe training example
+  as is (quality 3 or more and no serious issue).
 - note: at most 15 words saying why. Plain words, no quotes from the record."""
 
 

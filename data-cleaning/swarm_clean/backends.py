@@ -239,10 +239,18 @@ class ClaudeCliBackend:
             "--json-schema", json.dumps(LABEL_SCHEMA), "--system-prompt", SYSTEMS[job.framing],
             "--tools", "", "--no-session-persistence",
         ]
-        proc = subprocess.run(
-            cmd, input=user_message(job.record, job.framing), capture_output=True, text=True,
-            timeout=self.timeout_s, cwd=self.cwd, env={**os.environ},
-        )
+        # With many workers on few CPUs, a call can stall while the CLI starts,
+        # so retry a timeout once before giving up on this label.
+        for attempt in range(2):
+            try:
+                proc = subprocess.run(
+                    cmd, input=user_message(job.record, job.framing), capture_output=True,
+                    text=True, timeout=self.timeout_s, cwd=self.cwd, env={**os.environ},
+                )
+                break
+            except subprocess.TimeoutExpired:
+                if attempt == 1:
+                    return {"error": f"TimeoutExpired: no answer in {self.timeout_s}s, twice"}
         if proc.returncode != 0:
             return {"error": f"claude exited {proc.returncode}: {proc.stderr.strip()[:300]}"}
         try:
