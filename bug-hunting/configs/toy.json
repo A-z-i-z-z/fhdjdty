@@ -1,0 +1,10 @@
+{
+  "_comment": "Local toy package with planted bugs. Used to test the pipeline without network or model calls.",
+  "name": "toylib",
+  "local_path": "../examples/toy_target",
+  "package": "toylib",
+  "source_globs": ["toylib/*.py"],
+  "exclude_globs": ["toylib/__init__.py"],
+  "test_paths": ["tests"],
+  "max_unit_lines": 300
+}
