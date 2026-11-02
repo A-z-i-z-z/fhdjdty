@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about the Li-ion solid electrolyte La2/3\u2212xLi3xTiO3 (x = 0.13) and reports ionic conductivity numbers, both literature-cited and QENS-derived.",
+    "records": [
+      {
+        "material_as_written": "La2/3\u2212x Li3x TiO3 (x = 0.13)",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "directional solidification (single crystal); solid-state reaction (powder)",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.055 \u00b1 0.005",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "600 K",
+        "measurement_temperature_C": 326.85,
+        "activation_energy_eV": null,
+        "measurement_method": "quasielastic neutron scattering (QENS) with Nernst-Einstein relation",
+        "evidence_quote": "The spatial average of the \u03c3QENS 0.055 \u00b1 0.005 S/cm agrees with that of \u03c3Li \u223c 0.1 S/cm at T = 600 K reported from bulk conductivity measurements",
+        "evidence_location": "results/discussion",
+        "notes": "Conductivity is not measured directly by impedance; it is derived from QENS self-diffusion coefficient via Nernst-Einstein (sigma_QENS). Spatial average of in-plane and out-of-plane values. Single-crystal sample."
+      },
+      {
+        "material_as_written": "LLTO (x = 0.11)",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.1",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "600 K",
+        "measurement_temperature_C": 326.85,
+        "activation_energy_eV": null,
+        "measurement_method": "bulk conductivity measurement (cited from Inaguma et al. [5])",
+        "evidence_quote": "agrees with that of \u03c3Li \u223c 0.1 S/cm at T = 600 K reported from bulk conductivity measurements for LLTO with slightly lower Li content (x = 0.11) [5]",
+        "evidence_location": "discussion",
+        "notes": "Value quoted from reference [5] (Inaguma et al.) for LLTO with x = 0.11, not measured in this paper. Approximate value ('\u223c 0.1')."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17636,
+        "outputTokens": 3163,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 17828,
+        "webSearchRequests": 0,
+        "costUSD": 0.00694207,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2099,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17828,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 13531,
+    "notional_cost_usd": 0.00694207
+  },
+  "paper_id": "arXiv:2109.14941",
+  "model": "haiku"
+}

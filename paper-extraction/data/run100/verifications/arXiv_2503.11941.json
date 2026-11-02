@@ -1,0 +1,66 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2503.11941#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.1 states that the lowest of the 9 Li-ion pathways for Livac t-LBO has Em = 0.46 eV, giving an estimated \u03c3ion = 7.0 \u00d7 10\u22125 S cm\u22121; the value is DFT-derived, no temperature is given, and the secondary fields are null."
+      },
+      {
+        "record_id": "arXiv:2503.11941#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.1 gives \u03c3ion = 7.6 \u00d7 10\u22128 S cm\u22121 for Ovac t-LBO as estimated in the authors' previous DFT work (Ref. [26]); the record's computational origin and null temperature are consistent with the paper."
+      },
+      {
+        "record_id": "arXiv:2503.11941#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.2 recalls \u03c3ion = 7.0 \u00d7 10\u221213 S cm\u22121 for Livac m-LBO from Ref. [26]; the value, material and computational origin match, and there is no temperature."
+      },
+      {
+        "record_id": "arXiv:2503.11941#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.2 states Bvac m-LBO has the highest Li-ionic conductivity, \u03c3ion = 2.8 \u00d7 10\u22122 S cm\u22121, from Ref. [26]; the material, value, unit and null temperature are correct."
+      },
+      {
+        "record_id": "arXiv:2503.11941#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.2 gives \u03c3ion = 6.1 \u00d7 10\u22126 S cm\u22121 for Ovac m-LBO from Ref. [26]; the material, value, unit and null temperature are correct."
+      },
+      {
+        "record_id": "arXiv:2503.11941#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction cites Hirose et al. [24] for total conductivity ca. 10\u22126 S cm\u22121 for t-LBO measured by EIS between 450 and 520 K, so literature_cited, total kind, the range (not a single temperature) and the high-pressure synthesis are all supported."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 23012,
+        "outputTokens": 2210,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 23204,
+        "webSearchRequests": 0,
+        "costUSD": 0.00806663,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1389,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23204,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8016,
+    "notional_cost_usd": 0.00806663
+  },
+  "paper_id": "arXiv:2503.11941",
+  "model": "haiku"
+}

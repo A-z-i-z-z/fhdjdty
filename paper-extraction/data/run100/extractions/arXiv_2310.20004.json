@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a simulation study of composite cathodes for all-solid-state batteries, and its Supporting Table S1 lists a Li-ion bulk conductivity for the argyrodite solid electrolyte Li6PS5Cl, taken from the literature.",
+    "records": [
+      {
+        "material_as_written": "Li6 PS5 Cl",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.7 \u00b7 10\u22123",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Symbol Value Unit Short description Reference ... SE (Li6 PS5 Cl) ... 0.7 \u00b7 10\u22123 ... S/cm ... Li-ion bulk conductivity ... [S5]",
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "0.7 \u00b7 10\u22123",
+        "evidence_location": "Table S1 (Supporting Information, Parametrization)",
+        "notes": "This is a simulation input parameter for the SE in the ASSB model, not a measured value. It is attributed to the literature (reference [S5]). The table text is scrambled by PDF extraction; the value is mapped to the SE Li-ion bulk conductivity row by the row order (concentration, bulk conductivity, transference number, separator thickness). Temperature is not stated."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 28340,
+        "outputTokens": 2006,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 28528,
+        "webSearchRequests": 0,
+        "costUSD": 0.009573970000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1318,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28528,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8832,
+    "notional_cost_usd": 0.009573970000000001
+  },
+  "paper_id": "arXiv:2310.20004",
+  "model": "haiku"
+}

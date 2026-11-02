@@ -1,0 +1,78 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2212.13451#001",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "conductivity_kind",
+            "correct_value": "bulk",
+            "evidence": "The maximum of \u03c3bulk is 0.218 mS/cm at y = 9/16"
+          }
+        ],
+        "explanation": "The 0.218 mS/cm value is labelled 'total' in the Figure 1 caption but is reported as \u03c3bulk in the Figure 3 text, so the conductivity kind is contradictory and the record's own notes flag it as ambiguous; under the strict rule this is unsupported. The material label also uses the x-series Li0.375Sr0.4375 formula rather than the y = 9/16 formula."
+      },
+      {
+        "record_id": "arXiv:2212.13451#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 0.094 mS/cm value for the LSTZ baseline is given in the Figure 1 caption, the material matches Li0.375Sr0.4375Ta0.75Zr0.25O3, and the 25 \u00b0C measurement temperature matches the Experimental section."
+      },
+      {
+        "record_id": "arXiv:2212.13451#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The unquenched x = 9/16 LSTNZH total conductivity of 0.151 mS/cm is stated in the Figure 1 caption, and the 1300 \u00b0C / 12 h sintering and 25 \u00b0C measurement match the Experimental section."
+      },
+      {
+        "record_id": "arXiv:2212.13451#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The air-quenched x = 9/16 LSTNZH total conductivity of 0.256 mS/cm is stated in the text, with the same 1300 \u00b0C / 12 h sintering and 25 \u00b0C measurement."
+      },
+      {
+        "record_id": "arXiv:2212.13451#005",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "material_as_written",
+            "correct_value": "LSTNZS x = 8/16 (Sn-containing), not LSTNZH",
+            "evidence": "This result indicates... optimal LSTNZS x series composition (x = 8/16; 0.053 mS/cm)"
+          }
+        ],
+        "explanation": "The 0.053 mS/cm bulk value belongs to the Sn-containing LSTNZS x = 8/16 composition, but the record's material label names the Sn-free LSTNZH formula with Nb and Hf, so the material is wrong."
+      },
+      {
+        "record_id": "arXiv:2212.13451#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The simulated bulk ionic conductivity of 0.285 mS/cm at 300 K for LSTNZS y = 9/16 is stated as an MD/MTP simulation result, and the 300 K to 26.85 \u00b0C conversion is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 29659,
+        "outputTokens": 3807,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 29849,
+        "webSearchRequests": 0,
+        "costUSD": 0.01085883,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2769,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 29849,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 15559,
+    "notional_cost_usd": 0.01085883
+  },
+  "paper_id": "arXiv:2212.13451",
+  "model": "haiku"
+}

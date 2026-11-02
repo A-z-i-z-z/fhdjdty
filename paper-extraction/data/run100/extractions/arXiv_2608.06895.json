@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about glassy Li-ion solid electrolytes (LSPBI) and reports one numeric Li+ ionic conductivity, quoted from an experimental study; its own simulated values are diffusion coefficients and have no conductivity number in the text.",
+    "records": [
+      {
+        "material_as_written": "LSPBI-a5",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.4",
+        "conductivity_unit_as_reported": "mS cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "a peak lithium ionic conductivity of 2.4 mS cm-1,16 which has previously17 been linked to BS4-PS4 corner-sharing",
+        "evidence_location": "Section 2.3",
+        "notes": "Experimental value for 30Li2S-25B2S3-45LiI-5P2S5 (LSPBI-a5) taken from ref. 16 (Song et al., Nature 2025), cited in the paper; not measured or computed by the authors. Temperature not stated. The quote's material is identified from the surrounding text (LSPBI-a5 in the preceding sentence). Simulated diffusion coefficients in the paper are not converted to conductivity values and were not recorded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 30065,
+        "outputTokens": 1216,
+        "cacheReadInputTokens": 32574,
+        "cacheCreationInputTokens": 820,
+        "webSearchRequests": 0,
+        "costUSD": 0.00410424,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 545,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 820,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5406,
+    "notional_cost_usd": 0.00410424
+  },
+  "paper_id": "arXiv:2608.06895",
+  "model": "haiku"
+}

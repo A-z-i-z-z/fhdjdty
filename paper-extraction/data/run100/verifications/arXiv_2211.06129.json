@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2211.06129#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states that LAGP 'exhibits one of the highest ionic conductivities (10-4 S.cm-1 at RT) from the oxide group32', which matches the value, unit, RT temperature (null numeric temperature is correct), and literature_cited origin. The secondary fields are all null or empty, and the paper gives no synthesis, sintering, density or activation energy values for this generic literature value."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 19315,
+        "outputTokens": 827,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 19503,
+        "webSearchRequests": 0,
+        "costUSD": 0.006265230000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 575,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19503,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4210,
+    "notional_cost_usd": 0.006265230000000001
+  },
+  "paper_id": "arXiv:2211.06129",
+  "model": "haiku"
+}

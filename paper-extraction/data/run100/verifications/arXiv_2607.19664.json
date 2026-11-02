@@ -1,0 +1,87 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2607.19664#001",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "sintering_temperature_C",
+            "correct_value": null,
+            "evidence": "The precursor powder was pelletized under 380 MPa, sealed in a quartz tube, and annealed at 450 \u25e6 C for 6 h."
+          },
+          {
+            "field": "sintering_time_h",
+            "correct_value": null,
+            "evidence": "The precursor powder was pelletized under 380 MPa, sealed in a quartz tube, and annealed at 450 \u25e6 C for 6 h."
+          }
+        ],
+        "explanation": "Material, 9.9 \u00d7 10\u22123 S cm\u22121, 25 \u00b0C, 0.18 eV and EIS all match the paper. The 450 \u00b0C/6 h step is an annealing heat treatment, not a sintering step, so the sintering fields should be null, as the record's own notes concede."
+      },
+      {
+        "record_id": "arXiv:2607.19664#002",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "sintering_temperature_C",
+            "correct_value": null,
+            "evidence": "The precursor powder was pelletized under 380 MPa, sealed in a quartz tube, and annealed at 450 \u25e6 C for 6 h."
+          },
+          {
+            "field": "sintering_time_h",
+            "correct_value": null,
+            "evidence": "The precursor powder was pelletized under 380 MPa, sealed in a quartz tube, and annealed at 450 \u25e6 C for 6 h."
+          }
+        ],
+        "explanation": "Li6.75Si0.75Sb0.25S5I, 8.1 \u00d7 10\u22123 S cm\u22121 at room temperature and 0.23 eV are correctly reported. The 450 \u00b0C/6 h annealing is not sintering, so the sintering fields should be null."
+      },
+      {
+        "record_id": "arXiv:2607.19664#003",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "sintering_temperature_C",
+            "correct_value": null,
+            "evidence": "The precursor powder was pelletized under 380 MPa, sealed in a quartz tube, and annealed at 450 \u25e6 C for 6 h."
+          },
+          {
+            "field": "sintering_time_h",
+            "correct_value": null,
+            "evidence": "The precursor powder was pelletized under 380 MPa, sealed in a quartz tube, and annealed at 450 \u25e6 C for 6 h."
+          }
+        ],
+        "explanation": "Li6SbS5I at 1.5 \u00d7 10\u22125 S cm\u22121 and 25 \u00b0C with 0.28 eV is stated in the paper. The annealing step is not sintering, so the sintering fields should be null."
+      },
+      {
+        "record_id": "arXiv:2607.19664#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 1.36 \u00d7 10\u22125 S cm\u22121 value for Li6PS5I is explicitly attributed to reference [36] as a comparison, so literature_cited is correct. The paper gives no measurement temperature for this value, so null is appropriate."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 30378,
+        "outputTokens": 3484,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 30568,
+        "webSearchRequests": 0,
+        "costUSD": 0.01091303,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2414,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 30568,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 14116,
+    "notional_cost_usd": 0.01091303
+  },
+  "paper_id": "arXiv:2607.19664",
+  "model": "haiku"
+}

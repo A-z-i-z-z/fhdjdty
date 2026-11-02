@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2509.25763#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 gives \u03c3300K = 14.090 mS cm\u22121 and Ea = 0.183 \u00b1 0.016 eV for Li4Hf2Si3O12 (I), and the text states 14.09 mS cm\u22121 for this NASICON-type compound. The values come from MLIP-MD extrapolated to 300 K, so the computational origin and 300 K temperature are correct."
+      },
+      {
+        "record_id": "arXiv:2509.25763#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Discussion states that undoped Li2Ta2SiO8 has 0.0004 mS cm\u22121 at 300 K, and Section 2.5 gives the undoped barrier as 0.562 eV. Both the material and the computational origin match the paper."
+      },
+      {
+        "record_id": "arXiv:2509.25763#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Discussion gives 0.193 mS cm\u22121 at 300 K for Li2.125Ta1.875Hf0.125SiO8, and Section 2.5 gives the Hf-doped barrier as 0.352 eV. Hf is the correct dopant, and the quote refers to the formula stated in the same paragraph."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 27094,
+        "outputTokens": 1317,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 27284,
+        "webSearchRequests": 0,
+        "costUSD": 0.008844330000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 784,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27284,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5447,
+    "notional_cost_usd": 0.008844330000000001
+  },
+  "paper_id": "arXiv:2509.25763",
+  "model": "haiku"
+}

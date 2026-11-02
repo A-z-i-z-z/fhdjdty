@@ -1,0 +1,56 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper studies Ge-substituted garnet Li7La3Zr2O12 as a Li-ion solid electrolyte and reports room-temperature ionic conductivity values.",
+    "records": [
+      {
+        "material_as_written": "Li6.6Ge0.1La3Zr2O12",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ge"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 7.3,
+        "relative_density_pct": 86.44,
+        "conductivity_value_as_reported": "7.23 x 10-6",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.56,
+        "measurement_method": "EIS",
+        "evidence_quote": "The minimum value of 0.56 eV activation energy is associated with the highest conductivity value of 7.23 x 10-6 S/cm at room temperature.",
+        "evidence_location": "abstract",
+        "notes": "Composition is Li7-4xGexLa3Zr2O12 with x=0.10, written in the paper as Li6.6Ge0.1La3Zr2O12. Sintering time is given as 7.30 h. Relative density 86.44% is from Table 1 (x=0.10 row; the row is split in the PDF text). Activation energy 0.56 eV is stated for this sample in the abstract and Section 3.4.2. Table 2 lists bulk conductivities for x=0, 0.05, 0.15, 0.20 at 25 C, but the PDF table layout does not clearly align values with rows, so those are not recorded. Measurement at 25 C is given as 'room temperature'. Conductivity kind is unspecified in the text, though Table 2 labels it sigma_bulk."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 12596,
+        "outputTokens": 3204,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 12786,
+        "webSearchRequests": 0,
+        "costUSD": 0.005450170000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2425,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12786,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 14106,
+    "notional_cost_usd": 0.005450170000000001
+  },
+  "paper_id": "arXiv:2306.10483",
+  "model": "haiku"
+}

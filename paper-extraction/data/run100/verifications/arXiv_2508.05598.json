@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2508.05598#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states that \u03b2-LZC's previously reported ionic conductivity falls around 5.70-7.10 \u00d7 10\u22126 S cm\u22121 (citing refs 14-21, so literature_cited is correct). The paper gives no measurement temperature, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2508.05598#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction gives 0.98-8.08 \u00d7 10\u22124 S cm\u22121 for \u03b1-LZC (ordered and disordered), cited from prior literature, with no temperature stated. Material, unit and origin are correct."
+      },
+      {
+        "record_id": "arXiv:2508.05598#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction says equivalent substitution with Fe3+ in LZC enhanced Li+ conductivity up to 1 \u00d7 10\u22123 S cm\u22121, citing ref. 17. This is a literature-cited value with no temperature, and the Fe-doped LZC framing matches the paper's context, though the composition is not specified."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 32313,
+        "outputTokens": 1415,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 32505,
+        "webSearchRequests": 0,
+        "costUSD": 0.01045943,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 938,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 32505,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6542,
+    "notional_cost_usd": 0.01045943
+  },
+  "paper_id": "arXiv:2508.05598",
+  "model": "haiku"
+}

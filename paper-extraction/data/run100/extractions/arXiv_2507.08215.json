@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a computational study of a lithium thioborophosphate iodide glassy solid electrolyte and reports Li+ ionic conductivity values, both simulated and quoted from experiment.",
+    "records": [
+      {
+        "material_as_written": "30Li2S-25B2S3-45LiI-5P2S5 (LBPSI glassy solid electrolyte)",
+        "material_class": "thiophosphate_other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10.36",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.2241,
+        "measurement_method": "MLMD simulation with Nernst-Einstein relation (fine-tuned MACE-FT model)",
+        "evidence_quote": "The calculated Li+ ionic conductivity is 10.36 mS/cm, which is higher than the experimental value of 2.4 mS/cm.17",
+        "evidence_location": "results",
+        "notes": "Simulated Li+ conductivity from the Nernst-Einstein relation; the paper does not state the temperature for this value (MLMD was run at 300-600 K). The activation energy 0.2241 eV is from the Li+ diffusivity Arrhenius plot, not from the conductivity directly, and is given in the text as 'The activation energy for Li+ is determined to be 0.2241 eV'."
+      },
+      {
+        "material_as_written": "30Li2S-25B2S3-45LiI-5P2S5",
+        "material_class": "thiophosphate_other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": "ball milling",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.4",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.31,
+        "measurement_method": null,
+        "evidence_quote": "The calculated Li+ ionic conductivity is 10.36 mS/cm, which is higher than the experimental value of 2.4 mS/cm.17",
+        "evidence_location": "results",
+        "notes": "Experimental value from ref. 17 (Song et al., Nature 2025), quoted by this paper for comparison. The temperature is not stated for this value; 'room temperature' is taken from the introduction, which describes the experimental conductivity as room-temperature. Activation energy 0.31 eV is the experimental value quoted from ref. 17 in the text ('the experimental measured value of 0.31 eV'). Synthesis by ball milling is described for the experimental sample in the discussion."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 15424,
+        "outputTokens": 2153,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 15612,
+        "webSearchRequests": 0,
+        "costUSD": 0.00577267,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 989,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15612,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8719,
+    "notional_cost_usd": 0.00577267
+  },
+  "paper_id": "arXiv:2507.08215",
+  "model": "haiku"
+}

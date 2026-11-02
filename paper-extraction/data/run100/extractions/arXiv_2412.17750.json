@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a theoretical electrical double layer model paper for solid electrolytes; its conductivity results are only relative values shown in figures, with no reported ionic conductivity number for any material at any temperature.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17012,
+        "outputTokens": 355,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 17204,
+        "webSearchRequests": 0,
+        "costUSD": 0.005350870000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 164,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17204,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2464,
+    "notional_cost_usd": 0.005350870000000001
+  },
+  "paper_id": "arXiv:2412.17750",
+  "model": "haiku"
+}

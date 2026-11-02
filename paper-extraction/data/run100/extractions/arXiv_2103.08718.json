@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about solid electrolytes, but it reports thermal conductivities, not ionic conductivity values for specific materials; the only ionic conductivity mention (\"on the order of few mS cm-1\") is a vague class-level claim.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14883,
+        "outputTokens": 511,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 15071,
+        "webSearchRequests": 0,
+        "costUSD": 0.004789369999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 308,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15071,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2859,
+    "notional_cost_usd": 0.004789369999999999
+  },
+  "paper_id": "arXiv:2103.08718",
+  "model": "haiku"
+}

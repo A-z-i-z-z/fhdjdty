@@ -1,0 +1,124 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports room-temperature Li-ion conductivities of Si-substituted Li6SbS5I argyrodite solid electrolytes, measured by EIS, plus one literature-cited Li6PS5I value.",
+    "records": [
+      {
+        "material_as_written": "Li6.6 Si0.6 Sb0.4 S5 I",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Si"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "ball milling followed by heat treatment (annealing)",
+        "sintering_temperature_C": 450,
+        "sintering_time_h": 6,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "9.9 \u00d7 10\u22123",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "25 \u25e6 C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.18,
+        "measurement_method": "EIS",
+        "evidence_quote": "reaching 9.9 \u00d7 10\u22123 S cm\u22121 at 25 \u25e6 C.",
+        "evidence_location": "Results section 2.2",
+        "notes": "Value is from the RSE-based fit of cold-pressed pellets in SS|electrolyte|SS cells. Abstract gives the same value as 9.9 mS cm\u22121. Activation energy 0.18 eV from the Arrhenius fit in the same section. Annealing at 450 \u00b0C for 6 h is from the Experimental section (pellets were cold-pressed, not sintered)."
+      },
+      {
+        "material_as_written": "Li6.75 Si0.75 Sb0.25 S5 I",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Si"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "ball milling followed by heat treatment (annealing)",
+        "sintering_temperature_C": 450,
+        "sintering_time_h": 6,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "8.1 \u00d7 10\u22123",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "25 \u25e6 C (room temperature, per preceding sentence)",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.23,
+        "measurement_method": "EIS",
+        "evidence_quote": "the ionic conductivity decreases to 8.1 \u00d7 10\u22123 S cm\u22121 , as shown in Fig. 2(b).",
+        "evidence_location": "Results section 2.2",
+        "notes": "Composition is identified from context: the Si = 0.75 substitution level, written as Li6.75 Si0.75 Sb0.25 S5 I in the paper. The quote does not name the material; the 25 \u00b0C temperature comes from the preceding sentence about the same comparison. Annealing details are from the Experimental section."
+      },
+      {
+        "material_as_written": "Li6 SbS5 I",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "ball milling followed by heat treatment (annealing)",
+        "sintering_temperature_C": 450,
+        "sintering_time_h": 6,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.5 \u00d7 10\u22125",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "25 \u25e6 C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.28,
+        "measurement_method": "EIS",
+        "evidence_quote": "The as-prepared Li6 SbS5 I exhibits an ionic conductivity of 1.5 \u00d7 10\u22125 S cm\u22121 at 25 \u25e6 C",
+        "evidence_location": "Results section 2.2",
+        "notes": "Undoped reference composition. Activation energy 0.28 eV is from the Arrhenius fit in the same section. Annealing details are from the Experimental section."
+      },
+      {
+        "material_as_written": "Li6 PS5 I",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.36 \u00d7 10\u22125",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "which is comparable to that of Li6 PS5 I (1.36 \u00d7 10\u22125 S cm\u22121 ) [36]",
+        "evidence_location": "Results section 2.2",
+        "notes": "Value quoted from reference [36] for comparison, not measured in this work. Measurement temperature is not stated for this value."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 28647,
+        "outputTokens": 4525,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 28839,
+        "webSearchRequests": 0,
+        "costUSD": 0.010926370000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2630,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28839,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 16612,
+    "notional_cost_usd": 0.010926370000000001
+  },
+  "paper_id": "arXiv:2607.19664",
+  "model": "haiku"
+}

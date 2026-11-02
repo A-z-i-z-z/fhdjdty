@@ -21,7 +21,7 @@ from .common import norm_chars, squash, squash_variants
 SIGMA_MIN, SIGMA_MAX = 1e-14, 1e-1
 
 _UNIT_RE = re.compile(
-    r"(?P<prefix>[munμµ]?)\s*S\s*(?:/\s*(?P<per>cm|m)\b|(?:x\s*)?(?P<per2>cm|m)\s*\^?\s*-\s*1)",
+    r"(?P<prefix>[munμµ]?)\s*S\s*(?:/\s*(?P<per>cm|m)\b|(?:[x.·•⋅]\s*)?(?P<per2>cm|m)\s*\^?\s*-\s*1)",
 )
 _NUM = r"(?P<mant>\d+(?:\.\d+)?)"
 _SCI_RE = re.compile(_NUM + r"\s*(?:x|\*)\s*10\s*\^?\s*\(?\s*(?P<exp>[-+]?\s*\d+)\s*\)?")

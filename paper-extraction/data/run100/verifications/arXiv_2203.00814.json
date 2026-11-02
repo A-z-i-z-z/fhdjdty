@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2203.00814#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.5 states the as-prepared BM-LYC conductivity at 298 K is 0.49 mS cm\u22121 with activation energy 0.41 eV, listed first in the same order as the samples. Ball milling, EIS, and the null sintering and density fields are consistent with the paper."
+      },
+      {
+        "record_id": "arXiv:2203.00814#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The second value, 0.067 mS cm\u22121 at 298 K with 0.47 eV, is for as-prepared SS-LYC per Section 2.5. The 550 \u00b0C six-day anneal is a synthesis step, and leaving the sintering fields null is acceptable, not an error."
+      },
+      {
+        "record_id": "arXiv:2203.00814#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction and Section 2.1 attribute 0.12 mS cm\u22121 for \u03b2-LYC to Ito et al. via EIS. The paper gives no measurement temperature for it; the 450 K figure is a phase-stability temperature, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2203.00814#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.1 attributes 0.014 mS cm\u22121 for the \u03b1-LYC polymorph to Ito et al. The paper states no measurement temperature for this value, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2203.00814#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction says LYC conductivity 'decreases from \u22480.51 mS cm\u22121 after annealing a mechanochemically synthesized sample' citing Asano et al., so 0.51 is the pre-annealing value. No temperature or method is given in that sentence, so the nulls are correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 35834,
+        "outputTokens": 2339,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 36026,
+        "webSearchRequests": 0,
+        "costUSD": 0.01197773,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1618,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 36026,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10079,
+    "notional_cost_usd": 0.01197773
+  },
+  "paper_id": "arXiv:2203.00814",
+  "model": "haiku"
+}

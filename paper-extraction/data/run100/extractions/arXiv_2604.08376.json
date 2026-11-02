@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies high-pressure structural transitions in the fluoride-ion conductor BaSnF4 and reports resistivity ratios, not ionic conductivity values for a Li/Na-ion conductor; its only numeric conductivity (>0.1 S cm\u207b\u00b9 for MF2 fluorites) is a generic class-level literature claim with no specific material or temperature.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18935,
+        "outputTokens": 723,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 19127,
+        "webSearchRequests": 0,
+        "costUSD": 0.006111770000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 470,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19127,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3497,
+    "notional_cost_usd": 0.006111770000000001
+  },
+  "paper_id": "arXiv:2604.08376",
+  "model": "haiku"
+}

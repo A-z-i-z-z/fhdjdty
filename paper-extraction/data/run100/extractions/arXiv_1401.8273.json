@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a molecular dynamics study of fluoride-ion transport in a simulated CaF2/CaF2 fluorite heterostructure. Its mobile ion is F-, not Li or Na, and its conductivities appear only in Fig. 4 with no numeric values in the text.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18881,
+        "outputTokens": 445,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 19069,
+        "webSearchRequests": 0,
+        "costUSD": 0.00595577,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 220,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19069,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2993,
+    "notional_cost_usd": 0.00595577
+  },
+  "paper_id": "arXiv:1401.8273",
+  "model": "haiku"
+}

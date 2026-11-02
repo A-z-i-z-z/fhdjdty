@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies ion hopping in \u03b2- and \u03b2\"-alumina solid electrolytes with terahertz Kerr effect spectroscopy, but it reports no ionic conductivity values with numbers and units; the only activation energies (about 45 meV) refer to the TKE relaxation time, and the low-frequency conductivity is cited only qualitatively (>200 meV, ref. 49).",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 38932,
+        "outputTokens": 705,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 39122,
+        "webSearchRequests": 0,
+        "costUSD": 0.012101470000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 446,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 39122,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4294,
+    "notional_cost_usd": 0.012101470000000001
+  },
+  "paper_id": "arXiv:2110.06522",
+  "model": "haiku"
+}

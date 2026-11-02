@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a theoretical study of ion drag and mobility in crystals. It reports calculated and fitted ionic mobilities in cm2/V s (Table I and the text), not ionic conductivity values, and the Li-containing compounds (LiCl, LiI) appear only as mobilities.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 39825,
+        "outputTokens": 625,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 40017,
+        "webSearchRequests": 0,
+        "costUSD": 0.01232977,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 402,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 40017,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4010,
+    "notional_cost_usd": 0.01232977
+  },
+  "paper_id": "arXiv:2111.02849",
+  "model": "haiku"
+}

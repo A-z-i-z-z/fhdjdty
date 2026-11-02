@@ -1,0 +1,115 @@
+[
+  {
+    "record_id": "arXiv:2405.03466#001",
+    "paper_id": "arXiv:2405.03466",
+    "record": {
+      "material_as_written": "Li2BaSnS4",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5\u00d710-4",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "estimated to be ~5\u00d710-4 mS/cm at room temperature for both compounds",
+      "evidence_location": "Results (Fig.4b discussion)",
+      "notes": "Quote names both Li2BaSnS4 and Li2SrSiS4 without separating them; value stated as applying to both compounds. Activation energy 0.56 eV in Table S2 is an NEB barrier, not an experimental Ea, so left null."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 5e-07,
+    "log10_conductivity": -6.301
+  },
+  {
+    "record_id": "arXiv:2405.03466#002",
+    "paper_id": "arXiv:2405.03466",
+    "record": {
+      "material_as_written": "Li2SrSiS4",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5\u00d710-4",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "estimated to be ~5\u00d710-4 mS/cm at room temperature for both compounds",
+      "evidence_location": "Results (Fig.4b discussion)",
+      "notes": "Same value applies to Li2BaSnS4 and Li2SrSiS4 per the paper; quote is shared with the Li2BaSnS4 record. Activation energy 0.34 eV in Table S2 is an NEB barrier, not experimental, so left null."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 5e-07,
+    "log10_conductivity": -6.301
+  },
+  {
+    "record_id": "arXiv:2405.03466#003",
+    "paper_id": "arXiv:2405.03466",
+    "record": {
+      "material_as_written": "Li1.75CaSiS3.75Cl0.25 and Li1.75SrSiS3.75Cl0.25",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Cl"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.72",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "FPMD",
+      "evidence_quote": "up to a maximum of 0.72 mS/cm",
+      "evidence_location": "abstract",
+      "notes": "Computed (first-principles MD extrapolation), not measured. The abstract's maximum is not explicitly tied to one composition; the results give a range 0.016~0.72 mS/cm for the two Cl-doped compounds, so this record is an approximate mapping to the upper value."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00072,
+    "log10_conductivity": -3.143
+  }
+]

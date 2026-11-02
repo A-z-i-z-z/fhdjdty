@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1811.07936#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that conductivities of the order of 10\u22124\u201310\u22123 S cm\u22121 have been measured experimentally in Li3N at room temperature, citing refs 40, 52, 53. The material, value, unit, room-temperature condition, and literature_cited origin all match, and the secondary fields are correctly null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 25361,
+        "outputTokens": 530,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 25553,
+        "webSearchRequests": 0,
+        "costUSD": 0.00793133,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 310,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 25553,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3361,
+    "notional_cost_usd": 0.00793133
+  },
+  "paper_id": "arXiv:1811.07936",
+  "model": "haiku"
+}

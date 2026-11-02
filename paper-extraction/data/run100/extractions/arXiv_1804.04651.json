@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a computational ML screening study of Li-containing solid electrolytes; it reports no new measured conductivity, but quotes one literature ionic conductivity value for a Li solid conductor (LiBH4), which is recorded as literature_cited.",
+    "records": [
+      {
+        "material_as_written": "LiBH4 (high-temperature hexagonal phase)",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10",
+        "conductivity_unit_as_reported": "mS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "The high temperature hexagonal phase of LiBH4 has a Li ion conductivity as high as 10 mS cm\u22121 . 86",
+        "evidence_location": "results (Ionic conductivity paragraph, Anisotropic Material Screening section)",
+        "notes": "Value is quoted from another work (ref. 86, Matsuo et al. 2007), not measured in this paper. The measurement temperature is not given numerically; the paper only says 'high temperature'. Conductivity kind (total/bulk) is not specified."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 30710,
+        "outputTokens": 1361,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 30896,
+        "webSearchRequests": 0,
+        "costUSD": 0.00996207,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 735,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 30896,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6506,
+    "notional_cost_usd": 0.00996207
+  },
+  "paper_id": "arXiv:1804.04651",
+  "model": "haiku"
+}

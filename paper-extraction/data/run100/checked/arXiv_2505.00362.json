@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:2505.00362#001",
+    "paper_id": "arXiv:2505.00362",
+    "record": {
+      "material_as_written": "Li1/3 Pb1/3 Bi1/3 Te",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "6.8 \u00d7 10\u22123",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "295 K",
+      "measurement_temperature_C": 21.85,
+      "activation_energy_eV": null,
+      "measurement_method": "MD",
+      "evidence_quote": "The ionic conductivity of Li1/3 Pb1/3 Bi1/3 Te at T = 1.0 (295 K) was calculated to be 6.8 \u00d7 10\u22123 S/cm since unit",
+      "evidence_location": "Discussion",
+      "notes": "Molecular dynamics simulation under an applied electric field, not an experimental measurement. Temperature is given in reduced units T = 1.0 corresponding to 295 K (T0 = 295 K). Composition is a random substitutional model; Pb and Bi are structural cations, not dopants. The same value is repeated in the Summary as 6.8 \u00d7 10\u22123 S/cm at 295K. No activation energy is reported."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0068,
+    "log10_conductivity": -2.167
+  }
+]

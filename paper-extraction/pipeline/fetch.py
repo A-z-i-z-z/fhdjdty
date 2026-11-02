@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import time
 import urllib.parse
+import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
 
@@ -25,10 +26,19 @@ DEFAULT_QUERY = (
 )
 
 
-def _get(url: str, timeout: int = 60) -> bytes:
+def _get(url: str, timeout: int = 60, retries: int = 5) -> bytes:
+    """GET with backoff: arXiv answers bursts with 429/503 (seen at ~30 PDFs in a row)."""
     req = urllib.request.Request(url, headers=UA)
-    with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.read()
+    for attempt in range(retries + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as r:
+                return r.read()
+        except urllib.error.HTTPError as e:
+            if e.code not in (429, 500, 502, 503) or attempt == retries:
+                raise
+            wait = int(e.headers.get("Retry-After") or 0) or 15 * 2 ** attempt
+            print(f"  HTTP {e.code}, retrying in {wait}s")
+            time.sleep(wait)
 
 
 def arxiv_metadata(ids: list[str] | None = None, query: str | None = None, max_results: int = 20) -> list[dict]:
@@ -98,9 +108,13 @@ def fetch(wd: Workdir, seeds: list[str], query: str | None, n: int) -> list[str]
         pdf, txt = d / "paper.pdf", d / "text.txt"
         if not txt.exists():
             print(f"fetch {m['paper_id']}  {m['title'][:70]}")
-            pdf.write_bytes(_get(m["pdf_url"], timeout=120))
-            raw = d / "raw.txt"
-            pdf_to_text(pdf, raw)
+            try:
+                pdf.write_bytes(_get(m["pdf_url"], timeout=120))
+                raw = d / "raw.txt"
+                pdf_to_text(pdf, raw)
+            except Exception as e:  # one bad download should not stop the batch
+                print(f"  skip {m['paper_id']}: {e}")
+                continue
             txt.write_text(strip_references(raw.read_text(errors="replace")))
             time.sleep(3)
         m["text_chars"] = len(txt.read_text())

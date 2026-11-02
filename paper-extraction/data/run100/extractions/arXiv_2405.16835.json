@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports Li-ion conductivity values (18.1 mS cm-1 at 25 \u00b0C and temperature series) for lithiated Ketjen Black measured in a solid-state Li/C/LPSCl/C/Li cell, so it reports at least one ionic conductivity of a solid Li-ion conductor, although the material is a carbon rather than a conventional solid electrolyte.",
+    "records": [
+      {
+        "material_as_written": "Li-KB (lithiated Ketjen Black)",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "18.1",
+        "conductivity_unit_as_reported": "mS cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25 oC",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.17,
+        "measurement_method": "DC method on symmetric Li/C/LPSCl/C/Li cell",
+        "evidence_quote": "Li-KB has Li ionic conductivity values of 18.1, 25.8, 41.1, 53.2 and 69.6 mS cm-1 at 25, 40, 60, 80 and 100 oC, respectively.",
+        "evidence_location": "results (Fig. 2d text)",
+        "notes": "Value at 25 \u00b0C taken from the text sentence listing values at 25\u2013100 \u00b0C; the abstract gives the same 18.1 mS cm-1 at room temperature. Activation energy 0.17 eV is stated in the following sentence of the paper (Arrhenius fit for Li-KB). Conductivity is derived from DC ionic resistance of the carbon interlayer, not a conventional bulk electrolyte measurement; the material is a lithiated carbon black, so it is an unconventional case for a solid Li conductor. Other conductivities (Li-SP, Li-Gr) are given only as ratios, not as numbers, and are not recorded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18124,
+        "outputTokens": 2340,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 18312,
+        "webSearchRequests": 0,
+        "costUSD": 0.006676169999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1512,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18312,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9872,
+    "notional_cost_usd": 0.006676169999999999
+  },
+  "paper_id": "arXiv:2405.16835",
+  "model": "haiku"
+}

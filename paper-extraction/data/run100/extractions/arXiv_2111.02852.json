@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a theory paper on ionic motion in crystalline ion conductors, but it reports ionic mobilities (cm2/V s) rather than ionic conductivity values, and it reports no conductivity numbers in S/cm.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 480,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 12127,
+        "webSearchRequests": 0,
+        "costUSD": 0.0026969700000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 302,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12127,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2945,
+    "notional_cost_usd": 0.0026969700000000004
+  },
+  "paper_id": "arXiv:2111.02852",
+  "model": "haiku"
+}

@@ -1,0 +1,76 @@
+[
+  {
+    "record_id": "arXiv:2109.14941#001",
+    "paper_id": "arXiv:2109.14941",
+    "record": {
+      "material_as_written": "La2/3\u2212x Li3x TiO3 (x = 0.13)",
+      "material_class": "perovskite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "directional solidification (single crystal); solid-state reaction (powder)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.055 \u00b1 0.005",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "600 K",
+      "measurement_temperature_C": 326.85,
+      "activation_energy_eV": null,
+      "measurement_method": "quasielastic neutron scattering (QENS) with Nernst-Einstein relation",
+      "evidence_quote": "The spatial average of the \u03c3QENS 0.055 \u00b1 0.005 S/cm agrees with that of \u03c3Li \u223c 0.1 S/cm at T = 600 K reported from bulk conductivity measurements",
+      "evidence_location": "results/discussion",
+      "notes": "Conductivity is not measured directly by impedance; it is derived from QENS self-diffusion coefficient via Nernst-Einstein (sigma_QENS). Spatial average of in-plane and out-of-plane values. Single-crystal sample."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.005,
+    "log10_conductivity": -2.301
+  },
+  {
+    "record_id": "arXiv:2109.14941#002",
+    "paper_id": "arXiv:2109.14941",
+    "record": {
+      "material_as_written": "LLTO (x = 0.11)",
+      "material_class": "perovskite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.1",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "600 K",
+      "measurement_temperature_C": 326.85,
+      "activation_energy_eV": null,
+      "measurement_method": "bulk conductivity measurement (cited from Inaguma et al. [5])",
+      "evidence_quote": "agrees with that of \u03c3Li \u223c 0.1 S/cm at T = 600 K reported from bulk conductivity measurements for LLTO with slightly lower Li content (x = 0.11) [5]",
+      "evidence_location": "discussion",
+      "notes": "Value quoted from reference [5] (Inaguma et al.) for LLTO with x = 0.11, not measured in this paper. Approximate value ('\u223c 0.1')."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.1,
+    "log10_conductivity": -1.0
+  }
+]

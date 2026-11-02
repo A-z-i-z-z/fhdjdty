@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about molecular-dynamics methodology for predicting Li-ion conductivity in cubic LLZO, but it reports no numeric ionic conductivity values; it gives only diffusivities (ln D), relative errors, and qualitative Arrhenius trends shown in figures.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 12141,
+        "outputTokens": 556,
+        "cacheReadInputTokens": 14650,
+        "cacheCreationInputTokens": 818,
+        "webSearchRequests": 0,
+        "costUSD": 0.0018022000000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 333,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 818,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2919,
+    "notional_cost_usd": 0.0018022000000000003
+  },
+  "paper_id": "arXiv:2609.30848",
+  "model": "haiku"
+}

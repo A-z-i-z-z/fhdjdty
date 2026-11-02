@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:2211.06129#001",
+    "paper_id": "arXiv:2211.06129",
+    "record": {
+      "material_as_written": "Li1+xAl1-xGe1+x(PO4)3 (LAGP)",
+      "material_class": "NASICON",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10-4",
+      "conductivity_unit_as_reported": "S.cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "RT",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "which exhibits one of the highest ionic conductivities (10-4 S.cm-1 at RT) from the oxide group32",
+      "evidence_location": "Introduction",
+      "notes": "Generic LAGP value quoted from prior literature (cited as ref. 32) in the introduction, not measured in this work. The paper's own conductivities are shown only in Figure 2b and not given as numbers in the text; its inter-grain and grain values are reported as resistivities (ohm.cm), so they were not recorded."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0001,
+    "log10_conductivity": -4.0
+  }
+]

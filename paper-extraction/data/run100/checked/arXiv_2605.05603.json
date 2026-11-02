@@ -1,0 +1,152 @@
+[
+  {
+    "record_id": "arXiv:2605.05603#001",
+    "paper_id": "arXiv:2605.05603",
+    "record": {
+      "material_as_written": "Li3YCl6 (P3\u0304m1, 0% strain)",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.77",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": "mS/cm at T = 300 K",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": 0.35,
+      "measurement_method": "MD (ACE potential), Nernst-Einstein from Einstein-relation diffusivity",
+      "evidence_quote": "0% 0.77\n0.35\n0.25\n1% 0.78",
+      "evidence_location": "Table IV",
+      "notes": "Row label 0% under the P3\u0304m1 block of Table IV. Ea = 0.35 eV is the low-temperature (T < Tc = 425 K) value; the high-temperature (T > Tc) value is 0.25 eV. Value is the paper's own simulation, not experiment."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00077,
+    "log10_conductivity": -3.114
+  },
+  {
+    "record_id": "arXiv:2605.05603#002",
+    "paper_id": "arXiv:2605.05603",
+    "record": {
+      "material_as_written": "Li3YCl6 (P3\u0304m1, +2% isotropic strain)",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.13",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": "mS/cm at T = 300 K",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": 0.42,
+      "measurement_method": "MD (ACE potential), Nernst-Einstein from Einstein-relation diffusivity",
+      "evidence_quote": "2% 1.13\n0.42\n0.20\n\u22122% 0.66",
+      "evidence_location": "Table IV",
+      "notes": "Row 2% under the P3\u0304m1 block of Table IV. Ea = 0.42 eV is the low-temperature (T < Tc = 425 K) value; high-temperature value is 0.20 eV. Simulated, not experimental."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00113,
+    "log10_conductivity": -2.947
+  },
+  {
+    "record_id": "arXiv:2605.05603#003",
+    "paper_id": "arXiv:2605.05603",
+    "record": {
+      "material_as_written": "Li3YCl6 (Pnma, 0% strain)",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.88",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": "mS/cm at T = 300 K",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": 0.3,
+      "measurement_method": "MD (ACE potential), Nernst-Einstein from Einstein-relation diffusivity",
+      "evidence_quote": "Pnma 0% 0.88",
+      "evidence_location": "Table IV",
+      "notes": "Row label under the Pnma block of Table IV. Ea = 0.30 eV is the low-temperature (T < Tc = 380 K) value; high-temperature value is 0.28 eV. Simulated, not experimental."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 0.00088,
+    "log10_conductivity": -3.056
+  },
+  {
+    "record_id": "arXiv:2605.05603#004",
+    "paper_id": "arXiv:2605.05603",
+    "record": {
+      "material_as_written": "Li3YCl6 (Pnma, +2% isotropic strain)",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.25",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": "mS/cm at T = 300 K",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": 0.43,
+      "measurement_method": "MD (ACE potential), Nernst-Einstein from Einstein-relation diffusivity",
+      "evidence_quote": "2% 2.25\n0.43\n0.19",
+      "evidence_location": "Table IV",
+      "notes": "Row 2% under the Pnma block of Table IV. Ea = 0.43 eV is the low-temperature (T < Tc = 380 K) value; high-temperature value is 0.19 eV. Simulated, not experimental. Literature values in Table III were not recorded because the table rows are not phase-labelled in the text."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00225,
+    "log10_conductivity": -2.648
+  }
+]

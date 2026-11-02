@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about Li6PS5Cl solid electrolyte surfaces and reports computed (MLFF-MD) room-temperature Li+ ionic conductivities for the surface and bulk regions, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "Li6PS5Cl (LPSC(100) surface after reaction in pure CO2, surface region)",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.27 \u00d7 10\u22123",
+        "conductivity_unit_as_reported": "S/m",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature (300 K)",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "MLFF-based MD (Einstein relation from Li+ MSD), extrapolated to room temperature from 500-900 K",
+        "evidence_quote": "the extrapolated room-temperature ion conductivities of the surface and bulk regions are 1.27 \u00d7 10\u22123 S/m and 2.15 \u00d7 10\u22124 S/m, respectively.",
+        "evidence_location": "Reaction in CO2 Atmosphere / results (page 13)",
+        "notes": "Value is for the surface region (three Li layers near the top and bottom) of an LPSC(100) slab after CO2 reaction, from MD extrapolation; not an experimental total conductivity. The paper states 300 K explicitly; measurement_temperature_C left null since the paper does not give a Celsius value."
+      },
+      {
+        "material_as_written": "Li6PS5Cl (LPSC(100) slab, bulk region)",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.15 \u00d7 10\u22124",
+        "conductivity_unit_as_reported": "S/m",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature (300 K)",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "MLFF-based MD (Einstein relation from Li+ MSD), extrapolated to room temperature from 500-900 K",
+        "evidence_quote": "the extrapolated room-temperature ion conductivities of the surface and bulk regions are 1.27 \u00d7 10\u22123 S/m and 2.15 \u00d7 10\u22124 S/m, respectively.",
+        "evidence_location": "Reaction in CO2 Atmosphere / results (page 13)",
+        "notes": "Bulk region (seven central layers) of the LPSC(100) supercell model from MLFF-MD; computed, extrapolated to 300 K, not an experimental value. The paper states 300 K explicitly; measurement_temperature_C left null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 13728,
+        "outputTokens": 2363,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 13914,
+        "webSearchRequests": 0,
+        "costUSD": 0.00536847,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1184,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13914,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9450,
+    "notional_cost_usd": 0.00536847
+  },
+  "paper_id": "arXiv:2504.11762",
+  "model": "haiku"
+}

@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1902.06831#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table I maps the Bi=0.25 row (Li6.75La3Zr1.75Bi0.25O12) to 5.0 x 10-6 S/cm at 27 \u00b0C, with relative density 0.80 (recorded as 80%). Sintering at 900 \u00b0C for 10 h and the Pechini method are stated in the paper."
+      },
+      {
+        "record_id": "arXiv:1902.06831#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table I maps the Bi=0.5 row (Li6.5La3Zr1.5Bi0.5O12) to 7.2 x 10-6 S/cm at 27 \u00b0C, with relative density 0.81 (recorded as 81%). Sintering conditions and synthesis method match the paper."
+      },
+      {
+        "record_id": "arXiv:1902.06831#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table I maps the Bi=0.75 row (Li6.25La3Zr1.25Bi0.75O12) to 2.0 x 10-4 S/cm at 27 \u00b0C, with relative density 0.83. The text confirms this composition has the highest measured conductivity, which fits the 2.0 x 10-4 value."
+      },
+      {
+        "record_id": "arXiv:1902.06831#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table I maps the Bi=1.0 row (Li6La3ZrBiO12) to 1.2 x 10-5 S/cm at 27 \u00b0C, with relative density 0.84. The figure caption confirms the Bi=1.0 composition is Li6La3ZrBiO12, and the sintering conditions match."
+      },
+      {
+        "record_id": "arXiv:1902.06831#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that Xia et al. (ref 40) studied Li6.8La3Zr1.8Bi0.2O12 and reached a maximum of 6.3 x10-5 S/cm, so literature_cited is the right origin. No measurement temperature or sintering value is given for this value, so the nulls are correct. The Al2O3 mixture in that work is not captured in the dopants field, but this is not a listed error."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 11622,
+        "outputTokens": 2608,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 11810,
+        "webSearchRequests": 0,
+        "costUSD": 0.00484783,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1749,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11810,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10769,
+    "notional_cost_usd": 0.00484783
+  },
+  "paper_id": "arXiv:1902.06831",
+  "model": "haiku"
+}

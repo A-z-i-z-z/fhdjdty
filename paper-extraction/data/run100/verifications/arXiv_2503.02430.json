@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2503.02430#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states \u03c3 = 1.7\u00b710-2 S cm-1 at 500 K for K-7,8-C2B9H12, with 0.28 eV in the disordered state. Experimental origin and EIS method match, and the 1 GPa pressed pellets have no sintering reported."
+      },
+      {
+        "record_id": "arXiv:2503.02430#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives \u03c3(K+) = 1.0\u00b710-4 S cm-1 at 400 K for K-7-CB10H13, and the disordered-phase activation energy of 0.42 eV matches the text and conclusion."
+      },
+      {
+        "record_id": "arXiv:2503.02430#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports \u03c3(K+) = 4.3\u00b710-4 S cm-1 at 423 K for commercial KB11H14 in the disordered phase, with 0.38 eV activation energy. The experimental origin is correct."
+      },
+      {
+        "record_id": "arXiv:2503.02430#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper attributes \u03c3 = 1.2\u00b710-4 S cm-1 at 423 K to the as-synthesized KB11H14 from Souza et al. (Ref. 36), with Ea = 1.9 eV for that sample. Literature-cited origin is correct."
+      },
+      {
+        "record_id": "arXiv:2503.02430#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper cites ~3.5\u00b710-4 S cm-1 at 423 K for ball-milled KB11H14 from Souza et al., with Ea = 1.5 eV. The record drops the tilde, which is a minor fidelity point, but the value and material are right."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 42224,
+        "outputTokens": 2212,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 42414,
+        "webSearchRequests": 0,
+        "costUSD": 0.013830830000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1492,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 42414,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9341,
+    "notional_cost_usd": 0.013830830000000002
+  },
+  "paper_id": "arXiv:2503.02430",
+  "model": "haiku"
+}

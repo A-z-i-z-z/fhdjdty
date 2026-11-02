@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is an XPS study of binding energies and charge correction for Li battery-related compounds (Li, Li2O, Li2O2, LiOH, Li2CO3, Li3N). It reports no ionic conductivity values; the Li2S-P2S5 cell is discussed only in terms of binding-energy shifts under current bias.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 19850,
+        "outputTokens": 385,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 20038,
+        "webSearchRequests": 0,
+        "costUSD": 0.00621647,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 152,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 20038,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2666,
+    "notional_cost_usd": 0.00621647
+  },
+  "paper_id": "arXiv:1809.06412",
+  "model": "haiku"
+}

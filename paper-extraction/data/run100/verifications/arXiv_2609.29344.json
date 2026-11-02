@@ -1,0 +1,66 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2609.29344#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that Na3.4Hf0.8Zr0.8In0.3Ga0.1(SiO4)2(PO4) has a room-temperature total conductivity of 0.7 mS/cm with activation energy 0.34 eV, listed before the 0.3 mS/cm / 0.33 eV pair. Sintering is stated only for all samples together, so null is appropriate."
+      },
+      {
+        "record_id": "arXiv:2609.29344#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives bulk conductivities of 3.96 and 3.17 mS/cm for the two compositions in order, and the conclusion confirms 3.96 mS/cm bulk for Na3.4Hf0.8Zr0.8In0.3Ga0.1(SiO4)2(PO4). No bulk activation energy is given, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2609.29344#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The second composition in the sentence, Na3.5Hf1.5In0.4Ga0.1(SiO4)2(PO4), has total conductivity 0.3 mS/cm at room temperature and activation energy 0.33 eV, as stated in the paper's text."
+      },
+      {
+        "record_id": "arXiv:2609.29344#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports bulk conductivity 3.17 mS/cm for the second composition, Na3.5Hf1.5In0.4Ga0.1(SiO4)2(PO4), in the same sentence order as the total-conductivity values."
+      },
+      {
+        "record_id": "arXiv:2609.29344#005",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_as_reported",
+            "correct_value": null,
+            "evidence": "However, the third sample, Na3.5Hf0.7In1.2Ge0.1(SiO4)1.3(PO4)1.7, is also very near the high conductivity domain and yielded only 0.01 mS/cm total ionic conductivity."
+          }
+        ],
+        "explanation": "The 0.01 mS/cm value for Na3.5Hf0.7In1.2Ge0.1(SiO4)1.3(PO4)1.7 is correct, but the paper gives no temperature for this sentence. The room-temperature context in the record comes from the other two compositions, so the temperature is not supported."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 56084,
+        "outputTokens": 2530,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 56274,
+        "webSearchRequests": 0,
+        "costUSD": 0.018147830000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1598,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 56274,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10536,
+    "notional_cost_usd": 0.018147830000000004
+  },
+  "paper_id": "arXiv:2609.29344",
+  "model": "haiku"
+}

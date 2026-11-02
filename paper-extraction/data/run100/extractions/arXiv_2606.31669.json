@@ -1,0 +1,56 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports room-temperature Li-ion conductivity of Ti-doped garnet LLZO solid electrolytes measured by impedance spectroscopy.",
+    "records": [
+      {
+        "material_as_written": "Li7La3Zr2-xTixO12 (x = 0.10; called 0.10 Ti sample, Li7La3Zr1.9Ti0.1O12 in abstract)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ti"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1100,
+        "sintering_time_h": 8,
+        "relative_density_pct": 91.8,
+        "conductivity_value_as_reported": "8.08 x 10-5",
+        "conductivity_unit_as_reported": "Scm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.37,
+        "measurement_method": "EIS",
+        "evidence_quote": "for the 0.10 Ti sample, which also exhibits the highest ionic conductivity of 8.08 x 10-5 Scm-1.",
+        "evidence_location": "results (3.4.2 Arrhenius plots)",
+        "notes": "Conductivity is the room-temperature total ionic conductivity from AC impedance (sigma_total = t/RA). Activation energy 0.37 eV is stated for this sample in the same section. Relative density 91.8% is stated for x=0.10 in the Density Analysis section and Conclusions. The unit 'Scm-1' is written without a slash in the paper. Other compositions in Table 2 were not recorded because the PDF table rows are split and garbled."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17216,
+        "outputTokens": 2888,
+        "cacheReadInputTokens": 19725,
+        "cacheCreationInputTokens": 818,
+        "webSearchRequests": 0,
+        "costUSD": 0.00352645,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2162,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 818,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11223,
+    "notional_cost_usd": 0.00352645
+  },
+  "paper_id": "arXiv:2606.31669",
+  "model": "haiku"
+}

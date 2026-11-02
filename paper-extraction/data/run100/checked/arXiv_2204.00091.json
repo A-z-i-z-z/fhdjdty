@@ -1,0 +1,232 @@
+[
+  {
+    "record_id": "arXiv:2204.00091#001",
+    "paper_id": "arXiv:2204.00091",
+    "record": {
+      "material_as_written": "Li3xLa2/3-xTiO3 (LLTO)",
+      "material_class": "perovskite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.0 \u00d7 10-3",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "LLTO displayed a high bulk ionic conductivity (\ud835\udf0e\ud835\udc4f ) of 1.0 \u00d7 10-3 S/cm at room temperature.",
+      "evidence_location": "Introduction",
+      "notes": "Value quoted from Inaguma et al. (ref 11) as the first report of LLTO; not measured in this work."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.001,
+    "log10_conductivity": -3.0
+  },
+  {
+    "record_id": "arXiv:2204.00091#002",
+    "paper_id": "arXiv:2204.00091",
+    "record": {
+      "material_as_written": "LLTO",
+      "material_class": "perovskite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "7.5 \u00d7 10-5",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "grain_boundary",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "But because its apparent GB ionic conductivity (\ud835\udf0e\ud835\udc54\ud835\udc4f ) was 7.5 \u00d7 10-5 S/cm, the total ionic conductivity (\ud835\udf0e\ud835\udc61 ) was 7 \u00d7 10-5 S/cm at room temperature.",
+      "evidence_location": "Introduction",
+      "notes": "Apparent grain-boundary conductivity of LLTO quoted from ref 11."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 7.5e-05,
+    "log10_conductivity": -4.125
+  },
+  {
+    "record_id": "arXiv:2204.00091#003",
+    "paper_id": "arXiv:2204.00091",
+    "record": {
+      "material_as_written": "Li0.375Sr0.4375\u25a10.1875Ta0.75Zr0.25O3 (LSTZ0.75)",
+      "material_class": "perovskite",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Zr"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.5 \u00d7 10-4",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "It achieved a \ud835\udf0e\ud835\udc4f of 3.5 \u00d7 10-4 S/cm, a rather high apparent \ud835\udf0e\ud835\udc54\ud835\udc4f of 1.2 \u00d7 10-3 S/cm (including the grain size effect), and a \ud835\udf0e\ud835\udc61 of 2.7 \u00d7 10-4 S/cm at room temperature.",
+      "evidence_location": "Introduction",
+      "notes": "Value quoted from ref 16 for LSTZ0.75; Zr is a B-site substituent in the parent formula."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00035,
+    "log10_conductivity": -3.456
+  },
+  {
+    "record_id": "arXiv:2204.00091#004",
+    "paper_id": "arXiv:2204.00091",
+    "record": {
+      "material_as_written": "Li0.375Sr0.4375\u25a10.1875Ta0.75Zr0.25O3 (LSTZ0.75)",
+      "material_class": "perovskite",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Zr"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.2 \u00d7 10-3",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "grain_boundary",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "It achieved a \ud835\udf0e\ud835\udc4f of 3.5 \u00d7 10-4 S/cm, a rather high apparent \ud835\udf0e\ud835\udc54\ud835\udc4f of 1.2 \u00d7 10-3 S/cm (including the grain size effect), and a \ud835\udf0e\ud835\udc61 of 2.7 \u00d7 10-4 S/cm at room temperature.",
+      "evidence_location": "Introduction",
+      "notes": "Apparent GB conductivity (includes grain size effect) quoted from ref 16."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0012,
+    "log10_conductivity": -2.921
+  },
+  {
+    "record_id": "arXiv:2204.00091#005",
+    "paper_id": "arXiv:2204.00091",
+    "record": {
+      "material_as_written": "Li0.375Sr0.4375\u25a10.1875Ta0.75Zr0.25O3 (LSTZ0.75)",
+      "material_class": "perovskite",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Zr"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.7 \u00d7 10-4",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "It achieved a \ud835\udf0e\ud835\udc4f of 3.5 \u00d7 10-4 S/cm, a rather high apparent \ud835\udf0e\ud835\udc54\ud835\udc4f of 1.2 \u00d7 10-3 S/cm (including the grain size effect), and a \ud835\udf0e\ud835\udc61 of 2.7 \u00d7 10-4 S/cm at room temperature.",
+      "evidence_location": "Introduction",
+      "notes": "Total conductivity quoted from ref 16."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00027,
+    "log10_conductivity": -3.569
+  },
+  {
+    "record_id": "arXiv:2204.00091#006",
+    "paper_id": "arXiv:2204.00091",
+    "record": {
+      "material_as_written": "LSTZ0.75 (hot-pressed sample)",
+      "material_class": "perovskite",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Zr"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": "hot pressing",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "4.1 \u00d7 10-4",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "25 \u2103",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.33,
+      "measurement_method": null,
+      "evidence_quote": "The promoted \ud835\udf0e300\ud835\udc3e and the lower Ea match better with the highest experimental \ud835\udf0e\ud835\udc4f of 4.1 \u00d7 10-4 S/cm at 25 \u2103 and the low Ea of 0.33 eV from 25 to 140 \u2103 reported for a hot-pressed LSTZ0.75 sample",
+      "evidence_location": "Section 2.1",
+      "notes": "Value attributed to a hot-pressed LSTZ0.75 sample from ref 37; the activation energy 0.33 eV is for 25\u2013140 \u2103 from the same reference."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00041,
+    "log10_conductivity": -3.387
+  }
+]

@@ -1,0 +1,234 @@
+[
+  {
+    "record_id": "arXiv:2503.11941#001",
+    "paper_id": "arXiv:2503.11941",
+    "record": {
+      "material_as_written": "Li vacancy tetragonal LiBO2 (Livac t-LBO)",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "7.0 \u00d7 10\u22125",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "DFT (migration barrier based estimate)",
+      "evidence_quote": "is Em = 0.46 eV and thus an estimated ionic conductivity is \u03c3ion = 7.0 \u00d7 10\u22125 S cm\u22121",
+      "evidence_location": "Section 3.1 (Livac t-LBO)",
+      "notes": "Estimated from DFT migration barrier (Em = 0.46 eV) of the lowest of 9 pathways; the 0.46 eV is a migration barrier, not an Arrhenius activation energy, so activation_energy_eV is null. Value is from the authors' DFT work."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 7e-05,
+    "log10_conductivity": -4.155
+  },
+  {
+    "record_id": "arXiv:2503.11941#002",
+    "paper_id": "arXiv:2503.11941",
+    "record": {
+      "material_as_written": "O vacancy tetragonal LiBO2 (Ovac t-LBO)",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "7.6 \u00d7 10\u22128",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "DFT (estimate from previous DFT work)",
+      "evidence_quote": "showed that the ionic conductivity of the Ovac t-LBO is estimated to be \u03c3ion = 7.6 \u00d7 10\u22128 S cm\u22121",
+      "evidence_location": "Section 3.1 (Ovac t-LBO)",
+      "notes": "Value is taken from the authors' previous DFT work (Ref. [26]) and restated here; not a new calculation in this paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 7.6e-08,
+    "log10_conductivity": -7.119
+  },
+  {
+    "record_id": "arXiv:2503.11941#003",
+    "paper_id": "arXiv:2503.11941",
+    "record": {
+      "material_as_written": "Li vacancy monoclinic LiBO2 (Livac m-LBO)",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "7.0 \u00d7 10\u221213",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "DFT (estimate from previous DFT work)",
+      "evidence_quote": "its ionic conductivity is \u03c3ion = 7.0 \u00d7 10\u221213 S cm\u22121",
+      "evidence_location": "Section 3.2 (Livac m-LBO)",
+      "notes": "Recalled from the authors' previous DFT work (Ref. [26]); not computed in this paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 7e-13,
+    "log10_conductivity": -12.155
+  },
+  {
+    "record_id": "arXiv:2503.11941#004",
+    "paper_id": "arXiv:2503.11941",
+    "record": {
+      "material_as_written": "B vacancy monoclinic LiBO2 (Bvac m-LBO)",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.8 \u00d7 10\u22122",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "DFT (estimate from previous DFT work)",
+      "evidence_quote": "possesses the highest Li-ionic conductivity (\u03c3ion = 2.8 \u00d7 10\u22122 S cm\u22121 )",
+      "evidence_location": "Section 3.2 (Bvac m-LBO)",
+      "notes": "Recalled from the authors' previous DFT work (Ref. [26]); not computed in this paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.028,
+    "log10_conductivity": -1.553
+  },
+  {
+    "record_id": "arXiv:2503.11941#005",
+    "paper_id": "arXiv:2503.11941",
+    "record": {
+      "material_as_written": "O vacancy monoclinic LiBO2 (Ovac m-LBO)",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "6.1 \u00d7 10\u22126",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "DFT (estimate from previous DFT work)",
+      "evidence_quote": "critically low ionic conductivity of \u03c3ion = 6.1 \u00d7 10\u22126 S cm\u22121",
+      "evidence_location": "Section 3.2 (Ovac m-LBO)",
+      "notes": "Recalled from the authors' previous DFT work (Ref. [26]); not computed in this paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 6.1e-06,
+    "log10_conductivity": -5.215
+  },
+  {
+    "record_id": "arXiv:2503.11941#006",
+    "paper_id": "arXiv:2503.11941",
+    "record": {
+      "material_as_written": "t-LBO (tetragonal LiBO2), Hirose et al. experimental sample",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": "high-pressure synthesis",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10\u22126",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "between 450 and 520 K",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "with total conductivity ca. 10\u22126 S cm\u22121",
+      "evidence_location": "Introduction",
+      "notes": "Experimental value from Hirose et al. [24], quoted in the introduction; the paper gives a temperature range (450\u2013520 K) rather than a single temperature, and the value is approximate ('ca.'). Synthesis at high pressure is stated for the polymorphs in the introduction."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 1e-06,
+    "log10_conductivity": -6.0
+  }
+]

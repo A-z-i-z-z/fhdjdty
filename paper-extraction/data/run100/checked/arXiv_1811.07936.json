@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:1811.07936#001",
+    "paper_id": "arXiv:1811.07936",
+    "record": {
+      "material_as_written": "Li3 N",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10\u22124 \u201310\u22123",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "the order of 10\u22124 \u201310\u22123 S cm\u22121 have been measured experimentally in Li3 N at room temperature [40, 52, 53].",
+      "evidence_location": "Section III.A (Li3N)",
+      "notes": "Value is a literature-cited range (not a single number) for experimental Li3N at room temperature, citing refs 40, 52, 53; the paper does not report its own conductivity in S cm\u22121. Material class 'other' chosen because Li3N is not in the listed classes. Only included because it is the sole conductivity value in the paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0001,
+    "log10_conductivity": -4.0
+  }
+]

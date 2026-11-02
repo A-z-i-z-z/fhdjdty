@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper uses OBELiX experimental conductivities of solid Li electrolytes, but the text reports no individual conductivity value for any material; conductivities appear only as log10 \u03c3 axes in figures and as regression metrics (R2, MAE, RMSE), so no extractable record exists.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 16487,
+        "outputTokens": 549,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 16675,
+        "webSearchRequests": 0,
+        "costUSD": 0.00528957,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 323,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16675,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3330,
+    "notional_cost_usd": 0.00528957
+  },
+  "paper_id": "arXiv:2607.20591",
+  "model": "haiku"
+}

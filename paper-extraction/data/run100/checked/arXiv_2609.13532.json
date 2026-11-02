@@ -1,0 +1,117 @@
+[
+  {
+    "record_id": "arXiv:2609.13532#001",
+    "paper_id": "arXiv:2609.13532",
+    "record": {
+      "material_as_written": "Na3.4Zr2Si2.4P0.6O12 with 20% P excess (Na3.4+0.2P), calcined at 1200 \u00b0C",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.82",
+      "conductivity_unit_as_reported": "mS\u00b7cm\u207b\u00b9",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "PEIS",
+      "evidence_quote": "room-temperature conductivity of 3.82 mS\u00b7cm\u207b\u00b9 with over 400 hours of stable cycling",
+      "evidence_location": "abstract",
+      "notes": "P-compensated sample; the abstract and conclusions give this value at RT. Sintering conditions for this specific batch are not stated explicitly in the text (Na3.4 batches were sintered at 1300 \u00b0C), so left null."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00382,
+    "log10_conductivity": -2.418
+  },
+  {
+    "record_id": "arXiv:2609.13532#002",
+    "paper_id": "arXiv:2609.13532",
+    "record": {
+      "material_as_written": "Na3.4Zr2Si2.4P0.6O12 (calcined at 1200 \u00b0C, sintered)",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1300,
+      "sintering_time_h": 12,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.95",
+      "conductivity_unit_as_reported": "mS\u00b7cm\u207b\u00b9",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "PEIS",
+      "evidence_quote": "raising total conductivity from 1.60 to 2.95 mS\u00b7cm\u207b\u00b9 for powders calcined at 900 \u00b0C and 1200 \u00b0C, respectively",
+      "evidence_location": "abstract",
+      "notes": "The abstract ties 2.95 to Na3.4 calcined at 1200 \u00b0C. Section 3.4 instead assigns 2.95 mS\u00b7cm\u207b\u00b9 as a grain-boundary value for the Na3 series, so the composition attribution is inconsistent in the paper. Measurement temperature not stated for this value."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00295,
+    "log10_conductivity": -2.53
+  },
+  {
+    "record_id": "arXiv:2609.13532#003",
+    "paper_id": "arXiv:2609.13532",
+    "record": {
+      "material_as_written": "Na3.4Zr2Si2.4P0.6O12 (calcined at 900 \u00b0C, sintered)",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1300,
+      "sintering_time_h": 12,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.60",
+      "conductivity_unit_as_reported": "mS\u00b7cm\u207b\u00b9",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "PEIS",
+      "evidence_quote": "raising total conductivity from 1.60 to 2.95 mS\u00b7cm\u207b\u00b9 for powders calcined at 900 \u00b0C and 1200 \u00b0C, respectively",
+      "evidence_location": "abstract",
+      "notes": "Composition inferred as Na3.4 from the abstract sentence structure; the abstract sentence also names Na3.4 for the grain-boundary gain. Measurement temperature not stated for this value."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.0016,
+    "log10_conductivity": -2.796
+  }
+]

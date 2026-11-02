@@ -1,0 +1,193 @@
+[
+  {
+    "record_id": "arXiv:2203.00814#001",
+    "paper_id": "arXiv:2203.00814",
+    "record": {
+      "material_as_written": "Li3YCl6 (BM-LYC, as-prepared ball milled)",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "ball milling",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.49",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "298 K (25\u00b0C)",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.41,
+      "measurement_method": "EIS",
+      "evidence_quote": "The measured ionic conductivity at 298 K (25\u00b0C) (of 0.49 mS cm\u22121 and 0.067 mS cm\u22121 ) and activation energy (of 0.41\u00b10.006 eV and 0.47\u00b10.004 eV)",
+      "evidence_location": "Section 2.5",
+      "notes": "The first of two values (0.49) is for as-prepared BM-LYC, and the 0.41 eV activation energy is paired with it. Conductivity is total through the pellet. Pellet relative densities are given only as a 76-79% range for all EIS pellets, so not assigned here. BM-LYC was not annealed after milling."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00049,
+    "log10_conductivity": -3.31
+  },
+  {
+    "record_id": "arXiv:2203.00814#002",
+    "paper_id": "arXiv:2203.00814",
+    "record": {
+      "material_as_written": "Li3YCl6 (SS-LYC, solid-state)",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.067",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "298 K (25\u00b0C)",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.47,
+      "measurement_method": "EIS",
+      "evidence_quote": "The measured ionic conductivity at 298 K (25\u00b0C) (of 0.49 mS cm\u22121 and 0.067 mS cm\u22121 ) and activation energy (of 0.41\u00b10.006 eV and 0.47\u00b10.004 eV)",
+      "evidence_location": "Section 2.5",
+      "notes": "The second of two values (0.067) is for as-prepared SS-LYC, and the 0.47 eV activation energy is paired with it. The SS pellets were annealed at 550 \u00b0C for 6 days during synthesis, which is not recorded as a sintering step. Relative density not assigned (76-79% range only)."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 6.7e-05,
+    "log10_conductivity": -4.174
+  },
+  {
+    "record_id": "arXiv:2203.00814#003",
+    "paper_id": "arXiv:2203.00814",
+    "record": {
+      "material_as_written": "\u03b2-LYC (Li3YCl6 \u03b2 polymorph)",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": "in situ X-ray diffraction during heating of LiCl and YCl3 (as reported by Ito et al.)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.12",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "EIS measurements showed that the \u03b2-phase has a higher Li+ conductivity (0.12 mS cm\u22121 ) than the \u03b1-phase (0.014 mS cm\u22121 )",
+      "evidence_location": "Section 2.1",
+      "notes": "Value attributed to Ito et al. (ref. 32), quoted in this paper. Measurement temperature not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00012,
+    "log10_conductivity": -3.921
+  },
+  {
+    "record_id": "arXiv:2203.00814#004",
+    "paper_id": "arXiv:2203.00814",
+    "record": {
+      "material_as_written": "\u03b1-LYC (Li3YCl6 \u03b1 polymorph)",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": "in situ X-ray diffraction during heating of LiCl and YCl3 (as reported by Ito et al.)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.014",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "EIS measurements showed that the \u03b2-phase has a higher Li+ conductivity (0.12 mS cm\u22121 ) than the \u03b1-phase (0.014 mS cm\u22121 )",
+      "evidence_location": "Section 2.1",
+      "notes": "Value attributed to Ito et al. (ref. 32), quoted in this paper. Measurement temperature not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1.4e-05,
+    "log10_conductivity": -4.854
+  },
+  {
+    "record_id": "arXiv:2203.00814#005",
+    "paper_id": "arXiv:2203.00814",
+    "record": {
+      "material_as_written": "Li3YCl6 (LYC, mechanochemically synthesized, before annealing)",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": "mechanochemical synthesis",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.51",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "the ionic conductivity of LYC decreases from \u22480.51 mS cm\u22121 after annealing a mechanochemically synthesized sample",
+      "evidence_location": "Introduction",
+      "notes": "Value attributed to Asano et al. (ref. 10). It is the conductivity of the as-milled sample before annealing. Measurement temperature and method not stated in this sentence."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00051,
+    "log10_conductivity": -3.292
+  }
+]

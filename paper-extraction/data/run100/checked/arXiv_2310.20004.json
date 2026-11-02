@@ -1,0 +1,42 @@
+[
+  {
+    "record_id": "arXiv:2310.20004#001",
+    "paper_id": "arXiv:2310.20004",
+    "record": {
+      "material_as_written": "Li6 PS5 Cl",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.7 \u00b7 10\u22123",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": "Symbol Value Unit Short description Reference ... SE (Li6 PS5 Cl) ... 0.7 \u00b7 10\u22123 ... S/cm ... Li-ion bulk conductivity ... [S5]",
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "0.7 \u00b7 10\u22123",
+      "evidence_location": "Table S1 (Supporting Information, Parametrization)",
+      "notes": "This is a simulation input parameter for the SE in the ASSB model, not a measured value. It is attributed to the literature (reference [S5]). The table text is scrambled by PDF extraction; the value is mapped to the SE Li-ion bulk conductivity row by the row order (concentration, bulk conductivity, transference number, separator thickness). Temperature is not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": false,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "quote is only the value; material comes from context",
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.0007,
+    "log10_conductivity": -3.155
+  }
+]

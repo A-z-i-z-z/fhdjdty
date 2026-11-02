@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2310.00543#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract states that aLLTO was originally developed with lithium ionic conductivity of ~10-3 S/cm, which is a prior-work value and not measured in this paper. Material, unit, origin, and the null temperature and secondary fields all match the paper."
+      },
+      {
+        "record_id": "arXiv:2310.00543#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states that LLTO possesses ionic conductivity of ~10-3 S/cm, attributed to the group's earlier pulsed-laser-deposited work (ref 45), so literature_cited is correct. The temperature and secondary fields are correctly null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14880,
+        "outputTokens": 1149,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 15070,
+        "webSearchRequests": 0,
+        "costUSD": 0.005096130000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 809,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15070,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5572,
+    "notional_cost_usd": 0.005096130000000001
+  },
+  "paper_id": "arXiv:2310.00543",
+  "model": "haiku"
+}

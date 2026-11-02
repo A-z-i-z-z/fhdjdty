@@ -1,0 +1,119 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2608.29586#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states Zn(TFSI)2\u00b73SN reached 0.62 mS cm\u207b\u00b9 at 25 \u00b0C, citing ref. [84]. Material, value, unit, temperature and literature origin all match."
+      },
+      {
+        "record_id": "arXiv:2608.29586#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the ZnPS3 solid-state electrolyte reached 2 mS cm\u207b\u00b9 at 30 \u00b0C (ref. [55]). The 0.3 eV value is a calculated diffusion barrier and is correctly left out of activation_energy_eV."
+      },
+      {
+        "record_id": "arXiv:2608.29586#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states ZnZr4(PO4)6 exhibited 0.00134 mS cm\u207b\u00b9 at 500 \u00b0C (ref. [15]). The record correctly takes the lowest-temperature value."
+      },
+      {
+        "record_id": "arXiv:2608.29586#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the crystallized eutectic Zn conductor (ZCE) gave 0.0378 mS cm\u207b\u00b9 at 30 \u00b0C with transference number 0.64 (ref. [60]). Material, value, temperature and origin match."
+      },
+      {
+        "record_id": "arXiv:2608.29586#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives 0.313 mS cm\u207b\u00b9 and 0.12 eV for the deep-eutectic-in-PCN-222 system (ref. [116]) with no measurement temperature, so null temperature is correct."
+      },
+      {
+        "record_id": "arXiv:2608.29586#006",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 25,
+            "evidence": "Its bulk conductivity was 0.29 mS cm\u207b\u00b9 at 25 \u00b0C, and X-ray computed tomography showed close Zn\u2013electrolyte contact after 20 cycles."
+          },
+          {
+            "field": "activation_energy_eV",
+            "correct_value": null,
+            "evidence": "a Zn\u00b2\u207a migration barrier of 0.37 eV"
+          }
+        ],
+        "explanation": "The paper states the hybrid metal-halide crystal's 0.29 mS cm\u207b\u00b9 was measured at 25 \u00b0C, so recording temperature as null is wrong. The 0.37 eV is a migration barrier, not an activation energy, so it does not belong in that field."
+      },
+      {
+        "record_id": "arXiv:2608.29586#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the polymerized eutectic electrolyte reached 3.94 mS cm\u207b\u00b9 at 25 \u00b0C (ref. [62]). The 3-mm-specimen value is correctly not used."
+      },
+      {
+        "record_id": "arXiv:2608.29586#008",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives 15.1 mS cm\u207b\u00b9 for the low-concentration dual-salt electrolyte (ref. [140]). The 25 \u00b0C in the same sentence is tied to cycling, so a null conductivity temperature is defensible."
+      },
+      {
+        "record_id": "arXiv:2608.29586#009",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the optimized PPZS20 reached 0.102 mS cm\u207b\u00b9 with no temperature given for that value (ref. [119])."
+      },
+      {
+        "record_id": "arXiv:2608.29586#010",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the PVDF-based host with increased dielectric constant produced 1.07 mS cm\u207b\u00b9 (ref. [115]), with no temperature given."
+      },
+      {
+        "record_id": "arXiv:2608.29586#011",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the polymeric single-ion conductor had 0.54 mS cm\u207b\u00b9 and transference number 0.94 (ref. [5]), with no temperature given."
+      },
+      {
+        "record_id": "arXiv:2608.29586#012",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states fluorinated mesoporous ZnSF reached 0.66 mS cm\u207b\u00b9 at 25 \u00b0C (ref. [48]). The DMF caveat is in the notes, not a recorded field."
+      },
+      {
+        "record_id": "arXiv:2608.29586#013",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 3 row 6 gives 1.15 \u00d7 10\u207b\u2074 S cm\u207b\u00b9 at 25 \u00b0C, Ea 0.317 eV, and 'Multi-step post-synthetic cation exchange' for this Zn\u2013BTT MOF (ref. [110]). All fields match."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 35361,
+        "outputTokens": 3852,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 35549,
+        "webSearchRequests": 0,
+        "costUSD": 0.01259153,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2142,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 35549,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 14116,
+    "notional_cost_usd": 0.01259153
+  },
+  "paper_id": "arXiv:2608.29586",
+  "model": "haiku"
+}

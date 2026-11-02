@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2605.05603#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table IV gives P3\u0304m1 at 0% strain as \u03c3 = 0.77 mS/cm at 300 K with Ea = 0.35 eV for T < Tc, matching the record. The value is the paper's own MD result, so the computational origin is right."
+      },
+      {
+        "record_id": "arXiv:2605.05603#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table IV gives P3\u0304m1 at +2% strain as \u03c3 = 1.13 mS/cm at 300 K with low-temperature Ea = 0.42 eV, matching the record. The value is the paper's own simulation."
+      },
+      {
+        "record_id": "arXiv:2605.05603#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table IV gives Pnma at 0% strain as \u03c3 = 0.88 mS/cm at 300 K with low-temperature Ea = 0.30 eV, and Table III lists the same 0.88 / 0.30 eV row as an MD result. The material and values match."
+      },
+      {
+        "record_id": "arXiv:2605.05603#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table IV gives Pnma at 2% strain as \u03c3 = 2.25 mS/cm at 300 K with low-temperature Ea = 0.43 eV, matching the record. The value is the paper's own simulation."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 34345,
+        "outputTokens": 1650,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 34533,
+        "webSearchRequests": 0,
+        "costUSD": 0.011185730000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1073,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 34533,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7413,
+    "notional_cost_usd": 0.011185730000000001
+  },
+  "paper_id": "arXiv:2605.05603",
+  "model": "haiku"
+}

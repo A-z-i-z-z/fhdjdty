@@ -1,0 +1,66 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2204.00091#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction states that Inaguma et al.'s first report of LLTO gave a bulk conductivity of 1.0 \u00d7 10-3 S/cm at room temperature, cited as ref 11, so the value, kind, cited origin and null temperature are all correct."
+      },
+      {
+        "record_id": "arXiv:2204.00091#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives an apparent grain-boundary conductivity of 7.5 \u00d7 10-5 S/cm for LLTO at room temperature, attributed to the Inaguma report (ref 11), which matches the record."
+      },
+      {
+        "record_id": "arXiv:2204.00091#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction gives \u03c3b = 3.5 \u00d7 10-4 S/cm at room temperature for LSTZ0.75 from ref 16, and Zr is the B-site substituent (y = 0.75 in the general formula), so the record is correct."
+      },
+      {
+        "record_id": "arXiv:2204.00091#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports an apparent \u03c3gb of 1.2 \u00d7 10-3 S/cm for LSTZ0.75 at room temperature (ref 16), including the grain size effect, which matches the record's grain_boundary kind."
+      },
+      {
+        "record_id": "arXiv:2204.00091#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports a total conductivity \u03c3t of 2.7 \u00d7 10-4 S/cm for LSTZ0.75 at room temperature (ref 16), which matches the record's total kind."
+      },
+      {
+        "record_id": "arXiv:2204.00091#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.1 gives the highest experimental \u03c3b of 4.1 \u00d7 10-4 S/cm at 25 \u2103 and Ea of 0.33 eV from 25 to 140 \u2103 for a hot-pressed LSTZ0.75 sample from ref 37, so the value, temperature, Ea, synthesis method and literature origin are all supported."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18293,
+        "outputTokens": 1720,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 18485,
+        "webSearchRequests": 0,
+        "costUSD": 0.0064059300000000015,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 900,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18485,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6911,
+    "notional_cost_usd": 0.0064059300000000015
+  },
+  "paper_id": "arXiv:2204.00091",
+  "model": "haiku"
+}

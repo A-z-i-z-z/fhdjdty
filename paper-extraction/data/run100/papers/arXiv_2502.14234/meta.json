@@ -1,0 +1,26 @@
+{
+  "paper_id": "arXiv:2502.14234",
+  "arxiv_id": "2502.14234",
+  "title": "OBELiX: A Curated Dataset of Crystal Structures and Experimentally Measured Ionic Conductivities for Lithium Solid-State Electrolytes",
+  "authors": [
+    "F\u00e9lix Therrien",
+    "Jamal Abou Haibeh",
+    "Divya Sharma",
+    "Rhiannon Hendley",
+    "Leah Wairimu Mungai",
+    "Sun Sun",
+    "Alain Tchagang",
+    "Jiang Su",
+    "Samuel Huberman",
+    "Yoshua Bengio",
+    "Hongyu Guo",
+    "Alex Hern\u00e1ndez-Garc\u00eda",
+    "Homin Shin"
+  ],
+  "published": "2025-02-20",
+  "doi": null,
+  "license": null,
+  "abs_url": "https://arxiv.org/abs/2502.14234",
+  "pdf_url": "https://arxiv.org/pdf/2502.14234",
+  "text_chars": 38557
+}

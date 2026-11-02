@@ -1,0 +1,157 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper studies Li7-3xGaxLa3Zr1.9Ge0.1O12 garnet solid electrolytes for Li-ion batteries and reports room-temperature ionic conductivities from AC impedance.",
+    "records": [
+      {
+        "material_as_written": "Li7-3xGaxLa3Zr1.9Ge0.1O12 (0 Ga, x = 0)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ga",
+          "Ge"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 8,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "8.6 x 10-6",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic conductivity (S/cm)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25\u00baC",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.56,
+        "measurement_method": "EIS",
+        "evidence_quote": "Ionic conductivity (S/cm)\n8.6 x 10-6\n1.85 x 10-4\n5.09 x 10-4\n8.4 x 10-5\n4.8 x 10-5\n\nActivation Energy (eV)\n0.56\n0.30\n0.25\n0.39\n0.43",
+        "evidence_location": "Table 2",
+        "notes": "Table 2 is a column layout; the value is the first row (x = 0) of the ionic conductivity column, activation energy 0.56 eV from the same row. Sintering 1050 C/8 h is stated for the whole series. Relative density for this sample is in Table 1 (80%) but not recorded here."
+      },
+      {
+        "material_as_written": "Li7-3xGaxLa3Zr1.9Ge0.1O12 (0.10 Ga, x = 0.10)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ga",
+          "Ge"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 8,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.85 x 10-4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic conductivity (S/cm)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25\u00baC",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.3,
+        "measurement_method": "EIS",
+        "evidence_quote": "Ionic conductivity (S/cm)\n8.6 x 10-6\n1.85 x 10-4\n5.09 x 10-4\n8.4 x 10-5\n4.8 x 10-5\n\nActivation Energy (eV)\n0.56\n0.30\n0.25\n0.39\n0.43",
+        "evidence_location": "Table 2",
+        "notes": "Table 2 is a column layout; value is the second row (x = 0.10) of the ionic conductivity column, activation energy 0.30 eV from the same row."
+      },
+      {
+        "material_as_written": "Li7-3xGaxLa3Zr1.9Ge0.1O12 (0.20 Ga, x = 0.20)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ga",
+          "Ge"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 8,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "5.09 x 10 -4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.25,
+        "measurement_method": "AC impedance",
+        "evidence_quote": "the 0.20 Ga ceramic sample possessed the highest room temperature Li ion conductivity of 5.09 x 10 -4 S/cm and minimum activation energy of 0.25 eV",
+        "evidence_location": "abstract",
+        "notes": "Abstract states room temperature; Table 2 gives the same value at 25 C. Highest-performing composition of the series."
+      },
+      {
+        "material_as_written": "Li7-3xGaxLa3Zr1.9Ge0.1O12 (0.30 Ga, x = 0.30)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ga",
+          "Ge"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 8,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "8.4 x 10-5",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic conductivity (S/cm)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25\u00baC",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.39,
+        "measurement_method": "EIS",
+        "evidence_quote": "Ionic conductivity (S/cm)\n8.6 x 10-6\n1.85 x 10-4\n5.09 x 10-4\n8.4 x 10-5\n4.8 x 10-5\n\nActivation Energy (eV)\n0.56\n0.30\n0.25\n0.39\n0.43",
+        "evidence_location": "Table 2",
+        "notes": "Table 2 is a column layout; value is the fourth row (x = 0.30) of the ionic conductivity column, activation energy 0.39 eV from the same row."
+      },
+      {
+        "material_as_written": "Li7-3xGaxLa3Zr1.9Ge0.1O12 (0.40 Ga, x = 0.40)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ga",
+          "Ge"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 8,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "4.8 x 10-5",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic conductivity (S/cm)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25\u00baC",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.43,
+        "measurement_method": "EIS",
+        "evidence_quote": "Ionic conductivity (S/cm)\n8.6 x 10-6\n1.85 x 10-4\n5.09 x 10-4\n8.4 x 10-5\n4.8 x 10-5\n\nActivation Energy (eV)\n0.56\n0.30\n0.25\n0.39\n0.43",
+        "evidence_location": "Table 2",
+        "notes": "Table 2 is a column layout; value is the fifth row (x = 0.40) of the ionic conductivity column, activation energy 0.43 eV from the same row."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 12373,
+        "outputTokens": 4851,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 12563,
+        "webSearchRequests": 0,
+        "costUSD": 0.006206770000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2293,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12563,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 17514,
+    "notional_cost_usd": 0.006206770000000001
+  },
+  "paper_id": "arXiv:2405.04831",
+  "model": "haiku"
+}

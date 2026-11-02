@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports molecular dynamics estimates of ionic conductivity for the rock-salt random substitutional crystal Li(x)Pb(1-2x)Bi(x)Te, a Li-ion conductor model, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "Li1/3 Pb1/3 Bi1/3 Te",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "6.8 \u00d7 10\u22123",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "295 K",
+        "measurement_temperature_C": 21.85,
+        "activation_energy_eV": null,
+        "measurement_method": "MD",
+        "evidence_quote": "The ionic conductivity of Li1/3 Pb1/3 Bi1/3 Te at T = 1.0 (295 K) was calculated to be 6.8 \u00d7 10\u22123 S/cm since unit",
+        "evidence_location": "Discussion",
+        "notes": "Molecular dynamics simulation under an applied electric field, not an experimental measurement. Temperature is given in reduced units T = 1.0 corresponding to 295 K (T0 = 295 K). Composition is a random substitutional model; Pb and Bi are structural cations, not dopants. The same value is repeated in the Summary as 6.8 \u00d7 10\u22123 S/cm at 295K. No activation energy is reported."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17074,
+        "outputTokens": 1463,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 17266,
+        "webSearchRequests": 0,
+        "costUSD": 0.00592347,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 774,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17266,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6112,
+    "notional_cost_usd": 0.00592347
+  },
+  "paper_id": "arXiv:2505.00362",
+  "model": "haiku"
+}

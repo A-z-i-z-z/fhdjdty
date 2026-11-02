@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2407.04126#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract and Table V give 0.2 mS/cm at 300 K for the anion-ordered bulk, with Ea = 384 meV (Table V and Sec. III D). The computational origin (MTP MD plus Nernst-Einstein conversion, Appendix B) is correct, and the checker warning is only a formatting mismatch (384 meV = 0.384 eV)."
+      },
+      {
+        "record_id": "arXiv:2407.04126#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract and Table V give 29.8 mS/cm at 300 K for the 50% anion-disordered bulk, with Ea = 216 meV (Table V and Sec. III D). The computational origin is correct, and the checker warning is only a formatting mismatch (216 meV = 0.216 eV)."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 49768,
+        "outputTokens": 948,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 49956,
+        "webSearchRequests": 0,
+        "costUSD": 0.01546163,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 554,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 49956,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4694,
+    "notional_cost_usd": 0.01546163
+  },
+  "paper_id": "arXiv:2407.04126",
+  "model": "haiku"
+}

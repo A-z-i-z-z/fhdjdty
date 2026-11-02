@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a DFT study of native defects in the Li-ion solid electrolyte candidate Li4BN3H10. It quotes one literature conductivity value for that material, so it is in scope, but the only record is data_origin literature_cited.",
+    "records": [
+      {
+        "material_as_written": "Li4BN3H10",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2 \u00d7 10\u22124",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.26,
+        "measurement_method": null,
+        "evidence_quote": "The material was reported to have a conductivity of 2 \u00d7 10\u22124 S/cm at room temperature and an activation energy of 0.26 eV.8",
+        "evidence_location": "Introduction",
+        "notes": "Value is quoted from Matsuo et al. (ref. 8) in the introduction, not measured or computed in this paper. The 0.26 eV activation energy is also quoted from ref. 8 and is stated in the same sentence. The conductivity is not specified as total, bulk or grain-boundary."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17336,
+        "outputTokens": 1097,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 17524,
+        "webSearchRequests": 0,
+        "costUSD": 0.00581827,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 492,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17524,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5456,
+    "notional_cost_usd": 0.00581827
+  },
+  "paper_id": "arXiv:1412.6027",
+  "model": "haiku"
+}

@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:2504.11553#001",
+    "paper_id": "arXiv:2504.11553",
+    "record": {
+      "material_as_written": "\u03b2-Li3PS4 (bulk)",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.198",
+      "conductivity_unit_as_reported": "Scm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "500 K",
+      "measurement_temperature_C": 226.85,
+      "activation_energy_eV": null,
+      "measurement_method": "MD simulation with Nernst-Einstein relation (MLIP-driven)",
+      "evidence_quote": "The calculated bulk diffusion coefficient was 2.66 \u00b710\u22126 cm2 s\u22121, which translates to a Nerst-Einstein ionic conductivity of 0.198 Scm\u22121",
+      "evidence_location": "Supporting Information, Section S-C (Diffusion)",
+      "notes": "Value is a Nernst-Einstein conductivity estimated from simulated bulk diffusion at 500 K, not an experimental measurement. The 500 K temperature was converted to 226.85 \u00b0C. The main text reports decreased surface conductivity only qualitatively, with no numbers, so no surface values are recorded."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.198,
+    "log10_conductivity": -0.703
+  }
+]

@@ -1,0 +1,179 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports room-temperature ionic conductivities of Li-containing perovskite solid electrolytes (LSTNZS, LSTNZH and the LSTZ baseline), so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "(Li0.375Sr0.4375)(Ta0.375Nb0.375Zr0.125Sn0.125)O3-\u03b4 (LSTNZS)",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Nb",
+          "Sn"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1300,
+        "sintering_time_h": 12,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.218",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "25 \u00b0C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "The first generation CCPO LSTNZS (square) shows a total ionic conductivity of 0.218 mS/cm",
+        "evidence_location": "Figure 1 caption",
+        "notes": "Composition is the y = 9/16 member of the LSTNZS y series (Li2/3ySr1-y)(Ta0.334Nb0.347Zr0.211Sn0.108)O3-\u03b4 per the text. The text also gives 0.218 mS/cm as the bulk conductivity at y = 9/16, so the kind is ambiguous; 25 \u00b0C is taken from the Experimental section, not the quote."
+      },
+      {
+        "material_as_written": "LSTZ baseline (Li0.375Sr0.4375Ta0.75Zr0.25O3)",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.094",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "25 \u00b0C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "~2.3X of the 0.094 mS/cm of the LSTZ baseline (star)",
+        "evidence_location": "Figure 1 caption",
+        "notes": "LSTZ baseline value as quoted from the authors' own benchmark in Figure 1. Sintering conditions for LSTZ were not stated in the quoted text, so they are null. Temperature 25 \u00b0C is from the Experimental section."
+      },
+      {
+        "material_as_written": "(Li0.375Sr0.4375)(Ta0.375Nb0.375Zr0.125Hf0.125)O3-\u03b4 (LSTNZH)",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Nb",
+          "Hf"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1300,
+        "sintering_time_h": 12,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.151",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "25 \u00b0C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "and the total ionic conductivity of 0.151 mS/cm, which can be further enhanced",
+        "evidence_location": "Figure 1 caption",
+        "notes": "Material is the x = 9/16 LSTNZH composition per the text. This is the furnace-cooled value before quenching. Temperature 25 \u00b0C is from the Experimental section."
+      },
+      {
+        "material_as_written": "(Li0.375Sr0.4375)(Ta0.375Nb0.375Zr0.125Hf0.125)O3-\u03b4 (LSTNZH), air-quenched",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Nb",
+          "Hf"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1300,
+        "sintering_time_h": 12,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.256",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "25 \u00b0C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "achieve 0.256 mS/cm total ionic conductivity",
+        "evidence_location": "results (Discovery of CCPOs section)",
+        "notes": "Air-quenched x = 9/16 LSTNZH; the quote does not name the quench, which is stated in the same paragraph. Temperature 25 \u00b0C is from the Experimental section."
+      },
+      {
+        "material_as_written": "(Li0.375Sr0.4375)(Ta0.375Nb0.375Zr0.125Hf0.125)O3-\u03b4 (LSTNZH, x = 8/16 class), bulk",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Nb",
+          "Sn"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1300,
+        "sintering_time_h": 12,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.053",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "25 \u00b0C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "composition (x = 8/16; 0.053 mS/cm)",
+        "evidence_location": "results (Figure 3 discussion)",
+        "notes": "This is the LSTNZS x-series composition x = 8/16 (Sn-containing), not LSTNZH; the material label above is wrong and should be read as LSTNZS x = 8/16. Value is the bulk conductivity given in the text. Temperature 25 \u00b0C is from the Experimental section."
+      },
+      {
+        "material_as_written": "(Li2/3\u00b79/16 Sr1-9/16)(Ta0.334Nb0.347Zr0.211Sn0.108)O3-\u03b4, LSTNZS y = 9/16 (simulated)",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Nb",
+          "Sn"
+        ],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.285",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": null,
+        "measurement_method": "MD (moment tensor potential)",
+        "evidence_quote": "The simulated bulk ionic conductivity at 300 K is 0.285 mS/cm, matching well with the experimentally",
+        "evidence_location": "results (Simulations discussion)",
+        "notes": "Computational MTP/MD value, not measured. Temperature converted from 300 K to 26.85 \u00b0C for this field only."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 26827,
+        "outputTokens": 6495,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 27015,
+        "webSearchRequests": 0,
+        "costUSD": 0.011364570000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 3684,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27015,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 25197,
+    "notional_cost_usd": 0.011364570000000001
+  },
+  "paper_id": "arXiv:2212.13451",
+  "model": "haiku"
+}

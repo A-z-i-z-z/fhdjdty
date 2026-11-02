@@ -17,6 +17,10 @@ class ParseConductivity(unittest.TestCase):
         "0.5 μS cm-1": 5e-7,
         "0.12 S m-1": 1.2e-3,
         "2.5 × 10⁻³ S cm⁻¹": 2.5e-3,
+        # Separators seen in the 100-paper run, which the first parser rejected.
+        "2.0 × 10-4 S • cm-1": 2.0e-4,
+        "10-4 S.cm-1": 1e-4,
+        "15.7 mS.cm−1": 1.57e-2,
     }
 
     def test_cases(self):

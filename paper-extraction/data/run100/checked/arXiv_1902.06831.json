@@ -1,0 +1,207 @@
+[
+  {
+    "record_id": "arXiv:1902.06831#001",
+    "paper_id": "arXiv:1902.06831",
+    "record": {
+      "material_as_written": "Li6.75La3Zr1.75Bi0.25O12",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Bi"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "Pechini citrate-gel method",
+      "sintering_temperature_C": 900,
+      "sintering_time_h": 10,
+      "relative_density_pct": 80,
+      "conductivity_value_as_reported": "5.0 x 10-6",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": "Ionic conductivity\n(S/cm) at 27 \u2070C",
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "27 \u00b0C",
+      "measurement_temperature_C": 27,
+      "activation_energy_eV": null,
+      "measurement_method": "AC impedance spectroscopy",
+      "evidence_quote": "Not measurable\n5.0 x 10-6\n7.2 x 10-6\n2.0 x 10-4\n1.2 x 10-5",
+      "evidence_location": "Table I",
+      "notes": "Table I row mapping inferred from row order: values listed after 'Not measurable' (LLZO) correspond to Bi = 0.25, 0.5, 0.75, 1.0. Relative density 0.80 from the same table column. Table text is garbled in extraction; the row label is not on the same line as the value. Table I says 'Ionic conductivity (S/cm) at 27 C'. Text states conductivities range 10-6 to 10-4 S/cm."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "relative_density_pct=80 not found as a number in the paper"
+    ],
+    "conductivity_S_per_cm": 5e-06,
+    "log10_conductivity": -5.301
+  },
+  {
+    "record_id": "arXiv:1902.06831#002",
+    "paper_id": "arXiv:1902.06831",
+    "record": {
+      "material_as_written": "Li6.5La3Zr1.5Bi0.5O12",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Bi"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "Pechini citrate-gel method",
+      "sintering_temperature_C": 900,
+      "sintering_time_h": 10,
+      "relative_density_pct": 81,
+      "conductivity_value_as_reported": "7.2 x 10-6",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": "Ionic conductivity\n(S/cm) at 27 \u2070C",
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "27 \u00b0C",
+      "measurement_temperature_C": 27,
+      "activation_energy_eV": null,
+      "measurement_method": "AC impedance spectroscopy",
+      "evidence_quote": "Not measurable\n5.0 x 10-6\n7.2 x 10-6\n2.0 x 10-4\n1.2 x 10-5",
+      "evidence_location": "Table I",
+      "notes": "Row mapping inferred from row order in Table I (third value after 'Not measurable'). Table text is garbled in extraction. Conductivity is the total resistance from the low-frequency intercept per the paper's method."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "relative_density_pct=81 not found as a number in the paper"
+    ],
+    "conductivity_S_per_cm": 7.2e-06,
+    "log10_conductivity": -5.143
+  },
+  {
+    "record_id": "arXiv:1902.06831#003",
+    "paper_id": "arXiv:1902.06831",
+    "record": {
+      "material_as_written": "Li6.25La3Zr1.25Bi0.75O12",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Bi"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "Pechini citrate-gel method",
+      "sintering_temperature_C": 900,
+      "sintering_time_h": 10,
+      "relative_density_pct": 83,
+      "conductivity_value_as_reported": "2.0 x 10-4",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": "Ionic conductivity\n(S/cm) at 27 \u2070C",
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "27 \u00b0C",
+      "measurement_temperature_C": 27,
+      "activation_energy_eV": null,
+      "measurement_method": "AC impedance spectroscopy",
+      "evidence_quote": "Not measurable\n5.0 x 10-6\n7.2 x 10-6\n2.0 x 10-4\n1.2 x 10-5",
+      "evidence_location": "Table I",
+      "notes": "Row mapping inferred from row order. The text states Li6.25La3Zr1.25Bi0.75O12 exhibits the highest measured ionic conductivity, consistent with this value being the largest in the table. Abstract's 'up to 2.0 x 10 S/cm' is garbled and not used."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "relative_density_pct=83 not found as a number in the paper"
+    ],
+    "conductivity_S_per_cm": 0.0002,
+    "log10_conductivity": -3.699
+  },
+  {
+    "record_id": "arXiv:1902.06831#004",
+    "paper_id": "arXiv:1902.06831",
+    "record": {
+      "material_as_written": "Li6La3ZrBiO12",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Bi"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "Pechini citrate-gel method",
+      "sintering_temperature_C": 900,
+      "sintering_time_h": 10,
+      "relative_density_pct": 84,
+      "conductivity_value_as_reported": "1.2 x 10-5",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": "Ionic conductivity\n(S/cm) at 27 \u2070C",
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "27 \u00b0C",
+      "measurement_temperature_C": 27,
+      "activation_energy_eV": null,
+      "measurement_method": "AC impedance spectroscopy",
+      "evidence_quote": "Not measurable\n5.0 x 10-6\n7.2 x 10-6\n2.0 x 10-4\n1.2 x 10-5",
+      "evidence_location": "Table I",
+      "notes": "Row mapping inferred from row order; this is the x = 1.0 composition (Li6La3ZrBiO12). Table text is garbled in extraction."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "relative_density_pct=84 not found as a number in the paper"
+    ],
+    "conductivity_S_per_cm": 1.2e-05,
+    "log10_conductivity": -4.921
+  },
+  {
+    "record_id": "arXiv:1902.06831#005",
+    "paper_id": "arXiv:1902.06831",
+    "record": {
+      "material_as_written": "Li6.8La3Zr1.8Bi0.2O12",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Bi"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "6.3 x10-5",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "We note that Xia et al[40] investigated mixtures of Al2O3 and Li6.8La3Zr1.8Bi0.2O12 employing sintering temperatures up to 1100 \u00b0C. However, the maximum value of the ionic conductivity attained in their work was 6.3 x10-5 S/cm.",
+      "evidence_location": "results",
+      "notes": "Value attributed to Xia et al. (ref 40), quoted by this paper; measurement temperature not stated. Sintering condition given only as a range up to 1100 \u00b0C, so not recorded as a specific value."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 6.3e-05,
+    "log10_conductivity": -4.201
+  }
+]

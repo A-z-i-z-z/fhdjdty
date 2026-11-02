@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about a computational method (PES, DP path search, NEB) for Li-ion activation energies in \u03b2-Li3PS4 and Li3YBr6, but it reports activation energies, not ionic conductivity values; its only conductivity mentions are generic class-level figures (e.g. \"ca. 10 mS/cm\" for sulfides, \"approximately 1 mS/cm\" for oxides/halides) with no specific material.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17867,
+        "outputTokens": 634,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 18057,
+        "webSearchRequests": 0,
+        "costUSD": 0.00574647,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 365,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18057,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3563,
+    "notional_cost_usd": 0.00574647
+  },
+  "paper_id": "arXiv:2104.08000",
+  "model": "haiku"
+}

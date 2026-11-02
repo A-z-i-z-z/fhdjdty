@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2507.08215#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the calculated Li+ conductivity of 10.36 mS/cm from the Nernst-Einstein relation, and the 0.2241 eV activation energy is stated in the text. No temperature is given for the conductivity, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2507.08215#002",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The 2.4 mS/cm experimental value and the 0.31 eV activation energy are correctly attributed to ref. 17. However, the paper never states a temperature for the 2.4 mS/cm value; 'room temperature' is an inference from the introduction's general description of the material, so the temperature is not supported."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 16308,
+        "outputTokens": 1536,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 16498,
+        "webSearchRequests": 0,
+        "costUSD": 0.00571803,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1177,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16498,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7047,
+    "notional_cost_usd": 0.00571803
+  },
+  "paper_id": "arXiv:2507.08215",
+  "model": "haiku"
+}

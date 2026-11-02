@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2504.11762#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that the extrapolated room-temperature (300 K) ion conductivity of the surface region after CO2 reaction is 1.27 \u00d7 10\u22123 S/m, obtained from MLFF-MD Li+ diffusion extrapolated from high temperatures. The computational origin, the temperature, and the null secondary fields are all consistent with the paper."
+      },
+      {
+        "record_id": "arXiv:2504.11762#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that the extrapolated room-temperature (300 K) ion conductivity of the bulk region (seven central layers) is 2.15 \u00d7 10\u22124 S/m, from the same MLFF-MD analysis. The material, value, unit, computational origin, and temperature all match, and the secondary fields are null as the paper does not give them."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14600,
+        "outputTokens": 1046,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 14792,
+        "webSearchRequests": 0,
+        "costUSD": 0.00496103,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 649,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14792,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4663,
+    "notional_cost_usd": 0.00496103
+  },
+  "paper_id": "arXiv:2504.11762",
+  "model": "haiku"
+}

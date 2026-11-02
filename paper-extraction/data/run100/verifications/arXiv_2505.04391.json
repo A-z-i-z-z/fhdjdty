@@ -1,0 +1,120 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2505.04391#001",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": "RT",
+            "evidence": "Table 3 row: \"Na3PS4 2.0 \u00d7 10-4 (RT) [180]\""
+          }
+        ],
+        "explanation": "Material, value and citation (Hayashi, ref 180) match the text, but Table 3 gives this value at RT, so the temperature field should not be left empty."
+      },
+      {
+        "record_id": "arXiv:2505.04391#002",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": "RT",
+            "evidence": "Table 3 row: \"Na3PS4 (cubic phase) 4.6 \u00d7 10-4 (RT) [181]\""
+          }
+        ],
+        "explanation": "The 4.6 \u00d7 10-4 S/cm cubic Na3PS4 value from ref 181 is correct, but Table 3 gives its measurement temperature as RT, which the record leaves null."
+      },
+      {
+        "record_id": "arXiv:2505.04391#003",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 25,
+            "evidence": "Table 3 row: \"Na3PS4 3.39 \u00d7 10-3 (25\u00b0C) [182]\" (tetragonal phase III, NaCrO2 cell)"
+          }
+        ],
+        "explanation": "Material, conductivity and origin (ref 182) are right, and the paper states 25\u00b0C for this exact value in Table 3, so the null temperature is incomplete."
+      },
+      {
+        "record_id": "arXiv:2505.04391#004",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 30,
+            "evidence": "Table 3 row: \"Na2.9375PS3.9375Cl0.0625 1.14 \u00d7 10-3 (30\u00b0C) [185]\""
+          }
+        ],
+        "explanation": "The Cl-doped composition and 1.14 \u00d7 10-3 S/cm value from ref 185 are correct, but Table 3 gives 30\u00b0C for it, which the record leaves null."
+      },
+      {
+        "record_id": "arXiv:2505.04391#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 3 gives Na2.9PS3.9Br0.1 at 1.15 \u00d7 10-3 S/cm (RT, after hot pressing) from ref 186, matching the text's hot-press value and the record's RT and hot-press synthesis notes."
+      },
+      {
+        "record_id": "arXiv:2505.04391#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text states Na2.88Sb0.88W0.12S4 reaches 3.2 \u00d7 10-2 S/cm after thermal treatment (ref 193), and no temperature is given, so the null is correct."
+      },
+      {
+        "record_id": "arXiv:2505.04391#007",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 25,
+            "evidence": "Table 3 row: \"TiS2 Na2.88Sb0.88W0.12S4 1.25 \u00d7 10-2 (25\u00b0C) [194]\""
+          }
+        ],
+        "explanation": "The 1.25 \u00d7 10-2 S/cm value from ref 194 for the W-substituted material is correct, but Table 3 gives 25\u00b0C for it, which the record leaves null."
+      },
+      {
+        "record_id": "arXiv:2505.04391#008",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text gives the tetragonal Na3SbS4 conductivity as 1.1 mS \u2022 cm-1 citing ref 191 with no temperature, matching the record."
+      },
+      {
+        "record_id": "arXiv:2505.04391#009",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text reports a RT conductivity of 3.1 \u00d7 10-3 S \u2022 cm-1 after 20 h ball milling (H. Gamo, ref 195), matching the record's material, value, temperature and method."
+      },
+      {
+        "record_id": "arXiv:2505.04391#010",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text reports 5.1 \u00d7 10-4 S \u2022 cm-1 at 25\u00b0C for the PVdF-tetraglyme-NaCF3SO3 electrolyte from Park et al. (ref 157), which the record correctly labels as a gel polymer electrolyte."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 41457,
+        "outputTokens": 5485,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 41649,
+        "webSearchRequests": 0,
+        "costUSD": 0.01523763,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 3927,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 41649,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 20828,
+    "notional_cost_usd": 0.01523763
+  },
+  "paper_id": "arXiv:2505.04391",
+  "model": "haiku"
+}

@@ -1,0 +1,80 @@
+[
+  {
+    "record_id": "arXiv:2310.00543#001",
+    "paper_id": "arXiv:2310.00543",
+    "record": {
+      "material_as_written": "aLLTO",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10-3",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "Amorphous lithium lanthanum titanate (aLLTO) was originally developed as a solid-state electrolyte with relatively high lithium ionic conductivity (~10-3 S/cm) and low electronic conductivity",
+      "evidence_location": "abstract",
+      "notes": "Value is quoted from prior work on amorphous LLTO (Li3xLa2/3-xTiO3), not measured in this paper. Temperature and method not stated. The tilde in the source is not part of the number."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.001,
+    "log10_conductivity": -3.0
+  },
+  {
+    "record_id": "arXiv:2310.00543#002",
+    "paper_id": "arXiv:2310.00543",
+    "record": {
+      "material_as_written": "LLTO",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10-3",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "LLTO possesses higher ionic conductivity (~10-3 S/cm) than a conventional thin film solid state electrolyte, such as lithium phosphorous oxynitride (LiPON, ~10-6 S/cm).",
+      "evidence_location": "introduction",
+      "notes": "Value is attributed to the authors' earlier pulsed-laser-deposited amorphous LLTO film work (ref 45), not measured in this paper. Temperature and method not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.001,
+    "log10_conductivity": -3.0
+  }
+]

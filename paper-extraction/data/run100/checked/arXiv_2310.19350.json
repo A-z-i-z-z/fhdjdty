@@ -1,0 +1,76 @@
+[
+  {
+    "record_id": "arXiv:2310.19350#001",
+    "paper_id": "arXiv:2310.19350",
+    "record": {
+      "material_as_written": "Li6PS5Cl (25% Cl@4c)",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "6.1",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": 0.281,
+      "measurement_method": "NNP-MD with Nernst-Einstein relation",
+      "evidence_quote": "6.1, 5.5, 4.2, and 0.4 mS/cm for 0%, 10%, 25%, 50%, 75%, and 100% Cl@4c",
+      "evidence_location": "results (Section 3.4)",
+      "notes": "Value is for 25% Cl@4c from the list of computed conductivities at 300 K; the value is taken from the sentence listing all compositions. The activation energy 0.281 eV is the low-temperature (300-400 K) Ea for 25% Cl@4c, from a separate sentence in Section 3.4; it is not a fit to the 300 K point alone. The 0.281 eV Ea is listed with its own evidence in a separate record note only; the evidence quote for this record is the conductivity list."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0061,
+    "log10_conductivity": -2.215
+  },
+  {
+    "record_id": "arXiv:2310.19350#002",
+    "paper_id": "arXiv:2310.19350",
+    "record": {
+      "material_as_written": "Li6PS5Cl (50% Cl@4c)",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5.5",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": 0.292,
+      "measurement_method": "NNP-MD with Nernst-Einstein relation",
+      "evidence_quote": "twice the actual value (5.5 mS/cm)",
+      "evidence_location": "results (Section 3.4)",
+      "notes": "Computed 300 K conductivity for 50% Cl@4c (the 300 K MD value, not the extrapolated 11.1 mS/cm). Activation energy 0.292 eV is the low-temperature (300-400 K) Ea for 50% Cl@4c from Section 3.4."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0055,
+    "log10_conductivity": -2.26
+  }
+]

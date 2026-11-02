@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2602.22989#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports the Nernst-Einstein conductivity of Li3PS4 glass as 19.7 \u00d7 10\u22123 S cm\u22121, derived from an Arrhenius extrapolation to 300 K. Origin (computational), temperature (300 K = 26.85 \u00b0C), and the null secondary fields all match the paper, and no activation energy is stated explicitly."
+      },
+      {
+        "record_id": "arXiv:2602.22989#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper cites a value of 19.0 \u00d7 10\u22123 S cm\u22121 from prior simulations (ref. 14) for Li3PS4 glass, so literature_cited is correct. No measurement temperature is given, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2602.22989#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper quotes experimental Li3PS4 glass conductivity of \u223c2.8\u20133.0 \u00d7 10\u22124 S cm\u22121 from refs. 11 and 15, which matches the record as literature_cited. The paper gives no measurement temperature, so null is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 11811,
+        "outputTokens": 1306,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 12001,
+        "webSearchRequests": 0,
+        "costUSD": 0.0042539299999999995,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 810,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12001,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5144,
+    "notional_cost_usd": 0.0042539299999999995
+  },
+  "paper_id": "arXiv:2602.22989",
+  "model": "haiku"
+}

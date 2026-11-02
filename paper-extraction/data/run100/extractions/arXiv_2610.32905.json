@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper measures Li-ion conductivity of acid-coated Li6PS5Cl, but the numeric values appear only in Fig. 3c, Fig. 4 and Fig. S18, and the text gives only relative retention (40\u201355%). The only number in the text is a background 5 mS cm\u22121 figure for the Li6PS5X family, which has no citation, so no record is extracted.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 41998,
+        "outputTokens": 1300,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 42190,
+        "webSearchRequests": 0,
+        "costUSD": 0.013319169999999998,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1037,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 42190,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6345,
+    "notional_cost_usd": 0.013319169999999998
+  },
+  "paper_id": "arXiv:2610.32905",
+  "model": "haiku"
+}

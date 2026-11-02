@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2405.16835#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states Li-KB has ionic conductivities of 18.1, 25.8, 41.1, 53.2 and 69.6 mS cm-1 at 25, 40, 60, 80 and 100 oC, so 18.1 mS cm-1 at 25 oC is correct. The 0.17 eV activation energy is stated for Li-KB, the DC method is described, the origin is experimental, and all secondary fields are null as the paper does not give them for this material."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18512,
+        "outputTokens": 660,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 18702,
+        "webSearchRequests": 0,
+        "costUSD": 0.0059412300000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 387,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18702,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3199,
+    "notional_cost_usd": 0.0059412300000000005
+  },
+  "paper_id": "arXiv:2405.16835",
+  "model": "haiku"
+}

@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper benchmarks MD-computed Li-ion conductivities of solid lithium electrolytes against experimental values, but the only explicit per-material conductivity number in the text is the experimental value used for Li4P2O7 (47i); all other conductivities appear only in figures.",
+    "records": [
+      {
+        "material_as_written": "Li4 P2 O7 (OBELiX ID 47i)",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10\u221212",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "Additionally, it should be noted that the experimental value \u03c3 = 10\u221212 mS/cm",
+        "evidence_location": "Results",
+        "notes": "Experimental value taken from the OBELiX database (Therrien et al., 2025) and used as the reference for 47i (Li4 P2 O7); the quote is split across a line break in the PDF, and the material name appears in the following line ('we use for 47i (Li4 P2 O7)'). The paper says the true value may be lower, since the literature gives only an upper bound (\u03c3exp < 10\u22127 mS/cm). Room-temperature label comes from Section 2.2's description of the OBELiX values, not a separate statement for this entry."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14574,
+        "outputTokens": 2218,
+        "cacheReadInputTokens": 17083,
+        "cacheCreationInputTokens": 816,
+        "webSearchRequests": 0,
+        "costUSD": 0.0029004300000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1536,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 816,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8220,
+    "notional_cost_usd": 0.0029004300000000003
+  },
+  "paper_id": "arXiv:2603.28012",
+  "model": "haiku"
+}

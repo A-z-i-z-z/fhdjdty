@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1412.6027#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states Li4BN3H10 has a conductivity of 2 \u00d7 10\u22124 S/cm at room temperature and an activation energy of 0.26 eV, citing ref. 8 (Matsuo et al.). The record's material, value, unit, origin as literature_cited, and null numeric temperature all match. The secondary fields are null, which is consistent with the paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17543,
+        "outputTokens": 808,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 17733,
+        "webSearchRequests": 0,
+        "costUSD": 0.00572453,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 563,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17733,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4475,
+    "notional_cost_usd": 0.00572453
+  },
+  "paper_id": "arXiv:1412.6027",
+  "model": "haiku"
+}

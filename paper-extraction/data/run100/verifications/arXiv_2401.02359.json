@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2401.02359#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract and Section 3.4.1 give 9.95 x 10-4 S/cm at room temperature for the 0.05 Ca sample, with 0.23 eV activation energy, 1050 C / 7.30 h sintering, and 95.09% relative density for that sample. Measurement temperature is only given as 'room temperature', so null is appropriate."
+      },
+      {
+        "record_id": "arXiv:2401.02359#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 row for Ca x = 0 gives 6.61 x 10-4 S/cm and 0.25 eV, matching the record. The paper gives no numerical density for this sample, so null is correct, and the room-temperature Nyquist context supports the temperature."
+      },
+      {
+        "record_id": "arXiv:2401.02359#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 row for Ca x = 0.10 gives 4.07 x 10-4 S/cm and 0.32 eV, matching the record. Sintering conditions apply to the whole series and the room-temperature Nyquist context supports the temperature."
+      },
+      {
+        "record_id": "arXiv:2401.02359#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 row for Ca x = 0.15 gives 1.75 x 10-4 S/cm and 0.34 eV, matching the record. Sintering conditions apply to the whole series and the room-temperature Nyquist context supports the temperature."
+      },
+      {
+        "record_id": "arXiv:2401.02359#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 row for Ca x = 0.20 gives 5.72 x 10-5 S/cm and 0.36 eV, matching the record. Sintering conditions apply to the whole series and the room-temperature Nyquist context supports the temperature."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14249,
+        "outputTokens": 1607,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 14439,
+        "webSearchRequests": 0,
+        "costUSD": 0.005135830000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 843,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14439,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6697,
+    "notional_cost_usd": 0.005135830000000001
+  },
+  "paper_id": "arXiv:2401.02359",
+  "model": "haiku"
+}

@@ -1,0 +1,168 @@
+[
+  {
+    "record_id": "arXiv:2508.07826#001",
+    "paper_id": "arXiv:2508.07826",
+    "record": {
+      "material_as_written": "Li6.4Ga0.2La3Zr2-xCexO12 (x = 0.10, written as 0.10 Ce; Li6.4Ga0.2La3Zr1.9Ce0.1O12)",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ga",
+        "Ce"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "conventional solid-state reaction",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": 8,
+      "relative_density_pct": 95.96,
+      "conductivity_value_as_reported": "4 x 10 -4",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.29,
+      "measurement_method": "AC impedance spectroscopy (NOVOCONTROL impedance analyzer)",
+      "evidence_quote": "shows the minimum intercept owing to maximum ionic conductivity of 4 x 10 -4 S/cm. The fitted nyquist",
+      "evidence_location": "results, Section 3.4.1",
+      "notes": "Value also given in Table 2 and abstract. Activation energy 0.29 eV from Table 2/abstract. Relative density 95.96% from Section 3.2. Paper refers to the value as ionic conductivity derived from the bulk resistance of a single semicircle; kind left as unspecified."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0004,
+    "log10_conductivity": -3.398
+  },
+  {
+    "record_id": "arXiv:2508.07826#002",
+    "paper_id": "arXiv:2508.07826",
+    "record": {
+      "material_as_written": "Li6.4Ga0.2La3Zr2-xCexO12 (x = 0, 0 Ce)",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ga",
+        "Ce"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "conventional solid-state reaction",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": 8,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.41 x 10-5",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": "(S/cm)",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.44,
+      "measurement_method": "AC impedance spectroscopy",
+      "evidence_quote": "2.41 x 10-5",
+      "evidence_location": "Table 2",
+      "notes": "Value taken from the Table 2 row for Ce content 0 (row label read from table layout; quote is the value cell only because the table row spans several lines in the PDF text). Activation energy from same row. Sintering conditions from Section 2.1 apply to all samples."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 2.41e-05,
+    "log10_conductivity": -4.618
+  },
+  {
+    "record_id": "arXiv:2508.07826#003",
+    "paper_id": "arXiv:2508.07826",
+    "record": {
+      "material_as_written": "Li6.4Ga0.2La3Zr2-xCexO12 (x = 0.20, 0.20 Ce)",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ga",
+        "Ce"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "conventional solid-state reaction",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": 8,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "9.93 x 10-5",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": "(S/cm)",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.34,
+      "measurement_method": "AC impedance spectroscopy",
+      "evidence_quote": "9.93 x 10-5",
+      "evidence_location": "Table 2",
+      "notes": "Value taken from the Table 2 row for Ce content 0.20 (row label read from table layout; quote is the value cell only because the table row spans several lines in the PDF text). Activation energy from same row. Sintering conditions from Section 2.1 apply to all samples."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 9.93e-05,
+    "log10_conductivity": -4.003
+  },
+  {
+    "record_id": "arXiv:2508.07826#004",
+    "paper_id": "arXiv:2508.07826",
+    "record": {
+      "material_as_written": "Li6.4Ga0.2La3Zr2-xCexO12 (x = 0.30, 0.30 Ce)",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ga",
+        "Ce"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "conventional solid-state reaction",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": 8,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "4.26 x 10-5",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": "(S/cm)",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.41,
+      "measurement_method": "AC impedance spectroscopy",
+      "evidence_quote": "4.26 x 10-5",
+      "evidence_location": "Table 2",
+      "notes": "Value taken from the Table 2 row for Ce content 0.30 (row label read from table layout; quote is the value cell only because the table row spans several lines in the PDF text). Activation energy from same row. Sintering conditions from Section 2.1 apply to all samples."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 4.26e-05,
+    "log10_conductivity": -4.371
+  }
+]

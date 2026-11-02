@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2405.03466#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the room-temperature impedance-derived conductivity of ~5\u00d710-4 mS/cm applies to both Li2BaSnS4 and Li2SrSiS4 (Results, Fig.4b discussion), with EIS as the method and solid-state synthesis. The NEB barrier is correctly left out of activation_energy_eV."
+      },
+      {
+        "record_id": "arXiv:2405.03466#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The same paper statement covers Li2SrSiS4 (~5\u00d710-4 mS/cm at room temperature by EIS, experimental, solid-state reaction). The 0.34 eV value is an NEB barrier and is correctly left null."
+      },
+      {
+        "record_id": "arXiv:2405.03466#003",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "conductivity_value_as_reported",
+            "correct_value": "0.016~0.72",
+            "evidence": "reaching 0.016~0.72 mS/cm"
+          }
+        ],
+        "explanation": "The paper gives a range of 0.016~0.72 mS/cm for the two Cl-doped compounds and does not tie the 0.72 maximum to a specific composition. Assigning a single value to the combined pair is not supported, so the record is unsupported under the strict standard."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 30512,
+        "outputTokens": 1680,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 30704,
+        "webSearchRequests": 0,
+        "costUSD": 0.010051629999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1116,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 30704,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7678,
+    "notional_cost_usd": 0.010051629999999999
+  },
+  "paper_id": "arXiv:2405.03466",
+  "model": "haiku"
+}

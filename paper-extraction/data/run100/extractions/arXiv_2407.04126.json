@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about the argyrodite solid electrolyte Li6PS5Cl and reports ionic conductivities (mS/cm), but these are converted from MTP-based MD diffusion coefficients via Nernst-Einstein, so they are computational values.",
+    "records": [
+      {
+        "material_as_written": "Li6PS5Cl (anion-ordered bulk)",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.2",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": 0.384,
+        "measurement_method": "MD simulation with MTP; Nernst-Einstein conversion from self-diffusion coefficient",
+        "evidence_quote": "the anion-ordered bulk structure (1.2\u00d710\u22129 cm2 /s, corresponding ionic conductivity about 0.2 mS/cm)",
+        "evidence_location": "abstract",
+        "notes": "Ionic conductivity is converted from the simulated Li self-diffusion coefficient (Eq. B1, Appendix B), not measured. Activation energy 384 meV is from the Results section (Table V), not from the quoted sentence. Quote text is taken from the abstract; the 1.2\u00d710\u22129 figure is written with PDF-extraction characters, so only the conductivity phrase is quoted."
+      },
+      {
+        "material_as_written": "Li6PS5Cl (50 % Cl/S-anion disordered bulk)",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "29.8",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": 0.216,
+        "measurement_method": "MD simulation with MTP; Nernst-Einstein conversion from self-diffusion coefficient",
+        "evidence_quote": "50 % Cl/S-anion disorder; 2.2 \u00d7 10\u22127 cm2 /s, about 29.8 mS/cm",
+        "evidence_location": "abstract",
+        "notes": "Computed by converting simulated Li self-diffusion coefficient to conductivity via Nernst-Einstein (Appendix B); not an experimental measurement. Activation energy 216 meV is from the Results section and Table V. The same value appears in Table V as 29.8 mS/cm at 300 K."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 48889,
+        "outputTokens": 2878,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 49081,
+        "webSearchRequests": 0,
+        "costUSD": 0.01617547,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1749,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 49081,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 12315,
+    "notional_cost_usd": 0.01617547
+  },
+  "paper_id": "arXiv:2407.04126",
+  "model": "haiku"
+}

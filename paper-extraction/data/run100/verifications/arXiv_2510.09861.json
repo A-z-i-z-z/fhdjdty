@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2510.09861#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 15.7 mS/cm value, the 0.24 eV activation energy and the 10 kbar CHGNet_600K NVT setup for Li3YCl6 (LYC) all match the text and Table 1, and the 300 K room-temperature extrapolation is what the paper reports. The secondary fields are null, which is correct because the paper gives no synthesis or sintering data for this simulation."
+      },
+      {
+        "record_id": "arXiv:2510.09861#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The sentence 'for LYC (LYB)' assigns 0.6 mS/cm and 0.36 eV to LYB, i.e. Li3YBr6, at 10 kbar, and Table 2 gives 0.58 for the same condition, so the text value is correctly used. The origin is computational and the 300 K temperature is correct."
+      },
+      {
+        "record_id": "arXiv:2510.09861#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 1 bar-equilibrated LYB (parenthetical) values of about 20 mS/cm and 0.25 eV match the text, and Table 2 gives 19.5 mS/cm, consistent with the approximate '\u223c 20'. The method and 300 K temperature are correct and the secondary fields are null as they should be."
+      },
+      {
+        "record_id": "arXiv:2510.09861#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states that the LYCB series conductivity 'peaks at 5.36 mS cm\u22121 near x = 4.5' citing van der Maas et al. (Ref. 9), so the literature_cited origin is right. The paper gives no measurement temperature for this sentence, so null is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 19827,
+        "outputTokens": 1901,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 20017,
+        "webSearchRequests": 0,
+        "costUSD": 0.006956229999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1194,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 20017,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8561,
+    "notional_cost_usd": 0.006956229999999999
+  },
+  "paper_id": "arXiv:2510.09861",
+  "model": "haiku"
+}

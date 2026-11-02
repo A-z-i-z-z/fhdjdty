@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a computational proposal (DFT) for radical-anion-functionalized h-BN cathode/electrolyte materials; its only Li-ion conductivity numbers (0.2 mS/cm, 0.647 mS/cm) are for h-BN composite pastes and ion gels containing liquid electrolyte, not solid Li/Na conductors, and the proposed material's ionic conductivity is not measured or quantified.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 44446,
+        "outputTokens": 905,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 44636,
+        "webSearchRequests": 0,
+        "costUSD": 0.01385567,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 634,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 44636,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5469,
+    "notional_cost_usd": 0.01385567
+  },
+  "paper_id": "arXiv:2007.06152",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies overpotentials and resistances of the solid-electrolyte interphase on alkali-metal electrodes in liquid carbonate electrolytes; it reports no ionic conductivity numbers for a solid Li/Na-ion conductor, and the liquid electrolyte conductivities are only shown in figures or referenced without values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 23841,
+        "outputTokens": 511,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 24033,
+        "webSearchRequests": 0,
+        "costUSD": 0.00747757,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 264,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24033,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3337,
+    "notional_cost_usd": 0.00747757
+  },
+  "paper_id": "arXiv:1801.09676",
+  "model": "haiku"
+}

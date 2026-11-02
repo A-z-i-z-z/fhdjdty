@@ -1,0 +1,394 @@
+[
+  {
+    "record_id": "arXiv:2505.04391#001",
+    "paper_id": "arXiv:2505.04391",
+    "record": {
+      "material_as_written": "Na3PS4 (cubic phase)",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": "ball milling and annealing of glassy state",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.0 \u00d7 10-4",
+      "conductivity_unit_as_reported": "S \u2022 cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "reaching a conductivity of 2.0 \u00d7 10-4 S \u2022 cm-1 [180]",
+      "evidence_location": "Section 5 (Na-S cells text)",
+      "notes": "Value attributed to Hayashi et al. (ref 180) by the review; measurement temperature not stated for this value."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.0002,
+    "log10_conductivity": -3.699
+  },
+  {
+    "record_id": "arXiv:2505.04391#002",
+    "paper_id": "arXiv:2505.04391",
+    "record": {
+      "material_as_written": "Na3PS4 (cubic phase, purer Na2S precursor)",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "4.6 \u00d7 10-4",
+      "conductivity_unit_as_reported": "S \u2022 cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "the conductivity value of Na3PS4 solid-state electrolyte in its cubic phase has been doubled reaching 4.6 \u00d7 10-4 S \u2022 cm-1 [181]",
+      "evidence_location": "Section 5 (Na-S cells text)",
+      "notes": "Literature value cited from ref 181; measurement temperature not stated in text."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00046,
+    "log10_conductivity": -3.337
+  },
+  {
+    "record_id": "arXiv:2505.04391#003",
+    "paper_id": "arXiv:2505.04391",
+    "record": {
+      "material_as_written": "Na3PS4 (tetragonal phase)",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.39 \u00d7 10-3",
+      "conductivity_unit_as_reported": "S \u2022 cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "found a tetragonal phase having larger lattice volume and an increased conductivity of 3.39 \u00d7 10-3 S \u2022 cm-1 [182]",
+      "evidence_location": "Section 5 (Na-S cells text); Table 3 lists 25\u00b0C",
+      "notes": "Attributed to S. Takeuchi et al. (ref 182). The 25\u00b0C temperature appears only in Table 3, not in this sentence, so it is left null."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00339,
+    "log10_conductivity": -2.47
+  },
+  {
+    "record_id": "arXiv:2505.04391#004",
+    "paper_id": "arXiv:2505.04391",
+    "record": {
+      "material_as_written": "Na2.9375PS3.9375Cl0.0625",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Cl"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.14 \u00d7 10-3",
+      "conductivity_unit_as_reported": "S \u2022 cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "Indeed, chlorine doping has been successfully used achieving 1.14 \u00d7 10-3 S \u2022 cm-1 conductivity by using a Na2.9375PS3.9375Cl0.0625 formulation [185]",
+      "evidence_location": "Section 5 (Na-S cells text); Table 3 lists 30\u00b0C",
+      "notes": "Literature value from ref 185. The 30\u00b0C temperature appears only in Table 3, so it is left null here."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00114,
+    "log10_conductivity": -2.943
+  },
+  {
+    "record_id": "arXiv:2505.04391#005",
+    "paper_id": "arXiv:2505.04391",
+    "record": {
+      "material_as_written": "Na3PS4 with Br substituting S (Na2.9PS3.9Br0.1 per Table 3)",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Br"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": "hot press treatment",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.15\u00d7 10-3",
+      "conductivity_unit_as_reported": "S \u2022 cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "RT, after hot pressing treatment",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "reaching a remarkable value of 1.15\u00d7 10-3 S \u2022 cm-1 conductivity after a hot press treatment",
+      "evidence_location": "Section 5 (Na-S cells text); Table 3 lists composition Na2.9PS3.9Br0.1 and RT",
+      "notes": "The text does not write the formulation; composition taken from Table 3 row for ref 186. Literature value."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00115,
+    "log10_conductivity": -2.939
+  },
+  {
+    "record_id": "arXiv:2505.04391#006",
+    "paper_id": "arXiv:2505.04391",
+    "record": {
+      "material_as_written": "Na2.88Sb0.88W0.12S4",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Na",
+      "dopants": [
+        "W"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": "thermal treatment",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.2 \u00d7 10-2",
+      "conductivity_unit_as_reported": "S \u2022 cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "a Na2.88Sb0.88W0.12S4 formulation shows an outstanding ionic conductivity of 3.2 \u00d7 10-2 S \u2022 cm-1 after thermal treatment",
+      "evidence_location": "Section 5 (Na-S cells text)",
+      "notes": "Attributed to A. Hayashi et al. (ref 193). Measurement temperature not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.032,
+    "log10_conductivity": -1.495
+  },
+  {
+    "record_id": "arXiv:2505.04391#007",
+    "paper_id": "arXiv:2505.04391",
+    "record": {
+      "material_as_written": "Na2.88Sb0.88W0.12S4",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Na",
+      "dopants": [
+        "W"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": "polysulfide liquid-form synthesis",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.25\u00d7 10-2",
+      "conductivity_unit_as_reported": "S \u2022 cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "the same material could achieve an ionic conductivity of 1.25\u00d7 10-2 S \u2022 cm-1 [194]",
+      "evidence_location": "Section 5 (Na-S cells text); Table 3 lists 25\u00b0C",
+      "notes": "Literature value from ref 194. The 25\u00b0C temperature appears only in Table 3, so it is left null here."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.0125,
+    "log10_conductivity": -1.903
+  },
+  {
+    "record_id": "arXiv:2505.04391#008",
+    "paper_id": "arXiv:2505.04391",
+    "record": {
+      "material_as_written": "Na3SbS4 (tetragonal)",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.1",
+      "conductivity_unit_as_reported": "mS \u2022 cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "thanks to its high conductivity of 1.1 mS \u2022 cm-1",
+      "evidence_location": "Section 5 (Na-S cells text)",
+      "notes": "Literature value from ref 191, quoted in the review without temperature."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.0011,
+    "log10_conductivity": -2.959
+  },
+  {
+    "record_id": "arXiv:2505.04391#009",
+    "paper_id": "arXiv:2505.04391",
+    "record": {
+      "material_as_written": "Na3SbS4 (cubic and tetragonal crystallites, ball milled 20 h)",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": "ball milling",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.1 \u00d7 10-3",
+      "conductivity_unit_as_reported": "S \u2022 cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "RT",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "showing a RT conductivity of 3.1 \u00d7 10-3 S \u2022 cm-1 after ball milling of 20 h [195]",
+      "evidence_location": "Section 5 (Na-S cells text); Table 3 lists RT",
+      "notes": "Literature value from H. Gamo et al. (ref 195)."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0031,
+    "log10_conductivity": -2.509
+  },
+  {
+    "record_id": "arXiv:2505.04391#010",
+    "paper_id": "arXiv:2505.04391",
+    "record": {
+      "material_as_written": "PVdF-tetraglyme-NaCF3SO3 gel polymer electrolyte",
+      "material_class": "polymer",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5.1 \u00d7 10\u22124",
+      "conductivity_unit_as_reported": "S \u2022 cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25\u00b0C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "featured a sodium ion conductivity of 5.1 \u00d7 10\u22124 S \u2022 cm\u22121 at 25\u00b0C",
+      "evidence_location": "Section 5 (Na-S cells text)",
+      "notes": "This is a gel polymer electrolyte (PVdF/tetraglyme/NaCF3SO3) from Park et al. (ref 157), not a fully solid electrolyte; included as the paper reports it as a Na-ion conductor."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00051,
+    "log10_conductivity": -3.292
+  }
+]

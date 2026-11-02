@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1707.00491#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section III.B.4 says that for xLi \u2248 6.5 (e.g. Li6.55 Ga0.15 La3 Zr2 O12) conductivities as high as 1.3 \u00d7 10\u22123 S cm\u22121 have been reported (refs 74, 75), so the material, value, unit and literature_cited origin are right. The paper gives no measurement temperature, and all secondary fields are correctly null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 33759,
+        "outputTokens": 762,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 33949,
+        "webSearchRequests": 0,
+        "costUSD": 0.01056633,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 506,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 33949,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3907,
+    "notional_cost_usd": 0.01056633
+  },
+  "paper_id": "arXiv:1707.00491",
+  "model": "haiku"
+}

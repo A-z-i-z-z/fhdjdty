@@ -1,0 +1,78 @@
+[
+  {
+    "record_id": "arXiv:2511.08449#001",
+    "paper_id": "arXiv:2511.08449",
+    "record": {
+      "material_as_written": "Mg0.25 NZSP",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Mg"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "swirling spray flame synthesis followed by reactive two-step sintering",
+      "sintering_temperature_C": 1100,
+      "sintering_time_h": 12,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.91",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature (25\u2103)",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.2,
+      "measurement_method": "EIS",
+      "evidence_quote": "conductivity of 1.91 mS/cm at room temperature (25\u2103) and",
+      "evidence_location": "abstract",
+      "notes": "Material identified from abstract context as Mg0.25 NZSP. Value applies to pellets sintered at 1200/1100\u2103-12h (heated to 1200\u2103, held 12 h at 1100\u2103); sintering_temperature_C records the 12 h holding temperature. Activation energy 0.200 eV is for the same 1200/1100\u2103-12h sample, from the abstract. Relative density not stated for this sample (96.4% is reported only for undoped Mg0 NZSP)."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00191,
+    "log10_conductivity": -2.719
+  },
+  {
+    "record_id": "arXiv:2511.08449#002",
+    "paper_id": "arXiv:2511.08449",
+    "record": {
+      "material_as_written": "Mg0 NZSP",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "swirling spray flame synthesis followed by reactive two-step sintering",
+      "sintering_temperature_C": 1100,
+      "sintering_time_h": 12,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.62",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "25\u2103",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "compared to the undoped sample (0.62 mS/cm).",
+      "evidence_location": "Section 2.3 Electrical Conductivity",
+      "notes": "Undoped reference (Mg0 NZSP, x=0) sintered at 1200/1100\u2103-12h per Section 2.3; sintering_temperature_C records the 12 h holding temperature. Conductivity described as ionic conductivity at 25\u2103 from EIS. No activation energy for this composition is given in the main text. Table S1 and Figure 3e are not used because their numbers are not in the text."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00062,
+    "log10_conductivity": -3.208
+  }
+]

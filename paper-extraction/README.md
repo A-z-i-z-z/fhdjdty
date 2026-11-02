@@ -113,6 +113,36 @@ python3 -m unittest discover -s tests -t .
 
 ## What has been tested so far
 
+### 100-paper run (2026-11-02)
+
+`fetch --n 100` then `run --concurrency 16`, outputs in [`data/run100/`](data/run100/). The
+arXiv search for the default query ran out at 82 results; one PDF download broke, so 81
+papers were processed (54 in scope). arXiv started answering HTTP 429 after ~30 PDFs in a
+row, so `fetch` now retries with backoff and skips a paper whose download fails.
+
+- 163 records extracted, **141 kept (87%)**: 51 experimental, 33 computational, 57
+  `literature_cited`. The checker rejected 12, the verifier rejected 10 and corrected 6.
+- The first pass kept only 126: the unit parser did not accept `S • cm-1`, `S.cm-1` or
+  `mS.cm−1`, which one review paper uses throughout. Fixed in `check.py` (with tests) and the
+  three affected papers re-verified.
+- What the verifier rejected: an unsupported or missing measurement temperature (6), a value
+  tied to the wrong or an unnamed composition (2), a range collapsed into a single value, and
+  a bulk/total mix-up. At least two of the temperature cases had the right value and
+  material and could have been corrected rather than rejected.
+- About 6.2M input and 0.31M output tokens (≈ 80k per paper), notional API price $1.01.
+
+**Hand spot check** of 30 random kept records against the paper text (seed 42): material,
+value, unit and conductivity kind were right in **30/30**. Data origin was wrong in **2/30**:
+both from one paper (arXiv:2503.11941) that recalls computed values from the authors' own
+earlier paper and were labelled `computational` instead of `literature_cited`. Secondary
+fields checked (activation energy, density, sintering temperature) were right. One
+systematic gap: 7 kept records report "300 K" but leave `measurement_temperature_C` null;
+converting Kelvin should move into code, like the conductivity units.
+
+So on this sample about 93% of kept records are fully right and 100% have the right number
+for the right material. The verifier is not just rubber-stamping (it rejected 10 and
+corrected 6), but it misses "cited from our own earlier work".
+
 ### Real 15-paper pilot (2026-11-02)
 
 Run with `fetch --n 15` and `run --concurrency 8` on Haiku. Full outputs are in

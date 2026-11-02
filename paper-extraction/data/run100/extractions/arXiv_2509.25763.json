@@ -1,0 +1,100 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a computational structure-prediction study of oxide Li-ion solid electrolytes and reports MD-derived Li ionic conductivities for specific candidate compositions.",
+    "records": [
+      {
+        "material_as_written": "Li4Hf2Si3O12",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "14.09",
+        "conductivity_unit_as_reported": "mS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": 0.183,
+        "measurement_method": "MLIP-MD (SevenNet-0) with Arrhenius extrapolation to 300 K",
+        "evidence_quote": "shows an ionic conductivity of 14.09 mS cm\u22121",
+        "evidence_location": "results (Section 2.5)",
+        "notes": "Predicted value, not experimental. The 300 K value is extrapolated from 800-1200 K MD via Arrhenius fit. Activation energy 0.183 \u00b1 0.016 eV is from Table 2 (row Li4Hf2Si3O12 (I)), not from the quoted sentence. Table 2 gives sigma300K 14.090 mS cm\u22121. Material is NASICON-type; class set to 'other' since it is a computed candidate not in the enumerated class list."
+      },
+      {
+        "material_as_written": "Li2Ta2SiO8",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.0004",
+        "conductivity_unit_as_reported": "mS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": 0.562,
+        "measurement_method": "MLIP-MD (SevenNet-0) with Arrhenius extrapolation to 300 K",
+        "evidence_quote": "exhibits low ionic conductivity (0.0004 mS cm\u22121) at 300 K",
+        "evidence_location": "Discussion",
+        "notes": "Predicted value for the undoped lowest-energy novel-framework Li2Ta2SiO8. Activation barrier 0.562 eV is from the Section 2.5 text describing undoped Li2Ta2SiO8, not from the quoted sentence. Class set to 'other' since it is a computed candidate."
+      },
+      {
+        "material_as_written": "Li2.125 Ta1.875 Hf0.125 SiO8",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Hf"
+        ],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.193",
+        "conductivity_unit_as_reported": "mS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": 0.352,
+        "measurement_method": "MLIP-MD (SevenNet-0) with Arrhenius extrapolation to 300 K",
+        "evidence_quote": "the ionic conductivity at 300 K increases by more than an order of magnitude (0.193 mS cm\u22121)",
+        "evidence_location": "Discussion",
+        "notes": "Hf-doped Li2Ta2SiO8 (formula given in Discussion text as Li2.125 Ta1.875 Hf0.125 SiO8). Quote does not contain the formula; it refers to the Hf-doped variant of the Li2Ta2SiO8 discussed just before. Activation energy 0.352 eV is from Section 2.5 text (barrier lowered from 0.562 to 0.352 eV), not from the quoted sentence. Computational prediction."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 25722,
+        "outputTokens": 4232,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 25910,
+        "webSearchRequests": 0,
+        "costUSD": 0.00990157,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2670,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 25910,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 16498,
+    "notional_cost_usd": 0.00990157
+  },
+  "paper_id": "arXiv:2509.25763",
+  "model": "haiku"
+}

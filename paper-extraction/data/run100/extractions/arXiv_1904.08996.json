@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about solid Li-ion electrolytes, but it reports no ionic conductivity values in S/cm or equivalent. Its conductivity content is a predicted \"superionic likelihood\" percentage and qualitative statements, so it has no extractable conductivity records.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 27245,
+        "outputTokens": 477,
+        "cacheReadInputTokens": 3137,
+        "cacheCreationInputTokens": 27435,
+        "webSearchRequests": 0,
+        "costUSD": 0.00848137,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 256,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27435,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3327,
+    "notional_cost_usd": 0.00848137
+  },
+  "paper_id": "arXiv:1904.08996",
+  "model": "haiku"
+}

@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2201.11203#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that the ionic conductivity of gc-Li42P16S61 is 33.1 mS cm\u20131 from this work's AIMD with Arrhenius extrapolation to room temperature, and Table 1 lists it under 'Our AIMD'. Null activation energy and synthesis fields are acceptable."
+      },
+      {
+        "record_id": "arXiv:2201.11203#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text gives crystalline Li7P3S11 at 46.9 mS cm\u20131 as this work's predicted value, used for comparison with gc-Li42P16S61. Origin is computational and the temperature is room temperature, so the record is consistent with the paper."
+      },
+      {
+        "record_id": "arXiv:2201.11203#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives \u03b2-Li3PS4 at 14.3 mS cm\u20131 as a simulated room-temperature value, and says predicted \u03b2 conductivities are much greater than experiment. The record's computational origin and null secondary fields are consistent."
+      },
+      {
+        "record_id": "arXiv:2201.11203#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text states gc-Li38P24S79 (x = 0.613) has ionic conductivity 3.45 mS cm\u20131 and activation energy 0.282 eV, and Table 1 gives the same values under 'Our AIMD' with the RT column in mS cm\u22121. The temperature is room temperature and origin computational, as recorded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 33283,
+        "outputTokens": 2246,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 33475,
+        "webSearchRequests": 0,
+        "costUSD": 0.01116593,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1618,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 33475,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10239,
+    "notional_cost_usd": 0.01116593
+  },
+  "paper_id": "arXiv:2201.11203",
+  "model": "haiku"
+}

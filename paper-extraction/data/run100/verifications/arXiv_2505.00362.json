@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2505.00362#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that the ionic conductivity of Li1/3Pb1/3Bi1/3Te at T = 1.0 (295 K) was calculated to be 6.8 \u00d7 10\u22123 S/cm, and the Summary repeats it at 295 K. The value comes from MD under an applied field, so 'computational' is correct, and the 21.85 \u00b0C conversion is right. The secondary fields are all null, which matches the paper, and Pb and Bi are described as structural cations, so dopants = [] is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17356,
+        "outputTokens": 1085,
+        "cacheReadInputTokens": 1963,
+        "cacheCreationInputTokens": 17544,
+        "webSearchRequests": 0,
+        "costUSD": 0.005806530000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 784,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17544,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5086,
+    "notional_cost_usd": 0.005806530000000001
+  },
+  "paper_id": "arXiv:2505.00362",
+  "model": "haiku"
+}
