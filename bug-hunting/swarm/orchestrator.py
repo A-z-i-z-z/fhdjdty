@@ -39,6 +39,8 @@ def parse_args(argv=None):
     ap.add_argument("--effort", default="medium", choices=["low", "medium", "high", "xhigh", "max"])
     ap.add_argument("--replay-file")
     ap.add_argument("--max-units", type=int, default=20, help="number of agents to launch")
+    ap.add_argument("--max-unit-lines", type=int, default=0,
+                    help="override the config's slice size (smaller slices, more agents)")
     ap.add_argument("--only", default="", help="substring filter on unit ids, e.g. strutils.py")
     ap.add_argument("--concurrency", type=int, default=10, help="agents running at once")
     ap.add_argument("--verify-workers", type=int, default=4)
@@ -60,6 +62,8 @@ async def run(args) -> Path:
     out.mkdir(parents=True, exist_ok=True)
     root = prepare_checkout(cfg, runs / "_targets")
 
+    if args.max_unit_lines:
+        cfg.max_unit_lines = args.max_unit_lines
     units = [u for u in make_units(cfg, root) if args.only in u.unit_id][: args.max_units]
     print(f"[swarm] target {cfg.name} at {root}; {len(units)} units, concurrency {args.concurrency}")
 

@@ -76,6 +76,11 @@ Outputs in `runs/<run-id>/`: `report.md`, `findings/<id>/{test_repro.py,fix.patc
   verifier fixes below (all 29 claims were re-verified with `--backend replay`, no new model
   calls). 3 of the 28 come with a patch that fixes the test without breaking any of the 423
   suite tests. The 28 still need a human read before anything goes upstream.
+- 100-agent run on boltons (2026-11-02): `--max-unit-lines 150` splits boltons into 96 slices,
+  one Haiku agent each, 10 at a time. $0.784 and 340 s in total, 0 agent errors. 102 claims,
+  101 reproduce, 94 unique after dedupe, 13 with a patch that passes all 423 suite tests. It
+  re-found the first pilot's bugs and many new ones. A 99% reproduction rate says the tests
+  fail, not that every expectation is right, so precision is unknown until someone triages.
 - That run exposed two verifier problems, now fixed: the "test must name the symbol" rule
   rejected 12 claims whose tests reach a dunder or private helper through its class or a public
   caller (it now accepts any part of the dotted symbol, or an import of the claimed module), and
