@@ -1,0 +1,37 @@
+Effect of Mg substitution on the lithium-ion conductivity of Al-doped Li7La3Zr2O12
+
+Abstract
+Cubic garnet Li6.4Al0.2La3Zr2O12 (Al-LLZO) and Mg co-doped samples Li6.4-2yAl0.2MgyLa3Zr2O12
+(y = 0, 0.05, 0.10) were prepared by a conventional solid-state reaction. The y = 0.05 sample
+sintered at 1150 °C for 12 h reached a relative density of 96.2 % and a total ionic conductivity
+of 4.8 × 10−4 S cm−1 at 25 °C, with an activation energy of 0.31 eV.
+
+1. Introduction
+Garnet-type Li7La3Zr2O12 was first reported by Murugan et al. with a total conductivity of
+about 3 × 10−4 S cm−1 at room temperature [1]. Tantalum doping has since pushed values to
+1.0 mS cm−1 [2]. Electronic conductivity of garnets is typically below 10−8 S cm−1, which is
+essential for suppressing dendrites.
+
+2. Experimental
+Powders were mixed in stoichiometric ratios with 10 wt% excess Li2CO3, calcined at 900 °C for
+6 h and pressed into pellets. Pellets were sintered at 1150 °C for 12 h under mother powder.
+Impedance spectra were collected from 1 MHz to 0.1 Hz with Au blocking electrodes between
+25 and 100 °C.
+
+3. Results
+Table 1. Density and conductivity of Li6.4-2yAl0.2MgyLa3Zr2O12 at 25 °C.
+y      Relative density (%)    σtotal (S cm−1)       Ea (eV)
+0      93.5                    2.9 × 10−4            0.35
+0.05   96.2                    4.8 × 10−4            0.31
+0.10   94.1                    3.6 × 10−4            0.33
+
+The bulk conductivity of the y = 0.05 sample, obtained by fitting the high-frequency arc, was
+6.1 × 10−4 S cm−1. Figure 4 shows that the y = 0.10 sample degrades after air exposure,
+with conductivity dropping by roughly an order of magnitude.
+
+4. Conclusion
+Mg co-doping at y = 0.05 raises the total conductivity of Al-LLZO by about 65 %.
+
+References
+[1] R. Murugan, V. Thangadurai, W. Weppner, Angew. Chem. 2007.
+[2] A. Example, J. Imaginary Solids 2019.
