@@ -1,0 +1,437 @@
+{
+  "backend": "claude-cli",
+  "model": "claude-haiku-5-5",
+  "agents_per_lemma": 1,
+  "rounds": 4,
+  "lemmas": 100,
+  "proved": 99,
+  "attempts": 111,
+  "by_tier": {
+    "exercise": "25/25",
+    "stretch": "38/39",
+    "olympiad": "36/36"
+  },
+  "attempt_outcomes": {
+    "ok": 99,
+    "compile": 12
+  },
+  "reported_cost_usd": 0.2232,
+  "solved": {
+    "e_abs_tri": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_bernoulli": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_cauchy2": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_choose_sum": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_cube_mod9": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_digits_mod9": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_eleven_dvd": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_even_sq": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_gcd_consec": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_gcd_fib": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_geom_two": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_inj_comp": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_lin_sys": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_pow5_last_digit": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_prime_two_or_odd": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_quad_roots": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_set_distrib": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_seven_dvd": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_sqrt2_irr": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_sum_odd": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_sum_recip": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_sum_sq": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_three_sq": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_two_ab": {
+      "agent": 0,
+      "round": 1
+    },
+    "e_two_pow_le_fact": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_ab_bc_ca_le": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_amgm_prod_one": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_complex_norm": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_complex_sqrt_neg1": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_cos36_cos72": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_count_3_or_5": {
+      "agent": 0,
+      "round": 2
+    },
+    "o_cubes_zero_sum": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_diff_sq_17": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_div_133": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_div_64": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_div_9": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_floor_sqrt": {
+      "agent": 0,
+      "round": 2
+    },
+    "o_hermite2": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_imo1959_p1": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_imo1995_p2": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_min_x2_recip": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_n_dvd_2n_sub1": {
+      "agent": 0,
+      "round": 2
+    },
+    "o_pairwise_8abc": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_poly_coeffs": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_power_mean3": {
+      "agent": 0,
+      "round": 2
+    },
+    "o_prime_sq_add2": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_prime_triplet": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_primes_3mod4": {
+      "agent": 0,
+      "round": 2
+    },
+    "o_rec_linear": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_rec_second": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_recip_sum3": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_sq_sum_third": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_sqrt_sum": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_square_n": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_sum3_pairs": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_sum_k_choose": {
+      "agent": 0,
+      "round": 2
+    },
+    "o_titu": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_trig_quartic": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_two_pow_three_pow": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_vandermonde_sq": {
+      "agent": 0,
+      "round": 1
+    },
+    "o_vieta_cubes": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_additive_odd": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_amgm4": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_boolean_ring": {
+      "agent": 0,
+      "round": 2
+    },
+    "s_cassini": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_cauchy3": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_cayley_hamilton2": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_cubes_four": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_deriv_cubic": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_digit_sum_2_100": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_divisors_360": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_euler_poly": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_exp_quad": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_fib_add": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_fib_sq_sum": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_fib_three_even": {
+      "agent": 0,
+      "round": 2
+    },
+    "s_func_solve": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_group_exp2": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_harmonic_pow2": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_ivt_root": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_log_lower": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_odd_cubes": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_pairs_choose": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_pigeonhole": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_prime_sq_24": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_recip_sq_sum": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_recip_sum": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_schur": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_sophie_germain": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_sqrt2_add_sqrt3": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_sqrt3_irr": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_sqrt_diff": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_strictmono_cubic": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_sum_k_fact": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_tendsto_ratio": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_tendsto_recip": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_three_sq_mod8": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_totient_1000": {
+      "agent": 0,
+      "round": 1
+    },
+    "s_two_sq_mod4": {
+      "agent": 0,
+      "round": 1
+    }
+  },
+  "unsolved": [
+    "s_pow_mod_1000"
+  ],
+  "already_in_library": {
+    "e_two_ab": "Try this:\n  [apply] exact two_mul_le_add_sq a b",
+    "e_sqrt2_irr": "Try this:\n  [apply] exact irrational_sqrt_two",
+    "e_gcd_fib": "Try this:\n  [apply] exact Nat.fib_coprime_fib_succ n",
+    "e_choose_sum": "Try this:\n  [apply] exact Nat.sum_range_choose n",
+    "e_abs_tri": "Try this:\n  [apply] exact abs_add_le a b",
+    "e_inj_comp": "Try this:\n  [apply] exact Function.Injective.comp hg hf",
+    "e_set_distrib": "Try this:\n  [apply] exact Set.inter_union_distrib_left A B C",
+    "e_prime_two_or_odd": "Try this:\n  [apply] exact Nat.Prime.eq_two_or_odd' hp",
+    "s_fib_add": "Try this:\n  [apply] exact Nat.fib_add m n",
+    "s_exp_quad": "Try this:\n  [apply] exact Real.quadratic_le_exp_of_nonneg hx",
+    "s_tendsto_recip": "Try this:\n  [apply] exact tendsto_one_div_add_atTop_nhds_zero_nat",
+    "s_divisors_360": "Try this:\n  [apply] exact Eq.symm (Nat.eq_of_beq_eq_true rfl)",
+    "s_digit_sum_2_100": "Try this:\n  [apply] exact Nat.eq_of_beq_eq_true rfl",
+    "o_vandermonde_sq": "Try this:\n  [apply] exact Nat.sum_range_choose_sq n",
+    "o_sum_k_choose": "Try this:\n  [apply] exact Nat.sum_range_mul_choose n"
+  }
+}

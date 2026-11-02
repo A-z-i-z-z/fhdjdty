@@ -232,7 +232,7 @@ def main() -> int:
     ap.add_argument("--effort", default="medium", help="api backend only")
     ap.add_argument("--mock-answers", type=Path)
     ap.add_argument("--only", nargs="*", help="lemma ids")
-    ap.add_argument("--tier", choices=["calibration", "exercise", "stretch"])
+    ap.add_argument("--tier", choices=["calibration", "exercise", "stretch", "olympiad"])
     ap.add_argument("--requires", choices=["core", "mathlib"])
     ap.add_argument("--agents-per-lemma", type=int, default=1)
     ap.add_argument("--rounds", type=int, default=4, help="attempts per agent (each retry sees the last Lean error)")
