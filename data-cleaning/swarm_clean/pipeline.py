@@ -82,7 +82,7 @@ def run_pass(backend, cache: LabelCache, model_tag: str, framing: str, records: 
         else:
             todo.append((key, job))
     stats = {"framing": framing, "cached": len(labels), "called": len(todo), "errors": 0,
-             "input_tokens": 0, "output_tokens": 0}
+             "input_tokens": 0, "output_tokens": 0, "cost_usd": 0.0}
     if not todo:
         return labels, stats
     keys = {job.id: key for key, job in todo}
@@ -103,6 +103,7 @@ def run_pass(backend, cache: LabelCache, model_tag: str, framing: str, records: 
         usage = res.get("usage") or {}
         stats["input_tokens"] += usage.get("input_tokens", 0)
         stats["output_tokens"] += usage.get("output_tokens", 0)
+        stats["cost_usd"] += usage.get("cost_usd", 0.0)
         if "label" in res:
             labels[job.record["id"]] = res["label"]
         else:
@@ -225,6 +226,7 @@ def main(argv: list[str] | None = None) -> int:
     passed = recall is not None and recall >= args.min_canary_recall
     tokens_in = sum(s["input_tokens"] for s in (stats_a, stats_b, stats_c))
     tokens_out = sum(s["output_tokens"] for s in (stats_a, stats_b, stats_c))
+    cost_reported = sum(s.get("cost_usd", 0.0) for s in (stats_a, stats_b, stats_c))
     report = {
         "status": "PASS" if passed else "FAIL",
         "backend": backend.name, "model_tag": model_tag, "prompt_version": PROMPT_VERSION,
@@ -240,7 +242,8 @@ def main(argv: list[str] | None = None) -> int:
         "gold_category": {k: v for k, v in gold.items() if k != "possible_mislabels"}
         | {"possible_mislabels": len(gold["possible_mislabels"])},
         "tokens": {"input": tokens_in, "output": tokens_out,
-                   "est_api_cost_usd": round((tokens_in * PRICE_IN + tokens_out * PRICE_OUT) / 1e6, 4)},
+                   "est_api_cost_usd": round((tokens_in * PRICE_IN + tokens_out * PRICE_OUT) / 1e6, 4),
+                   "backend_reported_usd": round(cost_reported, 4)},
         "reject_reasons": _reason_counts(rejected + swarm_rejected),
     }
     (out / "report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
@@ -313,7 +316,10 @@ def _markdown(r: dict, gold: dict) -> str:
         "## Cost",
         "",
         f"{r['tokens']['input']:,} input and {r['tokens']['output']:,} output tokens, "
-        f"about ${r['tokens']['est_api_cost_usd']} at Haiku 5.5 API list price.",
+        f"about ${r['tokens']['est_api_cost_usd']} at Haiku 5.5 API list price"
+        + (f" (the backend itself reported ${r['tokens']['backend_reported_usd']}, which"
+           " prices prompt-cache reads correctly)" if r["tokens"].get("backend_reported_usd") else "")
+        + ". Cached labels from earlier runs are free and not counted.",
         "",
         "## Labeler calls",
         "",

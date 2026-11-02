@@ -8,6 +8,12 @@ from __future__ import annotations
 import random
 
 CONTEXT_CATEGORIES = {"closed_qa", "information_extraction", "summarization"}
+# Words that show the instruction points at a passage. Without one, a question
+# like "What is the official name of Singapore?" stays answerable after the
+# passage is removed, and the canary would not actually be bad.
+PASSAGE_WORDS = ("passage", "paragraph", "text", "article", "reference", "above",
+                 "below", "following", "given", "provided", "this", "based on", "from the")
+SENTENCE_END = (".", "!", "?", ":", ";", '."', '!"', '?"')
 
 
 def _swapped(rng: random.Random, records: list[dict], idx: int) -> dict:
@@ -25,7 +31,8 @@ def _swapped(rng: random.Random, records: list[dict], idx: int) -> dict:
 
 def _context_removed(rng: random.Random, records: list[dict], idx: int) -> dict | None:
     """A task that depends on a passage, with the passage deleted."""
-    pool = [r for r in records if r["category"] in CONTEXT_CATEGORIES and len(r["context"]) > 200]
+    pool = [r for r in records if r["category"] in CONTEXT_CATEGORIES and len(r["context"]) > 200
+            and any(w in r["instruction"].lower() for w in PASSAGE_WORDS)]
     if not pool:
         return None
     base = rng.choice(pool)
@@ -40,6 +47,10 @@ def _truncated(rng: random.Random, records: list[dict], idx: int) -> dict | None
     base = rng.choice(pool)
     words = base["response"].split()
     cut = max(8, len(words) // 4)
+    # Never stop at the end of a sentence, or the cut-off response can still
+    # read as a complete (if short) answer.
+    while cut < len(words) - 1 and words[cut - 1].endswith(SENTENCE_END):
+        cut += 1
     return {**base, "response": " ".join(words[:cut]), "canary": "truncated_response"}
 
 

@@ -115,10 +115,27 @@ tie-break path, and a run that must fail when the labelers miss the canaries.
 
 ## Status and next steps
 
-The pipeline has only been run with the mock backend so far; the container it
-was built in could not reach Hugging Face. Suggested next steps:
+First live run (2026-11-02): `--backend claude-cli --limit 200 --workers 8`,
+482 Haiku calls, no errors, about 7 minutes.
 
-1. Run `--backend api --limit 500` and read `out/report.md`. Canary recall and
-   gold accuracy show whether the prompts are good enough.
-2. Spot-check 50 kept and 50 rejected records by hand before scaling up.
-3. Run the full dataset with `--batch`.
+| Measure | Result |
+|---|---|
+| Canary recall | 10/10 (100%), run **PASS** |
+| Kappa A vs B | keep 0.65, category 0.75 |
+| Category accuracy vs Dolly | 54.5% (198 records) |
+| Kept | 128 of 200 (71 dropped by the swarm, 1 by rules) |
+| Cost per call | about $0.0008 at API list price, as reported by the CLI |
+
+Most category "errors" are the fuzzy Dolly boundaries: information_extraction
+and summarization labeled closed_qa, general_qa labeled open_qa. A 20-record
+side run showed two canary flaws (a truncation that ended on a full stop, and a
+passage removed from a question that does not need it); the canary maker now
+avoids both.
+
+Suggested next steps:
+
+1. Spot-check 50 kept and 50 rejected records by hand. A 36% drop rate is high,
+   so the quality bar (`--min-quality 3`) may be too strict.
+2. Decide whether the category merge (closed_qa / information_extraction /
+   summarization) matters for the target model, then tune the prompt.
+3. Run the full dataset with `--batch` on the API, or with claude-cli.

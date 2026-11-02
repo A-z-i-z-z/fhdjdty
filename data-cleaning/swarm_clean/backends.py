@@ -250,9 +250,21 @@ class ClaudeCliBackend:
             payload = envelope.get("structured_output")
             if payload is None:
                 payload = json.loads(envelope.get("result", ""))
-            return {"label": validate(payload)}
+            u = envelope.get("usage") or {}
+            # The CLI adds its own system scaffolding, mostly served from the
+            # prompt cache, so count cache reads and writes as input too and
+            # keep the CLI's own dollar figure, which prices them correctly.
+            usage = {"input_tokens": u.get("input_tokens", 0)
+                     + u.get("cache_creation_input_tokens", 0)
+                     + u.get("cache_read_input_tokens", 0),
+                     "output_tokens": u.get("output_tokens", 0),
+                     "cost_usd": envelope.get("total_cost_usd", 0.0) or 0.0}
         except (json.JSONDecodeError, ValueError, AttributeError) as exc:
             return {"error": f"invalid output: {exc}"}
+        try:
+            return {"label": validate(payload), "usage": usage}
+        except (ValueError, AttributeError) as exc:
+            return {"error": f"invalid output: {exc}", "usage": usage}
 
     def label(self, jobs, workers=8, on_result=None):
         return _parallel(jobs, self.label_one, workers, on_result)
