@@ -71,7 +71,27 @@ Outputs in `runs/<run-id>/`: `report.md`, `findings/<id>/{test_repro.py,fix.patc
   are all handled as expected.
 - A live run with `--backend cli --model haiku` against the toy target: 2 agents found all 3
   planted bugs, each with a patch that passed the fix check, for about $0.006 in total.
-- Not yet run against boltons itself. The first real run is the next step.
+- First real run on boltons 25.0.0 (2026-11-02): 20 Haiku agents via `--backend cli`, 5 at a
+  time, $0.158 and 155 s in total. 29 claims, 28 reproduce on the pinned commit after the two
+  verifier fixes below (all 29 claims were re-verified with `--backend replay`, no new model
+  calls). 3 of the 28 come with a patch that fixes the test without breaking any of the 423
+  suite tests. The 28 still need a human read before anything goes upstream.
+- 100-agent run on boltons (2026-11-02): `--max-unit-lines 150` splits boltons into 96 slices,
+  one Haiku agent each, 10 at a time. $0.784 and 340 s in total, 0 agent errors. 102 claims,
+  101 reproduce, 94 unique after dedupe, 13 with a patch that passes all 423 suite tests. It
+  re-found the first pilot's bugs and many new ones. A 99% reproduction rate says the tests
+  fail, not that every expectation is right, so precision is unknown until someone triages.
+- 100-agent run on more-itertools `master` (2026-11-03): 99 slices of 80 lines, $1.45, 272 s.
+  22 claims, 18 reproduce (2 of them only after the gate fix below). Manual triage: 4 worth
+  filing, 5 minor, 5 already reported upstream (4 closed as not planned), 3 debatable, 1 wrong.
+  The static gate now also accepts tests that import the package root, because more-itertools
+  re-exports everything from `__init__`.
+- That run exposed two verifier problems, now fixed: the "test must name the symbol" rule
+  rejected 12 claims whose tests reach a dunder or private helper through its class or a public
+  caller (it now accepts any part of the dotted symbol, or an import of the claimed module), and
+  pytest 9 cannot load boltons' `conftest.py`, so the baseline suite silently ran 0 tests and
+  every fix check passed vacuously (pytest is now pinned below 9, and a fix check refuses to
+  report `ok` without a baseline).
 
 ## Scaling past the pilot
 
