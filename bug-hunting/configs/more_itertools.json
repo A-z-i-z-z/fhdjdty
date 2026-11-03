@@ -1,0 +1,12 @@
+{
+  "_comment": "Second target: more-itertools, a pure-Python iterator toolkit with a large unittest suite. Pinned to the default branch (not the last release), so findings aren't already fixed upstream.",
+  "name": "more-itertools",
+  "repo": "https://github.com/more-itertools/more-itertools",
+  "ref": "master",
+  "commit": "08dca284ba5446a026afdc34067b658f9da989eb",
+  "package": "more_itertools",
+  "source_globs": ["more_itertools/*.py"],
+  "exclude_globs": ["more_itertools/__init__.py"],
+  "test_paths": ["tests"],
+  "max_unit_lines": 300
+}
