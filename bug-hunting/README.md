@@ -81,6 +81,11 @@ Outputs in `runs/<run-id>/`: `report.md`, `findings/<id>/{test_repro.py,fix.patc
   101 reproduce, 94 unique after dedupe, 13 with a patch that passes all 423 suite tests. It
   re-found the first pilot's bugs and many new ones. A 99% reproduction rate says the tests
   fail, not that every expectation is right, so precision is unknown until someone triages.
+- 100-agent run on more-itertools `master` (2026-11-03): 99 slices of 80 lines, $1.45, 272 s.
+  22 claims, 18 reproduce (2 of them only after the gate fix below). Manual triage: 4 worth
+  filing, 5 minor, 5 already reported upstream (4 closed as not planned), 3 debatable, 1 wrong.
+  The static gate now also accepts tests that import the package root, because more-itertools
+  re-exports everything from `__init__`.
 - That run exposed two verifier problems, now fixed: the "test must name the symbol" rule
   rejected 12 claims whose tests reach a dunder or private helper through its class or a public
   caller (it now accepts any part of the dotted symbol, or an import of the claimed module), and

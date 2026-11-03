@@ -110,11 +110,12 @@ def static_gate(claim: dict, package: str) -> str | None:
         return f"test never imports {package}"
     # The test must be about the claimed code. Dunder methods (`a == b` for __eq__) and private
     # helpers are usually reached through the owning class or a public caller in the same module,
-    # so naming any part of the dotted symbol, or importing the claimed module, is enough.
+    # so naming any part of the dotted symbol, or importing the claimed module or the package root, is enough.
     parts = [p for p in claim["symbol"].split(".") if p]
     module = claim.get("file", "").removesuffix(".py").replace("/", ".")
     imported = {m for m in imported_modules if m}
-    if not any(p in code for p in parts) and module not in imported:
+    # Packages that re-export from __init__ (`from more_itertools import sample`) import the root.
+    if not any(p in code for p in parts) and not ({module, package} & imported):
         return f"test never mentions {claim['symbol']} or imports {module}"
     return None
 
