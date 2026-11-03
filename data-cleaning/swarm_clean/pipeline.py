@@ -161,7 +161,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.plan:
         calls = 2 * len(stream)
-        est = calls * (900 * PRICE_IN + 250 * PRICE_OUT) / 1e6
+        est = calls * (1200 * PRICE_IN + 650 * PRICE_OUT) / 1e6  # measured on the 2,000-record run
         print(f"plan: {calls} labeling calls plus roughly 10-25% tie-breaks; "
               f"rough API cost at Haiku 5.5 list price: ${est:.2f} (half with --batch)")
         return 0
@@ -169,6 +169,8 @@ def main(argv: list[str] | None = None) -> int:
     backend = make_backend(args.backend, args.model, args.effort, args.batch)
     model_tag = f"{backend.name}:{args.model or 'default'}:{args.effort}"
     cache = LabelCache(out / "cache" / "labels.jsonl")
+    if hasattr(backend, "state_path"):
+        backend.state_path = out / "cache" / "batches.json"
 
     # 4. Two independent passes
     try:

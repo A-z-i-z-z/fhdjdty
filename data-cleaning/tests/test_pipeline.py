@@ -111,6 +111,63 @@ class ValidateTest(unittest.TestCase):
         self.assertEqual(ApiBackend._parse(refused), {"error": "refusal"})
 
 
+class FakeBatches:
+    """Stands in for client.messages.batches; counts how often a batch is created."""
+
+    def __init__(self):
+        self.created, self.store = 0, {}
+
+    def create(self, requests):
+        self.created += 1
+        bid = f"msgbatch_{self.created}"
+        self.store[bid] = [r["custom_id"] for r in requests]
+        return SimpleNamespace(id=bid)
+
+    def retrieve(self, bid):
+        return SimpleNamespace(processing_status="ended")
+
+    def results(self, bid):
+        usage = SimpleNamespace(input_tokens=10, output_tokens=5)
+        msg = SimpleNamespace(stop_reason="end_turn", usage=usage,
+                              content=[SimpleNamespace(type="text", text=json.dumps(label()))])
+        for cid in self.store[bid]:
+            yield SimpleNamespace(custom_id=cid, result=SimpleNamespace(type="succeeded", message=msg))
+
+
+class BatchResumeTest(unittest.TestCase):
+    def make_backend(self, batches, state):
+        backend = ApiBackend.__new__(ApiBackend)
+        backend.model, backend.effort, backend.max_tokens, backend.batch = "m", "low", 64, True
+        backend.client = SimpleNamespace(messages=SimpleNamespace(batches=batches))
+        backend.state_path = state
+        return backend
+
+    def test_interrupted_batch_is_reused(self):
+        from swarm_clean.backends import Job
+        records = fetch.load(FIXTURE)[:3]
+        jobs = [Job(id=f"A-{r['id']}", framing="A", record=r) for r in records]
+        with tempfile.TemporaryDirectory() as tmp:
+            state = Path(tmp) / "batches.json"
+            batches = FakeBatches()
+
+            def boom(*a, **k):
+                raise KeyboardInterrupt
+
+            # First run: the batch is submitted, then the run dies while polling.
+            batches.retrieve, real_retrieve = boom, batches.retrieve
+            with self.assertRaises(KeyboardInterrupt):
+                self.make_backend(batches, state)._label_batch(jobs, None)
+            self.assertEqual(batches.created, 1)
+            self.assertTrue(json.loads(state.read_text()))
+
+            # Second run: same jobs, so the stored batch is picked up again.
+            batches.retrieve = real_retrieve
+            out = self.make_backend(batches, state)._label_batch(jobs, None)
+            self.assertEqual(batches.created, 1)
+            self.assertEqual(set(out), {j.id for j in jobs})
+            self.assertEqual(json.loads(state.read_text()), {})
+
+
 class DisagreeingBackend(MockBackend):
     """Framing B flips the category on every third record to force tie-breaks."""
 

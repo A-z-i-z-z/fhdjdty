@@ -142,12 +142,16 @@ class ApiBackend:
     name = "api"
 
     def __init__(self, model: str = DEFAULT_MODEL, effort: str = "low",
-                 max_tokens: int = 2048, batch: bool = False):
+                 max_tokens: int = 4096, batch: bool = False):
         import anthropic  # imported lazily so mock runs need no SDK
 
         self.anthropic = anthropic
         self.client = anthropic.Anthropic(max_retries=8)
         self.model, self.effort, self.max_tokens, self.batch = model, effort, max_tokens, batch
+        # Where submitted batch ids are remembered, so a run that is stopped
+        # while a batch is processing picks the same batch up again instead of
+        # paying for it twice. The pipeline points this at out/cache/.
+        self.state_path: "os.PathLike | None" = None
 
     def _params(self, job: Job) -> dict:
         return {
@@ -203,22 +207,49 @@ class ApiBackend:
 
         by_id = {j.id: j for j in jobs}
         results: dict[str, Result] = {}
+        submitted = self._load_batches()
         for start in range(0, len(jobs), chunk):
             part = jobs[start : start + chunk]
-            batch = self.client.messages.batches.create(requests=[
-                Request(custom_id=j.id, params=MessageCreateParamsNonStreaming(**self._params(j)))
-                for j in part
-            ])
-            print(f"  batch {batch.id}: {len(part)} requests submitted", flush=True)
-            while self.client.messages.batches.retrieve(batch.id).processing_status != "ended":
+            fp = self._fingerprint(part)
+            batch_id = submitted.get(fp)
+            if batch_id:
+                print(f"  batch {batch_id}: resuming ({len(part)} requests)", flush=True)
+            else:
+                batch_id = self.client.messages.batches.create(requests=[
+                    Request(custom_id=j.id, params=MessageCreateParamsNonStreaming(**self._params(j)))
+                    for j in part
+                ]).id
+                submitted[fp] = batch_id
+                self._save_batches(submitted)
+                print(f"  batch {batch_id}: {len(part)} requests submitted", flush=True)
+            while self.client.messages.batches.retrieve(batch_id).processing_status != "ended":
                 time.sleep(poll_s)
-            for item in self.client.messages.batches.results(batch.id):
+            for item in self.client.messages.batches.results(batch_id):
                 res = (self._parse(item.result.message) if item.result.type == "succeeded"
                        else {"error": f"batch {item.result.type}"})
                 results[item.custom_id] = res
                 if on_result and item.custom_id in by_id:
                     on_result(by_id[item.custom_id], res)
+            # Labels are now in the label cache; forget the batch.
+            submitted.pop(fp, None)
+            self._save_batches(submitted)
         return results
+
+    def _fingerprint(self, part) -> str:
+        import hashlib
+        blob = json.dumps([[j.id, self._params(j)] for j in part], sort_keys=True)
+        return hashlib.blake2b(blob.encode(), digest_size=16).hexdigest()
+
+    def _load_batches(self) -> dict:
+        if self.state_path and os.path.exists(self.state_path):
+            with open(self.state_path, encoding="utf-8") as fh:
+                return json.load(fh)
+        return {}
+
+    def _save_batches(self, submitted: dict) -> None:
+        if self.state_path:
+            with open(self.state_path, "w", encoding="utf-8") as fh:
+                json.dump(submitted, fh, indent=1)
 
 
 # --------------------------------------------------------------------------- claude-cli

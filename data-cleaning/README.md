@@ -79,16 +79,22 @@ python -m swarm_clean.pipeline --backend claude-cli --limit 200 --workers 8
 a rerun with the same prompts costs nothing. Changing a prompt or a cleaning
 rule only re-labels the records it affects.
 
-Rough cost on the API: about 900 input and 250 output tokens per call, so the
-whole dataset (two passes plus tie-breaks, about 33,000 calls) is roughly
-**$7 at Haiku 5.5 list price, about $3.50 with `--batch`**. Run `--plan` for an
-estimate on your sample; the report gives the real token count afterwards.
+Rough cost on the API: about 1,200 input and 650 output tokens per call
+(output includes Haiku's own reasoning at `--effort low`), so the whole dataset
+(two passes plus tie-breaks, about 34,000 calls) is roughly **$14 at Haiku 5.5
+list price, about $7 with `--batch`**. Run `--plan` for an estimate on your
+sample; the report gives the real token count afterwards.
+
+With `--batch`, each batch id is saved in `out/cache/batches.json` as soon as
+it is submitted. If the run is stopped while a batch is processing, running the
+same command again picks that batch up instead of submitting (and paying for)
+it twice. Labels already in the cache are never sent again.
 
 On the `claude-cli` backend: it runs `claude -p --model haiku` with tools off
-and a JSON schema for each record, from an empty folder. It has not yet been
-run against a live subscription, so start with a small `--limit` and check
-`out/report.md` for errors. Subscription usage limits apply, so keep
-`--workers` modest.
+and a JSON schema for each record, from an empty folder, and uses the Claude
+plan's usage instead of API credits. Each call carries the CLI's own scaffolding,
+so it costs about $0.0008 at list price (roughly 3x a direct API call) and is
+CPU-bound at 1 to 2 calls a second on a 4-CPU machine, whatever `--workers` is.
 
 ## Output
 
@@ -96,7 +102,8 @@ Everything goes to `out/` (ignored by git):
 
 | File | Contents |
 |---|---|
-| `clean.jsonl` | Kept records: original fields plus `labels` (`swarm_category`, `quality`, `issues`, `unanimous`, `possible_mislabel`) |
+| `clean.jsonl` | Kept records with mean quality >= `--min-quality` (default 3.5): original fields plus `labels` (`swarm_category`, `quality`, `issues`, `unanimous`, `possible_mislabel`) |
+| `clean_lenient.jsonl` | Same, at the lower `--lenient-quality` bar (default 3.0); a superset of `clean.jsonl` |
 | `rejected.jsonl` | Dropped records with the stage (`rules` or `swarm`) and reasons |
 | `canaries.jsonl` | The hidden canaries and how the swarm judged each one |
 | `report.md`, `report.json` | Counts, canary recall, kappa, gold accuracy, reject reasons, tokens and cost |
@@ -128,8 +135,8 @@ should not disqualify a training example: missing extra detail, typos, facts
 they could not verify, and "most recent" judged against today rather than
 early 2023. Prompts v2 fix that. In a hand check of records v2 keeps and v1
 dropped, most were fine, but about a third of those with a mean quality of
-exactly 3.0 were doubtful. For a stricter set, use `--min-quality 3.5`
-(1,248 of the 2,000 records).
+exactly 3.0 were doubtful, so `clean.jsonl` now uses 3.5 by default (1,248 of
+the 2,000 records) and `clean_lenient.jsonl` keeps the 3.0 set (1,666).
 
 The one missed canary in the 2,000 runs was itself a bad canary (a passage
 removed from a question that does not need one); the maker's passage check was
@@ -142,7 +149,7 @@ once. For thousands of agents, the API backend is the better route.
 
 Suggested next steps:
 
-1. Decide the quality bar (3.0 or 3.5) for the target model.
+1. Decide whether 3.5 (default) or 3.0 suits the target model; both sets are written.
 2. Decide whether the closed_qa / information_extraction / summarization split
    matters; most category "errors" sit on that boundary.
 3. Run the full dataset, ideally on the API with `--batch`.
