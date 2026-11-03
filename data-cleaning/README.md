@@ -129,6 +129,7 @@ Live runs so far, all on the `claude-cli` backend (Haiku 5.5, subscription usage
 | 200 records, 8 workers, prompts v1 | 128 (64%) | 10/10 | 0.65 / 0.75 | 54.5% | about $0.40 |
 | 2,000 records, 100 workers, prompts v1 | 1,311 (66%) | 99/100 | 0.72 / 0.83 | 60.4% | about $3.95 |
 | 2,000 records, 100 workers, prompts v2 | 1,666 (83%) | 99/100 | 0.73 / 0.81 | 62.8% | about $4.30 |
+| Full dataset (15,011), 64 workers, prompts v2 | 9,365 at q>=3.5, 12,233 at q>=3.0 | 737/747 | 0.71 / 0.80 | 63.0% | about $30 |
 
 With v1 the labelers dropped about a third of Dolly, mostly for reasons that
 should not disqualify a training example: missing extra detail, typos, facts
@@ -137,6 +138,11 @@ early 2023. Prompts v2 fix that. In a hand check of records v2 keeps and v1
 dropped, most were fine, but about a third of those with a mean quality of
 exactly 3.0 were doubtful, so `clean.jsonl` now uses 3.5 by default (1,248 of
 the 2,000 records) and `clean_lenient.jsonl` keeps the 3.0 set (1,666).
+
+The full run took about 4.5 hours of labeling in three resumed slices (34,800
+calls, no errors). Of its 10 missed canaries, most are canaries that stay
+answerable without the removed passage (for example a summary of a well-known
+children's book), so the true recall is higher than the 98.7% reported.
 
 The one missed canary in the 2,000 runs was itself a bad canary (a passage
 removed from a question that does not need one); the maker's passage check was
@@ -152,4 +158,4 @@ Suggested next steps:
 1. Decide whether 3.5 (default) or 3.0 suits the target model; both sets are written.
 2. Decide whether the closed_qa / information_extraction / summarization split
    matters; most category "errors" sit on that boundary.
-3. Run the full dataset, ideally on the API with `--batch`.
+3. Spot-check a sample of `clean.jsonl` and `rejected.jsonl` from the full run.
