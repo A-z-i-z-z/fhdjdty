@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2106.12167#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the dc conductivity 'increases from ~ 10-5 Sm-1 at 353 K', so the material, value, unit, temperature (353 K = 80 C) and experimental origin are all right. Conductivity kind 'unspecified' is honest since the paper does not say bulk or total. The 0.161 eV activation energy is the paper's value for 383-518 K, which the notes already flag. Null sintering and density fields are acceptable because the paper gives no single value for this sample."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1625,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 37880,
+        "webSearchRequests": 0,
+        "costUSD": 0.00841231,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1365,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 37880,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8267,
+    "notional_cost_usd": 0.00841231
+  },
+  "paper_id": "arXiv:2106.12167",
+  "model": "haiku"
+}

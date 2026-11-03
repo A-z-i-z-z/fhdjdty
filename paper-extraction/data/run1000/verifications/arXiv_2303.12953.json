@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2303.12953#001",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The Figure 2 caption assigns 0.75 mS cm-1 to LiInCl6, but the Figure 2 panel labels in the extracted text pair 0.66 mS cm-1 with panel a (LIC). The paper is internally inconsistent on this value, so the mapping cannot be confirmed."
+      },
+      {
+        "record_id": "arXiv:2303.12953#002",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The caption assigns 0.66 mS cm-1 to LiYCl6, but the Figure 2 panel labels in the extracted text pair 0.75 mS cm-1 with panel b (LYC). The paper is internally inconsistent on this value, so the mapping cannot be confirmed."
+      },
+      {
+        "record_id": "arXiv:2303.12953#003",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "dopants",
+            "correct_value": null,
+            "evidence": "Li1.48Al0.48Ge1.52(PO4)3 (MSE Supplies) were purchased as powders."
+          }
+        ],
+        "explanation": "The 9 \u00d7 10-3 mS cm-1 value, experimental origin and 700 \u00b0C / 12 h sintering are supported, since the EIS pellet was sintered before measurement. Al is part of the nominal composition, and the paper does not describe it as a dopant."
+      },
+      {
+        "record_id": "arXiv:2303.12953#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The caption and Figure 2 panel d both give 2.63 mS cm-1 for Li6PS5Cl (LPSC), the measurement is experimental, and no temperature or secondary value is asserted that the paper does not support."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14700,
+        "outputTokens": 3706,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 14888,
+        "webSearchRequests": 0,
+        "costUSD": 0.00632042,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 3014,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14888,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 15913,
+    "notional_cost_usd": 0.00632042
+  },
+  "paper_id": "arXiv:2303.12953",
+  "model": "haiku"
+}

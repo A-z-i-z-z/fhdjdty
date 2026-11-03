@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about solid superionic conductors, but it reports ionic mobilities (cm2/V\u00b7s) and tracer diffusivities for Ag+ conductors (\u03b1-AgI and \u03b1-RbAg4I5), not ionic conductivities of Li- or Na-ion conductors.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 12951,
+        "outputTokens": 543,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 13137,
+        "webSearchRequests": 0,
+        "costUSD": 0.004225560000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 323,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13137,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3173,
+    "notional_cost_usd": 0.004225560000000001
+  },
+  "paper_id": "arXiv:2209.10783",
+  "model": "haiku"
+}

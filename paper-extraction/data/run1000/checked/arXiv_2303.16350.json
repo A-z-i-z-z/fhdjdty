@@ -1,0 +1,158 @@
+[
+  {
+    "record_id": "arXiv:2303.16350#001",
+    "paper_id": "arXiv:2303.16350",
+    "record": {
+      "material_as_written": "LiAl5 O8",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10\u22126",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "Though its independent Li-ion conductivity was found to be only \u223c 10\u22126 S/cm, its ability to be cast into films under 10nm can lessen the impact of the lower ionic conductivity.",
+      "evidence_location": "results section 4.2 (Cathode Coatings)",
+      "notes": "Value is quoted from ref. 38 (Ito et al.). The quote does not name LiAl5 O8 itself; the material is identified from the preceding sentences about LiAl5 O8 in the same paragraph. No temperature is given."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1e-06,
+    "log10_conductivity": -6.0
+  },
+  {
+    "record_id": "arXiv:2303.16350#002",
+    "paper_id": "arXiv:2303.16350",
+    "record": {
+      "material_as_written": "LiCl",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10\u22126",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "previously LiCl alone has been shown to have insufficient ionic conductivity (\u223c 10\u22126 S/cm)",
+      "evidence_location": "results section 4.3 (Li-metal Coatings)",
+      "notes": "Value is attributed to refs. 48,49 and is described as insufficient conductivity. No temperature is given."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1e-06,
+    "log10_conductivity": -6.0
+  },
+  {
+    "record_id": "arXiv:2303.16350#003",
+    "paper_id": "arXiv:2303.16350",
+    "record": {
+      "material_as_written": "Li2 B6 O9 F2",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10\u221210",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "However, the experimental ionic conductivity was measured at \u223c 10\u221210 S/cm, making it a",
+      "evidence_location": "results section 4.2 (Cathode Coatings)",
+      "notes": "Value is attributed to ref. 47 (Pilz and Jansen). The quote refers to Li2B6O9F2 from the preceding sentence. No temperature is given."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1e-10,
+    "log10_conductivity": -10.0
+  },
+  {
+    "record_id": "arXiv:2303.16350#004",
+    "paper_id": "arXiv:2303.16350",
+    "record": {
+      "material_as_written": "solid solutions of Li4 SiO4 and Li5 GaSi2 O8",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10\u22125",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "10\u22125 S/cm was found in solid solutions of Li4 SiO4 and Li5 GaSi2 O8",
+      "evidence_location": "results section 4.2 (Cathode Coatings)",
+      "notes": "Value is attributed to ref. 45 and is described as an improvement up to about this value. The composition is a solid-solution family rather than a single stoichiometry. No temperature is given."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1e-05,
+    "log10_conductivity": -5.0
+  }
+]

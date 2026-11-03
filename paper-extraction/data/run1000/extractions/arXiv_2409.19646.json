@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a 2D fluid simulation of SF6 gas streamer discharges and reports no ionic conductivity of any solid Li/Na-ion conductor; its \"ion-conducting channel\" refers to gas-phase plasma ions.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 295,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 29761,
+        "webSearchRequests": 0,
+        "costUSD": 0.00613525,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 113,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 29761,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2720,
+    "notional_cost_usd": 0.00613525
+  },
+  "paper_id": "arXiv:2409.19646",
+  "model": "haiku"
+}

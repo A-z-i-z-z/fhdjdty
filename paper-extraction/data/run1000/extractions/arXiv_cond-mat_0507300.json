@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about Cu+ ion conduction in the argyrodite-type solid electrolyte Cu6PS5I, but its only numeric conductivity value is a room-temperature value it attributes to an earlier study (Khus et al.), so the sole record is literature_cited.",
+    "records": [
+      {
+        "material_as_written": "Cu6PS5I",
+        "material_class": "argyrodite",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "4x10-4",
+        "conductivity_unit_as_reported": "",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "It was established that at room temperature conduction is purely ionic (\u03c3i~4x10-4 at RT), with electronic contribution (hole conductivity \u03c3h) less than 1%.",
+        "evidence_location": "Introduction",
+        "notes": "Value attributed to Khus et al. [1] (literature, not measured in this paper). The paper gives no unit for this value; S/cm is implied but not stated, so the unit field is left empty. The Cu+ conductivity of Cu6PS5I was measured on powder samples in that earlier work. The paper's own measurements are only qualitative Arrhenius anomalies with no conductivity numbers, so no other records are created."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1271,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 7281,
+        "webSearchRequests": 0,
+        "costUSD": 0.0021272500000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 635,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 7281,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7552,
+    "notional_cost_usd": 0.0021272500000000002
+  },
+  "paper_id": "arXiv:cond-mat/0507300",
+  "model": "haiku"
+}

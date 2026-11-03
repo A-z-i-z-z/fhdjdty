@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2610.19846#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper's Introduction states that the amorphous x Li2O \u2013 MCly (M = Ta, Hf) electrolytes 'reach up to 6.6 mS/cm at 25 \u25e6C [3]', with the citation to Ref. [3], so the value, unit, temperature and literature_cited origin all match. The value is a family maximum, not a specific composition, which the record's notes already flag; material_class 'halide' is a defensible choice for an oxychloride but is not stated in the paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1052,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 28935,
+        "webSearchRequests": 0,
+        "costUSD": 0.00633681,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 793,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28935,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7274,
+    "notional_cost_usd": 0.00633681
+  },
+  "paper_id": "arXiv:2610.19846",
+  "model": "haiku"
+}

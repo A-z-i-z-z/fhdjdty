@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1712.06962#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that the conductivity of \u03b2-Li3PS4 is 10\u22122 S/cm at 450 K, derived from this work's MD tracer diffusivity via Nernst-Einstein. The impedance comparison cites ref. 32 but does not attribute the value to it, so 'computational' is correct and 450 K (176.85 \u00b0C) is correct."
+      },
+      {
+        "record_id": "arXiv:1712.06962#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 1.6 \u2217 10\u22124 S/cm value for nano-sized Li3PS4 is cited from ref. 29, so literature_cited is correct. The paper gives no measurement temperature, so the null temperature is right, and all secondary fields are null as the paper does not state them."
+      },
+      {
+        "record_id": "arXiv:1712.06962#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 3.3*10\u22124 S/cm value is cited from ref. 32 and the paper gives no temperature, so literature_cited and null temperature are correct. The 'solvent route' synthesis method is stated in the same sentence for Li3PS4."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1406,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 17883,
+        "webSearchRequests": 0,
+        "costUSD": 0.00430341,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 927,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17883,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7291,
+    "notional_cost_usd": 0.00430341
+  },
+  "paper_id": "arXiv:1712.06962",
+  "model": "haiku"
+}

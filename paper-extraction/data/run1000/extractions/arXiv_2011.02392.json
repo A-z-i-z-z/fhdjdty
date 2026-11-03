@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper concerns Li/Na borophosphate glasses, but it reports only normalized activation energies (Ea(x)/Ea(0)), model energy scales (V0), and NFU fractions, with no ionic conductivity value in S/cm or similar, so it yields no records.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 479,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 16983,
+        "webSearchRequests": 0,
+        "costUSD": 0.0036716500000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 286,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16983,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3432,
+    "notional_cost_usd": 0.0036716500000000003
+  },
+  "paper_id": "arXiv:2011.02392",
+  "model": "haiku"
+}

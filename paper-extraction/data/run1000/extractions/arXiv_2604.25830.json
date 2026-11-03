@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper reports an ionic conductivity (1 mS cm-1) for a PVA/PEGDA ionic gel ink containing an organic ionic liquid, used as an OECT electrolyte; it is not a solid Li- or Na-ion conductor, and the only other value (24 mS cm-1) is a literature-cited SSE with an organic IL.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 539,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 15037,
+        "webSearchRequests": 0,
+        "costUSD": 0.00331245,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 320,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15037,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6315,
+    "notional_cost_usd": 0.00331245
+  },
+  "paper_id": "arXiv:2604.25830",
+  "model": "haiku"
+}

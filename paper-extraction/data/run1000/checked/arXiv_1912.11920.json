@@ -1,0 +1,152 @@
+[
+  {
+    "record_id": "arXiv:1912.11920#001",
+    "paper_id": "arXiv:1912.11920",
+    "record": {
+      "material_as_written": "PIM 13",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "base-mediated step-growth polymerization (K2CO3, DMF)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.206",
+      "conductivity_unit_as_reported": "mS cm\u20131",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25 \u02daC",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.168,
+      "measurement_method": "EIS",
+      "evidence_quote": "exhibited the highest ionic conductivities at 25 \u02daC\u20140.206 mS cm\u20131, 0.195 mS cm\u20131, and 0.192 mS cm\u20131",
+      "evidence_location": "results",
+      "notes": "Polymer membrane infiltrated with 1.0 M LiPF6 in carbonate electrolyte; value is for PIM 13 (first of three values in the quote). Activation energy 0.168 eV is taken from Supplementary Table 5 row for PIM 13, not from the quoted sentence."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.000206,
+    "log10_conductivity": -3.686
+  },
+  {
+    "record_id": "arXiv:1912.11920#002",
+    "paper_id": "arXiv:1912.11920",
+    "record": {
+      "material_as_written": "PIM 14",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "base-mediated step-growth polymerization (K2CO3, DMF)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.195",
+      "conductivity_unit_as_reported": "mS cm\u20131",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25 \u02daC",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.165,
+      "measurement_method": "EIS",
+      "evidence_quote": "exhibited the highest ionic conductivities at 25 \u02daC\u20140.206 mS cm\u20131, 0.195 mS cm\u20131, and 0.192 mS cm\u20131",
+      "evidence_location": "results",
+      "notes": "Polymer membrane infiltrated with liquid electrolyte (1.0 M LiPF6). Value is the second of three values in the quote (PIMs 13, 14, 31). Activation energy 0.165 eV from Supplementary Table 5, not the quoted sentence."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.000195,
+    "log10_conductivity": -3.71
+  },
+  {
+    "record_id": "arXiv:1912.11920#003",
+    "paper_id": "arXiv:1912.11920",
+    "record": {
+      "material_as_written": "PIM 31",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "base-mediated step-growth polymerization followed by on-polymer O-alkylation with di-tert-butyl dicarbonate",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.192",
+      "conductivity_unit_as_reported": "mS cm\u20131",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25 \u02daC",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.262,
+      "measurement_method": "EIS",
+      "evidence_quote": "exhibited the highest ionic conductivities at 25 \u02daC\u20140.206 mS cm\u20131, 0.195 mS cm\u20131, and 0.192 mS cm\u20131",
+      "evidence_location": "results",
+      "notes": "Polymer membrane infiltrated with liquid electrolyte. Value is the third of three values in the quote (PIMs 13, 14, 31). Activation energy 0.262 eV from Supplementary Table 5. Supplementary Table 5 gives 0.192 for PIM 31 as well."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.000192,
+    "log10_conductivity": -3.717
+  },
+  {
+    "record_id": "arXiv:1912.11920#004",
+    "paper_id": "arXiv:1912.11920",
+    "record": {
+      "material_as_written": "PIM-1",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.038",
+      "conductivity_unit_as_reported": "mS cm\u20131",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25 \u02daC",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.109,
+      "measurement_method": "EIS",
+      "evidence_quote": "= 0.038 mS cm\u20131)",
+      "evidence_location": "results",
+      "notes": "Control polymer PIM-1, measured in this work. Quote is the tail of a sentence whose line break splits 'PIM-1, s25\u02daC' from '= 0.038'; the material name appears on the preceding line. Table 5 lists 0.0377 for PIM-1 and activation energy 0.109 eV."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 3.8e-05,
+    "log10_conductivity": -4.42
+  }
+]

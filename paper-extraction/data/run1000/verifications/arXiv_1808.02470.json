@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1808.02470#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Discussion states that Li3ErCl6, an Er analog of Li3InCl6, has a predicted RT ionic conductivity of 3\u00d710-4 S/cm from this work's DFT-MD. The bulk label fits the paper's description of single-crystal bulk DFT-MD, and all secondary fields are correctly null."
+      },
+      {
+        "record_id": "arXiv:1808.02470#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper says 'this work predicts RT ion conductivity of approximately 5.1 mS/cm' for Li6Ho(BO3)3 from its own DFT-MD. The experimental value from ref. 39 is correctly not recorded."
+      },
+      {
+        "record_id": "arXiv:1808.02470#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction cites Li7P3S11 (25 mS/cm) with reference 5, so this is a literature-cited value rather than one measured in this paper. Secondary fields are correctly null."
+      },
+      {
+        "record_id": "arXiv:1808.02470#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction says Li3InCl6 'has a RT conductivity of approximately 1 mS/cm' with citation 9, and Section II confirms it was not simulated in this work, so the value is literature_cited."
+      },
+      {
+        "record_id": "arXiv:1808.02470#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction cites LiCl as having poor RT Li conduction (~10-9 S/cm) from ref. 8 and treats it as a false positive. Table 1 separately lists '~10-6 [from Ref. 8]' for LiCl, an internal inconsistency in the paper, but the recorded value matches the quoted sentence and the origin is correctly literature_cited."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 23714,
+        "outputTokens": 3104,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 23902,
+        "webSearchRequests": 0,
+        "costUSD": 0.008723620000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2352,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23902,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 13297,
+    "notional_cost_usd": 0.008723620000000001
+  },
+  "paper_id": "arXiv:1808.02470",
+  "model": "haiku"
+}

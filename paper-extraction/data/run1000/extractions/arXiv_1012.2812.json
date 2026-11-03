@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies dielectric response and AC/DC conduction in bismuth borate glasses (2Bi2O3-B2O3), where the conducting species is Bi3+, not a Li or Na ion, and it reports no numeric conductivity value for a Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 467,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 9959,
+        "webSearchRequests": 0,
+        "costUSD": 0.00226085,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 271,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 9959,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3057,
+    "notional_cost_usd": 0.00226085
+  },
+  "paper_id": "arXiv:1012.2812",
+  "model": "haiku"
+}

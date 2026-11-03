@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2405.02442#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract and conclusions both report ~3 x 10-4 \u03a9-1cm-1 at 200 oC for the 4% NaI composite, which is the paper's own measurement (experimental). Unit, temperature, solid-state synthesis, and the 1000 oC / 2 h sintering are all stated for the NZSP-NaI preparation route, and null activation energy and density are correct since no numerical values are given."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 8559,
+        "outputTokens": 1108,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 8749,
+        "webSearchRequests": 0,
+        "costUSD": 0.0031795200000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 846,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 8749,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5142,
+    "notional_cost_usd": 0.0031795200000000003
+  },
+  "paper_id": "arXiv:2405.02442",
+  "model": "haiku"
+}

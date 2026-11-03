@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about Na+ ion conductors (Na3PS4 and Na3PSe4) but reports Raman and phonon results only, with no ionic conductivity value given in the text or tables.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14226,
+        "outputTokens": 397,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 14416,
+        "webSearchRequests": 0,
+        "costUSD": 0.00453586,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 194,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14416,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2367,
+    "notional_cost_usd": 0.00453586
+  },
+  "paper_id": "arXiv:2203.07955",
+  "model": "haiku"
+}

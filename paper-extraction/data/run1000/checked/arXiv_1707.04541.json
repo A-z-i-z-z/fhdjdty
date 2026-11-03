@@ -1,0 +1,117 @@
+[
+  {
+    "record_id": "arXiv:1707.04541#001",
+    "paper_id": "arXiv:1707.04541",
+    "record": {
+      "material_as_written": "Li6PTeS4Cl",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Te"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "91",
+      "conductivity_unit_as_reported": "mS cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.175,
+      "measurement_method": "AIMD with Nernst-Einstein equation",
+      "evidence_quote": "and Li6.25PTeS4.25Cl0.75 are 91 and 126 mS cm-1 respectively, about an order higher than that in",
+      "evidence_location": "results (AIMD simulation section)",
+      "notes": "Value is derived in this paper from AIMD via the Nernst-Einstein equation, so it is computational. The quote names Li6.25PTeS4.25Cl0.75 as well; the 91 value applies to Li6PTeS4Cl per the sentence order. Activation energy 0.175 eV is the AIMD value for Li6PTeS4Cl from the text."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.091,
+    "log10_conductivity": -1.041
+  },
+  {
+    "record_id": "arXiv:1707.04541#002",
+    "paper_id": "arXiv:1707.04541",
+    "record": {
+      "material_as_written": "Li6.25PTeS4.25Cl0.75",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Te"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "126",
+      "conductivity_unit_as_reported": "mS cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.168,
+      "measurement_method": "AIMD with Nernst-Einstein equation",
+      "evidence_quote": "and Li6.25PTeS4.25Cl0.75 are 91 and 126 mS cm-1 respectively, about an order higher than that in",
+      "evidence_location": "results (AIMD simulation section)",
+      "notes": "Off-stoichiometric composition; value derived in this paper from AIMD via Nernst-Einstein, so computational. Activation energy 0.168 eV is stated in the text for this composition. Chalcogen site Te substitution plus Li excess with Cl replaced by S for charge neutrality."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.126,
+    "log10_conductivity": -0.9
+  },
+  {
+    "record_id": "arXiv:1707.04541#003",
+    "paper_id": "arXiv:1707.04541",
+    "record": {
+      "material_as_written": "Li6.25PS5.25Cl0.75",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "14",
+      "conductivity_unit_as_reported": "mS cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "alloys when the chalcogen site is fully occupied by S (14 mS cm-1 in Li6.25PS5.25Cl0.75)22",
+      "evidence_location": "results (AIMD simulation section)",
+      "notes": "Value is quoted from reference 22 and is not computed in this paper. Measurement temperature is given only as room temperature in the surrounding text."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.014,
+    "log10_conductivity": -1.854
+  }
+]

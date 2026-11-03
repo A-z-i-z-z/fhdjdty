@@ -1,0 +1,113 @@
+[
+  {
+    "record_id": "arXiv:2007.07248#001",
+    "paper_id": "arXiv:2007.07248",
+    "record": {
+      "material_as_written": "Na2Ni2TeO6",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 900,
+      "sintering_time_h": null,
+      "relative_density_pct": 90,
+      "conductivity_value_as_reported": "210\u20104",
+      "conductivity_unit_as_reported": "S/m",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "323 K",
+      "measurement_temperature_C": 49.85,
+      "activation_energy_eV": 0.39,
+      "measurement_method": "impedance spectroscopy",
+      "evidence_quote": "The impedance data reveal an ionic conductivity  210\u20104 S/m at 323 K which strongly",
+      "evidence_location": "abstract",
+      "notes": "The exponent is written as '210\u20104' in the PDF text; the apparent multiplication sign (2\u00d710-4) is lost in extraction, so the value is copied as found. Activation energy 0.39 eV is the low-temperature (T<353 K) fit from the results section. Conductivity kind not specified in abstract. Celsius value is arithmetic from 323 K. Relative density ~90% and anneal at 900 C are from the experiments section."
+    },
+    "hard_checks": {
+      "quote_in_text": false,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.04,
+    "log10_conductivity": -1.398
+  },
+  {
+    "record_id": "arXiv:2007.07248#002",
+    "paper_id": "arXiv:2007.07248",
+    "record": {
+      "material_as_written": "Na2Ni2TeO6",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 900,
+      "sintering_time_h": null,
+      "relative_density_pct": 90,
+      "conductivity_value_as_reported": "0.03",
+      "conductivity_unit_as_reported": "S/m",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "423 K",
+      "measurement_temperature_C": 149.85,
+      "activation_energy_eV": 0.58,
+      "measurement_method": "impedance spectroscopy",
+      "evidence_quote": "attains a high value of ~ 0.03 S/m at 423 K.",
+      "evidence_location": "abstract",
+      "notes": "Activation energy 0.58 eV is the high-temperature (T>383 K) fit, which covers 423 K. Celsius value is arithmetic from 423 K. Conductivity kind not specified in abstract."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0003,
+    "log10_conductivity": -3.523
+  },
+  {
+    "record_id": "arXiv:2007.07248#003",
+    "paper_id": "arXiv:2007.07248",
+    "record": {
+      "material_as_written": "Na2Ni2TeO6",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.0008\u20100.0034",
+      "conductivity_unit_as_reported": "S/m",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "Na2Ni2TeO6 was reported to show the highest ionic conductivity (~ 0.0008\u20100.0034 S/m at room temperature) 6, 9",
+      "evidence_location": "introduction",
+      "notes": "Value is quoted from earlier reports (refs 6 and 9), not measured in this paper; given as a range."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 3.4e-05,
+    "log10_conductivity": -4.469
+  }
+]

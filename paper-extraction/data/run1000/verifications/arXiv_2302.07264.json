@@ -1,0 +1,78 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2302.07264#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract states a total room-temperature conductivity of 2.03 mS cm\u22121 for the 1 wt% MgF2 NASICON with an activation energy of 0.277 eV, and the 1250 \u00b0C sintering temperature is given in Section 2.1."
+      },
+      {
+        "record_id": "arXiv:2302.07264#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction gives the bare NASICON's ionic conductivity as 1.12 mS/cm, measured by the authors in this work, with no temperature stated (so null is correct). The z=0 activation energy of 0.311 eV is stated in Section 3."
+      },
+      {
+        "record_id": "arXiv:2302.07264#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3 states that the bulk conductivity of the bare sample is 2.58 mS/cm at 25 \u00b0C, and the unit appears in the following text as the record notes."
+      },
+      {
+        "record_id": "arXiv:2302.07264#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3 states that the grain-boundary conductivity of the bare sample is 1.99 mS/cm at 25 \u00b0C."
+      },
+      {
+        "record_id": "arXiv:2302.07264#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3 states that at z = 1 the bulk conductivity reaches 3.3 mS/cm, measured at 25 \u00b0C in Fig. 2b, and the unit is mS/cm."
+      },
+      {
+        "record_id": "arXiv:2302.07264#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper does report a grain-boundary conductivity of 5.28 mS/cm for z = 1 at 25 \u00b0C, so the record matches the text. The value is larger than the total conductivity of 2.03 mS/cm, which is internally odd, but the record faithfully reflects what is stated."
+      },
+      {
+        "record_id": "arXiv:2302.07264#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the biggest bulk conductivity is 3.74 mS/cm for the z = 0.75 sample, and the Fig. 2b discussion gives the measurement at 25 \u00b0C."
+      },
+      {
+        "record_id": "arXiv:2302.07264#008",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the lowest bulk conductivity is 2.46 mS/cm when z = 3, and the Fig. 2b discussion gives the measurement at 25 \u00b0C."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 24354,
+        "outputTokens": 3473,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 24546,
+        "webSearchRequests": 0,
+        "costUSD": 0.00910092,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2490,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24546,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 14199,
+    "notional_cost_usd": 0.00910092
+  },
+  "paper_id": "arXiv:2302.07264",
+  "model": "haiku"
+}

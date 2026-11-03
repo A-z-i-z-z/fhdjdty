@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies biological ion channels (bacterial NaChBac) using patch-clamp electrophysiology and Brownian dynamics, not a solid-state ion conductor, and it reports no solid electrolyte ionic conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 339,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 14082,
+        "webSearchRequests": 0,
+        "costUSD": 0.00302145,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 158,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14082,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4691,
+    "notional_cost_usd": 0.00302145
+  },
+  "paper_id": "arXiv:1612.02744",
+  "model": "haiku"
+}

@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is an MD and topological data analysis study of Ag ion migration in the superionic conductor \u03b1-AgI, and it cites one experimental conductivity value (\u2248100 S/cm) for \u03b1-AgI.",
+    "records": [
+      {
+        "material_as_written": "\u03b1-AgI",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "100",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "above 440 K",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "The obtained conductivity above 440 K is in good agreement with the experimental value (\u2248 100 (S/cm))37.",
+        "evidence_location": "Results, section III.A",
+        "notes": "Experimental value taken from ref. 37 (Hull 2004) and used only for comparison; not measured in this paper. Mobile ion is Ag+, which is not Li or Na, so mobile_ion is 'other'. The temperature is a lower bound (above 440 K) with no single value, so the numeric field is null. The paper's own Green-Kubo conductivity (Fig. 1c) has no numeric value in the text, so no computed record was made. The 0.12 eV figure is a potential-energy change, not an activation energy, and is not recorded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1528,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 18157,
+        "webSearchRequests": 0,
+        "costUSD": 0.0044309499999999995,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 889,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18157,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7343,
+    "notional_cost_usd": 0.0044309499999999995
+  },
+  "paper_id": "arXiv:2303.07719",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about sulfide solid electrolytes, but its ionic conductivity results appear only as plots (Figures 6a and 6c) and qualitative statements, with no numerical conductivity value in the text or tables; the only numbers given are NEB hopping barriers (0.28 and 0.36 eV) and MAEs, which are not conductivities.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 590,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 15286,
+        "webSearchRequests": 0,
+        "costUSD": 0.00338775,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 373,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15286,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6207,
+    "notional_cost_usd": 0.00338775
+  },
+  "paper_id": "arXiv:2406.18263",
+  "model": "haiku"
+}

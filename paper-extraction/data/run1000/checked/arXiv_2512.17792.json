@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:2512.17792#001",
+    "paper_id": "arXiv:2512.17792",
+    "record": {
+      "material_as_written": "LLZO (Li7La3Zr2O12), cubic phase",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "75.8",
+      "conductivity_unit_as_reported": "mScm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": 0.123,
+      "measurement_method": "classical MD (MetalWalls, DIPPIM force field) with Nernst-Einstein conversion and Bayesian Arrhenius extrapolation",
+      "evidence_quote": "and 95 % credible interval of 75.8\u221222.5 mScm",
+      "evidence_location": "results (Section V, extrapolation to 300 K)",
+      "notes": "This is the median of the posterior-predicted room-temperature conductivity obtained by extrapolating the Arrhenius fit to MD data at 500-800 K; it is not a measured value. The 300 K value is an extrapolation, and the 95% interval is 75.8 +30.6 -22.5. The unit 'mScm' is as written in the text (the paper's figures use mS cm-1). Activation energy 0.123 \u00b1 0.016 eV is from the same LLZO Arrhenius fit (Section III), reported in text with PDF-garbled symbols. Conductivity kind is not specified (MD-derived via Nernst-Einstein with Haven ratio 1.5)."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": false,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": null,
+    "log10_conductivity": null
+  }
+]

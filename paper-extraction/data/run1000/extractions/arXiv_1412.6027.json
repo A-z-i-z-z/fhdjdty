@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a DFT study of native defects in Li4BN3H10, a lithium-ion solid electrolyte, and it cites one experimental room-temperature ionic conductivity value from an earlier paper.",
+    "records": [
+      {
+        "activation_energy_eV": 0.26,
+        "conductivity_kind": "unspecified",
+        "conductivity_unit_as_reported": "S/cm",
+        "conductivity_value_as_reported": "2 \u00d7 10\u22124",
+        "data_origin": "literature_cited",
+        "dopants": [],
+        "evidence_location": "Introduction",
+        "evidence_quote": "The material was reported to have a conductivity of 2 \u00d7 10\u22124 S/cm at room temperature and an activation energy of 0.26 eV.8",
+        "material_as_written": "Li4BN3H10",
+        "material_class": "other",
+        "measurement_method": null,
+        "measurement_temperature_C": null,
+        "measurement_temperature_as_reported": "room temperature",
+        "mobile_ion": "Li",
+        "notes": "Value is taken from Matsuo et al. (ref. 8), cited in the introduction; not measured in this paper. Synthesis, density and sintering details are not given in this paper.",
+        "relative_density_pct": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "synthesis_method": null,
+        "unit_evidence_quote": null
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17447,
+        "outputTokens": 1549,
+        "cacheReadInputTokens": 23946,
+        "cacheCreationInputTokens": 19391,
+        "webSearchRequests": 0,
+        "costUSD": 0.00663686,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 438,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19391,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7646,
+    "notional_cost_usd": 0.00663686
+  },
+  "paper_id": "arXiv:1412.6027",
+  "model": "haiku"
+}

@@ -1,0 +1,27 @@
+{
+  "paper_id": "arXiv:2609.13115",
+  "arxiv_id": "2609.13115",
+  "title": "Extreme-Scale Linear-Scaling Kohn-Sham DFT at 100 Million Atoms: Bridging Quantum Simulations and Experiments",
+  "authors": [
+    "Qimen Xu",
+    "Yu Zhang",
+    "Dixing Ni",
+    "Lei Gao",
+    "Guangnan Feng",
+    "Qinrui Zheng",
+    "Jianting Liu",
+    "Haitian Lu",
+    "Zhaopeng Jia",
+    "Wei Xue",
+    "Shriram Chandran",
+    "Torsten Hoefler",
+    "Haohuan Fu",
+    "Yutong Lu"
+  ],
+  "published": "2026-09-11",
+  "doi": null,
+  "license": null,
+  "abs_url": "https://arxiv.org/abs/2609.13115",
+  "pdf_url": "https://arxiv.org/pdf/2609.13115",
+  "text_chars": 60328
+}

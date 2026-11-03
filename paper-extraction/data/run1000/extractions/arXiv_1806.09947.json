@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a quantum chemical study of Li+ solvation and contact ion pairs in liquid organic carbonate electrolytes, not a solid ionic conductor, and it reports no numeric ionic conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 255,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 17111,
+        "webSearchRequests": 0,
+        "costUSD": 0.0035852500000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 80,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17111,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2239,
+    "notional_cost_usd": 0.0035852500000000003
+  },
+  "paper_id": "arXiv:1806.09947",
+  "model": "haiku"
+}

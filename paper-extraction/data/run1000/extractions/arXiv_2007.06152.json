@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a computational proposal for radical-anion functionalized h-BN as a cathode and solid ion conductor, and it measures no conductivity itself; the only Li-ion conductivity numbers it quotes (0.2 mS/cm, 0.647 mS/cm) come from h-BN paste and ion-gel electrolytes containing liquid electrolyte, not from a solid Li/Na conductor, so no records are extracted.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 44556,
+        "outputTokens": 1009,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 44748,
+        "webSearchRequests": 0,
+        "costUSD": 0.01394126,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 735,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 44748,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5019,
+    "notional_cost_usd": 0.01394126
+  },
+  "paper_id": "arXiv:2007.06152",
+  "model": "haiku"
+}

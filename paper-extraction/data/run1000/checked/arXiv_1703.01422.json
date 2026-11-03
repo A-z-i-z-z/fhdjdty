@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:1703.01422#001",
+    "paper_id": "arXiv:1703.01422",
+    "record": {
+      "material_as_written": "Rb2Ti2O5-\u03b4",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10\u22123",
+      "conductivity_unit_as_reported": "S.cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "I-V measurements",
+      "evidence_quote": "The ionic conductivity \u03c3I extracted from the I-V measurements is of the order of 10\u22123 S.cm\u22121 at room temperature which makes this material a superionic conductor.",
+      "evidence_location": "results (Colossal permittivity section)",
+      "notes": "Mobile species is not identified by the paper (oxygen ions/vacancies are suggested but not established, and protons/hydroxide are not excluded), so mobile_ion is set to 'other'. The value is given as 'of the order of' 10\u22123 S.cm\u22121, not a precise measurement. Measured on mostly single crystals in the activated (reduced) state with unspecified \u03b4. The abstract gives the same value. The mobile ion is not established by the paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.001,
+    "log10_conductivity": -3.0
+  }
+]

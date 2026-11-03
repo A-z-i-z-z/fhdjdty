@@ -1,0 +1,76 @@
+[
+  {
+    "record_id": "arXiv:2403.09340#001",
+    "paper_id": "arXiv:2403.09340",
+    "record": {
+      "material_as_written": "Na2 (PEGMA:BEMA 3:7 with 0.2 mol kg-1 NaTFSI)",
+      "material_class": "polymer",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "UV curing of solution-processed polymer blend",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.0 \u00b7 10\u22124",
+      "conductivity_unit_as_reported": "S m\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "At room temperature, the conductivity for sample Na2 (cNaTFSI = 0.2 mol kg\u22121 ) amounts to \u03c3 = 2.0 \u00b7 10\u22124 S m\u22121 , i.e. slightly lower than that of the corresponding LiTFSI sample",
+      "evidence_location": "Section 2.1",
+      "notes": "Sample is the NaTFSI-containing host electrolyte (Na2) without carbon additive. Value is stated as bulk conductivity from Debye circuit fit with cell geometry. Activation energy for Na2 is not given directly (21 meV is for Na0 and 130 meV for Na5)."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 2e-06,
+    "log10_conductivity": -5.699
+  },
+  {
+    "record_id": "arXiv:2403.09340#002",
+    "paper_id": "arXiv:2403.09340",
+    "record": {
+      "material_as_written": "Li2 (PEGMA:BEMA with 0.2 mol kg-1 LiTFSI)",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": "UV curing of solution-processed polymer blend",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "4.0 \u00b7 10\u22124",
+      "conductivity_unit_as_reported": "S m\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "slightly lower than that of the corresponding LiTFSI sample of the same salt concentration (\u03c3 = 4.0 \u00b7 10\u22124 S m\u22121 [12] )",
+      "evidence_location": "Section 2.1",
+      "notes": "Value is taken from the authors' earlier work (Ref. [12]), so it is literature_cited. The room-temperature context is inferred from the sentence about Na2 at room temperature; the paper does not restate the temperature for this LiTFSI value."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 4e-06,
+    "log10_conductivity": -5.398
+  }
+]

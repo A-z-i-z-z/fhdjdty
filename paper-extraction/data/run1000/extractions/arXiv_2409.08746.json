@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a finite element simulation study of a modified Poisson\u2013Nernst\u2013Planck/Navier\u2013Stokes model for compressible electrolytes; it reports no ionic conductivity values for any solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 282,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 29284,
+        "webSearchRequests": 0,
+        "costUSD": 0.006033350000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 104,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 29284,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3568,
+    "notional_cost_usd": 0.006033350000000001
+  },
+  "paper_id": "arXiv:2409.08746",
+  "model": "haiku"
+}

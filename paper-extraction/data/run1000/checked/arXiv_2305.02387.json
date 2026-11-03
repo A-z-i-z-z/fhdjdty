@@ -1,0 +1,193 @@
+[
+  {
+    "record_id": "arXiv:2305.02387#001",
+    "paper_id": "arXiv:2305.02387",
+    "record": {
+      "material_as_written": "EC-LiTFSI (neat, 0 wt.% pectin)",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.0123",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "425 K",
+      "measurement_temperature_C": 151.85,
+      "activation_energy_eV": null,
+      "measurement_method": "MD simulation with Nernst-Einstein equation",
+      "evidence_quote": "the Nernst-Einstein conductivity of pure EC is 0.0123 S/cm, which agrees well",
+      "evidence_location": "Results (Ionic Conductivity section)",
+      "notes": "Nernst-Einstein estimate from simulated diffusivities for the neat EC-LiTFSI system (EC:Li=48:1); the paper calls it 'pure EC' but the system contains LiTFSI. Simulation temperature 425 K converted to C. Not an experimental solid electrolyte; included because the paper frames its systems as solid polymer electrolytes."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0123,
+    "log10_conductivity": -1.91
+  },
+  {
+    "record_id": "arXiv:2305.02387#002",
+    "paper_id": "arXiv:2305.02387",
+    "record": {
+      "material_as_written": "pectin-glycerol-LiClO4 gel bio-polymer electrolyte (methanol-esterified pectin, 68 wt.% glycerol)",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "4.7\u00d710\u22124",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "They observed the ionic conductivity of methanol-esterified pectin-based glycerol-LiClO4 gel bio-polymer electrolyte to be 4.7\u00d710\u22124 S/cm at 68 wt. % of glycerol at room temperature.",
+      "evidence_location": "Introduction",
+      "notes": "Value attributed to Andrade et al. (ref 32), cited from earlier work."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00047,
+    "log10_conductivity": -3.328
+  },
+  {
+    "record_id": "arXiv:2305.02387#003",
+    "paper_id": "arXiv:2305.02387",
+    "record": {
+      "material_as_written": "pectin + LiCl (equal molecular wt.%)",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.96\u00d710\u22123",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "Perumal et al., in their experimental work,33 found that the electrolyte composed of equal molecular wt.% of pectin and LiCl offered ionic conductivity of 1.96\u00d710\u22123 S/cm, which is higher",
+      "evidence_location": "Introduction",
+      "notes": "Value attributed to Perumal et al. (ref 33), cited from earlier work; temperature not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00196,
+    "log10_conductivity": -2.708
+  },
+  {
+    "record_id": "arXiv:2305.02387#004",
+    "paper_id": "arXiv:2305.02387",
+    "record": {
+      "material_as_written": "40 wt.% LiClO4 + 60 wt.% pectin",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5.38\u00d710\u22125",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "than the LiClO4 (40 wt. % LiClO4+60 wt. % pectin) incorporated electrolyte with ionic conductivity of 5.38\u00d710\u22125 S/cm.",
+      "evidence_location": "Introduction",
+      "notes": "Value from Perumal et al. (ref 33), cited from earlier work; temperature not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 5.38e-05,
+    "log10_conductivity": -4.269
+  },
+  {
+    "record_id": "arXiv:2305.02387#005",
+    "paper_id": "arXiv:2305.02387",
+    "record": {
+      "material_as_written": "PEO:corn starch = 9:1 with LiTFSI",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.62\u00d710-5",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "the highest conductivity of 2.62\u00d710-5 S/cm at a ratio of PEO:corn starch=9:1.",
+      "evidence_location": "Introduction",
+      "notes": "Value attributed to Lin et al. (ref 21), cited from earlier work; 'highest' refers to the best composition in that study."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 2.62e-05,
+    "log10_conductivity": -4.582
+  }
+]

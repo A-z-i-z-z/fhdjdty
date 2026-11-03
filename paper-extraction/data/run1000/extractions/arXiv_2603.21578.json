@@ -1,0 +1,56 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about garnet Al-LLZO solid electrolytes, but its own measurements are cell cycling and EIS interfacial resistance, not bulk ionic conductivity. The only conductivity number is a literature-cited room-temperature value for Al-LLZO in the Introduction.",
+    "records": [
+      {
+        "material_as_written": "Al-LLZO",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Al"
+        ],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10-4",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "offer high room temperature (RT) ionic conductivity (~10-4S cm-1)",
+        "evidence_location": "Introduction",
+        "notes": "Class-level approximate value (~10^-4) for aluminum-doped LLZO garnets in the Introduction, cited to Refs. [3,4]; not measured in this paper. The tilde is outside the value. Included as literature_cited with low confidence; the paper's own composition Li6.25Al0.25La3Zr2O12 is not explicitly tied to this number."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1893,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 9785,
+        "webSearchRequests": 0,
+        "costUSD": 0.00293905,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1289,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 9785,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8488,
+    "notional_cost_usd": 0.00293905
+  },
+  "paper_id": "arXiv:2603.21578",
+  "model": "haiku"
+}

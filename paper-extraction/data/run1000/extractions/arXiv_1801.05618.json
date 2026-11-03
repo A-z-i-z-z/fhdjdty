@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about a solid Li-ion conductor (\u03b2-eucryptite), but it reports no ionic conductivity value in S/cm or similar for that material; it gives only a diffusion coefficient, activation energies, and a generic 0.0001 to 0.1 Ohm\u22121 cm\u22121 range for the class of Li superionic conductors in the introduction.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 565,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 20015,
+        "webSearchRequests": 0,
+        "costUSD": 0.004321050000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 346,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 20015,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4509,
+    "notional_cost_usd": 0.004321050000000001
+  },
+  "paper_id": "arXiv:1801.05618",
+  "model": "haiku"
+}

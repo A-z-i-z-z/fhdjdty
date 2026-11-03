@@ -1,0 +1,66 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2503.11941#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Livac t-LBO value \u03c3ion = 7.0 \u00d7 10\u22125 S cm\u22121 is stated in Section 3.1 right after the Ref. [26] discussion of Li-vacancy transport, and this paper does not compute ionic conductivity itself. Literature_cited is the closest origin, though the sentence lacks an explicit citation marker."
+      },
+      {
+        "record_id": "arXiv:2503.11941#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.2 says 'we recall its Li-ion transport properties from Ref. [26]: its ionic conductivity is \u03c3ion = 7.0 \u00d7 10\u221213 S cm\u22121', matching the material, value, unit, and literature_cited origin; no temperature is given."
+      },
+      {
+        "record_id": "arXiv:2503.11941#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states 'as reported in our previous work [26], ... the Bvac m-LBO possesses the highest Li-ionic conductivity (\u03c3ion = 2.8 \u00d7 10\u22122 S cm\u22121)', so the value, material and literature_cited origin are right, and no temperature is stated."
+      },
+      {
+        "record_id": "arXiv:2503.11941#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.2 says 'our previous work reported that the Ovac m-LBO ... \u03c3ion = 6.1 \u00d7 10\u22126 S cm\u22121 (Ref. [26])', matching the value, material and literature_cited origin; no temperature is stated."
+      },
+      {
+        "record_id": "arXiv:2503.11941#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.1 says 'our previous work (see Ref. [26]) showed that the ionic conductivity of the Ovac t-LBO is estimated to be \u03c3ion = 7.6 \u00d7 10\u22128 S cm\u22121', matching the value, material and literature_cited origin; no temperature is stated."
+      },
+      {
+        "record_id": "arXiv:2503.11941#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction attributes the total conductivity 'ca. 10\u22126 S cm\u22121' for t-LBO to Hirose et al. [24], measured by EIS between 450 and 520 K on high-pressure-synthesized samples, so the value, kind, temperature, method and literature_cited origin all check out."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 23118,
+        "outputTokens": 3528,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 23306,
+        "webSearchRequests": 0,
+        "costUSD": 0.00875682,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2628,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23306,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 15036,
+    "notional_cost_usd": 0.00875682
+  },
+  "paper_id": "arXiv:2503.11941",
+  "model": "haiku"
+}

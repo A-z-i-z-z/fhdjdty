@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about plasmonic photochemical fabrication of metallic nanopores for single-molecule sensing; it does not study a solid Li/Na-ion conductor, and its only conductance values (nS, for nanopores in TE buffer and 1 M KCl) are not ionic conductivities of a solid electrolyte.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 356,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 30592,
+        "webSearchRequests": 0,
+        "costUSD": 0.00633195,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 148,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 30592,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3156,
+    "notional_cost_usd": 0.00633195
+  },
+  "paper_id": "arXiv:2302.05982",
+  "model": "haiku"
+}

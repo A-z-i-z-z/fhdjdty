@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a DFT and evolutionary-search study of NaMnO2 cathode polymorphs. It reports Na+ migration barriers, voltages and formation energies, but no ionic conductivity values for a solid conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 348,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 23002,
+        "webSearchRequests": 0,
+        "costUSD": 0.00480995,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 171,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23002,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2590,
+    "notional_cost_usd": 0.00480995
+  },
+  "paper_id": "arXiv:2506.17866",
+  "model": "haiku"
+}

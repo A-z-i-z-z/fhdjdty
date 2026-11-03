@@ -1,0 +1,72 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2010.04432#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports \u03c3 = 6\u00b710-5 S\u00b7cm\u22121 at 343 K for Mg(en)1(BH4)2, attributed to Roedern et al. [397], so literature_cited is correct and 343 K \u2248 70 \u00b0C is right."
+      },
+      {
+        "record_id": "arXiv:2010.04432#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives \u03c3 = 2\u00b710-5 S\u00b7cm\u22121 at 350 K for Mg(BH4)2-diglyme0.5 with citation [398], in a passage describing earlier work by others; literature_cited and 77 \u00b0C are correct."
+      },
+      {
+        "record_id": "arXiv:2010.04432#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states \u03c3 = 3.3\u00b710\u20134 S cm\u20131 at 353 K for Mg(BH4)2\u00b7NH3 as a very recent study [401], so literature_cited and 80 \u00b0C are correct."
+      },
+      {
+        "record_id": "arXiv:2010.04432#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports \u03c3 = 3\u00b710\u22126 S\u00b7cm\u22121 at 373 K for the (Mg-BN-H)-system of unknown stoichiometry, based on Mg(BH4)(NH2), cited to [400]; literature_cited and 100 \u00b0C are correct."
+      },
+      {
+        "record_id": "arXiv:2010.04432#005",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "conductivity_value_as_reported",
+            "correct_value": ">10-3",
+            "evidence": "the ionic conductivity of LiBH4 is greater than 10-3 S cm-1 at a temperature of 393 K [367]"
+          }
+        ],
+        "explanation": "The paper gives only a lower bound (greater than 10^-3 S cm-1), but the record stores 10-3 as a point value; the conductivity meaning is therefore not faithfully represented, and under strict review this is unsupported."
+      },
+      {
+        "record_id": "arXiv:2010.04432#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The sentence gives room-temperature conductivity in the order of 10-5 S cm-1 for h-Li(BH4)0.7Br0.2Cl0.1 with citations [192,193], so literature_cited, the Br/Cl dopants and null temperature in \u00b0C are appropriate."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 67603,
+        "outputTokens": 2771,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 67795,
+        "webSearchRequests": 0,
+        "costUSD": 0.02172462,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1877,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 67795,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10901,
+    "notional_cost_usd": 0.02172462
+  },
+  "paper_id": "arXiv:2010.04432",
+  "model": "haiku"
+}

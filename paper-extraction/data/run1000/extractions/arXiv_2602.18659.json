@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a molecular dynamics study of copolymer glass transition temperature and liquid-liquid phase behavior, with no solid ion conductor and no ionic conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 265,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 16825,
+        "webSearchRequests": 0,
+        "costUSD": 0.00353305,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 103,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16825,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3236,
+    "notional_cost_usd": 0.00353305
+  },
+  "paper_id": "arXiv:2602.18659",
+  "model": "haiku"
+}

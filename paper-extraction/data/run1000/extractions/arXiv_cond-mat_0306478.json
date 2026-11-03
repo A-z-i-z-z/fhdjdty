@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a broadband ac-response study of disordered matter. Its only ionic conductor is CKN, a Ca(NO3)2-KNO3 glass, which is not a Li/Na-ion solid conductor. Its conductivity data appear only in figures, with no numeric values in the text or a table.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 9075,
+        "outputTokens": 421,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 9265,
+        "webSearchRequests": 0,
+        "costUSD": 0.0030025600000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 200,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 9265,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2559,
+    "notional_cost_usd": 0.0030025600000000005
+  },
+  "paper_id": "arXiv:cond-mat/0306478",
+  "model": "haiku"
+}

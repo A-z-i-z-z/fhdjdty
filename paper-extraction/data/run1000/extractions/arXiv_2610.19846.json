@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about structural modeling of an amorphous Li-based oxychloride solid electrolyte. It reports no new conductivity measurements, but its introduction quotes literature ionic conductivities for amorphous Li oxychloride electrolytes.",
+    "records": [
+      {
+        "material_as_written": "x Li2 O \u2013 MCly (M = Ta, Hf)",
+        "material_class": "halide",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "6.6",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25 \u25e6C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "The amorphous x Li2 O \u2013 MCly electrolytes (M = Ta, Hf) reach up to 6.6 mS/cm at 25 \u25e6C [3]",
+        "evidence_location": "Introduction",
+        "notes": "Value quoted from Ref. [3] (Zhang et al., Nat. Commun. 2023), not measured here. It is 'up to' a maximum over a compositional family, so the specific composition is not identified. M is a framework cation, not a dopant. Material class set to halide because the material is an oxychloride."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1902,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 28732,
+        "webSearchRequests": 0,
+        "costUSD": 0.006732950000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1293,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28732,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 12505,
+    "notional_cost_usd": 0.006732950000000001
+  },
+  "paper_id": "arXiv:2610.19846",
+  "model": "haiku"
+}

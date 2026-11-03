@@ -1,0 +1,98 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about oxygen ion conduction in LaBi2O4Cl and Sr-doped LaBi2O4Cl and reports ionic conductivity values, though all of them are from AIMD or Nernst-Einstein predictions in this work.",
+    "records": [
+      {
+        "material_as_written": "LaBi2O4Cl with extrinsic oxygen vacancies (2.8%)",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.3",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "25\u00b0C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": "AIMD with Nernst-Einstein relation",
+        "evidence_quote": "exhibits a conductivity of 0.3 S/cm at 25\u00b0C",
+        "evidence_location": "abstract",
+        "notes": "Predicted (not measured) ionic conductivity from ab initio MD for LBC with 2.8% extrinsic vacancies; the mobile species is oxygen ions, so mobile_ion is recorded as 'other'. Text also says 'predicted ionic conductivity ... 0.3 S/cm at 25 C'."
+      },
+      {
+        "material_as_written": "intrinsic LaBi2O4Cl (LBC)",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.1",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "950\u02daC",
+        "measurement_temperature_C": 950,
+        "activation_energy_eV": 0.75,
+        "measurement_method": "AIMD with Nernst-Einstein relation",
+        "evidence_quote": "our simulations predict an ionic conductivity of 0.1 S/cm around 950\u02daC",
+        "evidence_location": "results",
+        "notes": "Predicted from AIMD for intrinsic LBC (Frenkel-pair regime); activation energy 0.75 \u00b1 0.01 eV is the AIMD overall barrier for the same system, taken from the text. Mobile species is oxygen ions. Not an experimental value."
+      },
+      {
+        "material_as_written": "LBC+Oi'' (LaBi2O4Cl with 2.8% extrinsic oxygen interstitials)",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.1",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "850 \u02daC",
+        "measurement_temperature_C": 850,
+        "activation_energy_eV": 0.77,
+        "measurement_method": "AIMD with Nernst-Einstein relation",
+        "evidence_quote": "have an ionic conductivity of 0.1 S/cm at 850 \u02daC, about compared to 950 \u02daC noted above for the",
+        "evidence_location": "results",
+        "notes": "Predicted from AIMD for LBC with extrinsic interstitials; the 0.77 \u00b1 0.06 eV total activation energy is the AIMD value for this system, given in the text. Quote line-break spans were reconstructed from the PDF text."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 4378,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 37635,
+        "webSearchRequests": 0,
+        "costUSD": 0.009751550000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2957,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 37635,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 18374,
+    "notional_cost_usd": 0.009751550000000001
+  },
+  "paper_id": "arXiv:2406.07723",
+  "model": "haiku"
+}

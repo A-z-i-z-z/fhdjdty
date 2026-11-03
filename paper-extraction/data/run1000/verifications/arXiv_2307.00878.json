@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2307.00878#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Li3PS4 polymorphs section states that \u03b3-Li3PS4 has a very low Li conductivity of 3(10\u22124) mS/cm and cites ref. 11, so the value is literature_cited. No measurement temperature is given, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2307.00878#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Discussion says \u03b2-Li3PS4's bulk ionic conductivity has been reported as 8.9 10\u22123 mS/cm, and the sentence ends with citation 15. The bulk kind, mS/cm unit and cited origin are correct, and no temperature is stated."
+      },
+      {
+        "record_id": "arXiv:2307.00878#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Discussion gives 0.16 mS/cm for the nanoporous form of \u03b2-Li3PS4, cited to ref. 15. The synthesis note matches the paper's statement that \u03b2-Li3PS4 was stabilized as nanoporous particles from solution-state synthesis (refs. 15, 16)."
+      },
+      {
+        "record_id": "arXiv:2307.00878#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Discussion gives room-temperature Li conductivity of \u223c2 mS/cm for the \u03b1 polymorph, cited to ref. 18, so the origin is literature_cited. The paper states room temperature, and the synthesis note matches the paper's description of the rapid heating and quenching technique with ref. 18. A null numeric Celsius value is conservative, not a wrong claim."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2309,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 28767,
+        "webSearchRequests": 0,
+        "costUSD": 0.006931710000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1687,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28767,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10573,
+    "notional_cost_usd": 0.006931710000000001
+  },
+  "paper_id": "arXiv:2307.00878",
+  "model": "haiku"
+}

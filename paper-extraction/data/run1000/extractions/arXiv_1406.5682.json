@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about the electronic metal-insulator transition on the reduced surface of yttria-stabilized zirconia (an oxide-ion conductor) studied by PEEM, and it reports no ionic conductivity values for any Li- or Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 362,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 10707,
+        "webSearchRequests": 0,
+        "costUSD": 0.0023579499999999997,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 174,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 10707,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3661,
+    "notional_cost_usd": 0.0023579499999999997
+  },
+  "paper_id": "arXiv:1406.5682",
+  "model": "haiku"
+}

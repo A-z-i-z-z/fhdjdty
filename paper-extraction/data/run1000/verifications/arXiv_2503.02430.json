@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2503.02430#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports 1.7\u00b710-2 S cm-1 at 500 K for K-7,8-C2B9H12 with Ea 0.28 eV in the disordered state, measured by EIS in this study. The secondary fields are null, which the paper supports."
+      },
+      {
+        "record_id": "arXiv:2503.02430#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports \u03c3(K+) = 4.3\u00b710-4 S cm-1 at 423 K for commercial KB11H14 in the disordered phase, with Ea 0.38 eV, measured in this work. Origin is experimental and the temperature is correct."
+      },
+      {
+        "record_id": "arXiv:2503.02430#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports \u03c3(K+) = 1.0\u00b710-4 S cm-1 at 400 K for K-7-CB10H13, with the activation energy falling to 0.42 eV in the disordered phase. These are this paper's own EIS measurements."
+      },
+      {
+        "record_id": "arXiv:2503.02430#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The sentence cites Souza et al. (Ref. 36) for \u03c3 = 1.2\u00b710-4 S cm-1 at 423 K and Ea = 1.9 eV for as-synthesized KB11H14. That makes it literature_cited, not experimental."
+      },
+      {
+        "record_id": "arXiv:2503.02430#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The ball-milled KB11H14 value of ~3.5\u00b710-4 S cm-1 at 423 K and Ea 1.5 eV come from Souza et al. (Ref. 36), per the same sentence. The ball-milling synthesis is stated in the Figure 8 caption as the sample condition, so the record is supported."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 42348,
+        "outputTokens": 2356,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 42540,
+        "webSearchRequests": 0,
+        "costUSD": 0.01394062,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1608,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 42540,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9850,
+    "notional_cost_usd": 0.01394062
+  },
+  "paper_id": "arXiv:2503.02430",
+  "model": "haiku"
+}

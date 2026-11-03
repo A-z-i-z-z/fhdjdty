@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a theoretical paper on oxygen-ion conduction in nanocrystalline ZrO2:16% Y, and it gives no numeric ionic conductivity values in the text; the experimental conductivity data appear only in figures (Figs. 4, 6, 7), and the only numbers cited (E0 = 1.23 eV, the two-to-three-orders-of-magnitude enhancement) are an activation energy and a qualitative ratio.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 594,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 9957,
+        "webSearchRequests": 0,
+        "costUSD": 0.0023239500000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 345,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 9957,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5084,
+    "notional_cost_usd": 0.0023239500000000004
+  },
+  "paper_id": "arXiv:cond-mat/0507140",
+  "model": "haiku"
+}

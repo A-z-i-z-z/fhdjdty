@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports room-temperature to 100 \u00b0C ionic conductivities of solid blend polymer electrolyte films (PEO-PVP+NaPF6) for sodium-ion batteries, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "PEO-PVP+NaPF6 (\u00d6/Na+ = 8)",
+        "material_class": "polymer",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solution casting",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "5.92\u00d710 -6",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "40 \u00b0C",
+        "measurement_temperature_C": 40,
+        "activation_energy_eV": null,
+        "measurement_method": "impedance spectroscopy",
+        "evidence_quote": "The film PEO-PVP+NaPF6 (\u00d6/Na+ = 8) exhibits highest ionic conductivity ~5.92\u00d710 -6 S cm-1 at 40 \u00b0C",
+        "evidence_location": "abstract",
+        "notes": "Sample labelled SPE 5 in the text. The salt ratio is written with the broken character \u00d6 in the PDF text; the composition is the O/Na+ = 8 sample. Activation energy is only given as a range (0.2\u20130.3 eV) for all samples, so it is left null."
+      },
+      {
+        "material_as_written": "PEO-PVP+NaPF6 (\u00d6/Na+ = 8)",
+        "material_class": "polymer",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solution casting",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.46\u00d710-4",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "100 \u00b0C",
+        "measurement_temperature_C": 100,
+        "activation_energy_eV": null,
+        "measurement_method": "impedance spectroscopy",
+        "evidence_quote": "and ~2.46\u00d710-4 S cm-1 at 100 \u00b0C",
+        "evidence_location": "abstract",
+        "notes": "Sample labelled SPE 5 in the text. This is the highest-temperature value for the same composition; the 40 \u00b0C record is the lowest-temperature value. Conductivities for other salt ratios appear only in Table 4, whose layout is scrambled in the PDF text, so they were not recorded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2550,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 25416,
+        "webSearchRequests": 0,
+        "costUSD": 0.00639375,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1523,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 25416,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11469,
+    "notional_cost_usd": 0.00639375
+  },
+  "paper_id": "arXiv:1807.03966",
+  "model": "haiku"
+}

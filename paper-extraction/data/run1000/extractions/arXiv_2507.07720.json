@@ -1,0 +1,152 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper measures ionic conductivity of Li4-xGe1-xPxO4 (LGPO) solid electrolyte thin films by in situ impedance spectroscopy and reports numerical conductivities.",
+    "records": [
+      {
+        "material_as_written": "Li3.08Ge0.52P0.47O4 (HTLP film)",
+        "material_class": "LISICON",
+        "mobile_ion": "Li",
+        "dopants": [
+          "P"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "pulsed laser deposition",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.2 \u00d7 10-5",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": "S cm-1)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.46,
+        "measurement_method": "in situ impedance spectroscopy",
+        "evidence_quote": "Its high room-temperature ionic conductivity (~1.2 \u00d7 10-5",
+        "evidence_location": "conclusion",
+        "notes": "Room-temperature value is extrapolated from the Arrhenius fit of the in situ measurements (results section). Polycrystalline film grown at 535 \u00b0C and 0.01 mbar (HTLP). Composition from Table 3. Film thickness 100-250 nm on MgO; grain and grain-boundary contributions not separated. Value is in-plane conductivity."
+      },
+      {
+        "material_as_written": "Li2.44Ge0.72P0.41O4 (LTLP film, amorphous)",
+        "material_class": "LISICON",
+        "mobile_ion": "Li",
+        "dopants": [
+          "P"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "pulsed laser deposition",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "5.2 \u00d7 10-8",
+        "conductivity_unit_as_reported": "S cm\u207b\u00b9",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.72,
+        "measurement_method": "in situ impedance spectroscopy",
+        "evidence_quote": "with an extrapolated room-temperature ionic conductivity of approximately 5.2 \u00d7 10-8 S cm\u207b\u00b9",
+        "evidence_location": "results",
+        "notes": "Amorphous film deposited at 25 \u00b0C and 0.01 mbar (LTLP). Room-temperature value is extrapolated from the 150-360 \u00b0C Arrhenius fit; the film crystallizes above about 360 \u00b0C. Composition from Table 3."
+      },
+      {
+        "material_as_written": "LGPO pellet, x = 0.66 (Song et al.)",
+        "material_class": "LISICON",
+        "mobile_ion": "Li",
+        "dopants": [
+          "P"
+        ],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "3.8 \u00d7 10-6",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.5,
+        "measurement_method": null,
+        "evidence_quote": "have obtained 3.8 \u00d7 10-6 S cm-1 with Ea = 0.5 eV for x = 0.66",
+        "evidence_location": "results",
+        "notes": "Value cited from Song et al. (ref 29) for a pellet, not measured in this paper. Room temperature is implied by the sigma_RT context in the text."
+      },
+      {
+        "material_as_written": "LGPO thin film, x \u2248 0.5 (Gilardi et al.)",
+        "material_class": "LISICON",
+        "mobile_ion": "Li",
+        "dopants": [
+          "P"
+        ],
+        "data_origin": "literature_cited",
+        "synthesis_method": "pulsed laser deposition",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "3 \u00d7 10-6",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.51,
+        "measurement_method": null,
+        "evidence_quote": "exhibited \u03c3RT = ~3 \u00d7 10-6 S cm-1 and Ea = 0.51 eV",
+        "evidence_location": "results",
+        "notes": "Value attributed to Gilardi et al. (ref 19) via Figure 5 caption; the sentence says 'in this study' but the context and caption indicate literature values. Films grown at 500 \u00b0C, composition Li2.7\u00b10.3Ge0.49P0.5O3.7\u00b10.3."
+      },
+      {
+        "material_as_written": "LGPO amorphous thin film, x \u2248 0.5 (Gilardi et al.)",
+        "material_class": "LISICON",
+        "mobile_ion": "Li",
+        "dopants": [
+          "P"
+        ],
+        "data_origin": "literature_cited",
+        "synthesis_method": "pulsed laser deposition",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "3 \u00d7 10-7",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.58,
+        "measurement_method": null,
+        "evidence_quote": "and \u03c3RT = ~3 \u00d7 10-7 S cm-1 which have chemical",
+        "evidence_location": "results",
+        "notes": "Value cited from Gilardi et al. (ref 19) for amorphous thin films, composition Li1.58\u00b10.4Ge0.45P0.55O3.27\u00b10.5. Not measured in this paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 16034,
+        "outputTokens": 6963,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 16224,
+        "webSearchRequests": 0,
+        "costUSD": 0.008361259999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 4757,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16224,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 25778,
+    "notional_cost_usd": 0.008361259999999999
+  },
+  "paper_id": "arXiv:2507.07720",
+  "model": "haiku"
+}

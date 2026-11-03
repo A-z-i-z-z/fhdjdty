@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper models the sub-THz/THz dielectric permittivity of human skin and cells and reports no ionic conductivity of any solid Li or Na ion conductor; ionic conductivity is only mentioned as neglected in the model.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 255,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 14388,
+        "webSearchRequests": 0,
+        "costUSD": 0.00304065,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 77,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14388,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2035,
+    "notional_cost_usd": 0.00304065
+  },
+  "paper_id": "arXiv:2603.09822",
+  "model": "haiku"
+}

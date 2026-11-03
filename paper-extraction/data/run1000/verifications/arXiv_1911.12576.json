@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1911.12576#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Sample 19 (25:14:61) is reported in Table 2 and the abstract as 4.9 \u00d7 10-4 S/cm at 300 \u00b0C, measured in this paper. The solid-state synthesis method and null secondary fields are consistent with the paper, and the quote is verbatim."
+      },
+      {
+        "record_id": "arXiv:1911.12576#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 1 lists sample 7 (25, 0, 75) at 1.6 \u00d7 10-4 S/cm, measured at 300 \u00b0C as stated in the Table 1 caption and Section 2. The Section 3.1 sentence containing the quote links sample 7 to 1.6 \u00d7 10-4 S/cm, and the data are from this paper's own experiments."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1243,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 9903,
+        "webSearchRequests": 0,
+        "costUSD": 0.0026259100000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 888,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 9903,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7055,
+    "notional_cost_usd": 0.0026259100000000004
+  },
+  "paper_id": "arXiv:1911.12576",
+  "model": "haiku"
+}

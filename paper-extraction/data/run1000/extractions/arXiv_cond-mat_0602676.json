@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies humidity-sensitive porous silicon (Ag-PSi-Ag) with dynamic I-V and transient current measurements, not a solid Li/Na-ion conductor, and it reports no numeric ionic conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 5856,
+        "outputTokens": 410,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 6046,
+        "webSearchRequests": 0,
+        "costUSD": 0.0020313600000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 194,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 6046,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2315,
+    "notional_cost_usd": 0.0020313600000000003
+  },
+  "paper_id": "arXiv:cond-mat/0602676",
+  "model": "haiku"
+}

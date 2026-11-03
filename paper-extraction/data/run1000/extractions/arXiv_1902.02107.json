@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is mainly a method for analysing MD jump diffusion, but it reports one ionic conductivity of a solid Li-ion conductor (LLZO), computed in this work via Nernst-Einstein.",
+    "records": [
+      {
+        "material_as_written": "Li7 La3 Zr2 O12",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.58",
+        "conductivity_unit_as_reported": "Scm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "500 K",
+        "measurement_temperature_C": 226.85,
+        "activation_energy_eV": null,
+        "measurement_method": "classical MD simulation with Nernst-Einstein relation and Haven ratio",
+        "evidence_quote": "We find \u03c3 = 0.58 Scm\u22121, which is one",
+        "evidence_location": "Results, Sec. III A (LLZO)",
+        "notes": "Conductivity is derived from the simulated tracer diffusion coefficient via the Nernst-Einstein equation with a Haven ratio H = 0.4 taken from literature (Ref. 63); the simulation was run at 500 K (canonical ensemble, polarizable force field). Value is computed in this paper, not a literature value. No sintering or synthesis since it is a simulation."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 33349,
+        "outputTokens": 1380,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 33533,
+        "webSearchRequests": 0,
+        "costUSD": 0.010763060000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 754,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 33533,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6606,
+    "notional_cost_usd": 0.010763060000000001
+  },
+  "paper_id": "arXiv:1902.02107",
+  "model": "haiku"
+}

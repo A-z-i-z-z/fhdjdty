@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1812.04772#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports \u03c3NE = 9.0 \u00b7 10\u22123 S/cm for the PEO/LiTFSI r = 1/12 system from its own MD runs, which were run at a target temperature of 363 K, so the computational origin and temperature are right. The 90 \u00b0C conversion is a rounding of 363 K (\u224889.85 \u00b0C) and is acceptable."
+      },
+      {
+        "record_id": "arXiv:1812.04772#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports \u03c3E = 8.8 \u00b7 10\u22124 S/cm for the same PEO/LiTFSI system, computed in this paper at the 363 K target temperature. The paper also notes that convergence is unclear even after 100 ns, which matches the record's notes."
+      },
+      {
+        "record_id": "arXiv:1812.04772#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports \u03c3cNE0 = 1.6 \u00b7 10\u22123 S/cm as its own computed result for the PEO/LiTFSI system at 363 K. cNE0 is introduced in this paper as an approximation to cNE, so the computational origin is correct."
+      },
+      {
+        "record_id": "arXiv:1812.04772#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports \u03c3cNE = 1.3 \u00b7 10\u22123 S/cm for the PEO/LiTFSI system, with an error of \u00b123.8%, from its own MD simulations at the 363 K target temperature. The record's values and origin are correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1539,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 14527,
+        "webSearchRequests": 0,
+        "costUSD": 0.00369871,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 937,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14527,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11254,
+    "notional_cost_usd": 0.00369871
+  },
+  "paper_id": "arXiv:1812.04772",
+  "model": "haiku"
+}

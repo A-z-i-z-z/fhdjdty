@@ -1,0 +1,41 @@
+[
+  {
+    "record_id": "arXiv:2209.05583#001",
+    "paper_id": "arXiv:2209.05583",
+    "record": {
+      "material_as_written": "LLZO ceramic (Li7La3Zr2O12)",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.335\u00d710-5",
+      "conductivity_unit_as_reported": "S/m",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "1.335\u00d710-5 S/m, which are the reported values for LLZO ceramics [31]",
+      "evidence_location": "Section 3.2 (Calculation of the effective ion conductivities)",
+      "notes": "Not a result of this paper: this is the local grain Li-ion conductivity set as a simulation input, taken from ref. [31]. No measurement temperature is given. The paper reports no absolute effective-conductivity values, only MARE percentages, so no computed records were made. The grain-boundary values are given only as scaling factors (10^r), not as absolute values."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1.335e-07,
+    "log10_conductivity": -6.875
+  }
+]

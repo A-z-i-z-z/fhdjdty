@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This neutron-scattering review discusses solid electrolytes and superionic materials qualitatively, but it reports no ionic conductivity value for any solid Li/Na-ion conductor; the only numbers are thermal conductivities and unrelated measurement parameters.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 28247,
+        "outputTokens": 457,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 28433,
+        "webSearchRequests": 0,
+        "costUSD": 0.00877136,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 245,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28433,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5630,
+    "notional_cost_usd": 0.00877136
+  },
+  "paper_id": "arXiv:2505.06076",
+  "model": "haiku"
+}

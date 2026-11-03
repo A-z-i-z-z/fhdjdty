@@ -113,6 +113,33 @@ python3 -m unittest discover -s tests -t .
 
 ## What has been tested so far
 
+### 1,000-paper run (2026-11-03)
+
+`fetch --n 1000` then `run --concurrency 16`, outputs in [`data/run1000/`](data/run1000/).
+Three more targeted queries ("all-solid-state", "solid-state battery", "lithium diffusion")
+were added before the broad ones. The 300-paper run's extractions and verdicts were reused
+(same prompts), so only the 700 new papers cost model calls.
+
+- 1,000 papers selected, 5 downloads failed, **995 processed, but only 258 in scope**: the
+  broad queries (`abs:electrolyte AND abs:conductivity`) mostly bring in liquid-electrolyte,
+  battery-cycling and unrelated papers. They cost tokens but add no records.
+- 783 records extracted, **617 kept (79%)** from 199 papers: 224 experimental, 138
+  computational, 255 `literature_cited`. The checker rejected 120, the verifier rejected 46
+  and corrected 20.
+- Filtering to Li/Na inorganic solids (`mobile_ion` Li or Na, `material_class` not polymer or
+  composite) leaves 449 records: 151 experimental, 128 computational, 170 cited.
+- Cumulative 40.2M input and 1.6M output tokens, notional API price $7.51 for all 995 papers.
+
+**Hand spot check** of 30 random kept records (seed 11): material, value, unit, origin and
+temperature were right in **30/30**, including table rows, "respectively" lists and
+secondary fields checked against the text. Seven of the 30 are outside the intended field
+(oxygen-ion conductors, polymer electrolytes, a succinonitrile composite): correct as data,
+but a reason to filter.
+
+The arXiv supply is close to used up: the query list reaches about 1,250 papers, and only a
+quarter of the broad tail is in scope. More records now need other open-access sources
+(PubMed Central, MDPI, ChemRxiv) rather than more arXiv queries.
+
 ### 300-paper run (2026-11-03)
 
 `fetch --n 300` then `run --concurrency 16`, outputs in [`data/run300/`](data/run300/).

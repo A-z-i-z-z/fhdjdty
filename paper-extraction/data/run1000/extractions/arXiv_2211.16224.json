@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about solid-state electrolytes, but it reports only ion diffusion coefficients (as correlation targets and ML predictions), correlation coefficients, and descriptor values; it never reports an ionic conductivity number for any material.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 20433,
+        "outputTokens": 423,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 20619,
+        "webSearchRequests": 0,
+        "costUSD": 0.00641016,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 215,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 20619,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2583,
+    "notional_cost_usd": 0.00641016
+  },
+  "paper_id": "arXiv:2211.16224",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a molecular dynamics study of hydrophobic gating in the BK potassium channel, a biological membrane protein, and reports no ionic conductivity values for a solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 278,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 15326,
+        "webSearchRequests": 0,
+        "costUSD": 0.00323975,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 106,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15326,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2406,
+    "notional_cost_usd": 0.00323975
+  },
+  "paper_id": "arXiv:2405.04644",
+  "model": "haiku"
+}

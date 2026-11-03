@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper studies Li-ion conduction in plastic-crystalline succinonitrile-glutaronitrile electrolytes with LiPF6, but its conductivity numbers appear only in Figures 2 to 4 and the supplement, not as numeric values in the text, so no record meets the extraction rules.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 13909,
+        "outputTokens": 821,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 14099,
+        "webSearchRequests": 0,
+        "costUSD": 0.004652760000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 580,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14099,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4980,
+    "notional_cost_usd": 0.004652760000000001
+  },
+  "paper_id": "arXiv:1506.05933",
+  "model": "haiku"
+}

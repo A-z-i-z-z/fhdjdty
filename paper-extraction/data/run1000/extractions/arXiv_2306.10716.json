@@ -1,0 +1,98 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a first-principles study of Li-Nb-O and Li-Ta-O coating materials, and it quotes several Li-ion conductivity values from earlier experimental work, so it reports conductivities of solid Li-ion conductors, although none are newly measured here.",
+    "records": [
+      {
+        "material_as_written": "crystalline LiNbO3 and LiTaO3",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "<10\u221212",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "400K",
+        "measurement_temperature_C": 126.85,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "Albeit with much lower Li-ion conductivities (<10\u221212 S cm\u22121 at 400K) and exceedingly high migration barriers (1.16\u20131.33 eV), 13,14 crystalline LiNbO3 and LiTaO3 coatings",
+        "evidence_location": "Introduction",
+        "notes": "Value is an upper bound ('<'), attributed to refs 13,14 (earlier work). The 1.16\u20131.33 eV values are migration barriers, not activation energies of conductivity, so activation_energy_eV is left null. 400 K converted to 126.85 \u00b0C."
+      },
+      {
+        "material_as_written": "amorphous LiNbO3 and LiTaO3",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "\u223c10\u22125 \u201310\u22126",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "materials with high ionic conductivities (\u223c10\u22125 \u201310\u22126 S cm\u22121 at room temperature)",
+        "evidence_location": "Introduction",
+        "notes": "Range given in the paper, not a single value. The sentence cites refs 10\u201312 for these materials, so this is literature_cited. Not a specific composition."
+      },
+      {
+        "material_as_written": "nanocrystalline LiNbO3 and LiTaO3 (from high-energy ball milling)",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": "high-energy ball milling",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "\u223c10\u22126",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "Previous reports 13,14 suggested that highly defective nanocrystalline LiNbO3 and LiTaO3 (from high-energy ball milling) containing amorphous-like components exhibit roomtemperature Li-ion conductivities (\u223c10\u22126 S cm\u22121 )",
+        "evidence_location": "Introduction",
+        "notes": "Value attributed to previous reports 13,14, so literature_cited. Synthesis route is the one described for those cited materials, not for this paper's work."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 3547,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 29127,
+        "webSearchRequests": 0,
+        "costUSD": 0.00763445,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2135,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 29127,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 15381,
+    "notional_cost_usd": 0.00763445
+  },
+  "paper_id": "arXiv:2306.10716",
+  "model": "haiku"
+}

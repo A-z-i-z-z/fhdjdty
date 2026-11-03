@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "This is a review of honeycomb layered oxides that reports room-temperature and 573 K ionic conductivities of Li-, Na- and K-based compounds in Table 2, so it is in scope, but every value is literature-cited and the table's column alignment is ambiguous, so only the one unambiguous row is recorded.",
+    "records": [
+      {
+        "material_as_written": "K2 Mg2 TeO6",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": 70,
+        "conductivity_value_as_reported": "\u223c 10\u22125",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": "\u03c3300 K /S cm\u22121",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25 \u00b1 3\u25e6 C (298 \u00b1 3 K)",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.92,
+        "measurement_method": "EIS",
+        "evidence_quote": "K2 Mg2 TeO6\n\n3.8 \u00d7 10\u22122\n\n\u223c 10\u22125\n\n0.92\n\n\u223c 70",
+        "evidence_location": "Table 2",
+        "notes": "Row from Table 2, a compilation of literature values (caption cites refs 59,64,90,126,173,249-252,254,255), so this is not a measurement in this paper. Column order is inferred: 3.8 \u00d7 10\u22122 is the 573 K value and \u223c10\u22125 the 300 K value. The Ea column has no stated temperature range, and the pellet-compactness value (\u223c70) is stored as relative density. Mg is a constituent, not a dopant. Other rows were skipped because their multi-line alignment in the PDF text is ambiguous."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 3022,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 54909,
+        "webSearchRequests": 0,
+        "costUSD": 0.01252835,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2292,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 54909,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 15500,
+    "notional_cost_usd": 0.01252835
+  },
+  "paper_id": "arXiv:2003.03555",
+  "model": "haiku"
+}

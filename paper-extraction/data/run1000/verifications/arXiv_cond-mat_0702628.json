@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:cond-mat/0702628#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction states the cubic \u03b2-phase of La2Mo2O9 has an ionic conductivity of 6\u00d710-2 S cm-1 at 800\u00b0C, and the sentence cites ref. 4 for the LAMOX discovery, so literature_cited is correct. The paper gives no conductivity kind, so 'unspecified' is right. The secondary fields are null, which is acceptable because the paper's synthesis details refer to the authors' own sample, not to this literature value."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 9461,
+        "outputTokens": 1295,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 9651,
+        "webSearchRequests": 0,
+        "costUSD": 0.0035436200000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1014,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 9651,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6588,
+    "notional_cost_usd": 0.0035436200000000004
+  },
+  "paper_id": "arXiv:cond-mat/0702628",
+  "model": "haiku"
+}

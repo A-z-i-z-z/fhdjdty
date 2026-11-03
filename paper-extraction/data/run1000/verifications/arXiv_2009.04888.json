@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2009.04888#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states s25C rises monotonically from 0.05 to 5.0 mS cm-1 over 0.05-1.00 M LiI in SN-PAN, and the Discussion gives 'up to 5 mS cm-1', so 5.0 mS cm-1 at 25 \u00b0C for the 1.00 M composition is a sound inference from the stated endpoint. Origin is experimental and the synthesis method matches the Methods."
+      },
+      {
+        "record_id": "arXiv:2009.04888#002",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The record's material is a range of LiI-doped SN compositions (0.05-0.50 M) rather than a specific material, and the paper's sentence gives 0.10 mS cm-1 as an approximate invariant value across that doping range, not a conductivity for a identified composition."
+      },
+      {
+        "record_id": "arXiv:2009.04888#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text reports s25C of only 10-5 S cm-1 for PEO-based composite SICs, and the Methods and Figure 1F caption identify the SN-PEO control as 0.50 M LiI. The value is experimental, measured at 25 \u00b0C, and the synthesis is described as similar to the SN-PAN route."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2279,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 19152,
+        "webSearchRequests": 0,
+        "costUSD": 0.00499371,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1754,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19152,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11276,
+    "notional_cost_usd": 0.00499371
+  },
+  "paper_id": "arXiv:2009.04888",
+  "model": "haiku"
+}

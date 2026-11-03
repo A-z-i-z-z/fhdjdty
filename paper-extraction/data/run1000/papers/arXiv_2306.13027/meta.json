@@ -1,0 +1,18 @@
+{
+  "paper_id": "arXiv:2306.13027",
+  "arxiv_id": "2306.13027",
+  "title": "Enhancing ReaxFF for Molecular Dynamics Simulations of Lithium-Ion Batteries: An interactive reparameterization protocol",
+  "authors": [
+    "Paolo De Angelis",
+    "Roberta Cappabianca",
+    "Matteo Fasano",
+    "Pietro Asinari",
+    "Eliodoro Chiavazzo"
+  ],
+  "published": "2023-06-22",
+  "doi": "10.1038/s41598-023-50978-5",
+  "license": null,
+  "abs_url": "https://arxiv.org/abs/2306.13027",
+  "pdf_url": "https://arxiv.org/pdf/2306.13027",
+  "text_chars": 63020
+}

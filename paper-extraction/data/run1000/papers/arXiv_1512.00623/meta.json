@@ -1,0 +1,21 @@
+{
+  "paper_id": "arXiv:1512.00623",
+  "arxiv_id": "1512.00623",
+  "title": "A machine learning-based selective sampling procedure for identifying the low energy region in a potential energy surface: a case study on proton conduction in oxides",
+  "authors": [
+    "Kazuaki Toyoura",
+    "Daisuke Hirano",
+    "Atsuto Seko",
+    "Motoki Shiga",
+    "Akihide Kuwabara",
+    "Masayuki Karasuyama",
+    "Kazuki Shitara",
+    "Ichiro Takeuchi"
+  ],
+  "published": "2015-12-02",
+  "doi": "10.1103/PhysRevB.93.054112",
+  "license": null,
+  "abs_url": "https://arxiv.org/abs/1512.00623",
+  "pdf_url": "https://arxiv.org/pdf/1512.00623",
+  "text_chars": 45147
+}

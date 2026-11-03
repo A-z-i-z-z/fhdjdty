@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper studies Bi5NbO10 as an oxygen-ion conductor and reports an ionic conductivity value at 700 \u00b0C, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "Bi5NbO10",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "modified sol-gel process",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.86",
+        "conductivity_unit_as_reported": "(\u03a9\u00b7m)-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "700 oC",
+        "measurement_temperature_C": 700,
+        "activation_energy_eV": 0.94,
+        "measurement_method": "impedance spectroscopy",
+        "evidence_quote": "The ionic conductivity of Bi5NbO10 solid solutions at 700 oC is 2.86 (\u03a9\u00b7m)-1 which is in same order of magnitude for Y2O3-stabilized ZrO2 ceramics at same temperature.",
+        "evidence_location": "abstract",
+        "notes": "Mobile species is oxygen ion (O2-), which is not Li/Na; mobile_ion set to 'other'. Material is a Bi5NbO10 solid solution with no dopant listed. Sintering is only given as a range (800-900 \u00b0C) so left null. Activation energy 0.94 \u00b1 0.02 eV is the dc Arrhenius value from the same paper (Edc), attached here as the closest reported value for this conductivity. The unit (\u03a9\u00b7m)-1 is as written; the value is unusually high for an oxide at 700 \u00b0C and the paper does not give more detail, so it is reported as written."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1663,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 10867,
+        "webSearchRequests": 0,
+        "costUSD": 0.00304045,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 969,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 10867,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8479,
+    "notional_cost_usd": 0.00304045
+  },
+  "paper_id": "arXiv:0910.4438",
+  "model": "haiku"
+}

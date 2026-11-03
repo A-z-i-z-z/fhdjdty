@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports ac conductivity of solid Ag+ ion-conducting (AgPO3)1-x(AgI)x glasses, but almost all values are shown only in figures; the one numeric conductivity in the text is for the base AgPO3 glass.",
+    "records": [
+      {
+        "material_as_written": "AgPO3 (base glass)",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "melt quenching",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10\u22129",
+        "conductivity_unit_as_reported": "\u03a9\u22121 .cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "AC impedance spectroscopy",
+        "evidence_quote": "fully consistent with its low conductivity (\u03c3 \u2243 10\u22129 \u03a9\u22121 .cm\u22121 , see Fig 3)",
+        "evidence_location": "Section III.C / Discussion (Ag NMR paragraph)",
+        "notes": "Value for the base AgPO3 glass (x=0) given in text with no temperature; it is cited as read from Fig 3 of this work, so it is treated as experimental. Only numeric conductivity value in the text; other conductivity data appear only in figures (Figs 1, 3, 10)."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1744,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 23239,
+        "webSearchRequests": 0,
+        "costUSD": 0.00555535,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1131,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23239,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10871,
+    "notional_cost_usd": 0.00555535
+  },
+  "paper_id": "arXiv:0910.4508",
+  "model": "haiku"
+}

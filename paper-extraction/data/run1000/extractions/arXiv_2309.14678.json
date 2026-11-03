@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a DFT study of defects and ion transport in Li, Na and K beta/beta'' aluminas, a class of solid Na/Li/K ion conductors, but it reports only one conductivity number, a literature-cited room-temperature range for Na beta-alumina single crystals.",
+    "records": [
+      {
+        "material_as_written": "\u03b2-alumina (Na \u03b2-alumina, single crystal)",
+        "material_class": "other",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.01-0.03",
+        "conductivity_unit_as_reported": "Scm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "has an ionic conductivity of 0.01-0.03 Scm\u22121",
+        "evidence_location": "Introduction",
+        "notes": "Range quoted from ref. [8] (Lu et al., Jom 2010) for beta-alumina in single crystals at room temperature; the material is described only as '\u03b2-alumina' in the introduction, and the paper's own calculations give no conductivity values. Recorded as literature_cited, not as a result of this paper. Activation energies in Table I are migration barriers or literature Ea values and are not conductivities, so they are not recorded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 21494,
+        "outputTokens": 1657,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 21684,
+        "webSearchRequests": 0,
+        "costUSD": 0.00734626,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1013,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 21684,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7567,
+    "notional_cost_usd": 0.00734626
+  },
+  "paper_id": "arXiv:2309.14678",
+  "model": "haiku"
+}

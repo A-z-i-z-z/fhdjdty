@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies phonons, elastic constants and Li diffusion barriers in Li2O, a superionic conductor, but it reports no ionic conductivity value for any material; the only conductivity figure is a generic threshold (greater than 0.01 (Ohm-cm)-1) for superionic conductors, which is not a measured value for a specific material.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 11223,
+        "outputTokens": 463,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 11415,
+        "webSearchRequests": 0,
+        "costUSD": 0.00366836,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 221,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11415,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2917,
+    "notional_cost_usd": 0.00366836
+  },
+  "paper_id": "arXiv:1112.6100",
+  "model": "haiku"
+}

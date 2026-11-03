@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports room-temperature ionic conductivities of solid polymer electrolyte films (PEO-PVC)+LiPF6 with TiO2 filler, measured by impedance spectroscopy, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "(PEO-PVC)-LiPF6 + 7 wt. % TiO2",
+        "material_class": "polymer",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solution cast technique",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "5\u00d710 -5",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "electrical conductivity is highest for 7 wt. % about ~5\u00d710-5 S cm-1 at room temperature",
+        "evidence_location": "Conclusions",
+        "notes": "Highest conductivity of the series; 7 wt. % TiO2 is a filler, not a dopant, so dopants is empty. Abstract gives the same value as ~5\u00d710 -5 S cm-1 for 7 wt. % TiO2 without a temperature. Measured with SS|SPE|SS cells, bulk resistance from Nyquist intercept."
+      },
+      {
+        "material_as_written": "PEO-PVC polymer blend (no salt, no TiO2)",
+        "material_class": "polymer",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solution cast technique",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "3.3 \u00d710 -8",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "The ionic conductivity of polymer blend was 3.3 \u00d710 -8 S cm-1.",
+        "evidence_location": "3.5.1 Electrical Conductivity Analysis",
+        "notes": "Baseline blend without LiPF6 or TiO2. Temperature is not stated in this sentence; room temperature comes from the CIS measurement description in Section 2.3. The mobile_ion is set to other because the blend has no added salt. Quoted value is as the paper writes it."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2146,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 28557,
+        "webSearchRequests": 0,
+        "costUSD": 0.00681995,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1104,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28557,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10097,
+    "notional_cost_usd": 0.00681995
+  },
+  "paper_id": "arXiv:1807.04953",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a DFT study of borophosphene as a Na-ion battery anode. It reports Na diffusion energy barriers, binding energies, capacity and voltage, but no ionic conductivity values for a solid Li/Na-ion conductor; the phrase \"rapid ion conductivity\" in the abstract is not a number.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 415,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 12433,
+        "webSearchRequests": 0,
+        "costUSD": 0.00272965,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 208,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12433,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4205,
+    "notional_cost_usd": 0.00272965
+  },
+  "paper_id": "arXiv:2005.05580",
+  "model": "haiku"
+}

@@ -1,0 +1,98 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports EIS-measured Li-ion conductivities of cross-linked PEO-based solid polymer electrolytes at 293 K in Table 1, so it is in scope despite its THz focus.",
+    "records": [
+      {
+        "material_as_written": "XS1 (xPEGDAE with 25 wt% LiTFSI)",
+        "material_class": "polymer",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "UV-induced free radical photopolymerization of PEGDAE",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "3.80\u00d710-6",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": "Ionic conductivity, \ud835\udf48\ud835\udc8a\ud835\udc90\ud835\udc8f /S cm-1, at 293 K",
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "293 K",
+        "measurement_temperature_C": 19.85,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "3.80\u00d710-6",
+        "evidence_location": "Table 1",
+        "notes": "Value taken from Table 1 row 'Ionic conductivity'; the value sits in the XS1 column (table columns are XS1, XS2, X(S1+S2) in order). Table S6 lists XS1 (25-0) as 3.80\u22c510-6 S/cm at 293 K, which agrees. Quote is the bare cell value, so it is located via the table layout, not a full row."
+      },
+      {
+        "material_as_written": "XS2 (xPEGDAE with 14 wt% LiDFOB)",
+        "material_class": "polymer",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "UV-induced free radical photopolymerization of PEGDAE",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "9.76\u00d710-6",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": "Ionic conductivity, \ud835\udf48\ud835\udc8a\ud835\udc90\ud835\udc8f /S cm-1, at 293 K",
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "293 K",
+        "measurement_temperature_C": 19.85,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "9.76\u00d710-6",
+        "evidence_location": "Table 1",
+        "notes": "Value from Table 1 in the XS2 column (second column). Table S6 lists XS2 (0-14) as 9.76\u22c510-6 S/cm at 293 K, which agrees."
+      },
+      {
+        "material_as_written": "X(S1+S2) (xPEGDAE with 20 wt% LiTFSI + 3 wt% LiDFOB)",
+        "material_class": "polymer",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "UV-induced free radical photopolymerization of PEGDAE",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "7.5\u00d710-6",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": "Ionic conductivity, \ud835\udf48\ud835\udc8a\ud835\udc90\ud835\udc8f /S cm-1, at 293 K",
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "293 K",
+        "measurement_temperature_C": 19.85,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "7.5\u00d710-6",
+        "evidence_location": "Table 1",
+        "notes": "Value from Table 1 in the X(S1+S2) column (third column). Table S6 lists (20-3) as 7.5\u22c510-6 S/cm at 293 K, which agrees. Quote '7.5\u00d710-6' is short and may also match elsewhere; the record is tied to the third column of Table 1."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2856,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 28946,
+        "webSearchRequests": 0,
+        "costUSD": 0.0072527500000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1346,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28946,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 13467,
+    "notional_cost_usd": 0.0072527500000000005
+  },
+  "paper_id": "arXiv:2604.25497",
+  "model": "haiku"
+}

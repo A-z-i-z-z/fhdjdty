@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies a LiTFSI/triglyme liquid (solvate) electrolyte using NEP molecular dynamics, and reports densities, viscosities and Li+ self-diffusion coefficients but no ionic conductivity values for a solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 365,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 22296,
+        "webSearchRequests": 0,
+        "costUSD": 0.00467725,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 169,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22296,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2755,
+    "notional_cost_usd": 0.00467725
+  },
+  "paper_id": "arXiv:2503.20243",
+  "model": "haiku"
+}

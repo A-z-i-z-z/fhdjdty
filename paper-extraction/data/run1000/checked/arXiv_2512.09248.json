@@ -1,0 +1,41 @@
+[
+  {
+    "record_id": "arXiv:2512.09248#001",
+    "paper_id": "arXiv:2512.09248",
+    "record": {
+      "material_as_written": "Na2Zn2TeO6 (NZTO)",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "9.77",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "known for its high ionic conductivity (up to 9.77 mS cm\u22121)16",
+      "evidence_location": "Introduction",
+      "notes": "Value is an 'up to' figure quoted from ref. 16 in the introduction; the paper reports no conductivity measurement of its own. Temperature, conductivity kind and method are not stated in this paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00977,
+    "log10_conductivity": -2.01
+  }
+]

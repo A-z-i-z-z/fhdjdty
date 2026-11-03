@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a perspective on fundamental questions of ion conduction in disordered solids, but it reports no ionic conductivity values as numbers in the text or tables; the conductivity data appear only in figures (Figs. 2, 3, 5, 6), and the temperatures and Ca/K/Li/Na compositions mentioned are not paired with conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 510,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 35264,
+        "webSearchRequests": 0,
+        "costUSD": 0.007307999999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 292,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 35264,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5719,
+    "notional_cost_usd": 0.007307999999999999
+  },
+  "paper_id": "arXiv:0803.2107",
+  "model": "haiku"
+}

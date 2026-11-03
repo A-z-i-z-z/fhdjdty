@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a review chapter on defect physics in battery cathode materials; it discusses ionic conduction mechanisms but reports no ionic conductivity values, and the only numbers (0.16 and 0.11 eV activation energies for LiCoO2) concern electronic conduction.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 421,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 17336,
+        "webSearchRequests": 0,
+        "costUSD": 0.00371325,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 229,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17336,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3939,
+    "notional_cost_usd": 0.00371325
+  },
+  "paper_id": "arXiv:2211.04977",
+  "model": "haiku"
+}

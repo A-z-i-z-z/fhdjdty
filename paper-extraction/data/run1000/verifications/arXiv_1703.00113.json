@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1703.00113#001",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The bulk ~10^-3 S cm-1 value sits in a garbled Table 1 conductivity cell with a single reference [13], and the paper never states it belongs to the solid-state Li0.33La0.57TiO3 row rather than the sol-gel row. The record's own notes admit the row mapping is by position only, so the material assignment cannot be verified."
+      },
+      {
+        "record_id": "arXiv:1703.00113#002",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The total ~10^-5 S cm-1 value has the same problem: it is in the garbled Table 1 conductivity column, and the paper does not explicitly link it to the solid-state Li0.33La0.57TiO3 row instead of the sol-gel row. Material assignment is unverifiable."
+      },
+      {
+        "record_id": "arXiv:1703.00113#003",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The value 1.2 10\u22122 S cm-1 appears in the garbled table with no adjacent Li10GeP2S12 label; the only nearby reference is [16], an atomistic simulation, and the paper's text never mentions this conductivity. The material-to-value mapping is inferred, so it cannot be confirmed."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 3376,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 16001,
+        "webSearchRequests": 0,
+        "costUSD": 0.0048884,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2863,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16001,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 16100,
+    "notional_cost_usd": 0.0048884
+  },
+  "paper_id": "arXiv:1703.00113",
+  "model": "haiku"
+}

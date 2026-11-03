@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2403.01077#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract states that the simulated ionic conductivity (1.06 mS/cm) and activation energy (0.29 eV) were calculated by this paper's DLMD simulations, so the origin is computational and the material is correct. No temperature is given for the 1.06 mS/cm value, so null is correct, and all secondary fields are null as the paper does not state them for this material."
+      },
+      {
+        "record_id": "arXiv:2403.01077#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The quote says the 1.04 mS/cm maximum Li-ion conductivity at room temperature is from Ref. [13], so literature_cited is correct. The paper gives only 'room temperature' with no number, so measurement_temperature_C is null as recorded, and the secondary fields are correctly null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 871,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 16870,
+        "webSearchRequests": 0,
+        "costUSD": 0.0038333100000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 509,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16870,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5115,
+    "notional_cost_usd": 0.0038333100000000004
+  },
+  "paper_id": "arXiv:2403.01077",
+  "model": "haiku"
+}

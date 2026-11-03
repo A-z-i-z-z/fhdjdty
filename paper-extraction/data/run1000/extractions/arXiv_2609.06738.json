@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies Ag+ ion transport in (AgI)x(AgPO3)1-x glass, but it reports no numeric ionic conductivity value in the text or tables; conductivity appears only as THz spectra in figures, and the only numbers are THz activation energies (~40 meV), which are not conductivities.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 520,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 15768,
+        "webSearchRequests": 0,
+        "costUSD": 0.0034491500000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 315,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15768,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3074,
+    "notional_cost_usd": 0.0034491500000000002
+  },
+  "paper_id": "arXiv:2609.06738",
+  "model": "haiku"
+}

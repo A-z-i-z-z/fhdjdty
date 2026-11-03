@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a classical simulation study of mobile particles coupled to a 1D harmonic chain, used as an abstraction of ionic conduction; it reports no ionic conductivity values for any solid ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 297,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 33946,
+        "webSearchRequests": 0,
+        "costUSD": 0.006973249999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 125,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 33946,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6385,
+    "notional_cost_usd": 0.006973249999999999
+  },
+  "paper_id": "arXiv:2205.00673",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a theory and MD study of ion clustering in neat room-temperature ionic liquids, which are liquid electrolytes, and it reports no numeric ionic conductivity values for a solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 317,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 37067,
+        "webSearchRequests": 0,
+        "costUSD": 0.007607450000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 139,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 37067,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3218,
+    "notional_cost_usd": 0.007607450000000001
+  },
+  "paper_id": "arXiv:2010.02091",
+  "model": "haiku"
+}

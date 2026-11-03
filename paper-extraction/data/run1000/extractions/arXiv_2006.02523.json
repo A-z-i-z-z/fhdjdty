@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper models oxygen partial pressure and charge-carrier transport in YSZ/GDC electrolytes for solid oxide electrolysis cells. Its conducting species are oxygen vacancies and electron holes, not Li or Na ions, and it reports no numerical ionic conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 455,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 24342,
+        "webSearchRequests": 0,
+        "costUSD": 0.00513145,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 255,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24342,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4446,
+    "notional_cost_usd": 0.00513145
+  },
+  "paper_id": "arXiv:2006.02523",
+  "model": "haiku"
+}

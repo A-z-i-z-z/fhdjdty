@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies Na-ion conducting glasses, but it reports no numeric ionic conductivity values: only apparent jump distances, temperature exponents, and qualitative conductivity trends, with conductivity coefficients shown only in figures.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 485,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 12259,
+        "webSearchRequests": 0,
+        "costUSD": 0.0027298500000000007,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 304,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12259,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6849,
+    "notional_cost_usd": 0.0027298500000000007
+  },
+  "paper_id": "arXiv:cond-mat/0412119",
+  "model": "haiku"
+}

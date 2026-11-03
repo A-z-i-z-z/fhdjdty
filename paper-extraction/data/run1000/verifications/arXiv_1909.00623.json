@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1909.00623#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The quote states that Murugan and Weppner [131] report 0.02 S cm\u22121 for cubic LLZO at 500 K, so the value, unit, material and temperature match, and the citation marker makes literature_cited the correct origin. The 226.85 \u00b0C conversion is correct, and all secondary fields are null, which the paper does not contradict."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 28119,
+        "outputTokens": 666,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 28311,
+        "webSearchRequests": 0,
+        "costUSD": 0.00882692,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 430,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28311,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3933,
+    "notional_cost_usd": 0.00882692
+  },
+  "paper_id": "arXiv:1909.00623",
+  "model": "haiku"
+}

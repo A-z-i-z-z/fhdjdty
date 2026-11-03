@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about Na solid-state batteries with a Na3SbS4 sulfide electrolyte and reports ionic conductivity values, one as a simulation input in Table 1 and one as a literature value in the introduction.",
+    "records": [
+      {
+        "material_as_written": "Na3SbS4 (NAS) solid electrolyte, ionic conductivity used as phase-field input (Table 1, 'Ionic conductivity (SE)')",
+        "material_class": "other",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "3.1 \u00d7 10\u22125",
+        "conductivity_unit_as_reported": "S/m",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "3.1 \u00d7 10\u22125 S/m",
+        "evidence_location": "Table 1",
+        "notes": "Value is a model parameter in Table 1 for the SE ionic conductivity, not measured in this paper. The row gives no explicit source or temperature; origin is inferred as literature/parameter input and is uncertain. Quote is the value cell alone, so the row label is identified from the table context."
+      },
+      {
+        "material_as_written": "Na-ion-conducting sulfide solid electrolytes (unspecified composition)",
+        "material_class": "other",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "32",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "Na SSBs can achieve remarkable ionic conductivities up to 32 mS/cm at room temperature.[5]",
+        "evidence_location": "Introduction",
+        "notes": "Value is quoted from cited ref [5] for unnamed Na-ion sulfide solid electrolytes; the specific material is not identified in the paper, and it is not a value measured here."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2293,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 19479,
+        "webSearchRequests": 0,
+        "costUSD": 0.00507785,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1362,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19479,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10763,
+    "notional_cost_usd": 0.00507785
+  },
+  "paper_id": "arXiv:2607.15387",
+  "model": "haiku"
+}

@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2306.16157#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The material (single-ion conducting multi-block copolymer with EC), the value 8.5 \u00d7 10\u22122 S m\u22121, and the 90 \u00b0C temperature all match the Application section. The sentence says the conductivity is 'taken from Nguyen et al.', so literature_cited is correct. All secondary fields are null, which is consistent with the paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 782,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 38053,
+        "webSearchRequests": 0,
+        "costUSD": 0.00802541,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 571,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 38053,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4815,
+    "notional_cost_usd": 0.00802541
+  },
+  "paper_id": "arXiv:2306.16157",
+  "model": "haiku"
+}

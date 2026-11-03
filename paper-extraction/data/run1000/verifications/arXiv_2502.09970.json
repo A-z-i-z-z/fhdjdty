@@ -1,0 +1,114 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2502.09970#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 1 CHGNET row (Li3YCl6) lists \u03c3_300K = 18.245 mS/cm, computed in this paper's MD with Nernst-Einstein at 300 K."
+      },
+      {
+        "record_id": "arXiv:2502.09970#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 1 M3GNET row (Li3YCl6) lists \u03c3_300K = 15.0192 mS/cm, computed in this paper at 300 K."
+      },
+      {
+        "record_id": "arXiv:2502.09970#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 1 ORB row (Li3YCl6) lists \u03c3_300K = 43.1116 mS/cm; the text names the model ORBFF, which matches the row label ORB."
+      },
+      {
+        "record_id": "arXiv:2502.09970#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 1 MACE row (Li3YCl6) lists \u03c3_300K = 3.0237 mS/cm, computed in this paper at 300 K."
+      },
+      {
+        "record_id": "arXiv:2502.09970#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 1 Sevennet row (Li3YCl6) lists \u03c3_300K = 10.1981 mS/cm, computed in this paper at 300 K."
+      },
+      {
+        "record_id": "arXiv:2502.09970#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 1 mattersim row (Li3YCl6) lists \u03c3_300K = 0.4553 mS/cm, computed in this paper at 300 K; secondary fields are null as the paper gives no sintering or density data."
+      },
+      {
+        "record_id": "arXiv:2502.09970#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 1 DFT/Deepmd reference row (Li3YCl6) lists \u03c3_300K = 0.501 mS/cm; the DeePMD MD is run within this paper's workflow, so 'computational' is defensible."
+      },
+      {
+        "record_id": "arXiv:2502.09970#008",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 CHGNET row (Li6PS5Cl) lists \u03c3_300K = 54.0978 mS/cm, computed in this paper at 300 K."
+      },
+      {
+        "record_id": "arXiv:2502.09970#009",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 M3GNET row (Li6PS5Cl) lists \u03c3_300K = 18.1341 mS/cm, computed in this paper at 300 K."
+      },
+      {
+        "record_id": "arXiv:2502.09970#010",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 ORB row (Li6PS5Cl) lists \u03c3_300K = 3.5506 mS/cm, computed in this paper at 300 K."
+      },
+      {
+        "record_id": "arXiv:2502.09970#011",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 MACE row (Li6PS5Cl) lists \u03c3_300K = 0.6692 mS/cm, computed in this paper at 300 K."
+      },
+      {
+        "record_id": "arXiv:2502.09970#012",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 Sevennet row (Li6PS5Cl) lists \u03c3_300K = 1.3793 mS/cm, computed in this paper at 300 K."
+      },
+      {
+        "record_id": "arXiv:2502.09970#013",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 mattersim row (Li6PS5Cl) lists \u03c3_300K = 0.4139 mS/cm, computed in this paper at 300 K."
+      },
+      {
+        "record_id": "arXiv:2502.09970#014",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 DFT/Deepmd reference row (Li6PS5Cl) lists \u03c3_300K = 0.1379 mS/cm; DeePMD MD is run within this paper, so 'computational' is defensible."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 3120,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 36752,
+        "webSearchRequests": 0,
+        "costUSD": 0.00893421,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1660,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 36752,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 13200,
+    "notional_cost_usd": 0.00893421
+  },
+  "paper_id": "arXiv:2502.09970",
+  "model": "haiku"
+}

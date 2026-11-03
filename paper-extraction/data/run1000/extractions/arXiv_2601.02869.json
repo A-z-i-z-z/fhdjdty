@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is an MD study of a LiPF6/polypropylene carbonate solid polymer electrolyte that reports simulated ionic conductivities (Li+ and PF6- transport), so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "LiPF6/PPC SPE (optimum at cs ~1.0-1.1 mol/kg)",
+        "material_class": "polymer",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "6.5\u00d710\u22125",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "353 K",
+        "measurement_temperature_C": 80,
+        "activation_energy_eV": null,
+        "measurement_method": "out-of-equilibrium MD under electric field, extrapolated with Arrhenius law",
+        "evidence_quote": "an ionic conductivity optimum of \u223c 6.5\u00d710\u22125 S/cm is observed for a salt concentration between 1.0 and 1.1 mol/kg",
+        "evidence_location": "Ionic conductivity section (results 3.2)",
+        "notes": "Extrapolated from high-temperature MD (600-800 K) to 353 K via Arrhenius law; value is the conductivity maximum at the optimum salt concentration, not a single composition. Activation energies in the paper (14.4-15.6) are in kcal/mol, not eV, so left null. Nernst-Einstein values (1.5\u00d710\u22123 S/cm) are not true ionic conductivity and were not recorded."
+      },
+      {
+        "material_as_written": "LiPF6/PPC SPE (optimum maximum)",
+        "material_class": "polymer",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.3\u00d710\u22126",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": null,
+        "measurement_method": "out-of-equilibrium MD under electric field, extrapolated with Arrhenius law",
+        "evidence_quote": "the conductivity \u03c3 at T = 300 K is one order of magnitude lower with a maximum of 1.3\u00d710\u22126 S/cm",
+        "evidence_location": "Ionic conductivity section (results 3.2)",
+        "notes": "Extrapolated value at 300 K, given as a maximum over salt concentrations; the paper does not state the concentration for this value."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2105,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 21967,
+        "webSearchRequests": 0,
+        "costUSD": 0.0054814500000000006,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1047,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 21967,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8720,
+    "notional_cost_usd": 0.0054814500000000006
+  },
+  "paper_id": "arXiv:2601.02869",
+  "model": "haiku"
+}

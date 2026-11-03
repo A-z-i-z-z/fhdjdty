@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies ionic conduction in Rb2Ti2O5, a rubidium-based (hydrated, proton/hydroxide-involving) solid electrolyte, not a Li- or Na-ion conductor, so it falls outside the Li/Na scope even though it reports conductivity values (e.g. 5 \u00b5S.cm\u22121, 1 mS.cm\u22121).",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 12878,
+        "outputTokens": 1200,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 13070,
+        "webSearchRequests": 0,
+        "costUSD": 0.00453336,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 947,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13070,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4476,
+    "notional_cost_usd": 0.00453336
+  },
+  "paper_id": "arXiv:2407.15490",
+  "model": "haiku"
+}

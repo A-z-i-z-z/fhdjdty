@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about the argyrodite solid electrolyte Li6PS5Cl in all-solid-state Li metal batteries and reports one measured ionic conductivity value (2 to 2.5 mS/cm by EIS).",
+    "records": [
+      {
+        "material_as_written": "Li6PS5Cl",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2 and 2.5",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "The obtained electrolyte pellet, with a thickness of ~1 mm, has an ionic conductivity measured between 2 and 2.5 mS/cm by Electrochemical Impedance Spectroscopy (EIS).",
+        "evidence_location": "Supporting Information, Material & Methods (Electrochemical measurements)",
+        "notes": "Reported as a range (2 to 2.5 mS/cm), not a single value; the value is recorded as written. Measurement temperature is not stated (presumably room temperature, but not given, so left null). Material is commercial Li6PS5Cl from NEI Corporation, cold-pressed at 370 MPa, with no sintering. Relative density 82.1% (Table S2 average) was not attached because it is a separate table of four pellets, not stated directly for this conductivity measurement."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1375,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 16831,
+        "webSearchRequests": 0,
+        "costUSD": 0.00408925,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 688,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16831,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6362,
+    "notional_cost_usd": 0.00408925
+  },
+  "paper_id": "arXiv:1910.02118",
+  "model": "haiku"
+}

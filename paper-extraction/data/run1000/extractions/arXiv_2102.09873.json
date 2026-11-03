@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is an AIMD study of Li diffusion mechanisms in the argyrodite solid electrolyte Li6PS5Br, but it reports no ionic conductivity value with a number; it only mentions \"high ionic conductivity\" and \"superionic conduction\" qualitatively and discusses diffusion events and jump counts.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 11496,
+        "outputTokens": 404,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 11686,
+        "webSearchRequests": 0,
+        "costUSD": 0.0037203600000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 163,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11686,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2259,
+    "notional_cost_usd": 0.0037203600000000002
+  },
+  "paper_id": "arXiv:2102.09873",
+  "model": "haiku"
+}

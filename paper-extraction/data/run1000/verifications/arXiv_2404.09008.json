@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2404.09008#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states FGSSE shows 2.0 \u00d7 10-5 S cm-1 at 25 \u00b0C, measured by dielectric spectroscopy. The value is the paper's own experimental result, and the temperature, unit, and null secondary fields all check out."
+      },
+      {
+        "record_id": "arXiv:2404.09008#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The parenthetical in the quoted sentence gives HMSSE as 2.8 \u00d7 10-6 S cm-1 at 25 \u00b0C. It is an experimental value from this paper, and the bilayer printing method and null sintering/density/activation fields are consistent with the text."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 24683,
+        "outputTokens": 1028,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 24869,
+        "webSearchRequests": 0,
+        "costUSD": 0.007975920000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 689,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24869,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4878,
+    "notional_cost_usd": 0.007975920000000001
+  },
+  "paper_id": "arXiv:2404.09008",
+  "model": "haiku"
+}

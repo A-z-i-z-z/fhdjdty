@@ -1,0 +1,115 @@
+[
+  {
+    "record_id": "arXiv:1703.00113#001",
+    "paper_id": "arXiv:1703.00113",
+    "record": {
+      "material_as_written": "Li0.33 La0.57 TiO3 (solid state)",
+      "material_class": "perovskite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10\u22123",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "bulk: \u223c 10\u22123 S cm\u22121",
+      "evidence_location": "Table 1, Conductivity (room temperature) column",
+      "notes": "Table 1 is garbled in the PDF text; the bulk value is placed in the Li0.33La0.57TiO3 solid-state row by row order and cited to reference [13]. Approximate value (\u223c). Measurement temperature taken from the column header 'Conductivity (room temperature)'."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.001,
+    "log10_conductivity": -3.0
+  },
+  {
+    "record_id": "arXiv:1703.00113#002",
+    "paper_id": "arXiv:1703.00113",
+    "record": {
+      "material_as_written": "Li0.33 La0.57 TiO3 (solid state)",
+      "material_class": "perovskite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10\u22125",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "total: \u223c 10\u22125 S cm\u22121",
+      "evidence_location": "Table 1, Conductivity (room temperature) column",
+      "notes": "Table 1 is garbled in the PDF text; the total value is assigned to the Li0.33La0.57TiO3 solid-state row by row order and cited to reference [13]. Approximate value (\u223c). Measurement temperature taken from the column header 'Conductivity (room temperature)'."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 1e-05,
+    "log10_conductivity": -5.0
+  },
+  {
+    "record_id": "arXiv:1703.00113#003",
+    "paper_id": "arXiv:1703.00113",
+    "record": {
+      "material_as_written": "Li10GeP2S12",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.2 10\u22122",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "1.2 10\u22122 S cm\u22121",
+      "evidence_location": "Table 1, Conductivity (room temperature) column",
+      "notes": "Table 1 is garbled; the value sits in the same region as the Li10GeP2S12 row (Young's modulus 37.19 GPa), but the row-to-value mapping is inferred, not explicit. Measurement temperature taken from the column header. Cited from prior literature, not measured here."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 0.01,
+    "log10_conductivity": -2.0
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2209.05583#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The value 1.335\u00d710-5 S/m is stated in Section 3.2 as the local grain Li-ion conductivity set as a simulation input, with the citation '[31]' and the phrase 'which are the reported values for LLZO ceramics', so literature_cited is correct. No measurement temperature is given, so null is correct, and the other secondary fields are null as the paper gives none."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1197,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 21338,
+        "webSearchRequests": 0,
+        "costUSD": 0.00488991,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 974,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 21338,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6499,
+    "notional_cost_usd": 0.00488991
+  },
+  "paper_id": "arXiv:2209.05583",
+  "model": "haiku"
+}

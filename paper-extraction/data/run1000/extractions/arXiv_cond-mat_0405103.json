@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies ion transport in two alkali-ion glasses (Na2O-GeO2 and K2O-CaO-SiO2) by electrostatic force spectroscopy, but it reports no ionic conductivity values; it gives only dc activation energies (0.74 eV, 1.05 eV) and nanoscale relaxation times, so there is no conductivity record to extract.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 500,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 8350,
+        "webSearchRequests": 0,
+        "costUSD": 0.00195555,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 273,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 8350,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3026,
+    "notional_cost_usd": 0.00195555
+  },
+  "paper_id": "arXiv:cond-mat/0405103",
+  "model": "haiku"
+}

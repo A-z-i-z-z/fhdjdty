@@ -1,0 +1,56 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about IETS of protons in BaZrO3-based tunnel barriers, a solid ion conductor, but its only conductivity number is a literature-cited proton conductivity; the mobile ion is not Li/Na, so the record uses mobile_ion 'other'.",
+    "records": [
+      {
+        "material_as_written": "Ba(Zr1-xYx)O3 (20% Y-doping)",
+        "material_class": "perovskite",
+        "mobile_ion": "other",
+        "dopants": [
+          "Y"
+        ],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10-2",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "500\u00b0C",
+        "measurement_temperature_C": 500,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "exceeding 10-2 S/cm at 500\u00b0C (for 20% Y-doping)",
+        "evidence_location": "introduction",
+        "notes": "Proton conductivity of Y-doped BaZrO3 in bulk [29] and thin films [30], taken from prior literature; the value is a lower bound ('exceeding'). Mobile species is protons, not Li/Na. Composition is given generically in the text as Ba(Zr1-xYx)O3 with 20% Y."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2300,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 22563,
+        "webSearchRequests": 0,
+        "costUSD": 0.00569815,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1697,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22563,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10318,
+    "notional_cost_usd": 0.00569815
+  },
+  "paper_id": "arXiv:2012.08833",
+  "model": "haiku"
+}

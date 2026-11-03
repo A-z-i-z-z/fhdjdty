@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies oxygen-ion (O2-) transport in YSZ-based heterostructures, not Li- or Na-ion conductors, and it reports only resistances, activation energies and dimensionless enhancement ratios rather than an ionic conductivity value with a unit.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 649,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 23808,
+        "webSearchRequests": 0,
+        "costUSD": 0.00512165,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 457,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23808,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5543,
+    "notional_cost_usd": 0.00512165
+  },
+  "paper_id": "arXiv:2411.06220",
+  "model": "haiku"
+}

@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1811.10802#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that HSCO's low-temperature ionic conductivity is 0.028 S\u2022cm-1 at 40 oC, and the main text gives Ea = 0.27 eV for HSCO. The origin is experimental (this paper's impedance measurements), and the thin-film ILG/protonation synthesis matches the paper."
+      },
+      {
+        "record_id": "arXiv:1811.10802#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Supplementary Fig. 5 caption states that the proton conductivity of the ILG-induced HSCO sample at 60 oC is 0.051 S\u2022cm-1, obtained from this paper's own equivalent-circuit fit. Material, value, unit, temperature and origin are all correct."
+      },
+      {
+        "record_id": "arXiv:1811.10802#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states that HSmNiO3 (HSNO) has a proton conductivity of ~0.01 S\u2022cm-1 at ~500 oC, citing ref. 14 (Zhou et al.), so the value is correctly labelled literature_cited and is not a measurement from this paper. The approximate temperature is as stated in the paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1685,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 24274,
+        "webSearchRequests": 0,
+        "costUSD": 0.005721110000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1183,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24274,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7431,
+    "notional_cost_usd": 0.005721110000000001
+  },
+  "paper_id": "arXiv:1811.10802",
+  "model": "haiku"
+}

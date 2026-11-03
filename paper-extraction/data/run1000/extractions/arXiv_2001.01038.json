@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about SnO2 thin-film transistors using Li-containing oxide gate dielectrics, but it reports no ionic conductivity values; the dielectrics are described only by leakage current, areal capacitance, band gap, and insulating behavior, and the mobility and on/off figures are transistor properties, not ionic conductivity.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 463,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 16986,
+        "webSearchRequests": 0,
+        "costUSD": 0.0036642500000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 251,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16986,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5664,
+    "notional_cost_usd": 0.0036642500000000004
+  },
+  "paper_id": "arXiv:2001.01038",
+  "model": "haiku"
+}

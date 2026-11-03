@@ -1,0 +1,98 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a mechanical/electrochemical modeling study of all-solid-state batteries, but its Table 1 reports literature ionic conductivities of Li-ion solid electrolytes, so it is in scope; the model itself reports no conductivity of its own.",
+    "records": [
+      {
+        "material_as_written": "Li0.33 La0.57 TiO3 (solid state)",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10\u22123",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "bulk: \u223c 10\u22123 S cm\u22121",
+        "evidence_location": "Table 1, Conductivity (room temperature) column",
+        "notes": "Table 1 is garbled in the PDF text; the bulk value is placed in the Li0.33La0.57TiO3 solid-state row by row order and cited to reference [13]. Approximate value (\u223c). Measurement temperature taken from the column header 'Conductivity (room temperature)'."
+      },
+      {
+        "material_as_written": "Li0.33 La0.57 TiO3 (solid state)",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10\u22125",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "total: \u223c 10\u22125 S cm\u22121",
+        "evidence_location": "Table 1, Conductivity (room temperature) column",
+        "notes": "Table 1 is garbled in the PDF text; the total value is assigned to the Li0.33La0.57TiO3 solid-state row by row order and cited to reference [13]. Approximate value (\u223c). Measurement temperature taken from the column header 'Conductivity (room temperature)'."
+      },
+      {
+        "material_as_written": "Li10GeP2S12",
+        "material_class": "thiophosphate_other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.2 10\u22122",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "1.2 10\u22122 S cm\u22121",
+        "evidence_location": "Table 1, Conductivity (room temperature) column",
+        "notes": "Table 1 is garbled; the value sits in the same region as the Li10GeP2S12 row (Young's modulus 37.19 GPa), but the row-to-value mapping is inferred, not explicit. Measurement temperature taken from the column header. Cited from prior literature, not measured here."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 3535,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 12519,
+        "webSearchRequests": 0,
+        "costUSD": 0.00430685,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2209,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12519,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 14259,
+    "notional_cost_usd": 0.00430685
+  },
+  "paper_id": "arXiv:1703.00113",
+  "model": "haiku"
+}

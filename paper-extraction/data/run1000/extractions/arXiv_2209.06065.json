@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a classical dynamics theory paper on a mobile particle coupled to a 1D harmonic chain. It mentions ionic conduction only as motivation and reports no ionic conductivity values for any solid electrolyte.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 303,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 15148,
+        "webSearchRequests": 0,
+        "costUSD": 0.00321665,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 128,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15148,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3116,
+    "notional_cost_usd": 0.00321665
+  },
+  "paper_id": "arXiv:2209.06065",
+  "model": "haiku"
+}

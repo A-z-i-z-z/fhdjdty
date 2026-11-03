@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a computational MD method (OnsagerDecomposer) applied to LATP, PEO/PPM polymers and liquid electrolytes, but it gives no numeric ionic conductivity for any solid Li conductor in the text; the solid-state sigma_NE values appear only in figures, and the only numeric conductivities (40.3 and 11.9 mS/cm) are for a liquid electrolyte.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 42884,
+        "outputTokens": 697,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 43072,
+        "webSearchRequests": 0,
+        "costUSD": 0.01328286,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 427,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 43072,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3981,
+    "notional_cost_usd": 0.01328286
+  },
+  "paper_id": "arXiv:2602.16636",
+  "model": "haiku"
+}

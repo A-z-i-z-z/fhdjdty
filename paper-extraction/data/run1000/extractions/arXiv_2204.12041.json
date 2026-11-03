@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a continuum electro-chemo-mechanical modeling study of soft ionic polymers, hydrogels and ionogels. It reports diffusion coefficients and simulated potentials, but no ionic conductivity values in S/cm or similar units for a solid Li- or Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 456,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 34353,
+        "webSearchRequests": 0,
+        "costUSD": 0.007134150000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 254,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 34353,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4651,
+    "notional_cost_usd": 0.007134150000000001
+  },
+  "paper_id": "arXiv:2204.12041",
+  "model": "haiku"
+}

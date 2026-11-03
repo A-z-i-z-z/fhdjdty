@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a computational screening for Li-ion solid electrolytes, but its own results are diffusion coefficients and activation barriers, not conductivities; the only ionic conductivity number is a literature-cited value for cubic LLZO.",
+    "records": [
+      {
+        "material_as_written": "cubic LLZO",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.02",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "500 K",
+        "measurement_temperature_C": 226.85,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "Murugan and Weppner [131] report an ionic conductivity of 0.02 S cm\u22121 for cubic LLZO at 500 K, which results in a tracer diffusion 2 \u00d7 10\u22127 cm2 s\u22121",
+        "evidence_location": "results, section 3.2",
+        "notes": "Value is quoted from Ref. [131] (literature cited), not measured in this paper. Composition is given only as 'LLZO' (no explicit Li7La3Zr2O12 formula or dopant stated). Conductivity kind is not specified in the sentence."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 27924,
+        "outputTokens": 1506,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 28112,
+        "webSearchRequests": 0,
+        "costUSD": 0.00919936,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 885,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28112,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6878,
+    "notional_cost_usd": 0.00919936
+  },
+  "paper_id": "arXiv:1909.00623",
+  "model": "haiku"
+}

@@ -1,0 +1,98 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports ionic conductivities (iodide-vacancy conduction) of hybrid halide perovskite thin films measured by d.c. polarization, so it contains in-scope values, although the mobile ion is a halide vacancy rather than Li or Na.",
+    "records": [
+      {
+        "material_as_written": "CsPbI3",
+        "material_class": "perovskite",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "spin-coating of DMSO precursor solution on sapphire with interdigitated Au electrodes",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1x10-10",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "40\u00b0C",
+        "measurement_temperature_C": 40,
+        "activation_energy_eV": null,
+        "measurement_method": "d.c. galvanostatic polarization",
+        "evidence_quote": "The ionic conductivities of CsPbI3 and FAPbI3 are 1x10-10 and 2x10-9 S/cm, respectively.",
+        "evidence_location": "results",
+        "notes": "Dark value. Temperature 40\u00b0C taken from Fig. 1 caption (dark, Ar, 40\u00b0C) for the dark measurements of CsPbI3 and FAPbI3; the text itself does not restate the temperature next to this value. Ionic conductivity is due to iodide vacancies, not Li or Na."
+      },
+      {
+        "material_as_written": "FAPbI3",
+        "material_class": "perovskite",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "spin-coating of DMSO precursor solution on sapphire with interdigitated Au electrodes",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2x10-9",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "40\u00b0C",
+        "measurement_temperature_C": 40,
+        "activation_energy_eV": 0.6,
+        "measurement_method": "d.c. galvanostatic polarization",
+        "evidence_quote": "The ionic conductivities of CsPbI3 and FAPbI3 are 1x10-10 and 2x10-9 S/cm, respectively.",
+        "evidence_location": "results",
+        "notes": "Dark value. Temperature 40\u00b0C taken from Fig. 1 caption, as for CsPbI3. Activation energy 0.6 eV is from SI section 7 (FAPbI3 measured in this work under fixed iodine partial pressure, so it is a different condition from the 2x10-9 value). The FAPbI3 value is for the pure FA compound."
+      },
+      {
+        "material_as_written": "MAPbI3",
+        "material_class": "perovskite",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "spin-coating of DMSO precursor solution on sapphire with interdigitated Au electrodes",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1x10-8",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "40\u00b0C",
+        "measurement_temperature_C": 40,
+        "activation_energy_eV": 0.4,
+        "measurement_method": "d.c. galvanostatic polarization",
+        "evidence_quote": "Under the same conditions MAPbI3 shows a high value of 1x10-8 S/cm and lower activation energy (0.4",
+        "evidence_location": "results",
+        "notes": "Ambiguous: the activation energy 0.4 eV is cited to refs 7,19, so it is literature_cited. The 1x10-8 S/cm value is written as 'under the same conditions' (dark, 40\u00b0C), which suggests it was measured in this paper, but it is not explicitly attributed. Temperature 40\u00b0C inferred from the Fig. 1 caption."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 26170,
+        "outputTokens": 3319,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 26358,
+        "webSearchRequests": 0,
+        "costUSD": 0.00957966,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1774,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 26358,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 13502,
+    "notional_cost_usd": 0.00957966
+  },
+  "paper_id": "arXiv:1912.09777",
+  "model": "haiku"
+}

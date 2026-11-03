@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a first-principles study of Li transport at LiF/Li2CO3 SEI interfaces, but it reports diffusion coefficients (cm2/s) and activation energies rather than any ionic conductivity value, and its only conductivity-related mentions (Mizusaki et al., Ramasubramanian et al.) give no numbers.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 525,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 13541,
+        "webSearchRequests": 0,
+        "costUSD": 0.0030062500000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 310,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13541,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3379,
+    "notional_cost_usd": 0.0030062500000000002
+  },
+  "paper_id": "arXiv:2010.16256",
+  "model": "haiku"
+}

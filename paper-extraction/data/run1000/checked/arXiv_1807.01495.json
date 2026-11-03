@@ -1,0 +1,76 @@
+[
+  {
+    "record_id": "arXiv:1807.01495#001",
+    "paper_id": "arXiv:1807.01495",
+    "record": {
+      "material_as_written": "PEO-PVP+LiBOB (PP16, O/Li=16)",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solution casting",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.48 \u00d710-5",
+      "conductivity_unit_as_reported": "S cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "40 \u00b0C",
+      "measurement_temperature_C": 40,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "The highest ionic conductivity of 0.48 \u00d710-5 S cm-1 at 40 oC is observed for PP16.",
+      "evidence_location": "results (Section 3.4)",
+      "notes": "Composition PP16 is the blend PEO:PVP (80:20) with LiBOB at O/Li=16; the paper's Table 2 ionic-conductivity column alignment with rows is ambiguous, so the value is taken from the text. Conductivity is derived from bulk resistance (Rb) per the methods."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 4.8e-06,
+    "log10_conductivity": -5.319
+  },
+  {
+    "record_id": "arXiv:1807.01495#002",
+    "paper_id": "arXiv:1807.01495",
+    "record": {
+      "material_as_written": "PEO-PVP+LiBOB (PP16, O/Li=16)",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solution casting",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.65\u00d710-3",
+      "conductivity_unit_as_reported": "S cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "100 \u00b0C",
+      "measurement_temperature_C": 100,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "conductivity reaches to 0.65\u00d710-3 S cm-1 at 100 oC (for PP16)",
+      "evidence_location": "results (Section 3.4)",
+      "notes": "Higher-temperature value for PP16 reported in text; included as a single high-temperature point, not part of the Arrhenius series. Activation energy is not given numerically."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00065,
+    "log10_conductivity": -3.187
+  }
+]

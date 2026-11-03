@@ -1,0 +1,66 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2509.16021#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.2 states that at 850 K the computed conductivity of the \u03b1-phase rises from 6.12\u00d710\u22124 S\u00b7cm\u22121 at x=0. The value is computed in this paper by MTP-MD, and the temperature conversion to 576.85 \u00b0C is correct."
+      },
+      {
+        "record_id": "arXiv:2509.16021#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports the \u03b1-phase conductivity rising to 1.60\u00d710\u22123 S\u00b7cm\u22121 at 850 K as x goes from 0 to 0.1875. The record's material and value match, and the computed origin is correct."
+      },
+      {
+        "record_id": "arXiv:2509.16021#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that in the \u03b2-phase the conductivity rises from 1.10\u00d710\u22123 S\u00b7cm\u22121 at x=1 to 2.78\u00d710\u22123 at x=0.6875, at 850 K. The record matches that and is computed in this paper."
+      },
+      {
+        "record_id": "arXiv:2509.16021#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives 2.78\u00d710\u22123 S\u00b7cm\u22121 at 850 K for the \u03b2-phase composition x=0.6875. The record matches, and the origin is computed in this paper."
+      },
+      {
+        "record_id": "arXiv:2509.16021#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 4.2\u00d710\u22126 S cm\u22121 value for partially crystallized Li56Nb22Ta22 is attributed to Yada et al. in the Introduction, so literature_cited is correct. The paper gives no measurement temperature, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2509.16021#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction attributes 38.7\u00d710\u22126 S cm\u22121 for partially crystallized LiNb0.5Ta0.5O3 to Wang et al. (ref 32), so literature_cited is correct. No measurement temperature is given, so null is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1844,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 23136,
+        "webSearchRequests": 0,
+        "costUSD": 0.005573010000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1056,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23136,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7722,
+    "notional_cost_usd": 0.005573010000000001
+  },
+  "paper_id": "arXiv:2509.16021",
+  "model": "haiku"
+}

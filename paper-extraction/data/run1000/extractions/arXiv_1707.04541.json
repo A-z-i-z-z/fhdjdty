@@ -1,0 +1,102 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a first-principles study of cubic argyrodite Li6PA5X solid electrolytes and reports room-temperature Li+ conductivities for several compositions, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "Li6PTeS4Cl",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Te"
+        ],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "91",
+        "conductivity_unit_as_reported": "mS cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.175,
+        "measurement_method": "AIMD with Nernst-Einstein equation",
+        "evidence_quote": "and Li6.25PTeS4.25Cl0.75 are 91 and 126 mS cm-1 respectively, about an order higher than that in",
+        "evidence_location": "results (AIMD simulation section)",
+        "notes": "Value is derived in this paper from AIMD via the Nernst-Einstein equation, so it is computational. The quote names Li6.25PTeS4.25Cl0.75 as well; the 91 value applies to Li6PTeS4Cl per the sentence order. Activation energy 0.175 eV is the AIMD value for Li6PTeS4Cl from the text."
+      },
+      {
+        "material_as_written": "Li6.25PTeS4.25Cl0.75",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Te"
+        ],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "126",
+        "conductivity_unit_as_reported": "mS cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.168,
+        "measurement_method": "AIMD with Nernst-Einstein equation",
+        "evidence_quote": "and Li6.25PTeS4.25Cl0.75 are 91 and 126 mS cm-1 respectively, about an order higher than that in",
+        "evidence_location": "results (AIMD simulation section)",
+        "notes": "Off-stoichiometric composition; value derived in this paper from AIMD via Nernst-Einstein, so computational. Activation energy 0.168 eV is stated in the text for this composition. Chalcogen site Te substitution plus Li excess with Cl replaced by S for charge neutrality."
+      },
+      {
+        "material_as_written": "Li6.25PS5.25Cl0.75",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "14",
+        "conductivity_unit_as_reported": "mS cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "alloys when the chalcogen site is fully occupied by S (14 mS cm-1 in Li6.25PS5.25Cl0.75)22",
+        "evidence_location": "results (AIMD simulation section)",
+        "notes": "Value is quoted from reference 22 and is not computed in this paper. Measurement temperature is given only as room temperature in the surrounding text."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 16177,
+        "outputTokens": 3488,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 16367,
+        "webSearchRequests": 0,
+        "costUSD": 0.00666666,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2073,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16367,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 13468,
+    "notional_cost_usd": 0.00666666
+  },
+  "paper_id": "arXiv:1707.04541",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper concerns Na-ion conducting borophosphate glasses, but it reports no ionic conductivity values: it gives only activation energy trends, simulated diffusion coefficients shown in figures, and NFU concentrations, so there is no numeric conductivity to record.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 455,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 9190,
+        "webSearchRequests": 0,
+        "costUSD": 0.00210105,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 264,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 9190,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4542,
+    "notional_cost_usd": 0.00210105
+  },
+  "paper_id": "arXiv:1009.1964",
+  "model": "haiku"
+}

@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1710.10443#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the Mg ionic conductivity of MgSc2Se4 as ~0.1 mS cm\u22121 at 298 K, measured by 25Mg MAS NMR and AC impedance, citing earlier work (ref. 22) for it, so literature_cited is correct. The mobile ion, unit, temperature and null secondary fields all check out."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1068,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 23846,
+        "webSearchRequests": 0,
+        "costUSD": 0.00532701,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 852,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23846,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6870,
+    "notional_cost_usd": 0.00532701
+  },
+  "paper_id": "arXiv:1710.10443",
+  "model": "haiku"
+}

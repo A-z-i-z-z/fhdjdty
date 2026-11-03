@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a theoretical stochastic density functional theory study of aqueous electrolyte solutions and their van der Waals interactions; it reports no ionic conductivity values for solid Li/Na-ion conductors.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 278,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 20460,
+        "webSearchRequests": 0,
+        "costUSD": 0.00426655,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 105,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 20460,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2252,
+    "notional_cost_usd": 0.00426655
+  },
+  "paper_id": "arXiv:2505.13720",
+  "model": "haiku"
+}

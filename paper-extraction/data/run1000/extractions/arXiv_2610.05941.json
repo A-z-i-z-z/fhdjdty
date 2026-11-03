@@ -1,0 +1,98 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports MLMD-computed ionic conductivities of the solid superionic conductor AgCrSe2 (Ag+ mobile ion) under oscillating electric fields, so it is in scope with computational data.",
+    "records": [
+      {
+        "material_as_written": "AgCrSe2",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.7",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": null,
+        "measurement_method": "machine-learning molecular dynamics (MLMD) with oscillating out-of-plane field Ez0 = 0.03 V \u00c5\u22121 at f = 0.05 THz",
+        "evidence_quote": "producing a dynamically disordered state with conductivity of 1.7 S cm\u22121",
+        "evidence_location": "Fig. 2 caption",
+        "notes": "Mobile ion is Ag+ (not Li/Na, so coded 'other'). Field-driven nonequilibrium value (in-plane probe field, out-of-plane oscillating drive), not an equilibrium superionic value; the abstract gives the same ~1.7 S cm-1 at 300 K. Activation energy of 97 meV in the paper refers to the equilibrium Arrhenius fit above 450 K and is not assigned here."
+      },
+      {
+        "material_as_written": "AgCrSe2",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.9",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": null,
+        "measurement_method": "machine-learning molecular dynamics (MLMD) with oscillating out-of-plane field Ez0 = 0.03 V \u00c5\u22121 at f = 0.01 THz",
+        "evidence_quote": "The resulting ionic conductivity reaches \u223c 0.9 S cm\u22121",
+        "evidence_location": "results (text after Fig. 2 discussion)",
+        "notes": "Mobile ion is Ag+ (coded 'other'). Field-driven value at f = 0.01 THz (complete switching regime); the text gives ~0.9 S/cm, the Fig. 2 caption gives sigma ~ 0.9 S cm-1 for the same condition."
+      },
+      {
+        "material_as_written": "AgCrSe2",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.24",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": null,
+        "measurement_method": "machine-learning molecular dynamics (MLMD) with oscillating out-of-plane field Ez0 = 0.03 V \u00c5\u22121 at f = 0.15 THz",
+        "evidence_quote": "reducing the ionic conductivity to approximately 0.24 S cm\u22121",
+        "evidence_location": "results (text on f = 0.15 THz)",
+        "notes": "Mobile ion is Ag+ (coded 'other'). Field-driven value at f = 0.15 THz (largely ordered state); the Fig. 2 caption gives the same 0.24 S cm-1."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 4,
+        "outputTokens": 4460,
+        "cacheReadInputTokens": 23968,
+        "cacheCreationInputTokens": 20006,
+        "webSearchRequests": 0,
+        "costUSD": 0.006471279999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1474,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 20006,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 18949,
+    "notional_cost_usd": 0.006471279999999999
+  },
+  "paper_id": "arXiv:2610.05941",
+  "model": "haiku"
+}

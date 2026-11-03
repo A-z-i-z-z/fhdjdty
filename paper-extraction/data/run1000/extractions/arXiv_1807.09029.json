@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about a Li-ion conducting glass ceramic used as a gate dielectric, and it cites a general ionic conductivity range for such materials, but it reports no measured or computed conductivity for a specific material at a stated temperature, so no record is extracted.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 685,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 10280,
+        "webSearchRequests": 0,
+        "costUSD": 0.00243405,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 498,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 10280,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5544,
+    "notional_cost_usd": 0.00243405
+  },
+  "paper_id": "arXiv:1807.09029",
+  "model": "haiku"
+}

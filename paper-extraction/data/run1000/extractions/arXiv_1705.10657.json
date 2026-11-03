@@ -1,0 +1,122 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about a fibrous LLZO solid electrolyte for all-solid-state Li-ion batteries, but it reports no conductivity measured in this work; it only quotes literature conductivities of solid Li-ion conductors in the introduction and Table 1, which are recorded as literature_cited.",
+    "records": [
+      {
+        "material_as_written": "LIPON (lithium phosphorus oxynitride)",
+        "material_class": "LiPON_or_thin_film",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10-6",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "The Li-ion conductivity of lithium phosphorus oxynitride (LIPON), which is 10-6 S cm-1 with a transference number of 1 [5,6]",
+        "evidence_location": "Introduction",
+        "notes": "Literature value quoted from refs [5,6]; no measurement temperature given."
+      },
+      {
+        "material_as_written": "Li7La3Zr2O12 (LLZO)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "8.7\u00d710-4",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "8.7\u00d710-4 S cm-1 [30]",
+        "evidence_location": "Table 1 (Garnet-type row)",
+        "notes": "Value appears in Table 1 for the garnet-type row, cited to ref [30]; material identified from the table row label; no temperature given."
+      },
+      {
+        "material_as_written": "Al-doped LiTi2(PO4)3 (LTP)",
+        "material_class": "NASICON",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Al"
+        ],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "3\u00d710-3",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "3\u00d710-3 S cm-1 [5]",
+        "evidence_location": "Table 1 (NASICON-type row)",
+        "notes": "Value appears in Table 1 under the NASICON-type row, cited to ref [5]; material identified from the table row label; no temperature given."
+      },
+      {
+        "material_as_written": "Li3xLa(2/3)-xTiO3 (LLTO) with modified grain boundaries",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1\u00d710-4",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "1\u00d710-4 S cm-1 [28,29]",
+        "evidence_location": "Table 1 (Perovskite-type row)",
+        "notes": "Value appears in Table 1 for the perovskite-type row, cited to refs [28,29]; material identified from the table row label; no temperature given."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 3166,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 8622,
+        "webSearchRequests": 0,
+        "costUSD": 0.00334295,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1582,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 8622,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 12572,
+    "notional_cost_usd": 0.00334295
+  },
+  "paper_id": "arXiv:1705.10657",
+  "model": "haiku"
+}

@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2607.19664#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.2 states Li6.6Si0.6Sb0.4S5I reaches 9.9 \u00d7 10\u22123 S cm\u22121 at 25 \u00b0C from this work's EIS, with the 0.18 eV activation energy from the same fit. The 450 \u00b0C, 6 h anneal matches Section 4.1, and the null relative density is correct."
+      },
+      {
+        "record_id": "arXiv:2607.19664#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text says 'the as-prepared Li6SbS5I exhibits an ionic conductivity of 1.5 \u00d7 10\u22125 S cm\u22121 at 25 \u00b0C' with no citation attached to this value; the cited 1.36 \u00d7 10\u22125 belongs to Li6PS5I, not this record. The 0.28 eV activation energy and the general 450 \u00b0C, 6 h synthesis also match."
+      },
+      {
+        "record_id": "arXiv:2607.19664#003",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 25,
+            "evidence": "Fig. 2 caption: \"(b) room-temperature ionic conductivity of Li6 SbS5 I, Li6.6 Si0.6 Sb0.4 S5 I, and Li6.75 Si0.75 Sb0.25 S5 I.\" Section 2.2 also states the conductivities were measured \"at room temperature\", and the same paragraph gives 25 \u00b0C."
+          }
+        ],
+        "explanation": "The material, value (8.1 \u00d7 10\u22123 S cm\u22121, Fig. 2(b)), and experimental origin are right, and the room-temperature condition is stated in the Fig. 2 caption, so the null temperature field should be filled with 25 \u00b0C rather than left null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 30183,
+        "outputTokens": 2477,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 30375,
+        "webSearchRequests": 0,
+        "costUSD": 0.01035162,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1757,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 30375,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10439,
+    "notional_cost_usd": 0.01035162
+  },
+  "paper_id": "arXiv:2607.19664",
+  "model": "haiku"
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "record_id": "arXiv:2310.00543#001",
+    "paper_id": "arXiv:2310.00543",
+    "record": {
+      "material_as_written": "LLTO (amorphous lithium lanthanum titanate, Li3xLa2/3-xTiO3)",
+      "material_class": "perovskite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10-3",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "LLTO possesses higher ionic conductivity (~10-3 S/cm) than a conventional thin film solid state electrolyte",
+      "evidence_location": "Introduction",
+      "notes": "Literature value quoted from the authors' earlier PLD work (ref. 45), not measured in this paper; no measurement temperature given. The paper's own measured conductivities are electronic and are excluded. The abstract gives the same ~10-3 S/cm figure without a citation."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.001,
+    "log10_conductivity": -3.0
+  }
+]

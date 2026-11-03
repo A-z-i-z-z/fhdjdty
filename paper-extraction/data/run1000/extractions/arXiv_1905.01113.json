@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies oxygen-ion and proton conduction in Ba2In2O5 thin films, not Li- or Na-ion conductors, and its conductivity values appear only in figures rather than as numbers in the text or tables.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 567,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 16653,
+        "webSearchRequests": 0,
+        "costUSD": 0.0036496500000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 391,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16653,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6277,
+    "notional_cost_usd": 0.0036496500000000004
+  },
+  "paper_id": "arXiv:1905.01113",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper studies K+ ionic conduction in potassium silicate glasses, but every conductivity value appears only in figures; the one numeric conductivity in the text (10\u22122 \u03a9\u22121 cm\u22121) refers to unspecified sulphide glasses cited from earlier work, so no valid record can be made.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 541,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 10163,
+        "webSearchRequests": 0,
+        "costUSD": 0.0023386500000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 340,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 10163,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4175,
+    "notional_cost_usd": 0.0023386500000000003
+  },
+  "paper_id": "arXiv:cond-mat/0509644",
+  "model": "haiku"
+}

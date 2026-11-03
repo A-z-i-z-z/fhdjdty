@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies oxygen-ion migration through a ZrO2 layer for magneto-ionic control of Pt/Co/oxide anisotropy, but it reports no ionic conductivity value for any solid Li/Na-ion conductor, only switching times and drift-velocity fits.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 291,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 16494,
+        "webSearchRequests": 0,
+        "costUSD": 0.0034798500000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 95,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16494,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4461,
+    "notional_cost_usd": 0.0034798500000000005
+  },
+  "paper_id": "arXiv:2108.11263",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a general ML framework for materials prediction; its ionic-conductivity part is a regression over 503 solid electrolytes reported only as aggregate MAE, R\u00b2, and Spearman values, with no specific conductivity value for any named material, so no records qualify.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 544,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 19563,
+        "webSearchRequests": 0,
+        "costUSD": 0.004220150000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 357,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19563,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4461,
+    "notional_cost_usd": 0.004220150000000001
+  },
+  "paper_id": "arXiv:2608.27587",
+  "model": "haiku"
+}

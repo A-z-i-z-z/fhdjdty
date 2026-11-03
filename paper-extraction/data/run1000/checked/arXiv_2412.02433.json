@@ -1,0 +1,275 @@
+[
+  {
+    "record_id": "arXiv:2412.02433#001",
+    "paper_id": "arXiv:2412.02433",
+    "record": {
+      "material_as_written": "Li3InCl6 (LIC)",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "\u223c1",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "LIC has ionic conductivity \u223c1 mS/cm and a high oxidation",
+      "evidence_location": "Introduction",
+      "notes": "Value quoted in the introduction from prior work (ref. 6 is cited for LIC); no temperature given."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.001,
+    "log10_conductivity": -3.0
+  },
+  {
+    "record_id": "arXiv:2412.02433#002",
+    "paper_id": "arXiv:2412.02433",
+    "record": {
+      "material_as_written": "Li6PS5Cl (LPSC)",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "\u223c10",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "the LPSC family can achieve excellent ionic conductivity up to \u223c10 mS/cm",
+      "evidence_location": "Introduction",
+      "notes": "Family-level value for the LPSC argyrodite quoted from prior work (ref. 7 cited for LPSC); no temperature given."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.01,
+    "log10_conductivity": -2.0
+  },
+  {
+    "record_id": "arXiv:2412.02433#003",
+    "paper_id": "arXiv:2412.02433",
+    "record": {
+      "material_as_written": "LiF",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5 \u00d7 10-10",
+      "conductivity_unit_as_reported": "Scm-1",
+      "unit_evidence_quote": "\u00d7 10-9 Scm-1.79,80",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "experimentally measured low ionic conductivity of 5 \u00d7 10-10",
+      "evidence_location": "Results (Figure 5 discussion)",
+      "notes": "Experimental value is a range, 5 \u00d7 10-10 to 3 \u00d7 10-9 S/cm, from refs 79,80; only the lower bound is recorded here because the range is split across a line break in the PDF text. Ab initio migration barrier of 0.64 eV is a computed value but is not a conductivity."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 5e-10,
+    "log10_conductivity": -9.301
+  },
+  {
+    "record_id": "arXiv:2412.02433#004",
+    "paper_id": "arXiv:2412.02433",
+    "record": {
+      "material_as_written": "Li2S",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "~10-5",
+      "conductivity_unit_as_reported": "Scm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "of ~10-5 Scm-1, ~10-9 Scm-1, ~10-9 Scm-1 and ~10-7 Scm-1",
+      "evidence_location": "Results (Figure 5 discussion)",
+      "notes": "Values for Li2S, LiCl, LiBr, LiI are listed in that order in the sentence and matched by order; the material assignment comes from the preceding sentence, which is not in the quote. Cited to refs 80-83. No temperature given."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1e-05,
+    "log10_conductivity": -5.0
+  },
+  {
+    "record_id": "arXiv:2412.02433#005",
+    "paper_id": "arXiv:2412.02433",
+    "record": {
+      "material_as_written": "LiCl",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "~10-9",
+      "conductivity_unit_as_reported": "Scm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "of ~10-5 Scm-1, ~10-9 Scm-1, ~10-9 Scm-1 and ~10-7 Scm-1",
+      "evidence_location": "Results (Figure 5 discussion)",
+      "notes": "Second value in the ordered list Li2S, LiCl, LiBr, LiI; material assignment inferred from the preceding sentence (not in the quote). Cited to refs 80-83. No temperature given."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1e-09,
+    "log10_conductivity": -9.0
+  },
+  {
+    "record_id": "arXiv:2412.02433#006",
+    "paper_id": "arXiv:2412.02433",
+    "record": {
+      "material_as_written": "LiBr",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "~10-9",
+      "conductivity_unit_as_reported": "Scm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "of ~10-5 Scm-1, ~10-9 Scm-1, ~10-9 Scm-1 and ~10-7 Scm-1",
+      "evidence_location": "Results (Figure 5 discussion)",
+      "notes": "Third value in the ordered list Li2S, LiCl, LiBr, LiI; material assignment inferred from the preceding sentence (not in the quote). Cited to refs 80-83. No temperature given."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1e-09,
+    "log10_conductivity": -9.0
+  },
+  {
+    "record_id": "arXiv:2412.02433#007",
+    "paper_id": "arXiv:2412.02433",
+    "record": {
+      "material_as_written": "LiI",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "~10-7",
+      "conductivity_unit_as_reported": "Scm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "of ~10-5 Scm-1, ~10-9 Scm-1, ~10-9 Scm-1 and ~10-7 Scm-1",
+      "evidence_location": "Results (Figure 5 discussion)",
+      "notes": "Fourth value in the ordered list Li2S, LiCl, LiBr, LiI; material assignment inferred from the preceding sentence (not in the quote). Cited to refs 80-83. No temperature given."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1e-07,
+    "log10_conductivity": -7.0
+  }
+]

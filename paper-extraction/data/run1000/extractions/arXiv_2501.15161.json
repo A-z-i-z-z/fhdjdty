@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a DFT study of FeAs monolayers as Li-ion anode materials; it reports diffusion barriers (0.38 and 0.54 eV) and adsorption energies, but no ionic conductivity value in any unit, so it has no conductivity records to extract.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 494,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 16723,
+        "webSearchRequests": 0,
+        "costUSD": 0.0036271499999999996,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 302,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16723,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4227,
+    "notional_cost_usd": 0.0036271499999999996
+  },
+  "paper_id": "arXiv:2501.15161",
+  "model": "haiku"
+}

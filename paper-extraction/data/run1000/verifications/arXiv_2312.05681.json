@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2312.05681#001",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "mobile_ion",
+            "correct_value": null,
+            "evidence": "PEO-based SPEs have a conductivity of about 10\u22127 to 10\u22125 S/m at room temperature [17, 18]"
+          }
+        ],
+        "explanation": "The range, unit, room-temperature condition, and literature_cited origin (refs [17, 18]) all match the Introduction sentence. The generic PEO-based SPE statement does not name Li, so mobile_ion = Li is an assumption from the paper's LiTFSI context and should be null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 998,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 19741,
+        "webSearchRequests": 0,
+        "costUSD": 0.004471010000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 728,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19741,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6627,
+    "notional_cost_usd": 0.004471010000000001
+  },
+  "paper_id": "arXiv:2312.05681",
+  "model": "haiku"
+}

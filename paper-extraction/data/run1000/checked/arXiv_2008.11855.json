@@ -1,0 +1,80 @@
+[
+  {
+    "record_id": "arXiv:2008.11855#001",
+    "paper_id": "arXiv:2008.11855",
+    "record": {
+      "material_as_written": "organoboron polymer electrolytes",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.05x10\u22125",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "For example, Matsumi et al. obtained ionic conductivity in organoboron polymer electrolytes of 3.05x10\u22125\u00d7S/cm.",
+      "evidence_location": "Section 2.2",
+      "notes": "Cited from Matsumi et al. (Ref. 22). The specific polymer composition and measurement temperature are not given. The mobile ion is assumed to be Li from context, not stated explicitly for this material. The unit is written as '\u00d7S/cm' in the source; the unit recorded here is 'S/cm'."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 3.05e-05,
+    "log10_conductivity": -4.516
+  },
+  {
+    "record_id": "arXiv:2008.11855#002",
+    "paper_id": "arXiv:2008.11855",
+    "record": {
+      "material_as_written": "PEO-LiTFSI-LLZO + 10% SN",
+      "material_class": "composite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.9 x10\u22124",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "The highest reported IC value in their work reached 1.9 x10\u22124 S/cm.",
+      "evidence_location": "Section 2.3",
+      "notes": "Cited from Chen et al. (Ref. 17). The quote does not name the composition; it comes from the preceding sentences about PEO-LiTFSI-LLZO with succinonitrile (SN) plasticizer. The text does not state the measurement temperature for this value. The LLZO filler is not described as doped in this paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00019,
+    "log10_conductivity": -3.721
+  }
+]

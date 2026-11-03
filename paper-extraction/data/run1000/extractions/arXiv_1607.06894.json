@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a theoretical derivation of a relation between ionic conductivity and current fluctuations for a generic solid ionic conductor. It reports no measured or computed conductivity values for any specific Li- or Na-ion conductor, so it does not meet the criterion.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 345,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 5939,
+        "webSearchRequests": 0,
+        "costUSD": 0.0013958500000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 156,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 5939,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3808,
+    "notional_cost_usd": 0.0013958500000000001
+  },
+  "paper_id": "arXiv:1607.06894",
+  "model": "haiku"
+}

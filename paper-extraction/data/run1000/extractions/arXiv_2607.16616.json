@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies high-entropy perovskites as protonic (H+) conductors for fuel-cell electrolytes and reports fuel-cell ohmic resistances and power densities, not ionic conductivity values of Li- or Na-ion conductors, so it is out of scope.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 445,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 35742,
+        "webSearchRequests": 0,
+        "costUSD": 0.007406450000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 253,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 35742,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5600,
+    "notional_cost_usd": 0.007406450000000001
+  },
+  "paper_id": "arXiv:2607.16616",
+  "model": "haiku"
+}

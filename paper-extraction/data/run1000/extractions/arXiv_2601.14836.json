@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies Na+ transport in hydrated MnO2 layers by MD, but it reports ionic current, drift velocities (\u00c5/ns), and qualitative trends only; it gives no ionic conductivity value with a conductivity unit (e.g., S/cm), so no record qualifies.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 551,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 26684,
+        "webSearchRequests": 0,
+        "costUSD": 0.00564785,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 353,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 26684,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4041,
+    "notional_cost_usd": 0.00564785
+  },
+  "paper_id": "arXiv:2601.14836",
+  "model": "haiku"
+}

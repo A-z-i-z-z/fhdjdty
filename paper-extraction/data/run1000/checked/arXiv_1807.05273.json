@@ -1,0 +1,41 @@
+[
+  {
+    "record_id": "arXiv:1807.05273#001",
+    "paper_id": "arXiv:1807.05273",
+    "record": {
+      "material_as_written": "5.0NHIF0.6LiPy",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Br"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.0",
+      "conductivity_unit_as_reported": "mS cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "303 K",
+      "measurement_temperature_C": 30,
+      "activation_energy_eV": null,
+      "measurement_method": "impedance spectroscopy",
+      "evidence_quote": "of 3.0 mS cm-1 at303 K",
+      "evidence_location": "results",
+      "notes": "Ionanofluid electrolyte (5.0 wt% TiO2-NHIF dispersed in 0.6 M Li salt in Pyr14TFSI, a liquid electrolyte rather than a sintered solid). Value is the maximum conductivity; the paper calls it 'ionic conductivity' from the real part of the spectrum. Temperature 303 K converted to 30 C. LiBr is an intentional salt component (dopant salt); the TiO2 filler is not listed as a dopant. Activation energies are only in Table 1 with garbled layout, so left null. Other conductivities are not given as numbers in the text."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.003,
+    "log10_conductivity": -2.523
+  }
+]

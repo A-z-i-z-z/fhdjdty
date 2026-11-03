@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies oxygen-ion (vacancy) conduction in yttria-stabilized zirconia, not a Li- or Na-ion conductor, and its text gives no numeric conductivity values (conductivity appears only in figures and as enhancement factors).",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 468,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 10581,
+        "webSearchRequests": 0,
+        "costUSD": 0.00238575,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 281,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 10581,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3295,
+    "notional_cost_usd": 0.00238575
+  },
+  "paper_id": "arXiv:1011.1838",
+  "model": "haiku"
+}

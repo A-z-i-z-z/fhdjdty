@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1912.11920#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The main text says PIMs 13, 14 and 31 gave 0.206, 0.195 and 0.192 mS cm\u20131 at 25 \u00b0C, respectively, so PIM 13 = 0.206 is correct. Supplementary Table 5 gives PIM 13 an activation energy of 0.168 eV, and the EIS method and synthesis via K2CO3/DMF are consistent with the paper."
+      },
+      {
+        "record_id": "arXiv:1912.11920#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The second value in the quoted list, 0.195 mS cm\u20131 at 25 \u00b0C, is assigned to PIM 14 in the text. Supplementary Table 5 gives PIM 14 0.195 mS cm\u20131 and 0.165 eV, and the synthesis matches the Supplementary Methods (compound 14 with tetrafluoroterephthalonitrile, K2CO3, DMF)."
+      },
+      {
+        "record_id": "arXiv:1912.11920#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The third value, 0.192 mS cm\u20131 at 25 \u00b0C, is assigned to PIM 31. Supplementary Table 5 gives PIM 31 0.192 mS cm\u20131 and 0.262 eV. The synthesis (base polymerization followed by Lewis-acid O-alkylation with di-tert-butyl dicarbonate) matches the paper."
+      },
+      {
+        "record_id": "arXiv:1912.11920#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "PIM-1 at 25 \u00b0C is 0.038 mS cm\u20131 in the quoted sentence, and Supplementary Table 5 lists 0.0377 mS cm\u20131 and 0.109 eV. PIM-1 is the in-paper control in Fig. 2a and Supplementary Fig. 27, so the value is measured here despite the 'previously reported PIMs' wording nearby, which is a mild ambiguity."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2775,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 57770,
+        "webSearchRequests": 0,
+        "costUSD": 0.012965310000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2023,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 57770,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 12728,
+    "notional_cost_usd": 0.012965310000000002
+  },
+  "paper_id": "arXiv:1912.11920",
+  "model": "haiku"
+}

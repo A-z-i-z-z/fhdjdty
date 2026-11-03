@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a first-principles study of proton and OH- ion mechanisms in hydroxyapatite. It is not a Li/Na-ion conductor and reports no ionic conductivity numbers, only activation energies and literature-level descriptions.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 323,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 15475,
+        "webSearchRequests": 0,
+        "costUSD": 0.00329205,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 141,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15475,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2569,
+    "notional_cost_usd": 0.00329205
+  },
+  "paper_id": "arXiv:1712.05555",
+  "model": "haiku"
+}

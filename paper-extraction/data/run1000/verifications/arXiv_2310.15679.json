@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2310.15679#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states that the \u03b3 polymorph 'exhibits low room-temperature ionic conductivity (\u2248 3 \u00d7 10\u22127 S cm\u22121 [20])', so the material, value, unit and room-temperature condition match, and the citation marker correctly makes this literature_cited. All secondary fields are null, which is correct because the paper gives no synthesis or processing details for this value."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 24117,
+        "outputTokens": 757,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 24305,
+        "webSearchRequests": 0,
+        "costUSD": 0.007671020000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 503,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24305,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4072,
+    "notional_cost_usd": 0.007671020000000001
+  },
+  "paper_id": "arXiv:2310.15679",
+  "model": "haiku"
+}

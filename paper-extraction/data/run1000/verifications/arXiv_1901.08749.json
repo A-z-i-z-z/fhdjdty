@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1901.08749#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 3 eSNAP column, \u22a5c row gives \u03c3RT 29.6 mS/cm and Ea 0.255 eV, both computed in this paper from MD with extrapolation to room temperature. Secondary fields are null, which is correct."
+      },
+      {
+        "record_id": "arXiv:1901.08749#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 3 eSNAP column, k c row gives \u03c3RT 2.32 mS/cm and Ea 0.327 eV. The row is computed in this paper and the room-temperature extrapolation is stated."
+      },
+      {
+        "record_id": "arXiv:1901.08749#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 3 eSNAP overall row gives \u03c3RT 17.3 and Ea 0.269 eV, both computed in this paper. The mS/cm unit comes from the \u03c3RT row header."
+      },
+      {
+        "record_id": "arXiv:1901.08749#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 3 Exp. column for \u22a5c gives \u03c3RT 1.20 mS/cm and Ea 0.290 eV, attributed to ref. 28, so literature_cited is correct. The single-crystal dc method and room-temperature reference match the table."
+      },
+      {
+        "record_id": "arXiv:1901.08749#006",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The 0.5 mS/cm value is quoted from Li et al. (ref. 19), so the origin is correct, but the paper gives no direction and no conductivity kind. The record's 'total' kind is therefore unverifiable, and the paper's [001]-direction framing is not captured, so under strict review this is unsupported."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18693,
+        "outputTokens": 3531,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 18881,
+        "webSearchRequests": 0,
+        "costUSD": 0.00743082,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2823,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18881,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 15082,
+    "notional_cost_usd": 0.00743082
+  },
+  "paper_id": "arXiv:1901.08749",
+  "model": "haiku"
+}

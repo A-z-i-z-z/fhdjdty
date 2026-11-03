@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies virtual 3D microstructures of ASSB cathodes and reports only dimensionless M-factors (sigma_eff/sigma_0) and regression fits, with no ionic conductivity values in physical units for any solid electrolyte material.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 466,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 23719,
+        "webSearchRequests": 0,
+        "costUSD": 0.0050123500000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 281,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23719,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3644,
+    "notional_cost_usd": 0.0050123500000000005
+  },
+  "paper_id": "arXiv:2603.23248",
+  "model": "haiku"
+}

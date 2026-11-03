@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a theoretical defect-chemistry model of iodide defects in MAPI under illumination; it reports no ionic conductivity values and its mobile ions are iodide, not Li or Na.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 27350,
+        "outputTokens": 314,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 27540,
+        "webSearchRequests": 0,
+        "costUSD": 0.008431560000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 122,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27540,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2000,
+    "notional_cost_usd": 0.008431560000000001
+  },
+  "paper_id": "arXiv:2504.05414",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This paper is a continuum phase-field model of lipid membrane electroporation; its only conductivity values (electrolyte \u03bb = 1.0 S/m, membrane conductances) concern aqueous electrolytes and biological membranes, not solid Li/Na-ion conductors.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 297,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 21497,
+        "webSearchRequests": 0,
+        "costUSD": 0.00448345,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 104,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 21497,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3845,
+    "notional_cost_usd": 0.00448345
+  },
+  "paper_id": "arXiv:1611.03902",
+  "model": "haiku"
+}

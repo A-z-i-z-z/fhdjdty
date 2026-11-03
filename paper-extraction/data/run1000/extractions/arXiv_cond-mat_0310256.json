@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about silver-ion dynamics in the crystalline solid ion conductor Ag7P3S11 and quotes one dc conductivity value for it, taken from an earlier study.",
+    "records": [
+      {
+        "material_as_written": "\u03b3-Ag7 P3 S11",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.5 \u00d7 10\u22124",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "T \u2248 300K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "\u03c3dc = 2.5 \u00d7 10\u22124 S/cm at T \u2248 300K [14]",
+        "evidence_location": "introduction",
+        "notes": "mobile_ion is Ag, which is not in the schema enum, so 'other' is used. Value is quoted from Ref. [14] (Zhang and Kennedy, 1993), not measured in this paper. It is for the gamma-phase; the NMR study itself is on the beta-phase below 209 K. The reported 0.37 eV activation energy is for the mean correlation time from NMR, not for conductivity, so it is not attached to this record. Conductivity kind is not specified; 'total' is an assumption from the dc value."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 11118,
+        "outputTokens": 2595,
+        "cacheReadInputTokens": 17617,
+        "cacheCreationInputTokens": 13735,
+        "webSearchRequests": 0,
+        "costUSD": 0.005332470000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1329,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13735,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9297,
+    "notional_cost_usd": 0.005332470000000001
+  },
+  "paper_id": "arXiv:cond-mat/0310256",
+  "model": "haiku"
+}

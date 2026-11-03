@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1905.04473#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that the Li-ion conductivity of the Li2Al2SiP2TiO13 (HFKejing) gate conductor is 10\u22124 S cm\u22121 for T>160 K, with no measurement or computation by the authors. Marking it literature_cited fits the 'It is known that' framing. The temperature is a lower bound, so the numeric field is correctly null, and the secondary fields are all null, which is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17178,
+        "outputTokens": 1010,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 17368,
+        "webSearchRequests": 0,
+        "costUSD": 0.005716220000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 742,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17368,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5395,
+    "notional_cost_usd": 0.005716220000000001
+  },
+  "paper_id": "arXiv:1905.04473",
+  "model": "haiku"
+}

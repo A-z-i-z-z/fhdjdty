@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a phase-field electro-chemo-mechanical model of Li-metal voiding against an LLZO solid electrolyte, and it reports one ionic conductivity value for LLZO (Table 1, taken from Buschmann et al., 2012).",
+    "records": [
+      {
+        "material_as_written": "Li7La3Zr2O12 (LLZO)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "5.5 \u00d7 10\u22126",
+        "conductivity_unit_as_reported": "S m\u22121",
+        "unit_evidence_quote": "Ionic conductivity of solid electrolyte (LLZO), \u03c3el [S m\u22121 ]",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "5.5 \u00d7 10\u22126 (iv)",
+        "evidence_location": "Table 1",
+        "notes": "Table 1 row 'Ionic conductivity of solid electrolyte (LLZO), \u03c3el'; the value is a model input cited from Buschmann et al. (2012) (footnote iv), not measured in this paper. The table's T = 298 K is the simulation temperature and is not used as the measurement temperature. Electronic conductivity of Li metal (1.1 \u00d7 10^7 S m\u22121) and the diffusion coefficient are excluded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1564,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 31842,
+        "webSearchRequests": 0,
+        "costUSD": 0.007185950000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 922,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 31842,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 13049,
+    "notional_cost_usd": 0.007185950000000001
+  },
+  "paper_id": "arXiv:2206.14753",
+  "model": "haiku"
+}

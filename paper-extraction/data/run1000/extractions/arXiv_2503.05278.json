@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a theory of ionic thermoelectricity that reports Seebeck coefficients and gives conductivity only as symbolic formulas, with no numerical ionic conductivity value for any solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 23872,
+        "outputTokens": 431,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 24062,
+        "webSearchRequests": 0,
+        "costUSD": 0.007446660000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 226,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24062,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2712,
+    "notional_cost_usd": 0.007446660000000001
+  },
+  "paper_id": "arXiv:2503.05278",
+  "model": "haiku"
+}

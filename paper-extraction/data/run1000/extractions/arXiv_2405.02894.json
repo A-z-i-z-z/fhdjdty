@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies PNIPAM-functionalized plasmonic nanopores gated optically in aqueous KCl solution; it does not concern solid Li/Na-ion conductors and reports no solid-electrolyte ionic conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 347,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 16021,
+        "webSearchRequests": 0,
+        "costUSD": 0.0034132500000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 165,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16021,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3844,
+    "notional_cost_usd": 0.0034132500000000005
+  },
+  "paper_id": "arXiv:2405.02894",
+  "model": "haiku"
+}

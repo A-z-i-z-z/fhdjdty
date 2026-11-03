@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about the electrochemical stability and redox activity of solid electrolytes (argyrodite Li6PS5Cl, LLZO, LAGP), but it never reports a numeric ionic conductivity value; it only describes the material as having \"high Li-ion conductivity\" without a number.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 378,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 21262,
+        "webSearchRequests": 0,
+        "costUSD": 0.00447695,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 181,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 21262,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4475,
+    "notional_cost_usd": 0.00447695
+  },
+  "paper_id": "arXiv:1908.10144",
+  "model": "haiku"
+}

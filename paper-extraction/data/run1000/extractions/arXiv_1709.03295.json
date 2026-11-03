@@ -1,0 +1,100 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about the Na-ion solid electrolyte Na3.4Sc0.4Zr1.6(SiO4)2PO4 and reports measured bulk and grain-boundary ionic conductivities at room temperature.",
+    "records": [
+      {
+        "material_as_written": "Na3.4Sc0.4Zr1.6(SiO4)2PO4",
+        "material_class": "NASICON",
+        "mobile_ion": "Na",
+        "dopants": [
+          "Sc"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "sol-gel",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.0",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.29,
+        "measurement_method": "broadband impedance spectroscopy",
+        "evidence_quote": "Facile Na ion exchange results in room-temperature ion conductivities of 2.0 mS/cm for Na3.4Sc0.4Zr1.6(SiO4)2PO4 and 1.0 mS/cm for the parent compound Na3Zr2(SiO4)2PO4, respectively.",
+        "evidence_location": "conclusion",
+        "notes": "Bulk value at room temperature. Activation energy 0.29 eV is the d.c. bulk activation energy (Ea,d.c. = 0.29(1) eV) stated in the results text; the paper gives 0.29 to 0.31 eV for the overall transport. Composition written in the paper as Na3.4Sc0.4Zr1.6(SiO4)2PO4 and described as sol-gel prepared in the conclusions."
+      },
+      {
+        "material_as_written": "Na3Zr2(SiO4)2PO4",
+        "material_class": "NASICON",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.0",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "broadband impedance spectroscopy",
+        "evidence_quote": "Facile Na ion exchange results in room-temperature ion conductivities of 2.0 mS/cm for Na3.4Sc0.4Zr1.6(SiO4)2PO4 and 1.0 mS/cm for the parent compound Na3Zr2(SiO4)2PO4, respectively.",
+        "evidence_location": "conclusion",
+        "notes": "Sc-free parent NZSP used as benchmark. Bulk value at room temperature; the text gives it as 1.0 mS/cm at 20 \u00b0C in the results section. Activation energy not stated in the text for this compound."
+      },
+      {
+        "material_as_written": "Na3Zr2(SiO4)2PO4",
+        "material_class": "NASICON",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.7",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "grain_boundary",
+        "measurement_temperature_as_reported": "20 \u00b0C",
+        "measurement_temperature_C": 20,
+        "activation_energy_eV": null,
+        "measurement_method": "broadband impedance spectroscopy",
+        "evidence_quote": "At 20 \u00b0C the bulk conductivity of Na3Zr2(SiO4)2PO4 is 1.0 mS/cm, for \u03c3\u2032g.b. we found 0.7 mS/cm (Fig. 2b).",
+        "evidence_location": "results",
+        "notes": "Grain-boundary conductivity of the Sc-free parent NZSP at 20 \u00b0C, as stated in the results text and Fig. 2b caption (298 K)."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2834,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 15961,
+        "webSearchRequests": 0,
+        "costUSD": 0.00464475,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1301,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15961,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11173,
+    "notional_cost_usd": 0.00464475
+  },
+  "paper_id": "arXiv:1709.03295",
+  "model": "haiku"
+}

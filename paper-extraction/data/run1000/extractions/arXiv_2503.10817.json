@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about memristive and synaptic behavior of pyridinium iodobismuthate thin-film devices. It does not report any numeric ionic conductivity of a Li- or Na-ion conductor; ionic transport is only discussed qualitatively, with activation energies (72-130 meV) but no conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 472,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 27008,
+        "webSearchRequests": 0,
+        "costUSD": 0.00567315,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 266,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27008,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4469,
+    "notional_cost_usd": 0.00567315
+  },
+  "paper_id": "arXiv:2503.10817",
+  "model": "haiku"
+}

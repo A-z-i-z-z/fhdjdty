@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about the solid Li-ion conductor Li2ZrCl6, but its own results are MD diffusivities and activation energies; the only conductivity number in the text is a literature-cited room-temperature value for ball-milled \u03b1h-LZC.",
+    "records": [
+      {
+        "material_as_written": "\u03b1h-LZC (ball-milled Li2ZrCl6)",
+        "material_class": "halide",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": "ball milling (mechanochemical synthesis)",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.8",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": "mS/cm, 16 the annealed LZC in either the \u03b1- or \u03b2-phase display significantly lower RT Li-ion conductivity.",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "While the ball-milled \u03b1h -LZC exhibits RT Li-ion conductivity of approximately 0.8",
+        "evidence_location": "introduction",
+        "notes": "Value is quoted from Wang et al. (ref. 16), not measured in this paper. The unit 'mS/cm' falls on the line after the quoted span (PDF line break), so it is supplied via unit_evidence_quote. Measurement method not stated here."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 10967,
+        "outputTokens": 1903,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 11157,
+        "webSearchRequests": 0,
+        "costUSD": 0.0043111600000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1241,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11157,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8287,
+    "notional_cost_usd": 0.0043111600000000005
+  },
+  "paper_id": "arXiv:2403.08237",
+  "model": "haiku"
+}

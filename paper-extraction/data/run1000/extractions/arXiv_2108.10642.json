@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies a liquid metal displacement battery (Li|LiCl-KCl-PbCl2|Pb) with a liquid electrolyte-free molten salt and reports cell efficiencies, impedance and polarization, but no ionic conductivity of a solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 352,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 13209,
+        "webSearchRequests": 0,
+        "costUSD": 0.00285335,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 150,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13209,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2677,
+    "notional_cost_usd": 0.00285335
+  },
+  "paper_id": "arXiv:2108.10642",
+  "model": "haiku"
+}

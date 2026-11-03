@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:1412.6192#001",
+    "paper_id": "arXiv:1412.6192",
+    "record": {
+      "material_as_written": "Li2 NH",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3\u00d710\u22124",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": "S/cm at 25\u25e6 C).2",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25\u25e6 C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.58,
+      "measurement_method": null,
+      "evidence_quote": "Lithium imide (Li2 NH) is known for its high ionic conductivity (3\u00d710\u22124",
+      "evidence_location": "introduction",
+      "notes": "Value is quoted from Boukamp and Huggins (ref. 2), not measured in this paper. The unit and temperature are on the following line of the PDF text. The activation energy 0.58 eV is quoted from the same ref. 2 in Sec. V A (\"Li2 NH was found to be a good ionic conductor, with an activation energy of 0.58 eV.2\"), not from the introduction quote."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0003,
+    "log10_conductivity": -3.523
+  }
+]

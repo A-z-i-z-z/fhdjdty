@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports bulk Ag-ion conductivities of solid honeycomb layered tellurate pellets (Ag2Ni2TeO6 and Ag2Mg2TeO6) measured by EIS, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "Ag2Ni2TeO6",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "topochemical ion-exchange of Na2Ni2TeO6 with molten AgNO3",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": 84,
+        "conductivity_value_as_reported": "4.88 \u00d7 10\u22124",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "30 \u25e6 C",
+        "measurement_temperature_C": 30,
+        "activation_energy_eV": 0.57,
+        "measurement_method": "EIS (two-probe a.c. impedance)",
+        "evidence_quote": "was found to be 4.88 \u00d7 10\u22124 S cm\u22121 at 30 \u25e6 C and 2.39 \u00d7 10\u22122 S cm\u22121 at 100 \u25e6 C.",
+        "evidence_location": "results",
+        "notes": "Mobile ion is Ag+. Lowest-temperature value (30 C) recorded; the 100 C value 2.39 \u00d7 10\u22122 S cm\u22121 is omitted per the series rule. Activation energy 0.57 eV is from fitting 30-100 C data, quoted in the results section ('activation energy of about 0.57 eV'). Pellet compactness ~84% per results and Methods. Sintering fields null because pellets were cold-pressed (about 40 MPa) and not sintered; 250 C is the ion-exchange temperature, not a sintering temperature."
+      },
+      {
+        "material_as_written": "Ag2Mg2TeO6",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "topochemical ion-exchange of Na2Mg2TeO6 with molten AgNO3",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": 74,
+        "conductivity_value_as_reported": "1.77 \u00d7 10\u22126",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "30 \u25e6 C",
+        "measurement_temperature_C": 30,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS (two-probe a.c. impedance)",
+        "evidence_quote": "displays a predominant ionic conductivity of 1.77 \u00d7 10\u22126 S cm\u22121 at 30 \u25e6 C",
+        "evidence_location": "results",
+        "notes": "Mobile ion is Ag+. Lowest-temperature value recorded; the 100 C value 3.84 \u00d7 10\u22124 S cm\u22121 is omitted per the series rule. No activation energy is given for this composition. Pellet density ~74% of theoretical per results and Methods. The Ni composition is written as Ag2Ni2TeO6 in the paper; the Mg row is from the same measurement set."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2808,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 49092,
+        "webSearchRequests": 0,
+        "costUSD": 0.01125795,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1620,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 49092,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 12682,
+    "notional_cost_usd": 0.01125795
+  },
+  "paper_id": "arXiv:2112.07355",
+  "model": "haiku"
+}

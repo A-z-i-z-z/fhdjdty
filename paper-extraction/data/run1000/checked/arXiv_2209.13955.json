@@ -1,0 +1,113 @@
+[
+  {
+    "record_id": "arXiv:2209.13955#001",
+    "paper_id": "arXiv:2209.13955",
+    "record": {
+      "material_as_written": "pristine \u03b2-Li3PS4",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "commercial powder (NEI Corporation) with NMF dissolution/recrystallization studied; pristine material as purchased",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.34\u221910-5",
+      "conductivity_unit_as_reported": "S\u2219cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25 \u00b0C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.38,
+      "measurement_method": "EIS",
+      "evidence_quote": "were determined to be 2.34\u221910-5 S\u2219cm-1 and 2.18\u221910-5 S\u2219cm-1 at 25 \u00b0C, respectively",
+      "evidence_location": "results (impedance measurements)",
+      "notes": "Value for pristine \u03b2-Li3PS4 (first of the two values in the sentence). Activation energy 0.38 eV from the sentence 'the activation energies of both samples are with 0.38 and 0.20 eV'. Pressed powder measured under 50 MPa."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 2.34e-05,
+    "log10_conductivity": -4.631
+  },
+  {
+    "record_id": "arXiv:2209.13955#002",
+    "paper_id": "arXiv:2209.13955",
+    "record": {
+      "material_as_written": "recrystallized \u03b2-Li3PS4",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "dissolution in N-methylformamide and recrystallization (heated to 240 \u00b0C)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.18\u221910-5",
+      "conductivity_unit_as_reported": "S\u2219cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25 \u00b0C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.2,
+      "measurement_method": "EIS",
+      "evidence_quote": "were determined to be 2.34\u221910-5 S\u2219cm-1 and 2.18\u221910-5 S\u2219cm-1 at 25 \u00b0C, respectively",
+      "evidence_location": "results (impedance measurements)",
+      "notes": "Value for recrystallized \u03b2-Li3PS4 (second value in the sentence). Activation energy 0.20 eV from the same activation-energy sentence. Paper states both values are the same within experimental error. Material name in the sentence is written '\u03b2Li3PS4' after PDF line-break."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 2.18e-05,
+    "log10_conductivity": -4.662
+  },
+  {
+    "record_id": "arXiv:2209.13955#003",
+    "paper_id": "arXiv:2209.13955",
+    "record": {
+      "material_as_written": "Li3PS4\u22192NMF",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "evaporation of NMF solution at 120 \u00b0C",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.66\u221910-9",
+      "conductivity_unit_as_reported": "S\u2219cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25 \u00b0C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.7,
+      "measurement_method": "EIS",
+      "evidence_quote": "a conductivity value of 1.66\u221910-9 S\u2219cm-1 at 25 \u00b0C was calculated",
+      "evidence_location": "results (impedance measurements)",
+      "notes": "NMF-solvate intermediate phase, not a conventional electrolyte; value derived from a two-R/CPE fit. Activation barrier 0.70 eV from 'The significantly higher activation barrier of 0.70 eV'."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 1.66e-09,
+    "log10_conductivity": -8.78
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about a Li-Br fuel cell that uses a LATP lithium-ion conducting solid electrolyte, and it quotes one ionic conductivity value for that electrolyte.",
+    "records": [
+      {
+        "material_as_written": "LATP",
+        "material_class": "NASICON",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10-4",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "solid electrolyte (Li2O-Al2O3SiO2-TiO2-GeO2-P2O5, LATP, 10-4 S cm-1, 25.4-mm square by 150-\u00b5m thick, Ohara Inc. Japan)",
+        "evidence_location": "Section 2, Experimental Section (Fuel Cell Design and Fabrication)",
+        "notes": "This is a commercial product value (Ohara LATP plate) given as a material property, not measured in this paper and with no explicit citation in the sentence, so origin is marked literature_cited with some uncertainty. The paper's own EIS measurements (Figs 6-7) give only impedance-based grain and grain-boundary resistances, not converted conductivities, so no records were made for them. Exact LATP stoichiometry and dopants are not stated. Measurement temperature not given."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 3,
+        "outputTokens": 2239,
+        "cacheReadInputTokens": 18739,
+        "cacheCreationInputTokens": 14284,
+        "webSearchRequests": 0,
+        "costUSD": 0.004163989999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 864,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14284,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 14256,
+    "notional_cost_usd": 0.004163989999999999
+  },
+  "paper_id": "arXiv:1603.07275",
+  "model": "haiku"
+}

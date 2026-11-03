@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies oxygen-ion diffusion in mixed ionic-electronic perovskites (GdBaMn2O5+x, GdBaCo2O5+x), not Li- or Na-ion conductors, and its only numeric conductivities are electronic (metallic) or a derived SOFC criterion rather than a measured ionic conductivity.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 8790,
+        "outputTokens": 1049,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 8982,
+        "webSearchRequests": 0,
+        "costUSD": 0.0032314600000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 801,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 8982,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4964,
+    "notional_cost_usd": 0.0032314600000000002
+  },
+  "paper_id": "arXiv:cond-mat/0501127",
+  "model": "haiku"
+}

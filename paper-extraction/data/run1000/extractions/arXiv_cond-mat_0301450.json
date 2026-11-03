@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper concerns the heat capacity of yttria-stabilized zirconia and discusses oxygen-vacancy ion transport qualitatively, but it reports no ionic conductivity values with numbers or units.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 9632,
+        "outputTokens": 379,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 9820,
+        "webSearchRequests": 0,
+        "costUSD": 0.00314826,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 181,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 9820,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 1932,
+    "notional_cost_usd": 0.00314826
+  },
+  "paper_id": "arXiv:cond-mat/0301450",
+  "model": "haiku"
+}

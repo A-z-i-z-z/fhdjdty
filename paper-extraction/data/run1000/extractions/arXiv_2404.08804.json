@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies hydroxide (OH-) transport in polyolefin anion exchange membranes by classical MD. It is not about Li- or Na-ion solid conductors, and the only conductivity numbers it gives are experimental hydroxide conductivities (mS/cm) for AEMs, which are outside the Li/Na scope.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 466,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 27357,
+        "webSearchRequests": 0,
+        "costUSD": 0.005739950000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 255,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27357,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3891,
+    "notional_cost_usd": 0.005739950000000001
+  },
+  "paper_id": "arXiv:2404.08804",
+  "model": "haiku"
+}

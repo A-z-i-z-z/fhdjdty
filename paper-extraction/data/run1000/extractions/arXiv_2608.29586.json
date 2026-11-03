@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This review covers solid and quasi-solid electrolytes for zinc-ion batteries and reports conductivities of Zn2+ conductors only, with no solid Li+ or Na+ conductor values, so it is out of scope.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 29271,
+        "outputTokens": 407,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 29461,
+        "webSearchRequests": 0,
+        "costUSD": 0.009054360000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 203,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 29461,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2460,
+    "notional_cost_usd": 0.009054360000000001
+  },
+  "paper_id": "arXiv:2608.29586",
+  "model": "haiku"
+}

@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1412.6027#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that Li4BN3H10 was reported to have 2 \u00d7 10\u22124 S/cm at room temperature and 0.26 eV, citing ref. 8 (Matsuo et al.). Because the value comes from that earlier publication, literature_cited is correct. Density, sintering, synthesis and dopant fields are correctly null since the paper gives none for this material."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17586,
+        "outputTokens": 832,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 17778,
+        "webSearchRequests": 0,
+        "costUSD": 0.00575002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 588,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17778,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5032,
+    "notional_cost_usd": 0.00575002
+  },
+  "paper_id": "arXiv:1412.6027",
+  "model": "haiku"
+}

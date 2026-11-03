@@ -1,0 +1,41 @@
+[
+  {
+    "record_id": "arXiv:2012.08833#001",
+    "paper_id": "arXiv:2012.08833",
+    "record": {
+      "material_as_written": "Ba(Zr1-xYx)O3 (20% Y-doping)",
+      "material_class": "perovskite",
+      "mobile_ion": "other",
+      "dopants": [
+        "Y"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10-2",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "500\u00b0C",
+      "measurement_temperature_C": 500,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "exceeding 10-2 S/cm at 500\u00b0C (for 20% Y-doping)",
+      "evidence_location": "introduction",
+      "notes": "Proton conductivity of Y-doped BaZrO3 in bulk [29] and thin films [30], taken from prior literature; the value is a lower bound ('exceeding'). Mobile species is protons, not Li/Na. Composition is given generically in the text as Ba(Zr1-xYx)O3 with 20% Y."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.01,
+    "log10_conductivity": -2.0
+  }
+]

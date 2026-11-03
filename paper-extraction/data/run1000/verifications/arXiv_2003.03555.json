@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2003.03555#001",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "mobile_ion",
+            "correct_value": "K (potassium)",
+            "evidence": "K2 Mg2 TeO6 (row in Table 2, with the ionic conductivity column headed \u03c3300 K /S cm\u22121); the compound's alkali cation is K, and the paper describes large alkali cations such as K in honeycomb tellurates as the mobile species."
+          }
+        ],
+        "explanation": "Table 2 row for K2Mg2TeO6 gives \u03c3573 K = 3.8 \u00d7 10\u22122, \u03c3300 K \u2248 10\u22125 S cm\u22121, Ea 0.92 eV and pellet compactness \u2248 70%, and the caption marks these as literature-compiled values, so the literature_cited origin and the 25 \u00b0C temperature are correct. The mobile_ion field is wrong, though: the mobile species is K, not 'other'."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1718,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 55206,
+        "webSearchRequests": 0,
+        "costUSD": 0.01192401,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1340,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 55206,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 15985,
+    "notional_cost_usd": 0.01192401
+  },
+  "paper_id": "arXiv:2003.03555",
+  "model": "haiku"
+}

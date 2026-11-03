@@ -1,0 +1,72 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2409.02952#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.4 states that the authors' own Na3.36Zr1.92Cu0.08Si2.2P0.8O12 gave 9.62\u00d710\u207b\u2074 S/cm, and Section 2.3 gives room-temperature EIS, so a null numeric temperature is correct. The 1200 \u00b0C / 12 h sintering and solid-state method are stated in Section 2.2 for the synthesized materials."
+      },
+      {
+        "record_id": "arXiv:2409.02952#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that the authors' Nd-doped Na3.1Zr1.9Nd0.1Si2PO12 gave 5.48\u00d710\u207b\u2074 S/cm, with room-temperature EIS (Section 2.3) and the general Section 2.2 synthesis conditions."
+      },
+      {
+        "record_id": "arXiv:2409.02952#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that the authors' Fe-doped Na3.2Zr1.8Fe0.2Si2PO12 gave 1.68\u00d710\u207b\u2074 S/cm, with room-temperature EIS and the Section 2.2 synthesis conditions."
+      },
+      {
+        "record_id": "arXiv:2409.02952#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports the Co-doped Na3.3Zr1.95Co0.05Si2.2P0.8O12 value of ~2.63\u00d710\u207b\u00b3 S/cm with the citation [6], so literature_cited is correct. No temperature or secondary synthesis values are attached to this value in the paper, so nulls are correct."
+      },
+      {
+        "record_id": "arXiv:2409.02952#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives 3.38\u00d710\u207b\u2074 S/cm as the reported value for Cu-doped NASICON from [49], a literature comparison value. The record correctly notes that the composition is not given, and no temperature or secondary fields are stated."
+      },
+      {
+        "record_id": "arXiv:2409.02952#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives 4.21\u00d710\u207b\u2077 S/cm as the previously reported value for Nd-doped NASICON from [50], a literature comparison value with no composition, temperature or synthesis details given."
+      },
+      {
+        "record_id": "arXiv:2409.02952#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives 1\u00d710\u207b\u2077 S/cm as the previously reported value for Fe-doped NASICON from [51], a literature comparison value with no composition, temperature or synthesis details given."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14275,
+        "outputTokens": 2820,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 14463,
+        "webSearchRequests": 0,
+        "costUSD": 0.00574992,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1814,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14463,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10857,
+    "notional_cost_usd": 0.00574992
+  },
+  "paper_id": "arXiv:2409.02952",
+  "model": "haiku"
+}

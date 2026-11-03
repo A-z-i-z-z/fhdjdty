@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a theoretical morphogenesis-inspired reduced-order model of Li-metal/solid-electrolyte interface stability; it reports no measured or computed ionic conductivity values of a solid Li/Na conductor (KC is a dimensionless-style interfacial conductance parameter with no numeric values given).",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 329,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 19522,
+        "webSearchRequests": 0,
+        "costUSD": 0.004104450000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 124,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19522,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2975,
+    "notional_cost_usd": 0.004104450000000001
+  },
+  "paper_id": "arXiv:2408.03175",
+  "model": "haiku"
+}

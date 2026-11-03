@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is mainly a hard-core boson lattice model of a 1D ion conductor with conductivities in relative model units, but its introduction quotes one literature room-temperature ionic conductivity for the solid Li conductor Li10GeP2S12.",
+    "records": [
+      {
+        "material_as_written": "Li10 GeP2 S12",
+        "material_class": "thiophosphate_other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "12",
+        "conductivity_unit_as_reported": "m\u03a9\u22121 cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "the conductivity of which reaches 12 m\u03a9\u22121 cm\u22121 at room temperature and 0.41 m\u03a9\u22121 cm\u22121 at \u221230\u25e6 C, was",
+        "evidence_location": "Introduction",
+        "notes": "Value is quoted from an earlier synthesis paper (ref. [11]), not measured here. The material name appears in the preceding sentence ('a new superionic crystal Li10 GeP2 S12'). Only the room-temperature value is recorded; the -30 C value is omitted."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 13928,
+        "outputTokens": 1994,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 14114,
+        "webSearchRequests": 0,
+        "costUSD": 0.00524416,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1365,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14114,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8873,
+    "notional_cost_usd": 0.00524416
+  },
+  "paper_id": "arXiv:1612.07212",
+  "model": "haiku"
+}

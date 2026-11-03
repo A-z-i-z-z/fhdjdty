@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2402.04266#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the high-pressure Mg3TeO6 pellet (~60% compactness) has 2.5 \u00d7 10\u22126 S cm\u22121 at 25 \u00b0C, with Ea \u2248 0.47 eV from the 5\u201345 \u00b0C fit, and these are its own measurements (Figure 10c). The record's sintering fields are correctly null, since the 400 \u00b0C metathesis temperature is a reaction temperature."
+      },
+      {
+        "record_id": "arXiv:2402.04266#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Discussion states that double-perovskite Ca2ZnTeO6 has 1.18 \u00d7 10\u22126 S cm\u22121 at room temperature, primarily Ca2+ conduction, measured in Figure 10g. The record correctly leaves the numeric temperature null because the paper gives only 'room temperature', and the synthesis and activation-energy fields are null because the paper gives none for this compound."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 33118,
+        "outputTokens": 2050,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 33310,
+        "webSearchRequests": 0,
+        "costUSD": 0.01101862,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1601,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 33310,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8962,
+    "notional_cost_usd": 0.01101862
+  },
+  "paper_id": "arXiv:2402.04266",
+  "model": "haiku"
+}

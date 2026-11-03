@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1412.6192#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states that Li2NH is a good ionic conductor at 3\u00d710\u22124 S/cm at 25\u00b0C, citing ref. 2 (Boukamp and Huggins), so the value, unit, temperature and literature_cited origin are all correct. The 0.58 eV activation energy is stated in Sec. V A for Li2NH with the same ref. 2 citation, and the synthesis, sintering and density fields are correctly null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 650,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 28436,
+        "webSearchRequests": 0,
+        "costUSD": 0.00603601,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 409,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28436,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5261,
+    "notional_cost_usd": 0.00603601
+  },
+  "paper_id": "arXiv:1412.6192",
+  "model": "haiku"
+}

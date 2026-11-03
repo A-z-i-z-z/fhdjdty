@@ -1,0 +1,197 @@
+[
+  {
+    "record_id": "arXiv:2606.07772#001",
+    "paper_id": "arXiv:2606.07772",
+    "record": {
+      "material_as_written": "Ga-LLZO",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ga"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.1 \u00b1 0.2",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": "\ud835\udf0e(300 K) (mS/cm)",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.2,
+      "measurement_method": "MLMD (machine-learning molecular dynamics, Nernst-Einstein from Li diffusion)",
+      "evidence_quote": "1.1 \u00b1 0.2",
+      "evidence_location": "Table I",
+      "notes": "Value from Table I, this work, bulk Ga-LLZO. Quote is only the numeric cell; the row label Ga-LLZO and column header are in the table. Activation energy 200 meV is from Table I / text (Ga-LLZO E_a = 200 meV). Temperature 300 K given as text; C conversion left null. Relevant Table II also lists 1.1 for Ga-LLZO (this work)."
+    },
+    "hard_checks": {
+      "quote_in_text": false,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 0.0002,
+    "log10_conductivity": -3.699
+  },
+  {
+    "record_id": "arXiv:2606.07772#002",
+    "paper_id": "arXiv:2606.07772",
+    "record": {
+      "material_as_written": "c-LLZO",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.4 \u00b1 0.1",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": "\ud835\udf0e(300 K) (mS/cm)",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.243,
+      "measurement_method": "MLMD (Nernst-Einstein from Li diffusion)",
+      "evidence_quote": "1.4 \u00b1 0.1",
+      "evidence_location": "Table I",
+      "notes": "Undoped cubic LLZO modeled in this work (Li-site vacancies present in the cell, 56/120 occupied). Value from Table I row for c-LLZO; quote is only the numeric cell. Activation energy 243 meV from Table I."
+    },
+    "hard_checks": {
+      "quote_in_text": false,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "quote is only the value; material comes from context",
+      "activation_energy_eV=0.243 not found as a number in the paper"
+    ],
+    "conductivity_S_per_cm": 0.0001,
+    "log10_conductivity": -4.0
+  },
+  {
+    "record_id": "arXiv:2606.07772#003",
+    "paper_id": "arXiv:2606.07772",
+    "record": {
+      "material_as_written": "t-LLZO (1.8% vacancies)",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "23.4 \u00b1 0.8",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": "\ud835\udf0e(300 K) (mS/cm)",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.116,
+      "measurement_method": "MLMD (Nernst-Einstein from Li diffusion)",
+      "evidence_quote": "23.4 \u00b1 0.8",
+      "evidence_location": "Table I",
+      "notes": "Tetragonal LLZO with added vacancies (1.8% in Table I; text elsewhere says 2% in one figure label). Value from Table I row for t-LLZO (1.8% vac.); quote is only the numeric cell. Activation energy 116 meV from Table I. Authors state this is not a good surrogate for c-LLZO."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context",
+      "activation_energy_eV=0.116 not found as a number in the paper"
+    ],
+    "conductivity_S_per_cm": 0.0008,
+    "log10_conductivity": -3.097
+  },
+  {
+    "record_id": "arXiv:2606.07772#004",
+    "paper_id": "arXiv:2606.07772",
+    "record": {
+      "material_as_written": "t-LLZO",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.18",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "AIMD (extrapolated from high-temperature data)",
+      "evidence_quote": "extrapolating the latter high-temperature limit to 300 K yields \u2248 0.18 mS cm\u22121",
+      "evidence_location": "Discussion B",
+      "notes": "Value attributed to Andriyevsky et al. (ref 61), extrapolated to 300 K by the authors; not a value computed in this paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00018,
+    "log10_conductivity": -3.745
+  },
+  {
+    "record_id": "arXiv:2606.07772#005",
+    "paper_id": "arXiv:2606.07772",
+    "record": {
+      "material_as_written": "t-LLZO",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.001",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "above 600 K",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "AIMD",
+      "evidence_quote": "Miara et al. predicted \u2248 0.001 mS cm\u22121 for t-LLZO from",
+      "evidence_location": "Discussion B",
+      "notes": "Value attributed to Miara et al. (ref 60) from AIMD above 600 K; not at 300 K. Quote is truncated at the line break in the PDF text."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 1e-06,
+    "log10_conductivity": -6.0
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies diffusion and morphology in PEO-NH4ClO4 polymer electrolytes, and it never reports a numeric ionic conductivity; it only refers to sigma qualitatively and uses relative parameters in Table 1. Its mobile ion is NH4+, not Li or Na.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 507,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 5812,
+        "webSearchRequests": 0,
+        "costUSD": 0.00145145,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 305,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 5812,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3930,
+    "notional_cost_usd": 0.00145145
+  },
+  "paper_id": "arXiv:cond-mat/9910055",
+  "model": "haiku"
+}

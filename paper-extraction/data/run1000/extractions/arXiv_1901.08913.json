@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies magnetism in Bi0.9La0.1FeO3-KBr composites; it reports only electro-resistivity (electronic, Table I) and gives no numeric ionic conductivity for any Li/Na-ion conductor, with KBr described only as having \"high ionic conductivity\" without a value.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17322,
+        "outputTokens": 411,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 17508,
+        "webSearchRequests": 0,
+        "costUSD": 0.00547086,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 170,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17508,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2807,
+    "notional_cost_usd": 0.00547086
+  },
+  "paper_id": "arXiv:1901.08913",
+  "model": "haiku"
+}

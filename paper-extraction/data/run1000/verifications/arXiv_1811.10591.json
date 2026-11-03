@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1811.10591#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table IV caption gives \u03c30 = 2.5 \u00d7 10\u22127 S/cm for the LiI/Al2O3 CSE matrix, used to process Liang's experimental data [1], and the paper reports no measurement temperature for it, so null is correct. The paper does not explicitly cite [1] for this exact value, so the literature_cited origin is an inference from the context of processing Liang's data rather than a stated attribution."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1561,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 33594,
+        "webSearchRequests": 0,
+        "costUSD": 0.00752311,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1324,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 33594,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9442,
+    "notional_cost_usd": 0.00752311
+  },
+  "paper_id": "arXiv:1811.10591",
+  "model": "haiku"
+}

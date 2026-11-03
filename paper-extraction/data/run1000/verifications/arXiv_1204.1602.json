@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1204.1602#001",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 27,
+            "evidence": "The ionic conductivity of ~6 x 10 cm\u22121 at 300 K (Conclusions, same sentence as the conductivity value; the trailing '\u22123' in the garbled text gives 6x10^-3)"
+          }
+        ],
+        "explanation": "Material (50SISOMO), the 6x10^-3 \u03a9\u22121 cm\u22121 value, experimental origin, impedance method, milling synthesis and the 0.20 eV activation energy all match the paper. The paper does state 300 K for this conductivity in the Conclusions, so the null Celsius temperature is an omission rather than a correct null (300 K = 27 \u00b0C)."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 7080,
+        "outputTokens": 1704,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 7270,
+        "webSearchRequests": 0,
+        "costUSD": 0.0030338200000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1349,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 7270,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7476,
+    "notional_cost_usd": 0.0030338200000000004
+  },
+  "paper_id": "arXiv:1204.1602",
+  "model": "haiku"
+}

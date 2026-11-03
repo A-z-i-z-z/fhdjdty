@@ -1,0 +1,86 @@
+[
+  {
+    "record_id": "arXiv:2308.07716#001",
+    "paper_id": "arXiv:2308.07716",
+    "record": {
+      "material_as_written": "Li6.8-yGe0.05La3Zr2-yTayO12 (y = 0.25, 0.25 Ta)",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ge",
+        "Ta"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": 7.3,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "6.61 x 10-4",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "250C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.25,
+      "measurement_method": "EIS",
+      "evidence_quote": "The maximum conductivity of 6.61 x 10 -4 S/cm is obtained for 0.25",
+      "evidence_location": "results, section 3.4.2 (Arrhenius plots)",
+      "notes": "The quote line is split in the PDF; the next line reads 'Ta ceramic having minimum activation energy of 0.25 eV', which gives the activation energy. The temperature is written '250C' in the paper, which is read as 25 \u00b0C (degree sign lost in extraction). The sintering temperature is written '10500 C' and read as 1050 \u00b0C. Relative density is not given as a percentage (density 4.77 g/cm3 only). The abstract gives the same value at 250C."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "sintering_temperature_C=1050 not found as a number in the paper"
+    ],
+    "conductivity_S_per_cm": 0.000661,
+    "log10_conductivity": -3.18
+  },
+  {
+    "record_id": "arXiv:2308.07716#002",
+    "paper_id": "arXiv:2308.07716",
+    "record": {
+      "material_as_written": "Li6.8-yGe0.05La3Zr2-yTayO12 (y = 0.25, 0.25 Ta), after 5 months air exposure",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ge",
+        "Ta"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": 7.3,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5.95 x 10-4",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "250C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "giving the total conductivity value of 5.95 x 10-4 S/cm.",
+      "evidence_location": "results, section 3.4.1 (impedance plots)",
+      "notes": "Conductivity of the same 0.25 Ta ceramic after air exposure for 5 months, from fig. 4(c). The temperature is not stated in the quote; the 250C reading is taken from the surrounding text on the impedance measurements at room temperature and is not confirmed for this specific value. Recorded for stability, not as a separate composition."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "sintering_temperature_C=1050 not found as a number in the paper"
+    ],
+    "conductivity_S_per_cm": 0.000595,
+    "log10_conductivity": -3.225
+  }
+]

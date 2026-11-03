@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about solid-state ion conductors (AgI, LGPS, W-doped Na3SbS4) but reports only diffusion coefficients (D) from MLMD and AIMD, not ionic conductivity values; the only conductivity mention is a qualitative \"mS cm\u22121 range\" for a class of Na vacancy conductors, which is not a specific material's value.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 600,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 38879,
+        "webSearchRequests": 0,
+        "costUSD": 0.00811135,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 377,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 38879,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5131,
+    "notional_cost_usd": 0.00811135
+  },
+  "paper_id": "arXiv:2401.11244",
+  "model": "haiku"
+}

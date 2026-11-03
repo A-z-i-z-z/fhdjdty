@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2608.06895#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.3 gives the 2.4 mS cm-1 peak conductivity for LSPBI-a5 with citation marker 16 (Song et al., Nature 2025), so literature_cited is correct. The paper states no measurement temperature, so null is correct, and all secondary fields are null as the paper does not give them for this material."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 30455,
+        "outputTokens": 620,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 30645,
+        "webSearchRequests": 0,
+        "costUSD": 0.00950432,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 390,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 30645,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3458,
+    "notional_cost_usd": 0.00950432
+  },
+  "paper_id": "arXiv:2608.06895",
+  "model": "haiku"
+}

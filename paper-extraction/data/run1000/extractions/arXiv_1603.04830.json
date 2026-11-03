@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper concerns Li+ solid electrolytes (Li3OCl), but its only conductivity numbers are literature ranges, upper bounds, or relative enhancement ratios, and the paper gives no single absolute conductivity value at a specific temperature for a material, so no records are extracted.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1111,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 17421,
+        "webSearchRequests": 0,
+        "costUSD": 0.00407525,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 914,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17421,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7377,
+    "notional_cost_usd": 0.00407525
+  },
+  "paper_id": "arXiv:1603.04830",
+  "model": "haiku"
+}

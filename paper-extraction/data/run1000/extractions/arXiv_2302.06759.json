@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a review chapter on lattice percolation theory for ionic transport in disordered Li-ion cathodes; it reports percolation thresholds, accessible-site fractions and tortuosity values, but no ionic conductivity numbers for a solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18588,
+        "outputTokens": 456,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 18780,
+        "webSearchRequests": 0,
+        "costUSD": 0.005874360000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 234,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18780,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2634,
+    "notional_cost_usd": 0.005874360000000001
+  },
+  "paper_id": "arXiv:2302.06759",
+  "model": "haiku"
+}

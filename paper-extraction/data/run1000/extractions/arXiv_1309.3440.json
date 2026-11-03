@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a review of electrokinetic and hydrodynamic transport in charged colloids, proteins, microgels and aqueous NaCl solutions. It does not study solid Li/Na-ion conductors, and its only conductivity values are molar conductivities of liquid electrolyte solutions, which are out of scope.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 358,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 26494,
+        "webSearchRequests": 0,
+        "costUSD": 0.00551335,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 154,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 26494,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3704,
+    "notional_cost_usd": 0.00551335
+  },
+  "paper_id": "arXiv:1309.3440",
+  "model": "haiku"
+}

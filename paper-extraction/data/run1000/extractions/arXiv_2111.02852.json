@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a theory paper on ionic motion in crystalline electrolytes, but it reports ionic mobilities (cm2/V s) rather than ionic conductivity values, and none of its numbers are conductivities of Li/Na-ion conductors.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 12047,
+        "outputTokens": 1059,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 12237,
+        "webSearchRequests": 0,
+        "costUSD": 0.0042131600000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 843,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12237,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2969,
+    "notional_cost_usd": 0.0042131600000000005
+  },
+  "paper_id": "arXiv:2111.02852",
+  "model": "haiku"
+}

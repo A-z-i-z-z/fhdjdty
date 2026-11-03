@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is an all-atom MD study of a DNA nanotube pore in a POPC lipid bilayer; its ionic conductance values (nS) are for a water-filled DNA channel, not ionic conductivities of a solid Li/Na-ion conductor, so it is out of scope.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 401,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 14590,
+        "webSearchRequests": 0,
+        "costUSD": 0.0031540500000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 205,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14590,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3269,
+    "notional_cost_usd": 0.0031540500000000003
+  },
+  "paper_id": "arXiv:1710.06001",
+  "model": "haiku"
+}

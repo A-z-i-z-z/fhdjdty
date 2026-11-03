@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a review of intrinsic localized modes in \u03b1-U and NaI; it discusses ionic conductivity of NaI only qualitatively (Fig. 6a, Fig. 6b) and reports no numeric ionic conductivity value.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 473,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 13012,
+        "webSearchRequests": 0,
+        "costUSD": 0.0028744499999999997,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 291,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13012,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4582,
+    "notional_cost_usd": 0.0028744499999999997
+  },
+  "paper_id": "arXiv:1001.4583",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies Ohmic dissipation and mode broadening in liquid-infiltrated photonic crystals; it is not about solid ion conductors and reports no solid electrolyte ionic conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 262,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 6940,
+        "webSearchRequests": 0,
+        "costUSD": 0.00155455,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 91,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 6940,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2133,
+    "notional_cost_usd": 0.00155455
+  },
+  "paper_id": "arXiv:physics/0702176",
+  "model": "haiku"
+}

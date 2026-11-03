@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This first-principles study of native defects in LiH reports defect formation energies, migration barriers, and activation energies, but gives no numerical ionic conductivity value; the experimental conductivity data it cites are described only through activation energies and barriers.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 408,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 13074,
+        "webSearchRequests": 0,
+        "costUSD": 0.0028543500000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 229,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13074,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3970,
+    "notional_cost_usd": 0.0028543500000000003
+  },
+  "paper_id": "arXiv:1412.6208",
+  "model": "haiku"
+}

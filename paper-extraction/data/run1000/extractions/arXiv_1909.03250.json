@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies a PEO/coral-like Li6.25Al0.25La3Zr2O12 composite electrolyte, but it gives no numeric ionic conductivity value in the text or any table; conductivities appear only in Figure 3b and 3d, and the activation energy is not stated, so no records qualify.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 16629,
+        "outputTokens": 515,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 16815,
+        "webSearchRequests": 0,
+        "costUSD": 0.00531496,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 283,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16815,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3075,
+    "notional_cost_usd": 0.00531496
+  },
+  "paper_id": "arXiv:1909.03250",
+  "model": "haiku"
+}

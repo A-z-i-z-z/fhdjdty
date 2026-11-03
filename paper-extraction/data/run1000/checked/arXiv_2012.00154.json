@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:2012.00154#001",
+    "paper_id": "arXiv:2012.00154",
+    "record": {
+      "material_as_written": "Li10GeP2S12",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.01",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "such as silver iodide and Li10GeP2S12 exhibit high ion conductivities of ~1 S/cm5 and ~0.01 S/cm 6, 7 at room temperature respectively",
+      "evidence_location": "Introduction",
+      "notes": "Literature value cited from refs 6 and 7, not measured in this paper. The paper's own Li3.042Ge0.042P0.958O4 results are diffusivities (cm2/s) and D_sigma values, not ionic conductivities in S/cm, so no records were made for them. Yttria-stabilized zirconia (oxygen ion) and silver iodide (Ag ion) values were excluded as not Li/Na conductors."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.01,
+    "log10_conductivity": -2.0
+  }
+]

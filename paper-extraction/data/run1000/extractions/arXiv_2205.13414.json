@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies hydrogen (H+) diffusion in WO3 films through an acid/ITO interfacial \"job-share\" mechanism. It reports effective diffusion coefficients (Deff) and simulation conductivity parameters, but no ionic conductivity of a solid Li/Na-ion conductor, so there are no qualifying records.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 391,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 11844,
+        "webSearchRequests": 0,
+        "costUSD": 0.0025998500000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 177,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11844,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4135,
+    "notional_cost_usd": 0.0025998500000000003
+  },
+  "paper_id": "arXiv:2205.13414",
+  "model": "haiku"
+}

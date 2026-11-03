@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1709.03295#001",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 25,
+            "evidence": "Fig. 2b caption: \"Temperature dependence of the bulk and g.b. conductivity of Sc-NZSP (\u03c3bulk(298 K) = 2.0 mS cm\u22121)\""
+          }
+        ],
+        "explanation": "Material, 2.0 mS/cm bulk value, experimental origin, 0.29 eV d.c. activation energy and sol-gel synthesis are all stated in the paper. The room-temperature value is given as 298 K in the Fig. 2b caption, so the null temperature in C is an omission."
+      },
+      {
+        "record_id": "arXiv:1709.03295#002",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 20,
+            "evidence": "\"At 20 \u00b0C the bulk conductivity of Na3Zr2(SiO4)2PO4 is 1.0 mS/cm, for \u03c3\u2032g.b. we found 0.7 mS/cm (Fig. 2b).\""
+          }
+        ],
+        "explanation": "The 1.0 mS/cm bulk value for the Sc-free parent NZSP is correct and measured in this work. The paper states the temperature as 20 \u00b0C, so leaving the Celsius field null is an omission."
+      },
+      {
+        "record_id": "arXiv:1709.03295#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that at 20 \u00b0C the grain-boundary conductivity of Na3Zr2(SiO4)2PO4 is 0.7 mS/cm, with the grain-boundary response shown in Fig. 2b, and this is the authors' own measurement rather than a citation."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2541,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 17292,
+        "webSearchRequests": 0,
+        "costUSD": 0.00475271,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1875,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17292,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10975,
+    "notional_cost_usd": 0.00475271
+  },
+  "paper_id": "arXiv:1709.03295",
+  "model": "haiku"
+}

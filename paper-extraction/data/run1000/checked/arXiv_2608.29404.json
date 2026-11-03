@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:2608.29404#001",
+    "paper_id": "arXiv:2608.29404",
+    "record": {
+      "material_as_written": "amorphous LiTaCl6",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "11",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.165,
+      "measurement_method": null,
+      "evidence_quote": "experimental studies on amorphous LiTaCl6 reported a high ionic conductivity of 11 mS/cm and a low activation energy of 0.165 eV at room temperature",
+      "evidence_location": "Introduction",
+      "notes": "Value is quoted from earlier experimental work (Refs. [12,13]), not measured in this paper. The paper gives only 'room temperature' with no number. The paper's other conductivity mentions (generic 1 mS/cm threshold, sulfides >10 mS/cm) are not specific-material values and were not recorded."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.011,
+    "log10_conductivity": -1.959
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a structure-resolved simulation study of composite cathodes for all-solid-state batteries, and it reports one Li-ion bulk conductivity for the argyrodite Li6PS5Cl as a model input taken from the literature; the other conductivities are normalized values or liquid electrolyte values.",
+    "records": [
+      {
+        "material_as_written": "Li6PS5Cl",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.7 \u00b7 10\u22123",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Table S1: Parameters of the electrochemical simulations. Functional parameters are indicated by * and are given at initial conditions.",
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "0.7 \u00b7 10\u22123",
+        "evidence_location": "Table S1 (Supporting Information, SE (Li6PS5Cl) block, row \u03baSE Li 'Li-ion bulk conductivity')",
+        "notes": "Simulation input parameter for the SE, not measured in this paper. Table S1 reference column lists [S5] for this row, which is a literature source, so origin is literature_cited. The table text is garbled in extraction; the value 0.7 \u00b7 10\u22123 is the Li-ion bulk conductivity row in the SE block, with unit S/cm from the Unit column. Temperature not stated. Other conductivities in the paper (effective ionic conductivity normalized to bulk, liquid electrolyte 9.4\u00b710\u22123 S/cm) were excluded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 28450,
+        "outputTokens": 2605,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 28642,
+        "webSearchRequests": 0,
+        "costUSD": 0.009907460000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1854,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28642,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11977,
+    "notional_cost_usd": 0.009907460000000002
+  },
+  "paper_id": "arXiv:2310.20004",
+  "model": "haiku"
+}

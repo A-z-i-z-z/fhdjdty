@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2603.21578#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction states that aluminum-doped LLZO garnets offer RT ionic conductivity (~10-4 S cm-1), citing Refs. [3,4], so data_origin=literature_cited is correct. The material, unit, and room-temperature description match the text, and all secondary fields are null as the paper gives none for this material. The value is a class-level literature figure rather than a measurement on the paper's Li6.25Al0.25La3Zr2O12, which the notes already flag."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1335,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 9979,
+        "webSearchRequests": 0,
+        "costUSD": 0.0026871100000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1078,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 9979,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7158,
+    "notional_cost_usd": 0.0026871100000000004
+  },
+  "paper_id": "arXiv:2603.21578",
+  "model": "haiku"
+}

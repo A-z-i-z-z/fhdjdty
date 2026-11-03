@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1807.01495#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.4 states 'The highest ionic conductivity of 0.48 \u00d710-5 S cm-1 at 40 oC is observed for PP16', matching Table 2's PP16 ionic conductivity at 40 \u00b0C. The paper derives conductivity from bulk resistance (Rb), so 'bulk' is correct, and all secondary fields are null as the paper does not give them."
+      },
+      {
+        "record_id": "arXiv:1807.01495#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states 'conductivity reaches to 0.65\u00d710-3 S cm-1 at 100 oC (for PP16)', and Table 2 lists 0.65\u00d710-3 S cm-1 at 100 \u00b0C for PP16. The value is measured in this paper, the temperature is 100 \u00b0C, and the secondary fields are null as the paper gives no numerical activation energy for this material."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1065,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 15273,
+        "webSearchRequests": 0,
+        "costUSD": 0.00361091,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 669,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15273,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5067,
+    "notional_cost_usd": 0.00361091
+  },
+  "paper_id": "arXiv:1807.01495",
+  "model": "haiku"
+}

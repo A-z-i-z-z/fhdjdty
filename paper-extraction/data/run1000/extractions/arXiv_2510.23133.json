@@ -1,0 +1,98 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports experimental room-temperature (298 K) ionic conductivities of solid Ag-ion argyrodites Ag8TS6 (T = Si, Ge, Sn), alongside its thermal transport work.",
+    "records": [
+      {
+        "material_as_written": "Ag8SnS6",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state synthesis",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.081 \u00b1 0.007",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "298 K",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.29,
+        "measurement_method": "EIS",
+        "evidence_quote": "The obtained ionic conductivities are 0.081 \u00b1 0.007, 0.065 \u00b1",
+        "evidence_location": "Ionic conductivity section (results)",
+        "notes": "Ag is the mobile ion (not Li/Na); mapped to 'other'. Values listed in the sentence in the order Ag8SnS6, Ag8GeS6, Ag8SiS6. Activation energy 0.29 \u00b1 0.02 eV is the main-text value stated for all three compounds; Table S12 gives different per-compound values (Sn 0.31 \u00b1 0.02), so the activation energy is uncertain. Pellet relative density is not given for EIS samples (the >95% figure refers to LFA samples), so it is null."
+      },
+      {
+        "material_as_written": "Ag8GeS6",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state synthesis",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.065 \u00b1 0.005",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "298 K",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.29,
+        "measurement_method": "EIS",
+        "evidence_quote": "ionic conductivities are 0.081 \u00b1 0.007, 0.065 \u00b1\n0.005, and 0.075 \u00b1 0.008 mS/cm for Ag8SnS6, Ag8GeS6, and Ag8SiS6",
+        "evidence_location": "Ionic conductivity section (results)",
+        "notes": "Value is split across a line break in the PDF text. Ag is the mobile ion; mapped to 'other'. Activation energy 0.29 \u00b1 0.02 eV is the main-text value for all three compounds; Table S12 lists 0.28 \u00b1 0.01 eV for Ge, which conflicts, so the activation energy is uncertain."
+      },
+      {
+        "material_as_written": "Ag8SiS6",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state synthesis",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.075 \u00b1 0.008",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "298 K",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.29,
+        "measurement_method": "EIS",
+        "evidence_quote": "0.005, and 0.075 \u00b1 0.008 mS/cm for Ag8SnS6, Ag8GeS6, and Ag8SiS6",
+        "evidence_location": "Ionic conductivity section (results)",
+        "notes": "Ag is the mobile ion; mapped to 'other'. Activation energy 0.29 \u00b1 0.02 eV is the main-text value for all three compounds; Table S12 lists 0.27 \u00b1 0.02 eV for Si, which conflicts, so the activation energy is uncertain."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 59273,
+        "outputTokens": 4048,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 59463,
+        "webSearchRequests": 0,
+        "costUSD": 0.01987546,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2506,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 59463,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 16364,
+    "notional_cost_usd": 0.01987546
+  },
+  "paper_id": "arXiv:2510.23133",
+  "model": "haiku"
+}

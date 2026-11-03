@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2606.31261#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The main text reports an average conductivity for random dopant distributions of 0.06 S cm-1, cited to the authors' previous KMC study (ref 11), so literature_cited is correct. The paper gives no measurement temperature for this value, so null is right, and the secondary fields are correctly null."
+      },
+      {
+        "record_id": "arXiv:2606.31261#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The experimentally reported bulk 8YSZ conductivity of 0.0505 S cm-1 is taken from ref 27 (Yamahara et al.), so literature_cited is correct. The paper gives no measurement temperature, so null is right; the SI caption quote matches the value."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17145,
+        "outputTokens": 974,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 17331,
+        "webSearchRequests": 0,
+        "costUSD": 0.005687520000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 617,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17331,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4635,
+    "notional_cost_usd": 0.005687520000000001
+  },
+  "paper_id": "arXiv:2606.31261",
+  "model": "haiku"
+}

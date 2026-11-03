@@ -1,0 +1,117 @@
+[
+  {
+    "record_id": "arXiv:1712.06962#001",
+    "paper_id": "arXiv:1712.06962",
+    "record": {
+      "material_as_written": "\u03b2-Li3 PS4",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10\u22122",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "450 K",
+      "measurement_temperature_C": 176.85,
+      "activation_energy_eV": null,
+      "measurement_method": "DFT-MD tracer diffusivity with Nernst-Einstein relation",
+      "evidence_quote": "Based on the tracer diffusivity the conductivity of \u03b2-Li3 PS4 is 10\u22122 S/cm at 450 K, comparable to impedance experiments 32 at the same temperature.",
+      "evidence_location": "Jump rates / Li-ion diffusion section",
+      "notes": "Value is derived in this paper from simulated tracer diffusivity via Nernst-Einstein; the same sentence compares it to literature impedance data. Only the 450 K value is given as a number for this conductivity."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.01,
+    "log10_conductivity": -2.0
+  },
+  {
+    "record_id": "arXiv:1712.06962#002",
+    "paper_id": "arXiv:1712.06962",
+    "record": {
+      "material_as_written": "Li3 PS4 (nano-sized crystals)",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.6 \u2217 10\u22124",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "interest grew after experiments with nano-sized crystals showed a Li-ion conductivity of 1.6 \u2217 10\u22124 S/cm 29",
+      "evidence_location": "Example: \u03b2-Li3PS4 section",
+      "notes": "Cited from ref. 29; the paper does not state the temperature. The phase is given only as Li3PS4 in this sentence, though the paper later identifies ref. 29 with the \u03b2-phase as the highest room-temperature conductivity polymorph."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.0001,
+    "log10_conductivity": -4.0
+  },
+  {
+    "record_id": "arXiv:1712.06962#003",
+    "paper_id": "arXiv:1712.06962",
+    "record": {
+      "material_as_written": "Li3 PS4 (solvent route)",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": "solvent route",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.3*10\u22124",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "Li3 PS4 can be prepared via a solvent route 32,33 , resulting in a conductivity of 3.3*10\u22124 S/cm 32",
+      "evidence_location": "Example: \u03b2-Li3PS4 section",
+      "notes": "Cited from ref. 32; the temperature is not stated in the paper. Phase is not specified beyond Li3PS4."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00033,
+    "log10_conductivity": -3.481
+  }
+]

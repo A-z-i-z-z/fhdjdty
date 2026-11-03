@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:2306.16157#001",
+    "paper_id": "arXiv:2306.16157",
+    "record": {
+      "material_as_written": "single-ion conducting multi-block copolymer solvated with ethylene carbonate (SIC/EC electrolyte)",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "8.5 \u00d7 10\u22122",
+      "conductivity_unit_as_reported": "S m\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "90 C",
+      "measurement_temperature_C": 90,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "for the conductivity \u03baV =8.5 \u00d7 10\u22122 S m\u22121 , and for the transference number,",
+      "evidence_location": "Application: Single-Ion Conducting Block Copolymer, Model section",
+      "notes": "Value is explicitly taken from Nguyen et al. (ref. 23) and is not measured in this paper; the quoted sentence states 'all at T =90 C' for the parameter set. The material is identified from context (the SIC/EC block copolymer electrolyte described in that section). The quantity is the volume-based electric conductivity kappa_V of the Li-ion electrolyte, which the paper treats as the ionic conductivity."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00085,
+    "log10_conductivity": -3.071
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports a measured bulk dc ionic (Na+) conductivity of the 46S4 bioactive glass, which is a solid alkali-ion conductor, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "46S4 bioactive glass (46.4 SiO2 \u2013 25.2 Na2O \u2013 25.2 CaO \u2013 3.2 P2O5)",
+        "material_class": "other",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "5 \u22c5 10 \u22127",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "473 K",
+        "measurement_temperature_C": 200,
+        "activation_energy_eV": 0.84,
+        "measurement_method": "ac impedance spectroscopy",
+        "evidence_quote": "and \u03c3 dcbulk = 5 \u22c5 10 \u22127 S/cm at T = 473 K",
+        "evidence_location": "Discussion (section 4)",
+        "notes": "Bulk dc conductivity of the 46S4 glass at 473 K, used as input for the charging-time estimate. The 0.84 eV activation energy is stated in Section 3.3 for the bulk dc conductivity (Arrhenius plot, Fig. 4) and is not part of the quoted sentence. The interfacial (depletion layer) conductivity has no numeric value in the text (only Fig. 4), so it is not recorded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2144,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 14309,
+        "webSearchRequests": 0,
+        "costUSD": 0.003934,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1483,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14309,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11488,
+    "notional_cost_usd": 0.003934
+  },
+  "paper_id": "arXiv:0810.0429",
+  "model": "haiku"
+}

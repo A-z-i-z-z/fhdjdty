@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1707.05166#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the c-Na3SbS4 total resistance is 80 \u03a9, giving 2.8 mS/cm, with room-temperature EIS. The Ea of 0.06 eV is given for c-Na3SbS4, and HBM1 is the high-energy ball-milled sample. The pellet was cold-pressed without sintering, so the null sintering fields are correct."
+      },
+      {
+        "record_id": "arXiv:1707.05166#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives 127 \u03a9 total resistance for t-Na3SbS4 (LBM1, 20 h low-energy milling), giving 1.77 mS/cm at room temperature. Two activation energies are reported for this material (0.25 and 0.08 eV), so leaving activation energy null is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1004,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 11316,
+        "webSearchRequests": 0,
+        "costUSD": 0.0027654,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 636,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11316,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4832,
+    "notional_cost_usd": 0.0027654
+  },
+  "paper_id": "arXiv:1707.05166",
+  "model": "haiku"
+}

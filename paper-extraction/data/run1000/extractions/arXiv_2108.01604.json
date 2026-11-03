@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a planetary science paper on Uranus interior models, zonal winds and magnetic field perturbations; its \"ionic conductivity\" refers to superionic H2-He-H2O planetary mixtures, not a solid Li/Na-ion conductor, and it reports no such conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 349,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 15282,
+        "webSearchRequests": 0,
+        "costUSD": 0.00326645,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 152,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15282,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3124,
+    "notional_cost_usd": 0.00326645
+  },
+  "paper_id": "arXiv:2108.01604",
+  "model": "haiku"
+}

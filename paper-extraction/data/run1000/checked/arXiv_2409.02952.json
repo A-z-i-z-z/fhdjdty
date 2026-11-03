@@ -1,0 +1,283 @@
+[
+  {
+    "record_id": "arXiv:2409.02952#001",
+    "paper_id": "arXiv:2409.02952",
+    "record": {
+      "material_as_written": "Na3.36 Zr1.92 Cu0.08 Si2.2 P0.8 O12",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Cu"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1200,
+      "sintering_time_h": 12,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "9.62 \u00d7 10\u22124",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "our material (Na3.36 Zr1.92 Cu0.08 Si2.2 P0.8 O12 ) exhibited an enhanced ionic conductivity of 9.62 \u00d7 10\u22124 S/cm, surpassing the reported value of 3.38 \u00d7 10\u22124 S/cm [49].",
+      "evidence_location": "results (Section 3.4)",
+      "notes": "Sintering conditions are the general procedure stated in Section 2.2 for the synthesized materials; Table 3 is referenced for values but is not present in the supplied text. Measurement at room temperature per Section 2.3."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.000962,
+    "log10_conductivity": -3.017
+  },
+  {
+    "record_id": "arXiv:2409.02952#002",
+    "paper_id": "arXiv:2409.02952",
+    "record": {
+      "material_as_written": "Na3.1 Zr1.9 Nd0.1 Si2 PO12",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Nd"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1200,
+      "sintering_time_h": 12,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5.48 \u00d7 10\u22124",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "our Nd-doped NASICON (Na3.1 Zr1.9 Nd0.1 Si2 PO12 ) exhibited an enhanced ionic conductivity of 5.48 \u00d7 10\u22124 S/cm, outperforming the reported value of 4.21 \u00d7 10\u22127 S/cm [50].",
+      "evidence_location": "results (Section 3.4)",
+      "notes": "Sintering conditions are the general procedure stated in Section 2.2 for the synthesized materials. Measurement at room temperature per Section 2.3."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.000548,
+    "log10_conductivity": -3.261
+  },
+  {
+    "record_id": "arXiv:2409.02952#003",
+    "paper_id": "arXiv:2409.02952",
+    "record": {
+      "material_as_written": "Na3.2 Zr1.8 Fe0.2 Si2 PO12",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Fe"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1200,
+      "sintering_time_h": 12,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.68 \u00d7 10\u22124",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "our Fe-doped NASICON (Na3.2 Zr1.8 Fe0.2 Si2 PO12 ) demonstrated higher ionic conductivity, measuring 1.68 \u00d7 10\u22124 S/cm, compared to the previously reported value of 1 \u00d7 10\u22127 S/cm [51].",
+      "evidence_location": "results (Section 3.4)",
+      "notes": "Sintering conditions are the general procedure stated in Section 2.2 for the synthesized materials. Measurement at room temperature per Section 2.3."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.000168,
+    "log10_conductivity": -3.775
+  },
+  {
+    "record_id": "arXiv:2409.02952#004",
+    "paper_id": "arXiv:2409.02952",
+    "record": {
+      "material_as_written": "Na3.3 Zr1.95 Co0.05 Si2.2 P0.8 O12",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Co"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.63 \u00d7 10\u22123",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "Na3.3 Zr1.95 Co0.05 Si2.2 P0.8 O12 sample synthesized demonstrated the highest ionic conductivity of \u223c 2.63 \u00d7 10\u22123 S/cm [6].",
+      "evidence_location": "results (Section 3.4)",
+      "notes": "Value is attributed to reference [6], which the paper also cites as a source of its synthesis parameters; treated as cited from earlier work. Temperature and method not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00263,
+    "log10_conductivity": -2.58
+  },
+  {
+    "record_id": "arXiv:2409.02952#005",
+    "paper_id": "arXiv:2409.02952",
+    "record": {
+      "material_as_written": "Cu-doped NASICON (composition not stated; value cited from [49])",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Cu"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.38 \u00d7 10\u22124",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "our material (Na3.36 Zr1.92 Cu0.08 Si2.2 P0.8 O12 ) exhibited an enhanced ionic conductivity of 9.62 \u00d7 10\u22124 S/cm, surpassing the reported value of 3.38 \u00d7 10\u22124 S/cm [49].",
+      "evidence_location": "results (Section 3.4)",
+      "notes": "Literature comparison value; the cited material's composition is not given in the paper text."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.000338,
+    "log10_conductivity": -3.471
+  },
+  {
+    "record_id": "arXiv:2409.02952#006",
+    "paper_id": "arXiv:2409.02952",
+    "record": {
+      "material_as_written": "Nd-doped NASICON (composition not stated; value cited from [50])",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Nd"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "4.21 \u00d7 10\u22127",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "our Nd-doped NASICON (Na3.1 Zr1.9 Nd0.1 Si2 PO12 ) exhibited an enhanced ionic conductivity of 5.48 \u00d7 10\u22124 S/cm, outperforming the reported value of 4.21 \u00d7 10\u22127 S/cm [50].",
+      "evidence_location": "results (Section 3.4)",
+      "notes": "Literature comparison value; the cited material's composition is not given in the paper text."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 4.21e-07,
+    "log10_conductivity": -6.376
+  },
+  {
+    "record_id": "arXiv:2409.02952#007",
+    "paper_id": "arXiv:2409.02952",
+    "record": {
+      "material_as_written": "Fe-doped NASICON (composition not stated; value cited from [51])",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Fe"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1 \u00d7 10\u22127",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "our Fe-doped NASICON (Na3.2 Zr1.8 Fe0.2 Si2 PO12 ) demonstrated higher ionic conductivity, measuring 1.68 \u00d7 10\u22124 S/cm, compared to the previously reported value of 1 \u00d7 10\u22127 S/cm [51].",
+      "evidence_location": "results (Section 3.4)",
+      "notes": "Literature comparison value; the cited material's composition is not given in the paper text."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1e-07,
+    "log10_conductivity": -7.0
+  }
+]

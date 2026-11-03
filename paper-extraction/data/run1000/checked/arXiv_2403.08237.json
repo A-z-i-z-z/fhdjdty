@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:2403.08237#001",
+    "paper_id": "arXiv:2403.08237",
+    "record": {
+      "material_as_written": "\u03b1h-LZC (ball-milled Li2ZrCl6)",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": "ball milling (mechanochemical synthesis)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.8",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": "mS/cm, 16 the annealed LZC in either the \u03b1- or \u03b2-phase display significantly lower RT Li-ion conductivity.",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "While the ball-milled \u03b1h -LZC exhibits RT Li-ion conductivity of approximately 0.8",
+      "evidence_location": "introduction",
+      "notes": "Value is quoted from Wang et al. (ref. 16), not measured in this paper. The unit 'mS/cm' falls on the line after the quoted span (PDF line break), so it is supplied via unit_evidence_quote. Measurement method not stated here."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0008,
+    "log10_conductivity": -3.097
+  }
+]

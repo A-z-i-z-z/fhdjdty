@@ -1,0 +1,76 @@
+[
+  {
+    "record_id": "arXiv:2501.02440#001",
+    "paper_id": "arXiv:2501.02440",
+    "record": {
+      "material_as_written": "Li3PS4",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "500",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "500 K",
+      "measurement_temperature_C": 226.85,
+      "activation_energy_eV": null,
+      "measurement_method": "MLMD simulation with Nernst-Einstein conductivity",
+      "evidence_quote": "At 500 K under RTVC, the conductivity decreases from 500 mS cm\u22121 to below the measurable range (0.1 mS cm\u22121)",
+      "evidence_location": "Results, Quantifying Cation-Anion Coupling Dynamics",
+      "notes": "Simulated value for alpha-Li3PS4 from this paper's machine-learning MD. The text does not say explicitly whether 500 mS cm\u22121 is the unconstrained (UC) value; the surrounding text implies it is the value before the RTVC constraint. Conductivity kind is not specified (simulated, so likely total)."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.5,
+    "log10_conductivity": -0.301
+  },
+  {
+    "record_id": "arXiv:2501.02440#002",
+    "paper_id": "arXiv:2501.02440",
+    "record": {
+      "material_as_written": "LiBH4 (high-temperature hexagonal phase)",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10\u22123",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "\u223c390 K",
+      "measurement_temperature_C": 116.85,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "the ionic conductivity of lithium borohydride at \u223c390 K surged dramatically by three orders of magnitude to 10\u22123 S cm\u22121",
+      "evidence_location": "Introduction",
+      "notes": "Experimental value taken from Matsuo et al. 2007 (ref. 20), cited in the introduction, not measured in this paper. Temperature is approximate in the source."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.001,
+    "log10_conductivity": -3.0
+  }
+]

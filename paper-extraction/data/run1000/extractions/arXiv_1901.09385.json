@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper measures and simulates ionic conductivity of aqueous LiCl solutions, which are liquid electrolytes, not solid Li/Na-ion conductors; its conductivity values appear only in figures, not as numbers in the text or tables.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 454,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 11068,
+        "webSearchRequests": 0,
+        "costUSD": 0.00247615,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 271,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11068,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3805,
+    "notional_cost_usd": 0.00247615
+  },
+  "paper_id": "arXiv:1901.09385",
+  "model": "haiku"
+}

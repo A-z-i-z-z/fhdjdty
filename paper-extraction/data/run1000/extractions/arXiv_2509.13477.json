@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about Li+/H+ exchange in oxide Li-ion conductors (garnets and NASICONs) and mentions one room-temperature ionic conductivity (~0.1 mS/cm), but that value is for a class of garnets rather than a specific material, so no record is created.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 19547,
+        "outputTokens": 818,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 19735,
+        "webSearchRequests": 0,
+        "costUSD": 0.006342260000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 592,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19735,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4450,
+    "notional_cost_usd": 0.006342260000000001
+  },
+  "paper_id": "arXiv:2509.13477",
+  "model": "haiku"
+}

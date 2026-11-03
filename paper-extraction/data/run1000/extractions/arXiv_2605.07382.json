@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a review of ferroelectricity and the modern theory of polarization; it discusses ionic conductors such as CuCrS2, KSnS4 and HfO2 qualitatively but reports no ionic conductivity numbers.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 28529,
+        "outputTokens": 274,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 28721,
+        "webSearchRequests": 0,
+        "costUSD": 0.008765660000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 72,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28721,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2004,
+    "notional_cost_usd": 0.008765660000000002
+  },
+  "paper_id": "arXiv:2605.07382",
+  "model": "haiku"
+}

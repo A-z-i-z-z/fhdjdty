@@ -1,0 +1,113 @@
+[
+  {
+    "record_id": "arXiv:2306.10716#001",
+    "paper_id": "arXiv:2306.10716",
+    "record": {
+      "material_as_written": "crystalline LiNbO3 and LiTaO3",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "<10\u221212",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "400K",
+      "measurement_temperature_C": 126.85,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "Albeit with much lower Li-ion conductivities (<10\u221212 S cm\u22121 at 400K) and exceedingly high migration barriers (1.16\u20131.33 eV), 13,14 crystalline LiNbO3 and LiTaO3 coatings",
+      "evidence_location": "Introduction",
+      "notes": "Value is an upper bound ('<'), attributed to refs 13,14 (earlier work). The 1.16\u20131.33 eV values are migration barriers, not activation energies of conductivity, so activation_energy_eV is left null. 400 K converted to 126.85 \u00b0C."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 1e-12,
+    "log10_conductivity": -12.0
+  },
+  {
+    "record_id": "arXiv:2306.10716#002",
+    "paper_id": "arXiv:2306.10716",
+    "record": {
+      "material_as_written": "amorphous LiNbO3 and LiTaO3",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "\u223c10\u22125 \u201310\u22126",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "materials with high ionic conductivities (\u223c10\u22125 \u201310\u22126 S cm\u22121 at room temperature)",
+      "evidence_location": "Introduction",
+      "notes": "Range given in the paper, not a single value. The sentence cites refs 10\u201312 for these materials, so this is literature_cited. Not a specific composition."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 1e-05,
+    "log10_conductivity": -5.0
+  },
+  {
+    "record_id": "arXiv:2306.10716#003",
+    "paper_id": "arXiv:2306.10716",
+    "record": {
+      "material_as_written": "nanocrystalline LiNbO3 and LiTaO3 (from high-energy ball milling)",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": "high-energy ball milling",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "\u223c10\u22126",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "Previous reports 13,14 suggested that highly defective nanocrystalline LiNbO3 and LiTaO3 (from high-energy ball milling) containing amorphous-like components exhibit roomtemperature Li-ion conductivities (\u223c10\u22126 S cm\u22121 )",
+      "evidence_location": "Introduction",
+      "notes": "Value attributed to previous reports 13,14, so literature_cited. Synthesis route is the one described for those cited materials, not for this paper's work."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 1e-06,
+    "log10_conductivity": -6.0
+  }
+]

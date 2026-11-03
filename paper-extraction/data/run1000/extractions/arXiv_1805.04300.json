@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a DFT study of functionalized h-BN cathode materials. Its only numerical conductivities are electronic (1.5 S/cm, and 0.0001 to 0.5 S/cm for LiCoO2), and ionic conductivity is described only qualitatively with no number, so no ionic conductivity records qualify.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 508,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 20756,
+        "webSearchRequests": 0,
+        "costUSD": 0.00444075,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 298,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 20756,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3377,
+    "notional_cost_usd": 0.00444075
+  },
+  "paper_id": "arXiv:1805.04300",
+  "model": "haiku"
+}

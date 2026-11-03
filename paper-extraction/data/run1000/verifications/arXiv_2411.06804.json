@@ -1,0 +1,78 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2411.06804#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper's own AIMD gives room-temperature-extrapolated 7.9 \u00b1 3.7 mS/cm and EA = 249 \u00b1 18 meV for the reference Li7P3S11 structure, so the record matches and the computational origin is correct."
+      },
+      {
+        "record_id": "arXiv:2411.06804#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that for LiBH4 the room-temperature-extrapolated conductivity from its AIMD is 0.44 \u00b1 0.30 mS/cm, and the record's null activation energy is acceptable since the quoted sentence does not give one."
+      },
+      {
+        "record_id": "arXiv:2411.06804#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports an additional AIMD run for LiB3H8 at 363 K giving 82 \u00b1 23 mS/cm, excluded from the Arrhenius fit, so the record's null activation energy is correct and the origin is computational."
+      },
+      {
+        "record_id": "arXiv:2411.06804#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper says the Li10Ge(PSe6)2 structure was simulated in Ref. [68] and that its reported EA of 190 \u00b1 40 meV and room-temperature conductivity of 24 mS/cm come from there, so literature_cited is correct and 0.19 eV is the same value in eV."
+      },
+      {
+        "record_id": "arXiv:2411.06804#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states EA = 295 meV and \u03c3 = 8.3 mS/cm for the most pure phase Li7P3S11 sample in Ref. [71], and gives no measurement temperature, so the null temperature is correct and the origin is literature_cited."
+      },
+      {
+        "record_id": "arXiv:2411.06804#006",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The quoted sentence gives 3.2 mS/cm and EA = 124 meV only as 'in Ref. [72]' and never names the material; the Li2S-P2S5 glass-ceramic identity is inferred from the reference title, which is too weak a basis under the strict standard."
+      },
+      {
+        "record_id": "arXiv:2411.06804#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper says an orthorhombic distortion of the Li(BH)6 structure was found to have conductivity of up to 0.1 S/cm at 700 K [76], which matches the record's value, unit, temperature and literature_cited origin."
+      },
+      {
+        "record_id": "arXiv:2411.06804#008",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that hexagonal LiBH4 has been found experimentally to have an ionic conductivity of the order of 1 mS/cm at 383 K, citing [73-75], so the record's value, temperature and literature_cited origin are correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 36216,
+        "outputTokens": 4372,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 36404,
+        "webSearchRequests": 0,
+        "costUSD": 0.01310822,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 3259,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 36404,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 18023,
+    "notional_cost_usd": 0.01310822
+  },
+  "paper_id": "arXiv:2411.06804",
+  "model": "haiku"
+}

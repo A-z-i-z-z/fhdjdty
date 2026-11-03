@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies hydride and oxide ion diffusion in SrTiO3-xHx oxyhydrides, but it reports diffusion coefficients (figures only) and apparent activation barriers in eV, with no ionic conductivity values in S/cm or similar units, so it has no records to extract.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 464,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 15214,
+        "webSearchRequests": 0,
+        "costUSD": 0.00331035,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 265,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15214,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4154,
+    "notional_cost_usd": 0.00331035
+  },
+  "paper_id": "arXiv:2105.00414",
+  "model": "haiku"
+}

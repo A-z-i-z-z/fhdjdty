@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about a machine-learning potential for lithium borosilicate glasses, but it reports no ionic conductivity values in numeric form. Li conductivity appears only as MD diffusion coefficients and as a figure comparing CLi\u00d7D with experiment, and the Table 3 activation energies (0.37 to 0.40 eV) are not conductivities.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 645,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 15498,
+        "webSearchRequests": 0,
+        "costUSD": 0.00345765,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 427,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15498,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4687,
+    "notional_cost_usd": 0.00345765
+  },
+  "paper_id": "arXiv:2209.00316",
+  "model": "haiku"
+}

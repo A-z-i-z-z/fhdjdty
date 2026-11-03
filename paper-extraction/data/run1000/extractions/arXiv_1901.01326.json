@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper models SEI growth kinetics on carbon black and reports no ionic conductivity number for a solid Li-ion conductor; the only conductivity it discusses is electronic (the SEI electronic conductivity), which is excluded, and its ionic conductivity is only described as proportional to carrier concentration without a value.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 423,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 21734,
+        "webSearchRequests": 0,
+        "costUSD": 0.004593850000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 217,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 21734,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6921,
+    "notional_cost_usd": 0.004593850000000001
+  },
+  "paper_id": "arXiv:1901.01326",
+  "model": "haiku"
+}

@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is mainly an agent-framework paper, but it reports computed room-temperature Li-ion conductivities for two halide solid-state electrolyte candidates (LiErCl4, LiErBr4), so it qualifies.",
+    "records": [
+      {
+        "material_as_written": "LiErCl4",
+        "material_class": "halide",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "63.4",
+        "conductivity_unit_as_reported": "mS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.14,
+        "measurement_method": "MLIP (UMA-s-1p2-omat) molecular dynamics with diffusion analysis",
+        "evidence_quote": "LiErCl4 and LiErBr4, which are thermodynamically stable according to the DFTconstructed convex hull phase diagram and exhibit high predicted conductivities of 63.4 and 4.5 mS cm\u22121",
+        "evidence_location": "Results, section B (Generative design of Li-ion solid conductor)",
+        "notes": "Room-temperature conductivity is extrapolated from multi-temperature MD, not measured. The paper states these are screening estimates rather than converged values. Activation energy 0.14 eV is from the same sentence (paired 'respectively' with LiErBr4)."
+      },
+      {
+        "material_as_written": "LiErBr4",
+        "material_class": "halide",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "4.5",
+        "conductivity_unit_as_reported": "mS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.237,
+        "measurement_method": "MLIP (UMA-s-1p2-omat) molecular dynamics with diffusion analysis",
+        "evidence_quote": "LiErCl4 and LiErBr4, which are thermodynamically stable according to the DFTconstructed convex hull phase diagram and exhibit high predicted conductivities of 63.4 and 4.5 mS cm\u22121",
+        "evidence_location": "Results, section B (Generative design of Li-ion solid conductor)",
+        "notes": "Room-temperature conductivity is extrapolated from multi-temperature MD, not measured. The paper states these are screening estimates rather than converged values. Activation energy 0.237 eV is from the sentence 'low activation barriers of 0.14 and 0.237 eV, respectively' in the same paragraph."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 41983,
+        "outputTokens": 2192,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 42173,
+        "webSearchRequests": 0,
+        "costUSD": 0.013760459999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1043,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 42173,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8813,
+    "notional_cost_usd": 0.013760459999999999
+  },
+  "paper_id": "arXiv:2605.24002",
+  "model": "haiku"
+}

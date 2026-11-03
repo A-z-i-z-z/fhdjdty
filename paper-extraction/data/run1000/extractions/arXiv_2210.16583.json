@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This Perspective covers organic electrochemical transistors, mixed ionic-electronic conductors and in-liquido computing; it reports no ionic conductivity of a solid Li- or Na-ion conductor. The only conductivity number (10 S/cm for ETE-S wires in rose cuttings) is electronic and not a solid ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 355,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 27561,
+        "webSearchRequests": 0,
+        "costUSD": 0.00572525,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 139,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27561,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3747,
+    "notional_cost_usd": 0.00572525
+  },
+  "paper_id": "arXiv:2210.16583",
+  "model": "haiku"
+}

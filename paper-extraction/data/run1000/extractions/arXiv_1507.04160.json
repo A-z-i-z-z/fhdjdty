@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper models ionic currents and conductance of an aqueous electrolyte through a nanopore during DNA translocation using Poisson-Nernst-Planck theory; it does not study a solid Li/Na-ion conductor and reports no solid-electrolyte ionic conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 359,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 15778,
+        "webSearchRequests": 0,
+        "costUSD": 0.00337065,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 163,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15778,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4225,
+    "notional_cost_usd": 0.00337065
+  },
+  "paper_id": "arXiv:1507.04160",
+  "model": "haiku"
+}

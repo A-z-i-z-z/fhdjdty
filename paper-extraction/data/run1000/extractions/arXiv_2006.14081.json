@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is an experimental and DFT/AIMD study of the structure of RF-sputtered amorphous LiPON, a solid Li-ion conductor, and it reports one measured room-temperature-type ionic conductivity from EIS.",
+    "records": [
+      {
+        "material_as_written": "LiPON",
+        "material_class": "LiPON_or_thin_film",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "RF sputtering",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.6x10-6",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "EIS produced an ionic conductivity of 2.6x10-6 S/cm, on the order of those produced in literature via RF sputtering",
+        "evidence_location": "Supporting information, Baseline properties of thin film amorphous LiPON",
+        "notes": "Free-standing RF-sputtered LiPON film; measurement temperature not stated. The main-text Figure 6 caption gives the same value as 2.6 \u03bcS/cm for a 3.75 \u00b5m free-standing film, which was not recorded separately to avoid duplication. The paper does not give a precise stoichiometry for this film; the NMR-derived composition Li2.93PO3.52N0.30 is for a film of similar conductivity, so it is not attributed here."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 47108,
+        "outputTokens": 1269,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 47298,
+        "webSearchRequests": 0,
+        "costUSD": 0.01483646,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 586,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 47298,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6103,
+    "notional_cost_usd": 0.01483646
+  },
+  "paper_id": "arXiv:2006.14081",
+  "model": "haiku"
+}

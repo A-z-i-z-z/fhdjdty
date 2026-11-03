@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2007.11244#001",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 30,
+            "evidence": "Table 2 gives \u03c3tot (30\u00b0C) = 1.5 \u00d7 10\u22124 S\u2219cm\u22121 for LATP\u20130.1LBSO sintered at 800\u00b0C, and the conclusions state: \"exhibits \u03c3tot = 1.5 \u00d7 10\u22124 S\u2219cm\u22121 at room temperature\""
+          }
+        ],
+        "explanation": "The material and value are right (LATP\u20130.1LBSO, 800\u00b0C, 1.5 \u00d7 10\u22124 S\u2219cm\u22121, own measurement), but the paper does give a measurement temperature (30\u00b0C, which the paper equates with room temperature), so leaving it null is wrong under the temperature criterion."
+      },
+      {
+        "record_id": "arXiv:2007.11244#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The LATP ceramic \u03c3tot \u2248 4.65 \u00d7 10\u22125 S\u2219cm\u22121 is the authors' own value from Nyquist data collected at 30\u00b0C (Fig. 8), for LATP sintered at 900\u00b0C for 2 h, with solid-state synthesis; all fields check out."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18925,
+        "outputTokens": 2841,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 19115,
+        "webSearchRequests": 0,
+        "costUSD": 0.00715582,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2345,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19115,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 12698,
+    "notional_cost_usd": 0.00715582
+  },
+  "paper_id": "arXiv:2007.11244",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper concerns Li-ion transport in LiCoO2 interfaces, but it reports no ionic conductivity value in absolute units. It gives only relative changes (about 29% conductivity drop, about 7% activation-energy increase, 1.8 meV phonon blue shift), so no record can be extracted.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 502,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 16276,
+        "webSearchRequests": 0,
+        "costUSD": 0.0035417499999999998,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 298,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16276,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3706,
+    "notional_cost_usd": 0.0035417499999999998
+  },
+  "paper_id": "arXiv:2312.06041",
+  "model": "haiku"
+}

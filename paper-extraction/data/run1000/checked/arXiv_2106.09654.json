@@ -1,0 +1,41 @@
+[
+  {
+    "record_id": "arXiv:2106.09654#001",
+    "paper_id": "arXiv:2106.09654",
+    "record": {
+      "material_as_written": "UiO-66/PVDF-HFP hybrid separator-based QSS electrolyte (1.0 M NaPF6 in PC)",
+      "material_class": "composite",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "non-solvent induced phase separation (separator); electrolyte by soaking in 1.0 M NaPF6 in PC",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.44",
+      "conductivity_unit_as_reported": "mS\u00b7cm\u22121",
+      "unit_evidence_quote": "mS\u00b7cm\u22121) and Na-ion transference number (0.55)",
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "presents an enhanced ionic conductivity of 2.44",
+      "evidence_location": "abstract (value repeated in conclusions)",
+      "notes": "The paper does not explicitly state which UiO-66 loading (3, 6 or 9 wt%) gives 2.44 mS/cm; the text gives a range 2.15-2.83 mS/cm for the hybrid electrolytes. Temperature not stated for this value. Reported activation energy 1.33 kJ/mol is in kJ/mol, not eV, so left null."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00244,
+    "log10_conductivity": -2.613
+  }
+]

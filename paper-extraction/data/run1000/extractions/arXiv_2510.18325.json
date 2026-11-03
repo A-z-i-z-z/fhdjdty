@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a symbolic-regression methods paper; its only Na-ion conductivity numbers are regression-model predictions for a candidate NASICON, and the one experimental conductivity it cites has a lost exponent, so no record meets the precision bar.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2015,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 45898,
+        "webSearchRequests": 0,
+        "costUSD": 0.010222650000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1831,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 45898,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 12629,
+    "notional_cost_usd": 0.010222650000000002
+  },
+  "paper_id": "arXiv:2510.18325",
+  "model": "haiku"
+}

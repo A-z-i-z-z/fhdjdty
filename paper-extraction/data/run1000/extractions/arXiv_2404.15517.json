@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper presents a rotational/roto-translational constraint algorithm for MD in CP2K, tested on ammonia molecules and LiBH4; it reports no ionic conductivity values, and solid electrolytes are mentioned only as motivation.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 295,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 12203,
+        "webSearchRequests": 0,
+        "costUSD": 0.0026236500000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 112,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12203,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2138,
+    "notional_cost_usd": 0.0026236500000000004
+  },
+  "paper_id": "arXiv:2404.15517",
+  "model": "haiku"
+}

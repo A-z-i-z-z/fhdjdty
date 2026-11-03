@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1807.04953#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The ~5\u00d710-5 S cm-1 value is reported for the 7 wt. % TiO2 composite in the abstract and conclusions, with the conclusions stating room temperature, and it is measured in this paper (experimental). The secondary fields are all null and the solution-cast method and EIS measurement match the paper."
+      },
+      {
+        "record_id": "arXiv:1807.04953#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.5.1 states 'The ionic conductivity of polymer blend was 3.3 \u00d710 -8 S cm-1' for the salt-free PEO-PVC blend, measured in this paper. Section 2.3 says the conductivity was measured at room temperature, so the room-temperature label is supported. The mobile_ion='other' label is not one of the checked fields."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1333,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 29267,
+        "webSearchRequests": 0,
+        "costUSD": 0.006543710000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 963,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 29267,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7752,
+    "notional_cost_usd": 0.006543710000000001
+  },
+  "paper_id": "arXiv:1807.04953",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a DFT benchmark of exchange-correlation functionals for binary rare-earth oxides (structure, band gaps, magnetism, formation energies); it reports no ionic conductivity values for any Li/Na solid conductor, and the only mention of ionic conductivity is qualitative in the introduction.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 317,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 46208,
+        "webSearchRequests": 0,
+        "costUSD": 0.00943565,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 114,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 46208,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2313,
+    "notional_cost_usd": 0.00943565
+  },
+  "paper_id": "arXiv:2409.06145",
+  "model": "haiku"
+}

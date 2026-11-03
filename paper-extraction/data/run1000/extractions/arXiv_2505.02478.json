@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a theoretical study of AC ionic and electronic transport through nanofluidic channels with conducting walls, using aqueous salt electrolytes; it does not report any ionic conductivity of a solid Li- or Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 352,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 26880,
+        "webSearchRequests": 0,
+        "costUSD": 0.00558755,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 169,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 26880,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3514,
+    "notional_cost_usd": 0.00558755
+  },
+  "paper_id": "arXiv:2505.02478",
+  "model": "haiku"
+}

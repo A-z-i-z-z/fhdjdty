@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a coarse-grained MD study of ion transport in aqueous KCl solution and through an \u03b1-hemolysin protein nanopore in a lipid bilayer, not a solid Li/Na-ion conductor, and its conductivity values appear only in a figure.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 447,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 16756,
+        "webSearchRequests": 0,
+        "costUSD": 0.0036102500000000006,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 258,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16756,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3763,
+    "notional_cost_usd": 0.0036102500000000006
+  },
+  "paper_id": "arXiv:1810.09918",
+  "model": "haiku"
+}

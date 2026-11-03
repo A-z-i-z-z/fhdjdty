@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a first-principles study of ferroelectric switching barriers and polarization in \u03b3-AlOOH and CuInP2S6. It reports switching barriers in eV/f.u. and polarization values in \u03bcC/cm\u00b2, but no ionic conductivity values for a solid Li- or Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 412,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 8040,
+        "webSearchRequests": 0,
+        "costUSD": 0.0018495500000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 212,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 8040,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3192,
+    "notional_cost_usd": 0.0018495500000000002
+  },
+  "paper_id": "arXiv:2601.12420",
+  "model": "haiku"
+}

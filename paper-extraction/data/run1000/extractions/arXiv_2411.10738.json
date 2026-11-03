@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is mainly about thermal conductivity of AgGaGe3Se8; its only ionic conductivity data are Ag+ values shown in Figure 3e with no numeric conductivity given in the text, and Ag is not Li or Na.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 449,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 24137,
+        "webSearchRequests": 0,
+        "costUSD": 0.00508745,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 267,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24137,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4173,
+    "notional_cost_usd": 0.00508745
+  },
+  "paper_id": "arXiv:2411.10738",
+  "model": "haiku"
+}

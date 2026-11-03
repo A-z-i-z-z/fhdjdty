@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2610.23643#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports the field-driven MD estimate for amorphous Li0.9NbO0.9Cl4.1 as 6.8 \u00b1 0.7 mS/cm at 300 K, computed in this work from its own simulations, so the computational origin and the 26.85 \u00b0C conversion are correct. The secondary fields are null, which is consistent with the paper."
+      },
+      {
+        "record_id": "arXiv:2610.23643#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The zero-field Einstein-Helfand estimate for the same glass is reported in this paper as \u03c3 = 7\u00b15 mS/cm at 300 K, from the authors' own MD, so the value, uncertainty, temperature and computational origin all check out. The secondary fields are null, as the paper gives none."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 667,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 29949,
+        "webSearchRequests": 0,
+        "costUSD": 0.0063471099999999996,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 310,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 29949,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3773,
+    "notional_cost_usd": 0.0063471099999999996
+  },
+  "paper_id": "arXiv:2610.23643",
+  "model": "haiku"
+}

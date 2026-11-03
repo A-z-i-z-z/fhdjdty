@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1209.0690#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the cubic LLZO conductivity as \u03c3cubic = 1.9\u00d710\u22124 S/cm and attributes it to Ref. [1], so the literature_cited origin is correct. No measurement temperature or secondary fields are given, so the nulls are right."
+      },
+      {
+        "record_id": "arXiv:1209.0690#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the tetragonal LLZO conductivity as \u03c3tetra = 1.63\u00d710\u22126 S/cm and attributes it to Ref. [2], so the literature_cited origin is correct. No measurement temperature or secondary fields are given, so the nulls are right."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 565,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 13936,
+        "webSearchRequests": 0,
+        "costUSD": 0.0030699,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 248,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13936,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4615,
+    "notional_cost_usd": 0.0030699
+  },
+  "paper_id": "arXiv:1209.0690",
+  "model": "haiku"
+}

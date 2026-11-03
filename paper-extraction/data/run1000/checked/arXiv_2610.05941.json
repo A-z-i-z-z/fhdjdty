@@ -1,0 +1,113 @@
+[
+  {
+    "record_id": "arXiv:2610.05941#001",
+    "paper_id": "arXiv:2610.05941",
+    "record": {
+      "material_as_written": "AgCrSe2",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.7",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": null,
+      "measurement_method": "machine-learning molecular dynamics (MLMD) with oscillating out-of-plane field Ez0 = 0.03 V \u00c5\u22121 at f = 0.05 THz",
+      "evidence_quote": "producing a dynamically disordered state with conductivity of 1.7 S cm\u22121",
+      "evidence_location": "Fig. 2 caption",
+      "notes": "Mobile ion is Ag+ (not Li/Na, so coded 'other'). Field-driven nonequilibrium value (in-plane probe field, out-of-plane oscillating drive), not an equilibrium superionic value; the abstract gives the same ~1.7 S cm-1 at 300 K. Activation energy of 97 meV in the paper refers to the equilibrium Arrhenius fit above 450 K and is not assigned here."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 1.7,
+    "log10_conductivity": 0.23
+  },
+  {
+    "record_id": "arXiv:2610.05941#002",
+    "paper_id": "arXiv:2610.05941",
+    "record": {
+      "material_as_written": "AgCrSe2",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.9",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": null,
+      "measurement_method": "machine-learning molecular dynamics (MLMD) with oscillating out-of-plane field Ez0 = 0.03 V \u00c5\u22121 at f = 0.01 THz",
+      "evidence_quote": "The resulting ionic conductivity reaches \u223c 0.9 S cm\u22121",
+      "evidence_location": "results (text after Fig. 2 discussion)",
+      "notes": "Mobile ion is Ag+ (coded 'other'). Field-driven value at f = 0.01 THz (complete switching regime); the text gives ~0.9 S/cm, the Fig. 2 caption gives sigma ~ 0.9 S cm-1 for the same condition."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.9,
+    "log10_conductivity": -0.046
+  },
+  {
+    "record_id": "arXiv:2610.05941#003",
+    "paper_id": "arXiv:2610.05941",
+    "record": {
+      "material_as_written": "AgCrSe2",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.24",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": null,
+      "measurement_method": "machine-learning molecular dynamics (MLMD) with oscillating out-of-plane field Ez0 = 0.03 V \u00c5\u22121 at f = 0.15 THz",
+      "evidence_quote": "reducing the ionic conductivity to approximately 0.24 S cm\u22121",
+      "evidence_location": "results (text on f = 0.15 THz)",
+      "notes": "Mobile ion is Ag+ (coded 'other'). Field-driven value at f = 0.15 THz (largely ordered state); the Fig. 2 caption gives the same 0.24 S cm-1."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.24,
+    "log10_conductivity": -0.62
+  }
+]

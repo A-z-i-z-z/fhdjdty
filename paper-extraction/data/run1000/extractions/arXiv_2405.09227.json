@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a computational study of generic 2D polycrystalline oxide ceramics and reports only normalized conductivities (e.g., \u03c3*/\u03c3G, \u03c3GB/\u03c3G ratios) for hypothetical materials, not absolute ionic conductivity values of a specific solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 457,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 17002,
+        "webSearchRequests": 0,
+        "costUSD": 0.00366445,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 255,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17002,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3406,
+    "notional_cost_usd": 0.00366445
+  },
+  "paper_id": "arXiv:2405.09227",
+  "model": "haiku"
+}

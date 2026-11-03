@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about the Li/LiPON interphase and reports one measured ionic conductivity for a LiPON solid electrolyte thin film; the other conductivity values are literature table entries for SEI components, which I left out.",
+    "records": [
+      {
+        "material_as_written": "LiPON",
+        "material_class": "LiPON_or_thin_film",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "RF sputtering",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "3\u00d710-6",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "Ionic conductivity of as-deposited LiPON thin film was measured by electrochemical impedance spectroscopy (EIS) to be 3\u00d710-6 S/cm, similar to that in literature.",
+        "evidence_location": "Sample preparation (Experimental Procedures)",
+        "notes": "As-deposited 1 \u03bcm RF-sputtered LiPON thin film from a Li3PO4 target under N2. Measurement temperature is not stated. Conductivity kind is not specified (thin-film EIS). The Supplementary Table 2 ionic conductivities of SEI components (Li2O, Li3N, Li3PO4, etc.) were skipped because the table layout is garbled and their columns cannot be reliably matched to compounds."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1332,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 28590,
+        "webSearchRequests": 0,
+        "costUSD": 0.006419550000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 672,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28590,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7180,
+    "notional_cost_usd": 0.006419550000000001
+  },
+  "paper_id": "arXiv:2006.12764",
+  "model": "haiku"
+}

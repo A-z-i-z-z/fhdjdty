@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies low-temperature magnetoconductance and universal conductance fluctuations in electrolyte-gated SrTiO3 nanostructures; it reports no ionic conductivity of a solid Li/Na-ion conductor (the only ionic species is the ionic liquid EMI-TFSI used as a gate, which is not a solid electrolyte).",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 359,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 11134,
+        "webSearchRequests": 0,
+        "costUSD": 0.00244185,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 139,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11134,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2221,
+    "notional_cost_usd": 0.00244185
+  },
+  "paper_id": "arXiv:1309.1494",
+  "model": "haiku"
+}

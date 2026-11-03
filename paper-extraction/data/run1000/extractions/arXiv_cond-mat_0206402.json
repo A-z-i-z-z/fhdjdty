@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a Monte Carlo study of generic lattice models (Counter Ion Model and Random Energy Model) and reports only dimensionless diffusion constants, not ionic conductivity values of any specific solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 11677,
+        "outputTokens": 804,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 11867,
+        "webSearchRequests": 0,
+        "costUSD": 0.00397466,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 601,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11867,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2186,
+    "notional_cost_usd": 0.00397466
+  },
+  "paper_id": "arXiv:cond-mat/0206402",
+  "model": "haiku"
+}

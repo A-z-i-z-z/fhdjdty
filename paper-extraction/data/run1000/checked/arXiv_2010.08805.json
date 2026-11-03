@@ -1,0 +1,230 @@
+[
+  {
+    "record_id": "arXiv:2010.08805#001",
+    "paper_id": "arXiv:2010.08805",
+    "record": {
+      "material_as_written": "Li6PS5Cl",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "ball milling and annealing",
+      "sintering_temperature_C": 530,
+      "sintering_time_h": 10,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.26",
+      "conductivity_unit_as_reported": "mS cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "35 \u2103",
+      "measurement_temperature_C": 35,
+      "activation_energy_eV": 0.25,
+      "measurement_method": "EIS",
+      "evidence_quote": "The ionic conductivity for Li6PS5Cl is calculated to be 3.26 mS cm-1 at",
+      "evidence_location": "Section 2.2",
+      "notes": "Sintering values are the annealing step (530 \u00b0C, 10 h) from Methods; the material was ball-milled then annealed as pellets. Ea = 0.25 eV is the experimental activation barrier given in Section 2.2. The quote line is split in the PDF; the temperature 35 \u2103 is on the following line."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00326,
+    "log10_conductivity": -2.487
+  },
+  {
+    "record_id": "arXiv:2010.08805#002",
+    "paper_id": "arXiv:2010.08805",
+    "record": {
+      "material_as_written": "Li6.25PS4O1.25Cl0.75",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [
+        "O"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "ball milling and annealing",
+      "sintering_temperature_C": 530,
+      "sintering_time_h": 10,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.8",
+      "conductivity_unit_as_reported": "mS cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "35 \u2103",
+      "measurement_temperature_C": 35,
+      "activation_energy_eV": 0.33,
+      "measurement_method": "EIS",
+      "evidence_quote": "The Li+ ion conductivity of Li6.25PS4O1.25Cl0.75 can still reach 2.8 mS cm-1 at 35 \u2103",
+      "evidence_location": "Section 2.2",
+      "notes": "O substitutes for S on the chalcogen site of Li6PS5Cl (O treated as the dopant/substituent). Ea = 0.33 eV is the experimental value given in Section 2.2. Sintering values are the annealing step from Methods, shared with the parent synthesis."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0028,
+    "log10_conductivity": -2.553
+  },
+  {
+    "record_id": "arXiv:2010.08805#003",
+    "paper_id": "arXiv:2010.08805",
+    "record": {
+      "material_as_written": "Li6.25PS4O1.25Cl0.75",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [
+        "O"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "ball milling and annealing",
+      "sintering_temperature_C": 530,
+      "sintering_time_h": 10,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.49",
+      "conductivity_unit_as_reported": "mS cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "-20 \u2103",
+      "measurement_temperature_C": -20,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "which has a superb ionic conductivity of 1.49 mS cm-1 even at -20 \u2103",
+      "evidence_location": "conclusion",
+      "notes": "Low-temperature value at -20 \u2103 taken from the conclusion; Section 2.2 gives the same 1.49 mS cm-1 value at -20 \u2103. O substitutes for S."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00149,
+    "log10_conductivity": -2.827
+  },
+  {
+    "record_id": "arXiv:2010.08805#004",
+    "paper_id": "arXiv:2010.08805",
+    "record": {
+      "material_as_written": "Li6PS5Cl",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "ball milling and annealing",
+      "sintering_temperature_C": 530,
+      "sintering_time_h": 10,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.32",
+      "conductivity_unit_as_reported": "mS cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "-20 \u2103",
+      "measurement_temperature_C": -20,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "comparable with that of the pristine Li6PS5Cl sulfide (2.32 mS cm-1)",
+      "evidence_location": "Section 2.2",
+      "notes": "The -20 \u2103 temperature is stated in the preceding sentence of Section 2.2, not in the quote."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00232,
+    "log10_conductivity": -2.635
+  },
+  {
+    "record_id": "arXiv:2010.08805#005",
+    "paper_id": "arXiv:2010.08805",
+    "record": {
+      "material_as_written": "Li6.25PS4O1.25Cl0.75 (after humid-air exposure and 180 \u00b0C post-annealing)",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [
+        "O"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "ball milling and annealing",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.5",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "conductivity of the post-annealed Li6.25PS4O1.25Cl0.75 was still 1.5 mS cm\u22121 at room temperature",
+      "evidence_location": "Section 2.3",
+      "notes": "This is the conductivity of the sample after 0.5 h exposure to 53% humidity and 5 h annealing at 180 \u00b0C, not the as-prepared material. Sintering fields left null because the 530 \u00b0C synthesis is not the step this value refers to."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0015,
+    "log10_conductivity": -2.824
+  },
+  {
+    "record_id": "arXiv:2010.08805#006",
+    "paper_id": "arXiv:2010.08805",
+    "record": {
+      "material_as_written": "Li5.5PS4.5Cl1.5",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "12",
+      "conductivity_unit_as_reported": "mS cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "Li5.5PS4.5Cl1.5 was reported to exhibit a conductivity of 12 mS cm-1 at",
+      "evidence_location": "Introduction",
+      "notes": "Value is quoted from an earlier study (ref. 51) in the Introduction, not measured in this paper. The quote line is split in the PDF; room temperature is on the following line."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.012,
+    "log10_conductivity": -1.921
+  }
+]

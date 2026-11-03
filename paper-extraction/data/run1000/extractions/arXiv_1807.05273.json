@@ -1,0 +1,56 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports a room-temperature-range ionic conductivity (3.0 mS cm-1 at 303 K) for a Li-salt-doped ionic liquid ionanofluid electrolyte, which is a solid-state-relevant Li-ion conductor study within the extraction scope.",
+    "records": [
+      {
+        "material_as_written": "5.0NHIF0.6LiPy",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Br"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "3.0",
+        "conductivity_unit_as_reported": "mS cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "303 K",
+        "measurement_temperature_C": 30,
+        "activation_energy_eV": null,
+        "measurement_method": "impedance spectroscopy",
+        "evidence_quote": "of 3.0 mS cm-1 at303 K",
+        "evidence_location": "results",
+        "notes": "Ionanofluid electrolyte (5.0 wt% TiO2-NHIF dispersed in 0.6 M Li salt in Pyr14TFSI, a liquid electrolyte rather than a sintered solid). Value is the maximum conductivity; the paper calls it 'ionic conductivity' from the real part of the spectrum. Temperature 303 K converted to 30 C. LiBr is an intentional salt component (dopant salt); the TiO2 filler is not listed as a dopant. Activation energies are only in Table 1 with garbled layout, so left null. Other conductivities are not given as numbers in the text."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1827,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 15389,
+        "webSearchRequests": 0,
+        "costUSD": 0.00402685,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1138,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15389,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9673,
+    "notional_cost_usd": 0.00402685
+  },
+  "paper_id": "arXiv:1807.05273",
+  "model": "haiku"
+}

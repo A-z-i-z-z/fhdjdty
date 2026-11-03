@@ -1,0 +1,57 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports the in-plane total ionic (oxygen-ion) conductivity of an inkjet-printed Gd0.2Ce0.8O1.9/Y0.16Zr0.84O1.92 nanocomposite thin film, a solid oxide ion conductor.",
+    "records": [
+      {
+        "material_as_written": "Gd0.2Ce0.8O1.9/Y0.16Zr0.84O1.92",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [
+          "Gd",
+          "Y"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "hybrid chemical route (colloidal GDC nanoparticles dispersed in metalorganic YSZ sol-gel), inkjet printing",
+        "sintering_temperature_C": 750,
+        "sintering_time_h": 6,
+        "relative_density_pct": 94.4,
+        "conductivity_value_as_reported": "510-3",
+        "conductivity_unit_as_reported": "Scm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "500 \u00b0C",
+        "measurement_temperature_C": 500,
+        "activation_energy_eV": 0.55,
+        "measurement_method": "EIS (in-plane, symmetric silver electrodes, two-electrode)",
+        "evidence_quote": "high oxygen ionic conductivity at low temperatures (> 510-3 Scm-1 at",
+        "evidence_location": "abstract",
+        "notes": "Abstract gives a lower bound ('>') for the conductivity; the superscript exponent is lost in PDF extraction, so the value reads as 5x10-3 S/cm but is copied as '510-3'. The 500 \u00b0C value is from the abstract; the 0.55 eV activation energy is for the thin film per Section 3.2 (in-plane conductivity of the film, not a bulk value). Measurement range 400\u2013750 \u00b0C in synthetic air. The 94.4% density is from the thin-film SEM estimate in Section 3.2 and the 750 \u00b0C/6 h is the film calcination."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2383,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 19048,
+        "webSearchRequests": 0,
+        "costUSD": 0.00503665,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1618,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19048,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11020,
+    "notional_cost_usd": 0.00503665
+  },
+  "paper_id": "arXiv:1904.06916",
+  "model": "haiku"
+}

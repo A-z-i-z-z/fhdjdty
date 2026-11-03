@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies calorimetry and XPS of fast-ion-conducting (AgI)-(Ag2O)-(MoO3) glasses, a silver-ion system rather than Li/Na, and it reports no numerical ionic conductivity value; conductivity is mentioned only qualitatively.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 403,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 13266,
+        "webSearchRequests": 0,
+        "costUSD": 0.00289025,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 203,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13266,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3273,
+    "notional_cost_usd": 0.00289025
+  },
+  "paper_id": "arXiv:1901.00742",
+  "model": "haiku"
+}

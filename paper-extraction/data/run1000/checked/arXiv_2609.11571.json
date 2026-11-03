@@ -1,0 +1,80 @@
+[
+  {
+    "record_id": "arXiv:2609.11571#001",
+    "paper_id": "arXiv:2609.11571",
+    "record": {
+      "material_as_written": "Li6PS5Cl",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.319",
+      "conductivity_unit_as_reported": "S/m",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "0.319\nMPa\nS/m",
+      "evidence_location": "Table I",
+      "notes": "Table I row 'Li+ conductivity in Li6PS5Cl' (symbol sigma+SE), cited to ref. [58]. The PDF table layout is scrambled, so the value is mapped to this row by its position next to the S/m unit; the 'MPa' in the quote belongs to an adjacent row. Not measured in this paper; no measurement temperature is given."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00319,
+    "log10_conductivity": -2.496
+  },
+  {
+    "record_id": "arXiv:2609.11571#002",
+    "paper_id": "arXiv:2609.11571",
+    "record": {
+      "material_as_written": "Li3N",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.02",
+      "conductivity_unit_as_reported": "S/m",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "0.02\nS/m\n[59,60]",
+      "evidence_location": "Table I",
+      "notes": "Table I row 'Li+ conductivity in Li3N' (symbol sigma+layer), cited to refs [59,60]. The table layout is scrambled, so the mapping to Li3N is inferred from the row label order. Not measured in this paper; no measurement temperature is given."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.0002,
+    "log10_conductivity": -3.699
+  }
+]

@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a first-principles study of native defects and Li-ion conduction in LiNH2 and Li2NH, but its only ionic conductivity number is a literature value quoted in the introduction, so it is in scope with one literature_cited record.",
+    "records": [
+      {
+        "material_as_written": "Li2 NH",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "3\u00d710\u22124",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "S/cm at 25\u25e6 C).2",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25\u25e6 C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.58,
+        "measurement_method": null,
+        "evidence_quote": "Lithium imide (Li2 NH) is known for its high ionic conductivity (3\u00d710\u22124",
+        "evidence_location": "introduction",
+        "notes": "Value is quoted from Boukamp and Huggins (ref. 2), not measured in this paper. The unit and temperature are on the following line of the PDF text. The activation energy 0.58 eV is quoted from the same ref. 2 in Sec. V A (\"Li2 NH was found to be a good ionic conductor, with an activation energy of 0.58 eV.2\"), not from the introduction quote."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1337,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 28224,
+        "webSearchRequests": 0,
+        "costUSD": 0.0063488500000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 723,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28224,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6794,
+    "notional_cost_usd": 0.0063488500000000005
+  },
+  "paper_id": "arXiv:1412.6192",
+  "model": "haiku"
+}

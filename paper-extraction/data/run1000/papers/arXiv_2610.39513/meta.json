@@ -1,0 +1,26 @@
+{
+  "paper_id": "arXiv:2610.39513",
+  "arxiv_id": "2610.39513",
+  "title": "Distilling Large-Scale Machine Learning Interatomic Potentials to Predict Long-Timescale Electrolyte Transport Properties",
+  "authors": [
+    "Ishan Amin",
+    "Yue Jian",
+    "Nitesh Kumar",
+    "Christine Zhang",
+    "Jianwei Lai",
+    "Casey S. Mezerkor",
+    "Aaron M. Melemed",
+    "Jonathan R. Thurston",
+    "Neil P. Dasgupta",
+    "J. David Bazak",
+    "Ethan J. Crumlin",
+    "Samuel Blau",
+    "Aditi S. Krishnapriyan"
+  ],
+  "published": "2026-10-29",
+  "doi": null,
+  "license": null,
+  "abs_url": "https://arxiv.org/abs/2610.39513",
+  "pdf_url": "https://arxiv.org/pdf/2610.39513",
+  "text_chars": 135369
+}

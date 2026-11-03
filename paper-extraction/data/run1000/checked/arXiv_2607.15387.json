@@ -1,0 +1,79 @@
+[
+  {
+    "record_id": "arXiv:2607.15387#001",
+    "paper_id": "arXiv:2607.15387",
+    "record": {
+      "material_as_written": "Na3SbS4 (NAS) solid electrolyte, ionic conductivity used as phase-field input (Table 1, 'Ionic conductivity (SE)')",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.1 \u00d7 10\u22125",
+      "conductivity_unit_as_reported": "S/m",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "3.1 \u00d7 10\u22125 S/m",
+      "evidence_location": "Table 1",
+      "notes": "Value is a model parameter in Table 1 for the SE ionic conductivity, not measured in this paper. The row gives no explicit source or temperature; origin is inferred as literature/parameter input and is uncertain. Quote is the value cell alone, so the row label is identified from the table context."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context",
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 3.1e-07,
+    "log10_conductivity": -6.509
+  },
+  {
+    "record_id": "arXiv:2607.15387#002",
+    "paper_id": "arXiv:2607.15387",
+    "record": {
+      "material_as_written": "Na-ion-conducting sulfide solid electrolytes (unspecified composition)",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "32",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "Na SSBs can achieve remarkable ionic conductivities up to 32 mS/cm at room temperature.[5]",
+      "evidence_location": "Introduction",
+      "notes": "Value is quoted from cited ref [5] for unnamed Na-ion sulfide solid electrolytes; the specific material is not identified in the paper, and it is not a value measured here."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.032,
+    "log10_conductivity": -1.495
+  }
+]

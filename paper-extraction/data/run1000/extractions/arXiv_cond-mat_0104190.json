@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a theoretical model of temperature-dependent conduction in polymer electrolytes, but it reports no specific ionic conductivity value for a material at a stated temperature; the only numbers (Table 1 fit parameters, Figure 2 data) are not conductivity values in text or table, and the 10^-4 S/cm figure is a general practical target, not a measured result.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 652,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 11230,
+        "webSearchRequests": 0,
+        "costUSD": 0.00260755,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 428,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11230,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4588,
+    "notional_cost_usd": 0.00260755
+  },
+  "paper_id": "arXiv:cond-mat/0104190",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies ionic current rectification (an ionic diode effect) through titanate nanosheet deposits on a PET microhole, reporting currents, pH shifts, zeta potential and rectification ratios, but no ionic conductivity value for a solid Li/Na-ion conductor is given.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 393,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 15886,
+        "webSearchRequests": 0,
+        "costUSD": 0.0034092500000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 195,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15886,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3659,
+    "notional_cost_usd": 0.0034092500000000004
+  },
+  "paper_id": "arXiv:2004.01010",
+  "model": "haiku"
+}

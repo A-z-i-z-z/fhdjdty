@@ -1,0 +1,119 @@
+[
+  {
+    "record_id": "arXiv:2609.03717#001",
+    "paper_id": "arXiv:2609.03717",
+    "record": {
+      "material_as_written": "La2Mo2O9 (LMO, x = 0)",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "8.99 \u00d7 10\u22123",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "650 \u25e6 C",
+      "measurement_temperature_C": 650,
+      "activation_energy_eV": null,
+      "measurement_method": "complex impedance spectroscopy",
+      "evidence_quote": "At 650 \u25e6 C, \u03c3 rises from 8.99 \u00d7 10\u22123 S cm\u22121 in LMO to a maximum of 2.07 \u00d7 10\u22122 S cm\u22121 in LMOG3",
+      "evidence_location": "Results, Transport correlation",
+      "notes": "Value quoted from Shiwankar et al. [15] (experimental, not measured in this paper); bulk conductivity per the text. The Ea for LMO (1.00 eV at high T, 1.90 eV low T) is not attached to this record. Synthesis was Pechini route per the cited work, not recorded here."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00899,
+    "log10_conductivity": -2.046
+  },
+  {
+    "record_id": "arXiv:2609.03717#002",
+    "paper_id": "arXiv:2609.03717",
+    "record": {
+      "material_as_written": "La2\u2212xGdxMo1.7W0.3O9\u2212\u03b4, x = 0.3 (LMOG3)",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [
+        "Gd",
+        "W"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.07 \u00d7 10\u22122",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "650 \u25e6 C",
+      "measurement_temperature_C": 650,
+      "activation_energy_eV": null,
+      "measurement_method": "complex impedance spectroscopy",
+      "evidence_quote": "to a maximum of 2.07 \u00d7 10\u22122 S cm\u22121 in LMOG3 (x = 0.3)",
+      "evidence_location": "Results, Transport correlation",
+      "notes": "Value quoted from Shiwankar et al. [15] (literature_cited). Composition from the paper's naming convention; the Gd/W formula is the cited series formula with x = 0.3."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0207,
+    "log10_conductivity": -1.684
+  },
+  {
+    "record_id": "arXiv:2609.03717#003",
+    "paper_id": "arXiv:2609.03717",
+    "record": {
+      "material_as_written": "La1.6Gd0.4Mo1.7W0.3O9 (LMOG4, x = 0.4)",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [
+        "Gd",
+        "W"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.54 \u00d7 10\u22123",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "650 \u25e6 C",
+      "measurement_temperature_C": 650,
+      "activation_energy_eV": null,
+      "measurement_method": "complex impedance spectroscopy",
+      "evidence_quote": "then falls sharply to 1.54 \u00d7 10\u22123 S cm\u22121 in LMOG4 (x = 0.4)",
+      "evidence_location": "Results, Transport correlation",
+      "notes": "Value quoted from Shiwankar et al. [15] (literature_cited). The Ea of 1.46 eV for LMOG4 is reported separately in the text and not attached here."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00154,
+    "log10_conductivity": -2.812
+  }
+]

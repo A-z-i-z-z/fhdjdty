@@ -1,0 +1,158 @@
+[
+  {
+    "record_id": "arXiv:2609.15783#001",
+    "paper_id": "arXiv:2609.15783",
+    "record": {
+      "material_as_written": "Li6PS5Cl",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.319",
+      "conductivity_unit_as_reported": "S/m",
+      "unit_evidence_quote": "S/m",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "298 K",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "0.319",
+      "evidence_location": "Table 2",
+      "notes": "Table 2 row 'Conductivity of Li+ in SE (Li6PS5Cl)', cited to Ref [11]. Value is a model input, not measured in this paper. The 298 K is the Table 2 model temperature (row 'Temperature'), not a stated measurement temperature for this value. Quote is the value cell alone because PDF extraction splits the row across lines."
+    },
+    "hard_checks": {
+      "quote_in_text": false,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 0.00319,
+    "log10_conductivity": -2.496
+  },
+  {
+    "record_id": "arXiv:2609.15783#002",
+    "paper_id": "arXiv:2609.15783",
+    "record": {
+      "material_as_written": "Li2S",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.001",
+      "conductivity_unit_as_reported": "S/m",
+      "unit_evidence_quote": "S/m",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "298 K",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "0.001",
+      "evidence_location": "Table 2",
+      "notes": "Table 2 row 'Conductivity of Li+ in Li2S', cited to Ref [13]. Model input taken from literature. The 298 K is the Table 2 model temperature. Quote is the value cell alone because the row is split across lines in the PDF text; the value 0.001 also appears elsewhere in the paper."
+    },
+    "hard_checks": {
+      "quote_in_text": false,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 1e-05,
+    "log10_conductivity": -5.0
+  },
+  {
+    "record_id": "arXiv:2609.15783#003",
+    "paper_id": "arXiv:2609.15783",
+    "record": {
+      "material_as_written": "Li3P",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.01",
+      "conductivity_unit_as_reported": "S/m",
+      "unit_evidence_quote": "S/m",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "298 K",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "0.01",
+      "evidence_location": "Table 2",
+      "notes": "Table 2 row 'Conductivity of Li+ in Li3P', cited to Ref [13]. Model input taken from literature. The 298 K is the Table 2 model temperature. The value 0.01 also appears elsewhere in the paper (e.g., Table 1 and text), so the quote is ambiguous on its own."
+    },
+    "hard_checks": {
+      "quote_in_text": false,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 0.0001,
+    "log10_conductivity": -4.0
+  },
+  {
+    "record_id": "arXiv:2609.15783#004",
+    "paper_id": "arXiv:2609.15783",
+    "record": {
+      "material_as_written": "LiCl",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.54x10-4",
+      "conductivity_unit_as_reported": "S/m",
+      "unit_evidence_quote": "S/m",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "298 K",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "3.54x10-4",
+      "evidence_location": "Table 2",
+      "notes": "Table 2 row 'Conductivity of Li+ in LiCl', cited to Ref [14]. Model input taken from literature. The 298 K is the Table 2 model temperature. Quote is the value cell alone because the row is split across lines in the PDF text."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 3.54e-06,
+    "log10_conductivity": -5.451
+  }
+]

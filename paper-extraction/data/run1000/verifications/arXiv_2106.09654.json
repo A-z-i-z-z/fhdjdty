@@ -1,0 +1,47 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2106.09654#001",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_as_reported",
+            "correct_value": "25 \u2103",
+            "evidence": "The ionic-conductivity values at 25 \u2103 calculated by equation 3 are listed in Table S2. The hybrid electrolytes demonstrate superior ionic-conductivity (2.15\u20132.83 mS\u00b7cm\u20131)"
+          },
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 25,
+            "evidence": "The ionic-conductivity values at 25 \u2103 calculated by equation 3 are listed in Table S2."
+          }
+        ],
+        "explanation": "The 2.44 mS\u00b7cm\u22121 value sits in the hybrid-electrolyte range that the paper explicitly reports at 25 \u2103, so the null temperature is not right. The paper also never ties 2.44 to a specific UiO-66 loading, so the material attribution is ambiguous; under the strict rule this record is unsupported."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 30846,
+        "outputTokens": 2457,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 31032,
+        "webSearchRequests": 0,
+        "costUSD": 0.010539320000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2024,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 31032,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10988,
+    "notional_cost_usd": 0.010539320000000001
+  },
+  "paper_id": "arXiv:2106.09654",
+  "model": "haiku"
+}

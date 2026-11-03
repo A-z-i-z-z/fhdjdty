@@ -1,0 +1,98 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports proton conductivities of a protonated brownmillerite oxide (HSrCoO2.5) measured by impedance spectroscopy, so it is about a solid ion conductor with numeric conductivity values.",
+    "records": [
+      {
+        "material_as_written": "HSrCoO2.5 (HSCO)",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "pulsed laser deposition of SrCoO2.5 thin films followed by ionic liquid gating protonation",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.028",
+        "conductivity_unit_as_reported": "S\u2022cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "40 oC",
+        "measurement_temperature_C": 40,
+        "activation_energy_eV": 0.27,
+        "measurement_method": "EIS (impedance spectroscopy)",
+        "evidence_quote": "the low-temperature ionic conductivity of HSCO, being 0.028 S\u2022cm-1 and 0.33 S\u2022cm-1",
+        "evidence_location": "results",
+        "notes": "Proton conductivity of thin-film HSCO (protonated SrCoO2.5 film). The 140 oC value (0.33) is not recorded, per the lowest-temperature rule. Activation energy 0.27 eV is from the main text for HSCO."
+      },
+      {
+        "material_as_written": "HSrCoO2.5 (HSCO)",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "pulsed laser deposition of SrCoO2.5 thin films followed by ionic liquid gating protonation",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.051",
+        "conductivity_unit_as_reported": "S\u2022cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "60 oC",
+        "measurement_temperature_C": 60,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS (impedance spectroscopy)",
+        "evidence_quote": "the proton conductivity at 60 oC can be estimated as 0.051 S\u2022cm-1",
+        "evidence_location": "Supplementary Figure 5 caption",
+        "notes": "ILG-induced HSCO sample, value from the equivalent-circuit fit of a single spectrum. Recorded as a separate spot value, not part of the main Arrhenius series, so it is a secondary record."
+      },
+      {
+        "material_as_written": "HSmNiO3 (HSNO)",
+        "material_class": "perovskite",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "~0.01",
+        "conductivity_unit_as_reported": "S\u2022cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "~500 oC",
+        "measurement_temperature_C": 500,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "the proton conductivity of this compound is limited to a notable value of ~0.01 S\u2022cm-1 at the intermediate temperature region (~500 oC)",
+        "evidence_location": "introduction",
+        "notes": "Value for protonated nickelate HSmNiO3 taken from prior work (Ref. 14), not measured in this paper. Included only because it is a stated conductivity number; the temperature is approximate."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 3255,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 23113,
+        "webSearchRequests": 0,
+        "costUSD": 0.00628565,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1886,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23113,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 15035,
+    "notional_cost_usd": 0.00628565
+  },
+  "paper_id": "arXiv:1811.10802",
+  "model": "haiku"
+}

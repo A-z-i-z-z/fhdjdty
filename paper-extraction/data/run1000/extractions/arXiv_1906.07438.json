@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies Ag+ conducting AgI-Ag2O-MoO3 glasses, and the schema covers only Li- or Na-ion conductors. Its only conductivity number is a literature-cited range for AgI-based glasses at room temperature, and the conductivities it measures are shown only in figures.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 589,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 15260,
+        "webSearchRequests": 0,
+        "costUSD": 0.00338205,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 386,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15260,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5210,
+    "notional_cost_usd": 0.00338205
+  },
+  "paper_id": "arXiv:1906.07438",
+  "model": "haiku"
+}

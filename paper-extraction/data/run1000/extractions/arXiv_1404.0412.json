@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a DFT study of \u03b1-LixBN2 cathodes, but it reports a previously measured Li-ion conductivity of \u03b1-Li3BN2 (3 mS/cm), so it contains at least one conductivity value for a solid Li-ion conductor.",
+    "records": [
+      {
+        "material_as_written": "\u03b1-Li3 BN2",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "3",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "T = 400 K",
+        "measurement_temperature_C": 126.85,
+        "activation_energy_eV": 0.8,
+        "measurement_method": null,
+        "evidence_quote": "\u03b1-Li3 BN2 is also known as a good Li-ion conductor with experimentally observed 3 mS/cm",
+        "evidence_location": "abstract",
+        "notes": "Value is from earlier experimental work (refs 16, 20, 21, measured nearly 30 years ago), not measured in this paper. Temperature 400 K is taken from the Results section sentence 'measured at T = 400 K temperature'. Activation energy given as 78 kJ/mol (\u22480.8 eV) in the abstract. The paper also lists 6 mS/cm values for the beta and monoclinic Li3BN2 phases, which were not recorded because the mapping of values to phases is not cleanly quotable."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2341,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 13857,
+        "webSearchRequests": 0,
+        "costUSD": 0.00397745,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1684,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13857,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10643,
+    "notional_cost_usd": 0.00397745
+  },
+  "paper_id": "arXiv:1404.0412",
+  "model": "haiku"
+}

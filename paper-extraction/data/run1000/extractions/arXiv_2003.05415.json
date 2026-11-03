@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a DFT study of grain-boundary structure, stability and band gaps in alkaline-earth-doped ceria. It reports no ionic conductivity values for any material, and its mobile species is oxygen vacancies rather than Li or Na.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 322,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 14496,
+        "webSearchRequests": 0,
+        "costUSD": 0.0030957500000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 138,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14496,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2715,
+    "notional_cost_usd": 0.0030957500000000004
+  },
+  "paper_id": "arXiv:2003.05415",
+  "model": "haiku"
+}

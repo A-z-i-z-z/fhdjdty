@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies K+ conduction through voltage-gated potassium channel proteins (C-type inactivation) using MD simulations and oocyte electrophysiology, not solid-state Li/Na-ion conductors, so it is out of scope.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 355,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 17951,
+        "webSearchRequests": 0,
+        "costUSD": 0.00380325,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 174,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17951,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2572,
+    "notional_cost_usd": 0.00380325
+  },
+  "paper_id": "arXiv:2403.16179",
+  "model": "haiku"
+}

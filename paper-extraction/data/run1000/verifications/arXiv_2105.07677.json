@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2105.07677#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The h-LiBH4 value (~10\u22123 S cm-1 at 120 \u00b0C) is quoted in the Introduction as background from the Matsuo et al. work (ref. 4). This paper does not measure conductivity, so literature_cited is correct and the temperature matches."
+      },
+      {
+        "record_id": "arXiv:2105.07677#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The o-LiBH4 value of 9.5 \u00d7 10\u22129 \u00b1 2 \u00d7 10\u22129 S cm-1 at 30 \u00b0C is cited to ref. 5 in the Introduction, so literature_cited is correct. The material, unit and temperature match the paper."
+      },
+      {
+        "record_id": "arXiv:2105.07677#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The LiBH4-LiI hexagonal solid solution with 25 mol.% LiI and its ~10\u22124 S cm-1 at 30 \u00b0C value come from the literature-review sentence citing refs. 10\u201312. Origin, material and temperature are right, and the dopant I is correct."
+      },
+      {
+        "record_id": "arXiv:2105.07677#004",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 25,
+            "evidence": "Fast Li-ion conductivity at RT is also observed in h-Li(BH4)1-\u03b1(Br)\u03b1 hexagonal solid solutions (e.g. ~10\u22125 S cm-1 for h-Li(BH4)0.7(Br)0.3)12"
+          }
+        ],
+        "explanation": "The sentence giving ~10\u22125 S cm-1 for h-Li(BH4)0.7(Br)0.3 is explicitly framed as room-temperature conductivity, so the temperature is not absent from the paper and the null value is not supported. The value and origin (ref. 12) are otherwise right."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2632,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 24582,
+        "webSearchRequests": 0,
+        "costUSD": 0.00625621,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1912,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24582,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11859,
+    "notional_cost_usd": 0.00625621
+  },
+  "paper_id": "arXiv:2105.07677",
+  "model": "haiku"
+}

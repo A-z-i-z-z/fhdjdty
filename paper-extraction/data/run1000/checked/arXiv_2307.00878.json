@@ -1,0 +1,156 @@
+[
+  {
+    "record_id": "arXiv:2307.00878#001",
+    "paper_id": "arXiv:2307.00878",
+    "record": {
+      "material_as_written": "\u03b3-Li3PS4",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3(10\u22124)",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "conductivity of 3(10\u22124) mS/cm. 11",
+      "evidence_location": "Li3PS4 polymorphs section",
+      "notes": "Value is quoted from ref. 11 (experimental work), not computed here. Line break in the PDF text falls between 'Li' and 'conductivity'; the quote is taken from the second line. No measurement temperature stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1e-07,
+    "log10_conductivity": -7.0
+  },
+  {
+    "record_id": "arXiv:2307.00878#002",
+    "paper_id": "arXiv:2307.00878",
+    "record": {
+      "material_as_written": "\u03b2-Li3PS4 (bulk)",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "8.9 10\u22123",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "to be low (8.9 10\u22123 mS/cm), with only its nanoporous form having high Li conductivity",
+      "evidence_location": "Discussion",
+      "notes": "Bulk ionic conductivity of \u03b2-Li3PS4 attributed to ref. 15 in the paper. Quote is from the Discussion. The number is written with no explicit multiplication sign in the source."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1e-06,
+    "log10_conductivity": -6.0
+  },
+  {
+    "record_id": "arXiv:2307.00878#003",
+    "paper_id": "arXiv:2307.00878",
+    "record": {
+      "material_as_written": "nanoporous \u03b2-Li3PS4",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": "solution-state synthesis (nanoporous particles)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.16",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "(0.16 mS/cm). 15",
+      "evidence_location": "Discussion",
+      "notes": "Value attributed to ref. 15. The material name comes from the preceding sentence, which says only the nanoporous form has high Li conductivity. The quote is short because the sentence wraps across lines in the PDF text. No temperature stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00016,
+    "log10_conductivity": -3.796
+  },
+  {
+    "record_id": "arXiv:2307.00878#004",
+    "paper_id": "arXiv:2307.00878",
+    "record": {
+      "material_as_written": "\u03b1-Li3PS4",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": "rapid heating and quenching (as reported in ref. 18)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "\u223c2",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "entropy and room temperature Li conductivity of \u223c2 mS/cm. 18 Meanwhile, the \u03b3 polymorph",
+      "evidence_location": "Discussion",
+      "notes": "Value attributed to ref. 18 for the high-temperature \u03b1 polymorph, quoted at room temperature. The synthesis note is taken from the paper's description of ref. 18 and is not this paper's own synthesis."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.002,
+    "log10_conductivity": -2.699
+  }
+]

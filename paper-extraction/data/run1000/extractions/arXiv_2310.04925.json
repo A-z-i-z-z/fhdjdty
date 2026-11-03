@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a GFlowNet generative model for inorganic crystal structures, targeting formation energy, band gap, and density. It does not study solid ion conductors and reports no ionic conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 16239,
+        "outputTokens": 276,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 16431,
+        "webSearchRequests": 0,
+        "costUSD": 0.005079660000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 82,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16431,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 1997,
+    "notional_cost_usd": 0.005079660000000001
+  },
+  "paper_id": "arXiv:2310.04925",
+  "model": "haiku"
+}

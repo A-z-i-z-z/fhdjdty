@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a theoretical analysis of mixed cation effects in silicate and phosphate glasses. It discusses ionic conductivity qualitatively but reports no numeric ionic conductivity value for a solid Li or Na ion conductor, so no records are extracted.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 520,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 10375,
+        "webSearchRequests": 0,
+        "costUSD": 0.00237055,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 330,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 10375,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3474,
+    "notional_cost_usd": 0.00237055
+  },
+  "paper_id": "arXiv:1009.0070",
+  "model": "haiku"
+}

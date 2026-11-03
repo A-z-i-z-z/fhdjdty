@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1708.02997#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the grain ionic conductivity of LiTi2(PS4)3 is 6.1 mS/cm at 300 K (extrapolated from the Arrhenius fit), with Ea = 277 meV for the grain conductivity. The 400 \u00b0C / 8 h anneal and hot pressing are described in the SI for this material."
+      },
+      {
+        "record_id": "arXiv:1708.02997#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The SI reports the total ionic conductivity (including grain boundary resistance) as 0.25 mS/cm at 300 K for LiTi2(PS4)3, measured in this work, so the kind 'total' and experimental origin are correct."
+      },
+      {
+        "record_id": "arXiv:1708.02997#003",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "material_class",
+            "correct_value": null,
+            "evidence": "such as LGPS (12 mS/cm)9 \u2014 the paper only refers to 'the LGPS family' and 'LGPS-like systems'; it never classifies LGPS as LISICON"
+          }
+        ],
+        "explanation": "The 12 mS/cm value for LGPS is correctly identified as literature_cited from ref. 9 with no temperature given. The material_class 'LISICON' is not stated in the paper for this material, so it should be null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 35225,
+        "outputTokens": 2173,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 35413,
+        "webSearchRequests": 0,
+        "costUSD": 0.01171142,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1611,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 35413,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10490,
+    "notional_cost_usd": 0.01171142
+  },
+  "paper_id": "arXiv:1708.02997",
+  "model": "haiku"
+}

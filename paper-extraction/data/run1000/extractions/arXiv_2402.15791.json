@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is an AIMD/DFT study of superionic H and Li diffusion in LiH2 under pressure, and it reports self-diffusion coefficients and activation energies, but no ionic conductivity values for a solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 10983,
+        "outputTokens": 397,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 11171,
+        "webSearchRequests": 0,
+        "costUSD": 0.00356256,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 190,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11171,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2408,
+    "notional_cost_usd": 0.00356256
+  },
+  "paper_id": "arXiv:2402.15791",
+  "model": "haiku"
+}

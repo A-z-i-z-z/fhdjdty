@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper reports ionic conductivities (5.26 to 20.34 mS cm-1) only for a liquid SOCl2-based electrolyte (AlCl3/LiCl/LiFSI in SOCl2), which is excluded, and it reports no conductivity for a solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 455,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 32062,
+        "webSearchRequests": 0,
+        "costUSD": 0.00667545,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 249,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 32062,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3199,
+    "notional_cost_usd": 0.00667545
+  },
+  "paper_id": "arXiv:2307.12947",
+  "model": "haiku"
+}

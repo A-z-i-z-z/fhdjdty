@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a theory of effective conductivity for composite solid electrolytes, applied to Liang's LiI/Al2O3 data, so it reports one fitted ionic conductivity for the LiI matrix, taken from that experimental work.",
+    "records": [
+      {
+        "material_as_written": "LiI/Al2O3 CSE matrix (sigma0)",
+        "material_class": "composite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.5 \u00d7 10\u22127",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "\u03c30 = 2.5 \u00d7 10\u22127 S/cm, x1 = 0.",
+        "evidence_location": "Table IV caption",
+        "notes": "Matrix conductivity of the LiI/Al2O3 composite solid electrolyte used as a fit parameter when processing Liang's experimental data [1]; it is not a value measured in this paper. The Al2O3 filler (sigma1 ~1e-14 S/cm) is insulating and not an ionic conductor, so it gets no record. The measurement temperature is not stated. Only one record is given because the rest of the conductivity values appear only in figures or as relative values (x2 = sigma2/sigma0)."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1888,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 33332,
+        "webSearchRequests": 0,
+        "costUSD": 0.00764595,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1241,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 33332,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11419,
+    "notional_cost_usd": 0.00764595
+  },
+  "paper_id": "arXiv:1811.10591",
+  "model": "haiku"
+}

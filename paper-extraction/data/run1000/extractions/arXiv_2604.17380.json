@@ -1,0 +1,78 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "This is a review of inorganic solid electrolytes that quotes a few literature conductivity values in the text, so it is in scope, but it reports no new measurements and only two values name a material clearly enough to record.",
+    "records": [
+      {
+        "material_as_written": "Li10GeP2S12 (LGPS)",
+        "material_class": "thiophosphate_other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10-2",
+        "conductivity_unit_as_reported": "S\u2219cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "of 10-2 S\u2219cm-1, approaching the transport regime traditionally associated with liquid electrolytes.",
+        "evidence_location": "Section 2.2 (Sulfide solid electrolytes)",
+        "notes": "Order-of-magnitude value only (\"on the order of\"), cited as prior work rather than measured here. The material is identified from the preceding sentence (\"Among sulfide electrolytes, Li10GeP2S12 (LGPS) ...\") and the quote itself does not name it. Quote is split across a line break in the PDF; the single-line fragment is used here."
+      },
+      {
+        "material_as_written": "Li3OCl1-xBrx (oxyhalide antiperovskite; the paper also names Li3OCl)",
+        "material_class": "anti_perovskite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Br"
+        ],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2 \u00d7 10-3",
+        "conductivity_unit_as_reported": "S\u00b7cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "room-temperature conductivities up to ~2 \u00d7 10-3 S\u00b7cm-1 and activation energies as low as 0.18 eV89,107",
+        "evidence_location": "Section 2.3 (Halide-based solid electrolytes, antiperovskite paragraph)",
+        "notes": "Value is an upper bound (\"up to ~\") for the oxyhalide antiperovskite family, cited from refs 89 and 107, not measured here. The sentence covers both Li3OCl and Li3OCl1-xBrx, so the composition is ambiguous; Li3OCl1-xBrx is recorded with Br as the substituent. The 0.18 eV activation energy is described as the lowest in the family, not for this composition, so it is left null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 40305,
+        "outputTokens": 4554,
+        "cacheReadInputTokens": 46806,
+        "cacheCreationInputTokens": 44757,
+        "webSearchRequests": 0,
+        "costUSD": 0.01572696,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2268,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 44757,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 17918,
+    "notional_cost_usd": 0.01572696
+  },
+  "paper_id": "arXiv:2604.17380",
+  "model": "haiku"
+}

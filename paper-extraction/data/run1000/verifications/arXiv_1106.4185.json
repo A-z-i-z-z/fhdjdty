@@ -1,0 +1,114 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1106.4185#001",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "synthesis_method",
+            "correct_value": null,
+            "evidence": "Polymer electrolytes: Appropriate amounts of polymer and Li salt were first dissolved in aqueous (majority of experiments) or organic solvents (control experiments)."
+          }
+        ],
+        "explanation": "The PEO-LiI value of ~2\u00d710-4 S/cm at ambient temperature is stated in the paper as experimental (calculated from film thickness and area, no citation). The aqueous-casting method is only a general majority statement, not stated for this composition, so synthesis_method should be null."
+      },
+      {
+        "record_id": "arXiv:1106.4185#002",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "synthesis_method",
+            "correct_value": null,
+            "evidence": "Polymer electrolytes: Appropriate amounts of polymer and Li salt were first dissolved in aqueous (majority of experiments) or organic solvents (control experiments)."
+          }
+        ],
+        "explanation": "The ~2\u00d710-4 S/cm value for PEO-LiCF3SO3 at ambient temperature is stated in the paper as its own measurement. The aqueous casting is only a majority-of-experiments statement, so synthesis_method should be null for this material."
+      },
+      {
+        "record_id": "arXiv:1106.4185#003",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "synthesis_method",
+            "correct_value": null,
+            "evidence": "Polymer electrolytes: Appropriate amounts of polymer and Li salt were first dissolved in aqueous (majority of experiments) or organic solvents (control experiments)."
+          }
+        ],
+        "explanation": "The paper explicitly attributes ~3\u00d710-5 S/cm at ambient temperature to PEO-LiPF6 films as its own measurement. The Table 1 LiPF6 rows are scattered, but the text statement is what is being checked. synthesis_method is not stated per material and should be null."
+      },
+      {
+        "record_id": "arXiv:1106.4185#004",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "synthesis_method",
+            "correct_value": null,
+            "evidence": "Polymer electrolytes: Appropriate amounts of polymer and Li salt were first dissolved in aqueous (majority of experiments) or organic solvents (control experiments)."
+          }
+        ],
+        "explanation": "The ~3\u00d710-5 S/cm ambient-temperature value for PEO-LiClO4 is stated in the paper as its own measurement. Aqueous casting is only a majority statement, so synthesis_method should be null."
+      },
+      {
+        "record_id": "arXiv:1106.4185#005",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "synthesis_method",
+            "correct_value": null,
+            "evidence": "Polymer electrolytes: Appropriate amounts of polymer and Li salt were first dissolved in aqueous (majority of experiments) or organic solvents (control experiments)."
+          }
+        ],
+        "explanation": "The 1.54\u00d710-7 S/cm value for y=0.50 is the paper's own Table 1 measurement at room temperature, with LiI correctly identified from the table rows. The record's aqueous-casting method is an inference from the majority statement and is not stated for this composition, so it should be null."
+      },
+      {
+        "record_id": "arXiv:1106.4185#006",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "synthesis_method",
+            "correct_value": null,
+            "evidence": "Polymer electrolytes: Appropriate amounts of polymer and Li salt were first dissolved in aqueous (majority of experiments) or organic solvents (control experiments)."
+          }
+        ],
+        "explanation": "The 2.28\u00d710-8 S/cm value for y=0.25 is the paper's own room-temperature Table 1 measurement for LiI. The aqueous-casting method is not stated for this composition, so synthesis_method should be null."
+      },
+      {
+        "record_id": "arXiv:1106.4185#007",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "synthesis_method",
+            "correct_value": null,
+            "evidence": "Polymer electrolytes: Appropriate amounts of polymer and Li salt were first dissolved in aqueous (majority of experiments) or organic solvents (control experiments)."
+          }
+        ],
+        "explanation": "The 7.9\u00d710-9 S/cm value for y=0.10 is the paper's own room-temperature Table 1 measurement for LiI. The aqueous-casting method is an inference from the majority statement and should be null for this composition."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 3998,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 23325,
+        "webSearchRequests": 0,
+        "costUSD": 0.00668781,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2423,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23325,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 16178,
+    "notional_cost_usd": 0.00668781
+  },
+  "paper_id": "arXiv:1106.4185",
+  "model": "haiku"
+}

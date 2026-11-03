@@ -1,0 +1,315 @@
+[
+  {
+    "record_id": "arXiv:2302.07264#001",
+    "paper_id": "arXiv:2302.07264",
+    "record": {
+      "material_as_written": "Na3.4 Zr2 Si2.4 P0.6 O12 -1.0 wt%\u00b7MgF2",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Mg",
+        "F"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1250,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.03",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.277,
+      "measurement_method": "EIS",
+      "evidence_quote": "the total room-temperature ionic conductivity of the NASICON electrolyte reaches up to 2.03 mS cm\u22121",
+      "evidence_location": "abstract",
+      "notes": "Abstract value for the z = 1.00 wt% MgF2 sample; activation energy 0.277 eV is from the same abstract (with activation energy of 0.277 eV). Sintering temperature 1250 C is stated in Section 2.1; sintering time not given numerically."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00203,
+    "log10_conductivity": -2.693
+  },
+  {
+    "record_id": "arXiv:2302.07264#002",
+    "paper_id": "arXiv:2302.07264",
+    "record": {
+      "material_as_written": "Na3.4 Zr2 Si2.4 P0.6 O12 (bare, z = 0.00)",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1250,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.12",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.311,
+      "measurement_method": "EIS",
+      "evidence_quote": "can improve the ionic conductivity from 1.12 to 2.03 mS/cm",
+      "evidence_location": "introduction",
+      "notes": "Value 1.12 is the baseline total conductivity of the bare NASICON as stated in the introduction; measurement temperature is not stated for this value. Activation energy 0.311 eV is stated in Section 3 for the z = 0 sample."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00112,
+    "log10_conductivity": -2.951
+  },
+  {
+    "record_id": "arXiv:2302.07264#003",
+    "paper_id": "arXiv:2302.07264",
+    "record": {
+      "material_as_written": "Na3.4 Zr2 Si2.4 P0.6 O12 (bare, z = 0.00)",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1250,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.58",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": "and 1.99 mS/cm at 25 \u25e6 C",
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "25 \u00b0C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "the bulk and grain-boundary conductivities for the bare sample Na3.4 Zr2 Si2.4 P0.6 O12 are 2.58",
+      "evidence_location": "results (Section 3, Fig. 2b discussion)",
+      "notes": "The value 2.58 is at the end of a line and the unit appears in the following text line (unit_evidence_quote). Bulk value for bare sample."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00258,
+    "log10_conductivity": -2.588
+  },
+  {
+    "record_id": "arXiv:2302.07264#004",
+    "paper_id": "arXiv:2302.07264",
+    "record": {
+      "material_as_written": "Na3.4 Zr2 Si2.4 P0.6 O12 (bare, z = 0.00)",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1250,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.99",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "grain_boundary",
+      "measurement_temperature_as_reported": "25 \u25e6 C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "and 1.99 mS/cm at 25 \u25e6 C",
+      "evidence_location": "results (Section 3, Fig. 2b discussion)",
+      "notes": "Grain-boundary conductivity of the bare sample, stated in the sentence beginning on the previous line."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00199,
+    "log10_conductivity": -2.701
+  },
+  {
+    "record_id": "arXiv:2302.07264#005",
+    "paper_id": "arXiv:2302.07264",
+    "record": {
+      "material_as_written": "Na3.4 Zr2 Si2.4 P0.6 O12 -1.0 wt%\u00b7MgF2 (z = 1)",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Mg",
+        "F"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1250,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.3",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "25 \u25e6 C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "the bulk and grain-boundary conductivities reach 3.3 mS/cm",
+      "evidence_location": "results (Section 3, Fig. 2b discussion)",
+      "notes": "Bulk conductivity for z = 1 wt%. Paper states values were measured at 25 C (Fig. 2b discussion)."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0033,
+    "log10_conductivity": -2.481
+  },
+  {
+    "record_id": "arXiv:2302.07264#006",
+    "paper_id": "arXiv:2302.07264",
+    "record": {
+      "material_as_written": "Na3.4 Zr2 Si2.4 P0.6 O12 -1.0 wt%\u00b7MgF2 (z = 1)",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Mg",
+        "F"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1250,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5.28",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "grain_boundary",
+      "measurement_temperature_as_reported": "25 \u25e6 C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "(increased by \u223c 0.72) and 5.28 mS/cm (increased by \u223c 3.29), respectively",
+      "evidence_location": "results (Section 3, Fig. 2b discussion)",
+      "notes": "Grain-boundary conductivity for z = 1 as reported, but it is higher than the reported total conductivity (2.03 mS/cm), which is physically inconsistent; included as stated, flagged for checking."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00528,
+    "log10_conductivity": -2.277
+  },
+  {
+    "record_id": "arXiv:2302.07264#007",
+    "paper_id": "arXiv:2302.07264",
+    "record": {
+      "material_as_written": "Na3.4 Zr2 Si2.4 P0.6 O12 -0.75 wt%\u00b7MgF2 (z = 0.75)",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Mg",
+        "F"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1250,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.74",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "25 \u25e6 C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "The biggest value of the bulk conductivity is 3.74 mS/cm",
+      "evidence_location": "results (Section 3, Fig. 2b discussion)",
+      "notes": "Largest bulk conductivity in the series, at z = 0.75 wt%; the quote does not name the composition, which is taken from the following line 'for the NASICON sample at z = 0.75'. Temperature taken from the Fig. 2b measurement statement."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00374,
+    "log10_conductivity": -2.427
+  },
+  {
+    "record_id": "arXiv:2302.07264#008",
+    "paper_id": "arXiv:2302.07264",
+    "record": {
+      "material_as_written": "Na3.4 Zr2 Si2.4 P0.6 O12 -3.0 wt%\u00b7MgF2 (z = 3)",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Mg",
+        "F"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1250,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.46",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "25 \u25e6 C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "while the lowest bulk conductivity is 2.46 mS/cm when z = 3",
+      "evidence_location": "results (Section 3, Fig. 2b discussion)",
+      "notes": "Lowest bulk conductivity in the series, at z = 3 wt%. Temperature taken from the Fig. 2b measurement statement."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00246,
+    "log10_conductivity": -2.609
+  }
+]

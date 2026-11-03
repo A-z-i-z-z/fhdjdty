@@ -1,0 +1,71 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2501.03165#001",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "sintering_temperature_C",
+            "correct_value": null,
+            "evidence": "Pellets of the nearly phase pure NSP were conventionally sintered, achieving greater than 90% density with no indication of sodium loss."
+          },
+          {
+            "field": "sintering_time_h",
+            "correct_value": null,
+            "evidence": "Pellets of the nearly phase pure NSP were conventionally sintered, achieving greater than 90% density with no indication of sodium loss."
+          }
+        ],
+        "explanation": "Material, room-temperature conductivity of ~10^-7 S/cm, unit and experimental origin are correct. The 900 \u00b0C / 16 h sintering appears in a generic EIS methods paragraph and is not stated for NSP in the results, so it should be null."
+      },
+      {
+        "record_id": "arXiv:2501.03165#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 2.6 \u00d7 10\u22122 \u03a9\u22121 cm\u22121 at 300 \u00b0C value for the high-temperature NTP phase is explicitly attributed to earlier work [14], so literature_cited is correct and the unit and temperature match."
+      },
+      {
+        "record_id": "arXiv:2501.03165#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports 11.1 mS/cm predicted from its own MD calculations for Na3TaP2O9 at room temperature, so the computational origin, material, and value are right; Ta is a substituent in the paper, so listing it as a dopant is only a minor labelling issue."
+      },
+      {
+        "record_id": "arXiv:2501.03165#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports 12.4 mS/cm computed room-temperature conductivity for Na3VP2O9 from its own MD work, matching the record's value, unit, and computational origin."
+      },
+      {
+        "record_id": "arXiv:2501.03165#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Figure 8 text states the computed 0.27 eV activation energy and the room-temperature 1 mS/cm conductivity for Na4SnP2O9 from the paper's own simulations, so the value, origin, and activation energy are all supported."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 68830,
+        "outputTokens": 3718,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 69020,
+        "webSearchRequests": 0,
+        "costUSD": 0.02256582,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2870,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 69020,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 16223,
+    "notional_cost_usd": 0.02256582
+  },
+  "paper_id": "arXiv:2501.03165",
+  "model": "haiku"
+}

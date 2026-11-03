@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1909.13291#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the LATP ceramic sintered at 900\u00b0C has a total conductivity of about 4.7 \u00d7 10\u22125 S\u2219cm\u22121 at 30\u00b0C, measured in this work by impedance spectroscopy. Sintering for 2 h and solid-state synthesis match the Experimental section. Null relative density and activation energy are acceptable."
+      },
+      {
+        "record_id": "arXiv:1909.13291#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text says \u03c3tot reaches 1.1 \u00d7 10\u22124 S\u2219cm\u22121 for LATP-0.1LiF and LATP-0.2LiF, and Table 2's 800\u00b0C row for 0.1LiF gives \u03c3tot = 1.1 \u00d7 10\u22124 at 30\u00b0C. LiF is a sintering additive, so the empty dopants list is correct."
+      },
+      {
+        "record_id": "arXiv:1909.13291#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The same sentence gives 1.1 \u00d7 10\u22124 S\u2219cm\u22121 for LATP-0.2LiF, and Table 2's 800\u00b0C row for 0.2LiF gives \u03c3tot = 1.1 \u00d7 10\u22124 at 30\u00b0C. The 800\u00b0C sintering, 2 h time and experimental origin are all supported."
+      },
+      {
+        "record_id": "arXiv:1909.13291#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text states \u03c3tot = 0.7 \u00d7 10\u22124 S\u2219cm\u22121 for LATP-0.3LiF, and Table 2's 800\u00b0C row for 0.3LiF gives 7.0 \u00d7 10\u22125 at 30\u00b0C. The sintering conditions and measurement temperature match."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 25693,
+        "outputTokens": 2117,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 25881,
+        "webSearchRequests": 0,
+        "costUSD": 0.008823820000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1436,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 25881,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8379,
+    "notional_cost_usd": 0.008823820000000001
+  },
+  "paper_id": "arXiv:1909.13291",
+  "model": "haiku"
+}

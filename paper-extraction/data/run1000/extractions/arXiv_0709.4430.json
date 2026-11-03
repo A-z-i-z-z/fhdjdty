@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies Ag+ conducting (AgI)x(AgPO3)1-x glasses, which are not Li- or Na-ion conductors, and its room-temperature conductivity appears only in Fig. 1c with no numeric value in the text.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 477,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 10914,
+        "webSearchRequests": 0,
+        "costUSD": 0.0024215,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 293,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 10914,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5784,
+    "notional_cost_usd": 0.0024215
+  },
+  "paper_id": "arXiv:0709.4430",
+  "model": "haiku"
+}

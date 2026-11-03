@@ -1,0 +1,100 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2605.25000#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.3 and the abstract both give 13.54 mS cm-1 for the dry-60 min bulk conductivity at 600 \u2103, and the ceramics were sintered at 1050 \u2103 for 2 h."
+      },
+      {
+        "record_id": "arXiv:2605.25000#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.3 states that wet-30 min shows the lowest bulk value of 6.7 mS cm-1 at 600 \u2103, and the record's bulk kind, temperature and 1050 \u2103/2 h sintering all match the paper."
+      },
+      {
+        "record_id": "arXiv:2605.25000#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports wet-30 min as having the highest grain-boundary conductivity of 13.72 mS cm-1 at 600 \u2103, which matches the record."
+      },
+      {
+        "record_id": "arXiv:2605.25000#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports dry-90 min as the lowest grain-boundary value, 0.56 mS cm-1 at 600 \u2103, in the grain-boundary series, which matches the record."
+      },
+      {
+        "record_id": "arXiv:2605.25000#005",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "sintering_temperature_C",
+            "correct_value": null,
+            "evidence": "The supplied draft does not specify the Ca precursor, Eu 3+ probe concentration, pellet pressing condition, or whether the same mixing route was used for all Ca-doped samples."
+          },
+          {
+            "field": "sintering_time_h",
+            "correct_value": null,
+            "evidence": "The supplied draft does not specify the Ca precursor, Eu 3+ probe concentration, pellet pressing condition, or whether the same mixing route was used for all Ca-doped samples."
+          }
+        ],
+        "explanation": "The 8.35 mS cm-1 at 500 \u2103 value for x = 0.04 is correct and the bulk label is supported by the Fig. 12a discussion, but the 1050 \u2103/2 h sintering is the undoped processing-study condition and the paper says the Ca-series preparation is not specified, so those fields should be null."
+      },
+      {
+        "record_id": "arXiv:2605.25000#006",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "sintering_temperature_C",
+            "correct_value": null,
+            "evidence": "The supplied draft does not specify the Ca precursor, Eu 3+ probe concentration, pellet pressing condition, or whether the same mixing route was used for all Ca-doped samples."
+          },
+          {
+            "field": "sintering_time_h",
+            "correct_value": null,
+            "evidence": "The supplied draft does not specify the Ca precursor, Eu 3+ probe concentration, pellet pressing condition, or whether the same mixing route was used for all Ca-doped samples."
+          }
+        ],
+        "explanation": "The 18.98 mS cm-1 at 600 \u2103 value for x = 0.04 is correct, but the sintering conditions are borrowed from the undoped series and the paper says the Ca-series preparation is not specified, so those fields should be null."
+      },
+      {
+        "record_id": "arXiv:2605.25000#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The quoted 6 mS cm-1 at 500 \u2103 is explicitly a benchmark cited from the draft (refs 15,16), so literature_cited is correct; the paper does not name the exact material, but the benchmarks are presented as NBT literature values in the Ca-doping comparison."
+      },
+      {
+        "record_id": "arXiv:2605.25000#008",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The quoted 14.3 mS cm-1 at 600 \u2103 is a literature benchmark cited from refs [15,16] and is stated verbatim in the paper, so the literature_cited origin and temperature are correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 4315,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 13637,
+        "webSearchRequests": 0,
+        "costUSD": 0.00490871,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2927,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13637,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 17773,
+    "notional_cost_usd": 0.00490871
+  },
+  "paper_id": "arXiv:2605.25000",
+  "model": "haiku"
+}

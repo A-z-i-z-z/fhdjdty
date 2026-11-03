@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2303.16350#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states LiAl5O8's independent Li-ion conductivity is only ~10^-6 S/cm, and the sentence carries the citation marker 38 (Ito et al.), so literature_cited is correct. No measurement temperature is given, so null is right."
+      },
+      {
+        "record_id": "arXiv:2303.16350#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper says 'previously LiCl alone has been shown to have insufficient ionic conductivity (~10^-6 S/cm)' with citation markers 48,49, so the value is literature_cited for LiCl. No temperature is stated."
+      },
+      {
+        "record_id": "arXiv:2303.16350#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports Li2B6O9F2's experimental ionic conductivity as ~10^-10 S/cm and cites ref. 47 (Pilz and Jansen) for it, so literature_cited is correct. No temperature is given."
+      },
+      {
+        "record_id": "arXiv:2303.16350#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper says an improvement up to ~10^-5 S/cm was found in solid solutions of Li4SiO4 and Li5GaSi2O8, citing ref. 45, so literature_cited is correct. The family-level material name matches the paper's wording and no temperature is stated."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1438,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 25688,
+        "webSearchRequests": 0,
+        "costUSD": 0.00588041,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 873,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 25688,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6880,
+    "notional_cost_usd": 0.00588041
+  },
+  "paper_id": "arXiv:2303.16350",
+  "model": "haiku"
+}

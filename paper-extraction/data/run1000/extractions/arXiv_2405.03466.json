@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about Li-ion chalcogenide solid electrolytes (Li2BMQ4) and reports an experimental room-temperature impedance conductivity for two synthesized compounds.",
+    "records": [
+      {
+        "material_as_written": "Li2BaSnS4",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "5\u00d710-4",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "estimated to be ~5\u00d710-4 mS/cm at room temperature for both compounds",
+        "evidence_location": "Results (Fig.4b discussion)",
+        "notes": "The quote covers both Li2BaSnS4 and Li2SrSiS4 (the paper says the value is for both compounds); the material name is from the preceding sentence. Activation energies in Table S2 are NEB values, not measured, so left null."
+      },
+      {
+        "material_as_written": "Li2SrSiS4",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "5\u00d710-4",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "estimated to be ~5\u00d710-4 mS/cm at room temperature for both compounds",
+        "evidence_location": "Results (Fig.4b discussion)",
+        "notes": "The quote covers both Li2SrSiS4 and Li2BaSnS4 (the paper says the value is for both compounds); the material name is from the preceding sentence. Activation energies in Table S2 are NEB values, not measured, so left null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 29496,
+        "outputTokens": 2475,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 29688,
+        "webSearchRequests": 0,
+        "costUSD": 0.01015626,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1545,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 29688,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10853,
+    "notional_cost_usd": 0.01015626
+  },
+  "paper_id": "arXiv:2405.03466",
+  "model": "haiku"
+}

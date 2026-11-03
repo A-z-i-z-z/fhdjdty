@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2609.01621#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that the reported room-temperature conductivity for inorganic case I7 is 8.54\u00d710\u20133 S cm\u20131 at 25 \u00b0C, taken from the original source article (a literature case, not the authors' own measurement). The record's value, unit, temperature and literature_cited origin match. The authors' argument that the true value is 0.854 S m\u20131 is an interpretation, and the record correctly keeps the unit as reported. All secondary fields are null, which is correct because the paper gives none for I7."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1443,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 12046,
+        "webSearchRequests": 0,
+        "costUSD": 0.00315451,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1182,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12046,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7694,
+    "notional_cost_usd": 0.00315451
+  },
+  "paper_id": "arXiv:2609.01621",
+  "model": "haiku"
+}

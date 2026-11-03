@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about Li3PS4 solid electrolytes, but it reports ionic conductivities only qualitatively or in figures (Fig. 2g, Fig. S10a). The text gives no numeric conductivity value, so there is nothing to extract.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 33641,
+        "outputTokens": 638,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 33831,
+        "webSearchRequests": 0,
+        "costUSD": 0.010480860000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 422,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 33831,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3044,
+    "notional_cost_usd": 0.010480860000000002
+  },
+  "paper_id": "arXiv:2401.05151",
+  "model": "haiku"
+}

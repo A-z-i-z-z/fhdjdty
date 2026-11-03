@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2407.04126#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract gives 1.2\u00d710\u207b\u2079 cm\u00b2/s at 300 K for the anion-ordered bulk, corresponding to about 0.2 mS/cm, and Table V lists \u03c3 = 0.2 mS/cm at 300 K. The values come from this work's MTP simulations, so 'computational' is correct. The activation energy of 384 meV appears in Sec. III D, and the 0.384 eV entry is the same value in eV; the checker warning is only a unit-format mismatch."
+      },
+      {
+        "record_id": "arXiv:2407.04126#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract and Table V both give 29.8 mS/cm (D = 2.2\u00d710\u207b\u2077 cm\u00b2/s) at 300 K for the 50% Cl/S anion-disordered bulk, computed in this work. The 216 meV activation energy is stated in Sec. III D, and the Cl/S mixing is correctly not treated as a dopant."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 49823,
+        "outputTokens": 937,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 50013,
+        "webSearchRequests": 0,
+        "costUSD": 0.015473220000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 479,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 50013,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4836,
+    "notional_cost_usd": 0.015473220000000001
+  },
+  "paper_id": "arXiv:2407.04126",
+  "model": "haiku"
+}

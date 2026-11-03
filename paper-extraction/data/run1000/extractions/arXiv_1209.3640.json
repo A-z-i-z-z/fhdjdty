@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies voltage-gated ion channels in synthetic lipid bilayers (DMPC:DLPC membranes), not solid-state ion conductors, and reports only single-channel and membrane conductances (pS/nS), not ionic conductivities of solid Li/Na conductors.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 328,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 16757,
+        "webSearchRequests": 0,
+        "costUSD": 0.0035509500000000006,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 131,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16757,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2719,
+    "notional_cost_usd": 0.0035509500000000006
+  },
+  "paper_id": "arXiv:1209.3640",
+  "model": "haiku"
+}

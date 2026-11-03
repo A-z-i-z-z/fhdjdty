@@ -1,0 +1,80 @@
+[
+  {
+    "record_id": "arXiv:1605.08598#001",
+    "paper_id": "arXiv:1605.08598",
+    "record": {
+      "material_as_written": "Li6.25Al0.25La3Zr2O12",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Al"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5.8 \u00d710-6",
+      "conductivity_unit_as_reported": "ohm-1 cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": 0.413,
+      "measurement_method": "molecular dynamics with Nernst-Einstein relation",
+      "evidence_quote": "The average of the three trials gives 5.8 \u00d710-\u00ad\u20106 ohm-\u00ad\u20101 cm-\u00ad\u20101 for the conductivity of Li6.25Al0.25La3Zr2O12",
+      "evidence_location": "results",
+      "notes": "Average of three MD trials; 300 K value obtained by linear extrapolation of log D vs 1000/T and Nernst-Einstein estimate, not a direct measurement. Activation energy 0.413 eV is from the same results paragraph. Quote spacing reflects PDF line-break artifacts."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 5.8e-06,
+    "log10_conductivity": -5.237
+  },
+  {
+    "record_id": "arXiv:1605.08598#002",
+    "paper_id": "arXiv:1605.08598",
+    "record": {
+      "material_as_written": "Li6.25In0.25La3Zr2O12",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "In"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "79 \u00d710-6",
+      "conductivity_unit_as_reported": "ohm-1 cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": 0.335,
+      "measurement_method": "molecular dynamics with Nernst-Einstein relation",
+      "evidence_quote": "79 \u00d710-\u00ad\u20106 ohm-\u00ad\u20101 cm-\u00ad\u20101 for the conductivity of Li6.25In0.25La3Zr2O12",
+      "evidence_location": "results",
+      "notes": "Average of three MD trials; 300 K value obtained by extrapolation and Nernst-Einstein estimate, not measured. Activation energy 0.335 eV is from the same results paragraph. Quote spacing reflects PDF line-break artifacts."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 7.9e-05,
+    "log10_conductivity": -4.102
+  }
+]

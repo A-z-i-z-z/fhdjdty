@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about the segmental relaxation and thermodynamic scaling of PMMA oligomers; its ionic conductivity appears only as a plotted curve (Fig. 3) with no numeric value in the text, and the mobile ions are not a Li/Na solid-electrolyte system.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 400,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 16687,
+        "webSearchRequests": 0,
+        "costUSD": 0.0035729500000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 203,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16687,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4232,
+    "notional_cost_usd": 0.0035729500000000005
+  },
+  "paper_id": "arXiv:cond-mat/0702112",
+  "model": "haiku"
+}

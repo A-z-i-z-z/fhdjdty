@@ -1,0 +1,176 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is an MD simulation study of ionic conductivity in Y-doped ceria (a solid oxide ion conductor) and reports numerical bulk conductivities in Table 3.",
+    "records": [
+      {
+        "material_as_written": "Ce1\u2212x Yx O2\u2212x/2, x = 0.08",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [
+          "Y"
+        ],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.125",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": "\u03c3i (S cm\u22121 )",
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "1473 K",
+        "measurement_temperature_C": 1200,
+        "activation_energy_eV": 0.57,
+        "measurement_method": "molecular dynamics (DIPPIM, h-DIPPIM potential)",
+        "evidence_quote": "h-DIPPIM\n0.125\n0.136\n0.122",
+        "evidence_location": "Table 3",
+        "notes": "Table 3 is flattened in the PDF text; the x values come from the row labels 0.08, 0.12, 0.18 in column order. Oxygen vacancy-type O2- conductor; the mobile ion is an oxygen vacancy/O2- rather than Li or Na, so mobile_ion is recorded as other. Activation energy 0.570 eV is the zero-strain bulk h-DIPPIM value from Table 4. Conversion 1473 K = 1200 \u00b0C."
+      },
+      {
+        "material_as_written": "Ce1\u2212x Yx O2\u2212x/2, x = 0.12",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [
+          "Y"
+        ],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.136",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": "\u03c3i (S cm\u22121 )",
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "1473 K",
+        "measurement_temperature_C": 1200,
+        "activation_energy_eV": 0.65,
+        "measurement_method": "molecular dynamics (DIPPIM, h-DIPPIM potential)",
+        "evidence_quote": "h-DIPPIM\n0.125\n0.136\n0.122",
+        "evidence_location": "Table 3",
+        "notes": "Table 3 is flattened in the PDF text; the value is the second column of the h-DIPPIM row, which corresponds to x = 0.12. Activation energy 0.650 eV is the zero-strain bulk h-DIPPIM value from Table 4. Conversion 1473 K = 1200 \u00b0C."
+      },
+      {
+        "material_as_written": "Ce1\u2212x Yx O2\u2212x/2, x = 0.18",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [
+          "Y"
+        ],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.122",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": "\u03c3i (S cm\u22121 )",
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "1473 K",
+        "measurement_temperature_C": 1200,
+        "activation_energy_eV": 0.674,
+        "measurement_method": "molecular dynamics (DIPPIM, h-DIPPIM potential)",
+        "evidence_quote": "h-DIPPIM\n0.125\n0.136\n0.122",
+        "evidence_location": "Table 3",
+        "notes": "Table 3 is flattened in the PDF text; the value is the third column of the h-DIPPIM row, which corresponds to x = 0.18. Activation energy 0.674 eV is the zero-strain bulk h-DIPPIM value from Table 4. Conversion 1473 K = 1200 \u00b0C."
+      },
+      {
+        "material_as_written": "Ce1\u2212x Yx O2\u2212x/2, x = 0.08 (l-DIPPIM)",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [
+          "Y"
+        ],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.110",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": "\u03c3i (S cm\u22121 )",
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "1473 K",
+        "measurement_temperature_C": 1200,
+        "activation_energy_eV": null,
+        "measurement_method": "molecular dynamics (DIPPIM, l-DIPPIM potential)",
+        "evidence_quote": "l-DIPPIM\n0.110\n0.132\n0.125",
+        "evidence_location": "Table 3",
+        "notes": "Table 3 caption attributes the l-DIPPIM (LDA) values to refs [58, 16], the authors' previous work, so these are literature_cited, not from this paper. Row flattened in PDF text; first column = x = 0.08. Conversion 1473 K = 1200 \u00b0C."
+      },
+      {
+        "material_as_written": "Ce1\u2212x Yx O2\u2212x/2, x = 0.12 (l-DIPPIM)",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [
+          "Y"
+        ],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.132",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": "\u03c3i (S cm\u22121 )",
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "1473 K",
+        "measurement_temperature_C": 1200,
+        "activation_energy_eV": null,
+        "measurement_method": "molecular dynamics (DIPPIM, l-DIPPIM potential)",
+        "evidence_quote": "l-DIPPIM\n0.110\n0.132\n0.125",
+        "evidence_location": "Table 3",
+        "notes": "Table 3 caption attributes l-DIPPIM values to refs [58, 16] (authors' previous work), so literature_cited. Row flattened; second column = x = 0.12. Conversion 1473 K = 1200 \u00b0C."
+      },
+      {
+        "material_as_written": "Ce1\u2212x Yx O2\u2212x/2, x = 0.18 (l-DIPPIM)",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [
+          "Y"
+        ],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.125",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": "\u03c3i (S cm\u22121 )",
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "1473 K",
+        "measurement_temperature_C": 1200,
+        "activation_energy_eV": null,
+        "measurement_method": "molecular dynamics (DIPPIM, l-DIPPIM potential)",
+        "evidence_quote": "l-DIPPIM\n0.110\n0.132\n0.125",
+        "evidence_location": "Table 3",
+        "notes": "Table 3 caption attributes l-DIPPIM values to refs [58, 16] (authors' previous work), so literature_cited. Row flattened; third column = x = 0.18. Conversion 1473 K = 1200 \u00b0C."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 5183,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 14388,
+        "webSearchRequests": 0,
+        "costUSD": 0.00550465,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2394,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14388,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 20036,
+    "notional_cost_usd": 0.00550465
+  },
+  "paper_id": "arXiv:1304.6434",
+  "model": "haiku"
+}

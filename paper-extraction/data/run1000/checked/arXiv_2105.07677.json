@@ -1,0 +1,156 @@
+[
+  {
+    "record_id": "arXiv:2105.07677#001",
+    "paper_id": "arXiv:2105.07677",
+    "record": {
+      "material_as_written": "h-LiBH4",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10\u22123",
+      "conductivity_unit_as_reported": "S cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "120 \u00b0C",
+      "measurement_temperature_C": 120,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "remarkable ionic conductivity (~10\u22123 S cm-1 at 120 \u00b0C)",
+      "evidence_location": "Introduction",
+      "notes": "Hexagonal LiBH4 value quoted from earlier work (Matsuo et al., ref. 4); not measured in this paper. Value is approximate ('~')."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.001,
+    "log10_conductivity": -3.0
+  },
+  {
+    "record_id": "arXiv:2105.07677#002",
+    "paper_id": "arXiv:2105.07677",
+    "record": {
+      "material_as_written": "o-LiBH4",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "9.5 \u00d7 10\u22129 \u00b1 2 \u00d7 10\u22129",
+      "conductivity_unit_as_reported": "S cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "30 \u00b0C",
+      "measurement_temperature_C": 30,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "showing a Li-ion conductivity of 9.5 \u00d7 10\u22129 \u00b1 2 \u00d7 10\u22129 S cm-1",
+      "evidence_location": "Introduction",
+      "notes": "Orthorhombic LiBH4 value cited from ref. 5; the 30 \u00b0C temperature is in the sentence continuing after the quote. Not measured in this paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 9.5e-09,
+    "log10_conductivity": -8.022
+  },
+  {
+    "record_id": "arXiv:2105.07677#003",
+    "paper_id": "arXiv:2105.07677",
+    "record": {
+      "material_as_written": "LiBH4-LiI hexagonal solid solution with 25 mol.% LiI",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "I"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10\u22124",
+      "conductivity_unit_as_reported": "S cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "30 \u00b0C",
+      "measurement_temperature_C": 30,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "hexagonal solid solution with 25 mol.% of LiI showed a Li-ion conductivity of about 10\u22124 S cm-1 at 30 \u00b0C",
+      "evidence_location": "Introduction",
+      "notes": "Value attributed to earlier literature (refs. 10-12 context), not measured here. Composition given as 25 mol.% LiI in the text; the quote begins after a line break in the PDF text. Approximate ('about')."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0001,
+    "log10_conductivity": -4.0
+  },
+  {
+    "record_id": "arXiv:2105.07677#004",
+    "paper_id": "arXiv:2105.07677",
+    "record": {
+      "material_as_written": "h-Li(BH4)0.7(Br)0.3",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Br"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10\u22125",
+      "conductivity_unit_as_reported": "S cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "~10\u22125 S cm-1 for h-Li(BH4)0.7(Br)0.3",
+      "evidence_location": "Introduction",
+      "notes": "Value cited from ref. 12; no measurement temperature given for this value (text only says fast conductivity 'at RT' in general). Approximate ('~')."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1e-05,
+    "log10_conductivity": -5.0
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "record_id": "arXiv:2203.05501#001",
+    "paper_id": "arXiv:2203.05501",
+    "record": {
+      "material_as_written": "LLZO",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "For highly conductive solid-electrolytes like LLZO (\u03ba \u223c 1 mS/cm)",
+      "evidence_location": "results (Section 3)",
+      "notes": "Value is a general literature-level conductivity for LLZO quoted in passing, not measured or computed in this paper. The nearby citation [41] is attached to the pore diameter in the same sentence, so the source of the conductivity value is not explicitly cited. Dopant and composition are not specified. Conductivity kind and temperature are not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.001,
+    "log10_conductivity": -3.0
+  }
+]

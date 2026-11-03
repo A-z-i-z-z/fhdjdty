@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2610.03821#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 0.28 mS cm\u22121 value for LZC is stated in the Introduction as the prior result from ref. 50, so literature_cited is correct. The unit is correct, and the null temperature and secondary fields are consistent with the paper."
+      },
+      {
+        "record_id": "arXiv:2610.03821#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 0.26 mS cm\u22121 value for LYC is the same Introduction sentence citing ref. 50, so it is correctly literature_cited. The unit is correct, and the null temperature and secondary fields are consistent with the paper."
+      },
+      {
+        "record_id": "arXiv:2610.03821#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 0.41 mS cm\u22121 mixture value is reported in the Introduction as ref. 50's result from 'physically mixing two halide electrolytes', so the synthesis method and literature_cited origin are right. The record does not assert a mixing ratio, so it does not overclaim."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1158,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 41951,
+        "webSearchRequests": 0,
+        "costUSD": 0.008993010000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 723,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 41951,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5740,
+    "notional_cost_usd": 0.008993010000000001
+  },
+  "paper_id": "arXiv:2610.03821",
+  "model": "haiku"
+}

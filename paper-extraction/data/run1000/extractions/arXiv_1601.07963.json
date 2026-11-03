@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper models diffusion of charged molecules through a biological ion channel (a 2D Langevin/Brownian dynamics model), not a solid-state ion conductor, and reports no ionic conductivity of a solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 276,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 18351,
+        "webSearchRequests": 0,
+        "costUSD": 0.0038437500000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 92,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18351,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3157,
+    "notional_cost_usd": 0.0038437500000000004
+  },
+  "paper_id": "arXiv:1601.07963",
+  "model": "haiku"
+}

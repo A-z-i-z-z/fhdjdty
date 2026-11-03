@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about ML models predicting ionic conductivity of Li- and Na-based solid electrolytes, and it quotes room-temperature conductivity values for two Li compounds, though these come from the authors' compiled literature dataset rather than new measurements.",
+    "records": [
+      {
+        "material_as_written": "Li3P",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.0 \u00b4 10-3",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "Figure 2(a) and (b) show the phonon dispersion curves of Li3P (s = 1.0 \u00b4 10-3 S/cm) and b-Li3N (s = 2.085 \u00b4 10-4 S/cm), respectively, as representative examples.",
+        "evidence_location": "results (phonon band features section)",
+        "notes": "Value is the RT ionic conductivity of Li3P taken from the authors' compiled experimental training dataset (Table S1), not measured in this paper; the paper states conductivities are at RT elsewhere. Source literature not specified in this sentence."
+      },
+      {
+        "material_as_written": "b-Li3N",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.085 \u00b4 10-4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "Figure 2(a) and (b) show the phonon dispersion curves of Li3P (s = 1.0 \u00b4 10-3 S/cm) and b-Li3N (s = 2.085 \u00b4 10-4 S/cm), respectively, as representative examples.",
+        "evidence_location": "results (phonon band features section)",
+        "notes": "Value is the RT ionic conductivity of b-Li3N taken from the authors' compiled experimental training dataset (Table S1), not measured in this paper; source literature not specified in this sentence."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14108,
+        "outputTokens": 2250,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 14296,
+        "webSearchRequests": 0,
+        "costUSD": 0.0054265599999999995,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1193,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14296,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9114,
+    "notional_cost_usd": 0.0054265599999999995
+  },
+  "paper_id": "arXiv:2404.13858",
+  "model": "haiku"
+}

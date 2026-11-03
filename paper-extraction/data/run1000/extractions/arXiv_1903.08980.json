@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies Li diffusion in Li2O, Li2S and Li2Se, but it reports no ionic conductivity values with units. It gives diffusion coefficients (m2/s), activation energies in eV, and qualitative statements about \"ionic conductivity\", none of which are conductivity numbers.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18988,
+        "outputTokens": 647,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 19178,
+        "webSearchRequests": 0,
+        "costUSD": 0.00608946,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 414,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19178,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3253,
+    "notional_cost_usd": 0.00608946
+  },
+  "paper_id": "arXiv:1903.08980",
+  "model": "haiku"
+}

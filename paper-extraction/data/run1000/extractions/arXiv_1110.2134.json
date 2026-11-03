@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about time-resolved IR/Raman/2D IR spectroscopy of K+ binding in model ionophores and the KcsA potassium channel; it reports no ionic conductivity values for a solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 312,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 29170,
+        "webSearchRequests": 0,
+        "costUSD": 0.006025550000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 130,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 29170,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3653,
+    "notional_cost_usd": 0.006025550000000001
+  },
+  "paper_id": "arXiv:1110.2134",
+  "model": "haiku"
+}

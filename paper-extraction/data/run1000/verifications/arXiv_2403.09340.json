@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2403.09340#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper's Section 2.1 states that at room temperature sample Na2 (0.2 mol kg-1 NaTFSI) has \u03c3 = 2.0 \u00b7 10\u22124 S m\u22121, determined from the bulk conductivity fit with cell geometry. The experimental origin, bulk kind, and null secondary fields are all consistent with the paper."
+      },
+      {
+        "record_id": "arXiv:2403.09340#002",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The 4.0 \u00b7 10\u22124 S m\u22121 value is correctly cited to the authors' earlier work [12], so literature_cited is right. However, the room-temperature condition is inferred by the extractor, which the record's own notes admit; the paper gives no explicit measurement temperature for this LiTFSI value, so the temperature field is not reliably supported."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1640,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 16233,
+        "webSearchRequests": 0,
+        "costUSD": 0.004090410000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1266,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16233,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8462,
+    "notional_cost_usd": 0.004090410000000001
+  },
+  "paper_id": "arXiv:2403.09340",
+  "model": "haiku"
+}

@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about solid Mg-ion conductors (chalcogenide spinels) and reports one ionic conductivity value for MgSc2Se4, taken from an earlier study (ref. 22), so it is in scope as a literature_cited record.",
+    "records": [
+      {
+        "material_as_written": "MgSc2Se4",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.1",
+        "conductivity_unit_as_reported": "mS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "298 K",
+        "measurement_temperature_C": 24.85,
+        "activation_energy_eV": null,
+        "measurement_method": "AC impedance spectroscopy and 25Mg solid-state NMR (as reported in cited work)",
+        "evidence_quote": "ionic conductivity \u03c3ionic \u223c 0.1 mS cm\u22121 (at 298 K) observed in MgSc2 Se4 (via",
+        "evidence_location": "Introduction",
+        "notes": "Mobile ion is Mg (divalent), which is not in the Li/Na enum, so mobile_ion is set to 'other'. Value is quoted from earlier experimental work (ref. 22), not measured in this paper; the paper's own calculations are defect energetics and do not report ionic conductivity. The electronic/ionic ratio (~0.04 %) is not a conductivity value and was not recorded. Temperature converted from 298 K to 24.85 C for the numeric field."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 4,
+        "outputTokens": 2412,
+        "cacheReadInputTokens": 30639,
+        "cacheCreationInputTokens": 25391,
+        "webSearchRequests": 0,
+        "costUSD": 0.006590990000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1094,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 25391,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 12292,
+    "notional_cost_usd": 0.006590990000000001
+  },
+  "paper_id": "arXiv:1710.10443",
+  "model": "haiku"
+}

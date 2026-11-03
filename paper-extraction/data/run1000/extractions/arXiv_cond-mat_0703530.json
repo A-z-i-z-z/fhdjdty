@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper reports ionic conductivities of Ag+ conducting AgI-Ag2O-B2O3 glasses, not of a Li/Na-ion conductor, so it falls outside the stated scope and no records are created.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1860,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 6690,
+        "webSearchRequests": 0,
+        "costUSD": 0.00230355,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1685,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 6690,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10060,
+    "notional_cost_usd": 0.00230355
+  },
+  "paper_id": "arXiv:cond-mat/0703530",
+  "model": "haiku"
+}

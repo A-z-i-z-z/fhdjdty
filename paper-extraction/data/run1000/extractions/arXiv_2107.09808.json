@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a molecular dynamics study of interfacial thermal conductance between charged graphene and PEO/ionic-liquid electrolytes. It reports thermal conductivities and interfacial thermal conductance, not ionic conductivity of a solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 299,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 12770,
+        "webSearchRequests": 0,
+        "costUSD": 0.0027390500000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 102,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12770,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2936,
+    "notional_cost_usd": 0.0027390500000000003
+  },
+  "paper_id": "arXiv:2107.09808",
+  "model": "haiku"
+}

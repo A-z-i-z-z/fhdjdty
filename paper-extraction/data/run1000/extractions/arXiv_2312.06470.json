@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about polymer solid electrolytes for Li-ion batteries and reports MD-computed ionic conductivities for Li+/TFSI- polymer systems, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "CC(CNCCOCCOCCOC*)O*",
+        "material_class": "polymer",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.13\u00d710-3",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "353 K",
+        "measurement_temperature_C": 79.85,
+        "activation_energy_eV": null,
+        "measurement_method": "MD simulation (LAMMPS, PCFF+) with cluster Nernst-Einstein analysis",
+        "evidence_quote": "The best-performing candidate in the generated set whose p-SMILES code is CC(CNCCOCCOCCOC*)O* achieves a conductivity of 1.13\u00d710-3 S/cm, more than double that of the best polymer in the training set.",
+        "evidence_location": "results section 2.4",
+        "notes": "Polymer-LiTFSI system (1.5 mol/kg salt) from this paper's own MD. Temperature 353 K is from the Methods MD description; the converted 79.85 C is computed from 353 K, not stated in the paper. Conductivity is a candidate value from MD, not an experimental measurement."
+      },
+      {
+        "material_as_written": "highest-conductivity polymer in the training set (unnamed; HTP-MD dataset)",
+        "material_class": "polymer",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "5.07\u00d710-4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "MD (from prior HTP-MD dataset, cited as refs 32 and 10)",
+        "evidence_quote": "Notably, 17 of the 45 candidates surpass the highest conductivity polymer (conductivity = 5.07\u00d710-4 S/cm) in the training set (Fig. 4c).",
+        "evidence_location": "results section 2.4",
+        "notes": "Value belongs to the previously curated HTP-MD training dataset from the authors' earlier work, so it is treated as literature_cited. The polymer is not named in the text. Figure 4 caption gives the rounded value 5.1\u00d710-4 S/cm; this record uses the text value."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2826,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 21353,
+        "webSearchRequests": 0,
+        "costUSD": 0.00571915,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1715,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 21353,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 12097,
+    "notional_cost_usd": 0.00571915
+  },
+  "paper_id": "arXiv:2312.06470",
+  "model": "haiku"
+}

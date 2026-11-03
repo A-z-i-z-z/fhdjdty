@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:2203.09269#001",
+    "paper_id": "arXiv:2203.09269",
+    "record": {
+      "material_as_written": "PVDF-HFP/Pyr13FSI/LiFSI gel electrolyte (GPE) at 3:1 mass ratio of IL solution to PVDF-HFP",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solution casting",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.3",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "high conductivity, reaching 3.3 mS/cm at the mass ratio of 3:1, as shown in Fig. 2b and Fig. S3.",
+      "evidence_location": "results",
+      "notes": "Gel electrolyte is a quasi-solid polymer electrolyte with ionic liquid plasticizer; the value is stated as room-temperature conductivity in the introduction and results. EIS measured on SS/GPE/SS cell per Electrochemical measurements section. The 3:1 ratio is the GPE composition used for the full battery. Value repeated in the introduction as '(3.3 mS/cm)' with no separate measurement."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0033,
+    "log10_conductivity": -2.481
+  }
+]

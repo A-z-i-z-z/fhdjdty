@@ -1,0 +1,71 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2203.00814#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 0.49 mS cm\u22121 value at 298 K and 0.41 eV belong to the as-prepared BM-LYC sample, which the paper measured itself by EIS. The paper describes these as total pellet conductivity, and relative density is correctly left null because 76-79% is given for the pellets generally."
+      },
+      {
+        "record_id": "arXiv:2203.00814#002",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "sintering_temperature_C",
+            "correct_value": null,
+            "evidence": "The pellets were annealed at 550 \u00b0C for a total of 6 days in a tube furnace"
+          },
+          {
+            "field": "sintering_time_h",
+            "correct_value": null,
+            "evidence": "The pellets were annealed at 550 \u00b0C for a total of 6 days in a tube furnace"
+          }
+        ],
+        "explanation": "Material, 0.067 mS cm\u22121 at 298 K, 0.47 eV, total kind and experimental origin all match the SS-LYC sample. The 550 \u00b0C / 6-day treatment is the solid-state synthesis anneal, which the record's own notes call a synthesis step, so the sintering fields should be null; 144 h is also only a unit conversion of 6 days."
+      },
+      {
+        "record_id": "arXiv:2203.00814#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 0.12 mS cm\u22121 value for the \u03b2-phase is attributed in the text to Ito et al. EIS work, so literature_cited is correct. The paper gives no measurement temperature for this value, so null is right."
+      },
+      {
+        "record_id": "arXiv:2203.00814#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 0.014 mS cm\u22121 value for the \u03b1-phase comes from the Ito et al. study that the paper cites, so literature_cited is correct. No measurement temperature is stated, so null is right."
+      },
+      {
+        "record_id": "arXiv:2203.00814#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The \u22480.51 mS cm\u22121 value is attributed in the Introduction to Asano et al. (Ref. 10), so literature_cited is correct. The paper gives no measurement temperature or method for it, so those nulls are right."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 35997,
+        "outputTokens": 2938,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 36187,
+        "webSearchRequests": 0,
+        "costUSD": 0.01232592,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2089,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 36187,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 13287,
+    "notional_cost_usd": 0.01232592
+  },
+  "paper_id": "arXiv:2203.00814",
+  "model": "haiku"
+}

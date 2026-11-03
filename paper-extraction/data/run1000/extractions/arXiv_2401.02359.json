@@ -1,0 +1,162 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper studies Ca-, Ge- and Ta-doped garnet LLZO solid electrolytes and reports room-temperature ionic conductivities with activation energies.",
+    "records": [
+      {
+        "material_as_written": "Li6.55+xGe0.05La3-xCaxZr1.75Ta0.25O12 (x = 0, Ca 0)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ge",
+          "Ta",
+          "Ca"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "conventional solid state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 7.3,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "6.61 x 10-4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic Conductivity (S/cm)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.25,
+        "measurement_method": "EIS",
+        "evidence_quote": "0\n\n6.61 x 10-4\n\n0.25",
+        "evidence_location": "Table 2",
+        "notes": "Table 2 row for Ca content x = 0. Value matches room-temperature impedance conductivity per text; the row label is Ca content x, so the material is the x=0 member of the series. Relative density for this composition not stated."
+      },
+      {
+        "material_as_written": "Li6.55+xGe0.05La3-xCaxZr1.75Ta0.25O12 (x = 0.05, 0.05 Ca)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ge",
+          "Ta",
+          "Ca"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "conventional solid state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 7.3,
+        "relative_density_pct": 95.09,
+        "conductivity_value_as_reported": "9.95 x 10 -4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.23,
+        "measurement_method": "EIS",
+        "evidence_quote": "The highest conductivity of 9.95 x 10 -4 S/cm was obtained for a 0.05 Ca ceramic sample with minimum activation energy of 0.23 eV.",
+        "evidence_location": "abstract",
+        "notes": "Best composition in the series. Relative density 95.09% is stated for the 0.05 Ca sample in the text. Also listed in Table 2 as 9.95 x 10-4 S/cm, 0.23 eV."
+      },
+      {
+        "material_as_written": "Li6.55+xGe0.05La3-xCaxZr1.75Ta0.25O12 (x = 0.10, 0.10 Ca)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ge",
+          "Ta",
+          "Ca"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "conventional solid state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 7.3,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "4.07 x 10-4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic Conductivity (S/cm)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.32,
+        "measurement_method": "EIS",
+        "evidence_quote": "0.10\n\n4.07 x 10-4\n\n0.32",
+        "evidence_location": "Table 2",
+        "notes": "Table 2 row for Ca content x = 0.10. Relative density not stated for this composition."
+      },
+      {
+        "material_as_written": "Li6.55+xGe0.05La3-xCaxZr1.75Ta0.25O12 (x = 0.15, 0.15 Ca)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ge",
+          "Ta",
+          "Ca"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "conventional solid state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 7.3,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.75 x 10-4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic Conductivity (S/cm)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.34,
+        "measurement_method": "EIS",
+        "evidence_quote": "0.15\n\n1.75 x 10-4\n\n0.34",
+        "evidence_location": "Table 2",
+        "notes": "Table 2 row for Ca content x = 0.15. Relative density not stated for this composition."
+      },
+      {
+        "material_as_written": "Li6.55+xGe0.05La3-xCaxZr1.75Ta0.25O12 (x = 0.20, 0.20 Ca)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ge",
+          "Ta",
+          "Ca"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "conventional solid state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 7.3,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "5.72 x 10-5",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic Conductivity (S/cm)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.36,
+        "measurement_method": "EIS",
+        "evidence_quote": "0.20\n\n5.72 x 10-5\n\n0.36",
+        "evidence_location": "Table 2",
+        "notes": "Table 2 row for Ca content x = 0.20. Relative density not stated for this composition."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 12013,
+        "outputTokens": 3681,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 12201,
+        "webSearchRequests": 0,
+        "costUSD": 0.00551356,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1463,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12201,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 13170,
+    "notional_cost_usd": 0.00551356
+  },
+  "paper_id": "arXiv:2401.02359",
+  "model": "haiku"
+}

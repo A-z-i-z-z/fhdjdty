@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2601.22612#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.1 says the calculated room-temperature conductivity and Ea for crystalline \u03b1-Li2ZrCl6 are 0.803 mS/cm and 0.29 eV, from this paper's MLMD simulations, so the computational origin, value, unit, and Ea are correct. Temperature is room temperature with no numeric value given, so null is right."
+      },
+      {
+        "record_id": "arXiv:2601.22612#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.1 reports the calculated \u03c3RT of 0.066 mS/cm for crystalline ideal-Li2ZrCl6 from the authors' simulations. The paper gives only a 0.20 eV offset relative to \u03b1-Li2ZrCl6 and no absolute Ea, so the null activation energy is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 26936,
+        "outputTokens": 819,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 27120,
+        "webSearchRequests": 0,
+        "costUSD": 0.00854692,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 419,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27120,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4169,
+    "notional_cost_usd": 0.00854692
+  },
+  "paper_id": "arXiv:2601.22612",
+  "model": "haiku"
+}

@@ -1,0 +1,117 @@
+[
+  {
+    "record_id": "arXiv:2606.24239#001",
+    "paper_id": "arXiv:2606.24239",
+    "record": {
+      "material_as_written": "Rb2 Ti2 O5 (RTO) single crystal, hydrated, conductivity along b",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction (TiO2 and RbNO3 pressed into pellet and heated in furnace, then slow cooling)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "super-ionic conductivity along \u20d7b reaching 3 mS/cm at room temperature after hydration",
+      "evidence_location": "abstract",
+      "notes": "Mobile species is protons (proton conduction proposed), so mobile_ion set to 'other'. Value is for the crystal after ~10 h air exposure per Results section ('reaching 3 mS/cm along \u20d7b after 10 h'). Measured on a 2-electrode Au-electrode setup in resin-embedded crystal; bulk resistance used."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.003,
+    "log10_conductivity": -2.523
+  },
+  {
+    "record_id": "arXiv:2606.24239#002",
+    "paper_id": "arXiv:2606.24239",
+    "record": {
+      "material_as_written": "Rb2 Ti2 O5 (RTO) single crystal, conductivity along b after 1 h exposure",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction (TiO2 and RbNO3 pressed into pellet and heated in furnace, then slow cooling)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.28",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "the highest conductivity is along \u20d7b with 0.28 mS/cm after 1 h of exposure time to the atmosphere",
+      "evidence_location": "results (Section 2.5)",
+      "notes": "Hydration state is 1 h of laboratory-air exposure. Measurement temperature not stated for this value (room temperature is implied by the paper's discussion but not given here). Value derived from bulk resistance in Nyquist fit."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00028,
+    "log10_conductivity": -3.553
+  },
+  {
+    "record_id": "arXiv:2606.24239#003",
+    "paper_id": "arXiv:2606.24239",
+    "record": {
+      "material_as_written": "Rb2 Ti2 O5 (RTO) single crystal, conductivity along c after 10 h exposure",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction (TiO2 and RbNO3 pressed into pellet and heated in furnace, then slow cooling)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.006",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "which is more than two orders of magnitude than that along \u20d7c, with a conductivity of 0.006 mS/cm",
+      "evidence_location": "results (Section 2.5)",
+      "notes": "Value is along c, quoted as the comparison point for the 1 h b-axis value; the paper's Figure 6 caption refers to the 10 h exposure for the anisotropy, so the exposure time for this value is not explicitly confirmed. Measurement temperature not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 6e-06,
+    "log10_conductivity": -5.222
+  }
+]

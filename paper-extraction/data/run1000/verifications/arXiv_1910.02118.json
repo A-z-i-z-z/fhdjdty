@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1910.02118#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Supporting Information states that the electrolyte pellet (commercial Li6PS5Cl, cold-pressed at 370 MPa) has an ionic conductivity between 2 and 2.5 mS/cm by EIS, measured in this work with no citation. The paper gives no measurement temperature, so null is correct, and no sintering or activation energy is reported, so those nulls are correct too."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 872,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 17134,
+        "webSearchRequests": 0,
+        "costUSD": 0.0038866100000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 644,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17134,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5515,
+    "notional_cost_usd": 0.0038866100000000004
+  },
+  "paper_id": "arXiv:1910.02118",
+  "model": "haiku"
+}

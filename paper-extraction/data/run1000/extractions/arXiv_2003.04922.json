@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about ML prediction of NASICON/SICON ionic conductivity, but the text gives no conductivity value for any specific material; the only numbers are a dataset-wide range (10^-3 to 10^-13 S cm-1) and a classification threshold (1 \u00d7 10^-6 S cm-1), and the per-material values are only in supplementary Table S1a/S1b, which is not included.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 15103,
+        "outputTokens": 819,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 15295,
+        "webSearchRequests": 0,
+        "costUSD": 0.00501036,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 560,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15295,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3961,
+    "notional_cost_usd": 0.00501036
+  },
+  "paper_id": "arXiv:2003.04922",
+  "model": "haiku"
+}

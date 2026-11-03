@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports room-temperature ionic conductivity of a mechanochemically synthesized amorphous Ag+ fast ion conductor (50AgI-25Ag2O-25MoO3), so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "50SISOMO [50AgI-25Ag2O-25MoO3]",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "mechanochemical synthesis (high-energy planetary ball milling in acetone)",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "6x10\u22123",
+        "conductivity_unit_as_reported": "\u03a9\u22121 cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.2,
+        "measurement_method": "impedance spectroscopy (HP-4192A analyzer, 10 Hz-10 MHz)",
+        "evidence_quote": "ionic conductivity of ~ 6x10\u22123 \u03a9\u22121 cm\u22121 at room temperature.",
+        "evidence_location": "abstract",
+        "notes": "Material name is given in the preceding abstract line ('amorphous 50SISOMO [50AgI-25Ag2O-25MoO3]'). Mobile ion is Ag+, recorded as 'other' per schema. The 0.20 eV activation energy is the high-temperature (221-300 K) Arrhenius value reported in the abstract and Section 3.1, not a value specific to room temperature. The Conclusions give a garbled conductivity value (~6 x 10 -1 cm-1 at 300 K) that is not reliably readable, so it was not recorded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 6745,
+        "outputTokens": 1868,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 6933,
+        "webSearchRequests": 0,
+        "costUSD": 0.00302666,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1109,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 6933,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8248,
+    "notional_cost_usd": 0.00302666
+  },
+  "paper_id": "arXiv:1204.1602",
+  "model": "haiku"
+}

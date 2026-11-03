@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2010.08068#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction gives 1.8 \u00d7 10\u22126 S/cm at 40 \u00b0C for the LISICON with composition Li4\u2212xGe1\u2212xPxO4 (x = 0.67), citing Ref. [123], so the value, temperature, material and literature_cited origin are all correct, and the secondary fields are null as the paper does not state them."
+      },
+      {
+        "record_id": "arXiv:2010.08068#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The conclusions give \u03c3 = 1.2\u00d710\u22122 S/cm at room temperature for tetragonal Li10GeP2S12 citing Ref. [78], which is a literature value; the null numeric temperature is correct since no numeric temperature is given."
+      },
+      {
+        "record_id": "arXiv:2010.08068#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states that the tetragonal x = 0.67 phase named LGPS, discovered in Ref. [78], has a record conductivity of 12 \u00d7 10\u22123 S/cm, with no temperature given, so the null temperature and literature_cited origin are correct."
+      },
+      {
+        "record_id": "arXiv:2010.08068#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The conclusions describe the monoclinic/quasi-orthorhombic thio-LISICON (o-LGPS) as having \u03c3 \u223c 10\u22123 S/cm at room temperature, citing Ref. [75]; the value is approximate, the origin is literature_cited, and the temperature is room temperature with a null numeric value, all consistent with the paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1958,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 38073,
+        "webSearchRequests": 0,
+        "costUSD": 0.00861741,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1333,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 38073,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8700,
+    "notional_cost_usd": 0.00861741
+  },
+  "paper_id": "arXiv:2010.08068",
+  "model": "haiku"
+}

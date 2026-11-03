@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper reports ionic conductivity of 8YSZ (an oxygen-ion conductor), not of a solid Li- or Na-ion conductor, so it falls outside the Li/Na scope defined in the schema, and I returned no records.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 593,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 15487,
+        "webSearchRequests": 0,
+        "costUSD": 0.00342945,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 412,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15487,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5260,
+    "notional_cost_usd": 0.00342945
+  },
+  "paper_id": "arXiv:1904.08143",
+  "model": "haiku"
+}

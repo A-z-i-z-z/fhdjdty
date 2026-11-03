@@ -1,0 +1,41 @@
+[
+  {
+    "record_id": "arXiv:1704.07802#001",
+    "paper_id": "arXiv:1704.07802",
+    "record": {
+      "material_as_written": "(HEX1-xOCTx)0.99(LiPF6)0.01, x = 0.6",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Li"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "mixing of components in a glass tube with heating and magnetic stirring",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "210-7",
+      "conductivity_unit_as_reported": "-1 cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "269 K",
+      "measurement_temperature_C": -4.15,
+      "activation_energy_eV": null,
+      "measurement_method": "dielectric spectroscopy",
+      "evidence_quote": "It is best visible for T = 269 K between 1 Hz and 10 kHz where dc reaches values around 210-7 -1 cm-1.",
+      "evidence_location": "results, discussion of Fig. 3",
+      "notes": "The sentence does not name the composition; x = 0.6 is inferred from the Fig. 3 caption (typical spectra of HEX1-xOCTx with x = 0.6 and 1 mol% LiPF6). The value is garbled in the PDF text: the exponent and the unit (\u03a9^-1 cm^-1) are corrupted, and the reported value is read as about 2x10^-7 S/cm. Temperature converted from 269 K. Conductivity is a dc value from the spectra, not a separately fitted bulk or grain-boundary value. Other conductivity values appear only in Figs. 4-6 and were not recorded."
+    },
+    "hard_checks": {
+      "quote_in_text": false,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": false,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": null,
+    "log10_conductivity": null
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a first-principles study of ferroelectric switching in CuInP2S6, where Cu (not Li or Na) is the mobile species, and it reports no numeric ionic conductivity value; it only mentions \"large ionic conductivity\" qualitatively.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 353,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 22761,
+        "webSearchRequests": 0,
+        "costUSD": 0.00476425,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 165,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22761,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3052,
+    "notional_cost_usd": 0.00476425
+  },
+  "paper_id": "arXiv:2306.08714",
+  "model": "haiku"
+}

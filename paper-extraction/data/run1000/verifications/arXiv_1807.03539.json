@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1807.03539#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the highest ionic conductivity, 2.3\u00d710-5 S cm-1, is for the Er2O3 nanofiller sample (PPLE, 10 wt.%), measured by EIS at room temperature. Origin is experimental and the solution-cast method matches the paper."
+      },
+      {
+        "record_id": "arXiv:1807.03539#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states 'The ionic conductivity of pure polymer blend was 6.4\u00d710-10 S cm-1' from its own EIS measurements at room temperature, so the material, value, unit, temperature and origin all check out."
+      },
+      {
+        "record_id": "arXiv:1807.03539#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The sentence pairs 6.40\u00d710-10 and 7.10\u00d710-7 S cm-1 'respectively' with the pure blend and the polymer salt system, and both are bulk-resistance values from the impedance plot at room temperature. The 'bulk' kind is supported, and the JPL value of 4.66\u00d710-7 is correctly left unrecorded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1370,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 37418,
+        "webSearchRequests": 0,
+        "costUSD": 0.00819241,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 899,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 37418,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7000,
+    "notional_cost_usd": 0.00819241
+  },
+  "paper_id": "arXiv:1807.03539",
+  "model": "haiku"
+}

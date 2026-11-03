@@ -1,0 +1,98 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about dry solid polymer electrolytes (polymer + LiTFSI) and reports ionic conductivity values, though the values it reports are mostly MD-computed and only a few are literature-cited experimental values.",
+    "records": [
+      {
+        "material_as_written": "P(EO-MO) (poly(1,3-dioxolane), *OCCOC*)",
+        "material_class": "polymer",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.515",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "353 K",
+        "measurement_temperature_C": 80,
+        "activation_energy_eV": null,
+        "measurement_method": "MD",
+        "evidence_quote": "Its MD-calculated ion conductivity is 1.515 (\u00b1 0.199) mS/cm.",
+        "evidence_location": "results (Section 4.3)",
+        "notes": "Computed by classical MD (PCFF+, cluster Nernst-Einstein) for polymer-LiTFSI at 1.5 mol/kg; the 353 K temperature is the stated simulation temperature for the dataset (Section 3.5). Value is the mean; the \u00b1 0.199 is the standard deviation and is not included."
+      },
+      {
+        "material_as_written": "P(EO-MO) (poly(1,3-dioxolane), *OCCOC*)",
+        "material_class": "polymer",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.4",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "experimental (cited)",
+        "evidence_quote": "Although experimental measurements show lower conductivity for P(EO-MO) at 0.4 mS/cm, its potential as a polymer electrolyte",
+        "evidence_location": "results (Section 4.3)",
+        "notes": "Experimental value attributed to earlier work (ref [53]); measurement temperature not stated."
+      },
+      {
+        "material_as_written": "P(2EO-MO) (poly(diethylene oxide-alt-oxymethylene))",
+        "material_class": "polymer",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.1",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "90\u00b0C",
+        "measurement_temperature_C": 90,
+        "activation_energy_eV": null,
+        "measurement_method": "experimental (cited)",
+        "evidence_quote": "showing slightly lower ionic conductivity of 1.1 mS/cm compared to PEO",
+        "evidence_location": "results (Section 4.3)",
+        "notes": "Experimental value from earlier work (ref [55]); the 90\u00b0C temperature is given in the same sentence. The quote is truncated before the temperature to avoid the curly apostrophe in the source text."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 3099,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 16897,
+        "webSearchRequests": 0,
+        "costUSD": 0.00496445,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1746,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16897,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 13891,
+    "notional_cost_usd": 0.00496445
+  },
+  "paper_id": "arXiv:2312.04013",
+  "model": "haiku"
+}

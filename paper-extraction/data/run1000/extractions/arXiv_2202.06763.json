@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about Li solid-state electrolytes and reports ionic conductivity values, but the per-material RT values (Table 1) are not in the provided text, and the only numeric conductivities in the text are class thresholds or bin-level statements rather than specific material values at a stated temperature.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 10163,
+        "outputTokens": 1163,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 10353,
+        "webSearchRequests": 0,
+        "costUSD": 0.0036999600000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 942,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 10353,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5456,
+    "notional_cost_usd": 0.0036999600000000004
+  },
+  "paper_id": "arXiv:2202.06763",
+  "model": "haiku"
+}

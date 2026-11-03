@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2312.06470#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper's own MD (Methods 4.6, all runs at 353 K, 1.5 mol/kg Li+TFSI) gives 1.13\u00d710-3 S/cm for the candidate CC(CNCCOCCOCCOC*)O*, so the material, value, unit, temperature and computational origin all match. The 79.85 \u00b0C conversion is just 353 K minus 273.15."
+      },
+      {
+        "record_id": "arXiv:2312.06470#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text gives 5.07\u00d710-4 S/cm for the highest-conductivity polymer in the training set, which the paper describes as the previously curated HTP-MD dataset computed from MD in refs [32, 10], so literature_cited is correct. No measurement temperature is stated for these training values, so null is right, and the unnamed polymer is identifiable from the paper's own description."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1521,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 22164,
+        "webSearchRequests": 0,
+        "costUSD": 0.00521711,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1128,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22164,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8845,
+    "notional_cost_usd": 0.00521711
+  },
+  "paper_id": "arXiv:2312.06470",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies sodium silicate melts and glasses by neutron scattering and MD simulation (structure factors and prepeaks). It reports no ionic conductivity values; ion mobility is discussed only qualitatively, so there are no records to extract.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 350,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 10372,
+        "webSearchRequests": 0,
+        "costUSD": 0.00228495,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 167,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 10372,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3850,
+    "notional_cost_usd": 0.00228495
+  },
+  "paper_id": "arXiv:cond-mat/0401152",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a theoretical effective-medium paper on stretched PEO-LiI polymer electrolytes. It reports no absolute ionic conductivity values: the experimental results are given as fold-changes and Li+ diffusion constants, and the model conductivities are dimensionless relative units.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 667,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 13243,
+        "webSearchRequests": 0,
+        "costUSD": 0.00301765,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 472,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13243,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4309,
+    "notional_cost_usd": 0.00301765
+  },
+  "paper_id": "arXiv:cond-mat/0202165",
+  "model": "haiku"
+}

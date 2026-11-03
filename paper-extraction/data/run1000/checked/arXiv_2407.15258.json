@@ -1,0 +1,78 @@
+[
+  {
+    "record_id": "arXiv:2407.15258#001",
+    "paper_id": "arXiv:2407.15258",
+    "record": {
+      "material_as_written": "Li7PS6 (low-temperature phase, P na21)",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.610\u22123",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "RT",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "The low-temperature phase of the parent compound (space group P na21 ) has only a moderate RT ionic conductivity, on the order of 1.610\u22123 mS/cm [11].",
+      "evidence_location": "Introduction",
+      "notes": "Value is cited from Ref. [11] (Deiseroth et al. 2011), not measured in this paper. The minus sign of the exponent is lost in the PDF text and is copied as-is. Quote is at room temperature (RT)."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.003,
+    "log10_conductivity": -2.523
+  },
+  {
+    "record_id": "arXiv:2407.15258#002",
+    "paper_id": "arXiv:2407.15258",
+    "record": {
+      "material_as_written": "Li5.35Ca0.1PS4.5Cl1.55",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ca"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10.2",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "RT",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "in agreement with the reported synthesis of Li5.35 Ca0.1 PS4.5 Cl1.55 with ionic conductivities of 10.2 mS/cm at RT [1].",
+      "evidence_location": "Section III.B.2",
+      "notes": "Value is taken from the cited work Adeli et al. (Ref. [1]), not measured in this paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0102,
+    "log10_conductivity": -1.991
+  }
+]

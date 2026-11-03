@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2006.02360#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states Ea = 0.40(2) eV for LCPS10 and a conductivity of about 10^-3 S cm-1 near RT for LCPS10, which matches the record. The 150 \u00b0C treatment is a heat treatment, not sintering, so the null sintering and density fields are correct."
+      },
+      {
+        "record_id": "arXiv:2006.02360#002",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The 10^-5 S cm-1 value is stated for both LCPS10 and LCPS20 together ('The two samples show comparable conductivity at RT'), so it cannot be assigned to LCPS20 alone. The paper also reports about 10^-3 S cm-1 for LCPS10, which conflicts with the shared value. The 0.49 eV activation energy is correct, but the conductivity attribution is not supported."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1187,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 15536,
+        "webSearchRequests": 0,
+        "costUSD": 0.00372451,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 806,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15536,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5878,
+    "notional_cost_usd": 0.00372451
+  },
+  "paper_id": "arXiv:2006.02360",
+  "model": "haiku"
+}

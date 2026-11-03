@@ -1,0 +1,113 @@
+[
+  {
+    "record_id": "arXiv:2009.04888#001",
+    "paper_id": "arXiv:2009.04888",
+    "record": {
+      "material_as_written": "1.00 M LiI in SN\u2013PAN",
+      "material_class": "composite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "melt dissolution of LiI and PAN in molten succinonitrile at 80 \u00b0C",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5.0",
+      "conductivity_unit_as_reported": "mS cm\u20131",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25 \u00b0C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "increasing monotonically from 0.05 to 5.0 mS cm\u20131 for a LiI doping range of 0.05\u20131.00 M (Figure 1D)",
+      "evidence_location": "results",
+      "notes": "The quote gives 5.0 mS cm-1 as the upper end of the 0.05\u20131.00 M LiI range for SN\u2013PAN; assignment of this value to the 1.00 M composition is inferred from the monotonic-trend sentence, not stated for that composition alone. Also stated in the Discussion as 'up to 5 mS cm\u20131'."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.005,
+    "log10_conductivity": -2.301
+  },
+  {
+    "record_id": "arXiv:2009.04888#002",
+    "paper_id": "arXiv:2009.04888",
+    "record": {
+      "material_as_written": "LiI-doped SN (0.05\u20130.50 M LiI; no single composition given in this sentence)",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "melt dissolution of LiI in molten succinonitrile at 80 \u00b0C",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.10",
+      "conductivity_unit_as_reported": "mS cm\u20131",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25 \u00b0C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "s25C for SN was largely invariant (0.10 mS cm\u20131) to increases in LiI doping",
+      "evidence_location": "results",
+      "notes": "The sentence describes SN across LiI doping (0.05\u20130.50 M) as 'largely invariant' at about 0.10 mS cm\u20131; the single value is not tied to one LiI concentration. LiI is a salt loading, so dopants left empty."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0001,
+    "log10_conductivity": -4.0
+  },
+  {
+    "record_id": "arXiv:2009.04888#003",
+    "paper_id": "arXiv:2009.04888",
+    "record": {
+      "material_as_written": "0.50 M LiI-doped SN\u2013PEO composite",
+      "material_class": "composite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "melt dissolution of LiI and PEO in molten succinonitrile at 80 \u00b0C",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10\u20135",
+      "conductivity_unit_as_reported": "S cm\u20131",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25 \u00b0C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "composite SICs prepared with polyethylene oxide (PEO) as polymer inclusions exhibited s25C of only 10\u20135 S cm\u20131 (Figure 1F)",
+      "evidence_location": "results",
+      "notes": "The text does not name the LiI concentration here; the Figure 1F caption identifies the SN\u2013PEO control as 0.50 M LiI. The composition is inferred from that caption. Value written as '10\u20135' (i.e., 1\u00d710^-5 S cm-1)."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 1e-05,
+    "log10_conductivity": -5.0
+  }
+]

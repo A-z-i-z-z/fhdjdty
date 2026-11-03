@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper reports electrical resistance and superconducting transitions of an Au/Ag-implanted thin film, not the ionic conductivity of a solid Li/Na-ion conductor; the lithium-containing ICMO is only a substrate and no ionic conductivity is reported.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 352,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 16069,
+        "webSearchRequests": 0,
+        "costUSD": 0.00342535,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 159,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16069,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2812,
+    "notional_cost_usd": 0.00342535
+  },
+  "paper_id": "arXiv:2302.09974",
+  "model": "haiku"
+}

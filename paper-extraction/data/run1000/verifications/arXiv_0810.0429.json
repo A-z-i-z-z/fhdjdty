@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:0810.0429#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The discussion states \u03c3dc,bulk = 5\u00b710\u207b\u2077 S/cm at T = 473 K for the 46S4 glass, with no citation, so it is an experimental value from this paper (Fig. 4 bulk dc data). The 0.84 eV activation energy is stated in Section 3.3 for the same bulk dc conductivity, so it is supported. The remaining secondary fields are null and correctly so."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 803,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 11052,
+        "webSearchRequests": 0,
+        "costUSD": 0.00263571,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 567,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11052,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5557,
+    "notional_cost_usd": 0.00263571
+  },
+  "paper_id": "arXiv:0810.0429",
+  "model": "haiku"
+}

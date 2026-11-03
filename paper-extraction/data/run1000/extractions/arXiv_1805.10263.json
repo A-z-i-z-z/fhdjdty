@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about solid Li-ion conductors, but it reports only tracer diffusion coefficients (mostly in figures), activation barriers, and qualitative conductivity trends, with no numeric ionic conductivity value in S/cm or similar units.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 25221,
+        "outputTokens": 486,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 25411,
+        "webSearchRequests": 0,
+        "costUSD": 0.00787886,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 278,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 25411,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3068,
+    "notional_cost_usd": 0.00787886
+  },
+  "paper_id": "arXiv:1805.10263",
+  "model": "haiku"
+}

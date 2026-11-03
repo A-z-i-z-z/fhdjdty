@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies oxygen-ion (O2-) conductors such as La4Mn5Si4O22+\u03b4, not Li- or Na-ion solid conductors, and it gives no numeric ionic conductivity values in the text, so it is out of scope under the Li/Na criterion.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 611,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 45080,
+        "webSearchRequests": 0,
+        "costUSD": 0.009357050000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 417,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 45080,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4741,
+    "notional_cost_usd": 0.009357050000000002
+  },
+  "paper_id": "arXiv:2308.13734",
+  "model": "haiku"
+}

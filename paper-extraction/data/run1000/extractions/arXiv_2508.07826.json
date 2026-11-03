@@ -1,0 +1,132 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports room-temperature ionic conductivities (AC impedance) of Ga/Ce co-doped garnet LLZO solid electrolytes, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "Li6.4Ga0.2La3Zr2-xCexO12 (x = 0 Ce)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ga",
+          "Ce"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 8,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.41 x 10-5",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic Conductivity\n\nActivation Energy\n\n(S/cm)",
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.44,
+        "measurement_method": "EIS",
+        "evidence_quote": "0\n\n2.41 x 10-5\n\n0.44",
+        "evidence_location": "Table 2",
+        "notes": "Value is from the Table 2 row for Ce content 0. Conductivity is described as bulk-dominated in the text (single semicircle, 'bulk resistance'), but the table gives it without a kind label, so 'total' is used. Relative density not given as a number for this sample."
+      },
+      {
+        "material_as_written": "Li6.4Ga0.2La3Zr2-xCexO12 (x = 0.10)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ga",
+          "Ce"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 8,
+        "relative_density_pct": 95.96,
+        "conductivity_value_as_reported": "4 x 10 -4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.29,
+        "measurement_method": "EIS",
+        "evidence_quote": "the 0.10 Ce sample shows the minimum intercept owing to maximum ionic conductivity of 4 x 10 -4 S/cm",
+        "evidence_location": "results section 3.4.1",
+        "notes": "Sample is also written as Li6.4Ga0.2La3Zr1.9Ce0.1O12 in the text. The quote was taken from the results text; the abstract gives the same value. Activation energy 0.29 eV is from Table 2 and the text. Relative density 95.96% is for this sample."
+      },
+      {
+        "material_as_written": "Li6.4Ga0.2La3Zr2-xCexO12 (x = 0.20)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ga",
+          "Ce"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 8,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "9.93 x 10-5",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic Conductivity\n\nActivation Energy\n\n(S/cm)",
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.34,
+        "measurement_method": "EIS",
+        "evidence_quote": "0.20\n\n9.93 x 10-5\n\n0.34",
+        "evidence_location": "Table 2",
+        "notes": "Value is from the Table 2 row for Ce content 0.20. Kind not labelled in the paper, so 'total' is used."
+      },
+      {
+        "material_as_written": "Li6.4Ga0.2La3Zr2-xCexO12 (x = 0.30)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ga",
+          "Ce"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 8,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "4.26 x 10-5",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic Conductivity\n\nActivation Energy\n\n(S/cm)",
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.41,
+        "measurement_method": "EIS",
+        "evidence_quote": "0.30\n\n4.26 x 10-5\n\n0.41",
+        "evidence_location": "Table 2",
+        "notes": "Value is from the Table 2 row for Ce content 0.30. Kind not labelled in the paper, so 'total' is used."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 13090,
+        "outputTokens": 3409,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 13280,
+        "webSearchRequests": 0,
+        "costUSD": 0.005701060000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1591,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13280,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 12298,
+    "notional_cost_usd": 0.005701060000000001
+  },
+  "paper_id": "arXiv:2508.07826",
+  "model": "haiku"
+}

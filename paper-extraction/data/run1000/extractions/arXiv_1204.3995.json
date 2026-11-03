@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports room-temperature ionic conductivity for a Li-salt PVdF-HFP polymer gel electrolyte, a borderline case for \"solid\" conductors, so it is included with caveats; the Mg gel is a Mg2+ conductor and is excluded.",
+    "records": [
+      {
+        "material_as_written": "PVdF-HFP gel electrolyte with LiClO4 in EC:PC (lithium polymer gel electrolyte)",
+        "material_class": "polymer",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solution mixing (PVdF-HFP dissolved in THF, LiClO4/EC:PC solution added and stirred)",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.03",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": "mS/cm and pH 5 (at 25oC)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25 oC",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "The prepared lithium polymer gel electrolyte has conductivity 0.03",
+        "evidence_location": "Experimental, section 2",
+        "notes": "Borderline scope: this is a liquid-plasticized polymer gel electrolyte rather than a dry solid. The unit mS/cm and the 25 C temperature are on the following line of the PDF text. The 80:20 wt% gel composition is the paper's stated maximum-conductivity composition. The Mg PGE value (0.5 uS/cm) is not recorded because Mg2+ is not a Li/Na conductor."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1770,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 8300,
+        "webSearchRequests": 0,
+        "costUSD": 0.00258055,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1073,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 8300,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8119,
+    "notional_cost_usd": 0.00258055
+  },
+  "paper_id": "arXiv:1204.3995",
+  "model": "haiku"
+}

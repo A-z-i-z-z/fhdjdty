@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:1710.10443#001",
+    "paper_id": "arXiv:1710.10443",
+    "record": {
+      "material_as_written": "MgSc2Se4",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.1",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "298 K",
+      "measurement_temperature_C": 24.85,
+      "activation_energy_eV": null,
+      "measurement_method": "AC impedance spectroscopy and 25Mg solid-state NMR (as reported in cited work)",
+      "evidence_quote": "ionic conductivity \u03c3ionic \u223c 0.1 mS cm\u22121 (at 298 K) observed in MgSc2 Se4 (via",
+      "evidence_location": "Introduction",
+      "notes": "Mobile ion is Mg (divalent), which is not in the Li/Na enum, so mobile_ion is set to 'other'. Value is quoted from earlier experimental work (ref. 22), not measured in this paper; the paper's own calculations are defect energetics and do not report ionic conductivity. The electronic/ionic ratio (~0.04 %) is not a conductivity value and was not recorded. Temperature converted from 298 K to 24.85 C for the numeric field."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0001,
+    "log10_conductivity": -4.0
+  }
+]

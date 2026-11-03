@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about solid Li3PS4 polymorphs, but it reports no ionic conductivity number in the text. It says impedance spectra were measured to estimate ion conductivity (Figure S6), and calls \u03b1-Li3PS4 the highest-conductivity polymorph, but gives no value.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 15033,
+        "outputTokens": 416,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 15221,
+        "webSearchRequests": 0,
+        "costUSD": 0.004787060000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 189,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15221,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2493,
+    "notional_cost_usd": 0.004787060000000001
+  },
+  "paper_id": "arXiv:2512.05841",
+  "model": "haiku"
+}

@@ -1,0 +1,76 @@
+[
+  {
+    "record_id": "arXiv:2405.03466#001",
+    "paper_id": "arXiv:2405.03466",
+    "record": {
+      "material_as_written": "Li2BaSnS4",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5\u00d710-4",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "estimated to be ~5\u00d710-4 mS/cm at room temperature for both compounds",
+      "evidence_location": "Results (Fig.4b discussion)",
+      "notes": "The quote covers both Li2BaSnS4 and Li2SrSiS4 (the paper says the value is for both compounds); the material name is from the preceding sentence. Activation energies in Table S2 are NEB values, not measured, so left null."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 5e-07,
+    "log10_conductivity": -6.301
+  },
+  {
+    "record_id": "arXiv:2405.03466#002",
+    "paper_id": "arXiv:2405.03466",
+    "record": {
+      "material_as_written": "Li2SrSiS4",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5\u00d710-4",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "estimated to be ~5\u00d710-4 mS/cm at room temperature for both compounds",
+      "evidence_location": "Results (Fig.4b discussion)",
+      "notes": "The quote covers both Li2SrSiS4 and Li2BaSnS4 (the paper says the value is for both compounds); the material name is from the preceding sentence. Activation energies in Table S2 are NEB values, not measured, so left null."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 5e-07,
+    "log10_conductivity": -6.301
+  }
+]

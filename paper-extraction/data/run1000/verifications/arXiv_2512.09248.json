@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2512.09248#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states that NZTO is 'known for its high ionic conductivity (up to 9.77 mS cm\u22121)16', so the material, value and unit match the paper. The value comes from cited ref. 16, so data_origin 'literature_cited' is correct, and no measurement temperature is given, so the null is correct. All secondary fields are null, which is right because the paper reports no synthesis or measurement details for this value."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 551,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 9120,
+        "webSearchRequests": 0,
+        "costUSD": 0.00212331,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 317,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 9120,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4113,
+    "notional_cost_usd": 0.00212331
+  },
+  "paper_id": "arXiv:2512.09248",
+  "model": "haiku"
+}

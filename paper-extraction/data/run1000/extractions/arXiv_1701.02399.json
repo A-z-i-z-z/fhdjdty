@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports the ionic conductivity of a UV-cured solid Li-ion conducting polymer electrolyte (Supplementary Section 1), so it has at least one in-scope conductivity value, although its main subject is Li diffusion in bilayer graphene.",
+    "records": [
+      {
+        "material_as_written": "0.35 M LiTFSI in PEGMA/BEMA w/w 3:7 with 2-4 wt% photoinitiator (sample 5)",
+        "material_class": "polymer",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "UV curing",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "7.9 \u00b7 10\u22126",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "ambient temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "impedance spectroscopy",
+        "evidence_quote": "with \u03c3 = 7.9 \u00b7 10\u22126 S/cm was selected as a suitable",
+        "evidence_location": "Supplementary Information, Section 1",
+        "notes": "Sample 5 is identified in the text as 0.35 M LiTFSI in PEGMA/BEMA w/w 3:7 with 2-4 wt% photoinitiator. The value is the bulk resistance-derived conductivity from impedance spectroscopy in a stainless steel cell. Other sample values in the text (2.8e-6 for samples 3/4, 2.1e-5 for sample 7) are a range without clear composition mapping, so they were not recorded. The main-text D\u03b4 values are diffusion coefficients, not conductivities."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2142,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 25134,
+        "webSearchRequests": 0,
+        "costUSD": 0.00613335,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1423,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 25134,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 15170,
+    "notional_cost_usd": 0.00613335
+  },
+  "paper_id": "arXiv:1701.02399",
+  "model": "haiku"
+}

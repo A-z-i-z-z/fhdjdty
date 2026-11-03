@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:2506.04137#001",
+    "paper_id": "arXiv:2506.04137",
+    "record": {
+      "material_as_written": "(TeO2)1\u2013x (Na2O)x with x=0.30",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "melt quenching",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.0 10\u221214",
+      "conductivity_unit_as_reported": "S/cm2",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 1,
+      "measurement_method": "EIS",
+      "evidence_quote": "2.0 10\u221214 S/cm2 for x=0.1 and x=0.30",
+      "evidence_location": "Results and discussion, Na diffusion and ionic conductivity section",
+      "notes": "The room-temperature value is extrapolated from the experimental Arrhenius fit, not directly measured at room temperature. The quote is the line-broken sentence 'The high measured experimental values reflects the low ionic conductivity at room temperature 9.4 / 10\u221216 and 2.0 10\u221214 S/cm2 for x=0.1 and x=0.30, respectively'; the value 2.0 10\u221214 maps to x=0.30. The unit as written is S/cm2 (likely a typo for S/cm). The activation energy 1.0 eV for x=0.30 is from the sentence 'the experimental one is of 0.95 eV and 1.0 eV for x=0.1 and x=0.30'. The paper's conductivity wording refers to 'electronic conductivity (S/cm)' in the methods but the context is ionic. The x=0.10 value (9.4 10\u221216 S/cm) was omitted because its number is split across a line break in the PDF text and could not be quoted verbatim. Density and sintering fields are not applicable because the glass was melt-quenched and the density given is measured, not relative."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": false,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": null,
+    "log10_conductivity": null
+  }
+]

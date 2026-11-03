@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2012.08833#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that Y-doped BaZrO3 proton conductivities in bulk [29] and thin films [30] exceed 10^-2 S/cm at 500\u00b0C for 20% Y-doping, so the material, value, unit and 500\u00b0C temperature match. The sentence carries citation markers, so literature_cited is the correct origin, and all secondary fields are null as the paper does not give them for this value. The value is a lower bound ('exceeding'), which the record's unspecified conductivity_kind and the notes already reflect."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 994,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 22751,
+        "webSearchRequests": 0,
+        "costUSD": 0.00507101,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 726,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22751,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5582,
+    "notional_cost_usd": 0.00507101
+  },
+  "paper_id": "arXiv:2012.08833",
+  "model": "haiku"
+}

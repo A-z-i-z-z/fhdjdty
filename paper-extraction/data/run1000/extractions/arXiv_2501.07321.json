@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies 7Li NMR chemical shifts and solvation structures in LiFSI/DME liquid electrolytes via machine learning. It reports no ionic conductivity numbers; conductivity is mentioned only qualitatively (\"high viscosity and low conductivity in HCEs\").",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 358,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 16440,
+        "webSearchRequests": 0,
+        "costUSD": 0.00350255,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 159,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16440,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3558,
+    "notional_cost_usd": 0.00350255
+  },
+  "paper_id": "arXiv:2501.07321",
+  "model": "haiku"
+}

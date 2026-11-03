@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:0910.4508#001",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "mobile_ion",
+            "correct_value": "Ag",
+            "evidence": "the diffusing cation of interest Ag+ also happen to be part of the base glass network"
+          }
+        ],
+        "explanation": "The base AgPO3 conductivity of about 10^-9 \u03a9^-1 cm^-1 is stated in the paper and tied to this work's Fig 3, so origin is experimental and the temperature is correctly null. The mobile ion is Ag+, not 'other'."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1714,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 23454,
+        "webSearchRequests": 0,
+        "costUSD": 0.00557161,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1461,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23454,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9420,
+    "notional_cost_usd": 0.00557161
+  },
+  "paper_id": "arXiv:0910.4508",
+  "model": "haiku"
+}

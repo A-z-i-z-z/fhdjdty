@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a theory paper on electroneutrality breakdown in nanopores; it concerns aqueous KCl and biological or carbon-nanotube channels, not solid Li/Na-ion conductors, and it reports no solid-electrolyte conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 403,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 33751,
+        "webSearchRequests": 0,
+        "costUSD": 0.006987250000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 216,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 33751,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4522,
+    "notional_cost_usd": 0.006987250000000001
+  },
+  "paper_id": "arXiv:1905.05789",
+  "model": "haiku"
+}

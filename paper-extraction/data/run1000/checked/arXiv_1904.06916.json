@@ -1,0 +1,42 @@
+[
+  {
+    "record_id": "arXiv:1904.06916#001",
+    "paper_id": "arXiv:1904.06916",
+    "record": {
+      "material_as_written": "Gd0.2Ce0.8O1.9/Y0.16Zr0.84O1.92",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [
+        "Gd",
+        "Y"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "hybrid chemical route (colloidal GDC nanoparticles dispersed in metalorganic YSZ sol-gel), inkjet printing",
+      "sintering_temperature_C": 750,
+      "sintering_time_h": 6,
+      "relative_density_pct": 94.4,
+      "conductivity_value_as_reported": "510-3",
+      "conductivity_unit_as_reported": "Scm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "500 \u00b0C",
+      "measurement_temperature_C": 500,
+      "activation_energy_eV": 0.55,
+      "measurement_method": "EIS (in-plane, symmetric silver electrodes, two-electrode)",
+      "evidence_quote": "high oxygen ionic conductivity at low temperatures (> 510-3 Scm-1 at",
+      "evidence_location": "abstract",
+      "notes": "Abstract gives a lower bound ('>') for the conductivity; the superscript exponent is lost in PDF extraction, so the value reads as 5x10-3 S/cm but is copied as '510-3'. The 500 \u00b0C value is from the abstract; the 0.55 eV activation energy is for the thin film per Section 3.2 (in-plane conductivity of the film, not a bulk value). Measurement range 400\u2013750 \u00b0C in synthetic air. The 94.4% density is from the thin-film SEM estimate in Section 3.2 and the 750 \u00b0C/6 h is the film calcination."
+    },
+    "hard_checks": {
+      "quote_in_text": false,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 3.0,
+    "log10_conductivity": 0.477
+  }
+]

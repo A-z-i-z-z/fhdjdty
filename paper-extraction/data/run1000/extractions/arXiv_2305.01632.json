@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies Li+ hopping in LLTO and is about a solid ion conductor, but it reports no ionic conductivity value for any material at a given temperature; its measurements are changes in bulk resistance (Rbulk), and the only conductivity numbers are a hypothetical 1 mS/cm target and a reference-list entry.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 677,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 53224,
+        "webSearchRequests": 0,
+        "costUSD": 0.011018850000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 466,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 53224,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5248,
+    "notional_cost_usd": 0.011018850000000002
+  },
+  "paper_id": "arXiv:2305.01632",
+  "model": "haiku"
+}

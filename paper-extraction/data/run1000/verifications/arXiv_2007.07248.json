@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2007.07248#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract reports ~0.03 S/m at 423 K for Na2Ni2TeO6 from impedance spectroscopy in this work, and Ea = 0.58 eV is the T > 383 K fit. The 900 C annealing, ~90% density, and solid-state synthesis all match the paper; the 149.85 C conversion is arithmetic from 423 K."
+      },
+      {
+        "record_id": "arXiv:2007.07248#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction explicitly quotes ~0.0008-0.0034 S/m at room temperature for Na2Ni2TeO6 from refs 6 and 9, so literature_cited is the correct origin. All secondary fields are null, which is appropriate for a cited value."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1325,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 21963,
+        "webSearchRequests": 0,
+        "costUSD": 0.00507891,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 970,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 21963,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7592,
+    "notional_cost_usd": 0.00507891
+  },
+  "paper_id": "arXiv:2007.07248",
+  "model": "haiku"
+}

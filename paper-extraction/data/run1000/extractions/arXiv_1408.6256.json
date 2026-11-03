@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies quantum excitation energy transfer in a 5-site linear dipole chain as a toy model of an ion-channel selectivity filter; it reports no ionic conductivity of any solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 234,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 11796,
+        "webSearchRequests": 0,
+        "costUSD": 0.00251175,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 56,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11796,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2609,
+    "notional_cost_usd": 0.00251175
+  },
+  "paper_id": "arXiv:1408.6256",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is an ML model (MolSets) for predicting room-temperature conductivity of molecular mixtures, which are mostly liquid and polymer-solvent electrolytes, not solid Li/Na-ion conductors; the only numbers are model-predicted log conductivities for these mixtures in Tables S3 and S4.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 509,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 20001,
+        "webSearchRequests": 0,
+        "costUSD": 0.004290250000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 300,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 20001,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3671,
+    "notional_cost_usd": 0.004290250000000001
+  },
+  "paper_id": "arXiv:2312.16473",
+  "model": "haiku"
+}

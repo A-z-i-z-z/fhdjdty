@@ -1,0 +1,41 @@
+[
+  {
+    "record_id": "arXiv:2503.21624#001",
+    "paper_id": "arXiv:2503.21624",
+    "record": {
+      "material_as_written": "Na2 S \u2013 SiS2 system (glass)",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2\u00d710\u22126",
+      "conductivity_unit_as_reported": "\u03a9\u22121 cm\u22121",
+      "unit_evidence_quote": "cm\u22121) compared to its lithium counterpart[10]",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "displays a more reduced level of conductivity[5] (2\u00d710\u22126 \u03a9\u22121",
+      "evidence_location": "introduction",
+      "notes": "Literature value quoted from Ref. [5] in the introduction; the composition is not specified beyond the Na2S\u2013SiS2 system and no measurement temperature is given. The paper's own MD conductivities are only shown in figures, so no numeric records were made for them. The Li counterpart value (10\u22124) was not recorded because its composition is not specified."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": false,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 2e-06,
+    "log10_conductivity": -5.699
+  }
+]

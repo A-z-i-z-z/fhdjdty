@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about the Na+ solid electrolyte Na3SbS4 and reports room-temperature ionic conductivities from EIS for the cubic and tetragonal phases.",
+    "records": [
+      {
+        "material_as_written": "c-Na3SbS4 (HBM1)",
+        "material_class": "other",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "high energy ball milling",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.8",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.06,
+        "measurement_method": "EIS",
+        "evidence_quote": "The total resistance (including the bulk and grain-boundary resistances) of c- and t-Na3SbS4 are 80 \u03a9 and 127 \u03a9, respectively, from which the ionic conductivities are calculated to be 2.8 and 1.77 mS/cm.",
+        "evidence_location": "results",
+        "notes": "Value 2.8 mS/cm is for c-Na3SbS4 (HBM1), assigned from the 80 \u03a9 total resistance listed first; the pellet was cold-pressed at ~300 MPa with no sintering. Activation energy 0.06 eV is for c-Na3SbS4 from the Arrhenius plot. Conductivity derived from total resistance, so kind is recorded as total."
+      },
+      {
+        "material_as_written": "t-Na3SbS4 (LBM1)",
+        "material_class": "other",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "low energy ball milling",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.77",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "The total resistance (including the bulk and grain-boundary resistances) of c- and t-Na3SbS4 are 80 \u03a9 and 127 \u03a9, respectively, from which the ionic conductivities are calculated to be 2.8 and 1.77 mS/cm.",
+        "evidence_location": "results",
+        "notes": "Value 1.77 mS/cm is for t-Na3SbS4 (LBM1, 20 h low-energy ball milled), assigned from the 127 \u03a9 total resistance listed second. The paper gives two activation energies for t-Na3SbS4 (0.25 eV tetragonal segment, 0.08 eV cubic segment), so activation energy is left null as ambiguous. Conductivity derived from total resistance."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2195,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 8125,
+        "webSearchRequests": 0,
+        "costUSD": 0.0027580499999999997,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1083,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 8125,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8827,
+    "notional_cost_usd": 0.0027580499999999997
+  },
+  "paper_id": "arXiv:1707.05166",
+  "model": "haiku"
+}

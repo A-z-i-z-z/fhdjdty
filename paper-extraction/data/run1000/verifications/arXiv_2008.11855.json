@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2008.11855#001",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "mobile_ion",
+            "correct_value": null,
+            "evidence": "For example, Matsumi et al. obtained ionic conductivity in organoboron polymer electrolytes of 3.05x10\u22125\u00d7S/cm."
+          }
+        ],
+        "explanation": "Material, value, unit (\u00d7S/cm read as S/cm), null temperature and literature_cited origin all match the paper's citation of Matsumi et al. (Ref. 22). The paper never states the mobile ion for the organoboron polymers, so Li is an assumption and should be null."
+      },
+      {
+        "record_id": "arXiv:2008.11855#002",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The 1.9 x10\u22124 S/cm value is the highest value in Chen et al.'s SN-plasticized series, but the paper does not tie it to the 10% SN composition; the 10% SN electrolyte is only the one used in the battery test. The material assignment is therefore not supported by the text."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14527,
+        "outputTokens": 1555,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 14719,
+        "webSearchRequests": 0,
+        "costUSD": 0.00519382,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1113,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14719,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7136,
+    "notional_cost_usd": 0.00519382
+  },
+  "paper_id": "arXiv:2008.11855",
+  "model": "haiku"
+}

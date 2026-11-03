@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a DFT study of Li7La3Zr2O12 surface energies and particle morphology; its only conductivity mention is a literature range (10\u22126\u201310\u22123 S cm\u22121) with no material-specific value or temperature, so no extractable record exists.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 16653,
+        "outputTokens": 700,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 16843,
+        "webSearchRequests": 0,
+        "costUSD": 0.00541546,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 485,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16843,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3874,
+    "notional_cost_usd": 0.00541546
+  },
+  "paper_id": "arXiv:1804.05165",
+  "model": "haiku"
+}

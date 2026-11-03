@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is mainly about optical properties of Na2Zn2TeO6, a Na-ion superionic conductor, but it reports one ionic conductivity value, taken from an earlier study (ref. 16).",
+    "records": [
+      {
+        "material_as_written": "Na2Zn2TeO6 (NZTO)",
+        "material_class": "other",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "9.77",
+        "conductivity_unit_as_reported": "mS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "known for its high ionic conductivity (up to 9.77 mS cm\u22121)16",
+        "evidence_location": "Introduction",
+        "notes": "Value is an 'up to' figure quoted from ref. 16 in the introduction; the paper reports no conductivity measurement of its own. Temperature, conductivity kind and method are not stated in this paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 969,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 8977,
+        "webSearchRequests": 0,
+        "costUSD": 0.00231545,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 446,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 8977,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4767,
+    "notional_cost_usd": 0.00231545
+  },
+  "paper_id": "arXiv:2512.09248",
+  "model": "haiku"
+}

@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2312.06963#001",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "activation_energy_eV",
+            "correct_value": null,
+            "evidence": "The glass-Li3PS4 exhibited a lower diffusion barrier of 0.269 eV than that of the initial crystalline (b-phase) with a value of 0.311 eV."
+          }
+        ],
+        "explanation": "Material, computed conductivity 7.45\u00d710\u20123 S cm\u20121, 300 K, and computational origin all match the paper's own NVT-MD/Nernst-Einstein estimate. The 0.269 eV is a diffusion barrier from the Arrhenius plot of diffusion coefficients, not an activation energy reported for conductivity, so that field should be null."
+      },
+      {
+        "record_id": "arXiv:2312.06963#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 1.9\u00d710\u20122 S cm\u20121 value is explicitly attributed to previous AIMD simulations [10], so literature_cited is correct, and the paper gives no temperature for it, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2312.06963#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 7.0\u00d710\u20123 S cm\u20121 value is the second literature AIMD value from [10] in the same sentence, with no temperature stated, so the record is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 13474,
+        "outputTokens": 1541,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 13660,
+        "webSearchRequests": 0,
+        "costUSD": 0.00486972,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 985,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13660,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6454,
+    "notional_cost_usd": 0.00486972
+  },
+  "paper_id": "arXiv:2312.06963",
+  "model": "haiku"
+}

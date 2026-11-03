@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies resistive switching in Ag-Ag2S-Ag memristors and reports resistances, but gives no ionic conductivity value for any solid ion conductor, so it does not meet the extraction criteria.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 16934,
+        "outputTokens": 674,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 17122,
+        "webSearchRequests": 0,
+        "costUSD": 0.00548636,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 471,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17122,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2733,
+    "notional_cost_usd": 0.00548636
+  },
+  "paper_id": "arXiv:1604.04168",
+  "model": "haiku"
+}

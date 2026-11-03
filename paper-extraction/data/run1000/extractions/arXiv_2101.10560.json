@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about ferroelectric Bi2WO6 thin-film growth and polarization mapping; it mentions ionic conductivity only in passing and reports no ionic conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 278,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 14465,
+        "webSearchRequests": 0,
+        "costUSD": 0.00306755,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 114,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14465,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4960,
+    "notional_cost_usd": 0.00306755
+  },
+  "paper_id": "arXiv:2101.10560",
+  "model": "haiku"
+}

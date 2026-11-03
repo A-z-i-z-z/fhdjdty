@@ -1,0 +1,113 @@
+[
+  {
+    "record_id": "arXiv:2610.34505#001",
+    "paper_id": "arXiv:2610.34505",
+    "record": {
+      "material_as_written": "amorphous Li3ScCl6",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "14",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.182,
+      "measurement_method": "UMA+D3 MD (300 K NVT) with Nernst\u2013Einstein estimate rescaled to experimental LiTaCl6",
+      "evidence_quote": "range from 7.7 mS cm\u22121 for amorphous Li3InCl6 to 14 mS cm\u22121 for amorphous",
+      "evidence_location": "abstract",
+      "notes": "Value is an estimated conductivity: Nernst\u2013Einstein result rescaled by a factor ~2.4 using the experimental LiTaCl6 reference. The compound name Li3ScCl6 is on the following line of the abstract. Activation energy 0.182 \u00b1 0.018 eV is from the Arrhenius analysis in Section 3.1 (250\u2013400 K MD). Not directly measured."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.014,
+    "log10_conductivity": -1.854
+  },
+  {
+    "record_id": "arXiv:2610.34505#002",
+    "paper_id": "arXiv:2610.34505",
+    "record": {
+      "material_as_written": "amorphous Li3InCl6",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "7.7",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "UMA+D3 MD (300 K NVT) with Nernst\u2013Einstein estimate rescaled to experimental LiTaCl6",
+      "evidence_quote": "range from 7.7 mS cm\u22121 for amorphous Li3InCl6 to 14 mS cm\u22121 for amorphous",
+      "evidence_location": "abstract",
+      "notes": "Estimated (rescaled) room-temperature conductivity from MD. No activation energy given in the main text for Li3InCl6 (Fig. S7 only)."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0077,
+    "log10_conductivity": -2.114
+  },
+  {
+    "record_id": "arXiv:2610.34505#003",
+    "paper_id": "arXiv:2610.34505",
+    "record": {
+      "material_as_written": "amorphous LiNbCl6",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "13.5",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.154,
+      "measurement_method": null,
+      "evidence_quote": "LiNbCl6 reaching 13.5 mS cm\u22121 and an activation energy of 0.154 eV which is among the lowest",
+      "evidence_location": "introduction",
+      "notes": "Experimental value taken from prior work (refs 17,18), not computed in this paper. The paper's own Arrhenius-analysis values for LiNbCl6 (0.154 eV) are also cited from literature."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0135,
+    "log10_conductivity": -1.87
+  }
+]

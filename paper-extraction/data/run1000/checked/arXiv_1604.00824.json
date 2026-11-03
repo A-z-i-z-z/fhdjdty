@@ -1,0 +1,115 @@
+[
+  {
+    "record_id": "arXiv:1604.00824#001",
+    "paper_id": "arXiv:1604.00824",
+    "record": {
+      "material_as_written": "NaTaO3 nanopillar array film",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "pulsed laser deposition",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.5",
+      "conductivity_unit_as_reported": "\u03bcS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "AC impedance (Cole-Cole plot)",
+      "evidence_quote": "The conductivity was calculated to be 2.5 \u03bcS cm\u22121, three orders of magnitude larger than that (5 nS cm\u22121) of the dense NaTaO3 film",
+      "evidence_location": "results",
+      "notes": "Amorphous nanoporous NaTaO3 film measured in air at RT, Au/NaTaO3/Au cross-plane. Conductivity attributed by the authors to water-filled nanopores with dissolved Na+; mobile species not strictly proven. Film density ~47% of dense film is stated in the text but not recorded here."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 2.5e-06,
+    "log10_conductivity": -5.602
+  },
+  {
+    "record_id": "arXiv:1604.00824#002",
+    "paper_id": "arXiv:1604.00824",
+    "record": {
+      "material_as_written": "dense NaTaO3 film",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "pulsed laser deposition",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5",
+      "conductivity_unit_as_reported": "nS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "AC impedance",
+      "evidence_quote": "The conductivity was 2.5 \u03bcS cm\u22121, three orders of magnitude larger than that (5 nS cm\u22121) of a dense NaTaO3 film in air",
+      "evidence_location": "Figure 2 caption",
+      "notes": "Dense film deposited under low O2 (<5 Pa); measured in air at RT per Figure 2c caption. Value given as comparison in text and caption; RT is implied by the Fig. 2c measurement context rather than stated explicitly next to this value."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 5e-09,
+    "log10_conductivity": -8.301
+  },
+  {
+    "record_id": "arXiv:1604.00824#003",
+    "paper_id": "arXiv:1604.00824",
+    "record": {
+      "material_as_written": "NaTaO3 nanopillar array film",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "pulsed laser deposition",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "34",
+      "conductivity_unit_as_reported": "pS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "AC impedance (Cole-Cole plot) in vacuum",
+      "evidence_quote": "The calculated conductivity was 34 pS cm\u22121, which was five orders of magnitude smaller than that in air.",
+      "evidence_location": "results",
+      "notes": "Measured in vacuum (~10^-2 Pa per Figure 2d caption); temperature not explicitly stated for this value. Shows water dependence of conductivity."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 34.0,
+    "log10_conductivity": 1.531
+  }
+]

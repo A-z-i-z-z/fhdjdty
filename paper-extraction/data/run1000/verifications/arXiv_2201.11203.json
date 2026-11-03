@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2201.11203#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text states that the ionic conductivity of gc-Li42P16S61 is 33.1 mS cm\u20131 from this work's AIMD with Arrhenius extrapolation to room temperature. The secondary fields are null, which is correct."
+      },
+      {
+        "record_id": "arXiv:2201.11203#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text says gc-Li38P24S79 has 3.45 mS cm\u20131 and 0.282 eV, and the Table 1 row matches. The paper obtains these from its own AIMD, so the computational origin is right, and the room-temperature value is correct."
+      },
+      {
+        "record_id": "arXiv:2201.11203#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text presents 46.9 mS cm\u20131 as the crystalline Li7P3S11 value alongside the authors' own predictions, and says their predicted Li7P3S11 conductivity agrees with experiment. The table is garbled and a citation marker follows the number, so this is moderately confident rather than certain."
+      },
+      {
+        "record_id": "arXiv:2201.11203#004",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "data_origin",
+            "correct_value": "literature_cited",
+            "evidence": "\u03b2-Li3PS4, 14.3 mS cm\u20131"
+          }
+        ],
+        "explanation": "The 14.3 mS cm\u20131 value for \u03b2-Li3PS4 is printed in Table 1 with citation superscript 41, which points to an earlier computational study (Smith & Siegel), not this work's AIMD. The record's claim that it is this work's prediction is not supported by the paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 33215,
+        "outputTokens": 7102,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 33405,
+        "webSearchRequests": 0,
+        "costUSD": 0.013573319999999998,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 6448,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 33405,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 30771,
+    "notional_cost_usd": 0.013573319999999998
+  },
+  "paper_id": "arXiv:2201.11203",
+  "model": "haiku"
+}

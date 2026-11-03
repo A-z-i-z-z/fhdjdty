@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is an optical reflectivity study of AgCrSe2 phonons and interband transitions; it reports no ionic conductivity values. Its only conductivity numbers are optical or electronic (Drude free-carrier DC conductivity and resistivity), which are excluded, and the mobile ion is Ag rather than Li or Na.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14468,
+        "outputTokens": 525,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 14658,
+        "webSearchRequests": 0,
+        "costUSD": 0.00467246,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 280,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14658,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2950,
+    "notional_cost_usd": 0.00467246
+  },
+  "paper_id": "arXiv:2208.14872",
+  "model": "haiku"
+}

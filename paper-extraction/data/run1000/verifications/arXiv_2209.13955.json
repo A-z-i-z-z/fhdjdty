@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2209.13955#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports 2.34\u221910-5 S\u2219cm-1 at 25 \u00b0C for pristine \u03b2-Li3PS4 (fit from EIS), and the activation energy of 0.38 eV for the pristine sample is stated in the abstract and results. Origin is experimental and no sintering or density values are asserted."
+      },
+      {
+        "record_id": "arXiv:2209.13955#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports 2.18\u221910-5 S\u2219cm-1 at 25 \u00b0C for recrystallized \u03b2-Li3PS4, with a 0.20 eV activation energy. The synthesis description (NMF dissolution, recrystallization with heating to 240 \u00b0C) matches the paper's procedure."
+      },
+      {
+        "record_id": "arXiv:2209.13955#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states a conductivity of 1.66\u221910-9 S\u2219cm-1 at 25 \u00b0C was calculated for Li3PS4\u22192NMF from a two-R/CPE fit, and gives a 0.70 eV activation barrier for this phase. The NMF removal at 120 \u00b0C matches the synthesis field."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1273,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 31852,
+        "webSearchRequests": 0,
+        "costUSD": 0.00703071,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 778,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 31852,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5756,
+    "notional_cost_usd": 0.00703071
+  },
+  "paper_id": "arXiv:2209.13955",
+  "model": "haiku"
+}

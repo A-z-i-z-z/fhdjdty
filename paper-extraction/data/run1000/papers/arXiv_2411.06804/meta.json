@@ -1,0 +1,21 @@
+{
+  "paper_id": "arXiv:2411.06804",
+  "arxiv_id": "2411.06804",
+  "title": "Predicting ionic conductivity in solids from the machine-learned potential energy landscape",
+  "authors": [
+    "Artem Maevskiy",
+    "Alexandra Carvalho",
+    "Emil Sataev",
+    "Volha Turchyna",
+    "Keian Noori",
+    "Aleksandr Rodin",
+    "A. H. Castro Neto",
+    "Andrey Ustyuzhanin"
+  ],
+  "published": "2024-11-11",
+  "doi": "10.1103/PhysRevResearch.7.023167",
+  "license": null,
+  "abs_url": "https://arxiv.org/abs/2411.06804",
+  "pdf_url": "https://arxiv.org/pdf/2411.06804",
+  "text_chars": 73398
+}

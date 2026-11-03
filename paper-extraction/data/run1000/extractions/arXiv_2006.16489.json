@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper models electroosmotic flow and ion transport through polyelectrolyte-grafted nanopores in aqueous electrolyte (KCl, H+, OH-), not a solid Li/Na-ion conductor, and it reports only ionic conductance in nS and dimensionless flow quantities, not ionic conductivity of a solid material.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 507,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 38522,
+        "webSearchRequests": 0,
+        "costUSD": 0.007993450000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 292,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 38522,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3834,
+    "notional_cost_usd": 0.007993450000000001
+  },
+  "paper_id": "arXiv:2006.16489",
+  "model": "haiku"
+}

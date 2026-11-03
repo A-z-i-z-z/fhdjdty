@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a theoretical RFOT paper on the viscosity and intrinsic ionic conductivity of supercooled melts; its only conductivity numbers are for CKN, a molten nitrate, not a solid Li/Na-ion conductor, so it is out of scope.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 449,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 24734,
+        "webSearchRequests": 0,
+        "costUSD": 0.005206850000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 259,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24734,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2912,
+    "notional_cost_usd": 0.005206850000000001
+  },
+  "paper_id": "arXiv:cond-mat/0701265",
+  "model": "haiku"
+}

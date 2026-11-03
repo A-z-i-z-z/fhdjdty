@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a kinetic Monte Carlo study of Na-ion transport in NaSICON electrodes, but it reports only diffusion coefficients (jump, tracer, and chemical diffusivities in cm2 s-1), not ionic conductivity values, so no records qualify.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 19227,
+        "outputTokens": 476,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 19419,
+        "webSearchRequests": 0,
+        "costUSD": 0.00607606,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 256,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19419,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2953,
+    "notional_cost_usd": 0.00607606
+  },
+  "paper_id": "arXiv:2308.04772",
+  "model": "haiku"
+}

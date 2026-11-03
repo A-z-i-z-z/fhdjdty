@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about Coulomb interaction confinement for ions in water-filled 2D nanofluidic channels, studied with Brownian dynamics; it is not about solid Li/Na-ion conductors and reports no ionic conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 334,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 24177,
+        "webSearchRequests": 0,
+        "costUSD": 0.00503795,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 153,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24177,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2490,
+    "notional_cost_usd": 0.00503795
+  },
+  "paper_id": "arXiv:2206.02591",
+  "model": "haiku"
+}

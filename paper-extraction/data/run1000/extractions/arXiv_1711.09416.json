@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a DFT study of ionic liquid adsorption on circumcoronene, a model carbon surface. It is not about a solid Li/Na-ion conductor and reports no ionic conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 289,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 14078,
+        "webSearchRequests": 0,
+        "costUSD": 0.0029956500000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 119,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14078,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2608,
+    "notional_cost_usd": 0.0029956500000000003
+  },
+  "paper_id": "arXiv:1711.09416",
+  "model": "haiku"
+}

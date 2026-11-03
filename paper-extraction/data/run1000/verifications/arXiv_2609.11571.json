@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2609.11571#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table I lists 'Li+ conductivity in Li6PS5Cl' with the value 0.319 S/m, cited to [58], a paper on high-conductivity Li6PS5Cl. The layout is scrambled, but the S/m unit and [58] citation place the value on this row, so the origin is literature_cited. The paper gives no measurement temperature for this value, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2609.11571#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table I lists 'Li+ conductivity in Li3N' as 0.02 S/m, cited to [59,60]. The paper gives no measurement temperature for it, and the origin is literature_cited because it is taken from those references. The Li3N mapping is consistent with the paper's remark that the Li3N layer conductivity is much lower than that of the SE."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1759,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 32268,
+        "webSearchRequests": 0,
+        "costUSD": 0.00735691,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1372,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 32268,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9136,
+    "notional_cost_usd": 0.00735691
+  },
+  "paper_id": "arXiv:2609.11571",
+  "model": "haiku"
+}

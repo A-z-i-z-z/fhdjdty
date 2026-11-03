@@ -1,0 +1,27 @@
+{
+  "paper_id": "arXiv:2310.04925",
+  "arxiv_id": "2310.04925",
+  "title": "Crystal-GFN: sampling crystals with desirable properties and constraints",
+  "authors": [
+    "Mila AI4Science",
+    " :",
+    "Alex Hernandez-Garcia",
+    "Alexandre Duval",
+    "Alexandra Volokhova",
+    "Yoshua Bengio",
+    "Divya Sharma",
+    "Pierre Luc Carrier",
+    "Yasmine Benabed",
+    "Micha\u0142 Koziarski",
+    "Victor Schmidt",
+    "Gian-Marco Rignanese",
+    "Pierre-Paul De Breuck",
+    "Paulette Clancy"
+  ],
+  "published": "2023-10-07",
+  "doi": null,
+  "license": null,
+  "abs_url": "https://arxiv.org/abs/2310.04925",
+  "pdf_url": "https://arxiv.org/pdf/2310.04925",
+  "text_chars": 40047
+}

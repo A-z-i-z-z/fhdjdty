@@ -1,0 +1,80 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a muSR study of the oxyhydride H- ion conductor LaH3-2xOx, but it reports ionic conductivities only as literature values quoted from earlier work, and it gives no new conductivity measurements of its own.",
+    "records": [
+      {
+        "material_as_written": "LaH3\u22122x Ox",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [
+          "O"
+        ],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.6 \u00d7 10\u22122",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "615 K",
+        "measurement_temperature_C": 341.85,
+        "activation_energy_eV": 1.3,
+        "measurement_method": null,
+        "evidence_quote": "exhibit a high conductivity of 2.6 \u00d7 10\u22122 S/cm in the medium-temperature region (615 K) at x = 0.24 [5]",
+        "evidence_location": "Introduction",
+        "notes": "Value taken from Ref. [5] (Fukui et al.), not measured in this paper. Mobile ion is H- (hydride), recorded as 'other'. O substitution for H is recorded as the dopant. Activation energy ~1.3 eV for x = 0.24 is from the same Ref. [5] (Introduction: 'it is \u223c1.3 eV for x = 0.24 [5]'). Synthesis is high-pressure, per the paper, but no numbers are given here."
+      },
+      {
+        "material_as_written": "LaH3\u22122x Ox",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [
+          "O"
+        ],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10\u22123",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature (\u223c298 K)",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "mately 10\u22123 S/cm was achieved [6]",
+        "evidence_location": "Introduction",
+        "notes": "Value attributed to Ref. [6] (Fukui et al., JACS 2022) for x < 0.24, reported as approximately 10^-3 S/cm. The sentence reads 'for x < 0.24, an astonishing ionic conductivity of approximately 10\u22123 S/cm was achieved [6]'. The composition is a range (x < 0.24), so the material is not a single composition. Temperature is given only as room temperature (~298 K)."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 3405,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 30242,
+        "webSearchRequests": 0,
+        "costUSD": 0.00778645,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2322,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 30242,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 16442,
+    "notional_cost_usd": 0.00778645
+  },
+  "paper_id": "arXiv:2603.00852",
+  "model": "haiku"
+}

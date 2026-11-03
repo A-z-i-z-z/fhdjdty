@@ -1,0 +1,98 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about Li-ion transport in halide solid electrolytes (Li2ZrCl6, Li3YCl6, and their mixture) and reports numerical ionic conductivities, though only as literature-cited values from prior work.",
+    "records": [
+      {
+        "material_as_written": "Li2ZrCl6 (LZC)",
+        "material_class": "halide",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.28",
+        "conductivity_unit_as_reported": "mS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "0.28 mS cm\u22121 (LZC) and 0.26 mS cm\u22121 (LYC) to 0.41 mS cm\u22121 (i.e., a 46% enhancement)",
+        "evidence_location": "Introduction",
+        "notes": "Value quoted from the authors' earlier mixing study (ref. 50, Wang et al., ACS Energy Letters 2025), not measured in this paper. Measurement temperature not stated. Quote contains values for LZC, LYC and the mixture."
+      },
+      {
+        "material_as_written": "Li3YCl6 (LYC)",
+        "material_class": "halide",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.26",
+        "conductivity_unit_as_reported": "mS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "0.28 mS cm\u22121 (LZC) and 0.26 mS cm\u22121 (LYC) to 0.41 mS cm\u22121 (i.e., a 46% enhancement)",
+        "evidence_location": "Introduction",
+        "notes": "Value quoted from ref. 50 (prior mixing study), not measured in this paper. Measurement temperature not stated."
+      },
+      {
+        "material_as_written": "LZC+LYC physical mixture",
+        "material_class": "composite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": "physical mixing",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.41",
+        "conductivity_unit_as_reported": "mS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "0.28 mS cm\u22121 (LZC) and 0.26 mS cm\u22121 (LYC) to 0.41 mS cm\u22121 (i.e., a 46% enhancement)",
+        "evidence_location": "Introduction",
+        "notes": "Mixture conductivity from ref. 50 ('physically mixing two halide electrolytes'); the mixing ratio is not given in that sentence. Not measured in this paper. Computed MD Nernst-Einstein conductivities appear only as a plot (Fig. 5h) with no numbers, so they are not recorded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2584,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 40793,
+        "webSearchRequests": 0,
+        "costUSD": 0.00948615,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1251,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 40793,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 13549,
+    "notional_cost_usd": 0.00948615
+  },
+  "paper_id": "arXiv:2610.03821",
+  "model": "haiku"
+}

@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2406.02852#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper says Li7N2I with 0.5% carbon nanotube composite was recently found experimentally to have 3.1 \u00d7 10-4 S/cm, citing ref. 39, so it is literature_cited. No temperature is given, and all secondary fields are null as the paper states them."
+      },
+      {
+        "record_id": "arXiv:2406.02852#008",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction calls Li6PS5X (X = Cl, Br) the typical argyrodite example and says it shows ionic conductivity as high as 1.1\u00d710-3 S/cm with citation 23, so it is literature_cited. No temperature is stated, and the secondary fields are null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17614,
+        "outputTokens": 891,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 17804,
+        "webSearchRequests": 0,
+        "costUSD": 0.00578752,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 539,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17804,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4133,
+    "notional_cost_usd": 0.00578752
+  },
+  "paper_id": "arXiv:2406.02852",
+  "model": "haiku"
+}

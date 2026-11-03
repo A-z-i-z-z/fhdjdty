@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a computational continuum model of Li electrodeposition at an argyrodite Li6PS5Cl interface, and its Table I gives Li+ conductivities for Li6PS5Cl and Li3N, though both are taken from cited literature rather than measured here.",
+    "records": [
+      {
+        "material_as_written": "Li6PS5Cl",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.319",
+        "conductivity_unit_as_reported": "S/m",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "0.319\nMPa\nS/m",
+        "evidence_location": "Table I",
+        "notes": "Table I row 'Li+ conductivity in Li6PS5Cl' (symbol sigma+SE), cited to ref. [58]. The PDF table layout is scrambled, so the value is mapped to this row by its position next to the S/m unit; the 'MPa' in the quote belongs to an adjacent row. Not measured in this paper; no measurement temperature is given."
+      },
+      {
+        "material_as_written": "Li3N",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.02",
+        "conductivity_unit_as_reported": "S/m",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "0.02\nS/m\n[59,60]",
+        "evidence_location": "Table I",
+        "notes": "Table I row 'Li+ conductivity in Li3N' (symbol sigma+layer), cited to refs [59,60]. The table layout is scrambled, so the mapping to Li3N is inferred from the row label order. Not measured in this paper; no measurement temperature is given."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 3,
+        "outputTokens": 3834,
+        "cacheReadInputTokens": 38715,
+        "cacheCreationInputTokens": 35502,
+        "webSearchRequests": 0,
+        "costUSD": 0.00940485,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1960,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 35502,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 16576,
+    "notional_cost_usd": 0.00940485
+  },
+  "paper_id": "arXiv:2609.11571",
+  "model": "haiku"
+}

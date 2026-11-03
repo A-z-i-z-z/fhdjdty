@@ -1,0 +1,114 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2601.03151#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper's abstract and Section 3.2.4 give this paper's own estimated ~5 mS/cm room-temperature conductivity for Li7NbO6 from FPMD Arrhenius extrapolation, so the value, material and computational origin are right, and the null secondary fields are correct."
+      },
+      {
+        "record_id": "arXiv:2601.03151#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that Feng et al. doped Li7NbO6 with tungsten to reach 0.28 mS/cm at room temperature, which is a literature value and matches the W dopant and literature_cited origin."
+      },
+      {
+        "record_id": "arXiv:2601.03151#003",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "conductivity_value_as_reported",
+            "correct_value": "<0.1 (upper bound only)",
+            "evidence": "its relatively high activation energy of 0.35 eV results in an estimated roomtemperature ionic conductivity of less than 0.1 mS/cm"
+          }
+        ],
+        "explanation": "The paper gives only an upper bound ('less than 0.1 mS/cm'), not a value of 0.1, so recording 0.1 as the reported conductivity misrepresents the paper's result."
+      },
+      {
+        "record_id": "arXiv:2601.03151#004",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "conductivity_value_as_reported",
+            "correct_value": "<0.1 (upper bound only)",
+            "evidence": "the estimated ionic conductivity falls well below 0.1 mS/cm"
+          }
+        ],
+        "explanation": "The paper only says the room-temperature conductivity falls well below 0.1 mS/cm, an unquantified bound, so storing 0.1 as the value is not what the paper reports."
+      },
+      {
+        "record_id": "arXiv:2601.03151#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper's Li5NaN2 section gives an estimated room-temperature conductivity of 4 mS/cm from its own FPMD Arrhenius fit with a 0.28 eV barrier, matching the record."
+      },
+      {
+        "record_id": "arXiv:2601.03151#006",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The paper says 'both materials' (undoped and Y-doped Li4Mo3O8) have the estimated 0.2 mS/cm room-temperature conductivity, so attributing the value to the undoped form alone is not supported by the text."
+      },
+      {
+        "record_id": "arXiv:2601.03151#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states 'we estimate the ionic conductivity at room temperature to be 37 mS/cm' for Li4CO4 from this work's activation energy, so the value, material and computational origin are right."
+      },
+      {
+        "record_id": "arXiv:2601.03151#008",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Fig. 8 caption attributes 2.16 mS/cm at 300 K for Li3Y(PS4)2 to ref 160 (Zhu, Chu and Ong), so the literature_cited origin and 300 K (26.85 \u00b0C) temperature are correct."
+      },
+      {
+        "record_id": "arXiv:2601.03151#009",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Fig. 8 caption gives 0.22 mS/cm at 500 K for Li2CsI3 with ref 118 (Kahle et al.), matching the literature_cited origin and temperature."
+      },
+      {
+        "record_id": "arXiv:2601.03151#011",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The sentence attributes 28 mS/cm at 500 K to tetragonal-LGPO from Materzanini et al. (ref 84), so the value, temperature and literature_cited origin are right."
+      },
+      {
+        "record_id": "arXiv:2601.03151#012",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The same sentence attributes 6 mS/cm at 600 K to orthorhombic-LGPO from ref 84, matching the record's value, temperature and origin."
+      },
+      {
+        "record_id": "arXiv:2601.03151#013",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states cubic-LLZO exhibits 20 mS/cm, a literature value, and gives no temperature for it, so the null temperature and empty dopants are consistent with the text."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 53324,
+        "outputTokens": 5025,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 53508,
+        "webSearchRequests": 0,
+        "costUSD": 0.01856632,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 3441,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 53508,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 20469,
+    "notional_cost_usd": 0.01856632
+  },
+  "paper_id": "arXiv:2601.03151",
+  "model": "haiku"
+}

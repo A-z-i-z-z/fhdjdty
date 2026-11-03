@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper benchmarks MD-computed ionic conductivities of 21 solid Li electrolytes, but the computed values appear only in figures; the one numeric conductivity in the text is the literature experimental value used for 47i (Li4P2O7).",
+    "records": [
+      {
+        "activation_energy_eV": null,
+        "conductivity_kind": "unspecified",
+        "conductivity_unit_as_reported": "mS/cm",
+        "conductivity_value_as_reported": "10\u221212",
+        "data_origin": "literature_cited",
+        "dopants": [],
+        "evidence_location": "Section 3 (Results)",
+        "evidence_quote": "the experimental value \u03c3 = 10\u221212 mS/cm we use for 47i (Li4 P2 O7) may be lower than the actual value, as the literature only reports an upper bound (\u03c3exp < 10\u22127 mS/cm).",
+        "material_as_written": "Li4 P2 O7 (OBELiX ID 47i)",
+        "material_class": "other",
+        "measurement_method": null,
+        "measurement_temperature_C": null,
+        "measurement_temperature_as_reported": null,
+        "mobile_ion": "Li",
+        "notes": "Experimental value taken from the OBELiX database (Therrien et al., 2025) and used as the reference for this material. The authors state that the literature reports only an upper bound (<10\u22127 mS/cm), so 10\u221212 mS/cm is a proxy the authors chose, not a measured value. Temperature, method and density not stated for this value. Computed MD conductivities appear only in figures, so no records were made for them.",
+        "relative_density_pct": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "synthesis_method": null,
+        "unit_evidence_quote": null
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14685,
+        "outputTokens": 3128,
+        "cacheReadInputTokens": 21182,
+        "cacheCreationInputTokens": 18107,
+        "webSearchRequests": 0,
+        "costUSD": 0.0068657200000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1772,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18107,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 12371,
+    "notional_cost_usd": 0.0068657200000000005
+  },
+  "paper_id": "arXiv:2603.28012",
+  "model": "haiku"
+}

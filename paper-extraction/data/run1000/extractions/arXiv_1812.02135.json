@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies photo-induced conductivity dynamics in a mixed-cation lead-halide perovskite film (FAMACs) using scanning-probe measurements, and reports no numeric ionic conductivity of a solid Li- or Na-ion conductor; the 0.58 eV value is an activation energy for dissipation recovery, not a conductivity.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 475,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 48107,
+        "webSearchRequests": 0,
+        "costUSD": 0.00989445,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 256,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 48107,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4484,
+    "notional_cost_usd": 0.00989445
+  },
+  "paper_id": "arXiv:1812.02135",
+  "model": "haiku"
+}

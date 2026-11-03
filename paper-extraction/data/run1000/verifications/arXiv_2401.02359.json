@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2401.02359#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 row for Ca = 0 gives 6.61 x 10-4 S/cm and 0.25 eV, matching the record. The 1050 \u00b0C / 7.30 h sintering applies to the whole series, and no relative density is given for this composition, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2401.02359#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 0.05 Ca sample is reported at 9.95 x 10-4 S/cm and 0.23 eV at room temperature, and the text gives its relative density as 95.09%. The data are measured in this paper and the 1050 \u00b0C / 7.30 h sintering applies."
+      },
+      {
+        "record_id": "arXiv:2401.02359#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 row for Ca = 0.10 gives 4.07 x 10-4 S/cm and 0.32 eV, matching the record. Relative density is correctly null because none is stated for this composition."
+      },
+      {
+        "record_id": "arXiv:2401.02359#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 row for Ca = 0.15 gives 1.75 x 10-4 S/cm and 0.34 eV, matching the record. Relative density is correctly null because none is stated for this composition."
+      },
+      {
+        "record_id": "arXiv:2401.02359#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 row for Ca = 0.20 gives 5.72 x 10-5 S/cm and 0.36 eV, matching the record. Relative density is correctly null because none is stated for this composition."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14279,
+        "outputTokens": 1684,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 14469,
+        "webSearchRequests": 0,
+        "costUSD": 0.0051835200000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1001,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14469,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6855,
+    "notional_cost_usd": 0.0051835200000000005
+  },
+  "paper_id": "arXiv:2401.02359",
+  "model": "haiku"
+}

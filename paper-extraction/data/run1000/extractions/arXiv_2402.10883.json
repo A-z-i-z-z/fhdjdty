@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a method paper on electronic conductivity measurement (Hebb-Wagner, ion-blocking microelectrode) in O2- conductors such as YSZ and LLTO, and it reports no ionic conductivity values of Li- or Na-ion conductors.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14217,
+        "outputTokens": 386,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 14409,
+        "webSearchRequests": 0,
+        "costUSD": 0.00452806,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 171,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14409,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2497,
+    "notional_cost_usd": 0.00452806
+  },
+  "paper_id": "arXiv:2402.10883",
+  "model": "haiku"
+}

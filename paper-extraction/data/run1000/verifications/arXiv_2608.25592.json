@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2608.25592#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 20.5 mS/cm value for the modeled metastable Fm-3 Li2B12H12 polymorph is this paper's own MD/Nernst-Einstein result, so computational origin is correct. The paper gives 300 K for this MD analysis elsewhere, but leaving the temperature null is conservative rather than wrong."
+      },
+      {
+        "record_id": "arXiv:2608.25592#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 14.6 mS/cm value for Li6CaCl8 is this paper's own Nernst-Einstein estimate from its MD, quoted with the experimental Li3GdCl3Br3 comparison. Material and origin are correct, and the null temperature is conservative even though Fig. 7 uses 300 K."
+      },
+      {
+        "record_id": "arXiv:2608.25592#003",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The paper is internally inconsistent: Section 2.4 gives 2.9 \u00d7 10-3 mS/cm, but the later passage gives 2.9 \u00d7 10-4 mS/cm. The 'nearly five orders of magnitude lower' comparison against 20.5 mS/cm fits 2.9 \u00d7 10-4, so the record's value is not reliably the paper's reported value and the strict rule applies."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 24929,
+        "outputTokens": 2017,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 25115,
+        "webSearchRequests": 0,
+        "costUSD": 0.00854422,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1455,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 25115,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8967,
+    "notional_cost_usd": 0.00854422
+  },
+  "paper_id": "arXiv:2608.25592",
+  "model": "haiku"
+}

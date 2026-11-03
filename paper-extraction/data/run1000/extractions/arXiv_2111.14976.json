@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about heat (thermal) transport in Li3ClO and reports thermal conductivity values, not ionic conductivity; it gives no numeric ionic conductivity for any Li/Na conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 31501,
+        "outputTokens": 431,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 31689,
+        "webSearchRequests": 0,
+        "costUSD": 0.00973496,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 231,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 31689,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2521,
+    "notional_cost_usd": 0.00973496
+  },
+  "paper_id": "arXiv:2111.14976",
+  "model": "haiku"
+}

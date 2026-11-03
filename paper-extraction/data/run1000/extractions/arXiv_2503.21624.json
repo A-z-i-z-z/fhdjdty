@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is an MD study of Na2S\u2013SiS2 sodium thiosilicate glasses and melts, which are solid ion conductors, but its only numeric conductivity value in the text is a literature value quoted in the introduction.",
+    "records": [
+      {
+        "material_as_written": "Na2 S \u2013 SiS2 system (glass)",
+        "material_class": "other",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2\u00d710\u22126",
+        "conductivity_unit_as_reported": "\u03a9\u22121 cm\u22121",
+        "unit_evidence_quote": "cm\u22121) compared to its lithium counterpart[10]",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "displays a more reduced level of conductivity[5] (2\u00d710\u22126 \u03a9\u22121",
+        "evidence_location": "introduction",
+        "notes": "Literature value quoted from Ref. [5] in the introduction; the composition is not specified beyond the Na2S\u2013SiS2 system and no measurement temperature is given. The paper's own MD conductivities are only shown in figures, so no numeric records were made for them. The Li counterpart value (10\u22124) was not recorded because its composition is not specified."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2254,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 15529,
+        "webSearchRequests": 0,
+        "costUSD": 0.00426835,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1657,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15529,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10513,
+    "notional_cost_usd": 0.00426835
+  },
+  "paper_id": "arXiv:2503.21624",
+  "model": "haiku"
+}

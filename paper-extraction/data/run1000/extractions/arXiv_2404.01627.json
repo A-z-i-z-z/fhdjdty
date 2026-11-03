@@ -1,0 +1,98 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about NASICON-type Na-ion solid electrolytes and reports Na-ion conductivities, but most main-text values have their exponents lost in PDF extraction, so only the complete literature values in Supplementary Table 3 are recorded here.",
+    "records": [
+      {
+        "material_as_written": "Na3Zr2Si2P1O12",
+        "material_class": "NASICON",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "4.00  10-3",
+        "conductivity_unit_as_reported": "(Scm-1)",
+        "unit_evidence_quote": "experimental \ud835\udf0e (Scm-1)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "4.00  10-3 10",
+        "evidence_location": "Supplementary Table 3",
+        "notes": "Supplementary Table 3 row Na3Zr2Si2P1O12 (n=3, <r>=0.426 \u00c5), value taken from ref. 10 (the authors' cited experimental source list); the table caption says values were interpolated or measured at 300 K. The quote contains only the value and reference number; the composition is identified from the table row. Exponent and spacing are as printed in the PDF text."
+      },
+      {
+        "material_as_written": "Na3Zr2Si2P1O12",
+        "material_class": "NASICON",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.10  10-4",
+        "conductivity_unit_as_reported": "(Scm-1)",
+        "unit_evidence_quote": "experimental \ud835\udf0e (Scm-1)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "1.10  10-4 15",
+        "evidence_location": "Supplementary Table 3",
+        "notes": "Supplementary Table 3 row Na3Zr2Si2P1O12 (n=3, <r>=0.426 \u00c5), value from ref. 15 (Takahashi et al.); table caption says values were interpolated or measured at 300 K. Composition identified from table row context; the quote contains only the value and reference number."
+      },
+      {
+        "material_as_written": "Na3Zr2Si2P1O12",
+        "material_class": "NASICON",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "4.21  10-4",
+        "conductivity_unit_as_reported": "(Scm-1)",
+        "unit_evidence_quote": "experimental \ud835\udf0e (Scm-1)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "4.21  10-4 19",
+        "evidence_location": "Supplementary Table 3",
+        "notes": "Supplementary Table 3 row Na3Zr2Si2P1O12 (n=3, <r>=0.426 \u00c5), value from ref. 19 (Song et al.); table caption says values were interpolated or measured at 300 K. Composition identified from table row context; the quote contains only the value and reference number."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 5664,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 47261,
+        "webSearchRequests": 0,
+        "costUSD": 0.01231975,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 4286,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 47261,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 26140,
+    "notional_cost_usd": 0.01231975
+  },
+  "paper_id": "arXiv:2404.01627",
+  "model": "haiku"
+}

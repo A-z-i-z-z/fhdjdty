@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2405.16835#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports Li-KB ionic conductivity of 18.1 mS cm-1 at 25 \u00b0C, measured in this work by the DC method on Li/C/LPSCl/C/Li cells, and gives an activation energy of 0.17 eV for Li-KB. The secondary fields are null, which is consistent with the paper, and the origin is experimental, not cited from earlier work."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18524,
+        "outputTokens": 778,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 18714,
+        "webSearchRequests": 0,
+        "costUSD": 0.0060040200000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 529,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18714,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3772,
+    "notional_cost_usd": 0.0060040200000000005
+  },
+  "paper_id": "arXiv:2405.16835",
+  "model": "haiku"
+}

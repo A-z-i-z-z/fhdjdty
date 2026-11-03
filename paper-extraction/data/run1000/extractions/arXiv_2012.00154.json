@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a computational study of ion diffusion in Ge-substituted Li3PO4 and reports diffusivities, not ionic conductivities; its only Li-ion conductivity number is a literature value quoted in the Introduction for Li10GeP2S12, so it is marginally in scope.",
+    "records": [
+      {
+        "material_as_written": "Li10GeP2S12",
+        "material_class": "thiophosphate_other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.01",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "such as silver iodide and Li10GeP2S12 exhibit high ion conductivities of ~1 S/cm5 and ~0.01 S/cm 6, 7 at room temperature respectively",
+        "evidence_location": "Introduction",
+        "notes": "Literature value cited from refs 6 and 7, not measured in this paper. The paper's own Li3.042Ge0.042P0.958O4 results are diffusivities (cm2/s) and D_sigma values, not ionic conductivities in S/cm, so no records were made for them. Yttria-stabilized zirconia (oxygen ion) and silver iodide (Ag ion) values were excluded as not Li/Na conductors."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2436,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 27582,
+        "webSearchRequests": 0,
+        "costUSD": 0.00676995,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1772,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27582,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11601,
+    "notional_cost_usd": 0.00676995
+  },
+  "paper_id": "arXiv:2012.00154",
+  "model": "haiku"
+}

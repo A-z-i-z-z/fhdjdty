@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about elastic properties of an amorphous Li-ion halide solid electrolyte and quotes one experimental ionic conductivity value from earlier work.",
+    "records": [
+      {
+        "material_as_written": "amorphous LiTaCl6",
+        "material_class": "halide",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "11",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.165,
+        "measurement_method": null,
+        "evidence_quote": "experimental studies on amorphous LiTaCl6 reported a high ionic conductivity of 11 mS/cm and a low activation energy of 0.165 eV at room temperature",
+        "evidence_location": "Introduction",
+        "notes": "Value is quoted from earlier experimental work (Refs. [12,13]), not measured in this paper. The paper gives only 'room temperature' with no number. The paper's other conductivity mentions (generic 1 mS/cm threshold, sulfides >10 mS/cm) are not specific-material values and were not recorded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1731,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 13058,
+        "webSearchRequests": 0,
+        "costUSD": 0.0035126500000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1156,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13058,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7265,
+    "notional_cost_usd": 0.0035126500000000004
+  },
+  "paper_id": "arXiv:2608.29404",
+  "model": "haiku"
+}

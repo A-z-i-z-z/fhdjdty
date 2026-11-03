@@ -1,0 +1,119 @@
+[
+  {
+    "record_id": "arXiv:2610.03821#001",
+    "paper_id": "arXiv:2610.03821",
+    "record": {
+      "material_as_written": "Li2ZrCl6 (LZC)",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.28",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "0.28 mS cm\u22121 (LZC) and 0.26 mS cm\u22121 (LYC) to 0.41 mS cm\u22121 (i.e., a 46% enhancement)",
+      "evidence_location": "Introduction",
+      "notes": "Value quoted from the authors' earlier mixing study (ref. 50, Wang et al., ACS Energy Letters 2025), not measured in this paper. Measurement temperature not stated. Quote contains values for LZC, LYC and the mixture."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00028,
+    "log10_conductivity": -3.553
+  },
+  {
+    "record_id": "arXiv:2610.03821#002",
+    "paper_id": "arXiv:2610.03821",
+    "record": {
+      "material_as_written": "Li3YCl6 (LYC)",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.26",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "0.28 mS cm\u22121 (LZC) and 0.26 mS cm\u22121 (LYC) to 0.41 mS cm\u22121 (i.e., a 46% enhancement)",
+      "evidence_location": "Introduction",
+      "notes": "Value quoted from ref. 50 (prior mixing study), not measured in this paper. Measurement temperature not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00026,
+    "log10_conductivity": -3.585
+  },
+  {
+    "record_id": "arXiv:2610.03821#003",
+    "paper_id": "arXiv:2610.03821",
+    "record": {
+      "material_as_written": "LZC+LYC physical mixture",
+      "material_class": "composite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": "physical mixing",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.41",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "0.28 mS cm\u22121 (LZC) and 0.26 mS cm\u22121 (LYC) to 0.41 mS cm\u22121 (i.e., a 46% enhancement)",
+      "evidence_location": "Introduction",
+      "notes": "Mixture conductivity from ref. 50 ('physically mixing two halide electrolytes'); the mixing ratio is not given in that sentence. Not measured in this paper. Computed MD Nernst-Einstein conductivities appear only as a plot (Fig. 5h) with no numbers, so they are not recorded."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00041,
+    "log10_conductivity": -3.387
+  }
+]

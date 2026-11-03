@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This review of defect physics in Li-ion battery electrode materials discusses ionic conduction only through migration barriers and activation energies (eV) and never reports an ionic conductivity value with a unit, so no conductivity records can be extracted.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 521,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 39631,
+        "webSearchRequests": 0,
+        "costUSD": 0.00822225,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 342,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 39631,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4306,
+    "notional_cost_usd": 0.00822225
+  },
+  "paper_id": "arXiv:1804.02344",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a theoretical lattice-model study (exact diagonalization of a 1D Pauli-particle ionic conductor) that reports spectral densities and phase diagrams, but no ionic conductivity values for any material.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 7752,
+        "outputTokens": 355,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 7944,
+        "webSearchRequests": 0,
+        "costUSD": 0.0025730600000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 150,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 7944,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2545,
+    "notional_cost_usd": 0.0025730600000000003
+  },
+  "paper_id": "arXiv:1106.5136",
+  "model": "haiku"
+}

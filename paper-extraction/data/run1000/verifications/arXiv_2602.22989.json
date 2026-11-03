@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2602.22989#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper computes 19.7 \u00d7 10\u22123 S cm\u22121 in this work via Nernst-Einstein from its own AIMD diffusion data extrapolated to 300 K, so computational origin, Li3PS4 glass, and the 300 K temperature (26.85 \u00b0C) are right. Secondary fields are null, which is correct because the paper gives no sintering, density, or activation-energy value in eV."
+      },
+      {
+        "record_id": "arXiv:2602.22989#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 19.0 \u00d7 10\u22123 S cm\u22121 value is explicitly described as 'reported in prior simulations. 14', so literature_cited is correct. No temperature is stated for this value, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2602.22989#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The ~2.8\u20133.0 \u00d7 10\u22124 S cm\u22121 experimental range is attributed to refs 11 and 15 and is not measured in this paper, so literature_cited is correct. The paper gives no measurement temperature for it, so null is correct; the material is the Li3PS4 glass the paper compares against."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 11913,
+        "outputTokens": 1517,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 12103,
+        "webSearchRequests": 0,
+        "costUSD": 0.00439022,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1004,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12103,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6743,
+    "notional_cost_usd": 0.00439022
+  },
+  "paper_id": "arXiv:2602.22989",
+  "model": "haiku"
+}

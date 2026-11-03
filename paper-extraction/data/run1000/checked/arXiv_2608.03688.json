@@ -1,0 +1,76 @@
+[
+  {
+    "record_id": "arXiv:2608.03688#001",
+    "paper_id": "arXiv:2608.03688",
+    "record": {
+      "material_as_written": "PVDF-HFP@TFOMA",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5.5 \u00d7 10\u207b\u2074",
+      "conductivity_unit_as_reported": "S cm\u207b\u00b9",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "30 \u00b0C",
+      "measurement_temperature_C": 30,
+      "activation_energy_eV": 0.29,
+      "measurement_method": null,
+      "evidence_quote": "5.5 \u00d7 10\u207b\u2074 S cm\u207b\u00b9 for TFOMA versus 1.0 \u00d7 10\u207b\u2074 S cm\u207b\u00b9 for TFDMA. Above 70 \u00b0C, the TFOMA system exceeds 10\u207b\u00b3 S cm\u207b\u00b9",
+      "evidence_location": "Electrochemical Performance Testing and Mechanistic Analysis (results)",
+      "notes": "TFOMA is a trace residual solvent (~0.1 \u00b5L) in a PVDF-HFP matrix. Activation energy 0.29 eV is from the same paper's Arrhenius fit (text: 'activation energies of 0.29 eV (TFOMA) and 0.45 eV (TFDMA)'). Measurement method (EIS) not stated explicitly."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00055,
+    "log10_conductivity": -3.26
+  },
+  {
+    "record_id": "arXiv:2608.03688#002",
+    "paper_id": "arXiv:2608.03688",
+    "record": {
+      "material_as_written": "PVDF-HFP@TFDMA",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.0 \u00d7 10\u207b\u2074",
+      "conductivity_unit_as_reported": "S cm\u207b\u00b9",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "30 \u00b0C",
+      "measurement_temperature_C": 30,
+      "activation_energy_eV": 0.45,
+      "measurement_method": null,
+      "evidence_quote": "5.5 \u00d7 10\u207b\u2074 S cm\u207b\u00b9 for TFOMA versus 1.0 \u00d7 10\u207b\u2074 S cm\u207b\u00b9 for TFDMA. Above 70 \u00b0C, the TFOMA system exceeds 10\u207b\u00b3 S cm\u207b\u00b9",
+      "evidence_location": "Electrochemical Performance Testing and Mechanistic Analysis (results)",
+      "notes": "Control electrolyte with trace TFDMA residual solvent in PVDF-HFP. Activation energy 0.45 eV from the paper's Arrhenius fit (text: 'activation energies of 0.29 eV (TFOMA) and 0.45 eV (TFDMA)'). Measurement method not stated explicitly."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0001,
+    "log10_conductivity": -4.0
+  }
+]

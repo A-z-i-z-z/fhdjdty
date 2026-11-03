@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2601.04725#001",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The 4 \u00d7 10\u22124 S/cm value appears only in the abstract as the highest total conductivity among unnamed Na-excess samples, so the record's material ('Na-excess NBT-6BT, unspecified composition') is not identifiable as the material this value belongs to."
+      },
+      {
+        "record_id": "arXiv:2601.04725#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The results text states that the 51/49 and Zn-doped samples display an ac (total) conductivity of 10\u22124 S/cm at 450 \u00b0C, measured in this work, and the 1150 \u00b0C / 3 h sintering applies to all samples."
+      },
+      {
+        "record_id": "arXiv:2601.04725#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The same sentence gives an ac conductivity of 10\u22124 S/cm at 450 \u00b0C for the 1% Zn-doped sample, which is measured in this paper and is total (ac) conductivity; the Zn dopant and the general sintering conditions match the paper."
+      },
+      {
+        "record_id": "arXiv:2601.04725#004",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "conductivity_kind",
+            "correct_value": "ionic",
+            "evidence": "facilitates ionic conductivity of up to 0.01 S/cm at 600\u25e6 C, comparable with that of conventional oxide ion conductors like"
+          }
+        ],
+        "explanation": "The value is correctly literature_cited at 600 \u00b0C, but the paper calls it ionic conductivity, not total, and the generic 'Na-excess / acceptor-doped NBT' material does not map to a specific material in the paper, so the conductivity and material are not reliably supported."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 24450,
+        "outputTokens": 2468,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 24640,
+        "webSearchRequests": 0,
+        "costUSD": 0.00862682,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1785,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24640,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10951,
+    "notional_cost_usd": 0.00862682
+  },
+  "paper_id": "arXiv:2601.04725",
+  "model": "haiku"
+}

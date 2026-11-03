@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a finite element modeling study of porous Li-metal electrodes for solid-state batteries. Its only conductivity numbers are model inputs and one literature value for LLZO, so it is marginally in scope.",
+    "records": [
+      {
+        "material_as_written": "LLZO",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "For highly conductive solid-electrolytes like LLZO (\u03ba \u223c 1 mS/cm)",
+        "evidence_location": "results (Section 3)",
+        "notes": "Value is a general literature-level conductivity for LLZO quoted in passing, not measured or computed in this paper. The nearby citation [41] is attached to the pore diameter in the same sentence, so the source of the conductivity value is not explicitly cited. Dopant and composition are not specified. Conductivity kind and temperature are not stated."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1628,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 10287,
+        "webSearchRequests": 0,
+        "costUSD": 0.00290695,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1064,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 10287,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8222,
+    "notional_cost_usd": 0.00290695
+  },
+  "paper_id": "arXiv:2203.05501",
+  "model": "haiku"
+}

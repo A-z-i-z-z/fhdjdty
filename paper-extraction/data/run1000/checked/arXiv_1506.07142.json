@@ -1,0 +1,41 @@
+[
+  {
+    "record_id": "arXiv:1506.07142#001",
+    "paper_id": "arXiv:1506.07142",
+    "record": {
+      "material_as_written": "Li7 La3 Zr2 O12",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3 \u00d7 10\u22123",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "to date an ionic conductivity as high as \u03c3 = 3 \u00d7 10\u22123 S/cm has been measured [3] for the cubic Li7 La3 Zr2 O12 garnet.",
+      "evidence_location": "introduction",
+      "notes": "Value is quoted from earlier experimental work (ref. [3], Murugan et al.), not measured in this paper. Temperature not stated. The paper's own CMD conductivities (Fig. 3) are figure-only and not extracted."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.003,
+    "log10_conductivity": -2.523
+  }
+]

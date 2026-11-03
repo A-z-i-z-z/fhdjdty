@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about Na, K and Ag beta- and beta''-alumina solid electrolytes, but its conductivity results appear only as plotted spectra and Arrhenius curves (Figures 3 and S3, S8c), with no numeric conductivity value stated in the text or a table, so no records can be extracted.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 40444,
+        "outputTokens": 747,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 40636,
+        "webSearchRequests": 0,
+        "costUSD": 0.01257666,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 515,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 40636,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4511,
+    "notional_cost_usd": 0.01257666
+  },
+  "paper_id": "arXiv:2105.08761",
+  "model": "haiku"
+}

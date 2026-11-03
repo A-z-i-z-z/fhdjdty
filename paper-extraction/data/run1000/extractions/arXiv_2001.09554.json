@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a coarse-grained MD study of generic model salt-doped polymers. Its conductivity results appear only as plots without numeric values in the text, and the only numbers given are reduced units or ratios such as \u039b/\u039bNE, so no extractable ionic conductivity value is reported.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 531,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 25146,
+        "webSearchRequests": 0,
+        "costUSD": 0.005330250000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 336,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 25146,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4098,
+    "notional_cost_usd": 0.005330250000000001
+  },
+  "paper_id": "arXiv:2001.09554",
+  "model": "haiku"
+}

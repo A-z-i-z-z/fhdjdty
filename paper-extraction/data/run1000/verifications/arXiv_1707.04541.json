@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1707.04541#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the room-temperature conductivity of Li6PTeS4Cl as 91 mS cm-1 (listed first, before Li6.25PTeS4.25Cl0.75 at 126). The values come from this paper's AIMD/Nernst-Einstein analysis, so computational is correct, and the 0.175 eV activation energy is the AIMD value for Li6PTeS4Cl."
+      },
+      {
+        "record_id": "arXiv:1707.04541#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper quotes 14 mS cm-1 for Li6.25PS5.25Cl0.75 with citation marker 22 and attributes it to earlier work (the AIMD study on Li6PS5Cl), so literature_cited is correct. The temperature is given only as room temperature, so the null Celsius value is acceptable."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 16854,
+        "outputTokens": 1002,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 17046,
+        "webSearchRequests": 0,
+        "costUSD": 0.0056154199999999994,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 590,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17046,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4507,
+    "notional_cost_usd": 0.0056154199999999994
+  },
+  "paper_id": "arXiv:1707.04541",
+  "model": "haiku"
+}

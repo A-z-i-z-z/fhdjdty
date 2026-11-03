@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper models dielectric enhancement from metallic or non-insulating spheres in electrolyte solution; it does not report ionic conductivity of any solid Li- or Na-ion conductor, and its conductivity symbols refer to the electrolyte and generic solid particles without numeric ionic conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 346,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 22008,
+        "webSearchRequests": 0,
+        "costUSD": 0.00461015,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 143,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22008,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3526,
+    "notional_cost_usd": 0.00461015
+  },
+  "paper_id": "arXiv:1605.05029",
+  "model": "haiku"
+}

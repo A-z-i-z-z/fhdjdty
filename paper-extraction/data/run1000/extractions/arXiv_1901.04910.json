@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about solid-ion conductors (LiF@PIM-1 hybrids) and reports EIS-derived Li+ conductivities at 20 \u00b0C, though the only single-value number I could quote verbatim is for the PIM-1 control.",
+    "records": [
+      {
+        "material_as_written": "PIM-1",
+        "material_class": "polymer",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "in-situ cation metathesis (TBAF to LiF) for composites; PIM-1 coated on Celgard 2325 as control",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.2",
+        "conductivity_unit_as_reported": "\u00b5S cm\u20131",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "20 \u02daC (from \u03c320C subscript)",
+        "measurement_temperature_C": 20,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "interestingly, \u03c320C is only 2.2 \u00b5S cm\u20131 for PIM-1",
+        "evidence_location": "results",
+        "notes": "PIM-1 is the positive-control polymer (PIM-1 on Celgard 2325) with liquid electrolyte (1.0 M LiPF6 in EC:DMC) present; it is a gel-type control rather than a true solid conductor. EIS method is from the Table 1 footnote. Values for LESA-1 to LESA-6 (0.29 to 3.30 x10-5 S cm-1) are in a multi-line table row and were not recorded because a verbatim single-line quote could not be assured."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2666,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 16563,
+        "webSearchRequests": 0,
+        "costUSD": 0.00468115,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1994,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16563,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 14408,
+    "notional_cost_usd": 0.00468115
+  },
+  "paper_id": "arXiv:1901.04910",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a theory and phase-field modelling paper on ASSB interfacial failure. Its only conductivity numbers are a generic model sweep of \u03ba from 0.3 to 1.2 S m\u207b\u00b9, which is not tied to a specific measured material or temperature, so no records are extracted.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 818,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 22348,
+        "webSearchRequests": 0,
+        "costUSD": 0.00491415,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 622,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22348,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5147,
+    "notional_cost_usd": 0.00491415
+  },
+  "paper_id": "arXiv:2604.24075",
+  "model": "haiku"
+}

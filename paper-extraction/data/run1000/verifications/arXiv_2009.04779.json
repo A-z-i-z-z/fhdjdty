@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2009.04779#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The I-SE value of 7.6 \u00d7 10\u22124 S cm\u22121 at 25 \u00b0C is explicitly attributed to the authors' earlier work [23], so literature_cited is the correct origin. The mechanical milling details (600 rpm, 20 h) match Section 2.1."
+      },
+      {
+        "record_id": "arXiv:2009.04779#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Cl-SE value of 4.1 \u00d7 10\u22124 S cm\u22121 at 25 \u00b0C is cited to [23] in the sentence containing the quote, so literature_cited is correct. The synthesis method matches Section 2.1."
+      },
+      {
+        "record_id": "arXiv:2009.04779#004",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 25,
+            "evidence": "AC Electrochemical Impedance Spectroscopy (EIS) measurements were acquired at 25 \u00b0C using an Autolab PGSTAT30 potentiostat"
+          }
+        ],
+        "explanation": "The 5.9 \u00d7 10\u22124 S cm\u22121 value for I-SE is derived in this paper from R1 and is stated as RT, and the EIS was run at 25 \u00b0C, so experimental origin and the value are right. The temperature should be 25 \u00b0C rather than null, since the paper states it for these EIS measurements."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1849,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 14325,
+        "webSearchRequests": 0,
+        "costUSD": 0.00381331,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1309,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14325,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8885,
+    "notional_cost_usd": 0.00381331
+  },
+  "paper_id": "arXiv:2009.04779",
+  "model": "haiku"
+}

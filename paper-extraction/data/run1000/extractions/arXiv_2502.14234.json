@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a dataset of Li solid electrolytes and their room-temperature conductivities, but its text gives no conductivity value for any specific material; the only numbers are a generic >1 mS/cm threshold for \"ideal\" SSEs and a \"less than 10^-10\" bound, and the per-material values live in the external CSV, not the paper.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14873,
+        "outputTokens": 922,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 15061,
+        "webSearchRequests": 0,
+        "costUSD": 0.0049920599999999996,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 685,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15061,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4750,
+    "notional_cost_usd": 0.0049920599999999996
+  },
+  "paper_id": "arXiv:2502.14234",
+  "model": "haiku"
+}

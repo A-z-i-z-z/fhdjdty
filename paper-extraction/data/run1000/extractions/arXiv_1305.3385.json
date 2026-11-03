@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a structural study of La5.4WO12-\u03b4, a proton/oxide-ion mixed conductor, and reports no numerical ionic conductivity values for any Li- or Na-ion conductor; conductivity is only described qualitatively.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 364,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 20060,
+        "webSearchRequests": 0,
+        "costUSD": 0.004229550000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 181,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 20060,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2813,
+    "notional_cost_usd": 0.004229550000000001
+  },
+  "paper_id": "arXiv:1305.3385",
+  "model": "haiku"
+}

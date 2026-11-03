@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a review of electrolytic gas evolution physics (bubble nucleation, growth, detachment, and their effect on liquid alkaline electrolyte conductivity); it does not study solid Li/Na-ion conductors and reports no solid electrolyte conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 297,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 14909,
+        "webSearchRequests": 0,
+        "costUSD": 0.00316585,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 105,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14909,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3223,
+    "notional_cost_usd": 0.00316585
+  },
+  "paper_id": "arXiv:1304.2701",
+  "model": "haiku"
+}

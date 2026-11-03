@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies CsCu2I3, a Cu-ion incipient ionic conductor, and its thermal conductivity; its ionic conductivity figures are for Cu/Ag-based or other non-Li/Na materials, and it reports no ionic conductivity of a solid Li or Na conductor, so it is out of scope.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 22682,
+        "outputTokens": 703,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 22874,
+        "webSearchRequests": 0,
+        "costUSD": 0.007226059999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 461,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22874,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3623,
+    "notional_cost_usd": 0.007226059999999999
+  },
+  "paper_id": "arXiv:2507.03358",
+  "model": "haiku"
+}

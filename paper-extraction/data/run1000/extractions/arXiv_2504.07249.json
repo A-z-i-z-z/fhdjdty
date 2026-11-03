@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies ion migration in the solid-state conductor Li0.5La0.5TiO3, but it reports no numeric ionic conductivity for it; the only numeric conductivity is the electronic conductivity (8 \u00d7 10\u221210 S/cm), which is excluded, and the impedance results are relative changes.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 28301,
+        "outputTokens": 734,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 28491,
+        "webSearchRequests": 0,
+        "costUSD": 0.00892686,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 505,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28491,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9717,
+    "notional_cost_usd": 0.00892686
+  },
+  "paper_id": "arXiv:2504.07249",
+  "model": "haiku"
+}

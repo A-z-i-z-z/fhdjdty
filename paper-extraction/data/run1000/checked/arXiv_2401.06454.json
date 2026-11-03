@@ -1,0 +1,82 @@
+[
+  {
+    "record_id": "arXiv:2401.06454#001",
+    "paper_id": "arXiv:2401.06454",
+    "record": {
+      "material_as_written": "LLTO (solid electrolyte grains)",
+      "material_class": "perovskite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "7.86 \u00b7 10\u22122 m",
+      "conductivity_unit_as_reported": "S/m",
+      "unit_evidence_quote": "Table 3 lists the ionic conductivity \u03ba for the solid electrolyte with units S over m (ionic conductivity column of the material parameter table)",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "7.86 \u00b7 10\u22122 m",
+      "evidence_location": "Table 3 (material parameters), solid electrolyte ionic conductivity row, source [18]",
+      "notes": "Model parameter for LLTO grain conductivity taken from the experimental study cited as [18]; not measured in this paper. The unit is split over lines in the PDF text (S over m) and the value is written as '7.86 \u00b7 10\u22122 m' in the quote. Table 2 also lists \u03base = 7.86\u00b710\u22122 S/m. Temperature not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": false,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "quote is only the value; material comes from context",
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 7.86e-07,
+    "log10_conductivity": -6.105
+  },
+  {
+    "record_id": "arXiv:2401.06454#002",
+    "paper_id": "arXiv:2401.06454",
+    "record": {
+      "material_as_written": "LLTO (grain boundary)",
+      "material_class": "perovskite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.88 \u00b7 10\u22122 m",
+      "conductivity_unit_as_reported": "S/m",
+      "unit_evidence_quote": "Table 3 lists the ionic conductivity \u03ba for the grain boundary with units S over m (ionic conductivity column of the material parameter table)",
+      "conductivity_kind": "grain_boundary",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "1.88 \u00b7 10\u22122 m",
+      "evidence_location": "Table 3 (material parameters), grain boundary ionic conductivity row, source [18]",
+      "notes": "Model parameter for the grain boundary conductivity of LLTO taken from the experimental study cited as [18]; the paper also uses it as the 'standard' grain boundary value in Section 3.3.4. Not measured in this paper. The unit is split over lines in the PDF text. Temperature not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": false,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "quote is only the value; material comes from context",
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1.88e-07,
+    "log10_conductivity": -6.726
+  }
+]

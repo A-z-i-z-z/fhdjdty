@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2203.05501#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states 'For highly conductive solid-electrolytes like LLZO (\u03ba \u223c 1 mS/cm)', which matches the material, value and unit. The temperature is correctly null because none is given. The origin is literature_cited by elimination, since the value is a passing general statement and not measured or computed here, though no citation is attached to it. Dopants and secondary fields are correctly null or empty."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1231,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 10466,
+        "webSearchRequests": 0,
+        "costUSD": 0.00273251,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1002,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 10466,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6736,
+    "notional_cost_usd": 0.00273251
+  },
+  "paper_id": "arXiv:2203.05501",
+  "model": "haiku"
+}

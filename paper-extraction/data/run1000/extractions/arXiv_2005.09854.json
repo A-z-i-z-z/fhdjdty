@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies simulated bulk aqueous NaCl solutions (liquid electrolytes) using finite-field MD and Stillinger-Lovett conditions; it reports ionic conductivities of liquid solutions, not of any solid Li/Na-ion conductor, so it is out of scope.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 423,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 23580,
+        "webSearchRequests": 0,
+        "costUSD": 0.004963050000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 223,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23580,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4211,
+    "notional_cost_usd": 0.004963050000000001
+  },
+  "paper_id": "arXiv:2005.09854",
+  "model": "haiku"
+}

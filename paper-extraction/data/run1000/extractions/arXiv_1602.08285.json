@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about phonons, thermal expansion and phase transitions in \u03b2-eucryptite, a Li-ion conductor, but it reports no numeric ionic conductivity value; superionic conduction is described only qualitatively, and the \"30 times higher\" along c is a ratio, not a conductivity.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 400,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 24824,
+        "webSearchRequests": 0,
+        "costUSD": 0.00520035,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 201,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24824,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4031,
+    "notional_cost_usd": 0.00520035
+  },
+  "paper_id": "arXiv:1602.08285",
+  "model": "haiku"
+}

@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports room-temperature Li+ ionic conductivities of a solid lithium-containing material (LBNCO and its Li-doped form) in Table S5, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "LBNCO (Li2(BN)6C2O4)",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "high-energy ball milling (mechanochemical)",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "5 \u00d7 10\u221211",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": "\u03c3RT (S cm\u22121 )",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.82,
+        "measurement_method": "impedance spectroscopy",
+        "evidence_quote": "FBN (single-ion) 5 \u00d7 10\u221211",
+        "evidence_location": "Table S5 (SI section S16)",
+        "notes": "Table S5 rows are scrambled in PDF extraction. The 'this work' rows are LBNCO and Li-doped LBNCO. Pairing this row with pristine LBNCO relies on matching Ea 816 meV to the Fig. 5a label E = 0.82(1) eV for Li2(BN)6C2O4. The row label in the table reads 'FBN (single-ion)'. The Ea of 0.82 eV comes from the Fig. 5a label, not the table text. Pellet was pressed at 600 MPa with no sintering. Two-point measurement, so kind is unspecified."
+      },
+      {
+        "material_as_written": "Li2(BN)6C2O4 + Li (Li-doped LBNCO)",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "high-energy ball milling (mechanochemical) with metallic Li doping",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1 \u00d7 10\u22128",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": "\u03c3RT (S cm\u22121 )",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.85,
+        "measurement_method": "impedance spectroscopy",
+        "evidence_quote": "lithiated FBN (single-ion) 1 \u00d7 10\u22128",
+        "evidence_location": "Table S5 (SI section S16)",
+        "notes": "Table S5 rows are scrambled in PDF extraction. Pairing with Li-doped LBNCO relies on matching Ea 850 meV to the Fig. 5a label E = 0.85(1) eV for Li2(BN)6C2O4 + Li. The row label reads 'lithiated FBN'. Li is intercalated/doped, not a substitution, so dopants is empty. Measured by two-point method, so kind is unspecified."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 3821,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 58958,
+        "webSearchRequests": 0,
+        "costUSD": 0.01373765,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2632,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 58958,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 17111,
+    "notional_cost_usd": 0.01373765
+  },
+  "paper_id": "arXiv:2510.22041",
+  "model": "haiku"
+}

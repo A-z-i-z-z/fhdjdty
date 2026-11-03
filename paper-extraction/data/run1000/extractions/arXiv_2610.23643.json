@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports MD-computed Li ionic conductivities of amorphous Li0.9NbO0.9Cl4.1 at 300 K, a solid Li-ion conductor, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "Li0.9NbO0.9Cl4.1",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "6.8",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": null,
+        "measurement_method": "field-driven MD with on-the-fly BEC inference",
+        "evidence_quote": "Their inverse-variance-weighted mean is \u03c3 = 6.8 \u00b1 0.7 mS/cm (95% confidence interval, t = 1.99).",
+        "evidence_location": "results section C (amorphous LNOC)",
+        "notes": "Field-driven MD estimate of amorphous glass conductivity (inverse-variance-weighted mean over six fields); uncertainty \u00b10.7 mS/cm (95% CI). Temperature 300 K converted to 26.85 \u00b0C. Value from this paper's own simulations, not from experiment."
+      },
+      {
+        "material_as_written": "Li0.9NbO0.9Cl4.1",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "7",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": null,
+        "measurement_method": "NVT MD with Einstein-Helfand relation (zero-field)",
+        "evidence_quote": "Their mean is \u03c3 = 7\u00b15 mS/cm (95% confidence interval, t = 2.20).",
+        "evidence_location": "results section C (amorphous LNOC)",
+        "notes": "Zero-field estimate from Einstein-Helfand fluctuations, independent cross-check of the field-driven value; uncertainty \u00b15 mS/cm. Temperature 300 K converted to 26.85 \u00b0C. Quoted value is 7 (no decimal given in paper)."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1881,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 29247,
+        "webSearchRequests": 0,
+        "costUSD": 0.00682545,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 856,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 29247,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7670,
+    "notional_cost_usd": 0.00682545
+  },
+  "paper_id": "arXiv:2610.23643",
+  "model": "haiku"
+}

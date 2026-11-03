@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2406.07723#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper's AIMD/Nernst-Einstein prediction for intrinsic LBC is 0.1 S/cm around 950 \u02daC, and the 0.75 \u00b1 0.01 eV overall activation barrier is stated for intrinsic LBC. The value is computed in this paper, and the secondary fields are correctly null."
+      },
+      {
+        "record_id": "arXiv:2406.07723#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper predicts LBC+Oi'' (2.8% extrinsic interstitials) to have 0.1 S/cm at 850 \u02daC, and gives a total activation energy of 0.77 \u00b1 0.06 eV for this system. Both are this paper's own computed values, and the secondary fields are correctly null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 839,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 38310,
+        "webSearchRequests": 0,
+        "costUSD": 0.00810531,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 483,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 38310,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5373,
+    "notional_cost_usd": 0.00810531
+  },
+  "paper_id": "arXiv:2406.07723",
+  "model": "haiku"
+}

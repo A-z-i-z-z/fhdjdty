@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1603.07275#001",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "data_origin",
+            "correct_value": null,
+            "evidence": "solid electrolyte (Li2O-Al2O3SiO2-TiO2-GeO2-P2O5, LATP, 10-4 S cm-1, 25.4-mm square by 150-\u00b5m thick, Ohara Inc. Japan)"
+          }
+        ],
+        "explanation": "The material (LATP) and the 10^-4 S cm-1 value match the paper's commercial-plate description, and the null temperature and secondary fields are correct. However, the value is an uncited vendor-style specification of the purchased Ohara plate, not a value from an earlier publication, so labelling it literature_cited misstates its provenance; under strict review the origin is not supported."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1531,
+        "cacheReadInputTokens": 0,
+        "cacheCreationInputTokens": 14328,
+        "webSearchRequests": 0,
+        "costUSD": 0.0036313000000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1201,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14328,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7504,
+    "notional_cost_usd": 0.0036313000000000005
+  },
+  "paper_id": "arXiv:1603.07275",
+  "model": "haiku"
+}

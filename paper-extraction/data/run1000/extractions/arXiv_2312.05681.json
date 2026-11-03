@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is an MD study of LiTFSI-PEO polymer electrolytes with SiO2 fillers and reports Li ionic conductivity values, but the only explicit numeric conductivity in the text is a literature-cited range for PEO-based SPEs; the simulated conductivities appear only in figures.",
+    "records": [
+      {
+        "material_as_written": "PEO-based SPEs",
+        "material_class": "polymer",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10\u22127 to 10\u22125",
+        "conductivity_unit_as_reported": "S/m",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "PEO-based SPEs have a conductivity of about 10\u22127 to 10\u22125 S/m at room temperature [17, 18]",
+        "evidence_location": "Introduction",
+        "notes": "Generic range for PEO-based solid polymer electrolytes quoted from refs [17, 18], not a value for a specific composition; a range rather than a single number. Mobile ion assumed Li from the LiTFSI/PEO context. All simulated (MD) conductivities for LiTFSI-PEO +/- SiO2 appear only in figures and were not extracted. The activation energy given in the text (32.39 J/mol) is not a conductivity and was not used."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1855,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 19507,
+        "webSearchRequests": 0,
+        "costUSD": 0.00486445,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1199,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19507,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10074,
+    "notional_cost_usd": 0.00486445
+  },
+  "paper_id": "arXiv:2312.05681",
+  "model": "haiku"
+}

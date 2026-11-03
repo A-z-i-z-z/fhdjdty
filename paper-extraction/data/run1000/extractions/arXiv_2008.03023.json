@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a machine-learning and quantum-inspired annealing study of organic molecules and composites; its only conductivity number (47 mS/cm, Figure S15) is an ML-predicted value for an unspecified composite electrolyte with no measurement temperature, so it does not qualify as a reported conductivity of a solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 802,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 23198,
+        "webSearchRequests": 0,
+        "costUSD": 0.00507615,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 583,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23198,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6310,
+    "notional_cost_usd": 0.00507615
+  },
+  "paper_id": "arXiv:2008.03023",
+  "model": "haiku"
+}

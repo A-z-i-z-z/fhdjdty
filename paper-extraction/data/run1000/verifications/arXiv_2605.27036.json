@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2605.27036#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states that at 500 \u00b0C the bulk conductivity of NB0.49T doped with 2 mol% Sr or 1 mol% Mg is about 5.0 \u00d7 10\u207b\u00b3 S cm\u207b\u00b9, followed by the citation [9\u201311], so literature_cited is correct. The material, value, unit, bulk kind and 500 \u00b0C temperature match, and all secondary fields are null as the paper gives none for this material."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1236,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 9687,
+        "webSearchRequests": 0,
+        "costUSD": 0.0025792099999999997,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 998,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 9687,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6008,
+    "notional_cost_usd": 0.0025792099999999997
+  },
+  "paper_id": "arXiv:2605.27036",
+  "model": "haiku"
+}

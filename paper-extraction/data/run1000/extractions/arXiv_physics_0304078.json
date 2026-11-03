@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies a PEO:NH4I polymer electrolyte with BST ferroelectric filler, a proton (NH4+) conductor rather than a Li/Na-ion solid conductor, and it gives no numeric conductivity values in the text (only \"two orders of magnitude\" and figure-only \u03c3 vs 1/T plots).",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 545,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 6239,
+        "webSearchRequests": 0,
+        "costUSD": 0.0015558500000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 334,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 6239,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3438,
+    "notional_cost_usd": 0.0015558500000000001
+  },
+  "paper_id": "arXiv:physics/0304078",
+  "model": "haiku"
+}

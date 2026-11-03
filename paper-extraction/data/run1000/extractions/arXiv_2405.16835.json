@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports Li-ion conductivities of lithiated carbon black (Li-KB) measured in solid-state cells, which is a solid Li-ion conductor in the paper's framing, though the material is a carbonaceous interlayer rather than a conventional solid electrolyte.",
+    "records": [
+      {
+        "material_as_written": "Li-KB",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "18.1",
+        "conductivity_unit_as_reported": "mS cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25 oC",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.17,
+        "measurement_method": "DC method on symmetric Li/C/LPSCl/C/Li cells",
+        "evidence_quote": "Li-KB has Li ionic conductivity values of 18.1, 25.8, 41.1, 53.2 and 69.6 mS cm-1 at 25, 40, 60, 80 and 100 oC, respectively.",
+        "evidence_location": "results (Fig. 2 discussion)",
+        "notes": "Room-temperature value of the lithiated Ketjen Black interlayer, an effective ionic conductivity derived from DC resistance of carbon interlayers in symmetric cells (not a bulk electrolyte). The same 18.1 mS cm-1 value is also stated in the abstract. Activation energy 0.17 eV is stated in the text for Li-KB. Only the room-temperature value is recorded per the instructions; the Arrhenius series is skipped."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18234,
+        "outputTokens": 1719,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 18422,
+        "webSearchRequests": 0,
+        "costUSD": 0.006398860000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 982,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18422,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7391,
+    "notional_cost_usd": 0.006398860000000001
+  },
+  "paper_id": "arXiv:2405.16835",
+  "model": "haiku"
+}

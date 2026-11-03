@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper studies a lithium-containing liquid crystal solid electrolyte for all-solid-state Li-ion batteries and reports a conductivity number in the text, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "BS-Li-12",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "6.4  104",
+        "conductivity_unit_as_reported": "S cm1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "413 K",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "MD simulation with Onsager transport coefficients",
+        "evidence_quote": "BS-Li-12 reaches the highest conductivity of about 6.4  104 S cm1 at 413 K, a value which",
+        "evidence_location": "results, section 4.2 (Transport)",
+        "notes": "Simulated (MD, Onsager-coefficient) conductivity of lithium 4-(didodecylamino)naphthalene-1-sulfonate, not an experimental measurement. The minus sign in the exponent and the superscript were lost in PDF extraction; the value is written as 6.4 x 10^-4 S/cm in the original. The experimental conductivities appear only in Fig. 3(b) with no numbers in the text, and the other compositions' values appear only in figures, so no further records were made."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1368,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 18017,
+        "webSearchRequests": 0,
+        "costUSD": 0.00432295,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 727,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18017,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7471,
+    "notional_cost_usd": 0.00432295
+  },
+  "paper_id": "arXiv:2302.03639",
+  "model": "haiku"
+}

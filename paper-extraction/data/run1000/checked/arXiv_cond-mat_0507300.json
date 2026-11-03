@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:cond-mat/0507300#001",
+    "paper_id": "arXiv:cond-mat/0507300",
+    "record": {
+      "material_as_written": "Cu6PS5I",
+      "material_class": "argyrodite",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "4x10-4",
+      "conductivity_unit_as_reported": "",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "It was established that at room temperature conduction is purely ionic (\u03c3i~4x10-4 at RT), with electronic contribution (hole conductivity \u03c3h) less than 1%.",
+      "evidence_location": "Introduction",
+      "notes": "Value attributed to Khus et al. [1] (literature, not measured in this paper). The paper gives no unit for this value; S/cm is implied but not stated, so the unit field is left empty. The Cu+ conductivity of Cu6PS5I was measured on powder samples in that earlier work. The paper's own measurements are only qualitative Arrhenius anomalies with no conductivity numbers, so no other records are created."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": false,
+      "value_parses": false,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": null,
+    "log10_conductivity": null
+  }
+]

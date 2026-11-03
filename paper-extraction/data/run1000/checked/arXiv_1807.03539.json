@@ -1,0 +1,113 @@
+[
+  {
+    "record_id": "arXiv:1807.03539#001",
+    "paper_id": "arXiv:1807.03539",
+    "record": {
+      "material_as_written": "PPLE (PEO-PVC + LiPF6 + 10 wt.% Er2O3)",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solution casting",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.3\u00d710-5",
+      "conductivity_unit_as_reported": "S cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "The highest ionic conductivity was 2.3\u00d710-5 S cm-1 for erbium oxide nanofiller and almost five order greater than pure polymer blend",
+      "evidence_location": "Results, Electrical conductivity",
+      "notes": "Er2O3 is a 10 wt.% nanofiller in the (PEO-PVC)+LiPF6 blend (sample PPLE). Impedance was measured at room temperature per the Experimental section. The abstract gives the same value as ~2.3\u00d710-5 S cm-1. Filler is not a dopant, so dopants is empty."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 2.3e-05,
+    "log10_conductivity": -4.638
+  },
+  {
+    "record_id": "arXiv:1807.03539#002",
+    "paper_id": "arXiv:1807.03539",
+    "record": {
+      "material_as_written": "PP (pure PEO-PVC polymer blend, no salt)",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solution casting",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "6.4\u00d710-10",
+      "conductivity_unit_as_reported": "S cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "The ionic conductivity of pure polymer blend was 6.4\u00d710-10 S cm-1.",
+      "evidence_location": "Results, Electrical conductivity",
+      "notes": "Pure blend without LiPF6 salt, so it is not a Li-conducting material in a meaningful sense; included because the paper reports its conductivity. Temperature is given only as room temperature in the EIS section, so it is not converted."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 6.4e-10,
+    "log10_conductivity": -9.194
+  },
+  {
+    "record_id": "arXiv:1807.03539#003",
+    "paper_id": "arXiv:1807.03539",
+    "record": {
+      "material_as_written": "PPL (PEO-PVC + LiPF6, no filler)",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solution casting",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "7.10\u00d710-7",
+      "conductivity_unit_as_reported": "S cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "is in good agreement with value obtained using the bulk resistance (R b) from impedance plot given as; 6.40\u00d710-10 S cm-1 and 7.10\u00d710-7 S cm-1 respectively.",
+      "evidence_location": "Results, ac conductivity analysis",
+      "notes": "Value is from the bulk resistance of the impedance plot, matched to the polymer salt (PPL) sample by the word 'respectively'. The JPL fit gives 4.66\u00d710-7 S cm-1 for this sample, which is not recorded. Temperature is room temperature per the EIS section."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 7.1e-07,
+    "log10_conductivity": -6.149
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a thermodynamic and kinetic analysis of potential jumps in solid electrolytes. Its only numeric ionic conductivity values are for YSZ, an O2- conductor, not a Li- or Na-ion conductor, so it falls outside the Li/Na scope.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 860,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 32212,
+        "webSearchRequests": 0,
+        "costUSD": 0.00690795,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 664,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 32212,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5158,
+    "notional_cost_usd": 0.00690795
+  },
+  "paper_id": "arXiv:1812.05187",
+  "model": "haiku"
+}

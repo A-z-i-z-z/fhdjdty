@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies superconductivity and superionic hydrogen diffusion in the clathrate hydride Li2MgH16, and reports a hydrogen diffusion coefficient (3.7 \u00d7 10\u22126 cm2/s), not an ionic conductivity of a Li/Na-ion conductor, so it is out of scope.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 24562,
+        "outputTokens": 446,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 24754,
+        "webSearchRequests": 0,
+        "costUSD": 0.007661560000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 211,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24754,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2490,
+    "notional_cost_usd": 0.007661560000000001
+  },
+  "paper_id": "arXiv:2305.04875",
+  "model": "haiku"
+}

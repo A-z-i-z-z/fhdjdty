@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1705.10657#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction states LIPON's Li-ion conductivity is 10-6 S cm-1 citing [5,6], so the value is a literature value, correctly marked literature_cited. No temperature is given, so null is correct."
+      },
+      {
+        "record_id": "arXiv:1705.10657#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 1's garnet-type row lists Li7La3Zr2O12 (LLZO) at 8.7\u00d710-4 S cm-1 cited to [30], so the value is correctly attributed and marked literature_cited. The table gives no temperature, so null is correct."
+      },
+      {
+        "record_id": "arXiv:1705.10657#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 1's NASICON-type row lists Al-doped LiTi2(PO4)3 (LTP) at 3\u00d710-3 S cm-1 cited to [5], so the value, Al dopant and literature_cited origin are correct. No temperature is given."
+      },
+      {
+        "record_id": "arXiv:1705.10657#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 1's perovskite-type row lists Li3xLa(2/3)-xTiO3 (LLTO) with modified grain boundaries at 1\u00d710-4 S cm-1 cited to [28,29], so the value and literature_cited origin are correct. No temperature is given."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1080,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 10076,
+        "webSearchRequests": 0,
+        "costUSD": 0.00257901,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 511,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 10076,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5596,
+    "notional_cost_usd": 0.00257901
+  },
+  "paper_id": "arXiv:1705.10657",
+  "model": "haiku"
+}

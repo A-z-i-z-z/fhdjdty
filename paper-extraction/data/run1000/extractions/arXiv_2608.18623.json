@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a foundation-model machine-learning potential for biomolecular simulation (water, RNA, cyclosporine A, KcsA channel) and reports no ionic conductivity of a solid Li- or Na-ion conductor; the only ion-transport quantity is water self-diffusion, which is not an ionic conductivity.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 367,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 50478,
+        "webSearchRequests": 0,
+        "costUSD": 0.010314650000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 157,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 50478,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3985,
+    "notional_cost_usd": 0.010314650000000002
+  },
+  "paper_id": "arXiv:2608.18623",
+  "model": "haiku"
+}

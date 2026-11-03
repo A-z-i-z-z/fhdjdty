@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper reviews ionic transport through aqueous nanopores and nanochannels (quantized conductance and Coulomb blockade of ions in solution), not solid-state Li/Na-ion conductors, and it reports no conductivity values for a solid electrolyte.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 318,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 22831,
+        "webSearchRequests": 0,
+        "costUSD": 0.00476075,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 129,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22831,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2713,
+    "notional_cost_usd": 0.00476075
+  },
+  "paper_id": "arXiv:1305.7450",
+  "model": "haiku"
+}

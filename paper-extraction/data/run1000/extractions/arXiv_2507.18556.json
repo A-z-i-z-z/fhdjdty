@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a theoretical macroscopic fluctuation theory study of ionic current statistics in a dilute, fully dissociated aqueous electrolyte (NaCl-like) in a channel, not a solid Li/Na-ion conductor, and it reports no numerical ionic conductivity value.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 412,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 14895,
+        "webSearchRequests": 0,
+        "costUSD": 0.0032205500000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 214,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14895,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3405,
+    "notional_cost_usd": 0.0032205500000000004
+  },
+  "paper_id": "arXiv:2507.18556",
+  "model": "haiku"
+}

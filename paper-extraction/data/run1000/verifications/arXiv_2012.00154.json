@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2012.00154#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction states that Li10GeP2S12 has ~0.01 S/cm at room temperature, citing refs 6 and 7, so the material, value, unit, room-temperature condition and literature_cited origin are all correct. All secondary fields are null and the paper gives none for this material."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 688,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 27827,
+        "webSearchRequests": 0,
+        "costUSD": 0.00593321,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 495,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27827,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4779,
+    "notional_cost_usd": 0.00593321
+  },
+  "paper_id": "arXiv:2012.00154",
+  "model": "haiku"
+}

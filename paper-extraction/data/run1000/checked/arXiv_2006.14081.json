@@ -1,0 +1,41 @@
+[
+  {
+    "record_id": "arXiv:2006.14081#001",
+    "paper_id": "arXiv:2006.14081",
+    "record": {
+      "material_as_written": "LiPON",
+      "material_class": "LiPON_or_thin_film",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "RF sputtering",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.6x10-6",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "EIS produced an ionic conductivity of 2.6x10-6 S/cm, on the order of those produced in literature via RF sputtering",
+      "evidence_location": "Supporting information, Baseline properties of thin film amorphous LiPON",
+      "notes": "Free-standing RF-sputtered LiPON film; measurement temperature not stated. The main-text Figure 6 caption gives the same value as 2.6 \u03bcS/cm for a 3.75 \u00b5m free-standing film, which was not recorded separately to avoid duplication. The paper does not give a precise stoichiometry for this film; the NMR-derived composition Li2.93PO3.52N0.30 is for a film of similar conductivity, so it is not attributed here."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 2.6e-06,
+    "log10_conductivity": -5.585
+  }
+]

@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:cond-mat/0310256#001",
+    "paper_id": "arXiv:cond-mat/0310256",
+    "record": {
+      "material_as_written": "\u03b3-Ag7 P3 S11",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.5 \u00d7 10\u22124",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "T \u2248 300K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "\u03c3dc = 2.5 \u00d7 10\u22124 S/cm at T \u2248 300K [14]",
+      "evidence_location": "introduction",
+      "notes": "mobile_ion is Ag, which is not in the schema enum, so 'other' is used. Value is quoted from Ref. [14] (Zhang and Kennedy, 1993), not measured in this paper. It is for the gamma-phase; the NMR study itself is on the beta-phase below 209 K. The reported 0.37 eV activation energy is for the mean correlation time from NMR, not for conductivity, so it is not attached to this record. Conductivity kind is not specified; 'total' is an assumption from the dc value."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00025,
+    "log10_conductivity": -3.602
+  }
+]

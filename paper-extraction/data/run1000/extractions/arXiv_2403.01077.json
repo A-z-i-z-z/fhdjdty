@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is an MD study of Li-ion transport in the solid cathode Li3TiCl6 and reports ionic conductivity values, one computed in this work and one cited from the experimental reference.",
+    "records": [
+      {
+        "material_as_written": "Li3TiCl6",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.06",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.29,
+        "measurement_method": "DLMD (deep learning molecular dynamics) with Nernst-Einstein relation",
+        "evidence_quote": "Ionic conductivity (1.06 mS/cm) and activation energy (0.29eV) calculated by our simulation are highly comparable with that of experimental values.",
+        "evidence_location": "abstract",
+        "notes": "Simulated conductivity from this paper's MLFF-MD (Nernst-Einstein with Haven ratio). The abstract does not state a temperature for this value; the paper's simulations span 298-373 K, so no temperature is assigned. Activation energy 0.29 eV is the paper's own DLMD result."
+      },
+      {
+        "material_as_written": "Li3TiCl6",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.04",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "which represents experimentally annealed structure at 300o C and exhibited a maximum Li-ion conductivity of 1.04 mS/cm at room temperature[13]",
+        "evidence_location": "results (section III.A)",
+        "notes": "Experimental value from Ref. [13] (Wang et al., Nat. Commun. 2023), cited in this paper, not measured here. The 300 C annealing refers to the experimental structure in Ref. [13]. The experimental activation energy of 0.32 eV is also cited but is not a conductivity, so it is not recorded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 3,
+        "outputTokens": 3099,
+        "cacheReadInputTokens": 23233,
+        "cacheCreationInputTokens": 19138,
+        "webSearchRequests": 0,
+        "costUSD": 0.00560973,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 977,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19138,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 14643,
+    "notional_cost_usd": 0.00560973
+  },
+  "paper_id": "arXiv:2403.01077",
+  "model": "haiku"
+}

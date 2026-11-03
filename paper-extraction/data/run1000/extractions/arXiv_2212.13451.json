@@ -1,0 +1,182 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports total and bulk ionic conductivities of Li-ion perovskite solid electrolytes (LSTZ and CCPO LSTNZS/LSTNZH), so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "(Li0.375Sr0.4375)(Ta0.75Zr0.25)O3-\u03b4 (LSTZ)",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Li",
+          "Sr"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1300,
+        "sintering_time_h": 12,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.094",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "25 \u00b0C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": "AC impedance spectroscopy",
+        "evidence_quote": "which is ~2.3X of the 0.094 mS/cm of the LSTZ baseline (star)",
+        "evidence_location": "Figure 1 caption",
+        "notes": "LSTZ baseline value taken from the Figure 1 caption as measured in this work; the paper's Electrical Measurements section gives 25 \u00b0C for all ionic conductivity measurements. Dopant list reflects Li/Sr on the A site and Ta on the B site relative to the Zr host; ambiguous."
+      },
+      {
+        "material_as_written": "(Li2/3ySr1-y)(Ta0.334Nb0.347Zr0.211Sn0.108)O3-\u03b4 with y = 9/16 (LSTNZS)",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Nb",
+          "Sn"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1300,
+        "sintering_time_h": 12,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.218",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "25 \u00b0C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": "AC impedance spectroscopy",
+        "evidence_quote": "The first generation CCPO LSTNZS (square) shows a total ionic conductivity of 0.218 mS/cm",
+        "evidence_location": "Figure 1 caption",
+        "notes": "Main text calls the same 0.218 mS/cm value sigma_bulk at y = 9/16, while Figure 1 calls it total conductivity; kind recorded as total per Figure 1. Temperature from Electrical Measurements section (25 \u00b0C)."
+      },
+      {
+        "material_as_written": "(Li0.375Sr0.4375)(Ta0.375Nb0.375Zr0.125Hf0.125)O3-\u03b4 (LSTNZH)",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Nb",
+          "Hf"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1300,
+        "sintering_time_h": 12,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.151",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "25 \u00b0C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": "AC impedance spectroscopy",
+        "evidence_quote": "The second generation Hf-containing (and Sn-free) CCPO LSTNZH (grey circle) shows comparable electrochemical stability with LSTZ and the total ionic conductivity of 0.151 mS/cm",
+        "evidence_location": "Figure 1 caption",
+        "notes": "Grey circle in Figure 1 corresponds to the furnace-cooled LSTNZH (x = 9/16) sample per the Figure 6 discussion. Composition given as x = 9/16 in the paper."
+      },
+      {
+        "material_as_written": "(Li0.375Sr0.4375)(Ta0.375Nb0.375Zr0.125Hf0.125)O3-\u03b4 (LSTNZH, x = 9/16, air-quenched)",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Nb",
+          "Hf"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1300,
+        "sintering_time_h": 12,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.256",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "25 \u00b0C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": "AC impedance spectroscopy",
+        "evidence_quote": "which can be further enhanced through quenching (red circle) to 0.256 mS/cm",
+        "evidence_location": "Figure 1 caption",
+        "notes": "Air-quenched sample (red circle). Measurement temperature from Electrical Measurements section (25 \u00b0C)."
+      },
+      {
+        "material_as_written": "(Li2/3ySr1-y)(Ta0.334Nb0.347Zr0.211Sn0.108)O3-\u03b4 with y = 9/16 (LSTNZS), air-quenched",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Nb",
+          "Sn"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1300,
+        "sintering_time_h": 12,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.47 \u00d7 10-4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "25 \u00b0C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": "AC impedance spectroscopy",
+        "evidence_quote": "= 2.37 \u00d7 10-4 S/cm, \ud835\udf0e\ud835\udc54\ud835\udc4f = 3.90 \u00d7 10-4 S/cm, and \ud835\udf0e\ud835\udc61\ud835\udc5c\ud835\udc61\ud835\udc4e\ud835\udc59 = 1.47 \u00d7 10-4 S/cm",
+        "evidence_location": "results, Conductivity Improvements via Quenching for LSTNZH",
+        "notes": "Air-quenched Sn-containing LSTNZS (y = 9/16); the paper reports this total conductivity as lower than the furnace-cooled sample. Quote is from the same sentence as the bulk and GB values; the quote begins mid-sentence. Temperature from Electrical Measurements section (25 \u00b0C)."
+      },
+      {
+        "material_as_written": "(Li2/3ySr1-y)(Ta0.334Nb0.347Zr0.211Sn0.108)O3-\u03b4 with y = 9/16 (LSTNZS)",
+        "material_class": "perovskite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Nb",
+          "Sn"
+        ],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.285",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": null,
+        "measurement_method": "MTP-based MD simulation",
+        "evidence_quote": "The simulated bulk ionic conductivity at 300 K is 0.285 mS/cm, matching well with the experimentally",
+        "evidence_location": "results, Discovery of CCPOs section",
+        "notes": "Simulated value from MTP molecular dynamics in this paper, not a measurement. Temperature converted from 300 K to 26.85 \u00b0C."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 26937,
+        "outputTokens": 6954,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 27127,
+        "webSearchRequests": 0,
+        "costUSD": 0.011627660000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 3968,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27127,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 25707,
+    "notional_cost_usd": 0.011627660000000001
+  },
+  "paper_id": "arXiv:2212.13451",
+  "model": "haiku"
+}

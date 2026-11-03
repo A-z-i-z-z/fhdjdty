@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is an MD study of site energies in Li and K silicate glasses, but it reports no ionic conductivity value; it mentions only a macroscopic activation energy (0.66 eV) and residence times, which do not count as conductivity numbers.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 384,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 12681,
+        "webSearchRequests": 0,
+        "costUSD": 0.00276375,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 202,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12681,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3889,
+    "notional_cost_usd": 0.00276375
+  },
+  "paper_id": "arXiv:0909.4988",
+  "model": "haiku"
+}

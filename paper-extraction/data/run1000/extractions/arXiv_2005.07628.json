@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper studies Li-salt-doped plastic-crystal ionic conductors (CNA and mixtures with ADA or AON), but it reports dc conductivity only as curves in Figs. 3 to 5 and as relative enhancements in decades, never as a numeric value in the text or a table, so no records can be extracted.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17200,
+        "outputTokens": 477,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 17388,
+        "webSearchRequests": 0,
+        "costUSD": 0.005467660000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 243,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17388,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2863,
+    "notional_cost_usd": 0.005467660000000001
+  },
+  "paper_id": "arXiv:2005.07628",
+  "model": "haiku"
+}

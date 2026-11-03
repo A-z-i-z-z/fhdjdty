@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is an impedance study of Na-ion conduction in the layered battery oxide Na2Mn3O7 and reports dc conductivity values with activation energies.",
+    "records": [
+      {
+        "material_as_written": "Na2Mn3O7",
+        "material_class": "other",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10-5",
+        "conductivity_unit_as_reported": "Sm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "353 K",
+        "measurement_temperature_C": 80,
+        "activation_energy_eV": 0.161,
+        "measurement_method": "impedance spectroscopy",
+        "evidence_quote": "With increasing temperature, the dc conductivity value increases from ~ 10-5 Sm-1 at 353 K to ~",
+        "evidence_location": "Results, section 2.1 DC Conductivity",
+        "notes": "Only an approximate order-of-magnitude value (~10-5 S/m) at the lowest measured temperature (353 K) is given in the text; no exact number. The activation energy 0.161(7) eV is for the 383-518 K range, not the 353 K point. Conductivity is dc from Cole-Cole intercept, so kind is unspecified. Density 88% (4 h annealed) is stated for pellets but the conductivity is also reported for 4/14/28 h samples, so density is left null. Sintering temperature not given for pellets; 600 C is the powder synthesis heating step."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2103,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 37591,
+        "webSearchRequests": 0,
+        "costUSD": 0.00860525,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1446,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 37591,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11652,
+    "notional_cost_usd": 0.00860525
+  },
+  "paper_id": "arXiv:2106.12167",
+  "model": "haiku"
+}

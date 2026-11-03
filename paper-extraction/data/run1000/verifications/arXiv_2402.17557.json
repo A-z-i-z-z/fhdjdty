@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2402.17557#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Li0.25Sr2Co2O5 is the one-Li-per-cell composition, and the paper's Conclusions give 1.20 \u00d7 10\u22123 S\u00b7cm\u22121 at room temperature (T = 300 K) for x = 0.25. The 0.28 eV barrier and computed origin are also stated, and all secondary fields are correctly null."
+      },
+      {
+        "record_id": "arXiv:2402.17557#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Li0.75Sr2Co2O5 is the three-Li composition, and the Conclusions give 1.17 \u00d7 10\u22122 S\u00b7cm\u22121 at room temperature for x = 0.75, with the 0.17 eV barrier. The values are computed in this paper, and the secondary fields are correctly null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 20052,
+        "outputTokens": 891,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 20240,
+        "webSearchRequests": 0,
+        "costUSD": 0.00651852,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 505,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 20240,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4225,
+    "notional_cost_usd": 0.00651852
+  },
+  "paper_id": "arXiv:2402.17557",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a 2024 roadmap on magnetic microscopy techniques; it lists \"ionic conductors\" among material classes in the abstract but reports no ionic conductivity values for any solid Li- or Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 145169,
+        "outputTokens": 337,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 145359,
+        "webSearchRequests": 0,
+        "costUSD": 0.21894379999999997,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 136,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 145359,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2672,
+    "notional_cost_usd": 0.21894379999999997
+  },
+  "paper_id": "arXiv:2401.04793",
+  "model": "haiku"
+}

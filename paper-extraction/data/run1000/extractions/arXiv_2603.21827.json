@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies ion transport of aqueous KCl/MgCl2/LaCl3 through monolayer MoSSe nanopores, reporting nanopore ionic conductance (nS). It is not about a solid Li/Na-ion conductor, so no solid-electrolyte conductivity is reported.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 333,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 11756,
+        "webSearchRequests": 0,
+        "costUSD": 0.0025532500000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 131,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11756,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2913,
+    "notional_cost_usd": 0.0025532500000000004
+  },
+  "paper_id": "arXiv:2603.21827",
+  "model": "haiku"
+}

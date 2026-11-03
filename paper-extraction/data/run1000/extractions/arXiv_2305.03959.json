@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a molecular dynamics study of pectin in [BMIM][PF6] ionic liquid electrolytes with BMIM+ and PF6- as the mobile ions, not a solid Li/Na-ion conductor, and it reports no ionic conductivity values (only diffusion-coefficient ratios and exponents).",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 418,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 18572,
+        "webSearchRequests": 0,
+        "costUSD": 0.00395895,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 210,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18572,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4361,
+    "notional_cost_usd": 0.00395895
+  },
+  "paper_id": "arXiv:2305.03959",
+  "model": "haiku"
+}

@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a computational study of Li-ion conduction in crystalline and amorphous LiPO2F2, a candidate SEI solid ion conductor, and it reports a calculated room-temperature Li ionic conductivity.",
+    "records": [
+      {
+        "material_as_written": "amorphous LiPO2F2 (a-LiPO2F2)",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.18",
+        "conductivity_unit_as_reported": "mS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": 0.4,
+        "measurement_method": "MD simulation (fine-tuned CHGNet, Arrhenius fit)",
+        "evidence_quote": "projected room-temperature \u03c3 \u2248 0.18 mS cm\u22121 and Ea \u2248 0.40 eV",
+        "evidence_location": "abstract",
+        "notes": "Calculated/projected value, not measured. The 300 K diffusivity was extrapolated from high-temperature MD data (Figure 2d). Ea = 0.40 \u00b1 0.01 eV per Table I. Crystalline LiPO2F2 (Ea = 1.13 eV) has no conductivity value reported, so no record was made for it."
+      },
+      {
+        "material_as_written": "single-component SEI-like Li2O films",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10\u22129",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.47,
+        "measurement_method": null,
+        "evidence_quote": "recent work on fabricated single-component \u2018SEI\u2019-like Li2 O films shows that such films exhibit an ionic conductivity of \u223c10\u22129 S cm\u22121 with an activation energy of \u223c0.47 eV [5]",
+        "evidence_location": "Discussion",
+        "notes": "Value taken from Guo and Gallant (ref. [5]) as cited by this paper; the measurement temperature is not stated in this paper. The activation energy is also approximate (~0.47 eV)."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2092,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 20935,
+        "webSearchRequests": 0,
+        "costUSD": 0.0052685499999999994,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1067,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 20935,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 13426,
+    "notional_cost_usd": 0.0052685499999999994
+  },
+  "paper_id": "arXiv:2510.22912",
+  "model": "haiku"
+}

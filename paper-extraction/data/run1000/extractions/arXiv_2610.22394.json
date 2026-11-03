@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about moisture degradation of argyrodite sulfide solid electrolytes (Li6PS5Cl and Li5.5PS4.5Cl1.5) and reports their measured Li-ion conductivities in the main text.",
+    "records": [
+      {
+        "material_as_written": "Li5.5PS4.5Cl1.5 (Cl1.5)",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "high-energy ball milling followed by annealing",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "4.5",
+        "conductivity_unit_as_reported": "mS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "298 K",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "Specifically, Li5.5PS4.5Cl1.5 (Cl1.5) exhibits an ionic conductivity of 4.5 mS cm\u22121, compared with 2.3 mS cm\u22121 for Li6PS5Cl (Cl1.0)",
+        "evidence_location": "Results, first paragraph of Introduction section (p. 4)",
+        "notes": "Value is cited to Supplementary Fig. 1; the EIS temperature (298 K) and method come from the Methods EIS section, which describes the pellet measurements of the synthesized electrolytes. Conductivity is derived from total electrolyte resistance R, hence 'total'. Annealing at 550 \u00b0C is a crystallization step, not a sintering step, so sintering fields are null."
+      },
+      {
+        "material_as_written": "Li6PS5Cl (Cl1.0)",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "high-energy ball milling followed by annealing",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.3",
+        "conductivity_unit_as_reported": "mS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "298 K",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "Specifically, Li5.5PS4.5Cl1.5 (Cl1.5) exhibits an ionic conductivity of 4.5 mS cm\u22121, compared with 2.3 mS cm\u22121 for Li6PS5Cl (Cl1.0)",
+        "evidence_location": "Results, first paragraph of Introduction section (p. 4)",
+        "notes": "Value is cited to Supplementary Fig. 1; the EIS temperature (298 K) and method come from the Methods EIS section. Conductivity is derived from total electrolyte resistance R, hence 'total'. Sintering fields are null because the pellets were cold-pressed and only annealed at 550 \u00b0C for crystallization."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2617,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 24421,
+        "webSearchRequests": 0,
+        "costUSD": 0.006228250000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1457,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24421,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11986,
+    "notional_cost_usd": 0.006228250000000001
+  },
+  "paper_id": "arXiv:2610.22394",
+  "model": "haiku"
+}

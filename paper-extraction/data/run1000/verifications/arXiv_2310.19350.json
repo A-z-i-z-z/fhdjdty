@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2310.19350#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.4 lists 4.2 mS/cm for 10% Cl@4c in the sequence 0.0, 4.2, 6.1, 5.5, 4.2, 0.4 for 0/10/25/50/75/100%, computed at 300 K by NNP-MD in this work, so the origin is computational and the null secondary fields are correct."
+      },
+      {
+        "record_id": "arXiv:2310.19350#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "6.1 mS/cm is the 25% Cl@4c value in the Section 3.4 sequence, and the paper gives Ea = 0.281 eV for 25% Cl@4c at low temperatures, which matches the record."
+      },
+      {
+        "record_id": "arXiv:2310.19350#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "5.5 mS/cm is the 50% Cl@4c value in the Section 3.4 sequence, and the paper gives Ea = 0.292 eV for 50% Cl@4c at low temperatures, which matches the record."
+      },
+      {
+        "record_id": "arXiv:2310.19350#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "4.2 mS/cm is the 75% Cl@4c value in the Section 3.4 sequence, and the paper gives Ea = 0.294 eV for 75% Cl@4c at low temperatures, which matches the record."
+      },
+      {
+        "record_id": "arXiv:2310.19350#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "0.4 mS/cm is the 100% Cl@4c value in the Section 3.4 sequence, computed at 300 K by NNP-MD in this work, and no activation energy is given for this composition, so the null is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 21485,
+        "outputTokens": 1493,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 21675,
+        "webSearchRequests": 0,
+        "costUSD": 0.007249820000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 788,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 21675,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5930,
+    "notional_cost_usd": 0.007249820000000001
+  },
+  "paper_id": "arXiv:2310.19350",
+  "model": "haiku"
+}

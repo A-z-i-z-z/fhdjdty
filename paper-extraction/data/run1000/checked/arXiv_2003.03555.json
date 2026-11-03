@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:2003.03555#001",
+    "paper_id": "arXiv:2003.03555",
+    "record": {
+      "material_as_written": "K2 Mg2 TeO6",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": 70,
+      "conductivity_value_as_reported": "\u223c 10\u22125",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": "\u03c3300 K /S cm\u22121",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25 \u00b1 3\u25e6 C (298 \u00b1 3 K)",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.92,
+      "measurement_method": "EIS",
+      "evidence_quote": "K2 Mg2 TeO6\n\n3.8 \u00d7 10\u22122\n\n\u223c 10\u22125\n\n0.92\n\n\u223c 70",
+      "evidence_location": "Table 2",
+      "notes": "Row from Table 2, a compilation of literature values (caption cites refs 59,64,90,126,173,249-252,254,255), so this is not a measurement in this paper. Column order is inferred: 3.8 \u00d7 10\u22122 is the 573 K value and \u223c10\u22125 the 300 K value. The Ea column has no stated temperature range, and the pellet-compactness value (\u223c70) is stored as relative density. Mg is a constituent, not a dopant. Other rows were skipped because their multi-line alignment in the PDF text is ambiguous."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 1e-05,
+    "log10_conductivity": -5.0
+  }
+]

@@ -1,0 +1,41 @@
+[
+  {
+    "record_id": "arXiv:2605.27036#001",
+    "paper_id": "arXiv:2605.27036",
+    "record": {
+      "material_as_written": "NB\u2080.\u2084\u2089T doped with 2 mol% Sr",
+      "material_class": "perovskite",
+      "mobile_ion": "other",
+      "dopants": [
+        "Sr"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5.0 \u00d7 10\u207b\u00b3",
+      "conductivity_unit_as_reported": "S cm\u207b\u00b9",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "500 \u00b0C",
+      "measurement_temperature_C": 500,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "At 500 \u00b0C, the bulk conductivity (\u03c3b) of NB\u2080.\u2084\u2089T doped with 2 mol% Sr or 1 mol% Mg is approximately 5.0 \u00d7 10\u207b\u00b3 S cm\u207b\u00b9, which is comparable to those of LSMG and GDC [9\u201311].",
+      "evidence_location": "Introduction",
+      "notes": "Literature value quoted from refs [9-11], not measured in this paper. The paper's own Na0.5Bi0.465Sr0.02Eu0.005TiO3-\u03b4 conductivities (bulk, grain-boundary, total) appear only as Arrhenius plots in Figures 5-6 with no numbers in the text, so no record was made for them. Conclusions give activation energies of 0.68 eV (high pO2) and 0.88 eV (low pO2) for the own samples, but no conductivity value is attached to them."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.005,
+    "log10_conductivity": -2.301
+  }
+]

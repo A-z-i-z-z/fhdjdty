@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper studies Li-ion conduction in a PEO-PAN blend polymer electrolyte with LiPF6 and reports bulk ionic conductivity (\u03c3b) per salt concentration in Table 4, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "PEO-PAN + LiPF6, O/Li=16",
+        "material_class": "polymer",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solution casting",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "5.53",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": "Sample Code \u03c3b (\u00d710-7 S cm-1)",
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "impedance spectroscopy",
+        "evidence_quote": "5.53",
+        "evidence_location": "Table 4",
+        "notes": "Table 4 is garbled in the PDF text: the five \u03c3b values (0.17, 3.96, 5.53, 3.70, 5.95, \u00d710-7 S cm-1) are listed as a column without row labels; the assignment to O/Li=16 is inferred from the row order (O/Li=0,14,16,18,20) and from the text stating O/Li=16 has the highest ionic conductivity. The unit is \u00d710-7 S cm-1, so the reported value 5.53 corresponds to 5.53\u00d710-7 S cm-1 and the unit field shows the header unit only. Only the O/Li=16 record is given because the others are weaker matches; the other compositions were not recorded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2462,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 24637,
+        "webSearchRequests": 0,
+        "costUSD": 0.00619395,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1762,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24637,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 12968,
+    "notional_cost_usd": 0.00619395
+  },
+  "paper_id": "arXiv:1809.09552",
+  "model": "haiku"
+}

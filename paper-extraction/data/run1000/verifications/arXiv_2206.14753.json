@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2206.14753#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 1 lists the ionic conductivity of the LLZO electrolyte as 5.5 \u00d7 10\u22126 S m\u22121 with footnote (iv) citing Buschmann et al. (2012), so literature_cited is correct. The paper gives no measurement temperature for this value (T = 298 K is the simulation temperature), so null is right, and the secondary fields are null as the paper does not state them for this material."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 826,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 32105,
+        "webSearchRequests": 0,
+        "costUSD": 0.006857810000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 594,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 32105,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4428,
+    "notional_cost_usd": 0.006857810000000001
+  },
+  "paper_id": "arXiv:2206.14753",
+  "model": "haiku"
+}

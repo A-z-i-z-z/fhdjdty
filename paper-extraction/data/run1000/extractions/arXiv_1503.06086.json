@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies K+ ionic space charge in KTiOPO4 via micro-SHG, and it reports no numeric ionic conductivity value. It also concerns a K+ conductor, not a Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 9306,
+        "outputTokens": 388,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 9494,
+        "webSearchRequests": 0,
+        "costUSD": 0.0030549600000000002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 183,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 9494,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3151,
+    "notional_cost_usd": 0.0030549600000000002
+  },
+  "paper_id": "arXiv:1503.06086",
+  "model": "haiku"
+}

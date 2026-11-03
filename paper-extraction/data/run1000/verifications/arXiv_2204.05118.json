@@ -1,0 +1,66 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2204.05118#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states LGPS (Li10GeP2S12, ref. 24) has a room-temperature conductivity of 12 mS cm-1, a value quoted from prior work. Unit, RT temperature (null in C) and literature_cited origin are all correct."
+      },
+      {
+        "record_id": "arXiv:2204.05118#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states Li7P3S11 (ref. 18) has 17 mS cm-1 at RT, cited from prior work, so the value, unit, temperature and literature_cited origin are right."
+      },
+      {
+        "record_id": "arXiv:2204.05118#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper says the Cl-doped Li9.54Si1.74P1.44S11.7Cl0.3 shows a state-of-the-art conductivity of 25 mS/cm at RT with citation 13, so it is a literature value. Cl as dopant is stated and RT maps to null correctly."
+      },
+      {
+        "record_id": "arXiv:2204.05118#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 4 says Hayashi et al. (ref. 178) reported a Na3PS4 glass-ceramic with ~0.2 mS cm-1 at 25 \u00b0C, so the value, unit, 25 \u00b0C and literature_cited origin match."
+      },
+      {
+        "record_id": "arXiv:2204.05118#005",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "conductivity_kind",
+            "correct_value": "unspecified",
+            "evidence": "much higher than the previous AIMD calculated result of 0.088 mS/cm and even the experimental values"
+          }
+        ],
+        "explanation": "Material, value, literature_cited origin (previous AIMD from ref. 83, also in Table 3) and null temperature are right. The paper never labels this value as 'total', so conductivity_kind should be unspecified."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 36975,
+        "outputTokens": 2734,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 37165,
+        "webSearchRequests": 0,
+        "costUSD": 0.01251732,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1957,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 37165,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11816,
+    "notional_cost_usd": 0.01251732
+  },
+  "paper_id": "arXiv:2204.05118",
+  "model": "haiku"
+}

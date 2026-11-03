@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper reports ionic conductivities (Table II, S cm-1) for cellulose paper separators soaked in 1 M NaClO4 liquid electrolyte, which are liquid-electrolyte-swollen separator membranes rather than a solid Na-ion conductor, so it is out of scope.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 722,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 29108,
+        "webSearchRequests": 0,
+        "costUSD": 0.0062181499999999995,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 521,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 29108,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4986,
+    "notional_cost_usd": 0.0062181499999999995
+  },
+  "paper_id": "arXiv:2409.06743",
+  "model": "haiku"
+}

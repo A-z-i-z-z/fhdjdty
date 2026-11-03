@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a statistical-mechanics study of a Kramers model (a particle in a cosine potential with friction and noise) used as a toy model of an ionic conductor. It does not study a solid ion conductor and reports no ionic conductivity values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 9337,
+        "outputTokens": 300,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 9525,
+        "webSearchRequests": 0,
+        "costUSD": 0.0030202600000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 87,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 9525,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 1908,
+    "notional_cost_usd": 0.0030202600000000003
+  },
+  "paper_id": "arXiv:chao-dyn/9606007",
+  "model": "haiku"
+}

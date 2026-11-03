@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies charge migration in Pb(Zr,Ti)O3 ferroelectric ceramics, with ionic conduction attributed to oxygen vacancies and electronic conduction in soft PZT. It reports activation energies but no numeric conductivity values, and it does not concern a Li- or Na-ion conductor, so it is out of scope.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 498,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 21566,
+        "webSearchRequests": 0,
+        "costUSD": 0.004597749999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 280,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 21566,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4101,
+    "notional_cost_usd": 0.004597749999999999
+  },
+  "paper_id": "arXiv:0912.2421",
+  "model": "haiku"
+}

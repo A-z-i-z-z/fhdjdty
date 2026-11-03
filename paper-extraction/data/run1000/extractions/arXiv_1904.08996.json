@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about solid Li-ion electrolytes, but it reports no ionic conductivity values in S/cm or similar units for any material; its \"superionic likelihood\" is a predicted percentage score, and Table 1 gives discovery likelihoods, not conductivities.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 27355,
+        "outputTokens": 510,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 27547,
+        "webSearchRequests": 0,
+        "costUSD": 0.008531460000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 292,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27547,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3322,
+    "notional_cost_usd": 0.008531460000000001
+  },
+  "paper_id": "arXiv:1904.08996",
+  "model": "haiku"
+}

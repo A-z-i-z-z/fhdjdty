@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2305.02387#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 0.0123 S/cm Nernst-Einstein value is the paper's own MD-based estimate for the neat EC-LiTFSI system (EC:Li=48:1) at 425 K, so origin is computational and the 151.85 \u00b0C conversion is correct. The 'pure EC' wording is loose, but the system is the neat electrolyte."
+      },
+      {
+        "record_id": "arXiv:2305.02387#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 4.7\u00d710\u22124 S/cm value for the methanol-esterified pectin-glycerol-LiClO4 gel at 68 wt.% glycerol is attributed to Andrade et al. (ref 32) in the Introduction, so literature_cited is correct; room temperature is stated and no numeric temperature is required."
+      },
+      {
+        "record_id": "arXiv:2305.02387#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 1.96\u00d710\u22123 S/cm value for pectin + LiCl is attributed to Perumal et al. (ref 33) in the Introduction, so literature_cited is correct, and the paper gives no temperature, so null is right."
+      },
+      {
+        "record_id": "arXiv:2305.02387#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 5.38\u00d710\u22125 S/cm value for 40 wt.% LiClO4 + 60 wt.% pectin is quoted from the Perumal et al. work (ref 33) in the Introduction, so literature_cited is correct, and no temperature is stated."
+      },
+      {
+        "record_id": "arXiv:2305.02387#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 2.62\u00d710-5 S/cm value at PEO:corn starch = 9:1 is reported for Lin et al. (ref 21) in the Introduction, so literature_cited is correct, and the paper gives no measurement temperature."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1785,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 23004,
+        "webSearchRequests": 0,
+        "costUSD": 0.00551711,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1047,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23004,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10127,
+    "notional_cost_usd": 0.00551711
+  },
+  "paper_id": "arXiv:2305.02387",
+  "model": "haiku"
+}

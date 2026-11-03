@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2601.06384#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states that Dai et al. [24] reported AAlCl2.5O0.75 (A = Li+, Na+) with \u03c3Li+ \u223c 1.5 mS cm\u22121, so the value, unit and material (LiAlCl2.5O0.75) match. The citation marks it as literature_cited, and the paper gives no measurement temperature, so the null temperature is correct."
+      },
+      {
+        "record_id": "arXiv:2601.06384#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The same introduction sentence gives \u03c3Na+ \u223c 1.3 mS cm\u22121 for the Dai et al. [24] oxyhalide, so the value, unit and material (NaAlCl2.5O0.75) match. It is correctly marked literature_cited, and the temperature is correctly null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1020,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 64414,
+        "webSearchRequests": 0,
+        "costUSD": 0.013416609999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 652,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 64414,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6463,
+    "notional_cost_usd": 0.013416609999999999
+  },
+  "paper_id": "arXiv:2601.06384",
+  "model": "haiku"
+}

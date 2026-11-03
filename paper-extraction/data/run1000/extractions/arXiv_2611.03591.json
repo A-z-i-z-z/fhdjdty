@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a theory and simulation study of the mixed alkali effect in glasses, but it reports no numeric ionic conductivity value for a specific material; conductivities appear only in figures or as the abstract scale definition \u03c30 = \u03bde\u00b2/(a\u22060).",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 452,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 24412,
+        "webSearchRequests": 0,
+        "costUSD": 0.00514395,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 265,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24412,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3002,
+    "notional_cost_usd": 0.00514395
+  },
+  "paper_id": "arXiv:2611.03591",
+  "model": "haiku"
+}

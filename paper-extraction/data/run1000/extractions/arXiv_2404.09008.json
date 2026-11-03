@@ -1,0 +1,80 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports room-temperature Li+ ionic conductivities of two PAN/PEO-LLZTO-LiTFSI composite solid electrolytes (FGSSE and HMSSE), measured by dielectric spectroscopy.",
+    "records": [
+      {
+        "material_as_written": "FGSSE",
+        "material_class": "composite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ta"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "aerosol jet printing (combinatorial printing)",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.0 \u00d7 10-5",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25 \u00b0C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": "dielectric spectroscopy",
+        "evidence_quote": "The FGSSE displays a conductivity of 2.0 \u00d7 10-5 S cm-1 at 25 \u00b0C which is over 7 times of that of HMSSE (2.8 \u00d7 10-6 S cm-1 at 25 \u00b0C).",
+        "evidence_location": "Section 2.3 (Electrochemical test of electrolytes)",
+        "notes": "Functionally graded PAN@LLZTO to PEO@LLZTO composite (LiTFSI salt, Li6.4La3Zr1.4Ta0.6O12 filler; Ta is a dopant of the LLZTO filler, listed here as an intentional substituent). Paper does not state whether the value is bulk or total. No activation energy given for this material."
+      },
+      {
+        "material_as_written": "HMSSE",
+        "material_class": "composite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ta"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "aerosol jet printing (layer-by-layer bilayer printing)",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.8 \u00d7 10-6",
+        "conductivity_unit_as_reported": "S cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25 \u00b0C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": null,
+        "measurement_method": "dielectric spectroscopy",
+        "evidence_quote": "The FGSSE displays a conductivity of 2.0 \u00d7 10-5 S cm-1 at 25 \u00b0C which is over 7 times of that of HMSSE (2.8 \u00d7 10-6 S cm-1 at 25 \u00b0C).",
+        "evidence_location": "Section 2.3 (Electrochemical test of electrolytes)",
+        "notes": "Heterogeneous multilayered (bilayer) PAN@LLZTO / PEO@LLZTO electrolyte with a sharp interface; value is in the parenthetical of the quoted sentence. Ta is a dopant of the LLZTO filler. Paper does not state whether the value is bulk or total."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 23828,
+        "outputTokens": 2121,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 24012,
+        "webSearchRequests": 0,
+        "costUSD": 0.00827726,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 919,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24012,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8474,
+    "notional_cost_usd": 0.00827726
+  },
+  "paper_id": "arXiv:2404.09008",
+  "model": "haiku"
+}

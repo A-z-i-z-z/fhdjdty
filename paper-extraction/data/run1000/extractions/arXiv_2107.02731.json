@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a continuum model of a LiPON solid electrolyte, but it reports diffusivities, rate constants and a steady-state potential gradient rather than any ionic conductivity value in S/cm or similar units, so no conductivity record can be extracted.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 452,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 27757,
+        "webSearchRequests": 0,
+        "costUSD": 0.005812950000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 266,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27757,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5384,
+    "notional_cost_usd": 0.005812950000000001
+  },
+  "paper_id": "arXiv:2107.02731",
+  "model": "haiku"
+}

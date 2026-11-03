@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies electrochromism in ITO/TiO2 Bragg stacks, a plasmonic electro-doping effect in electronic-conduction oxides, and reports no ionic conductivity of any solid Li- or Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 309,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 8950,
+        "webSearchRequests": 0,
+        "costUSD": 0.0019800499999999997,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 125,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 8950,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2695,
+    "notional_cost_usd": 0.0019800499999999997
+  },
+  "paper_id": "arXiv:2003.14050",
+  "model": "haiku"
+}

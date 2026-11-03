@@ -1,0 +1,78 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a computational study of amorphous Na3OCl structure, but its introduction cites literature ionic conductivities for glassy Li3OCl/Na3OCl antiperovskites and an amorphous Li3OCl composite, so it is in scope only through those literature_cited values.",
+    "records": [
+      {
+        "material_as_written": "glassy Li3 OCl- and Na3 OCl-based antiperovskites",
+        "material_class": "anti_perovskite",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.1",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "glassy Li3 OCl- and Na3 OCl-based antiperovskites have shown remarkable conductivities of approximately \u223c0.1 mS/cm at room temperature, with glass transition temperatures between 390 and 450 K [18\u201320].",
+        "evidence_location": "introduction",
+        "notes": "Literature value cited from refs 18-20 for a mixed Li/Na class of glassy antiperovskites, not a single composition; mobile ion recorded as other because both Li and Na are included. Not measured in this paper."
+      },
+      {
+        "material_as_written": "Li6.75 La3 Zr1.75 Ta0.25 O12 @amorphous Li3 OCl composite",
+        "material_class": "composite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ta"
+        ],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.2",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "resulting in high room-temperature conductivity of 0.2 mS/cm and an extensive electrochemical stability window up to 10 V.",
+        "evidence_location": "introduction",
+        "notes": "Literature value for an LLZTO/amorphous Li3OCl composite from refs 21-24 (the quote does not name the composite; it is identified from the preceding sentence about Li6.75La3Zr1.75Ta0.25O12 with amorphous Li3OCl). Not measured in this paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 27870,
+        "outputTokens": 2476,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 28060,
+        "webSearchRequests": 0,
+        "costUSD": 0.009668560000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1385,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28060,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10382,
+    "notional_cost_usd": 0.009668560000000001
+  },
+  "paper_id": "arXiv:2404.11442",
+  "model": "haiku"
+}

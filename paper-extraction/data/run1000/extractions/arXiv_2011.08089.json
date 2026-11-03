@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a DFT study of LiBC3F4 as a cathode material. It reports Li migration energy barriers (0.68, 0.70, 0.44 eV) but no ionic conductivity values, and the ionic conductivity is only described qualitatively (\"good ionic conductivities\").",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 441,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 9568,
+        "webSearchRequests": 0,
+        "costUSD": 0.00216965,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 244,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 9568,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2760,
+    "notional_cost_usd": 0.00216965
+  },
+  "paper_id": "arXiv:2011.08089",
+  "model": "haiku"
+}

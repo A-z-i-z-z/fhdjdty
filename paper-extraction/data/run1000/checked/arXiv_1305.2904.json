@@ -1,0 +1,80 @@
+[
+  {
+    "record_id": "arXiv:1305.2904#001",
+    "paper_id": "arXiv:1305.2904",
+    "record": {
+      "material_as_written": "Li2O2",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "4 ! 10-19",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "first-principles NEB calculation",
+      "evidence_quote": "ionic conductivity arising from the migration of Li-ions (4 ! 10-19 S/cm), suggesting that charge transport in Li2O2",
+      "evidence_location": "abstract",
+      "notes": "Computed ionic conductivity from Li vacancy (VLi-) migration. Abstract value; the results text gives 9 ! 10-19 S/cm using the averaged barrier (see the other record). Temperature not stated for this value. Activation energy not given as a single number (barrier range 0.33-0.39 eV), so left null."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1e-19,
+    "log10_conductivity": -19.0
+  },
+  {
+    "record_id": "arXiv:1305.2904#002",
+    "paper_id": "arXiv:1305.2904",
+    "record": {
+      "material_as_written": "Li2O2",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "9 ! 10-19",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "first-principles NEB calculation with hopping-rate formula",
+      "evidence_quote": "Setting Eb to the average of these two values yields an ionic conductivity of 9 ! 10-19 S/cm and a defect diffusion coefficient",
+      "evidence_location": "results (Conductivity section)",
+      "notes": "Computed ionic conductivity for Li vacancy migration using the average of the 0.33 and 0.39 eV barriers. The average barrier is not stated as a number, so activation_energy is null. Temperature not stated. Differs from the abstract value 4 ! 10-19 in the same paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1e-19,
+    "log10_conductivity": -19.0
+  }
+]

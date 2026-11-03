@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2510.22041#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table S5 lists the 'this work' row 'FBN (single-ion)' at 5 \u00d7 10\u221211 S cm\u22121 with Ea 816 meV, which matches the Fig. 5a label E = 0.82(1) eV for pristine Li2(BN)6C2O4. The room-temperature value has no numeric temperature, so null is correct, and the uncalcined, unsintered pressed pellet (600 MPa) supports null sintering fields."
+      },
+      {
+        "record_id": "arXiv:2510.22041#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table S5 lists the 'this work' row 'lithiated FBN (single-ion)' at 1 \u00d7 10\u22128 S cm\u22121 with Ea 850 meV, matching the Fig. 5a label E = 0.85(1) eV for Li2(BN)6C2O4 + Li. The text says 2.0 g LBNCO was doped with 200 mg Li by the same ball-milling process, so the synthesis field is correct, and the paper reports no substitutional dopant."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 2989,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 59841,
+        "webSearchRequests": 0,
+        "costUSD": 0.01348651,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2539,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 59841,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 14279,
+    "notional_cost_usd": 0.01348651
+  },
+  "paper_id": "arXiv:2510.22041",
+  "model": "haiku"
+}

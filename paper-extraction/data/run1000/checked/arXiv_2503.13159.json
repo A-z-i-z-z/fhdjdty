@@ -1,0 +1,80 @@
+[
+  {
+    "record_id": "arXiv:2503.13159#001",
+    "paper_id": "arXiv:2503.13159",
+    "record": {
+      "activation_energy_eV": null,
+      "conductivity_kind": "unspecified",
+      "conductivity_unit_as_reported": "S/cm",
+      "conductivity_value_as_reported": "55.6",
+      "data_origin": "computational",
+      "dopants": [],
+      "evidence_location": "results (ion conductivity estimate)",
+      "evidence_quote": "Given the parameters above, \u03b4ion is estimated to be 55.6 S/cm for ZnCo2O4. Similarly,",
+      "material_as_written": "ZnCo2O4",
+      "material_class": "other",
+      "measurement_method": "coarse analytical estimate from DFT/SSNEB migration barrier (formula with \u0394Gm = 0.02 eV)",
+      "measurement_temperature_C": null,
+      "measurement_temperature_as_reported": null,
+      "mobile_ion": "other",
+      "notes": "Estimated, not measured, from a formula using a 0.02 eV Zn migration barrier from DFT/SSNEB; the temperature is not stated. Mobile ion is Zn2+. Material is the O2-type Zn0.5CoO2 (written as ZnCo2O4 in the paper). Activation energy not given as such; the 0.02 eV is a migration barrier, so it is left null.",
+      "relative_density_pct": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "synthesis_method": null,
+      "unit_evidence_quote": null
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 55.6,
+    "log10_conductivity": 1.745
+  },
+  {
+    "record_id": "arXiv:2503.13159#002",
+    "paper_id": "arXiv:2503.13159",
+    "record": {
+      "activation_energy_eV": null,
+      "conductivity_kind": "unspecified",
+      "conductivity_unit_as_reported": "S/cm",
+      "conductivity_value_as_reported": "27.3",
+      "data_origin": "computational",
+      "dopants": [],
+      "evidence_location": "results (ion conductivity estimate)",
+      "evidence_quote": "the Li ion conductivity in O2 LiCo2O4 estimated to be 27.3 S/cm is not only 5 orders of",
+      "material_as_written": "LiCo2O4 (O2)",
+      "material_class": "other",
+      "measurement_method": "coarse analytical estimate from DFT/SSNEB migration barrier",
+      "measurement_temperature_C": null,
+      "measurement_temperature_as_reported": null,
+      "mobile_ion": "Li",
+      "notes": "Estimated, not measured. Refers to the O2 Li0.5CoO2-type (deintercalated) structure labelled LiCo2O4 in the paper. Temperature not stated; the 27.3 S/cm value is computed from the same formula, with the migration barrier taken from the Oct-Tet transition (about 0.01-0.02 eV). Activation energy left null.",
+      "relative_density_pct": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "synthesis_method": null,
+      "unit_evidence_quote": null
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 27.3,
+    "log10_conductivity": 1.436
+  }
+]

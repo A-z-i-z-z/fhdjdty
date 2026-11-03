@@ -1,0 +1,117 @@
+[
+  {
+    "record_id": "arXiv:2607.19664#001",
+    "paper_id": "arXiv:2607.19664",
+    "record": {
+      "material_as_written": "Li6.6Si0.6Sb0.4S5I",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Si"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "ball milling followed by heat treatment",
+      "sintering_temperature_C": 450,
+      "sintering_time_h": 6,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "9.9 \u00d7 10\u22123",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25 \u25e6 C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.18,
+      "measurement_method": "EIS",
+      "evidence_quote": "Substituting Sb with Si significantly increases the ionic conductivity, with Li6.6 Si0.6 Sb0.4 S5 I reaching 9.9 \u00d7 10\u22123 S cm\u22121 at 25 \u25e6 C.",
+      "evidence_location": "Section 2.2",
+      "notes": "Activation energy 0.18 eV is from the same Arrhenius fit (quoted in Section 2.2: 'The activation energies are 0.28 eV for Li6 SbS5 I, 0.18 eV for Li6.6 Si0.6 Sb0.4 S5 I, and 0.23 eV for Li6.75 Si0.75 Sb0.25 S5 I'). Conductivity is from the fitted bulk-plus-grain-boundary resistance RSE, not separated; kind recorded as unspecified. Sintering field holds the 450 \u00b0C annealing temperature; the paper calls it heat treatment/annealing. Relative density not given for this composition."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0099,
+    "log10_conductivity": -2.004
+  },
+  {
+    "record_id": "arXiv:2607.19664#002",
+    "paper_id": "arXiv:2607.19664",
+    "record": {
+      "material_as_written": "Li6SbS5I",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "ball milling followed by heat treatment",
+      "sintering_temperature_C": 450,
+      "sintering_time_h": 6,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.5 \u00d7 10\u22125",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25 \u25e6 C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.28,
+      "measurement_method": "EIS",
+      "evidence_quote": "The as-prepared Li6 SbS5 I exhibits an ionic conductivity of 1.5 \u00d7 10\u22125 S cm\u22121 at 25 \u25e6 C, which is comparable to that of Li6 PS5 I",
+      "evidence_location": "Section 2.2",
+      "notes": "Undoped reference composition. Activation energy 0.28 eV from Section 2.2 Arrhenius fit. Annealing temperature/time taken from the general synthesis description (Section 4.1), which applies to all Li6+xSixSb1-xS5I compositions."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 1.5e-05,
+    "log10_conductivity": -4.824
+  },
+  {
+    "record_id": "arXiv:2607.19664#003",
+    "paper_id": "arXiv:2607.19664",
+    "record": {
+      "material_as_written": "Li6.75Si0.75Sb0.25S5I",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Si"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "ball milling followed by heat treatment",
+      "sintering_temperature_C": 450,
+      "sintering_time_h": 6,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "8.1 \u00d7 10\u22123",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.23,
+      "measurement_method": "EIS",
+      "evidence_quote": "the ionic conductivity decreases to 8.1 \u00d7 10\u22123 S cm\u22121 , as shown in Fig. 2(b).",
+      "evidence_location": "Section 2.2",
+      "notes": "The quoted sentence gives no temperature; 'room temperature' is taken from the paragraph's statement that conductivities were measured at room temperature, and the 25 \u00b0C value in the text is not explicitly tied to this number. Activation energy 0.23 eV from Section 2.2. Annealing from Section 4.1 general description."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0081,
+    "log10_conductivity": -2.092
+  }
+]

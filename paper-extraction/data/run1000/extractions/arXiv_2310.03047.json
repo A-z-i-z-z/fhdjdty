@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper reports ionic conductivities only for liquid electrolyte mixtures (LiPF6 in carbonate solvents), not for solid Li/Na-ion conductors, so it is out of scope.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 346,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 26694,
+        "webSearchRequests": 0,
+        "costUSD": 0.00554735,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 177,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 26694,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3824,
+    "notional_cost_usd": 0.00554735
+  },
+  "paper_id": "arXiv:2310.03047",
+  "model": "haiku"
+}

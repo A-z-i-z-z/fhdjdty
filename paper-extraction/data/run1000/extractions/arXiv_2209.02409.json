@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies liquefied gas and liquid electrolytes (1 M LiBF4 in Me2O-PC) for Li/CFx primary cells; its conductivity values (>3.5 mS cm-1) are for liquid electrolytes, not a solid Li/Na-ion conductor, so no records are extracted.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 408,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 18604,
+        "webSearchRequests": 0,
+        "costUSD": 0.00396035,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 200,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18604,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2937,
+    "notional_cost_usd": 0.00396035
+  },
+  "paper_id": "arXiv:2209.02409",
+  "model": "haiku"
+}

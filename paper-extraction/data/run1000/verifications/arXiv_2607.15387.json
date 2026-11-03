@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2607.15387#001",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "data_origin",
+            "correct_value": null,
+            "evidence": "Ionic conductivity (SE) i \u03c3SE 3.1 \u00d7 10\u22125 S/m (Table 1, Notes column gives no source for this row)"
+          }
+        ],
+        "explanation": "The value 3.1 \u00d7 10\u22125 S/m is correctly taken from Table 1, but it is a model input parameter and the paper gives no citation or source for it, so 'literature_cited' is not supported by the text. The record's own notes say the origin is uncertain, so under the strict rule it is unsupported."
+      },
+      {
+        "record_id": "arXiv:2607.15387#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states that Na SSBs paired with Na-ion-conducting sulfide solid electrolytes can reach up to 32 mS/cm at room temperature, citing ref [5], so the value, unit, room-temperature condition, and literature_cited origin all match the paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 1590,
+        "cacheReadInputTokens": 2361,
+        "cacheCreationInputTokens": 20129,
+        "webSearchRequests": 0,
+        "costUSD": 0.00484461,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1181,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 20129,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9289,
+    "notional_cost_usd": 0.00484461
+  },
+  "paper_id": "arXiv:2607.15387",
+  "model": "haiku"
+}

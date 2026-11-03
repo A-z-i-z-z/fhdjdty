@@ -1,0 +1,98 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports AC ionic conductivity of amorphous NaTaO3 films (a Na+-containing oxide) measured by impedance spectroscopy, so it reports solid ion-conductor conductivities.",
+    "records": [
+      {
+        "material_as_written": "NaTaO3 nanopillar array film",
+        "material_class": "other",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "pulsed laser deposition",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.5",
+        "conductivity_unit_as_reported": "\u03bcS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "AC impedance (Cole-Cole plot)",
+        "evidence_quote": "The conductivity was calculated to be 2.5 \u03bcS cm\u22121, three orders of magnitude larger than that (5 nS cm\u22121) of the dense NaTaO3 film",
+        "evidence_location": "results",
+        "notes": "Amorphous nanoporous NaTaO3 film measured in air at RT, Au/NaTaO3/Au cross-plane. Conductivity attributed by the authors to water-filled nanopores with dissolved Na+; mobile species not strictly proven. Film density ~47% of dense film is stated in the text but not recorded here."
+      },
+      {
+        "material_as_written": "dense NaTaO3 film",
+        "material_class": "other",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "pulsed laser deposition",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "5",
+        "conductivity_unit_as_reported": "nS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "AC impedance",
+        "evidence_quote": "The conductivity was 2.5 \u03bcS cm\u22121, three orders of magnitude larger than that (5 nS cm\u22121) of a dense NaTaO3 film in air",
+        "evidence_location": "Figure 2 caption",
+        "notes": "Dense film deposited under low O2 (<5 Pa); measured in air at RT per Figure 2c caption. Value given as comparison in text and caption; RT is implied by the Fig. 2c measurement context rather than stated explicitly next to this value."
+      },
+      {
+        "material_as_written": "NaTaO3 nanopillar array film",
+        "material_class": "other",
+        "mobile_ion": "Na",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "pulsed laser deposition",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "34",
+        "conductivity_unit_as_reported": "pS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "AC impedance (Cole-Cole plot) in vacuum",
+        "evidence_quote": "The calculated conductivity was 34 pS cm\u22121, which was five orders of magnitude smaller than that in air.",
+        "evidence_location": "results",
+        "notes": "Measured in vacuum (~10^-2 Pa per Figure 2d caption); temperature not explicitly stated for this value. Shows water dependence of conductivity."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 2,
+        "outputTokens": 3209,
+        "cacheReadInputTokens": 3535,
+        "cacheCreationInputTokens": 14791,
+        "webSearchRequests": 0,
+        "costUSD": 0.00459825,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1799,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14791,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 14222,
+    "notional_cost_usd": 0.00459825
+  },
+  "paper_id": "arXiv:1604.00824",
+  "model": "haiku"
+}
