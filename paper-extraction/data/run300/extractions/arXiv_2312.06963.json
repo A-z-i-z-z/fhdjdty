@@ -1,0 +1,98 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about ionic (Li) conduction in glass and glass-ceramic Li3PS4 and reports Li conductivity values, computed here by MD with Nernst-Einstein analysis.",
+    "records": [
+      {
+        "material_as_written": "glass-Li3PS4",
+        "material_class": "thiophosphate_other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": "melt-quench MD simulation (NVT, simulated, not synthesized)",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "7.45\u00d710\u20123",
+        "conductivity_unit_as_reported": "S cm\u20121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": 0.269,
+        "measurement_method": "NVT-MD with Nernst-Einstein equation",
+        "evidence_quote": "the Li conductivity in the glass-Li3PS4 was estimated as 7.45\u00d710\u20123 S cm\u20121 at 300 K",
+        "evidence_location": "Li conductivity calculations section (results)",
+        "notes": "Computed value from this paper's ML-MD simulations. The 0.269 eV is the Li diffusion barrier of glass-Li3PS4 from the same Arrhenius analysis (not a conductivity activation energy as such). Paper states the calculated value overestimates experiment."
+      },
+      {
+        "material_as_written": "Li3PS4 (glass, AIMD literature values)",
+        "material_class": "thiophosphate_other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.9\u00d710\u20122",
+        "conductivity_unit_as_reported": "S cm\u20121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "AIMD (from cited work)",
+        "evidence_quote": "which reported values of 1.9\u00d710\u20122 or 7.0\u00d710\u20123 S cm\u20121 [10]",
+        "evidence_location": "Li conductivity calculations section (results)",
+        "notes": "Value quoted from previous AIMD study [10] for glass-Li3PS4; the 'or' pairing means two literature values are given in one sentence. Temperature not stated for this value."
+      },
+      {
+        "material_as_written": "Li3PS4 (glass, AIMD literature values)",
+        "material_class": "thiophosphate_other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "7.0\u00d710\u20123",
+        "conductivity_unit_as_reported": "S cm\u20121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "AIMD (from cited work)",
+        "evidence_quote": "which reported values of 1.9\u00d710\u20122 or 7.0\u00d710\u20123 S cm\u20121 [10]",
+        "evidence_location": "Li conductivity calculations section (results)",
+        "notes": "Second of two literature AIMD values from [10] in the same sentence; temperature not stated."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 12311,
+        "outputTokens": 2876,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 12495,
+        "webSearchRequests": 0,
+        "costUSD": 0.00519966,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1474,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12495,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11385,
+    "notional_cost_usd": 0.00519966
+  },
+  "paper_id": "arXiv:2312.06963",
+  "model": "haiku"
+}

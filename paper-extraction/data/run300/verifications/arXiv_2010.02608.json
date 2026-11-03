@@ -1,0 +1,66 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2010.02608#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 1.2 \u00b5S cm-1 room-temperature value and 0.53 eV activation energy are stated for the LGPO pellets made in this study, and the 900 \u00b0C / 12 h sintering, 85% relative density and EIS method are all given in the paper."
+      },
+      {
+        "record_id": "arXiv:2010.02608#002",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "conductivity_kind",
+            "correct_value": "bulk",
+            "evidence": "First-principles molecular dynamics simulations for bulk defect-free LGPO"
+          }
+        ],
+        "explanation": "The simulated 10^-2 S cm-1 at 300 \u00b0C upper limit, the computational origin and the 0.37 eV FPMD barrier are all correct; the paper frames the simulated ideal crystal as bulk, not as a total conductivity."
+      },
+      {
+        "record_id": "arXiv:2010.02608#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 35 \u00b5S cm-1 room-temperature value for x \u2248 0.25 pellets is attributed to another study (ref. 42), so literature_cited is correct and the composition matches the sentence before the quote."
+      },
+      {
+        "record_id": "arXiv:2010.02608#004",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "conductivity_kind",
+            "correct_value": "unspecified",
+            "evidence": "LGPO single crystal, with x = 0.66, showed a conductivity which is slightly lower but with the same activation energy. The value of 1.8 \u00b5S cm-1 was reached at 40 \u00b0C. 22"
+          }
+        ],
+        "explanation": "The 1.8 \u00b5S cm-1 value at 40 \u00b0C and the literature_cited origin are correct, but the paper does not state that this single-crystal value is total conductivity, so the kind should be unspecified."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17392,
+        "outputTokens": 3163,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 17580,
+        "webSearchRequests": 0,
+        "costUSD": 0.0068565200000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2430,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17580,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 13052,
+    "notional_cost_usd": 0.0068565200000000005
+  },
+  "paper_id": "arXiv:2010.02608",
+  "model": "haiku"
+}

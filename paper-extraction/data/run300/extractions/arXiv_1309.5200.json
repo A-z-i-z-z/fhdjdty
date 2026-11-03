@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a first-principles MD study of proton self-diffusion in cubic BaZrO3; it reports diffusion coefficients (cm2/s) and no ionic conductivity value, and the mobile ion is a proton rather than Li or Na.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 11339,
+        "outputTokens": 387,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 11529,
+        "webSearchRequests": 0,
+        "costUSD": 0.0036647599999999995,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 175,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11529,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2469,
+    "notional_cost_usd": 0.0036647599999999995
+  },
+  "paper_id": "arXiv:1309.5200",
+  "model": "haiku"
+}

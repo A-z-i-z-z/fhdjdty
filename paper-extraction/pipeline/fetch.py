@@ -25,6 +25,22 @@ DEFAULT_QUERY = (
     'abs:"solid electrolyte" AND abs:"ionic conductivity" AND cat:cond-mat.mtrl-sci'
 )
 
+# Used when no --query is given. One query only reaches ~80 papers, so the search is widened
+# in steps: targeted queries first, broad ones last. Off-topic hits from the broad queries are
+# dropped by the extractor's paper_in_scope flag.
+DEFAULT_QUERIES = [
+    DEFAULT_QUERY,
+    'abs:"solid electrolyte" AND abs:"ionic conductivity"',
+    'abs:"solid-state electrolyte" AND abs:conductivity',
+    'abs:"ionic conductivity" AND (abs:garnet OR abs:LLZO OR abs:NASICON OR abs:LATP OR abs:LAGP)',
+    'abs:"ionic conductivity" AND (abs:argyrodite OR abs:thiophosphate OR abs:halide OR abs:perovskite)',
+    'abs:superionic AND (abs:lithium OR abs:sodium OR abs:potassium)',
+    'abs:"ionic conductor" OR abs:"ion conductor"',
+    'abs:"ionic conductivity"',
+    'abs:"ion conductivity"',
+    'abs:electrolyte AND abs:conductivity',
+]
+
 
 def _get(url: str, timeout: int = 60, retries: int = 5) -> bytes:
     """GET with backoff: arXiv answers bursts with 429/503 (seen at ~30 PDFs in a row)."""
@@ -41,8 +57,9 @@ def _get(url: str, timeout: int = 60, retries: int = 5) -> bytes:
             time.sleep(wait)
 
 
-def arxiv_metadata(ids: list[str] | None = None, query: str | None = None, max_results: int = 20) -> list[dict]:
-    params = {"max_results": str(max_results)}
+def arxiv_metadata(ids: list[str] | None = None, query: str | None = None, max_results: int = 20,
+                   start: int = 0) -> list[dict]:
+    params = {"max_results": str(max_results), "start": str(start)}
     if ids:
         params["id_list"] = ",".join(ids)
     if query:
@@ -89,18 +106,34 @@ def pdf_to_text(pdf_path, txt_path) -> None:
     txt_path.write_text("\n".join(p.extract_text() or "" for p in reader.pages))
 
 
-def fetch(wd: Workdir, seeds: list[str], query: str | None, n: int) -> list[str]:
+def search(queries: list[str], n: int, have: set[str], page: int = 200) -> list[dict]:
+    """Up to n new papers from the queries in order, paging through each one."""
+    out = []
+    for q in queries:
+        start = 0
+        while len(out) < n:
+            time.sleep(3)  # arXiv asks for 3 s between API calls
+            batch = arxiv_metadata(query=q, max_results=page, start=start)
+            for m in batch:
+                if m["arxiv_id"] not in have and len(out) < n:
+                    out.append(m)
+                    have.add(m["arxiv_id"])
+            if len(batch) < page:
+                break
+            start += page
+        print(f"search: {len(out)} papers after {q!r}")
+        if len(out) >= n:
+            break
+    return out
+
+
+def fetch(wd: Workdir, seeds: list[str], query: str | list[str] | None, n: int) -> list[str]:
     wd.ensure()
     metas = arxiv_metadata(ids=seeds, max_results=len(seeds)) if seeds else []
     have = {m["arxiv_id"] for m in metas}
     if query and len(metas) < n:
-        time.sleep(3)  # arXiv asks for 3 s between API calls
-        for m in arxiv_metadata(query=query, max_results=n * 2):
-            if len(metas) >= n:
-                break
-            if m["arxiv_id"] not in have:
-                metas.append(m)
-                have.add(m["arxiv_id"])
+        queries = [query] if isinstance(query, str) else list(query)
+        metas += search(queries, n - len(metas), have)
     fetched = []
     for m in metas[:n]:
         d = wd.paper_dir(m["paper_id"])

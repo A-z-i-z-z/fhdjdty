@@ -1,0 +1,277 @@
+[
+  {
+    "record_id": "arXiv:2507.02334#001",
+    "paper_id": "arXiv:2507.02334",
+    "record": {
+      "material_as_written": "Li0.5Mg0.5Al0.5PO4",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Al"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.19",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.38,
+      "measurement_method": "fine-tuned CHGNet MD",
+      "evidence_quote": "0.19 mS/cm for Li0.5Mg0.5Al0.5PO4 and 0.024 mS/cm for Li0.5TiPO4.5F0.5. Both doped",
+      "evidence_location": "results (Section 2.5)",
+      "notes": "Room-temperature value extrapolated by Arrhenius fit of CHGNet-MD diffusion coefficients; not measured experimentally. Activation energy 0.38 eV is from the same section."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00019,
+    "log10_conductivity": -3.721
+  },
+  {
+    "record_id": "arXiv:2507.02334#002",
+    "paper_id": "arXiv:2507.02334",
+    "record": {
+      "material_as_written": "Li0.5TiPO4.5F0.5",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "F"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.024",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.52,
+      "measurement_method": "fine-tuned CHGNet MD",
+      "evidence_quote": "0.19 mS/cm for Li0.5Mg0.5Al0.5PO4 and 0.024 mS/cm for Li0.5TiPO4.5F0.5. Both doped",
+      "evidence_location": "results (Section 2.5)",
+      "notes": "Room-temperature value extrapolated by Arrhenius fit of CHGNet-MD data; computational prediction, not experiment. Activation energy 0.52 eV is stated in the same section for this configuration."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 2.4e-05,
+    "log10_conductivity": -4.62
+  },
+  {
+    "record_id": "arXiv:2507.02334#003",
+    "paper_id": "arXiv:2507.02334",
+    "record": {
+      "material_as_written": "Li1.5Al0.5Ti1.5(PO4)3 (LATP)",
+      "material_class": "NASICON",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Al"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.8",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": null,
+      "measurement_method": "fine-tuned CHGNet MD (mean of three 200 ps runs)",
+      "evidence_quote": "room-temperature conductivity of 2.8 mS/cm, which aligns more closely with the",
+      "evidence_location": "results (Section 2.4)",
+      "notes": "Material identity from Fig. 5 caption (Li1.5Al0.5Ti1.5(PO4)3); the text refers to the LATP family. Value is a fine-tuned CHGNet MD prediction at 300 K, not an experiment."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0028,
+    "log10_conductivity": -2.553
+  },
+  {
+    "record_id": "arXiv:2507.02334#004",
+    "paper_id": "arXiv:2507.02334",
+    "record": {
+      "material_as_written": "Li1.5Al0.5Ti1.5(PO4)3 (LATP)",
+      "material_class": "NASICON",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Al"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "8.6",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": 0.21,
+      "measurement_method": "fine-tuned CHGNet MD",
+      "evidence_quote": "The predicted lithium-ion conductivity at 300 K is 8.6 mS/cm, which",
+      "evidence_location": "results (Section 2.4)",
+      "notes": "Earlier single-run/Arrhenius-based prediction of the fine-tuned model; the 0.21 eV is the migration barrier stated in the next sentence. Material identity inferred from Fig. 5 caption."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0086,
+    "log10_conductivity": -2.066
+  },
+  {
+    "record_id": "arXiv:2507.02334#005",
+    "paper_id": "arXiv:2507.02334",
+    "record": {
+      "material_as_written": "Li1.5Al0.5Ti1.5(PO4)3 (LATP)",
+      "material_class": "NASICON",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Al"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5.1",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": 0.22,
+      "measurement_method": "AIMD",
+      "evidence_quote": "is close to the AIMD result of 5.1 mS/cm.",
+      "evidence_location": "results (Section 2.4)",
+      "notes": "Reference AIMD value computed in this paper for comparison with CHGNet; the quote is the second half of the sentence that begins 'The predicted lithium-ion conductivity at 300 K is 8.6 mS/cm'. Material identity inferred from context and Fig. 5 caption."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0051,
+    "log10_conductivity": -2.292
+  },
+  {
+    "record_id": "arXiv:2507.02334#006",
+    "paper_id": "arXiv:2507.02334",
+    "record": {
+      "material_as_written": "Li1.5Al0.5Ti1.5(PO4)3 (LATP)",
+      "material_class": "NASICON",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Al"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "57",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": null,
+      "measurement_method": "pre-trained CHGNet MD",
+      "evidence_quote": "conductivity (57 mS/cm) at 300 K, which is an order of magnitude higher.",
+      "evidence_location": "results (Section 2.4)",
+      "notes": "Prediction from the pre-trained (not fine-tuned) CHGNet model, reported to show its overestimation. Material identity inferred from context and Fig. 5 caption."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.057,
+    "log10_conductivity": -1.244
+  },
+  {
+    "record_id": "arXiv:2507.02334#007",
+    "paper_id": "arXiv:2507.02334",
+    "record": {
+      "material_as_written": "LATP (Li1+xAlxTi2-x(PO4)3, experimental literature)",
+      "material_class": "NASICON",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Al"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.28,
+      "measurement_method": null,
+      "evidence_quote": "1 mS/cm and low activation energy of about 0.28 eV can be achieved in LATP",
+      "evidence_location": "results (Section 2.4)",
+      "notes": "Experimental LATP values cited from refs 30-32 (melt quenching, mechanical activation, sol-gel); not measured in this paper. Measurement temperature not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.001,
+    "log10_conductivity": -3.0
+  }
+]

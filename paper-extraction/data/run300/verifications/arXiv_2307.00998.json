@@ -1,0 +1,66 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2307.00998#001",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 25,
+            "evidence": "the electrolyte displayed ultra-high ionic conductivity of 1.35 mS cm\u20131 and 3.99 mS cm\u20131 at 25 \u2103 and 80 \u2103, respectively"
+          }
+        ],
+        "explanation": "Material, value (1.35 mS cm-1), unit, and experimental origin are correct. The Conclusion explicitly gives 25 \u2103 for the 1.35 mS cm-1 value, so the null temperature is too conservative; the 0.17 eV activation energy is attributed to PiSi-0.7 by the surrounding text, so it is kept."
+      },
+      {
+        "record_id": "arXiv:2307.00998#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The quoted sentence gives 0.42 mS cm-1 at room temperature for PiSi-0, a measured value in this paper. The EIS method is consistent with the paper's EIS spectra and is not a checked secondary field."
+      },
+      {
+        "record_id": "arXiv:2307.00998#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The quoted sentence gives 0.57 mS cm-1 at room temperature for PiSi-0.2, a measured value in this paper, and the material and origin are correct."
+      },
+      {
+        "record_id": "arXiv:2307.00998#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The quoted sentence gives 0.92 mS cm-1 at room temperature for PiSi-0.5, a measured value in this paper, and the material and origin are correct."
+      },
+      {
+        "record_id": "arXiv:2307.00998#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that the 400 nm SiO2 variant of PiSi-0.7 has a low ionic conductivity of 0.12 mS cm-1, measured in this work, and no measurement temperature is stated, so null is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14196,
+        "outputTokens": 2714,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 14382,
+        "webSearchRequests": 0,
+        "costUSD": 0.00567282,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1930,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14382,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10919,
+    "notional_cost_usd": 0.00567282
+  },
+  "paper_id": "arXiv:2307.00998",
+  "model": "haiku"
+}

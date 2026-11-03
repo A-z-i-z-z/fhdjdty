@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2109.14941#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports the spatial average of \u03c3QENS as 0.055 \u00b1 0.005 S/cm at 600 K for x = 0.13, derived from this paper's own QENS data via Nernst-Einstein. Material, value, unit and temperature match. The 'experimental' origin is defensible because the value is derived from in-paper QENS measurements rather than cited."
+      },
+      {
+        "record_id": "arXiv:2109.14941#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the in-plane \u03c3QENS at 600 K is 0.070 \u00b1 0.006 S/cm for x = 0.13. The value, unit, temperature and in-paper origin all match, and the secondary fields are correctly null."
+      },
+      {
+        "record_id": "arXiv:2109.14941#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the out-of-plane \u03c3QENS at 600 K is 0.02 \u00b1 0.01 S/cm for x = 0.13. The value, unit, temperature and in-paper origin all match."
+      },
+      {
+        "record_id": "arXiv:2109.14941#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper cites \u03c3Li \u223c 0.1 S/cm at 600 K from bulk conductivity measurements for LLTO with x = 0.11 to Ref. [5] (Inaguma et al.). This is correctly labelled literature_cited, the bulk kind and 600 K temperature match, and the null secondary fields are appropriate."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 19508,
+        "outputTokens": 1774,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 19700,
+        "webSearchRequests": 0,
+        "costUSD": 0.006797620000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1146,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19700,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7334,
+    "notional_cost_usd": 0.006797620000000001
+  },
+  "paper_id": "arXiv:2109.14941",
+  "model": "haiku"
+}

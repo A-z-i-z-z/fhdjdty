@@ -1,0 +1,59 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about high-entropy Li-ion solid electrolytes based on LZSP and reports a room-temperature ionic conductivity value (4.53 mS/cm) for one composition, though it is derived computationally.",
+    "records": [
+      {
+        "material_as_written": "Li2.625Zr0.25Hf0.1875Sn0.1875Ti0.1875Nb0.1875Si2PO12 (LZHSTNSP)",
+        "material_class": "NASICON",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Hf",
+          "Sn",
+          "Ti",
+          "Nb"
+        ],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "4.53",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "fine-tuned CHGNet MD simulations with Arrhenius extrapolation to room temperature",
+        "evidence_quote": "the ionic conductivity at room temperature, extrapolated from the Arrhenius curve, increased to 4.53 mS/cm",
+        "evidence_location": "results (Section 2.3)",
+        "notes": "Value is extrapolated to room temperature from MD-derived Li MSD (fine-tuned CHGNet, 1000 K Arrhenius fit), not experimentally measured. The same value appears in the abstract as 'a high ionic conductivity of 4.53 mS/cm'. The migration barrier of 0.24 eV is a migration energy barrier, not reported as the conductivity activation energy, so activation_energy_eV is left null. No numeric conductivity is given for pristine LZSP in the text, so no record was made for it."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14774,
+        "outputTokens": 1548,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 14962,
+        "webSearchRequests": 0,
+        "costUSD": 0.005275360000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 769,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14962,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6234,
+    "notional_cost_usd": 0.005275360000000001
+  },
+  "paper_id": "arXiv:2505.18571",
+  "model": "haiku"
+}

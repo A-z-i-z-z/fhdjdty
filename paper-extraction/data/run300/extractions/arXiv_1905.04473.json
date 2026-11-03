@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is mainly about superconductivity in Li-intercalated SnSe2, but it states a Li-ion conductivity for the solid-ion-conductor gate material, so it contains one conductivity value for a solid Li-ion conductor.",
+    "records": [
+      {
+        "material_as_written": "Li2Al2SiP2TiO13 (HFKejing)",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10\u22124",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "T>160 K",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "It is known that Li-ion conductivity of solid-ion-conductor Li2 Al2 SiP2 TiO13 (HFKejing) is 10\u22124 S cm\u22121 as T>160 K.",
+        "evidence_location": "Section II.A, Experimental details",
+        "notes": "Value is stated as generally known for the commercial solid-ion conductor used as the gate, with no citation and no measurement in this paper, so it is marked literature_cited. The temperature is a lower bound (T>160 K), not a measurement temperature, so the numeric field is null. Material is a gate electrolyte, not the study's\u4e3b material; the paper does not name its structure class."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 16940,
+        "outputTokens": 2060,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 17130,
+        "webSearchRequests": 0,
+        "costUSD": 0.006181560000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1399,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17130,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7169,
+    "notional_cost_usd": 0.006181560000000001
+  },
+  "paper_id": "arXiv:1905.04473",
+  "model": "haiku"
+}

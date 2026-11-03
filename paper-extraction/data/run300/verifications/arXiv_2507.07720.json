@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2507.07720#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The HTLP film (Li3.08Ge0.52P0.47O4) room-temperature value of ~1.2 \u00d7 10-5 S cm-1 and Ea 0.46 eV are the paper's own extrapolated results, so experimental origin and a null measurement temperature are correct."
+      },
+      {
+        "record_id": "arXiv:2507.07720#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The LTLP amorphous film (Li2.44Ge0.72P0.41O4) extrapolated room-temperature value of ~5.2 \u00d7 10-8 S cm-1 and Ea 0.72 eV are reported in this paper from its own in situ measurements, with composition from Table 3."
+      },
+      {
+        "record_id": "arXiv:2507.07720#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 3.8 \u00d7 10-6 S cm-1 value with Ea 0.5 eV for x = 0.66 is attributed to Song et al. (ref 29) for LGPO pellets, so literature_cited is correct; the room-temperature context is implied by the \u03c3RT comparison in the text."
+      },
+      {
+        "record_id": "arXiv:2507.07720#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The ~3 \u00d7 10-6 S cm-1 and Ea 0.51 eV thin-film values are attributed to Gilardi et al. in the text and Figure 5 caption (films at 500 \u00b0C, which the paper's own deposition conditions do not include), so literature_cited is right despite the stray 'in this study' wording."
+      },
+      {
+        "record_id": "arXiv:2507.07720#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The amorphous-film \u03c3RT ~3 \u00d7 10-7 S cm-1, Ea 0.58 eV and composition Li1.58\u00b10.4Ge0.45P0.55O3.27\u00b10.5 are explicitly attributed to Gilardi et al. [19], so literature_cited is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18218,
+        "outputTokens": 3297,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 18402,
+        "webSearchRequests": 0,
+        "costUSD": 0.00717052,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2526,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18402,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 14074,
+    "notional_cost_usd": 0.00717052
+  },
+  "paper_id": "arXiv:2507.07720",
+  "model": "haiku"
+}

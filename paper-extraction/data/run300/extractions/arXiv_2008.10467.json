@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a battery state and capacity estimation paper on an electrochemical observer for NMC/graphite cells; the only conductivity it discusses is the SEI layer ionic conductivity \u03basei, which is estimated only in figures with no numeric value in the text, and the electrolyte conductivity is a model formula, not a reported value for a solid conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 36387,
+        "outputTokens": 504,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 36577,
+        "webSearchRequests": 0,
+        "costUSD": 0.01123766,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 257,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 36577,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3055,
+    "notional_cost_usd": 0.01123766
+  },
+  "paper_id": "arXiv:2008.10467",
+  "model": "haiku"
+}

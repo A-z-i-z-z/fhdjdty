@@ -1,0 +1,76 @@
+[
+  {
+    "record_id": "arXiv:2402.04266#001",
+    "paper_id": "arXiv:2402.04266",
+    "record": {
+      "material_as_written": "ilmenite-type Mg3TeO6 (high-pressure, high-temperature polymorph)",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state metathesis reaction",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": 60,
+      "conductivity_value_as_reported": "2.5 \u00d7 10\u22126",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "25 \u25e6 C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.47,
+      "measurement_method": "EIS",
+      "evidence_quote": "The material\u2019s ionic conductivity was determined to be 2.5 \u00d7 10\u22126 S cm\u22121 at 25 \u25e6 C.",
+      "evidence_location": "Discussion (page 17)",
+      "notes": "Mobile ion is Mg2+, which the schema enum lacks, so recorded as 'other'. Relative density is the ~60 % pellet compactness given in the Discussion. The paper calls these values bulk conductivities in the same paragraph. Activation energy 0.47 eV is from the preceding sentence (5-45 C range). The 400 C, 99 h metathesis temperature is a reaction temperature, not a sintering temperature, so sintering fields are null."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 2.5e-06,
+    "log10_conductivity": -5.602
+  },
+  {
+    "record_id": "arXiv:2402.04266#002",
+    "paper_id": "arXiv:2402.04266",
+    "record": {
+      "material_as_written": "Ca2ZnTeO6",
+      "material_class": "perovskite",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.18 \u00d7 10\u22126",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "doubleperovskite Ca2 ZnTeO6 , in particular, exhibits an ionic conductivity of 1.18 \u00d7 10\u22126 S cm\u22121 at room temperature,",
+      "evidence_location": "Discussion (page 17)",
+      "notes": "Mobile ion is Ca2+, which the schema enum lacks, so recorded as 'other'. The paper says the value is primarily Ca2+ conduction. The quote does not name the EIS method; it comes from the EIS impedance plots (Figure 10g, described in Methods). Synthesis for this specific compound is not described, so synthesis fields are null."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 1.18e-06,
+    "log10_conductivity": -5.928
+  }
+]

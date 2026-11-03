@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1912.02971#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Conclusions give 6\u00d710-5 \u2013 3\u00d710-4 S cm-1 at 300 K for pure Li6PS5Cl, matching Table 2's 'This work (NEMD)' entry. The value is an extrapolation from 600/800 K data, which the record's notes already state, and all secondary fields are null."
+      },
+      {
+        "record_id": "arXiv:1912.02971#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.3.3 gives 6\u00d710-3 \u2013 1\u00d710-1 S cm-1 for the S-Cl disordered Li6PS5Cl, and Table 2 labels it 'This work (EMD)' at 300 K. The material, origin and temperature are all correct."
+      },
+      {
+        "record_id": "arXiv:1912.02971#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.3.3 states that the Li5.75PS4.75Cl1.25 structure has 0.09 \u00b1 0.03 S cm-1 at 300 K, calculated in this work. The computational origin and the temperature are correct, and the secondary fields are null."
+      },
+      {
+        "record_id": "arXiv:1912.02971#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction says Li6PS5Cl 'is reported to have a conductivity of ~10-3 S cm-1 at room temperature' citing refs 24-25, so it is a literature value. The record correctly marks it literature_cited with a null numeric temperature."
+      },
+      {
+        "record_id": "arXiv:1912.02971#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 1.1\u00d710-3 S cm-1 value is explicitly attributed to ref. 48, so literature_cited is correct. Table 2's caption gives the temperature as 300 K for all entries, including the Li5.6PS4.8Cl1.2 experimental value from ref. 48, so the 300 K temperature is supported."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 20784,
+        "outputTokens": 2278,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 20974,
+        "webSearchRequests": 0,
+        "costUSD": 0.00743202,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1497,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 20974,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9347,
+    "notional_cost_usd": 0.00743202
+  },
+  "paper_id": "arXiv:1912.02971",
+  "model": "haiku"
+}

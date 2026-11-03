@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2403.08237#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states that ball-milled \u03b1h-LZC shows RT Li-ion conductivity of about 0.8 mS/cm and cites ref. 16, so the value is literature_cited, not measured here. The material, value, unit and room-temperature condition match, and the null secondary fields are consistent with the paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 11191,
+        "outputTokens": 773,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 11381,
+        "webSearchRequests": 0,
+        "costUSD": 0.0038016200000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 544,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11381,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3728,
+    "notional_cost_usd": 0.0038016200000000003
+  },
+  "paper_id": "arXiv:2403.08237",
+  "model": "haiku"
+}

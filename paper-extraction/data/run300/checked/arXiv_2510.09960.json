@@ -1,0 +1,115 @@
+[
+  {
+    "record_id": "arXiv:2510.09960#001",
+    "paper_id": "arXiv:2510.09960",
+    "record": {
+      "material_as_written": "0.1Li3N-MgCl2",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "high energy ball milling (mechanochemical)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3.97 \u00d7 10\u20124",
+      "conductivity_unit_as_reported": "mS cm\u20121",
+      "unit_evidence_quote": "exhibit the conductivities of 3.97 \u00d7 10\u20124 mS cm\u2012",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25 \u00b0C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.572,
+      "measurement_method": "EIS",
+      "evidence_quote": "exhibit the conductivities of 3.97 \u00d7 10\u20124 mS cm\u2012",
+      "evidence_location": "results (Dynamic Li+ transport section)",
+      "notes": "Value is split across a PDF line break; the unit 'mS cm-1' is written as 'mS cm\u2012' followed by '1' on the next line. Composition is named in the preceding sentence. Activation energy 0.572 eV is from the sentence 'decrease from 0.572 eV in 0.1Li3N-MgCl2' in the same section. Reported value is unusually low relative to the other compositions; recorded as written."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": false,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 3.97e-07,
+    "log10_conductivity": -6.401
+  },
+  {
+    "record_id": "arXiv:2510.09960#002",
+    "paper_id": "arXiv:2510.09960",
+    "record": {
+      "material_as_written": "0.3Li3N-CeCl3",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "high energy ball milling (mechanochemical)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.0217",
+      "conductivity_unit_as_reported": "mS cm\u20121",
+      "unit_evidence_quote": "0.0217 mS cm\u2012",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25 \u00b0C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.346,
+      "measurement_method": "EIS",
+      "evidence_quote": "0.0217 mS cm\u2012",
+      "evidence_location": "results (Dynamic Li+ transport section)",
+      "notes": "Value is split across a PDF line break ('mS cm\u2012' then '1' on the next line). Composition is named in the preceding sentence ('0.1Li3N-MgCl2, 0.3Li3N-CeCl3, and 0.533Li3N-HfCl4 exhibit the conductivities of...'). Activation energy 0.346 eV is from the same section."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": false,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 2.17e-05,
+    "log10_conductivity": -4.664
+  },
+  {
+    "record_id": "arXiv:2510.09960#003",
+    "paper_id": "arXiv:2510.09960",
+    "record": {
+      "material_as_written": "0.533Li3N-HfCl4",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "high energy ball milling (mechanochemical)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.02",
+      "conductivity_unit_as_reported": "mS cm\u20121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25 \u00b0C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.307,
+      "measurement_method": "EIS",
+      "evidence_quote": "and 2.02 mS cm\u20121, respectively, at 25 \u00b0C",
+      "evidence_location": "results (Dynamic Li+ transport section)",
+      "notes": "Composition is named in the preceding sentence of the same paragraph rather than in the quote. Activation energy 0.307 eV is from 'and 0.307 eV in 0.533Li3N-HfCl4 (Fig. 4b)'. The same value is repeated in the abstract and Supplementary Table 1."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00202,
+    "log10_conductivity": -2.695
+  }
+]

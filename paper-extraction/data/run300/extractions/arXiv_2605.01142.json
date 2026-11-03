@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a density functional study of the electronic band structure and Fermi arc surface states of rhombohedral \u03b2-Cu2Se; it reports no ionic conductivity values of a solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 11634,
+        "outputTokens": 282,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 11824,
+        "webSearchRequests": 0,
+        "costUSD": 0.00370076,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 80,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11824,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 1917,
+    "notional_cost_usd": 0.00370076
+  },
+  "paper_id": "arXiv:2605.01142",
+  "model": "haiku"
+}

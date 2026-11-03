@@ -5,7 +5,7 @@ For each record, re-read the paper (not just the quote) and check:
 1. **Material**: does the conductivity belong to the material named in `material_as_written`? Watch for table rows that were shifted, values that belong to a neighbouring composition, or a host material confused with a doped one.
 2. **Conductivity**: are `conductivity_value_as_reported` and `conductivity_unit_as_reported` the value and unit the paper reports for that material? Is `conductivity_kind` (total, bulk, grain boundary) right?
 3. **Temperature**: is the measurement temperature right, or null when the paper does not give one?
-4. **Origin**: is `data_origin` right? A value from the introduction with a citation is `literature_cited`. A value from a simulation is `computational`.
+4. **Origin**: is `data_origin` right? `experimental` and `computational` are only for values measured or computed in this paper. Any value taken from an earlier publication is `literature_cited`, including the authors' own earlier work ("our previous work reported", "we recall from Ref. [26]"). Look at the sentence around the quote for a citation marker or such a phrase before accepting `experimental` or `computational`.
 5. **Secondary fields**: sintering temperature and time, relative density, activation energy, synthesis method, dopants. Each non-null value must be stated in the paper for this material.
 
 Verdicts:

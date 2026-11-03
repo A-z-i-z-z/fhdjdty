@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper concerns Mg2+ rather than Li+ or Na+ conduction, and its only conductivity figure is an upper bound (limit of detection ca. 1.4 \u00d7 10\u22128 S/cm) rather than a measured ionic conductivity of a solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 13349,
+        "outputTokens": 635,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 13539,
+        "webSearchRequests": 0,
+        "costUSD": 0.00439176,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 410,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13539,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3250,
+    "notional_cost_usd": 0.00439176
+  },
+  "paper_id": "arXiv:2508.16066",
+  "model": "haiku"
+}

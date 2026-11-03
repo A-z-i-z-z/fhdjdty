@@ -1,0 +1,78 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2412.02433#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states LIC has ionic conductivity \u223c1 mS/cm, with LIC cited to ref. 6 (Asano et al.), so the value is literature_cited and no temperature is given."
+      },
+      {
+        "record_id": "arXiv:2412.02433#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction says the LPSC family can reach \u223c10 mS/cm, with LPSC cited to ref. 7; LPSC is the representative member named in that sentence, so the literature_cited origin and null temperature are right."
+      },
+      {
+        "record_id": "arXiv:2412.02433#003",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "conductivity_value_as_reported",
+            "correct_value": "5 \u00d7 10-10 \u2212 3 \u00d7 10-9",
+            "evidence": "consistent with the experimentally measured low ionic conductivity of 5 \u00d7 10-10 \u2212 3 \u00d7 10-9 Scm-1.79,80"
+          }
+        ],
+        "explanation": "The paper reports a range of 5 \u00d7 10-10 to 3 \u00d7 10-9 S/cm for LiF, and the record keeps only the lower bound as a single value, so the conductivity is not what the paper reports."
+      },
+      {
+        "record_id": "arXiv:2412.02433#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The sentence lists the ~10-5, ~10-9, ~10-9 and ~10-7 S/cm values in the order Li2S, LiCl, LiBr, LiI, so Li2S ~10-5 S/cm is correct; these are experimental values cited to refs 80-83, so literature_cited is right."
+      },
+      {
+        "record_id": "arXiv:2412.02433#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "LiCl is the second value in the ordered list (~10-9 S/cm), which the paper attributes to experimental work cited to refs 80-83, so literature_cited is correct."
+      },
+      {
+        "record_id": "arXiv:2412.02433#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "LiBr is the third value in the ordered list (~10-9 S/cm), consistent with the paper's Li2S, LiCl, LiBr, LiI ordering and literature citations."
+      },
+      {
+        "record_id": "arXiv:2412.02433#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "LiI is the fourth value in the ordered list (~10-7 S/cm), matching the paper's experimental values cited to refs 80-83."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 21833,
+        "outputTokens": 2381,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 22023,
+        "webSearchRequests": 0,
+        "costUSD": 0.007798220000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1435,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22023,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9760,
+    "notional_cost_usd": 0.007798220000000001
+  },
+  "paper_id": "arXiv:2412.02433",
+  "model": "haiku"
+}

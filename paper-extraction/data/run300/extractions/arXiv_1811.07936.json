@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about lithium fast-ion conductors, but it reports migration energies, diffusivities and hopping frequencies rather than ionic conductivity values in S/cm, so no record meets the extraction criteria.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 25253,
+        "outputTokens": 838,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 25439,
+        "webSearchRequests": 0,
+        "costUSD": 0.00806366,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 638,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 25439,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4785,
+    "notional_cost_usd": 0.00806366
+  },
+  "paper_id": "arXiv:1811.07936",
+  "model": "haiku"
+}

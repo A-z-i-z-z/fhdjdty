@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies NaB3 under pressure and temperature by DFT and AIMD, and calls it a superionic conductor, but it reports no ionic conductivity value. Its only transport number is a diffusion constant (0.69 \u00d7 10^-8 m2 s-1 at 3000 K), which is not a conductivity.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 13630,
+        "outputTokens": 458,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 13822,
+        "webSearchRequests": 0,
+        "costUSD": 0.00438796,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 223,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13822,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2687,
+    "notional_cost_usd": 0.00438796
+  },
+  "paper_id": "arXiv:2102.08541",
+  "model": "haiku"
+}

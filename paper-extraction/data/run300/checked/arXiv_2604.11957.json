@@ -1,0 +1,282 @@
+[
+  {
+    "record_id": "arXiv:2604.11957#001",
+    "paper_id": "arXiv:2604.11957",
+    "record": {
+      "material_as_written": "Li2 MnCl4",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state synthesis (automated, A-Lab GPSS)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "5.59 \u00d7 10\u22124",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "the initial test includes ionic conductivities for the nominal endmembers Li2 MnCl4 (5.59 \u00d7 10\u22124 mS/cm) and Li2 FeCl4 (1.14 \u00d7 10\u22122 mS/cm).",
+      "evidence_location": "results (Section 2.4)",
+      "notes": "Measurement temperature not stated. The supplement (Table S11 trajectory, Index 29) lists Li2MnCl4 at 5.95 \u00d7 10\u22126 S/cm, which conflicts with this value; the main-text value is quoted here."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 5.59e-07,
+    "log10_conductivity": -6.253
+  },
+  {
+    "record_id": "arXiv:2604.11957#002",
+    "paper_id": "arXiv:2604.11957",
+    "record": {
+      "material_as_written": "Li2 FeCl4",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state synthesis (automated, A-Lab GPSS)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.14 \u00d7 10\u22122",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "the initial test includes ionic conductivities for the nominal endmembers Li2 MnCl4 (5.59 \u00d7 10\u22124 mS/cm) and Li2 FeCl4 (1.14 \u00d7 10\u22122 mS/cm).",
+      "evidence_location": "results (Section 2.4)",
+      "notes": "Measurement temperature not stated. Supplement lists 1.14 \u00d7 10\u22125 S/cm for Li2FeCl4 (Index 28), consistent with this value."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1.14e-05,
+    "log10_conductivity": -4.943
+  },
+  {
+    "record_id": "arXiv:2604.11957#003",
+    "paper_id": "arXiv:2604.11957",
+    "record": {
+      "material_as_written": "Li1.8 Fe0.8 In0.2 Cl4",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "In"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state synthesis (automated, A-Lab GPSS)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.72 \u00d7 10\u22122",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "Li1.8 Fe0.8 In0.2 Cl4 (2.72 \u00d7 10\u22122 mS/cm, compared to Li2 FeCl4 )",
+      "evidence_location": "results (Section 2.4)",
+      "notes": "Measurement temperature not stated. Supplement lists 2.15 \u00d7 10\u22125 S/cm for this composition at 450 \u00b0C (Index 20), a different sample from the value quoted here."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 2.72e-05,
+    "log10_conductivity": -4.565
+  },
+  {
+    "record_id": "arXiv:2604.11957#004",
+    "paper_id": "arXiv:2604.11957",
+    "record": {
+      "material_as_written": "Li1.8 Fe1.1 Cl4",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state synthesis (automated, A-Lab GPSS)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "4.30 \u00d7 10\u22122",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "The resulting conductivity increased further to 4.30 \u00d7 10\u22122 mS/cm (nearly fourfold relative to Li2 FeCl4 ).",
+      "evidence_location": "results (Section 2.4)",
+      "notes": "Composition named earlier in the same paragraph as 'Li1.8 Fe1.1 Cl4'. Measurement temperature not stated. Supplement gives 4.30 \u00d7 10\u22125 S/cm (Index 194), consistent."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 4.3e-05,
+    "log10_conductivity": -4.367
+  },
+  {
+    "record_id": "arXiv:2604.11957#005",
+    "paper_id": "arXiv:2604.11957",
+    "record": {
+      "material_as_written": "Li1.8 Mn1.1 Cl4",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state synthesis (automated, A-Lab GPSS)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.75 \u00d7 10\u22122",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "ultimately achieving a leap to 1.75 \u00d7 10\u22122 mS/cm (over an order-of-magnitude improvement of Li2 MnCl4 \u2019s",
+      "evidence_location": "results (Section 2.4)",
+      "notes": "Composition named in the preceding clause ('designed Li1.8 Mn1.1 Cl4'). Measurement temperature not stated. Supplement gives 1.75 \u00d7 10\u22125 S/cm (Index 250), consistent."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 1.75e-05,
+    "log10_conductivity": -4.757
+  },
+  {
+    "record_id": "arXiv:2604.11957#006",
+    "paper_id": "arXiv:2604.11957",
+    "record": {
+      "material_as_written": "Li1.45 Mn0.45 Sc0.55 Cl4",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Sc"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state synthesis (automated, A-Lab GPSS)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.144",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "Li1.45 Mn0.45 Sc0.55 Cl4 (0.144 mS/cm, Supplementary Note S10)",
+      "evidence_location": "results (Section 2.3)",
+      "notes": "Measurement temperature not stated. Supplement lists 1.44 \u00d7 10\u22124 S/cm for this composition at 500 \u00b0C (Index 318), consistent."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.000144,
+    "log10_conductivity": -3.842
+  },
+  {
+    "record_id": "arXiv:2604.11957#007",
+    "paper_id": "arXiv:2604.11957",
+    "record": {
+      "material_as_written": "Li1.5 Mn0.25 Fe0.25 Y0.25 In0.25 Cl4",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Y",
+        "In"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state synthesis (automated, A-Lab GPSS)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.136",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "Li1.5 Mn0.25 Fe0.25 Y0.25 In0.25 Cl4 (0.136 mS/cm, Supplementary Note S9)",
+      "evidence_location": "results (Section 2.3)",
+      "notes": "Mn and Fe are host metals in this multi-cation composition; Y and In are treated as the substituents. Sample has a secondary Li3YCl6/Li3InCl6 phase per the paper. Measurement temperature not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.000136,
+    "log10_conductivity": -3.866
+  }
+]

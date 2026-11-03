@@ -1,0 +1,115 @@
+[
+  {
+    "record_id": "arXiv:1702.04009#001",
+    "paper_id": "arXiv:1702.04009",
+    "record": {
+      "material_as_written": "LPZ-300 (Li2PO2N), non-air-exposed",
+      "material_class": "LiPON_or_thin_film",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "atomic layer deposition (LiOtBu + DEPA)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "6.51 (\u00b10.36) \u00d7 10\u22127",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": "35C",
+      "measurement_temperature_C": 35,
+      "activation_energy_eV": 0.55,
+      "measurement_method": "PEIS",
+      "evidence_quote": "6.51 (\u00b10.36) \u00d7 10\u22127 S/cm at 35C, and are functionally",
+      "evidence_location": "abstract",
+      "notes": "Value is for the Pt/Li2PO2N/Li half cell made without air exposure (bulk resistance Rb). Films grown at 300C; deposition temperature is not a sintering temperature so sintering fields are null. Activation energy 0.55 \u00b1 0.01 eV is from the same non-air-exposed LPZ-300 sample (results section)."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 1e-07,
+    "log10_conductivity": -7.0
+  },
+  {
+    "record_id": "arXiv:1702.04009#002",
+    "paper_id": "arXiv:1702.04009",
+    "record": {
+      "material_as_written": "LPZ-300 (Li2PO2N), air-exposed, total",
+      "material_class": "LiPON_or_thin_film",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "atomic layer deposition (LiOtBu + DEPA)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.6 (\u00b10.1) \u00d7 10\u22127",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": "S/cm for LPZ-300 and 1.4 (\u00b10.14) \u00d7 10\u22127 S/cm",
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "35C",
+      "measurement_temperature_C": 35,
+      "activation_energy_eV": 0.64,
+      "measurement_method": "PEIS",
+      "evidence_quote": "is 1.6 (\u00b10.1) \u00d7 10\u22127",
+      "evidence_location": "results",
+      "notes": "Total conductivity from the equivalent-circuit fit (Rr + Rb) of Pt/80nm LPZ-300/Pt stacks that were briefly air-exposed; the unit S/cm sits on the next line in the PDF text. Activation energy 0.64 \u00b1 0.01 eV is for air-exposed LPZ-300. Temperature 35C is stated in the same sentence group."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 1e-07,
+    "log10_conductivity": -7.0
+  },
+  {
+    "record_id": "arXiv:1702.04009#003",
+    "paper_id": "arXiv:1702.04009",
+    "record": {
+      "material_as_written": "LPZ-250 (Li2PO2N), air-exposed, total",
+      "material_class": "LiPON_or_thin_film",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "atomic layer deposition (LiOtBu + DEPA)",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.4 (\u00b10.14) \u00d7 10\u22127",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "35C",
+      "measurement_temperature_C": 35,
+      "activation_energy_eV": null,
+      "measurement_method": "PEIS",
+      "evidence_quote": "for LPZ-300 and 1.4 (\u00b10.14) \u00d7 10\u22127 S/cm",
+      "evidence_location": "results",
+      "notes": "Total conductivity of the 70nm LPZ-250 film from the equivalent-circuit fit, stated as measured at 35C in the following sentence. No activation energy is given for LPZ-250."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 1e-07,
+    "log10_conductivity": -7.0
+  }
+]

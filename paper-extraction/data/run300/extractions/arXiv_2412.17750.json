@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a theoretical electrical double layer model paper; it discusses ionic conductivity only as relative values shown in figures and never reports a numeric ionic conductivity for a specific solid electrolyte.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17122,
+        "outputTokens": 362,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 17306,
+        "webSearchRequests": 0,
+        "costUSD": 0.0053859599999999995,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 169,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17306,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2015,
+    "notional_cost_usd": 0.0053859599999999995
+  },
+  "paper_id": "arXiv:2412.17750",
+  "model": "haiku"
+}

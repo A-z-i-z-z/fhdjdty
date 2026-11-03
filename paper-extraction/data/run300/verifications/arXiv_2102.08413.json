@@ -1,0 +1,78 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2102.08413#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Table in Fig. 5 gives 7.51 (\u03c3) for Li7P3S11 with MTP_PBE,optB88, and the text says \u03c3300K is 7.51 mS cm\u22121 from MD at 300K, so the value, unit, material and computational origin are correct."
+      },
+      {
+        "record_id": "arXiv:2102.08413#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Fig. 5 table gives 6.50 (\u03c3*) for Li7P3S11 at 300K from this paper's MTP_PBE,optB88 MD, so the value and computational origin are right; leaving the kind as unspecified is acceptable."
+      },
+      {
+        "record_id": "arXiv:2102.08413#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction attributes the 57 mS cm\u22121 room-temperature AIMD prediction for Li7P3S11 to Chu et al. [13], so literature_cited is correct and the value and unit match."
+      },
+      {
+        "record_id": "arXiv:2102.08413#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper cites 17 mS cm\u22121 as the highest experimental room-temperature conductivity of Li7P3S11 from ref. [10], which matches the record's literature_cited origin and value; the EIS label is a minor method gloss rather than a stated fact."
+      },
+      {
+        "record_id": "arXiv:2102.08413#005",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_as_reported",
+            "correct_value": "300K",
+            "evidence": "Li3 YCl6 ... \u03c3300K (mS cm\u22121) | 14 [29]"
+          }
+        ],
+        "explanation": "The value 14 mS cm\u22121 for Li3YCl6 from Wang et al. [29] is reported in the paper's \u03c3300K row, so the temperature is 300 K rather than null, and the record's temperature is wrong."
+      },
+      {
+        "record_id": "arXiv:2102.08413#006",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_as_reported",
+            "correct_value": "300K",
+            "evidence": "Li3 YCl6 ... \u03c3300K (mS cm\u22121) ... 0.51 [21]"
+          }
+        ],
+        "explanation": "The 0.51 mS cm\u22121 value for Li3YCl6 from Asano et al. [21] is listed under the \u03c3300K heading and the intro calls it a room-temperature conductivity, so a null temperature is not correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 35403,
+        "outputTokens": 4514,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 35591,
+        "webSearchRequests": 0,
+        "costUSD": 0.01293532,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 3578,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 35591,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 19393,
+    "notional_cost_usd": 0.01293532
+  },
+  "paper_id": "arXiv:2102.08413",
+  "model": "haiku"
+}

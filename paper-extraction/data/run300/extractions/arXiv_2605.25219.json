@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a DFT study of NASICON cathodes for sodium-ion batteries. It reports computed Na+ migration barriers (Em) and voltages but no ionic conductivity values, so it has no conductivity records to extract.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 21556,
+        "outputTokens": 351,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 21746,
+        "webSearchRequests": 0,
+        "costUSD": 0.00671186,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 142,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 21746,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2285,
+    "notional_cost_usd": 0.00671186
+  },
+  "paper_id": "arXiv:2605.25219",
+  "model": "haiku"
+}

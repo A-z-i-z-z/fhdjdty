@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about NASICON Na3V2-xCox(PO4)3/C as a sodium-ion battery cathode and reports capacities, rate performance and Na diffusion coefficients (cm2 s-1), but no ionic conductivity values of a solid electrolyte.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 34986,
+        "outputTokens": 462,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 35172,
+        "webSearchRequests": 0,
+        "costUSD": 0.010795560000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 230,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 35172,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3111,
+    "notional_cost_usd": 0.010795560000000001
+  },
+  "paper_id": "arXiv:2405.05559",
+  "model": "haiku"
+}

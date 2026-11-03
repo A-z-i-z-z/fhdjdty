@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2312.06083#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 5 path A row for Na4OBr2 gives 2.921 \u00c5, 0.43 eV and 1.48\u00d710-6 S\u00b7cm-1. The conductivity is computed in this paper with T fixed at 298 K, so origin is computational and the temperature is correct."
+      },
+      {
+        "record_id": "arXiv:2312.06083#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 5 path A row for Na4O(BH4)2 gives 0.32 eV and 1.13\u00d710-4 S\u00b7cm-1. The 298 K temperature and computational origin are correct, and the secondary fields are null or correctly stated."
+      },
+      {
+        "record_id": "arXiv:2312.06083#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract states 'ionic conductivity of 1.09 \u00d7 10\u22124 S cm\u22121' for Na4O(BH4)2, matching Table 5 path B. It is this paper's own computed value, and leaving the temperature null is correct because the abstract gives none."
+      },
+      {
+        "record_id": "arXiv:2312.06083#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 5 path A row for Na4O(BF4)2 gives 3.115 \u00c5, 0.54 eV and 8.16\u00d710-8 S\u00b7cm-1. Computational origin and the 298 K temperature are correct."
+      },
+      {
+        "record_id": "arXiv:2312.06083#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 5 path A row for Na4O(AlH4)2 gives 3.359 \u00c5, 0.55 eV and 1.93\u00d710-8 S\u00b7cm-1. Computational origin and the 298 K temperature are correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18557,
+        "outputTokens": 1825,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 18747,
+        "webSearchRequests": 0,
+        "costUSD": 0.00653742,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1115,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18747,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7549,
+    "notional_cost_usd": 0.00653742
+  },
+  "paper_id": "arXiv:2312.06083",
+  "model": "haiku"
+}

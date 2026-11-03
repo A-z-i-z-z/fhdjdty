@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper concerns solid electrolytes (AgI, Na3SbS4, Na3-xSb1-xWxS4, \u03b3-Na3PS4) but reports no ionic conductivity values; it only gives Raman spectra, VDOS, MSDs, and qualitative conduction mechanisms.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 21732,
+        "outputTokens": 702,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 21924,
+        "webSearchRequests": 0,
+        "costUSD": 0.00694056,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 472,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 21924,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2290,
+    "notional_cost_usd": 0.00694056
+  },
+  "paper_id": "arXiv:2511.21404",
+  "model": "haiku"
+}

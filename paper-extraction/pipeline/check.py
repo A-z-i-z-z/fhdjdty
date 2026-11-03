@@ -39,6 +39,8 @@ def parse_conductivity(s: str) -> float | None:
     or mangled value is rejected rather than guessed at.
     """
     t = norm_chars(s).replace("{", "").replace("}", "")
+    # Ω⁻¹ cm⁻¹ is S/cm. Only the bare form: "mΩ⁻¹" would mean kS, which no paper intends.
+    t = re.sub(r"(?<![A-Za-z])(?:Ω|ohm)\s*\^?\s*-\s*1", "S", t, flags=re.I)
     u = _UNIT_RE.search(t)
     if not u:
         return None

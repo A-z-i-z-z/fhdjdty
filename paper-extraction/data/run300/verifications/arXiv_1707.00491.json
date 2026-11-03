@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1707.00491#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section III.B.4 says conductivities 'as high as 1.3 \u00d7 10\u22123 S cm\u22121 have been reported.74,75' for Li6.55Ga0.15La3Zr2O12, so the value and unit match, the cited refs make literature_cited correct, and no measurement temperature is given. All secondary fields are null, which is correct because the paper gives no synthesis or processing details for this material."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 33813,
+        "outputTokens": 860,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 34005,
+        "webSearchRequests": 0,
+        "costUSD": 0.01063212,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 609,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 34005,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4516,
+    "notional_cost_usd": 0.01063212
+  },
+  "paper_id": "arXiv:1707.00491",
+  "model": "haiku"
+}

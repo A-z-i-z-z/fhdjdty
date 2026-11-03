@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1902.06831#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table I lists the conductivity column in composition order (Not measurable, 5.0 x 10-6, 7.2 x 10-6, 2.0 x 10-4, 1.2 x 10-5), so 5.0 x 10-6 S/cm belongs to x=0.25 (Li6.75La3Zr1.75Bi0.25O12). The 27 \u00b0C measurement, AC impedance, Pechini synthesis and 900 \u00b0C / 10 h sintering all match the paper, and the null relative density is acceptable because the table gives only a fraction."
+      },
+      {
+        "record_id": "arXiv:1902.06831#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The fourth Table I entry in composition order, 7.2 x 10-6 S/cm, maps to x=0.5 (Li6.5La3Zr1.5Bi0.5O12). Temperature, origin (measured in this work), Pechini method and 900 \u00b0C / 10 h sintering are all supported."
+      },
+      {
+        "record_id": "arXiv:1902.06831#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The value 2.0 x 10-4 S/cm is the x=0.75 entry (Li6.25La3Zr1.25Bi0.75O12) in Table I. The text independently states that this composition has the highest measured ionic conductivity, which confirms the mapping. Other fields match the paper."
+      },
+      {
+        "record_id": "arXiv:1902.06831#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The last entry, 1.2 x 10-5 S/cm, corresponds to x=1.0 (Li6La3ZrBiO12) in Table I. The 27 \u00b0C measurement, experimental origin, total conductivity kind and processing conditions all match the paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 11070,
+        "outputTokens": 1990,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 11262,
+        "webSearchRequests": 0,
+        "costUSD": 0.00437422,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1262,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11262,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8337,
+    "notional_cost_usd": 0.00437422
+  },
+  "paper_id": "arXiv:1902.06831",
+  "model": "haiku"
+}

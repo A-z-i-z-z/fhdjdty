@@ -1,0 +1,78 @@
+[
+  {
+    "record_id": "arXiv:2511.08449#001",
+    "paper_id": "arXiv:2511.08449",
+    "record": {
+      "material_as_written": "Mg0.25 NZSP",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Mg"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "swirling spray flame synthesis followed by reactive two-step sintering",
+      "sintering_temperature_C": 1100,
+      "sintering_time_h": 12,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.91",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "25\u2103",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.2,
+      "measurement_method": "EIS",
+      "evidence_quote": "reaching a maximum of 1.91 mS/cm for Mg0.25 NZSP, which is a significant enhancement compared to the undoped sample (0.62 mS/cm)",
+      "evidence_location": "Section 2.3 Electrical Conductivity",
+      "notes": "Sintered at 1200/1100\u2103-12h (heated to 1200\u2103, then held at 1100\u2103 for 12 h); the sintering_temperature_C field holds the 1100\u2103 hold temperature. Activation energy 0.200 eV is from the abstract and the Results text for this same sample. The paper calls the value 'ionic conductivity' without splitting bulk/grain boundary; kind set to total."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00191,
+    "log10_conductivity": -2.719
+  },
+  {
+    "record_id": "arXiv:2511.08449#002",
+    "paper_id": "arXiv:2511.08449",
+    "record": {
+      "material_as_written": "Mg0 NZSP",
+      "material_class": "NASICON",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "swirling spray flame synthesis followed by reactive two-step sintering",
+      "sintering_temperature_C": 1100,
+      "sintering_time_h": 12,
+      "relative_density_pct": 96.4,
+      "conductivity_value_as_reported": "0.62",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "25\u2103",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "reaching a maximum of 1.91 mS/cm for Mg0.25 NZSP, which is a significant enhancement compared to the undoped sample (0.62 mS/cm)",
+      "evidence_location": "Section 2.3 Electrical Conductivity",
+      "notes": "Undoped reference sample, sintered at 1200/1100\u2103-12h (1100\u2103 hold in the sintering_temperature_C field). Relative density 96.4% is stated for Mg0 NZSP at 1200/1100\u2103-12h. Activation energy for Mg0 is not given in the text (only in Figure 3e/Table S1)."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00062,
+    "log10_conductivity": -3.208
+  }
+]

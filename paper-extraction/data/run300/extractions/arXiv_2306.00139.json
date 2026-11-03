@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a molecular dynamics study of superionic AgI (Ag+ conductor, not Li/Na) and reports no numerical ionic conductivity value; it only says AgI is \"no longer conductive\" at 100 K, with the data deferred to the SI.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 11689,
+        "outputTokens": 658,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 11879,
+        "webSearchRequests": 0,
+        "costUSD": 0.0039052600000000007,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 448,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11879,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2700,
+    "notional_cost_usd": 0.0039052600000000007
+  },
+  "paper_id": "arXiv:2306.00139",
+  "model": "haiku"
+}

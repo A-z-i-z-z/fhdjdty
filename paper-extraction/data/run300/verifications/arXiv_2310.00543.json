@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2310.00543#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The ~10^-3 S/cm ionic conductivity is attributed to LLTO and comes from the authors' earlier PLD work (ref. 45), which the paper describes as previously developed, so literature_cited is the correct origin. The unit is S/cm, the conductivity kind is unspecified, and the temperature is correctly null since none is given for this value."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14519,
+        "outputTokens": 850,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 14707,
+        "webSearchRequests": 0,
+        "costUSD": 0.0048381200000000004,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 616,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14707,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4059,
+    "notional_cost_usd": 0.0048381200000000004
+  },
+  "paper_id": "arXiv:2310.00543",
+  "model": "haiku"
+}

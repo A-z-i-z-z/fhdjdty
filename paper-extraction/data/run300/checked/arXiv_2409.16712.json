@@ -1,0 +1,156 @@
+[
+  {
+    "record_id": "arXiv:2409.16712#001",
+    "paper_id": "arXiv:2409.16712",
+    "record": {
+      "material_as_written": "Li1.0AlO0.75Cl2.5 (model 1, 3x3x3 supercell, re-melted and quenched)",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "O"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "12",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": null,
+      "measurement_method": "MLIP-based MD (MSD)",
+      "evidence_quote": "The ionic conductivity of 12 mS/cm and 17 mS/cm was obtained for model 1 and model 2, respectively",
+      "evidence_location": "results (MLIP-based MD section)",
+      "notes": "Value for model 1 from MLIP-based MD of a 3x3x3 expanded cell at 300 K; the 300K temperature is taken from the surrounding text of the same section. Amorphous model, not an experimental sample."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.012,
+    "log10_conductivity": -1.921
+  },
+  {
+    "record_id": "arXiv:2409.16712#002",
+    "paper_id": "arXiv:2409.16712",
+    "record": {
+      "material_as_written": "Li1.0AlO0.75Cl2.5 (model 2, 3x3x3 supercell, direct MLIP-based MD at 300 K)",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "O"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "17",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": null,
+      "measurement_method": "MLIP-based MD (MSD)",
+      "evidence_quote": "The ionic conductivity of 12 mS/cm and 17 mS/cm was obtained for model 1 and model 2, respectively",
+      "evidence_location": "results (MLIP-based MD section)",
+      "notes": "Value for model 2 from MLIP-based MD of a 3x3x3 expanded cell at 300 K; the 300K temperature is taken from the surrounding text of the same section. Amorphous model, not an experimental sample."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.017,
+    "log10_conductivity": -1.77
+  },
+  {
+    "record_id": "arXiv:2409.16712#003",
+    "paper_id": "arXiv:2409.16712",
+    "record": {
+      "material_as_written": "Li1.75ZrCl4.75O0.5",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.42",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "Hu et al.[24] synthesized partially amorphous oxychloride Li1.75ZrCl4.75O0.5 which shows an ionic conductivity of 2.42 mS cm\u22121 at room temperature.",
+      "evidence_location": "introduction",
+      "notes": "Value quoted from Hu et al. (ref 24), not measured in this paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00242,
+    "log10_conductivity": -2.616
+  },
+  {
+    "record_id": "arXiv:2409.16712#004",
+    "paper_id": "arXiv:2409.16712",
+    "record": {
+      "material_as_written": "Li1.0AlO0.75Cl2.5",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "O"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "the ionic conductivity at room temperature of Li1.0AlO0.75Cl2.5 reached ~1 mS cm\u22121",
+      "evidence_location": "introduction",
+      "notes": "Value quoted from Dai et al. (ref 26) and reported there as approximate (~1 mS cm\u22121); not measured in this paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.001,
+    "log10_conductivity": -3.0
+  }
+]

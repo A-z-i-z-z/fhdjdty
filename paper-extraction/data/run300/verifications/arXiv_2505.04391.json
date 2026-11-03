@@ -1,0 +1,108 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2505.04391#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 5.1 \u00d7 10\u207b\u2074 S cm\u207b\u00b9 at 25\u00b0C value for the PVdF-tetraglyme-NaCF3SO3 GPE is attributed to Park et al. [157], so literature_cited is correct, and all secondary fields are null as the paper does not give them."
+      },
+      {
+        "record_id": "arXiv:2505.04391#002",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": null,
+            "evidence": "Table 3 row: \"Na3PS4 2.0 \u00d7 10-4 (RT) [180]\""
+          }
+        ],
+        "explanation": "The value 2.0 \u00d7 10\u207b\u2074 S cm\u207b\u00b9 for cubic Na3PS4 is correctly cited to ref [180], but the paper's Table 3 gives this value at RT, so recording the temperature as null is wrong and the record is not right on temperature."
+      },
+      {
+        "record_id": "arXiv:2505.04391#003",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_as_reported",
+            "correct_value": "RT",
+            "evidence": "Table 3 row: \"Na15Sn4 Na3PS4 (cubic phase) 4.6 \u00d7 10-4 (RT) [181]\""
+          }
+        ],
+        "explanation": "The 4.6 \u00d7 10\u207b\u2074 S cm\u207b\u00b9 cubic Na3PS4 value is correctly cited to ref [181], but Table 3 gives its temperature as RT, so the null temperature is not supported."
+      },
+      {
+        "record_id": "arXiv:2505.04391#004",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 25,
+            "evidence": "Table 3 row: \"Na metal NaCrO2 Na3PS4 (tetragonal phase III) 3.39 \u00d7 10-3 (25\u00b0C) [182]\""
+          }
+        ],
+        "explanation": "The 3.39 \u00d7 10\u207b\u00b3 S cm\u207b\u00b9 tetragonal Na3PS4 value is correctly attributed to Takeuchi et al. [182], but Table 3 reports it at 25\u00b0C, so the null temperature is wrong."
+      },
+      {
+        "record_id": "arXiv:2505.04391#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 1.1 mS cm\u207b\u00b9 conductivity for Na3SbS4 is cited to ref [191] and no temperature is given in the paper for this value, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2505.04391#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 3.2 \u00d7 10\u207b\u00b2 S cm\u207b\u00b9 value for Na2.88Sb0.88W0.12S4 is attributed to Hayashi et al. [193] with no temperature stated, and the W dopant is correct."
+      },
+      {
+        "record_id": "arXiv:2505.04391#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 1.25 \u00d7 10\u207b\u00b2 S cm\u207b\u00b9 value for Na2.88Sb0.88W0.12S4 from the polysulfide liquid-form route is cited to [194], and the 25\u00b0C temperature matches the Table 3 row for [194]."
+      },
+      {
+        "record_id": "arXiv:2505.04391#008",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 1.14 \u00d7 10\u207b\u00b3 S cm\u207b\u00b9 value for Na2.9375PS3.9375Cl0.0625 is cited to [185], the Cl dopant is correct, and the 30\u00b0C temperature matches Table 3."
+      },
+      {
+        "record_id": "arXiv:2505.04391#010",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "material_as_written",
+            "correct_value": "Na3SbS4 (cubic and tetragonal phases, ball milled 20 h)",
+            "evidence": "\"H. Gamo et al. reported a Na3SbS4 solid electrolyte featuring crystallites in both cubic and tetragonal phase showing a RT conductivity of 3.1 \u00d7 10-3 S \u2022 cm-1 after ball milling of 20 h [195]\""
+          }
+        ],
+        "explanation": "The material field is a placeholder that does not name the material; the quoted value belongs to Na3SbS4, not a halide-substituted Na3PS4, so the material is wrong as written."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 41068,
+        "outputTokens": 5299,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 41260,
+        "webSearchRequests": 0,
+        "costUSD": 0.01502812,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 3748,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 41260,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 21055,
+    "notional_cost_usd": 0.01502812
+  },
+  "paper_id": "arXiv:2505.04391",
+  "model": "haiku"
+}

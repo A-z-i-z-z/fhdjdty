@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about oxygen ion conductors (O2-), and the schema scope covers only solid Li- or Na-ion conductors, so no records were extracted.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 22346,
+        "outputTokens": 533,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 22534,
+        "webSearchRequests": 0,
+        "costUSD": 0.007039460000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 350,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22534,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3191,
+    "notional_cost_usd": 0.007039460000000001
+  },
+  "paper_id": "arXiv:2601.16852",
+  "model": "haiku"
+}

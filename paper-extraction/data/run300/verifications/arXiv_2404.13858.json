@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2404.13858#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states Li3P has s = 1.0 x 10^-3 S/cm, and the Section 2 text says the RT conductivities were collected from previous literature (Table S1), so literature_cited is right. Conductivity is at RT per the paper, and all secondary fields are null, which is acceptable."
+      },
+      {
+        "record_id": "arXiv:2404.13858#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states b-Li3N has s = 2.085 x 10^-4 S/cm, taken from the authors' compiled RT literature dataset (Table S1), so literature_cited is right. Secondary fields are null and the RT context matches the paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14803,
+        "outputTokens": 1138,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 14995,
+        "webSearchRequests": 0,
+        "costUSD": 0.00506812,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 786,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14995,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5177,
+    "notional_cost_usd": 0.00506812
+  },
+  "paper_id": "arXiv:2404.13858",
+  "model": "haiku"
+}

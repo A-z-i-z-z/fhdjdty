@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1912.09777#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The quoted sentence gives the ionic conductivity of CsPbI3 as 1x10-10 S/cm, which matches the record. The 40\u00b0C dark measurement temperature is stated in the Fig. 1 caption, and the experimental origin is correct. The 350\u00b0C anneal is a thin-film processing step, so leaving sintering fields null is acceptable."
+      },
+      {
+        "record_id": "arXiv:1912.09777#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The quoted sentence gives the FAPbI3 ionic conductivity as 2x10-9 S/cm, and the 40\u00b0C temperature comes from the Fig. 1 caption. The 0.6 eV activation energy is stated in the main text for FAPbI3 (\"~0.6 eV, see SI\"), so it is supported even though the SI measurement used a different iodine partial pressure."
+      },
+      {
+        "record_id": "arXiv:1912.09777#003",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "activation_energy_eV",
+            "correct_value": null,
+            "evidence": "lower activation energy (0.4 eV) 7,19 than FAPbI3 (~0.6 eV, see SI)"
+          }
+        ],
+        "explanation": "The 1x10-8 S/cm value is only tied to 'under the same conditions', and the 40\u00b0C temperature is inferred rather than stated for MAPbI3, so the material, temperature and origin are not clearly established. The 0.4 eV activation energy is explicitly cited to refs 7 and 19, so it is literature-cited and should not be recorded as a value from this paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 27472,
+        "outputTokens": 3646,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 27660,
+        "webSearchRequests": 0,
+        "costUSD": 0.01012202,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2986,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27660,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 15829,
+    "notional_cost_usd": 0.01012202
+  },
+  "paper_id": "arXiv:1912.09777",
+  "model": "haiku"
+}

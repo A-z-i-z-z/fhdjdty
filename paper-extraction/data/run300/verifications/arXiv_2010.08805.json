@@ -1,0 +1,66 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2010.08805#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.2 gives 3.26 mS cm-1 at 35 \u2103 for Li6PS5Cl as the experimental value, compared against the AIMD prediction of 3.23. The Ea of 0.25 eV and the 530 \u00b0C / 10 h anneal from Methods also match."
+      },
+      {
+        "record_id": "arXiv:2010.08805#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.2 reports 2.8 mS cm-1 at 35 \u2103 for Li6.25PS4O1.25Cl0.75 as measured, with Ea = 0.33 eV, and the anneal conditions are from Methods."
+      },
+      {
+        "record_id": "arXiv:2010.08805#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the Li6.25PS4O1.25Cl0.75 conductivity at -20 \u2103 is 1.49 mS cm-1, measured experimentally, and the conclusion repeats it. No activation energy is given for this value, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2010.08805#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The sentence 'comparable with that of the pristine Li6PS5Cl sulfide (2.32 mS cm-1)' gives 2.32 mS cm-1 for pristine Li6PS5Cl at -20 \u2103, which is the temperature of the preceding sentence. The material, value and origin are correct."
+      },
+      {
+        "record_id": "arXiv:2010.08805#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.3 reports 1.5 mS cm-1 at room temperature for the post-annealed Li6.25PS4O1.25Cl0.75 after humid-air exposure, measured in this work. Null for the temperature number and for the sintering fields is consistent with the paper."
+      },
+      {
+        "record_id": "arXiv:2010.08805#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction attributes the 12 mS cm-1 room-temperature conductivity of Li5.5PS4.5Cl1.5 to an earlier report ([51]), so literature_cited is the correct origin and the record's fields are otherwise consistent."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 24790,
+        "outputTokens": 2647,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 24982,
+        "webSearchRequests": 0,
+        "costUSD": 0.00881872,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1778,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 24982,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10699,
+    "notional_cost_usd": 0.00881872
+  },
+  "paper_id": "arXiv:2010.08805",
+  "model": "haiku"
+}

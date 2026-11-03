@@ -1,0 +1,98 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports Li-ion conductivities of the solid electrolyte LiTi2(PS4)3 from impedance spectroscopy, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "LiTi2(PS4)3",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction with planetary ball milling, then hot pressing and sealed-tube annealing with sulfur",
+        "sintering_temperature_C": 400,
+        "sintering_time_h": 8,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "6.1",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "300K",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.277,
+        "measurement_method": "EIS",
+        "evidence_quote": "found a lithium grain ionic conductivity of 6.1 mS/cm at 300K (Fig. S4, S5)",
+        "evidence_location": "results",
+        "notes": "Grain (bulk) conductivity. The 300 K value is an Arrhenius extrapolation (SI). The reported 300K temperature is kept as text; 300 K was not converted to Celsius. Activation energy 277 meV is from the grain conductivity Arrhenius fit (SI). Pellet was hot pressed at 200 C and then annealed at 400 C for 8 h (SI, Impedance spectroscopy)."
+      },
+      {
+        "material_as_written": "LiTi2(PS4)3",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction with planetary ball milling, then hot pressing and sealed-tube annealing with sulfur",
+        "sintering_temperature_C": 400,
+        "sintering_time_h": 8,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.25",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "300K",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS",
+        "evidence_quote": "0.25 mS/cm at 300K. Such resistive grain boundaries are often found in superionic conductors",
+        "evidence_location": "Supplementary Information, Impedance spectroscopy",
+        "notes": "Total conductivity including grain boundary resistance, from the SI. The quote begins after a line break in the PDF text where the symbol sigma_total appeared as 'total ='. Electronic conductivity (8.2e-8 S/cm) is excluded."
+      },
+      {
+        "material_as_written": "LGPS",
+        "material_class": "LISICON",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "12",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "such as LGPS (12 mS/cm)9",
+        "evidence_location": "results",
+        "notes": "Value for Li10GeP2S12 cited from ref. 9 (Kamaya et al.) for comparison; not measured in this paper. Temperature and conductivity kind not stated. Material class LGPS is a thio-LISICON-type structure family."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 34012,
+        "outputTokens": 2892,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 34202,
+        "webSearchRequests": 0,
+        "costUSD": 0.011719160000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1498,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 34202,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11555,
+    "notional_cost_usd": 0.011719160000000001
+  },
+  "paper_id": "arXiv:1708.02997",
+  "model": "haiku"
+}

@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper studies Li-ion conducting glass-ceramic (NASICON-type) solid electrolytes for gating and reports one room-temperature ionic conductivity, cited from the supplier.",
+    "records": [
+      {
+        "material_as_written": "LICGC (AG-01 and LASPT) Li2O-Al2O3-SiO2-P2O5-TiO2-GeO2 / Li2O-Al2O3-SiO2-P2O5-TiO2",
+        "material_class": "NASICON",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1-4 \u00d7 10\u22124",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "(1-4 \u00d7 10\u22124 S/cm256 ) comparable to those of liquid",
+        "evidence_location": "Results section, first paragraph (LICGC description)",
+        "notes": "Value is a range (1-4 x 10^-4) cited from supplier Ohara (ref. 56), not measured in this paper; it applies to the LICGC substrates generally rather than a single composition. Other conductivities in the paper (sigma_2p, sigma_4p of WSe2/MoS2 channels, ~30-50 \u00b5S) are electronic transistor channel conductances and were excluded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 25727,
+        "outputTokens": 1476,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 25917,
+        "webSearchRequests": 0,
+        "costUSD": 0.008525660000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 786,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 25917,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6821,
+    "notional_cost_usd": 0.008525660000000001
+  },
+  "paper_id": "arXiv:2302.11967",
+  "model": "haiku"
+}

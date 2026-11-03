@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a kinetic Monte Carlo simulation of Ag filament growth and rupture in an Ag/TiOx/Pt resistive switching cell; its only conductivity number (TiOx \u03c3 = 1\u00b710\u00b2 S/m in Table I) is a generic electronic/bulk transport input rather than a reported ionic conductivity of a Li- or Na-ion solid conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 12217,
+        "outputTokens": 566,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 12405,
+        "webSearchRequests": 0,
+        "costUSD": 0.00401726,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 310,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12405,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3460,
+    "notional_cost_usd": 0.00401726
+  },
+  "paper_id": "arXiv:1703.02946",
+  "model": "haiku"
+}

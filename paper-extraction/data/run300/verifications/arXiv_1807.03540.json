@@ -1,0 +1,150 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1807.03540#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 4.1 gives 1.2\u00d710-3 S cm-1 at 60 \u00b0C for the in situ PEO-MUSiO2 electrolyte, attributed to Lin et al. [37]; the in situ TEOS hydrolysis synthesis is stated."
+      },
+      {
+        "record_id": "arXiv:1807.03540#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text gives ~10-3 S cm-1 at 25 \u00b0C for 30 wt% FMS-TFSISPE in PEO (Ea=26 kJ/mol, not converted, so null is correct), attributed to Kim et al. [41]."
+      },
+      {
+        "record_id": "arXiv:1807.03540#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text gives 2.07\u00d710-5 S cm-1 for the optimum 10 wt% Clay-CNT in PEO-LiClO4 (Tang et al. [42]), with no measurement temperature stated, so null is correct."
+      },
+      {
+        "record_id": "arXiv:1807.03540#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text gives 6.76\u00d710-4 S cm-1 at 60 \u00b0C for LAGP-I in PEO-LiTFSI (Zhao et al. [43]), a cited work."
+      },
+      {
+        "record_id": "arXiv:1807.03540#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text states 9.71\u00d710-4 S cm-1 at 80 \u00b0C for 10 wt% MIL-53(Al) at EO:Li 15:1 (Zhu et al. [44]); the 30 \u00b0C value is correctly not used."
+      },
+      {
+        "record_id": "arXiv:1807.03540#006",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The 4.9\u00d710-5 S cm-1 value is for the 10 wt% TiO2 system at 30 \u00b0C; the text presents EC addition as a separate step that raises conductivity to 1.6\u00d710-4, so labelling the material as PEO-LiTf-EC with 10 wt% TiO2 misidentifies the composition."
+      },
+      {
+        "record_id": "arXiv:1807.03540#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text gives 8.64\u00d710-5 S cm-1 for PEO-15 wt% LiCF3SO3-20 wt% Al2O3 (Klongkan et al. [47]) with no temperature stated, so null is correct."
+      },
+      {
+        "record_id": "arXiv:1807.03540#008",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text gives 7.28\u00d710-5 S cm-1 for 40 wt% POSS-PEG in PEO12:LiDFOB (Polu et al. [51]), and the text states Ea 0.433 eV for 40 wt%, consistent with the record."
+      },
+      {
+        "record_id": "arXiv:1807.03540#009",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The 6.48\u00d710-5 S/cm value at 30 \u00b0C is for 10 wt% organo-modified montmorillonite in PEO-LiClO4 (Mohapatra et al. [73]), not 20 wt% Li-MMT in PEO-LiClO4 or PEO-LiTFSI as the material label states."
+      },
+      {
+        "record_id": "arXiv:1807.03540#010",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text states ~6.8\u00d710-3 S cm-1 for the 7.5 wt% DMMT clay in PAN-8LiCF3SO3 (Sharma et al. [74]) with no temperature given, so null is correct."
+      },
+      {
+        "record_id": "arXiv:1807.03540#011",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text gives 3.22\u00d710-4 S cm-1 at 60 \u00b0C for 10 wt% MMT in PEO-LiTFSI (Zhang et al. [76])."
+      },
+      {
+        "record_id": "arXiv:1807.03540#012",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text gives 1.11\u00d710-4 S cm-1 at 25 \u00b0C for 10% HNT in PEO-LiTFSI (Lin et al. [69]); the 60 and 100 \u00b0C values are simply not recorded."
+      },
+      {
+        "record_id": "arXiv:1807.03540#013",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text gives 2.4\u00d710-4 S cm-1 for 15 wt% LLTO nanowire in PAN-LiClO4 (Liu et al. [78]) with no temperature stated."
+      },
+      {
+        "record_id": "arXiv:1807.03540#014",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text gives 1.53\u00d710-4 S cm-1 at 40 \u00b0C for 10 wt% Mg2B2O5 nanowires in PEO-LiTFSI (Sheng et al. [83])."
+      },
+      {
+        "record_id": "arXiv:1807.03540#015",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text states 5.40\u00d710-6 S cm-1 for randomly aligned LLTO nanowires in PAN-LiClO4 (Liu et al. [81]) with no temperature given, so null is correct."
+      },
+      {
+        "record_id": "arXiv:1807.03540#016",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text gives 1.08\u00d710-3 S cm-1 at 30 \u00b0C for the SiO2 nanowire P(VDF-HFP) composite (Zhang et al. [82]); the 10 wt% loading appears in the same discussion, though not explicitly in the conductivity sentence."
+      },
+      {
+        "record_id": "arXiv:1807.03540#017",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text gives 2.3\u00d710-5 S cm-1 for 10 wt% Er2O3 in PEO-PVC; the cited work is Arya et al. [53], which is literature cited, and no temperature is stated, so null is correct."
+      },
+      {
+        "record_id": "arXiv:1807.03540#018",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text gives 2.8\u00d710-6 S cm-1 for 40 wt% clay in PEO/LiMMT (Erceg et al. [32]), and the melt intercalation preparation is described for that work; no temperature is given."
+      },
+      {
+        "record_id": "arXiv:1807.03540#019",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text gives 8.19\u00d710-6 S cm-1 for 0.1% GnP in PEO-LiClO4 (Gomari et al. [70]) with no temperature stated."
+      },
+      {
+        "record_id": "arXiv:1807.03540#020",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The 9.39\u00d710-7 S cm-1 value is reported for the PEO-PMMA-lithium salt + nano-Al2O3 system, but the paper does not say it belongs to the LiTFSI variant; the salt identity in the material label is not established for this value."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 52675,
+        "outputTokens": 7924,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 52863,
+        "webSearchRequests": 0,
+        "costUSD": 0.01982192,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 5439,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 52863,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 28969,
+    "notional_cost_usd": 0.01982192
+  },
+  "paper_id": "arXiv:1807.03540",
+  "model": "haiku"
+}

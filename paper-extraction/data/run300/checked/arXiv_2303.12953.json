@@ -1,0 +1,160 @@
+[
+  {
+    "record_id": "arXiv:2303.12953#001",
+    "paper_id": "arXiv:2303.12953",
+    "record": {
+      "material_as_written": "LiInCl6 (Li3InCl6, LIC)",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "intermittent high energy ball milling",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.75",
+      "conductivity_unit_as_reported": "mS cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "The determined conductivities are 0.75 mS cm-1, 0.66 mS cm-1, 9 \u00d7 10-3 mS cm-1 and 2.63 mS cm-1 for LiInCl6, LiYCl6, Li1.48Al0.48Ge1.52(PO4)3 and Li6PS5Cl respectively.",
+      "evidence_location": "Figure 2 caption",
+      "notes": "Value is from the Figure 2 caption, which names the compound LiInCl6 (the text calls it Li3InCl6). Measurement temperature not stated. The panel labels in Figure 2 are garbled in the text extraction and seem to pair 0.66 with LIC and 0.75 with LYC, which conflicts with the caption order; the caption order was used here."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00075,
+    "log10_conductivity": -3.125
+  },
+  {
+    "record_id": "arXiv:2303.12953#002",
+    "paper_id": "arXiv:2303.12953",
+    "record": {
+      "material_as_written": "LiYCl6 (Li3YCl6, LYC)",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "intermittent high energy ball milling",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.66",
+      "conductivity_unit_as_reported": "mS cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "The determined conductivities are 0.75 mS cm-1, 0.66 mS cm-1, 9 \u00d7 10-3 mS cm-1 and 2.63 mS cm-1 for LiInCl6, LiYCl6, Li1.48Al0.48Ge1.52(PO4)3 and Li6PS5Cl respectively.",
+      "evidence_location": "Figure 2 caption",
+      "notes": "Value is from the Figure 2 caption, which names the compound LiYCl6 (the text calls it Li3YCl6). Measurement temperature not stated. The Figure 2 panel labels conflict with the caption order (see the LIC record)."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00066,
+    "log10_conductivity": -3.18
+  },
+  {
+    "record_id": "arXiv:2303.12953#003",
+    "paper_id": "arXiv:2303.12953",
+    "record": {
+      "material_as_written": "Li1.48Al0.48Ge1.52(PO4)3 (LAGP)",
+      "material_class": "NASICON",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Al"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": null,
+      "sintering_temperature_C": 700,
+      "sintering_time_h": 12,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "9 \u00d7 10-3",
+      "conductivity_unit_as_reported": "mS cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "The determined conductivities are 0.75 mS cm-1, 0.66 mS cm-1, 9 \u00d7 10-3 mS cm-1 and 2.63 mS cm-1 for LiInCl6, LiYCl6, Li1.48Al0.48Ge1.52(PO4)3 and Li6PS5Cl respectively.",
+      "evidence_location": "Figure 2 caption",
+      "notes": "The text says the LAGP pellet was sintered at 700 \u00b0C for 12 h in air before EIS and that conductivity rose after sintering, but the caption does not say whether 9 \u00d7 10-3 is the sintered or unsintered value. Treat the sintering conditions as applying to this value with some uncertainty. Al is part of the nominal composition, not a substituent added to a parent compound, so dopants is left as Al only by the formula's composition; this may be better empty."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 9e-06,
+    "log10_conductivity": -5.046
+  },
+  {
+    "record_id": "arXiv:2303.12953#004",
+    "paper_id": "arXiv:2303.12953",
+    "record": {
+      "material_as_written": "Li6PS5Cl (LPSC)",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.63",
+      "conductivity_unit_as_reported": "mS cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "The determined conductivities are 0.75 mS cm-1, 0.66 mS cm-1, 9 \u00d7 10-3 mS cm-1 and 2.63 mS cm-1 for LiInCl6, LiYCl6, Li1.48Al0.48Ge1.52(PO4)3 and Li6PS5Cl respectively.",
+      "evidence_location": "Figure 2 caption",
+      "notes": "Material was purchased from NEI Corporation, not synthesized. Measurement temperature not stated. The Figure 2 panel d label reads LPSC with value 2.63 mS cm-1, which agrees with the caption."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.00263,
+    "log10_conductivity": -2.58
+  }
+]

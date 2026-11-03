@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about Li+ transport in solid halide electrolytes (Li2ZrCl6) and ZrO2 composites, and it reports computed room-temperature ionic conductivities for bulk Li2ZrCl6 polymorphs from machine-learning MD.",
+    "records": [
+      {
+        "material_as_written": "\u03b1-Li2ZrCl6",
+        "material_class": "halide",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.803",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.29,
+        "measurement_method": "NEP machine-learned molecular dynamics with Einstein-relation diffusion coefficients",
+        "evidence_quote": "for crystalline \u03b1-Li2ZrCl6 is 0.803 mS/cm",
+        "evidence_location": "Section 2.1 (Results)",
+        "notes": "Calculated room-temperature conductivity from this paper's MLMD simulations, not an experimental value. The Ea of 0.29 eV is in the same sentence, on the following line. Room temperature is extrapolated from 450-700 K Arrhenius fits."
+      },
+      {
+        "material_as_written": "ideal-Li2ZrCl6",
+        "material_class": "halide",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.066",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "NEP machine-learned molecular dynamics with Einstein-relation diffusion coefficients",
+        "evidence_quote": "(0.066 mS/cm), which is an order of magnitude below reported experimental values.",
+        "evidence_location": "Section 2.1 (Results)",
+        "notes": "Calculated value from this paper's simulations. The paper says the Ea is 0.20 eV higher than that of \u03b1-Li2ZrCl6 but does not give the absolute Ea, so it is left null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 26287,
+        "outputTokens": 2285,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 26477,
+        "webSearchRequests": 0,
+        "costUSD": 0.009098160000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1258,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 26477,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9925,
+    "notional_cost_usd": 0.009098160000000001
+  },
+  "paper_id": "arXiv:2601.22612",
+  "model": "haiku"
+}

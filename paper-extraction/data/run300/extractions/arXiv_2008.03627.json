@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a Reply on the normal-to-superionic transition in fluorite-type F-ion conductors (CaF2, SrCl2, LaF3), and it reports no ionic conductivity values for Li- or Na-ion conductors; it discusses only heat capacity, thermal expansion and symmetry.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 6643,
+        "outputTokens": 433,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 6833,
+        "webSearchRequests": 0,
+        "costUSD": 0.00227896,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 201,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 6833,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2680,
+    "notional_cost_usd": 0.00227896
+  },
+  "paper_id": "arXiv:2008.03627",
+  "model": "haiku"
+}

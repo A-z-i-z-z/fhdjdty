@@ -1,0 +1,152 @@
+[
+  {
+    "record_id": "arXiv:1909.13291#001",
+    "paper_id": "arXiv:1909.13291",
+    "record": {
+      "material_as_written": "Li1.3Al0.3Ti1.7(PO4)3 (LATP) sintered at 900\u00b0C",
+      "material_class": "NASICON",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Al"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 900,
+      "sintering_time_h": 2,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "4.7 \u00d7 10\u22125",
+      "conductivity_unit_as_reported": "S\u2219cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "30\u00b0C",
+      "measurement_temperature_C": 30,
+      "activation_energy_eV": null,
+      "measurement_method": "impedance spectroscopy",
+      "evidence_quote": "The determined value of the total ionic conductivity of the ceramic LATP sintered at 900\u00b0C is ca. 4.7 \u00d7 10\u22125 S\u2219cm\u22121 at 30\u00b0C.",
+      "evidence_location": "results (section 3.5)",
+      "notes": "Al is part of the LATP formula (Li1.3Al0.3Ti1.7), not an added dopant; dopants list reflects the Al content only as a formula element. Activation energy for this sample appears only in a garbled Table 2 row, so left null."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 4.7e-05,
+    "log10_conductivity": -4.328
+  },
+  {
+    "record_id": "arXiv:1909.13291#002",
+    "paper_id": "arXiv:1909.13291",
+    "record": {
+      "material_as_written": "LATP-0.1LiF sintered at 800\u00b0C",
+      "material_class": "composite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction followed by ball milling with LiF and pressing",
+      "sintering_temperature_C": 800,
+      "sintering_time_h": 2,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.1 \u00d7 10\u22124",
+      "conductivity_unit_as_reported": "S\u2219cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "30\u00b0C",
+      "measurement_temperature_C": 30,
+      "activation_energy_eV": null,
+      "measurement_method": "impedance spectroscopy",
+      "evidence_quote": "The \u03c3tot value reaches 1.1 \u00d7 10\u22124 S\u2219cm\u22121 for LATP-0.1LiF and LATP-0.2LiF,",
+      "evidence_location": "results (section 3.5)",
+      "notes": "LiF is a sintering additive forming a composite, not a substitution, so dopants is empty. The paper gives sintering-stage activation energies only as a range (0.23-0.24 eV) for 800\u00b0C materials, so left null. Table 2 supports the 800\u00b0C row for 0.1LiF."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00011,
+    "log10_conductivity": -3.959
+  },
+  {
+    "record_id": "arXiv:1909.13291#003",
+    "paper_id": "arXiv:1909.13291",
+    "record": {
+      "material_as_written": "LATP-0.2LiF sintered at 800\u00b0C",
+      "material_class": "composite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction followed by ball milling with LiF and pressing",
+      "sintering_temperature_C": 800,
+      "sintering_time_h": 2,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.1 \u00d7 10\u22124",
+      "conductivity_unit_as_reported": "S\u2219cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "30\u00b0C",
+      "measurement_temperature_C": 30,
+      "activation_energy_eV": null,
+      "measurement_method": "impedance spectroscopy",
+      "evidence_quote": "The \u03c3tot value reaches 1.1 \u00d7 10\u22124 S\u2219cm\u22121 for LATP-0.1LiF and LATP-0.2LiF,",
+      "evidence_location": "results (section 3.5)",
+      "notes": "LiF is a sintering additive, so dopants is empty. Values are at 30\u00b0C per the paper's Table 2 and text. Activation energy not given for this specific sample, so null."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00011,
+    "log10_conductivity": -3.959
+  },
+  {
+    "record_id": "arXiv:1909.13291#004",
+    "paper_id": "arXiv:1909.13291",
+    "record": {
+      "material_as_written": "LATP-0.3LiF sintered at 800\u00b0C",
+      "material_class": "composite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction followed by ball milling with LiF and pressing",
+      "sintering_temperature_C": 800,
+      "sintering_time_h": 2,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.7 \u00d7 10\u22124",
+      "conductivity_unit_as_reported": "S\u2219cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "30\u00b0C",
+      "measurement_temperature_C": 30,
+      "activation_energy_eV": null,
+      "measurement_method": "impedance spectroscopy",
+      "evidence_quote": "and is 0.7 \u00d7 10\u22124 S\u2219cm\u22121 for LATP-0.3LiF.",
+      "evidence_location": "results (section 3.5)",
+      "notes": "LiF is a sintering additive, so dopants is empty. Value matches the 800\u00b0C row of the 0.3LiF block of Table 2 (7.0 \u00d7 10\u22125)."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 7e-05,
+    "log10_conductivity": -4.155
+  }
+]

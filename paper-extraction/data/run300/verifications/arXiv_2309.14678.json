@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2309.14678#001",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "material_as_written",
+            "correct_value": "\u03b2-alumina (single crystal)",
+            "evidence": "\u03b2alumina has an ionic conductivity of 0.01-0.03 Scm\u22121 in single crystals at room temperature[8]"
+          }
+        ],
+        "explanation": "The value 0.01-0.03 S/cm, the room-temperature condition, and the literature_cited origin (ref. [8], Lu et al.) are all correct. The paper names the material only as generic \u03b2-alumina here, so the added 'Na' qualifier is an inference from the paper's Na focus rather than something stated for this sentence."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 21702,
+        "outputTokens": 1380,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 21890,
+        "webSearchRequests": 0,
+        "costUSD": 0.00725802,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1061,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 21890,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6861,
+    "notional_cost_usd": 0.00725802
+  },
+  "paper_id": "arXiv:2309.14678",
+  "model": "haiku"
+}

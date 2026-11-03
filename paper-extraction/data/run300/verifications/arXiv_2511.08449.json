@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2511.08449#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports 1.91 mS/cm at 25\u2103 for Mg0.25 NZSP sintered at 1200/1100\u2103-12h, with Ea = 0.200 eV for that same processing condition. The 1100\u2103 hold and 12 h time match, and relative density is correctly null because the paper gives 96.4% only for Mg0 NZSP."
+      },
+      {
+        "record_id": "arXiv:2511.08449#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives 0.62 mS/cm for the undoped Mg0 NZSP sample in the Section 2.3 conductivity discussion, and 96.4% relative density for Mg0 at 1200/1100\u2103-12h. Activation energy is correctly null because the text gives no Mg0 value; the Fig. 3e labels are too garbled to assign one reliably."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 22291,
+        "outputTokens": 1658,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 22481,
+        "webSearchRequests": 0,
+        "costUSD": 0.00757412,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1249,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22481,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7493,
+    "notional_cost_usd": 0.00757412
+  },
+  "paper_id": "arXiv:2511.08449",
+  "model": "haiku"
+}

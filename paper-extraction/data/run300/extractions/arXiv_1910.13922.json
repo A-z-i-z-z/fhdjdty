@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a continuum-modeling study of Li-metal/solid-electrolyte interfaces that uses ionic conductivity values of solid electrolytes as model inputs, but it reports no measured conductivity for a named material at a stated temperature, so no records are extracted.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 23621,
+        "outputTokens": 1307,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 23807,
+        "webSearchRequests": 0,
+        "costUSD": 0.007808560000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1087,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 23807,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6425,
+    "notional_cost_usd": 0.007808560000000001
+  },
+  "paper_id": "arXiv:1910.13922",
+  "model": "haiku"
+}

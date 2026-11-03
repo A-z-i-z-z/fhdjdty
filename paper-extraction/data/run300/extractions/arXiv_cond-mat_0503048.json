@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies nonlinear ion transport in Na+-conducting glasses, but it reports apparent hopping distances (up to 43-55 \u00c5) and never gives a numeric ionic conductivity value for a solid electrolyte; \u03c31,dc and \u03c33,dc appear only symbolically in equations.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 13361,
+        "outputTokens": 486,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 13547,
+        "webSearchRequests": 0,
+        "costUSD": 0.0043200600000000006,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 252,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 13547,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2669,
+    "notional_cost_usd": 0.0043200600000000006
+  },
+  "paper_id": "arXiv:cond-mat/0503048",
+  "model": "haiku"
+}

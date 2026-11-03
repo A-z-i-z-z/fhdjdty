@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a DFT/NEB study of Mg-ion diffusion barriers in cathode materials and a path-finder descriptor method. It reports NEB migration barriers, not ionic conductivity values, and it concerns Mg rather than Li or Na conductors.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 15106,
+        "outputTokens": 371,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 15296,
+        "webSearchRequests": 0,
+        "costUSD": 0.00478686,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 150,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15296,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2077,
+    "notional_cost_usd": 0.00478686
+  },
+  "paper_id": "arXiv:2104.06113",
+  "model": "haiku"
+}

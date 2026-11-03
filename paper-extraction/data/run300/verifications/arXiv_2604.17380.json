@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2604.17380#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that LGPS 'established that an inorganic solid electrolyte can achieve room-temperature ionic conductivity on the order of 10-2 S\u2219cm-1', so the material, value, unit, and room-temperature condition match. The value is a prior-work statement in a review, so literature_cited is the right origin, and all secondary fields are null as the paper gives none for LGPS here."
+      },
+      {
+        "record_id": "arXiv:2604.17380#002",
+        "verdict": "unsupported",
+        "field_errors": [],
+        "explanation": "The ~2 \u00d7 10-3 S\u00b7cm-1 value is an upper bound ('up to') for the oxyhalide antiperovskite family, stated for 'Li3OCl and Li3OCl1-xBrx' together, so it is not attributable to the Br-substituted composition specifically. The material assignment is therefore not supported by the paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 41127,
+        "outputTokens": 1939,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 41317,
+        "webSearchRequests": 0,
+        "costUSD": 0.01336542,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1531,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 41317,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 8927,
+    "notional_cost_usd": 0.01336542
+  },
+  "paper_id": "arXiv:2604.17380",
+  "model": "haiku"
+}

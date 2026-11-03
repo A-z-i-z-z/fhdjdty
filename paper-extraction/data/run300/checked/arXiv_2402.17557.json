@@ -1,0 +1,76 @@
+[
+  {
+    "record_id": "arXiv:2402.17557#001",
+    "paper_id": "arXiv:2402.17557",
+    "record": {
+      "material_as_written": "Li0.25Sr2Co2O5",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.20 \u00d7 10\u22123",
+      "conductivity_unit_as_reported": "S \u00b7 cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.28,
+      "measurement_method": "DFT with cl-NEB migration barriers and Vineyard hopping-frequency estimate (computed, not measured)",
+      "evidence_quote": "1.02 \u00d7 10\u22127 cm2 s\u22121 and 1.20 \u00d7 10\u22123 S \u00b7 cm\u22121 for x = 0.25 respectively",
+      "evidence_location": "Conclusions",
+      "notes": "Computed value, not measured. Conductivity assumes n = one Li+ per unit cell and adiabatic diffusion (Eqs. 1-2). Activation energy is the cl-NEB migration barrier (0.28 eV), which the paper uses as Ea in Eq. 2. Room temperature is given in the paper as T = 300 K; left null for the Celsius field. Strong-scattering alternative (0.88 \u00d7 10\u22123 S \u00b7 cm\u22121) not recorded."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0012,
+    "log10_conductivity": -2.921
+  },
+  {
+    "record_id": "arXiv:2402.17557#002",
+    "paper_id": "arXiv:2402.17557",
+    "record": {
+      "material_as_written": "Li0.75Sr2Co2O5",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.17 \u00d7 10\u22122",
+      "conductivity_unit_as_reported": "S \u00b7 cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.17,
+      "measurement_method": "DFT with cl-NEB migration barriers and Vineyard hopping-frequency estimate (computed, not measured)",
+      "evidence_quote": "1.00 \u00d7 10\u22126 cm2 s\u22121 and 1.17 \u00d7 10\u22122 S \u00b7 cm\u22121 for x = 0.75",
+      "evidence_location": "Conclusions",
+      "notes": "Computed value, not measured. Conductivity assumes n = one Li+ per unit cell and adiabatic diffusion. Activation energy is the cl-NEB migration barrier (0.17 eV), which the paper uses as Ea in Eq. 2. Room temperature is given as T = 300 K; left null for the Celsius field. Strong-scattering alternative (1.85 \u00d7 10\u22123 S \u00b7 cm\u22121) not recorded. Formula written as Li0.75 Sr2 Co2 O5 in the text."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0117,
+    "log10_conductivity": -1.932
+  }
+]

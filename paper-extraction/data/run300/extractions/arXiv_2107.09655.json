@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a DFT and modern-theory-of-polarization study of polarization in CuInP2S6, a Cu-ion ferroelectric conductor; it reports polarization values and no ionic conductivity numbers, and Cu is not Li or Na.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14857,
+        "outputTokens": 879,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 15047,
+        "webSearchRequests": 0,
+        "costUSD": 0.004966160000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 663,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15047,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2496,
+    "notional_cost_usd": 0.004966160000000001
+  },
+  "paper_id": "arXiv:2107.09655",
+  "model": "haiku"
+}

@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2410.15350#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states LSS reaches 2.01 mS/cm at 300 K from AIMD Arrhenius extrapolation, with Ea = 0.31 eV for Li10Si2S9 in Table 2. Origin is computed in this paper."
+      },
+      {
+        "record_id": "arXiv:2410.15350#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports 0.011 mS/cm at 300 K for Li14Mn2S9 from its own AIMD work (Table 2, Ea = 0.46 eV), so the computational origin and values are correct."
+      },
+      {
+        "record_id": "arXiv:2410.15350#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.4 reports 23.7 mS/cm for the LMS/LSS-(100) interface model at 400 K from the authors' MLIP-based MD, so the value, temperature (126.85 \u00b0C) and origin match."
+      },
+      {
+        "record_id": "arXiv:2410.15350#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.4 reports 14.7 mS/cm for the LMS/LSS-(001) interface model at 400 K from the authors' MLIP-based MD, consistent with the record."
+      },
+      {
+        "record_id": "arXiv:2410.15350#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.4 reports 54.5 mS/cm for the de-LMS/LSS-(100) interface model at 400 K from the authors' MLIP-based MD, consistent with the record."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 16720,
+        "outputTokens": 1453,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 16908,
+        "webSearchRequests": 0,
+        "costUSD": 0.00579992,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 805,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16908,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5954,
+    "notional_cost_usd": 0.00579992
+  },
+  "paper_id": "arXiv:2410.15350",
+  "model": "haiku"
+}

@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper studies La2Mo2O9, a solid oxide-ion conductor, and quotes one conductivity value for its cubic phase; it is not a Li/Na conductor, so mobile_ion is set to \"other\" and the single record is literature_cited.",
+    "records": [
+      {
+        "material_as_written": "La2Mo2O9 (cubic phase, \u03b2-phase)",
+        "material_class": "other",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "6\u00d710-2",
+        "conductivity_unit_as_reported": "Scm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "800\u00b0C",
+        "measurement_temperature_C": 800,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "with the latter phase having a ionic conductivity of 6\u00d710-2 Scm-1 at 800\u00b0C",
+        "evidence_location": "Introduction",
+        "notes": "Oxide-ion (not Li/Na) conductivity of the cubic high-temperature phase, taken from earlier work cited as ref. 4 (LAMOX discovery); not measured in this paper. Conductivity kind not specified in the paper. The 10-1 S cm-1 value in the Introduction is a target range for materials, not a reported value for La2Mo2O9, so it was not recorded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 9248,
+        "outputTokens": 1802,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 9438,
+        "webSearchRequests": 0,
+        "costUSD": 0.0037449600000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1154,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 9438,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7980,
+    "notional_cost_usd": 0.0037449600000000003
+  },
+  "paper_id": "arXiv:cond-mat/0702628",
+  "model": "haiku"
+}

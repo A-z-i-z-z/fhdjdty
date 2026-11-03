@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This tutorial on fine-tuning universal MLIPs (MACE-MP-0) reports force and energy RMSEs and elastic constants, but no ionic conductivity values; LGPS is described only qualitatively as having high lithium-ion conductivity.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 41077,
+        "outputTokens": 339,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 41263,
+        "webSearchRequests": 0,
+        "costUSD": 0.01256136,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 125,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 41263,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2529,
+    "notional_cost_usd": 0.01256136
+  },
+  "paper_id": "arXiv:2506.21935",
+  "model": "haiku"
+}

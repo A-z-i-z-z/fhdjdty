@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about the Li-ion NASICON solid electrolyte LAGP, but its own conductivities appear only in figures and supplementary tables; the one numeric conductivity in the text is a literature value quoted in the introduction.",
+    "records": [
+      {
+        "material_as_written": "Li1+xAl1-xGe1+x(PO4)3 (LAGP)",
+        "material_class": "NASICON",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10-4",
+        "conductivity_unit_as_reported": "S.cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "RT",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "LAGP which exhibits one of the highest ionic conductivities (10-4 S.cm-1 at RT) from the oxide group32",
+        "evidence_location": "Introduction",
+        "notes": "Generic literature value for LAGP quoted from earlier work (ref 32), not measured in this paper; no composition-specific or method details are given. The paper's own pellet conductivities (grain, inter-grain, total at 650-700 \u00b0C) are shown only in Figure 2 and Table S1, with no numeric conductivity values in the text, so no records were made for them. Inter-grain resistivities in ohm.cm are resistivities, not conductivities, and were excluded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 19202,
+        "outputTokens": 1680,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 19390,
+        "webSearchRequests": 0,
+        "costUSD": 0.00666976,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1003,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19390,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7843,
+    "notional_cost_usd": 0.00666976
+  },
+  "paper_id": "arXiv:2211.06129",
+  "model": "haiku"
+}

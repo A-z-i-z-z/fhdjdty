@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1506.07142#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states that 'an ionic conductivity as high as \u03c3 = 3 \u00d7 10\u22123 S/cm has been measured [3] for the cubic Li7 La3 Zr2 O12 garnet', so the material, value, unit and literature_cited origin are right. No measurement temperature is given, and all secondary fields are correctly null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17510,
+        "outputTokens": 569,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 17702,
+        "webSearchRequests": 0,
+        "costUSD": 0.00559572,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 342,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17702,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3100,
+    "notional_cost_usd": 0.00559572
+  },
+  "paper_id": "arXiv:1506.07142",
+  "model": "haiku"
+}

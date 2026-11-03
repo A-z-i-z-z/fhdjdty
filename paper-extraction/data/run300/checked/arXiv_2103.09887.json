@@ -1,0 +1,156 @@
+[
+  {
+    "record_id": "arXiv:2103.09887#001",
+    "paper_id": "arXiv:2103.09887",
+    "record": {
+      "material_as_written": "Bi-LLZO (5 wt% in PEO:LiTFSI composite)",
+      "material_class": "composite",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Bi"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "sol-gel Pechini garnet powder; composite solution casting in acetonitrile",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2x10-5",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "22.5\u00b0C",
+      "measurement_temperature_C": 22.5,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "The values of IC for the CPE loaded with 5% wt. of Bi-LLZO particles at 22.5\u00b0C and 45\u00b0C were measured as 2x10-5 S/cm and 4.7x10-4 S/cm,",
+      "evidence_location": "results (page 8)",
+      "notes": "Value for the 5 wt% Bi-LLZO composite (filler wt% load, not a pure garnet). Lowest-temperature value recorded; 45\u00b0C value (4.7x10-4 S/cm) omitted per rules. Conductivity kind not specified in the paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 2e-05,
+    "log10_conductivity": -4.699
+  },
+  {
+    "record_id": "arXiv:2103.09887#002",
+    "paper_id": "arXiv:2103.09887",
+    "record": {
+      "material_as_written": "PEO:LiTFSI matrix (filler-free)",
+      "material_class": "polymer",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solution casting in acetonitrile",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "8.9x10-7",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "22.5\u00b0C",
+      "measurement_temperature_C": 22.5,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "the corresponding values at 22.5\u00b0C and 45\u00b0C for the filler-free PEO-LiTFSI matrix were measured as 8.9x10-7 S/cm and 7.2 x10-6 S/cm, respectively.",
+      "evidence_location": "results (page 8)",
+      "notes": "Reference polymer matrix without garnet filler; EO:Li 49:1 per methods. Lowest-temperature value recorded."
+    },
+    "hard_checks": {
+      "quote_in_text": false,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 8.9e-07,
+    "log10_conductivity": -6.051
+  },
+  {
+    "record_id": "arXiv:2103.09887#003",
+    "paper_id": "arXiv:2103.09887",
+    "record": {
+      "material_as_written": "cubic LLZO (Li7La3Zr2O12)",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3x10-4",
+      "conductivity_unit_as_reported": "S/cm at 25\u00b0C",
+      "unit_evidence_quote": "S/cm at 25\u00b0C",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25\u00b0C",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "to exhibit ionic conductivities as high as 3x10-4",
+      "evidence_location": "introduction",
+      "notes": "Value attributed to Murugan et al. [11] in the introduction. The unit S/cm and temperature 25\u00b0C appear on the line following the quoted span. Conductivity_unit_as_reported is given as 'S/cm'."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0003,
+    "log10_conductivity": -3.523
+  },
+  {
+    "record_id": "arXiv:2103.09887#004",
+    "paper_id": "arXiv:2103.09887",
+    "record": {
+      "material_as_written": "Li6.6La3Zr1.6Ta0.4O12",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ta"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": "high-pressure spark plasma sintering",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": null,
+      "relative_density_pct": 94,
+      "conductivity_value_as_reported": "1.18 x10-3",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "1.18 x10-3 S/cm at room temperature",
+      "evidence_location": "introduction",
+      "notes": "Value attributed to Dong et al. [12]. Paper states relative density as 0.94; recorded here as 94 (percent). Sintering temperature 1050\u00b0C is stated for this material in the same sentence block; sintering time not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "relative_density_pct=94 not found as a number in the paper"
+    ],
+    "conductivity_S_per_cm": 0.00118,
+    "log10_conductivity": -2.928
+  }
+]

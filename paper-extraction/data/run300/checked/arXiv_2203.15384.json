@@ -1,0 +1,156 @@
+[
+  {
+    "record_id": "arXiv:2203.15384#001",
+    "paper_id": "arXiv:2203.15384",
+    "record": {
+      "material_as_written": "Sn-doped KLi6TaO6",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Sn"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "6\u00d710\u22126",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": 0.37,
+      "measurement_method": null,
+      "evidence_quote": "in an experimental validation, Sn-doped KLi6TaO6, which was intended to form a Li-excess condition, exhibited a \u03c3Li of 6\u00d710\u22126 S/cm at 300 K and a larger Ea of 0.37 eV",
+      "evidence_location": "Section 3.1",
+      "notes": "Experimental value taken from the authors' previous study (Ref. 13), so literature_cited; the sample was Sn-doped KLi6TaO6 with the Li-excess condition not achieved."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 6e-06,
+    "log10_conductivity": -5.222
+  },
+  {
+    "record_id": "arXiv:2203.15384#002",
+    "paper_id": "arXiv:2203.15384",
+    "record": {
+      "material_as_written": "Sn-doped KLi6TaO6 (K8Li49SnTa7O48 supercell)",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Sn"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "8 \u00d7 10\u22124",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": 0.23,
+      "measurement_method": "FPMD",
+      "evidence_quote": "FPMD calculations estimate a \u03c3Li of 8 \u00d7 10\u22124 S/cm at 300 K, which is lower than that obtained without the dopant. The Ea is 0.23 eV",
+      "evidence_location": "Section 3.3 / results",
+      "notes": "Computed in this paper under 2.1% Li-excess using a supercell; the 'Sn-doped KLi6TaO6' label is from context of the Figure 4 discussion."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0008,
+    "log10_conductivity": -3.097
+  },
+  {
+    "record_id": "arXiv:2203.15384#003",
+    "paper_id": "arXiv:2203.15384",
+    "record": {
+      "material_as_written": "Sn-doped KLi6BiO6",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Sn"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2\u00d710\u22123",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": 0.2,
+      "measurement_method": "FPMD",
+      "evidence_quote": "the Sn-doped KLi6BiO6 shows slightly lower Ea (0.20 eV) and higher \u03c3Li at 300 K (2\u00d710\u22123 S/cm) than those of the Sn-doped KLi6TaO6",
+      "evidence_location": "Section 3.3",
+      "notes": "FPMD result from this paper under Li-excess conditions."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.002,
+    "log10_conductivity": -2.699
+  },
+  {
+    "record_id": "arXiv:2203.15384#004",
+    "paper_id": "arXiv:2203.15384",
+    "record": {
+      "material_as_written": "KLi6BiO6 with additional Lii",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "4\u00d710\u22123",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": null,
+      "measurement_method": "FPMD",
+      "evidence_quote": "The estimated \u03c3Li at 300 K (4\u00d710\u22123 S/cm) of KLi6BiO6 with additional Lii is consistent with the value (6\u00d710\u22123 S/cm)",
+      "evidence_location": "Section 3.2",
+      "notes": "Undoped KLi6BiO6 with an extra interstitial Li (Li-excess); no dopant substitution. Ea not stated for this specific case in the text."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.004,
+    "log10_conductivity": -2.398
+  }
+]

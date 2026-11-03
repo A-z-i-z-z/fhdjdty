@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2509.25763#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 and the Discussion both give 14.09 mS cm\u22121 at 300 K for Li4Hf2Si3O12 (I), with Ea = 0.183 eV in the same table row. The origin is computational (MLIP-MD extrapolated to 300 K), and the null secondary fields are consistent with the paper."
+      },
+      {
+        "record_id": "arXiv:2509.25763#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that the lowest-energy novel-framework Li2Ta2SiO8 has 0.0004 mS cm\u22121 at 300 K, and the Results text gives the 0.562 eV barrier. The values come from this paper's own calculations, so the origin is correctly labelled computational."
+      },
+      {
+        "record_id": "arXiv:2509.25763#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Discussion gives 0.193 mS cm\u22121 at 300 K for Li2.125Ta1.875Hf0.125SiO8 (Hf substituted for Ta), and the Results text gives the barrier falling from 0.562 to 0.352 eV, which matches the 0.210 eV decrease stated. The Hf dopant and computational origin are correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 27134,
+        "outputTokens": 1351,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 27324,
+        "webSearchRequests": 0,
+        "costUSD": 0.008873520000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 813,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27324,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5984,
+    "notional_cost_usd": 0.008873520000000001
+  },
+  "paper_id": "arXiv:2509.25763",
+  "model": "haiku"
+}

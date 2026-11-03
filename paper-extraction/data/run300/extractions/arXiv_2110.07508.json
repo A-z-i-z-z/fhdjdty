@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a structural and magnetization study of Ag8SnS6 (canfieldite). It mentions high ionic conductivity only qualitatively, reports no ionic conductivity numbers, and its mobile ion is Ag+, not Li or Na.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 19405,
+        "outputTokens": 395,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 19597,
+        "webSearchRequests": 0,
+        "costUSD": 0.00608896,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 177,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19597,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2223,
+    "notional_cost_usd": 0.00608896
+  },
+  "paper_id": "arXiv:2110.07508",
+  "model": "haiku"
+}

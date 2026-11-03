@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2610.34505#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract gives 14 mS cm\u22121 for amorphous Li3ScCl6 as an estimated room-temperature value from this paper's MD and rescaling, and Section 3.1 gives Ea = 0.182 \u00b1 0.018 eV for Li3ScCl6. Origin is computational and the temperature is stated only as room temperature, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2610.34505#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract states an estimated room-temperature conductivity of 7.7 mS cm\u22121 for amorphous Li3InCl6, derived in this paper from MD. No activation energy is given in the main text for Li3InCl6, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2610.34505#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction gives 13.5 mS cm\u22121 and 0.154 eV for amorphous LiNbCl6 with citations to refs 17 and 18, so literature_cited is the correct origin. The paper reports these values as prior experimental results and gives no room-temperature numeric value, so null for the temperature is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18481,
+        "outputTokens": 1588,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 18669,
+        "webSearchRequests": 0,
+        "costUSD": 0.0063957200000000014,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1064,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18669,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 6911,
+    "notional_cost_usd": 0.0063957200000000014
+  },
+  "paper_id": "arXiv:2610.34505",
+  "model": "haiku"
+}

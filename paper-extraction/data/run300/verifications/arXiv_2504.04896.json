@@ -1,0 +1,138 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2504.04896#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.2 attributes LaBi1.9Te0.1O4.05Cl at 0.02 S/cm and 702 \u00b0C to Yaguchi et al. (ref 33), so literature_cited is correct and the value and temperature match."
+      },
+      {
+        "record_id": "arXiv:2504.04896#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.2 gives LuBi1.9Te0.1O4.05Cl as a bulk conductivity of 0.022 S/cm at 492\u00b0C, attributed to Ueno et al. (ref 34); the bulk kind and literature_cited origin match."
+      },
+      {
+        "record_id": "arXiv:2504.04896#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.3 states that LaNb0.92W0.08O4.04 exhibits roughly 0.1 S/cm at 1000 \u00b0C, citing ref 59, so the material, value, temperature and origin are correct."
+      },
+      {
+        "record_id": "arXiv:2504.04896#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.3 gives La0.2Pb0.8WO4.1 at 0.042 S/cm and 800 \u00b0C with an activation energy of 0.59 eV for the high-temperature regime, citing ref 61."
+      },
+      {
+        "record_id": "arXiv:2504.04896#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.3 reports CeNbO4+\u03b4 at approximately 0.03 S/cm at 850 \u00b0C, cited to refs 35, 36 and 62, so literature_cited is correct."
+      },
+      {
+        "record_id": "arXiv:2504.04896#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.5 reports Ba3Ti0.9Mo1.1O8.1 with a total conductivity of 3.9\u00d710-3 S/cm at 600 \u00b0C from Tawse et al. (ref 40), which matches the record's total kind and literature_cited origin."
+      },
+      {
+        "record_id": "arXiv:2504.04896#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.5 gives Ba3Nb0.9V0.1MoO8.5 a high bulk ionic conductivity of ~10-2 S/cm at 600 \u00b0C, citing ref 105; the record matches."
+      },
+      {
+        "record_id": "arXiv:2504.04896#008",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.5 attributes a bulk conductivity of 5.8\u00d710-4 S/cm at 310 \u00b0C to Ba7Nb3.9Mo1.1O20.05 from Yashima et al. (ref 38), so the record is correct."
+      },
+      {
+        "record_id": "arXiv:2504.04896#009",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.5 reports Ba7Nb4\u2212xCrxMoO20+x/2 at 1.6\u00d710-3 S/cm and 508 \u00b0C from Sakuda et al. (ref 110), so the value, temperature and origin match."
+      },
+      {
+        "record_id": "arXiv:2504.04896#010",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.5 attributes 4\u00d710-3 S/cm at 510 \u00b0C for Ba7Nb4MoO20 to Fop et al. (ref 109), matching the record."
+      },
+      {
+        "record_id": "arXiv:2504.04896#011",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.5 gives Ba7Ta3.7Mo1.3O20.15 a conductivity of 1.08\u00d710-3 S/cm at 377\u00b0C from Murakami et al. (ref 111), matching the record."
+      },
+      {
+        "record_id": "arXiv:2504.04896#012",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.2 reports Rb5BiMo4O16 at 2.3\u00d710\u22123 S/cm at 560 \u00b0C from Yasui et al. (ref 153), matching the record; the other reported value is correctly left out."
+      },
+      {
+        "record_id": "arXiv:2504.04896#013",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.11 reports donor-doped Ca2.7La0.3Fe2Ge3O12 at approximately 10\u22123 S/cm at 700 \u00b0C, citing ref 150, which matches the record."
+      },
+      {
+        "record_id": "arXiv:2504.04896#014",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.4 gives 3.39 \u00d7 10-2 S/cm at 800 \u00b0C for La9.5Si5.45Mg0.3Mo0.25O26+\u03b4, citing ref 101; the Mg and Mo dopants match the composition."
+      },
+      {
+        "record_id": "arXiv:2504.04896#015",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "material_as_written",
+            "correct_value": "Cr-doped LSO (composition not stated)",
+            "evidence": "resulting in improved conductivity up to 3.33\u00d710-2 S/cm at 800 \u00b0C for Cr-doped LSO.[102]"
+          }
+        ],
+        "explanation": "The value and temperature match Section 2.4, but the record assigns the host composition La9.33Si6O26, which the paper does not give for the Cr-doped material; the record's own notes admit the stoichiometry is not given, so the material identity is unsupported."
+      },
+      {
+        "record_id": "arXiv:2504.04896#016",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.7 reports LaSr0.6Bi0.4Ga3O7.2 at approximately 1.62\u00d710-2 S/cm at 800\u00b0C, citing ref 137; the tilde in the quote is not copied into the value field, which is acceptable."
+      },
+      {
+        "record_id": "arXiv:2504.04896#017",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.12 reports LMS at 0.05 S/cm at 800\u00b0C, measured by 4-probe with 8YSZ as electron blocking, from the earlier Meng et al. work (ref 48), so literature_cited is correct and the method matches."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 46785,
+        "outputTokens": 7295,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 46973,
+        "webSearchRequests": 0,
+        "costUSD": 0.01774042,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 5119,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 46973,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 26657,
+    "notional_cost_usd": 0.01774042
+  },
+  "paper_id": "arXiv:2504.04896",
+  "model": "haiku"
+}

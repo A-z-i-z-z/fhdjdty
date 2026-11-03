@@ -1,0 +1,66 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2407.02838#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states Ag3SI has 3.8\u00d710\u22122 S/cm '[15]' in Results 2.1, a literature citation, with no temperature given, so the origin, value, unit and null temperature are all correct."
+      },
+      {
+        "record_id": "arXiv:2407.02838#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives Ag7GeSe5I at 4.3\u00d710\u22122 S/cm '[16]' in Results 2.1 and Table 2 lists it as \u03c3exp with ref [16]. It is a cited experimental value with no temperature, so the record is correct."
+      },
+      {
+        "record_id": "arXiv:2407.02838#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Results 2.1 gives Ag10Te4Br3 at 1.4\u00d710\u22122 S/cm at room temperature '[17]', a cited value, and the record matches."
+      },
+      {
+        "record_id": "arXiv:2407.02838#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Results 2.1 gives Ag5Te2Cl at 1.0\u00d710\u22121 S/cm at 341 K '[18]' and Table 2 shows the same @341K with ref [18]. The record is correctly literature_cited, and leaving the Celsius conversion null is acceptable."
+      },
+      {
+        "record_id": "arXiv:2407.02838#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.3 reports the FPMD-derived Li4InAs2F ionic conductivity of 8.0\u00d710\u22122 S/cm (unit on the next line). The Methods state that the reported values are room-temperature conductivities, so computational origin and room temperature are supported. The unit_evidence_quote is not the value's own unit line, but the unit itself is correct."
+      },
+      {
+        "record_id": "arXiv:2407.02838#008",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.2 and Table 2 give Li6B7S13I a theoretical FPMD conductivity of 2.1\u00d710\u22123 S/cm, listed under \u03c3300K. Table 2 states room-temperature values, so null is conservative rather than wrong, and the material, value, unit and origin are correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18861,
+        "outputTokens": 3203,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 19051,
+        "webSearchRequests": 0,
+        "costUSD": 0.00731762,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2329,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 19051,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 13773,
+    "notional_cost_usd": 0.00731762
+  },
+  "paper_id": "arXiv:2407.02838",
+  "model": "haiku"
+}

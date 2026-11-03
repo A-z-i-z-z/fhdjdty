@@ -1,0 +1,66 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2609.13532#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract gives total conductivity 1.60 mS\u00b7cm\u207b\u00b9 for the Na3.4 powder calcined at 900 \u00b0C, with room-temperature EIS measurements in the Methods. The 1300 \u00b0C/12 h sintering matches the Na3.4 protocol."
+      },
+      {
+        "record_id": "arXiv:2609.13532#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract gives 2.95 mS\u00b7cm\u207b\u00b9 total conductivity for Na3.4 calcined at 1200 \u00b0C, and Section 3.4 confirms 2.95 as the total conductivity of the highest-calcined Na3.4 electrolyte. The 1300 \u00b0C/12 h sintering matches the Na3.4 protocol."
+      },
+      {
+        "record_id": "arXiv:2609.13532#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.4 states 'Their total conductivities are, respectively, 0.98 and 2.95', and the 0.98 value belongs to the highest-calcined Na3 electrolyte (1100 \u00b0C). The Na3 sintering at 1225 \u00b0C for 12 h matches the Methods."
+      },
+      {
+        "record_id": "arXiv:2609.13532#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract and conclusions report 3.82 mS\u00b7cm\u207b\u00b9 room-temperature total conductivity for the 20% P-excess Na3.4 material calcined at 1200 \u00b0C. The Methods state that all samples are sintered for 12 h under the same protocol, with 1300 \u00b0C for Na3.4."
+      },
+      {
+        "record_id": "arXiv:2609.13532#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction attributes 'up to 5 mS\u2219cm-1 at RT' for the Na3.4 stoichiometry to refs 11\u201313, so it is literature_cited and correctly recorded."
+      },
+      {
+        "record_id": "arXiv:2609.13532#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction attributes the 1.48 mS\u2219cm-1 RT conductivity for Na3Zr2Si2PO12 with fully-reactive sintering to Xing et al. (ref 30), so it is literature_cited and correctly recorded."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 22035,
+        "outputTokens": 3133,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 22227,
+        "webSearchRequests": 0,
+        "costUSD": 0.00823522,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2255,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22227,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 12260,
+    "notional_cost_usd": 0.00823522
+  },
+  "paper_id": "arXiv:2609.13532",
+  "model": "haiku"
+}

@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:2309.14678#001",
+    "paper_id": "arXiv:2309.14678",
+    "record": {
+      "material_as_written": "\u03b2-alumina (Na \u03b2-alumina, single crystal)",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.01-0.03",
+      "conductivity_unit_as_reported": "Scm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "has an ionic conductivity of 0.01-0.03 Scm\u22121",
+      "evidence_location": "Introduction",
+      "notes": "Range quoted from ref. [8] (Lu et al., Jom 2010) for beta-alumina in single crystals at room temperature; the material is described only as '\u03b2-alumina' in the introduction, and the paper's own calculations give no conductivity values. Recorded as literature_cited, not as a result of this paper. Activation energies in Table I are migration barriers or literature Ea values and are not conductivities, so they are not recorded."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.03,
+    "log10_conductivity": -1.523
+  }
+]

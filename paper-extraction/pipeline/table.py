@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import csv
 import json
+import re
 from collections import Counter
 
 from .common import Workdir, safe_id, squash, squash_variants
@@ -34,6 +35,20 @@ def _coerce(kind, v):
     if kind is list:
         return v if isinstance(v, list) else [x.strip() for x in str(v).split(",") if x.strip()]
     return str(v)
+
+
+_KELVIN = re.compile(r"^\s*(\d+(?:\.\d+)?)\s*K\s*$")
+
+
+def kelvin_to_c(rec: dict) -> bool:
+    """Fill measurement_temperature_C from a plain 'NNN K' string. The model copies, code converts."""
+    if rec.get("measurement_temperature_C") is not None:
+        return False
+    m = _KELVIN.match(rec.get("measurement_temperature_as_reported") or "")
+    if not m:
+        return False
+    rec["measurement_temperature_C"] = round(float(m.group(1)) - 273.15, 2)
+    return True
 
 
 def _load(path):
@@ -94,6 +109,7 @@ def build(wd: Workdir) -> None:
                         applied.append(f"{f}={rec[f]}")
                     except (TypeError, ValueError):
                         pass
+            kelvin_to_c(rec)
             row["status"] = "verified_corrected" if applied else "verified"
             row["corrections"] = "; ".join(applied)
             kept.append({**row, **rec})

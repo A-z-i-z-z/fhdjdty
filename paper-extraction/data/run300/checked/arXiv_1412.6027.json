@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:1412.6027#001",
+    "paper_id": "arXiv:1412.6027",
+    "record": {
+      "activation_energy_eV": 0.26,
+      "conductivity_kind": "unspecified",
+      "conductivity_unit_as_reported": "S/cm",
+      "conductivity_value_as_reported": "2 \u00d7 10\u22124",
+      "data_origin": "literature_cited",
+      "dopants": [],
+      "evidence_location": "Introduction",
+      "evidence_quote": "The material was reported to have a conductivity of 2 \u00d7 10\u22124 S/cm at room temperature and an activation energy of 0.26 eV.8",
+      "material_as_written": "Li4BN3H10",
+      "material_class": "other",
+      "measurement_method": null,
+      "measurement_temperature_C": null,
+      "measurement_temperature_as_reported": "room temperature",
+      "mobile_ion": "Li",
+      "notes": "Value is taken from Matsuo et al. (ref. 8), cited in the introduction; not measured in this paper. Synthesis, density and sintering details are not given in this paper.",
+      "relative_density_pct": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "synthesis_method": null,
+      "unit_evidence_quote": null
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0002,
+    "log10_conductivity": -3.699
+  }
+]

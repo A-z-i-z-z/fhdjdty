@@ -1,0 +1,39 @@
+[
+  {
+    "record_id": "arXiv:1909.00623#001",
+    "paper_id": "arXiv:1909.00623",
+    "record": {
+      "material_as_written": "cubic LLZO",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.02",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "500 K",
+      "measurement_temperature_C": 226.85,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "Murugan and Weppner [131] report an ionic conductivity of 0.02 S cm\u22121 for cubic LLZO at 500 K, which results in a tracer diffusion 2 \u00d7 10\u22127 cm2 s\u22121",
+      "evidence_location": "results, section 3.2",
+      "notes": "Value is quoted from Ref. [131] (literature cited), not measured in this paper. Composition is given only as 'LLZO' (no explicit Li7La3Zr2O12 formula or dopant stated). Conductivity kind is not specified in the sentence."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.02,
+    "log10_conductivity": -1.699
+  }
+]

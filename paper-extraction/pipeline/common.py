@@ -152,6 +152,7 @@ def norm_chars(s: str) -> str:
     s = unicodedata.normalize("NFKC", s)
     s = s.translate(_DASHES).translate(_TIMES).translate(_MICRO)
     s = s.replace("­", "")  # soft hyphen
+    s = re.sub(r"-{2,}", "-", s)  # some PDFs print a minus as two dash characters
     return s
 
 

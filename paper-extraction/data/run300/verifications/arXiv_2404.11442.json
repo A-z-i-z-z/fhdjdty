@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2404.11442#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper's introduction states that glassy Li3OCl- and Na3OCl-based antiperovskites reach about 0.1 mS/cm at room temperature, citing refs 18-20, so the origin is literature_cited and the value, unit and temperature match. The mobile_ion value 'other' is loosely worded for a mixed Li/Na class, but the paper gives no contradicting value and all secondary fields are correctly null."
+      },
+      {
+        "record_id": "arXiv:2404.11442#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction reports 0.2 mS/cm room-temperature conductivity for amorphous Li3OCl used as a matrix for Li6.75La3Zr1.75Ta0.25O12 garnet particles, citing refs 21-24, which matches the cited composite in ref 21's title. The origin is correctly literature_cited, and the Li mobile ion and Ta dopant are consistent with the composition. All secondary fields are correctly null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 28593,
+        "outputTokens": 1593,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 28779,
+        "webSearchRequests": 0,
+        "costUSD": 0.00943142,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1137,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28779,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7402,
+    "notional_cost_usd": 0.00943142
+  },
+  "paper_id": "arXiv:2404.11442",
+  "model": "haiku"
+}

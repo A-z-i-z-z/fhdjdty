@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1703.01422#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states that the ionic conductivity extracted from the I-V measurements is of the order of 10\u22123 S.cm\u22121 at room temperature for Rb2Ti2O5\u2212\u03b4, measured in this work, so the material, value, unit, temperature (null numeric value with 'room temperature' as written), and experimental origin all check out. The secondary fields are null or 'other' and none asserts an unsupported value."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 12727,
+        "outputTokens": 972,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 12919,
+        "webSearchRequests": 0,
+        "costUSD": 0.00436232,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 712,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12919,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4030,
+    "notional_cost_usd": 0.00436232
+  },
+  "paper_id": "arXiv:1703.01422",
+  "model": "haiku"
+}

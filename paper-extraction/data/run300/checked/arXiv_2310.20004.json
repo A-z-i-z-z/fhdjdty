@@ -1,0 +1,42 @@
+[
+  {
+    "record_id": "arXiv:2310.20004#001",
+    "paper_id": "arXiv:2310.20004",
+    "record": {
+      "material_as_written": "Li6PS5Cl",
+      "material_class": "argyrodite",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.7 \u00b7 10\u22123",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": "Table S1: Parameters of the electrochemical simulations. Functional parameters are indicated by * and are given at initial conditions.",
+      "conductivity_kind": "bulk",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "0.7 \u00b7 10\u22123",
+      "evidence_location": "Table S1 (Supporting Information, SE (Li6PS5Cl) block, row \u03baSE Li 'Li-ion bulk conductivity')",
+      "notes": "Simulation input parameter for the SE, not measured in this paper. Table S1 reference column lists [S5] for this row, which is a literature source, so origin is literature_cited. The table text is garbled in extraction; the value 0.7 \u00b7 10\u22123 is the Li-ion bulk conductivity row in the SE block, with unit S/cm from the Unit column. Temperature not stated. Other conductivities in the paper (effective ionic conductivity normalized to bulk, liquid electrolyte 9.4\u00b710\u22123 S/cm) were excluded."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": false,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "quote is only the value; material comes from context",
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.0007,
+    "log10_conductivity": -3.155
+  }
+]

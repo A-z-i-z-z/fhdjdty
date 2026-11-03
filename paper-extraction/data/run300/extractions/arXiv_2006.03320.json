@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about Li10GeP2S12-type solid electrolytes, but it reports computed Li tracer diffusion coefficients, not ionic conductivity values for a specific material; the only mS/cm figure (4.5 mS/cm) is an interlaboratory uncertainty, not a material's conductivity.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 27828,
+        "outputTokens": 575,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 28020,
+        "webSearchRequests": 0,
+        "costUSD": 0.008705860000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 334,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 28020,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3149,
+    "notional_cost_usd": 0.008705860000000001
+  },
+  "paper_id": "arXiv:2006.03320",
+  "model": "haiku"
+}

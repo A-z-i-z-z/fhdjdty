@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "This is a theoretical lattice-model paper on superionic phase transitions; it reports no numeric ionic conductivity value for any specific solid Li/Na-ion conductor (conductivity appears only qualitatively or in unlabeled figures), so no records qualify.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 30393,
+        "outputTokens": 376,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 30583,
+        "webSearchRequests": 0,
+        "costUSD": 0.00937546,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 167,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 30583,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2537,
+    "notional_cost_usd": 0.00937546
+  },
+  "paper_id": "arXiv:2604.00665",
+  "model": "haiku"
+}

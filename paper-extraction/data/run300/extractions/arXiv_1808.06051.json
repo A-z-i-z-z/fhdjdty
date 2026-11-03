@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper uses a lithium solid ion conductor only as a gate dielectric in a FET device and studies superconductivity and magnetism in (Li,Fe)OHFeSe; it reports no ionic conductivity value for any solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 10400,
+        "outputTokens": 380,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 10588,
+        "webSearchRequests": 0,
+        "costUSD": 0.00337916,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 146,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 10588,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2180,
+    "notional_cost_usd": 0.00337916
+  },
+  "paper_id": "arXiv:1808.06051",
+  "model": "haiku"
+}

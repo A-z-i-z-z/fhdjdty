@@ -1,0 +1,72 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1912.12718#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 4.1 states the b-axis bulk conductivity of LiFePO4 at 30 \u00b0C is 1.2(1)\u00b710\u221210 S cm\u22121, with the Arrhenius activation energy 0.70(3) eV for b, and the crystals were grown by optical floating zone."
+      },
+      {
+        "record_id": "arXiv:1912.12718#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Section 5 Fig. 8 values of 1.2(7)\u00b710\u221210 S cm\u22121 (||b) for LiFePO4 are the authors' own Arrhenius-fit values at 30 \u00b0C from this paper's data, not literature; the b-axis activation energy of 0.70 eV matches Table 2."
+      },
+      {
+        "record_id": "arXiv:1912.12718#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Fig. 8 value 1.6(6)\u00b710\u221211 S cm\u22121 (||c) for LiFePO4 at 30 \u00b0C is reported in this paper, and the c-axis activation energy of 0.68(2) eV matches Section 4.1 and Table 2."
+      },
+      {
+        "record_id": "arXiv:1912.12718#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text reports 3.9(32)\u00b710\u221211 S cm\u22121 (||b) for LiMn0.5Fe0.5PO4 at 30 \u00b0C from the Arrhenius fits, and Table 2 gives EA = 0.72(3) eV for b in that material."
+      },
+      {
+        "record_id": "arXiv:1912.12718#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text reports 1.1(7)\u00b710\u221212 S cm\u22121 (||c) for LiMn0.5Fe0.5PO4 at 30 \u00b0C, and Table 2 gives EA = 0.67(3) eV for c in that material."
+      },
+      {
+        "record_id": "arXiv:1912.12718#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text reports 2.2(12)\u00b710\u221214 S cm\u22121 (||b) for LiMnPO4 at 30 \u00b0C, and Table 2 gives EA = 0.86(3) eV for b in LiMnPO4."
+      },
+      {
+        "record_id": "arXiv:1912.12718#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text reports 2.4(30)\u00b710\u221214 S cm\u22121 (||c) for LiMnPO4 at 30 \u00b0C, and Table 2 gives EA = 0.85(4) eV for c in LiMnPO4."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 20246,
+        "outputTokens": 2585,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 20438,
+        "webSearchRequests": 0,
+        "costUSD": 0.00742452,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1616,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 20438,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9813,
+    "notional_cost_usd": 0.00742452
+  },
+  "paper_id": "arXiv:1912.12718",
+  "model": "haiku"
+}

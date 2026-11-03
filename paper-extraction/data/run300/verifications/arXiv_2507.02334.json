@@ -1,0 +1,72 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2507.02334#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports 0.19 mS/cm room-temperature conductivity for Li0.5Mg0.5Al0.5PO4 from Arrhenius fitting of CHGNet-MD data, and 0.38 eV for that configuration. Origin is correctly computational and the secondary fields are null as the paper gives no synthesis data."
+      },
+      {
+        "record_id": "arXiv:2507.02334#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports 0.024 mS/cm room-temperature conductivity and 0.52 eV for Li0.5TiPO4.5F0.5 from CHGNet-MD, so the value, temperature, and computational origin are all correct."
+      },
+      {
+        "record_id": "arXiv:2507.02334#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 2.8 mS/cm value is the mean of three 200 ps fine-tuned CHGNet MD runs at 300 K for LATP, as stated in Section 2.4, so the material, temperature, and computational origin are correct."
+      },
+      {
+        "record_id": "arXiv:2507.02334#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the fine-tuned model predicts 8.6 mS/cm at 300 K for LATP and a migration barrier of 0.21 eV, both computed in this work."
+      },
+      {
+        "record_id": "arXiv:2507.02334#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 5.1 mS/cm value is the AIMD reference computed in this paper for LATP at 300 K, with the 0.22 eV AIMD barrier, so computational origin and AIMD method are correct."
+      },
+      {
+        "record_id": "arXiv:2507.02334#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the pre-trained CHGNet model predicts 57 mS/cm at 300 K for LATP, which is a computed value from this work, and no activation energy is attributed to this value."
+      },
+      {
+        "record_id": "arXiv:2507.02334#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The roughly 1 mS/cm and 0.28 eV values for LATP are explicitly attributed to experimental literature (refs 30-32), not measured here, and the paper gives no measurement temperature, so null is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17075,
+        "outputTokens": 2641,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 17267,
+        "webSearchRequests": 0,
+        "costUSD": 0.00650122,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1746,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17267,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10426,
+    "notional_cost_usd": 0.00650122
+  },
+  "paper_id": "arXiv:2507.02334",
+  "model": "haiku"
+}

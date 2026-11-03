@@ -1,0 +1,203 @@
+[
+  {
+    "record_id": "arXiv:2606.31669#001",
+    "paper_id": "arXiv:2606.31669",
+    "record": {
+      "material_as_written": "Li7La3Zr1.9Ti0.1O12",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ti"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1100,
+      "sintering_time_h": 8,
+      "relative_density_pct": 91.8,
+      "conductivity_value_as_reported": "8.08\u00d710-5",
+      "conductivity_unit_as_reported": "Scm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.37,
+      "measurement_method": "EIS",
+      "evidence_quote": "high ionic conductivity of 8.08\u00d710-5 Scm-1 is offered by the Li7La3Zr1.9Ti0.1O12 sample, which has the lowest activation energy of 0.37 eV.",
+      "evidence_location": "abstract",
+      "notes": "Room temperature is from the abstract and results text ('8.08 x 10-5 Scm-1 at room temperature'); the abstract quote itself does not state the temperature. Relative density 91.8% is for x=0.10 from Table 1 and the text. Sintering conditions apply to the series as described in Section 2.1."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 8.08e-05,
+    "log10_conductivity": -4.093
+  },
+  {
+    "record_id": "arXiv:2606.31669#002",
+    "paper_id": "arXiv:2606.31669",
+    "record": {
+      "material_as_written": "Li7La3Zr2O12 (x=0, Li7La3Zr2-xTixO12)",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1100,
+      "sintering_time_h": 8,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "7.51 x 10-6",
+      "conductivity_unit_as_reported": "Scm-1",
+      "unit_evidence_quote": "(Scm )",
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.51,
+      "measurement_method": "EIS",
+      "evidence_quote": "7.51 x 10-6",
+      "evidence_location": "Table 2",
+      "notes": "Table 2 is garbled in the PDF text; the value is matched to the x=0 row by row order and the 0.51 eV value is in the same table. Composition is inferred from the table row, not from the quote itself."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": false,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 7.51e-06,
+    "log10_conductivity": -5.124
+  },
+  {
+    "record_id": "arXiv:2606.31669#003",
+    "paper_id": "arXiv:2606.31669",
+    "record": {
+      "material_as_written": "Li7La3Zr1.95Ti0.05O12",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ti"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1100,
+      "sintering_time_h": 8,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.39 x 10-5",
+      "conductivity_unit_as_reported": "Scm-1",
+      "unit_evidence_quote": "(Scm )",
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.41,
+      "measurement_method": "EIS",
+      "evidence_quote": "1.39 x 10-5",
+      "evidence_location": "Table 2",
+      "notes": "Table 2 is garbled in the PDF text; the composition (x=0.05) is inferred from table row order. Material written as Li7La3Zr2-xTixO12 with x=0.05 in the table."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": false,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 1.39e-05,
+    "log10_conductivity": -4.857
+  },
+  {
+    "record_id": "arXiv:2606.31669#004",
+    "paper_id": "arXiv:2606.31669",
+    "record": {
+      "material_as_written": "Li7La3Zr1.85Ti0.15O12",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ti"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1100,
+      "sintering_time_h": 8,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.24 x 10-5",
+      "conductivity_unit_as_reported": "Scm-1",
+      "unit_evidence_quote": "(Scm )",
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.42,
+      "measurement_method": "EIS",
+      "evidence_quote": "1.24 x 10-5",
+      "evidence_location": "Table 2",
+      "notes": "Table 2 is garbled in the PDF text; the composition (x=0.15) is inferred from table row order, and the value may be misassigned to 0.15 or 0.20 given the scrambled layout."
+    },
+    "hard_checks": {
+      "quote_in_text": false,
+      "value_in_quote": true,
+      "unit_shown": false,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 1.24e-05,
+    "log10_conductivity": -4.907
+  },
+  {
+    "record_id": "arXiv:2606.31669#005",
+    "paper_id": "arXiv:2606.31669",
+    "record": {
+      "material_as_written": "Li7La3Zr1.8Ti0.2O12",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ti"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1100,
+      "sintering_time_h": 8,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "9.03 x 10-6",
+      "conductivity_unit_as_reported": "Scm-1",
+      "unit_evidence_quote": "(Scm )",
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.48,
+      "measurement_method": "EIS",
+      "evidence_quote": "9.03 x 10-6",
+      "evidence_location": "Table 2",
+      "notes": "Table 2 is garbled in the PDF text; the composition (x=0.20) is inferred from table row order and the trend in the text (x=0.20 is beyond the solubility limit)."
+    },
+    "hard_checks": {
+      "quote_in_text": false,
+      "value_in_quote": true,
+      "unit_shown": false,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 9.03e-06,
+    "log10_conductivity": -5.044
+  }
+]

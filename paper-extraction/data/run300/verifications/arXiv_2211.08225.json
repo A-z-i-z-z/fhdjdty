@@ -1,0 +1,90 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2211.08225#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The UHS LAGP total conductivity of 1.15\u00d710-4 S/cm and Ea of 0.40\u00b10.03 eV are stated in Section 3.3, with the 78% relative density and ~750 \u00b0C UHS temperature also given. The 180 s time is correctly converted to 0.05 h."
+      },
+      {
+        "record_id": "arXiv:2211.08225#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Conventional LAGP at 1.75\u00d710-4 S/cm and 0.41\u00b10.02 eV is reported as an experimental result, with 750 \u00b0C for 12 h and 80% relative density stated in Sections 2.1 and 2.2."
+      },
+      {
+        "record_id": "arXiv:2211.08225#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 3.4.1 gives LAGP-B conventional as ~1.70\u00d710-4 S/cm with Ea 0.40\u00b10.01 eV, and the ~78% density applies to the LAGP-B pellets. The 750 \u00b0C, 12 h conventional protocol applies to the additive mixtures per Section 2.1."
+      },
+      {
+        "record_id": "arXiv:2211.08225#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "LAGP-B UHS at ~1.97\u00d710-4 S/cm and Ea 0.36\u00b10.02 eV (the UHS value in the sentence giving 0.40 vs 0.36 eV) matches the paper, which is experimental and at room temperature."
+      },
+      {
+        "record_id": "arXiv:2211.08225#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The LAGP-LBO conventional value of ~2.25\u00d710-4 S/cm matches the paper. The 0.36 eV activation energy follows the conventional-then-UHS order used throughout. Density is correctly null. The 750 \u00b0C/12 h protocol is the one the paper applies to the additive mixtures, so it is supported despite the record's note saying it was set to null."
+      },
+      {
+        "record_id": "arXiv:2211.08225#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "LAGP-LBO UHS at ~2.3\u00d710-4 S/cm, Ea 0.33\u00b10.03 eV, and ~75% relative density all match Sections 3.4.2 and the UHS sintering protocol."
+      },
+      {
+        "record_id": "arXiv:2211.08225#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The conventional LAGP grain-boundary conductivity of 9.79\u00d710-6 S/cm from the brick-layer model is reported as this paper's own result at room temperature, with 80% density."
+      },
+      {
+        "record_id": "arXiv:2211.08225#008",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The UHS LAGP grain-boundary conductivity of 5.96\u00d710-6 S/cm is stated in Section 3.3 as the paper's own brick-layer result at room temperature."
+      },
+      {
+        "record_id": "arXiv:2211.08225#009",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "LAGP-B UHS grain-boundary conductivity of 1.15\u00d710-5 S/cm is reported in Section 3.4.1 as this paper's brick-layer result at room temperature."
+      },
+      {
+        "record_id": "arXiv:2211.08225#010",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "LAGP-LBO UHS grain-boundary conductivity of 3.06\u00d710-5 S/cm (~5\u00d7 LAGP UHS) is reported in Section 3.4.2 as this paper's result, with 75% density."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 21065,
+        "outputTokens": 3830,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 21251,
+        "webSearchRequests": 0,
+        "costUSD": 0.00829152,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2508,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 21251,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 15112,
+    "notional_cost_usd": 0.00829152
+  },
+  "paper_id": "arXiv:2211.08225",
+  "model": "haiku"
+}

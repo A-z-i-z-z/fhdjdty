@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2407.15258#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives the low-temperature P n a21 Li7PS6 RT conductivity as 'on the order of 1.6\u00b710\u22123 mS/cm [11]', with a citation marker to Deiseroth et al. 2011, so literature_cited is correct. The value and unit match, the RT temperature is correctly left numeric-null, and all secondary fields are null as the paper gives none for this material."
+      },
+      {
+        "record_id": "arXiv:2407.15258#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The sentence reports 'ionic conductivities of 10.2 mS/cm at RT [1]' for Li5.35Ca0.1PS4.5Cl1.55, cited to Adeli et al. (Ref. [1]), so literature_cited is correct. Material, value, unit and RT temperature all match, and the secondary fields are correctly null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 22397,
+        "outputTokens": 1051,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 22589,
+        "webSearchRequests": 0,
+        "costUSD": 0.007302820000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 639,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22589,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5407,
+    "notional_cost_usd": 0.007302820000000001
+  },
+  "paper_id": "arXiv:2407.15258",
+  "model": "haiku"
+}

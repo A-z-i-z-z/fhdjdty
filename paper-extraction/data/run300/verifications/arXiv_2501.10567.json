@@ -1,0 +1,96 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2501.10567#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 2.62 x 10-4 S cm-1 value for the Nb2CTx MXene PEO/LiTFSI membrane is stated in the text as attributed to Liu et al. [105], and the paper gives no temperature for it, so null is correct. The 60 \u00b0C in the text refers to the transference number."
+      },
+      {
+        "record_id": "arXiv:2501.10567#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 4.9 x 10-4 S cm-1 value is for the PEO/PGA/Al2O3/LiTFSI/Py13TFSI CPE from Li et al. [106]. Table 2 gives this conductivity at 50 \u00b0C, which supports the temperature, and solution casting is stated for this work."
+      },
+      {
+        "record_id": "arXiv:2501.10567#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text says 'At 60 \u00b0C ... 5.27 x 10-4 S cm-1' for the PEO/LiTFSI/In2O3 CPE from Zhang et al. [110], and Table 2 agrees. In2O3 is a filler, so the empty dopants list is correct."
+      },
+      {
+        "record_id": "arXiv:2501.10567#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text states ~2.7 x 10-4 S cm-1 at room temperature for the PEGDME/TEGDME-plasticized PVDF-HFP GPE from Castillo et al. [114], so null temperature is correct. Table 2 lists a different value (~2.7 x 10-3) for the same system, a discrepancy the record notes, but the text value is what the paper reports for this material."
+      },
+      {
+        "record_id": "arXiv:2501.10567#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text reports a room-temperature ionic conductivity of up to 3.6 x 10-4 S cm-1 for the PVDF-HFP/LiTFSI/UCPBA CPE from Zhu et al. [42], and Table 2 agrees."
+      },
+      {
+        "record_id": "arXiv:2501.10567#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 5.54 x 10-4 S cm-1 value for the NH2-MIL-53(Al) composite is attributed to Wang et al. [36] and is stated without a measurement temperature, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2501.10567#008",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text says 'At 30 \u00b0C, the ionic conductivity of ... PTMG-HDI-BHDS/LiFSI was measured to be 2.4 \u00d7 10\u2212 4 S cm\u2212 1', attributed to Pei et al. [120], and Table 2 agrees."
+      },
+      {
+        "record_id": "arXiv:2501.10567#009",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text reports 1.10 \u00d7 10\u22125 S cm\u22121 at 25 \u00b0C for the Hu et al. [125] PEO semi-IPN electrolyte, which was prepared by in-situ cross-linking. The record's section label is slightly off but the values and origin are correct."
+      },
+      {
+        "record_id": "arXiv:2501.10567#010",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text reports 1.41 \u00d7 10\u22124 S cm\u22121 at 60 \u00b0C for the same Hu et al. [125] electrolyte, so the value, temperature and literature origin are correct."
+      },
+      {
+        "record_id": "arXiv:2501.10567#011",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text states 'an ionic conductivity of 7.8 x 10-4 S cm-1 at 25 \u00b0C' for the BPSO/PVDF/LiTFSI/cellulose acetate CPE from Chen et al. [124], and the Figure 6 caption confirms solution casting. Table 2 lists a different value (4.0 x 10-4), a discrepancy that does not change the text-based record."
+      },
+      {
+        "record_id": "arXiv:2501.10567#012",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text reports 'ionic conductivity to 2.07 \u00d7 10\u22124 S cm\u22121 at 60 \u00b0C' for the quaternary-ammonium cellulose acetate nanofiber PEO electrolyte from Ji et al. [112]."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 37675,
+        "outputTokens": 4327,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 37865,
+        "webSearchRequests": 0,
+        "costUSD": 0.01352382,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2757,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 37865,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 17905,
+    "notional_cost_usd": 0.01352382
+  },
+  "paper_id": "arXiv:2501.10567",
+  "model": "haiku"
+}

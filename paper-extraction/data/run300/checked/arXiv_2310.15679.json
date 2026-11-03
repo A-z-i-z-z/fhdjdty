@@ -1,0 +1,152 @@
+[
+  {
+    "record_id": "arXiv:2310.15679#001",
+    "paper_id": "arXiv:2310.15679",
+    "record": {
+      "material_as_written": "Li3PS4 (beta phase, ML-PBEsol)",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "7.7\u00d710\u22124",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "298 K",
+      "measurement_temperature_C": 24.85,
+      "activation_energy_eV": 0.38,
+      "measurement_method": "NpT ML-MD with Green-Kubo (Helfand-Einstein) conductivity; 298 K value extrapolated from fit",
+      "evidence_quote": "PBEsol\n0.38\n0.17\n7.7\u00d710\u22124\n2.8\u00d710\u22121",
+      "evidence_location": "Table IV",
+      "notes": "Table IV row gives values for ML-PBEsol; the column header order (beta EA, alpha EA, beta sigma298K, beta sigma500K, alpha sigma298K) is taken from the extracted header and the 298 K beta assignment is inferred from column order. Row values are split across lines in the PDF extraction. Table IV footnote says 298 K values are extrapolated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": false,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.00077,
+    "log10_conductivity": -3.114
+  },
+  {
+    "record_id": "arXiv:2310.15679#002",
+    "paper_id": "arXiv:2310.15679",
+    "record": {
+      "material_as_written": "Li3PS4 (beta phase, ML-r2SCAN)",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.1\u00d710\u22125",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "298 K",
+      "measurement_temperature_C": 24.85,
+      "activation_energy_eV": 0.57,
+      "measurement_method": "NpT ML-MD with Green-Kubo (Helfand-Einstein) conductivity; 298 K value extrapolated from fit",
+      "evidence_quote": "r2 SCAN\n0.57\n0.21\n2.1\u00d710\u22125\n5.1\u00d710\u22122",
+      "evidence_location": "Table IV",
+      "notes": "Same column-assignment caveat as the PBEsol record; the 298 K beta assignment is inferred from column order in the extracted table header. Row values are split across lines in the PDF extraction."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": false,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 2.1e-05,
+    "log10_conductivity": -4.678
+  },
+  {
+    "record_id": "arXiv:2310.15679#003",
+    "paper_id": "arXiv:2310.15679",
+    "record": {
+      "material_as_written": "Li3PS4 (beta phase, ML-PBE0)",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "8.7\u00d710\u22126",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "total",
+      "measurement_temperature_as_reported": "298 K",
+      "measurement_temperature_C": 24.85,
+      "activation_energy_eV": 0.62,
+      "measurement_method": "NpT ML-MD with Green-Kubo (Helfand-Einstein) conductivity; 298 K value extrapolated from fit",
+      "evidence_quote": "PBE0\n0.62\n0.19\n8.7\u00d710\u22126\n3.9\u00d710\u22122",
+      "evidence_location": "Table IV",
+      "notes": "Same column-assignment caveat as the PBEsol record; the 298 K beta assignment is inferred from column order in the extracted table header. Row values are split across lines in the PDF extraction."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": false,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 8.7e-06,
+    "log10_conductivity": -5.06
+  },
+  {
+    "record_id": "arXiv:2310.15679#004",
+    "paper_id": "arXiv:2310.15679",
+    "record": {
+      "material_as_written": "gamma-Li3PS4",
+      "material_class": "thiophosphate_other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "3 \u00d7 10\u22127",
+      "conductivity_unit_as_reported": "S cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "(\u2248 3 \u00d7 10\u22127 S cm\u22121",
+      "evidence_location": "introduction",
+      "notes": "Value is cited from Ref. [20] in the introduction, not measured in this paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 3e-07,
+    "log10_conductivity": -6.523
+  }
+]

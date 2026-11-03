@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports Li-ion conductivities (converted from simulated Li self-diffusion coefficients) for the argyrodite solid electrolyte Li6PS5Cl, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "Li6 PS5 Cl (anion-ordered bulk)",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.2",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": 0.384,
+        "measurement_method": "MD simulation with machine-learning potential (MTP); sigma converted from D via Nernst-Einstein",
+        "evidence_quote": "the anion-ordered bulk structure (1.2\u00d710\u22129 cm2 /s, corresponding ionic conductivity about 0.2 mS/cm)",
+        "evidence_location": "abstract",
+        "notes": "Conductivity is not measured; it is converted from the simulated self-diffusion coefficient using Lambda from experiment (Appendix B). Activation energy 384 meV in the text (Sec. III D) is entered as 0.384 eV. Conductivity also listed as 0.2 in Table V."
+      },
+      {
+        "material_as_written": "Li6 PS5 Cl (50% Cl/S anion-disordered bulk)",
+        "material_class": "argyrodite",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "29.8",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": 0.216,
+        "measurement_method": "MD simulation with machine-learning potential (MTP); sigma converted from D via Nernst-Einstein",
+        "evidence_quote": "the anion-disordered bulk structure (50 % Cl/S-anion disorder; 2.2 \u00d7 10\u22127 cm2 /s, about 29.8 mS/cm)",
+        "evidence_location": "abstract",
+        "notes": "Conductivity is not measured; it is converted from the simulated diffusion coefficient (Appendix B). Activation energy 216 meV in Sec. III D is entered as 0.216 eV. Disorder is Cl/S anion mixing, not a dopant."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 48999,
+        "outputTokens": 3708,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 49187,
+        "webSearchRequests": 0,
+        "costUSD": 0.016622860000000003,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2625,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 49187,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 15474,
+    "notional_cost_usd": 0.016622860000000003
+  },
+  "paper_id": "arXiv:2407.04126",
+  "model": "haiku"
+}

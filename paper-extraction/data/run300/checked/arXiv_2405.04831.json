@@ -1,0 +1,210 @@
+[
+  {
+    "record_id": "arXiv:2405.04831#001",
+    "paper_id": "arXiv:2405.04831",
+    "record": {
+      "material_as_written": "Li7-3xGaxLa3Zr1.9Ge0.1O12 (x = 0, '0 Ga')",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ga",
+        "Ge"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": 8,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "8.6 x 10-6",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": "Ionic conductivity (S/cm)",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25\u00baC",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.56,
+      "measurement_method": "AC impedance spectroscopy",
+      "evidence_quote": "8.6 x 10-6",
+      "evidence_location": "Table 2",
+      "notes": "Value taken from Table 2 row x=0 (0 Ga). Table cells are split in the PDF text, so the value and activation energy (0.56 eV) are aligned by row order. Sintering 1050 C/8 h is the stated condition for all samples."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 8.6e-06,
+    "log10_conductivity": -5.066
+  },
+  {
+    "record_id": "arXiv:2405.04831#002",
+    "paper_id": "arXiv:2405.04831",
+    "record": {
+      "material_as_written": "Li7-3xGaxLa3Zr1.9Ge0.1O12 (x = 0.10, '0.10 Ga')",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ga",
+        "Ge"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": 8,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1.85 x 10-4",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": "Ionic conductivity (S/cm)",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25\u00baC",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.3,
+      "measurement_method": "AC impedance spectroscopy",
+      "evidence_quote": "1.85 x 10-4",
+      "evidence_location": "Table 2",
+      "notes": "Value from Table 2 row x=0.10; row alignment inferred from PDF text layout. Paper also notes a La2Zr2O7 impurity for 0 Ga and 0.10 Ga samples."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 0.000185,
+    "log10_conductivity": -3.733
+  },
+  {
+    "record_id": "arXiv:2405.04831#003",
+    "paper_id": "arXiv:2405.04831",
+    "record": {
+      "material_as_written": "Li7-3xGaxLa3Zr1.9Ge0.1O12 (x = 0.20, '0.20 Ga')",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ga",
+        "Ge"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": 8,
+      "relative_density_pct": 94.8,
+      "conductivity_value_as_reported": "5.09 x 10-4",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25\u00baC",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.25,
+      "measurement_method": "AC impedance spectroscopy",
+      "evidence_quote": "5.09 x 10-4 S/cm was achieved for the 0.20 Ga ceramic sample which is greater than 0 Ga by two orders of magnitude.",
+      "evidence_location": "results (Section 3.4.1)",
+      "notes": "Highest conductivity in the series; text describes it as room temperature. Table 2 gives 25\u00baC. Activation energy 0.25 eV from abstract and Table 2. Relative density 94.8% from Section 3.2."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.000509,
+    "log10_conductivity": -3.293
+  },
+  {
+    "record_id": "arXiv:2405.04831#004",
+    "paper_id": "arXiv:2405.04831",
+    "record": {
+      "material_as_written": "Li7-3xGaxLa3Zr1.9Ge0.1O12 (x = 0.30, '0.30 Ga')",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ga",
+        "Ge"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": 8,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "8.4 x 10-5",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": "Ionic conductivity (S/cm)",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25\u00baC",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.39,
+      "measurement_method": "AC impedance spectroscopy",
+      "evidence_quote": "8.4 x 10-5",
+      "evidence_location": "Table 2",
+      "notes": "Value from Table 2 row x=0.30; row alignment inferred from PDF text layout."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 8.4e-05,
+    "log10_conductivity": -4.076
+  },
+  {
+    "record_id": "arXiv:2405.04831#005",
+    "paper_id": "arXiv:2405.04831",
+    "record": {
+      "material_as_written": "Li7-3xGaxLa3Zr1.9Ge0.1O12 (x = 0.40, '0.40 Ga')",
+      "material_class": "garnet",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Ga",
+        "Ge"
+      ],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state reaction",
+      "sintering_temperature_C": 1050,
+      "sintering_time_h": 8,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "4.8 x 10-5",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": "Ionic conductivity (S/cm)",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "25\u00baC",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.43,
+      "measurement_method": "AC impedance spectroscopy",
+      "evidence_quote": "4.8 x 10-5",
+      "evidence_location": "Table 2",
+      "notes": "Value from Table 2 row x=0.40; row alignment inferred from PDF text layout."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "quote is only the value; material comes from context"
+    ],
+    "conductivity_S_per_cm": 4.8e-05,
+    "log10_conductivity": -4.319
+  }
+]

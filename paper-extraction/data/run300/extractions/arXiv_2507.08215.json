@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a machine-learning MD study of the Li+ glassy solid electrolyte 30Li2S-25B2S3-45LiI-5P2S5 and reports a computed Li+ ionic conductivity, plus an experimental value cited from prior work.",
+    "records": [
+      {
+        "material_as_written": "30Li2S-25B2S3-45LiI-5P2S5 (LBPSI)",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10.36",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": 0.2241,
+        "measurement_method": "MLMD simulation with Nernst-Einstein relation",
+        "evidence_quote": "The calculated Li+ ionic conductivity is 10.36 mS/cm, which is higher than the experimental value of 2.4 mS/cm.",
+        "evidence_location": "results",
+        "notes": "Computed in this paper from MACE-FT machine-learning MD (Nernst-Einstein, Eq. 2). The paper does not state the temperature for this conductivity value; the activation energy 0.2241 eV is from the same paper's Arrhenius fit of Li+ diffusivity (300-600 K). Glass composition is the paper's stated focus composition."
+      },
+      {
+        "material_as_written": "30Li2S-25B2S3-45LiI-5P2S5 (LBPSI)",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": "ball milling (experimental, from ref. 17)",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.4",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "The calculated Li+ ionic conductivity is 10.36 mS/cm, which is higher than the experimental value of 2.4 mS/cm.",
+        "evidence_location": "results",
+        "notes": "Experimental Li+ conductivity of LBPSI taken from Song et al. (ref. 17); the paper's own experimental value is not measured here. The paper states an experimental activation energy of 0.31 eV (ref. 17), omitted here because it is not in the quoted span. Measurement temperature not stated."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 15534,
+        "outputTokens": 2348,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 15726,
+        "webSearchRequests": 0,
+        "costUSD": 0.00590416,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1257,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15726,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9706,
+    "notional_cost_usd": 0.00590416
+  },
+  "paper_id": "arXiv:2507.08215",
+  "model": "haiku"
+}

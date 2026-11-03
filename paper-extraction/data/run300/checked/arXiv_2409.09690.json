@@ -1,0 +1,154 @@
+[
+  {
+    "record_id": "arXiv:2409.09690#001",
+    "paper_id": "arXiv:2409.09690",
+    "record": {
+      "material_as_written": "c-Na3HS",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.01",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": 0.298,
+      "measurement_method": "AIMD with Nernst-Einstein extrapolation",
+      "evidence_quote": "which comes out to be 33.19 mS/cm for single vacancy-defected Na2.96HS as compared to 0.01 mS/cm for pristine c-Na3HS.",
+      "evidence_location": "Section 3.4 (results)",
+      "notes": "Extrapolated room-temperature value (300 K) from AIMD diffusivity via Nernst-Einstein; also listed in Table 2 and Table 3. Activation energy 0.298 \u00b1 0.05 eV from Arrhenius fit of AIMD data. Conductivity kind not specified in the paper; treated as unspecified."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 1e-05,
+    "log10_conductivity": -5.0
+  },
+  {
+    "record_id": "arXiv:2409.09690#002",
+    "paper_id": "arXiv:2409.09690",
+    "record": {
+      "material_as_written": "c-Na2.96HS",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "33.19",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 K",
+      "measurement_temperature_C": 26.85,
+      "activation_energy_eV": 0.12,
+      "measurement_method": "AIMD with Nernst-Einstein extrapolation",
+      "evidence_quote": "which comes out to be 33.19 mS/cm for single vacancy-defected Na2.96HS as compared to 0.01 mS/cm for pristine c-Na3HS.",
+      "evidence_location": "Section 3.4 (results)",
+      "notes": "Single Na vacancy in 3x3x3 supercell (Na2.96HS). Extrapolated 300 K value. Activation energy 0.12 \u00b1 0.0067 eV from the paper's Arrhenius plot for Na2.96HS. The vacancy is not an element dopant, so dopants is empty."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.03319,
+    "log10_conductivity": -1.479
+  },
+  {
+    "record_id": "arXiv:2409.09690#003",
+    "paper_id": "arXiv:2409.09690",
+    "record": {
+      "material_as_written": "Na2.92HS0.92Br0.07",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Br"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "148.35",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "600 K",
+      "measurement_temperature_C": 326.85,
+      "activation_energy_eV": null,
+      "measurement_method": "AIMD",
+      "evidence_quote": "the ionic conductivity for Br atom doped composition (Na2.92HS0.92Br0.07) is 148.35 mS/cm",
+      "evidence_location": "Section 3.5 (results)",
+      "notes": "Br substituted for S with charge compensation by Na removal (two S replaced, two Na removed in 3x3x3 supercell). Value is at 600 K, not 300 K, because the paper gives no 300 K value for this composition."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.14835,
+    "log10_conductivity": -0.829
+  },
+  {
+    "record_id": "arXiv:2409.09690#004",
+    "paper_id": "arXiv:2409.09690",
+    "record": {
+      "material_as_written": "Na2.92HS0.92Cl0.07",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Cl"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "137.97",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "600 K",
+      "measurement_temperature_C": 326.85,
+      "activation_energy_eV": null,
+      "measurement_method": "AIMD",
+      "evidence_quote": "that for the Cl atom doped composition (Na2.92HS0.92Cl0.07) is 137.97 mS/cm",
+      "evidence_location": "Section 3.5 (results)",
+      "notes": "Cl substituted for S with charge compensation by Na removal. Value is at 600 K. The paper's text also describes a separate Na2.96HS0.96Cl0.04 composition at 600 K and 1000 K without a numeric conductivity, so it is not recorded."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.13797,
+    "log10_conductivity": -0.86
+  }
+]

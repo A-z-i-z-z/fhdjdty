@@ -1,0 +1,80 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about LATP-based solid electrolyte ceramics with a glass additive and reports experimental total ionic conductivities from impedance spectroscopy.",
+    "records": [
+      {
+        "material_as_written": "LATP\u20130.1LBSO",
+        "material_class": "composite",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Al"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction with melt-quenched glass additive",
+        "sintering_temperature_C": 800,
+        "sintering_time_h": 2,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.5 \u00d7 10\u22124",
+        "conductivity_unit_as_reported": "S\u2219cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "room temperature",
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "impedance spectroscopy",
+        "evidence_quote": "The highest value of \u03c3tot = 1.5 \u00d7 10\u22124 S\u2219cm\u22121 has been obtained for LATP\u20130.1LBSO material sintered at 800\u00b0C.",
+        "evidence_location": "abstract",
+        "notes": "The abstract gives no temperature; the conclusions state this value is at room temperature, while Table 2 lists total conductivities at 30\u00b0C. Al is part of the LATP base composition (Li1.3Al0.3Ti1.7(PO4)3), not a separate dopant. Sintering time of 2 h is for the sintering series in the Experimental section."
+      },
+      {
+        "material_as_written": "LATP (Li1.3Al0.3Ti1.7(PO4)3 ceramic)",
+        "material_class": "NASICON",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Al"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 900,
+        "sintering_time_h": 2,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "4.65 \u00d7 10\u22125",
+        "conductivity_unit_as_reported": "S\u2219cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "30 \u00b0C",
+        "measurement_temperature_C": 30,
+        "activation_energy_eV": null,
+        "measurement_method": "impedance spectroscopy",
+        "evidence_quote": "the total conductivity \u03c3tot for ceramic LATP can be determined as ca. 4.65 \u00d7 10\u22125 S\u2219cm\u22121",
+        "evidence_location": "results (section 3.5)",
+        "notes": "The Nyquist data for this value were collected at 30\u00b0C (Fig. 8), so 30\u00b0C is taken as the measurement temperature. The value is for LATP sintered at 900\u00b0C. Al is part of the LATP base composition, not a separate dopant."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18167,
+        "outputTokens": 2271,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 18359,
+        "webSearchRequests": 0,
+        "costUSD": 0.0066555600000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1228,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18359,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9713,
+    "notional_cost_usd": 0.0066555600000000005
+  },
+  "paper_id": "arXiv:2007.11244",
+  "model": "haiku"
+}

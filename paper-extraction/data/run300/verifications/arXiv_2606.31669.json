@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2606.31669#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 0.10 Ti sample (Li7La3Zr1.9Ti0.1O12) is reported as having 8.08\u00d710-5 S/cm at room temperature with 0.37 eV activation energy, measured in this paper. Sintering at 1100 \u00b0C for 8 h, 91.8% relative density, solid-state synthesis, and Ti dopant all match the text. The temperature is correctly null because the paper gives only 'room temperature' with no numeric value."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17571,
+        "outputTokens": 941,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 17763,
+        "webSearchRequests": 0,
+        "costUSD": 0.00580002,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 655,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17763,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4425,
+    "notional_cost_usd": 0.00580002
+  },
+  "paper_id": "arXiv:2606.31669",
+  "model": "haiku"
+}

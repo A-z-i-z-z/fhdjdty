@@ -1,0 +1,191 @@
+[
+  {
+    "record_id": "arXiv:2501.03165#001",
+    "paper_id": "arXiv:2501.03165",
+    "record": {
+      "material_as_written": "Na4 SnP2 O9 (NSP)",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state synthesis",
+      "sintering_temperature_C": 900,
+      "sintering_time_h": 16,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "10\u22127",
+      "conductivity_unit_as_reported": "S/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "EIS",
+      "evidence_quote": "Ambient EIS demonstrates near insulator-like behavior at room temperature (\u03c3 \u2248 10\u22127 S/cm).",
+      "evidence_location": "Results E",
+      "notes": "Pellet sintering temperature/time (900 C, 16 h) taken from the EIS methods section for the annealed sample; the results section says pellets were conventionally sintered without temperature stated. Paper says density is greater than 90%, not a specific value, so relative density is left null. Value is near-insulating ambient EIS; paper notes surface water may contribute."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 1e-07,
+    "log10_conductivity": -7.0
+  },
+  {
+    "record_id": "arXiv:2501.03165#002",
+    "paper_id": "arXiv:2501.03165",
+    "record": {
+      "material_as_written": "Na4 TiP2 O9 (HT-NTP)",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.6 \u00d7 10\u22122",
+      "conductivity_unit_as_reported": "\u03a9\u22121 cm\u22121",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "300 \u25e6 C",
+      "measurement_temperature_C": 300,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "sodium mobility (2.6 \u00d7 10\u22122 \u03a9\u22121 cm\u22121 at 300 \u25e6 C [14]) was previously reported",
+      "evidence_location": "Results III A",
+      "notes": "Value attributed to Ref. [14] (Maximov et al. 1994), i.e. literature cited. Unit is \u03a9\u22121 cm\u22121 as written in the paper."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.026,
+    "log10_conductivity": -1.585
+  },
+  {
+    "record_id": "arXiv:2501.03165#003",
+    "paper_id": "arXiv:2501.03165",
+    "record": {
+      "material_as_written": "Na3 TaP2 O9",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [
+        "Ta"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "11.1",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "MLMD (fine-tuned CHGNet MD, Nernst-Einstein)",
+      "evidence_quote": "5+ cations have high predicted room temperature conductivities: 11.1 mS/cm (Na3 TaP2 O9 )",
+      "evidence_location": "Results III B",
+      "notes": "Room-temperature value is extrapolated from MD at 300-1000 K. Ta is the A-site substituent replacing Ti."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0111,
+    "log10_conductivity": -1.955
+  },
+  {
+    "record_id": "arXiv:2501.03165#004",
+    "paper_id": "arXiv:2501.03165",
+    "record": {
+      "material_as_written": "Na3 VP2 O9",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [
+        "V"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "12.4",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "MLMD (fine-tuned CHGNet MD, Nernst-Einstein)",
+      "evidence_quote": "and 12.4 mS/cm (Na3 VP2 O9 )",
+      "evidence_location": "Results III B",
+      "notes": "Room-temperature value is extrapolated from MD. V is the A-site substituent replacing Ti."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0124,
+    "log10_conductivity": -1.907
+  },
+  {
+    "record_id": "arXiv:2501.03165#005",
+    "paper_id": "arXiv:2501.03165",
+    "record": {
+      "material_as_written": "Na4 SnP2 O9 (NSP)",
+      "material_class": "other",
+      "mobile_ion": "Na",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "1",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": 0.27,
+      "measurement_method": "AIMD",
+      "evidence_quote": "(0.27 eV) (blue), consistent with the high predicted room temperature conductivity (1 mS/cm)",
+      "evidence_location": "Results III E, Figure 8 text",
+      "notes": "Paper states this value comes from AIMD calculations, though Methods describe MLMD for diffusivity; the 0.27 eV is the computed activation energy for the same curve. The conductivity value is room-temperature and appears in the Figure 8 discussion."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.001,
+    "log10_conductivity": -3.0
+  }
+]

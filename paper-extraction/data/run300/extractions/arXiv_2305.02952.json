@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about ferroelectric switching and oxygen ion mobility in HfO2 from DFT and MD. It reports oxygen ion mobility (uO \u2248 10^-3 cm2 V-1 s-1) but no ionic conductivity values, and the mobile ion is oxygen rather than Li or Na.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 14010,
+        "outputTokens": 428,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 14200,
+        "webSearchRequests": 0,
+        "costUSD": 0.0044865600000000005,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 189,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 14200,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2392,
+    "notional_cost_usd": 0.0044865600000000005
+  },
+  "paper_id": "arXiv:2305.02952",
+  "model": "haiku"
+}

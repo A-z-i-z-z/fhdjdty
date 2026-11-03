@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper proposes a circuit-level current-voltage model for redox-based memristors, with fitting to an Ag-Cu/Si device, but it reports no ionic conductivity values of a solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 12743,
+        "outputTokens": 393,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 12929,
+        "webSearchRequests": 0,
+        "costUSD": 0.00408816,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 178,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12929,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2348,
+    "notional_cost_usd": 0.00408816
+  },
+  "paper_id": "arXiv:2302.09407",
+  "model": "haiku"
+}

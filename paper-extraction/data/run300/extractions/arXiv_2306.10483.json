@@ -1,0 +1,150 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports bulk ionic (Li-ion) conductivities of Ge-substituted garnet Li7-4xGexLa3Zr2O12 solid electrolytes measured by impedance spectroscopy, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "Li7-4xGexLa3Zr2O12 (x=0)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "conventional solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 7.3,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.43 x 10-7",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "\u03c3bulk (S/cm) at 250C",
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "250C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 1.11,
+        "measurement_method": "EIS (Novocontrol impedance analyzer)",
+        "evidence_quote": "1.43 x 10-7",
+        "evidence_location": "Table2",
+        "notes": "Table 2 row is identified only by row order (x=0 is the first row); the PDF table text is jumbled. Ea 1.11 eV is from the same row. Table 2 header reads 250C, interpreted as 25 \u00b0C. Relative density not given for x=0 in Table 1."
+      },
+      {
+        "material_as_written": "Li7-4xGexLa3Zr2O12 (x=0.05)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ge"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "conventional solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 7.3,
+        "relative_density_pct": 83.1,
+        "conductivity_value_as_reported": "4.85 x 10-6",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "\u03c3bulk (S/cm) at 250C",
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "250C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.58,
+        "measurement_method": "EIS (Novocontrol impedance analyzer)",
+        "evidence_quote": "4.85 x 10-6",
+        "evidence_location": "Table2",
+        "notes": "Identified by table row order (second row, x=0.05); PDF table text is jumbled. Table 2 header reads 250C, interpreted as 25 \u00b0C. Relative density 83.10% from Table 1 for x=0.05."
+      },
+      {
+        "material_as_written": "Li6.6Ge0.1La3Zr2O12 (Li7-4xGexLa3Zr2O12, x=0.10)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ge"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "conventional solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 7.3,
+        "relative_density_pct": 86.44,
+        "conductivity_value_as_reported": "7.23 x 10-6",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "250C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.56,
+        "measurement_method": "EIS (Novocontrol impedance analyzer)",
+        "evidence_quote": "The sample with 0.10 Ge has maximum conductivity of 7.23 x 10-6S/cm at room temperature",
+        "evidence_location": "results, section 3.4.1",
+        "notes": "Text says room temperature; Table 2 and Section 3.4.1 give 250C, interpreted as 25 \u00b0C. Conductivity described as bulk in Table 2 header (\u03c3bulk). Ea 0.56 eV also stated in text for this sample."
+      },
+      {
+        "material_as_written": "Li7-4xGexLa3Zr2O12 (x=0.15)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ge"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "conventional solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 7.3,
+        "relative_density_pct": 80.74,
+        "conductivity_value_as_reported": "2.86 x 10-6",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "\u03c3bulk (S/cm) at 250C",
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "250C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.61,
+        "measurement_method": "EIS (Novocontrol impedance analyzer)",
+        "evidence_quote": "2.86 x 10-6",
+        "evidence_location": "Table2",
+        "notes": "Identified by table row order (fourth row, x=0.15); PDF table text is jumbled. Table 2 header reads 250C, interpreted as 25 \u00b0C. Relative density 80.74% from Table 1."
+      },
+      {
+        "material_as_written": "Li7-4xGexLa3Zr2O12 (x=0.20)",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ge"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "conventional solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 7.3,
+        "relative_density_pct": 80.35,
+        "conductivity_value_as_reported": "1.36 x 10-6",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "\u03c3bulk (S/cm) at 250C",
+        "conductivity_kind": "bulk",
+        "measurement_temperature_as_reported": "250C",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.98,
+        "measurement_method": "EIS (Novocontrol impedance analyzer)",
+        "evidence_quote": "1.36 x 10-6",
+        "evidence_location": "Table2",
+        "notes": "Identified by table row order (fifth row, x=0.20); PDF table text is jumbled. Table 2 header reads 250C, interpreted as 25 \u00b0C. Relative density 80.35% from Table 1."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 12706,
+        "outputTokens": 4382,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 12898,
+        "webSearchRequests": 0,
+        "costUSD": 0.00607276,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2147,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12898,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 16338,
+    "notional_cost_usd": 0.00607276
+  },
+  "paper_id": "arXiv:2306.10483",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper concerns proton conductivity in metal-organic frameworks, not ionic conductivity of solid Li- or Na-ion conductors, so it is out of scope for this extraction.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 11135,
+        "outputTokens": 303,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 11325,
+        "webSearchRequests": 0,
+        "costUSD": 0.00356156,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 118,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11325,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 1873,
+    "notional_cost_usd": 0.00356156
+  },
+  "paper_id": "arXiv:2407.09514",
+  "model": "haiku"
+}

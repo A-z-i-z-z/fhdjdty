@@ -1,0 +1,157 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports room-temperature Li-ion conductivities of Ga/Ge co-doped LLZO garnet solid electrolytes, measured by AC impedance.",
+    "records": [
+      {
+        "material_as_written": "Li7-3xGaxLa3Zr1.9Ge0.1O12 (x = 0, '0 Ga')",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ga",
+          "Ge"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 8,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "8.6 x 10-6",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic conductivity (S/cm)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25\u00baC",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.56,
+        "measurement_method": "AC impedance spectroscopy",
+        "evidence_quote": "8.6 x 10-6",
+        "evidence_location": "Table 2",
+        "notes": "Value taken from Table 2 row x=0 (0 Ga). Table cells are split in the PDF text, so the value and activation energy (0.56 eV) are aligned by row order. Sintering 1050 C/8 h is the stated condition for all samples."
+      },
+      {
+        "material_as_written": "Li7-3xGaxLa3Zr1.9Ge0.1O12 (x = 0.10, '0.10 Ga')",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ga",
+          "Ge"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 8,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "1.85 x 10-4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic conductivity (S/cm)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25\u00baC",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.3,
+        "measurement_method": "AC impedance spectroscopy",
+        "evidence_quote": "1.85 x 10-4",
+        "evidence_location": "Table 2",
+        "notes": "Value from Table 2 row x=0.10; row alignment inferred from PDF text layout. Paper also notes a La2Zr2O7 impurity for 0 Ga and 0.10 Ga samples."
+      },
+      {
+        "material_as_written": "Li7-3xGaxLa3Zr1.9Ge0.1O12 (x = 0.20, '0.20 Ga')",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ga",
+          "Ge"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 8,
+        "relative_density_pct": 94.8,
+        "conductivity_value_as_reported": "5.09 x 10-4",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25\u00baC",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.25,
+        "measurement_method": "AC impedance spectroscopy",
+        "evidence_quote": "5.09 x 10-4 S/cm was achieved for the 0.20 Ga ceramic sample which is greater than 0 Ga by two orders of magnitude.",
+        "evidence_location": "results (Section 3.4.1)",
+        "notes": "Highest conductivity in the series; text describes it as room temperature. Table 2 gives 25\u00baC. Activation energy 0.25 eV from abstract and Table 2. Relative density 94.8% from Section 3.2."
+      },
+      {
+        "material_as_written": "Li7-3xGaxLa3Zr1.9Ge0.1O12 (x = 0.30, '0.30 Ga')",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ga",
+          "Ge"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 8,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "8.4 x 10-5",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic conductivity (S/cm)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25\u00baC",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.39,
+        "measurement_method": "AC impedance spectroscopy",
+        "evidence_quote": "8.4 x 10-5",
+        "evidence_location": "Table 2",
+        "notes": "Value from Table 2 row x=0.30; row alignment inferred from PDF text layout."
+      },
+      {
+        "material_as_written": "Li7-3xGaxLa3Zr1.9Ge0.1O12 (x = 0.40, '0.40 Ga')",
+        "material_class": "garnet",
+        "mobile_ion": "Li",
+        "dopants": [
+          "Ga",
+          "Ge"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1050,
+        "sintering_time_h": 8,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "4.8 x 10-5",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": "Ionic conductivity (S/cm)",
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "25\u00baC",
+        "measurement_temperature_C": 25,
+        "activation_energy_eV": 0.43,
+        "measurement_method": "AC impedance spectroscopy",
+        "evidence_quote": "4.8 x 10-5",
+        "evidence_location": "Table 2",
+        "notes": "Value from Table 2 row x=0.40; row alignment inferred from PDF text layout."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 12483,
+        "outputTokens": 4548,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 12669,
+        "webSearchRequests": 0,
+        "costUSD": 0.00608766,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2366,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 12669,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 17195,
+    "notional_cost_usd": 0.00608766
+  },
+  "paper_id": "arXiv:2405.04831",
+  "model": "haiku"
+}

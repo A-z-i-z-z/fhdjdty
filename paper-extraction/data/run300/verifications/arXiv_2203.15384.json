@@ -1,0 +1,66 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2203.15384#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 6\u00d710\u22126 S/cm at 300 K and Ea of 0.37 eV are reported for Sn-doped KLi6TaO6 as an experimental validation from the authors' previous study (Ref. 13, discussed in Sections 1 and 3.1), so literature_cited is correct and the other fields check out."
+      },
+      {
+        "record_id": "arXiv:2203.15384#002",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "conductivity_kind",
+            "correct_value": "unspecified",
+            "evidence": "FPMD calculations estimate a \u03c3Li of 8 \u00d7 10\u22124 S/cm at 300 K, which is lower than that obtained without the dopant. The Ea is 0.23 eV"
+          }
+        ],
+        "explanation": "Material, value, temperature, Ea and computational origin are correct for this paper's FPMD result on the 2.1% Li-excess Sn-doped K8Li49SnTa7O48 supercell. The paper never states the conductivity as 'total', so that kind label is not supported (low-confidence correction)."
+      },
+      {
+        "record_id": "arXiv:2203.15384#003",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "conductivity_kind",
+            "correct_value": "unspecified",
+            "evidence": "the Sn-doped KLi6BiO6 shows slightly lower Ea (0.20 eV) and higher \u03c3Li at 300 K (2\u00d710\u22123 S/cm) than those of the Sn-doped KLi6TaO6"
+          }
+        ],
+        "explanation": "Material, value, temperature, Ea and the computational FPMD origin are right, but the paper does not say the conductivity is 'total' (low-confidence correction)."
+      },
+      {
+        "record_id": "arXiv:2203.15384#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The 4\u00d710\u22123 S/cm at 300 K for KLi6BiO6 with additional Li interstitial is this paper's own FPMD estimate (also matching Table 1's 4 mS/cm for KLi6BiO6), and the record correctly leaves Ea null because none is given for this case."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 27384,
+        "outputTokens": 3366,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 27570,
+        "webSearchRequests": 0,
+        "costUSD": 0.00995522,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2536,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27570,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 13295,
+    "notional_cost_usd": 0.00995522
+  },
+  "paper_id": "arXiv:2203.15384",
+  "model": "haiku"
+}

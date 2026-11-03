@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a DFT and gcMC study of Na intercalation thermodynamics and phase diagrams in the NaSICON electrode NaxV2(PO4)3, and it reports no ionic conductivity values for any solid Li/Na-ion conductor.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 36934,
+        "outputTokens": 409,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 37122,
+        "webSearchRequests": 0,
+        "costUSD": 0.01135386,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 187,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 37122,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2737,
+    "notional_cost_usd": 0.01135386
+  },
+  "paper_id": "arXiv:2109.06997",
+  "model": "haiku"
+}

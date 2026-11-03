@@ -1,0 +1,54 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2204.00091#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states that LSTZ0.75 achieved \u03c3b of 3.5 \u00d7 10-4 S/cm at room temperature, with the citation [16] attached to the sentence, so the value is literature_cited, bulk, and the null temperature in C is acceptable because only 'room temperature' is given."
+      },
+      {
+        "record_id": "arXiv:2204.00091#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives an apparent \u03c3gb of 1.2 \u00d7 10-3 S/cm (including the grain size effect) for LSTZ0.75 in the same cited sentence about ref. 16, so the grain-boundary kind, unit, and literature_cited origin are correct."
+      },
+      {
+        "record_id": "arXiv:2204.00091#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction gives \u03c3t of 2.7 \u00d7 10-4 S/cm at room temperature for LSTZ0.75 with the citation [16] attached, so the total-conductivity value and literature_cited origin are correct."
+      },
+      {
+        "record_id": "arXiv:2204.00091#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.1 reports the highest experimental \u03c3b of 4.1 \u00d7 10-4 S/cm at 25 \u2103 and Ea of 0.33 eV from 25 to 140 \u2103 for a hot-pressed LSTZ0.75 sample, attributed to ref. 37, so the origin is literature_cited and the hot-pressing method, temperature, and Ea are stated; sintering and density fields are correctly null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17254,
+        "outputTokens": 1408,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 17446,
+        "webSearchRequests": 0,
+        "costUSD": 0.005938420000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 755,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17446,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5906,
+    "notional_cost_usd": 0.005938420000000001
+  },
+  "paper_id": "arXiv:2204.00091",
+  "model": "haiku"
+}

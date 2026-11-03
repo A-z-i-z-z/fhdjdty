@@ -1,0 +1,271 @@
+[
+  {
+    "record_id": "arXiv:2608.25592#001",
+    "paper_id": "arXiv:2608.25592",
+    "record": {
+      "material_as_written": "Li2 B12 H12",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "20.5",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "DeePMD MD with MSD-based Nernst-Einstein estimate",
+      "evidence_quote": "Li2 B12 H12 exhibits the highest room-temperature conductivity of 20.5 mS/cm but a narrow electrochemical window",
+      "evidence_location": "Section 2.4 (results)",
+      "notes": "Simulated metastable cubic polymorph (Fm-3) of Li2B12H12, not the experimental alpha phase. Text elsewhere says the MSD analysis is at 300 K; the paper does not state 300 K in this sentence. Borohydride; not a doped material."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0205,
+    "log10_conductivity": -1.688
+  },
+  {
+    "record_id": "arXiv:2608.25592#002",
+    "paper_id": "arXiv:2608.25592",
+    "record": {
+      "material_as_written": "Li6 CaCl8",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "14.6",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "DeePMD MD, Nernst-Einstein tracer/self-diffusion estimate",
+      "evidence_quote": "(14.6 mS/cm, comparable to experimental Li3 GdCl3 Br3 (11 mS/cm)",
+      "evidence_location": "Section 2.4 (results)",
+      "notes": "Value is a Nernst-Einstein estimate from this paper's MD; the 14.6 value is the authors' computed conductivity."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.0146,
+    "log10_conductivity": -1.836
+  },
+  {
+    "record_id": "arXiv:2608.25592#003",
+    "paper_id": "arXiv:2608.25592",
+    "record": {
+      "material_as_written": "Li3 BO3",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "2.9 \u00d7 10-3",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "room temperature",
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "DeePMD MD with MSD-based Nernst-Einstein estimate",
+      "evidence_quote": "conductivity is only 2.9 \u00d7 10-3 mS/cm, nearly five orders of magnitude lower.",
+      "evidence_location": "Section 2.4 (results)",
+      "notes": "The same section later gives 2.9 \u00d7 10-4 mS/cm for Li3BO3 at room temperature, an internal inconsistency; the 2.9 \u00d7 10-3 value is quoted here. Li3BO3 is the parent oxide in this paper, not doped in this record."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 2.9e-06,
+    "log10_conductivity": -5.538
+  },
+  {
+    "record_id": "arXiv:2608.25592#004",
+    "paper_id": "arXiv:2608.25592",
+    "record": {
+      "material_as_written": "Li4 SiO4",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.931",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": "(mS cm\u22121 )",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "MD (MatterSim/DeePMD workflow, not specified in table)",
+      "evidence_quote": "Li4 SiO4\nP1\n0.0303\n5.2439\n3.098\n77.437\n46.417\n0.931",
+      "evidence_location": "Table 1",
+      "notes": "Table 1 row; temperature not stated in table. Table is labelled as candidates consistent with DFT reference under MP benchmark protocol."
+    },
+    "hard_checks": {
+      "quote_in_text": false,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.000931,
+    "log10_conductivity": -3.031
+  },
+  {
+    "record_id": "arXiv:2608.25592#005",
+    "paper_id": "arXiv:2608.25592",
+    "record": {
+      "material_as_written": "LiK2 NbO4",
+      "material_class": "other",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.891",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": "(mS cm\u22121 )",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "MD (not specified in table)",
+      "evidence_quote": "LiK2 NbO4\nP1\n0.0371\n3.8068\n2.726\n33.055\n19.423\n0.891",
+      "evidence_location": "Table 1",
+      "notes": "Table 1 row; temperature not stated in table."
+    },
+    "hard_checks": {
+      "quote_in_text": false,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.000891,
+    "log10_conductivity": -3.05
+  },
+  {
+    "record_id": "arXiv:2608.25592#006",
+    "paper_id": "arXiv:2608.25592",
+    "record": {
+      "material_as_written": "Li10 Mg7 Cl24",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [
+        "Mg"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.125",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": "(mS cm\u22121 )",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "MD (not specified in table)",
+      "evidence_quote": "Li10 Mg7 Cl24\nCm\n0.0108\n4.5584\n3.387\n29.427\n13.716\n0.125",
+      "evidence_location": "Table 1",
+      "notes": "Table 1 row; Mg is listed as a formula constituent of the candidate and is treated here as a structural element, not an explicitly described dopant. Temperature not stated in table."
+    },
+    "hard_checks": {
+      "quote_in_text": false,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.000125,
+    "log10_conductivity": -3.903
+  },
+  {
+    "record_id": "arXiv:2608.25592#007",
+    "paper_id": "arXiv:2608.25592",
+    "record": {
+      "material_as_written": "Li3 YBr6",
+      "material_class": "halide",
+      "mobile_ion": "Li",
+      "dopants": [],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "4.847",
+      "conductivity_unit_as_reported": "mS cm\u22121",
+      "unit_evidence_quote": "(mS cm\u22121 )",
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": "MD (not specified in table)",
+      "evidence_quote": "Li3 YBr6\nC2/c\n0.0256\n4.1363\n4.1363\n16.264\n12.767\n4.847",
+      "evidence_location": "Table 1",
+      "notes": "Table 1 row. Quote row was reconstructed from the table text; the Band gap cell is 4.1363 in the table, so the quote is copied from the row with the band-gap value. Temperature not stated in table."
+    },
+    "hard_checks": {
+      "quote_in_text": false,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.004847,
+    "log10_conductivity": -2.315
+  }
+]

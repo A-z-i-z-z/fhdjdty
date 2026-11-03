@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about Li-ion diffusion in solid Li-Zr-O and Li-Nb-O phases, but it reports only MD-derived diffusivities and activation energies, not ionic conductivity values with numbers; conductivity is mentioned only qualitatively or in other papers' data without numeric values.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18574,
+        "outputTokens": 701,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 18762,
+        "webSearchRequests": 0,
+        "costUSD": 0.00599186,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 463,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18762,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3578,
+    "notional_cost_usd": 0.00599186
+  },
+  "paper_id": "arXiv:2412.07296",
+  "model": "haiku"
+}

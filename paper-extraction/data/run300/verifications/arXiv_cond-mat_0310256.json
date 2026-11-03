@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:cond-mat/0310256#001",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "conductivity_kind",
+            "correct_value": null,
+            "evidence": "\u03b3-Ag7 P3 S11 exhibits a high dc conductivity \u03c3dc = 2.5 \u00d7 10\u22124 S/cm at T \u2248 300K [14]"
+          }
+        ],
+        "explanation": "The material (\u03b3-Ag7P3S11), value (2.5\u00d710\u207b\u2074 S/cm), temperature (\u2248300 K = 26.85 \u00b0C) and origin (literature_cited via [14]) all match the paper. The paper only says 'dc conductivity' and does not specify total versus bulk or grain-boundary, so conductivity_kind should be null rather than an assumed 'total'. The mobile_ion 'other' choice is a schema-enum limitation and does not change the verdict."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 11365,
+        "outputTokens": 1585,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 11553,
+        "webSearchRequests": 0,
+        "costUSD": 0.004259420000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1204,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 11553,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 7358,
+    "notional_cost_usd": 0.004259420000000001
+  },
+  "paper_id": "arXiv:cond-mat/0310256",
+  "model": "haiku"
+}

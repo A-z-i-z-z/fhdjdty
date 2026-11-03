@@ -113,6 +113,38 @@ python3 -m unittest discover -s tests -t .
 
 ## What has been tested so far
 
+### 300-paper run (2026-11-03)
+
+`fetch --n 300` then `run --concurrency 16`, outputs in [`data/run300/`](data/run300/).
+Changes since the 100-paper run:
+
+- **Wider search.** `fetch` now walks a list of ten queries (`fetch.DEFAULT_QUERIES`),
+  targeted ones first and broad ones last, paging through each. The old single query stops at
+  ~82 papers; the list reaches 400+.
+- **Self-citations.** Both prompts now say that a value the authors take from their own
+  earlier paper ("we recall from Ref. [26]") is `literature_cited`. Re-running the paper that
+  failed in the 100-paper spot check turned all 5 of its records from `computational` into
+  `literature_cited`.
+- **Kelvin in code.** A plain "300 K" now fills `measurement_temperature_C` in `table.py`.
+- **More unit spellings.** `Ω−1 cm−1` / `ohm-1 cm-1` parse as S/cm, and a minus printed as
+  two dash characters no longer breaks quote matching (5 records recovered after the run).
+
+Results: 300 papers selected, 5 downloads failed (404 or truncated), 295 processed, 144 in
+scope. 518 records extracted, **415 kept (80%)**: 143 experimental, 103 computational, 169
+`literature_cited`. The checker rejected 70, the verifier rejected 33 and corrected 11. About
+20.4M input and 0.9M output tokens (≈ 72k per paper), notional API price $3.48.
+
+**Hand spot check** of 30 random kept records (seed 7): material, value, unit, origin and
+temperature were right in **30/30**. A separate targeted check looked at all 246 kept
+`experimental`/`computational` records whose surrounding text has a citation marker or
+"previous work"; all 14 hits were values produced in the paper itself, with a cited value
+merely nearby.
+
+What the wider search costs: half the papers are out of scope, and the kept set now includes
+polymer electrolytes (PEO composites, mostly from review papers) and some oxygen-ion and
+Ca²⁺ conductors. The values are right, but filter on `mobile_ion` and `material_class` if
+only Li/Na inorganic solids are wanted.
+
 ### 100-paper run (2026-11-02)
 
 `fetch --n 100` then `run --concurrency 16`, outputs in [`data/run100/`](data/run100/). The

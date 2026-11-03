@@ -1,0 +1,60 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2306.10483#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Table 2 lists \u03c3bulk 1.43 x 10-7 S/cm and Ea 1.11 eV as the first row (x=0), with the 250C header read as 25 \u00b0C (Section 3.4.2 also says 25 \u00b0C). Table 1 has no x=0 row, so null relative density is correct."
+      },
+      {
+        "record_id": "arXiv:2306.10483#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The second Table 2 row (x=0.05) gives \u03c3bulk 4.85 x 10-6 S/cm and Ea 0.58 eV, and Table 1 gives relative density 83.10% for x=0.05. Sintering at 1050 \u00b0C for 7.30 h applies to all samples."
+      },
+      {
+        "record_id": "arXiv:2306.10483#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The text states 7.23 x 10-6 S/cm at room temperature for 0.10 Ge with Ea 0.56 eV, matching Table 2 (\u03c3bulk at 250C, read as 25 \u00b0C). Table 1 gives relative density 86.44% for x=0.10. The unit_evidence_quote is null, but the S/cm unit appears in the record's own evidence quote, so this is minor."
+      },
+      {
+        "record_id": "arXiv:2306.10483#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The fourth Table 2 row (x=0.15) gives \u03c3bulk 2.86 x 10-6 S/cm and Ea 0.61 eV, and Table 1 gives relative density 80.74% for x=0.15."
+      },
+      {
+        "record_id": "arXiv:2306.10483#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The fifth Table 2 row (x=0.20) gives \u03c3bulk 1.36 x 10-6 S/cm and Ea 0.98 eV, and Table 1 gives relative density 80.35% for x=0.20. All values are experimental and not cited from elsewhere."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 15001,
+        "outputTokens": 2269,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 15189,
+        "webSearchRequests": 0,
+        "costUSD": 0.00569222,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1473,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15189,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9442,
+    "notional_cost_usd": 0.00569222
+  },
+  "paper_id": "arXiv:2306.10483",
+  "model": "haiku"
+}

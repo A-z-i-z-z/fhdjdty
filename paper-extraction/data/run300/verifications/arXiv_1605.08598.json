@@ -1,0 +1,42 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1605.08598#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the average of three MD trials gives 5.8 \u00d710-6 ohm-1 cm-1 for Li6.25Al0.25La3Zr2O12 (Table 2 trial values 8.8, 6.0, 2.5 average to about 5.8), at 300 K, with activation energy 0.413 eV (average of 0.397, 0.409, 0.434). The values are computed in this paper, so experimental/computational origin is correct."
+      },
+      {
+        "record_id": "arXiv:1605.08598#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states 79 \u00d710-6 ohm-1 cm-1 for Li6.25In0.25La3Zr2O12 at 300 K (Table 2 trial values 89, 96, 52 average to about 79), with activation energy 0.335 eV (average of 0.330, 0.327, 0.348). The values are computed in this paper, so the computational origin is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 52940,
+        "outputTokens": 1103,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 53132,
+        "webSearchRequests": 0,
+        "costUSD": 0.01649172,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 662,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 53132,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5058,
+    "notional_cost_usd": 0.01649172
+  },
+  "paper_id": "arXiv:1605.08598",
+  "model": "haiku"
+}

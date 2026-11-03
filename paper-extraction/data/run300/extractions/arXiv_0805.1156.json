@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies proton (H/D) relaxation in BaCe1-xYxO3-d by anelastic and dielectric spectroscopy and reports no ionic conductivity values for a Li- or Na-ion conductor, so it is out of scope.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 22345,
+        "outputTokens": 416,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 22535,
+        "webSearchRequests": 0,
+        "costUSD": 0.00698106,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 192,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22535,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 3572,
+    "notional_cost_usd": 0.00698106
+  },
+  "paper_id": "arXiv:0805.1156",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is about a universal machine-learning Kohn-Sham Hamiltonian; it mentions the solid electrolyte Li10Si1.5P1.5S11.5Cl0.5 only for its computed band gap and reports no ionic conductivity value for any material.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 20903,
+        "outputTokens": 363,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 21091,
+        "webSearchRequests": 0,
+        "costUSD": 0.00652156,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 139,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 21091,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 1955,
+    "notional_cost_usd": 0.00652156
+  },
+  "paper_id": "arXiv:2402.09251",
+  "model": "haiku"
+}

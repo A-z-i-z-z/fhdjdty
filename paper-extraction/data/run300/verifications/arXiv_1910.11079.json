@@ -1,0 +1,72 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1910.11079#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The abstract reports 5.7 \u00d7 10\u22124 S cm\u22121 at room temperature (300 K) from this paper's simulations, which the paper estimates via Nernst-Einstein with a Haven ratio of one. The 0.29 eV barrier is correctly left unassigned."
+      },
+      {
+        "record_id": "arXiv:1910.11079#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction attributes 4.3 \u00d7 10\u22128 S cm\u22121 at 300 K and 0.66 eV to Delmas et al. [46], measured by impedance spectroscopy on 80%-dense samples, so literature_cited is correct and the 80% density is stated for that material."
+      },
+      {
+        "record_id": "arXiv:1910.11079#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Nomura and Greenblatt [47] are cited for 3.7 \u00d7 10\u22128 S cm\u22121 at room temperature and a 0.46 eV low-temperature barrier. The room-temperature value has no numeric temperature, so null is correct."
+      },
+      {
+        "record_id": "arXiv:1910.11079#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction cites Nomura and Greenblatt [47] for 3.4 \u00d7 10\u22127 S cm\u22121 in Li7.4Ta0.6Zr0.4O6, with Zr as the dopant. No measurement temperature is given, so null is correct."
+      },
+      {
+        "record_id": "arXiv:1910.11079#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "M\u00fchle et al. [48] are cited for 1.53 \u00d7 10\u22127 S cm\u22121 at 50 \u00b0C by impedance spectroscopy, with 0.68 eV given for the 50\u2013400 \u00b0C range that includes 50 \u00b0C. This is literature_cited, not this work."
+      },
+      {
+        "record_id": "arXiv:1910.11079#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction states LGPS (ref. [31]) has 12 mS cm\u22121 at room temperature. This is a cited comparison value, so literature_cited is correct."
+      },
+      {
+        "record_id": "arXiv:1910.11079#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The introduction gives amorphous LiPON's room-temperature conductivity of 2.3 \u00d7 10\u22126 S cm\u22121 with a ~0.55 eV barrier, citing ref. [36]. The values are literature_cited and the temperature is correctly null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 26871,
+        "outputTokens": 2783,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 27061,
+        "webSearchRequests": 0,
+        "costUSD": 0.009510620000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1834,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27061,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11028,
+    "notional_cost_usd": 0.009510620000000001
+  },
+  "paper_id": "arXiv:1910.11079",
+  "model": "haiku"
+}

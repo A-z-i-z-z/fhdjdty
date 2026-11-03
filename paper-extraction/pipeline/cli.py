@@ -116,7 +116,8 @@ def main(argv: list[str] | None = None) -> None:
 
     f = sub.add_parser("fetch", help="download papers from arXiv")
     f.add_argument("--seeds", default=str(ROOT / "seeds.txt"), help="file of arXiv ids, one per line")
-    f.add_argument("--query", default=fetch_mod.DEFAULT_QUERY, help="arXiv query to top up to --n ('' for none)")
+    f.add_argument("--query", default=None,
+                   help="arXiv query to top up to --n (default: the widening list in fetch.DEFAULT_QUERIES; '' for none)")
     f.add_argument("--n", type=int, default=15)
 
     a = sub.add_parser("add", help="register a local PDF or .txt as a paper")
@@ -143,7 +144,8 @@ def main(argv: list[str] | None = None) -> None:
         if sp.exists():
             seeds = [l.split("#")[0].strip() for l in sp.read_text().splitlines()]
             seeds = [s for s in seeds if s]
-        ids = fetch_mod.fetch(wd, seeds, args.query or None, args.n)
+        query = fetch_mod.DEFAULT_QUERIES if args.query is None else (args.query or None)
+        ids = fetch_mod.fetch(wd, seeds, query, args.n)
         print(f"fetch: {len(ids)} papers in {wd.papers}")
     elif args.cmd == "add":
         print(fetch_mod.add_local(wd, args.id, args.title, args.path, args.url))

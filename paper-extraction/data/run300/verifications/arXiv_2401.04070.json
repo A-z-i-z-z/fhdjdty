@@ -1,0 +1,90 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2401.04070#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.6.2 states Na2LiYCl6 (x = 2) has 2.2 \u00d7 10\u22126 S/cm at 100 \u00b0C, and the same section gives Ea = 0.6 eV for this composition. The experimental origin and the null sintering fields are consistent with the paper."
+      },
+      {
+        "record_id": "arXiv:2401.04070#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The quote gives 6.0 \u00d7 10\u22128 S/cm at 100 \u00b0C for the parent Na3YCl6, and the paper separately states its activation energy is 0.82 eV. The record's notes wrongly call Na3YCl6 'x = 0' (it is x = 3), but that is not a schema field and the record values are correct."
+      },
+      {
+        "record_id": "arXiv:2401.04070#003",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 26.85,
+            "evidence": "\u03c3300K (mS/cm)"
+          }
+        ],
+        "explanation": "The Table 1 row order gives 12.17 mS/cm for Li3YCl6 (Pna21) from AIMD, which is computational and in-paper. The column header specifies 300 K, so the temperature should be 26.85 \u00b0C rather than null."
+      },
+      {
+        "record_id": "arXiv:2401.04070#004",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 26.85,
+            "evidence": "\u03c3300K (mS/cm)"
+          }
+        ],
+        "explanation": "Table 1 row order gives 1.12 mS/cm for Li5YCl8 (Cmmm), a computed AIMD value in this paper. The column header specifies 300 K, so the temperature should be 26.85 \u00b0C rather than null."
+      },
+      {
+        "record_id": "arXiv:2401.04070#005",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 26.85,
+            "evidence": "\u03c3300K (mS/cm)"
+          }
+        ],
+        "explanation": "Table 1 row order gives 1.70 mS/cm for Li7Y2Cl13 (Pn3\u0304), a computed AIMD value in this paper. The column header specifies 300 K, so the temperature should be 26.85 \u00b0C rather than null."
+      },
+      {
+        "record_id": "arXiv:2401.04070#006",
+        "verdict": "supported_with_corrections",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_C",
+            "correct_value": 26.85,
+            "evidence": "\u03c3300K (mS/cm)"
+          }
+        ],
+        "explanation": "Table 1 row order gives 0.12 mS/cm for Na2LiYCl6 (R3\u0304), a computed AIMD value in this paper. The column header specifies 300 K, so the temperature should be 26.85 \u00b0C rather than null."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 18092,
+        "outputTokens": 4363,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 18282,
+        "webSearchRequests": 0,
+        "costUSD": 0.00766692,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 3309,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 18282,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 17646,
+    "notional_cost_usd": 0.00766692
+  },
+  "paper_id": "arXiv:2401.04070",
+  "model": "haiku"
+}

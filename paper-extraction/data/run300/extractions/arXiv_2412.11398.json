@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is a computational screening study of lithium superionic conductors and reports ionic conductivity numbers, but only one value is cleanly attributable to a named material in the text; the AIMD values in Table 1 are scrambled in the PDF text, so their row alignment could not be verified and they were not extracted.",
+    "records": [
+      {
+        "material_as_written": "LiAlSiO4",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.7 \u00d7 10\u22125",
+        "conductivity_unit_as_reported": "mS/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "Yet, in experiments, the ionic conductivity of the LiAlSiO4 thin film was approximately 2.7 \u00d7 10\u22125 mS/cm.",
+        "evidence_location": "results (Section 2.4)",
+        "notes": "Experimental value for a LiAlSiO4 thin film taken from earlier work (ref. 32), cited in the paper for comparison with the AIMD prediction; not measured in this paper. Temperature not stated."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 16996,
+        "outputTokens": 3649,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 17184,
+        "webSearchRequests": 0,
+        "costUSD": 0.00699246,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 3042,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17184,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 15637,
+    "notional_cost_usd": 0.00699246
+  },
+  "paper_id": "arXiv:2412.11398",
+  "model": "haiku"
+}

@@ -1,0 +1,48 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:1702.04009#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper reports 6.51 (\u00b10.36) \u00d7 10\u22127 S/cm at 35C for the non-air-exposed Pt/LPZ-300/Li half cell, read as the bulk resistance Rb. The 0.55 eV activation energy is given for that same non-air-exposed LPZ-300 sample, and the experimental origin is correct."
+      },
+      {
+        "record_id": "arXiv:1702.04009#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper states the total ionic conductivity (Rr + Rb) of 1.6 (\u00b10.1) \u00d7 10\u22127 S/cm for air-exposed LPZ-300 at 35C. The 0.64 eV activation energy is for air-exposed LPZ-300, and the unit and origin are correct."
+      },
+      {
+        "record_id": "arXiv:1702.04009#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The paper gives 1.4 (\u00b10.14) \u00d7 10\u22127 S/cm as the total conductivity of LPZ-250 at 35C. No activation energy is reported for LPZ-250, so the null is correct."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 27118,
+        "outputTokens": 1226,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 27308,
+        "webSearchRequests": 0,
+        "costUSD": 0.00880622,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 726,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 27308,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 5620,
+    "notional_cost_usd": 0.00880622
+  },
+  "paper_id": "arXiv:1702.04009",
+  "model": "haiku"
+}

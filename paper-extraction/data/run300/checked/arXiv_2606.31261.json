@@ -1,0 +1,201 @@
+[
+  {
+    "record_id": "arXiv:2606.31261#001",
+    "paper_id": "arXiv:2606.31261",
+    "record": {
+      "material_as_written": "8YSZ dopant configuration (best block composition, Fig. 3(a))",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [
+        "Y"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.423",
+      "conductivity_unit_as_reported": "S cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "1050 K",
+      "measurement_temperature_C": 776.85,
+      "activation_energy_eV": null,
+      "measurement_method": "KMC",
+      "evidence_quote": "The optimization identified a dopant configuration with an ionic conductivity of 0.423 S cm-1,",
+      "evidence_location": "results",
+      "notes": "KMC-simulated conductivity of the optimized bulk 8YSZ block configuration in the 16-layer supercell. Temperature 1050 K is from Table S1 (KMC conditions, supplement), converted to C. Oxide-ion conductor, not Li/Na."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.423,
+    "log10_conductivity": -0.374
+  },
+  {
+    "record_id": "arXiv:2606.31261#002",
+    "paper_id": "arXiv:2606.31261",
+    "record": {
+      "material_as_written": "8YSZ dopant configuration (Fig. 3(b), b = 14 block composition)",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [
+        "Y"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.400",
+      "conductivity_unit_as_reported": "S cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "1050 K",
+      "measurement_temperature_C": 776.85,
+      "activation_energy_eV": null,
+      "measurement_method": "KMC",
+      "evidence_quote": "ionic conductivities of 0.423, 0.400, and 0.371 S cm-1, respectively.",
+      "evidence_location": "Figure 3 caption",
+      "notes": "Second-highest configuration; value matched to Fig. 3(b) by caption order. Temperature 1050 K from Table S1, converted to C. Oxide-ion conductor."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.4,
+    "log10_conductivity": -0.398
+  },
+  {
+    "record_id": "arXiv:2606.31261#003",
+    "paper_id": "arXiv:2606.31261",
+    "record": {
+      "material_as_written": "8YSZ dopant configuration (Fig. 3(c), b = 8 block composition)",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [
+        "Y"
+      ],
+      "data_origin": "computational",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.371",
+      "conductivity_unit_as_reported": "S cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "1050 K",
+      "measurement_temperature_C": 776.85,
+      "activation_energy_eV": null,
+      "measurement_method": "KMC",
+      "evidence_quote": "ionic conductivities of 0.423, 0.400, and 0.371 S cm-1, respectively.",
+      "evidence_location": "Figure 3 caption",
+      "notes": "Third-highest configuration; value matched to Fig. 3(c) by caption order. Temperature 1050 K from Table S1, converted to C. Oxide-ion conductor."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": false
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 0.371,
+    "log10_conductivity": -0.431
+  },
+  {
+    "record_id": "arXiv:2606.31261#004",
+    "paper_id": "arXiv:2606.31261",
+    "record": {
+      "material_as_written": "bulk 8YSZ, average over random dopant distributions",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [
+        "Y"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.06",
+      "conductivity_unit_as_reported": "S cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "distributions (0.06 S cm-1)11 and the experimentally reported conductivity of bulk 8YSZ (0.0505",
+      "evidence_location": "results",
+      "notes": "Average conductivity for random dopant distributions, cited from the authors' previous KMC study (ref 11), so literature_cited. Temperature not stated for this value."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.06,
+    "log10_conductivity": -1.222
+  },
+  {
+    "record_id": "arXiv:2606.31261#005",
+    "paper_id": "arXiv:2606.31261",
+    "record": {
+      "material_as_written": "bulk 8YSZ (experimental)",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [
+        "Y"
+      ],
+      "data_origin": "literature_cited",
+      "synthesis_method": null,
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.0505",
+      "conductivity_unit_as_reported": "S cm-1",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": null,
+      "measurement_temperature_C": null,
+      "activation_energy_eV": null,
+      "measurement_method": null,
+      "evidence_quote": "the experimentally reported conductivity of bulk 8YSZ (0.0505 S cm-1)2, respectively.",
+      "evidence_location": "Figure S1 caption (Supporting Information)",
+      "notes": "Experimentally reported bulk 8YSZ conductivity taken from ref 27 in the main text; the SI caption uses its own numbering. Temperature not stated."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [
+      "no measurement temperature"
+    ],
+    "conductivity_S_per_cm": 0.0505,
+    "log10_conductivity": -1.297
+  }
+]

@@ -1,0 +1,122 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper studies oxide-ion conduction in Na-excess and Zn-doped Na0.5Bi0.5TiO3-BaTiO3 ceramics and reports ac (total/ionic) conductivity values in S/cm, so it contains solid ion-conductor data.",
+    "records": [
+      {
+        "material_as_written": "Na-excess NBT-6BT ceramics (A-site Na-excess samples, unspecified composition)",
+        "material_class": "perovskite",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "4 \u00d7 10\u22124",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "450\u25e6 C",
+        "measurement_temperature_C": 450,
+        "activation_energy_eV": null,
+        "measurement_method": "ac impedance spectroscopy",
+        "evidence_quote": "with the highest total conductivity reaching 4 \u00d7 10\u22124 S/cm at 450\u25e6 C.",
+        "evidence_location": "abstract",
+        "notes": "Abstract gives only the highest value among Na-excess samples; no single composition is named, so the material is not uniquely identified. Sintering conditions are for the NBT-6BT series in general (1150 C, 3 h) and are left null here since the value is not tied to one sample."
+      },
+      {
+        "material_as_written": "0.94(Na0.51 Bi0.49)TiO3-0.06BaTiO3 (51/49)",
+        "material_class": "perovskite",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1150,
+        "sintering_time_h": 3,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10\u22124",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "450 \u25e6 C",
+        "measurement_temperature_C": 450,
+        "activation_energy_eV": null,
+        "measurement_method": "ac impedance spectroscopy (Novocontrol)",
+        "evidence_quote": "samples display an ac conductivity of 10\u22124 S/cm",
+        "evidence_location": "results (Oxygen partial pressure dependent conductivity)",
+        "notes": "The sentence names the '51/49 and Zn-doped samples' together; this record applies to the 51/49 sample. The ac conductivity is treated as total (ionic-dominated) conductivity. Quote is from the results text; the 'In contrast, the 51/49 and Zn-doped' prefix is on the previous line in the PDF."
+      },
+      {
+        "material_as_written": "1% Zn-doped 0.94Na0.50 Bi0.50 )TiO3-0.06BaTiO3",
+        "material_class": "perovskite",
+        "mobile_ion": "other",
+        "dopants": [
+          "Zn"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1150,
+        "sintering_time_h": 3,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10\u22124",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "450 \u25e6 C",
+        "measurement_temperature_C": 450,
+        "activation_energy_eV": null,
+        "measurement_method": "ac impedance spectroscopy (Novocontrol)",
+        "evidence_quote": "samples display an ac conductivity of 10\u22124 S/cm",
+        "evidence_location": "results (Oxygen partial pressure dependent conductivity)",
+        "notes": "Same sentence as the 51/49 record; the value applies to the 1% Zn-doped sample as named in that sentence. Zn is an intentional acceptor dopant on the B-site."
+      },
+      {
+        "material_as_written": "NBT-based oxide-ion conductors (Na-excess / acceptor-doped Na0.5Bi0.5TiO3, literature)",
+        "material_class": "perovskite",
+        "mobile_ion": "other",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "0.01",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "total",
+        "measurement_temperature_as_reported": "600\u25e6 C",
+        "measurement_temperature_C": 600,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "ionic conductivity of up to 0.01 S/cm at 600\u25e6 C, comparable with that of conventional oxide ion conductors like",
+        "evidence_location": "introduction",
+        "notes": "Value is cited from refs [8, 17, 19] in the introduction; the specific material composition is not given, so it is described generically. Kind is ionic conductivity as stated in the text."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 22753,
+        "outputTokens": 4649,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 22943,
+        "webSearchRequests": 0,
+        "costUSD": 0.009219960000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2729,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 22943,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 18060,
+    "notional_cost_usd": 0.009219960000000001
+  },
+  "paper_id": "arXiv:2601.04725",
+  "model": "haiku"
+}

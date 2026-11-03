@@ -1,0 +1,56 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports ionic (Na+) conductivity values for solid NASICON Na3Zr2Si2PO12 ceramic composites with NaI, so it is in scope.",
+    "records": [
+      {
+        "material_as_written": "Na3Zr2Si2PO12-4% NaI composite (NZSP-4NaI)",
+        "material_class": "NASICON",
+        "mobile_ion": "Na",
+        "dopants": [
+          "I"
+        ],
+        "data_origin": "experimental",
+        "synthesis_method": "solid-state reaction",
+        "sintering_temperature_C": 1000,
+        "sintering_time_h": 2,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "3 x 10-4",
+        "conductivity_unit_as_reported": "\u03a9-1cm-1",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "200oC",
+        "measurement_temperature_C": 200,
+        "activation_energy_eV": null,
+        "measurement_method": "EIS (LCR meter, 4Hz-25 kHz)",
+        "evidence_quote": "ionic conductivity of ~ 3 x 10-4 \u03a9-1cm-1 at 200oC which is one order of magnitude rise",
+        "evidence_location": "abstract",
+        "notes": "The composite is NZSP with 4 wt% NaI; the abstract does not name the composition on this line but states the 4% NaI composite shows the maximum. Unit \u03a9-1cm-1 equals S/cm. Sintering values are for the general preparation route (calcined 700 C, sintered 1000 C for 2 h). Conductivity kind is not specified. The paper calls NaI a dopant in its conclusions but describes it as a composite additive."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 8264,
+        "outputTokens": 2108,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 8454,
+        "webSearchRequests": 0,
+        "costUSD": 0.00360276,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1425,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 8454,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9240,
+    "notional_cost_usd": 0.00360276
+  },
+  "paper_id": "arXiv:2405.02442",
+  "model": "haiku"
+}

@@ -1,0 +1,54 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper reports a molecular dynamics-computed ionic conductivity for a Li-containing rock-salt random substitutional ionic crystal, a model solid electrolyte, so it is in scope, but the only numeric conductivity is computed rather than measured.",
+    "records": [
+      {
+        "material_as_written": "Li1/3 Pb1/3 Bi1/3 Te",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "6.8 \u00d7 10\u22123",
+        "conductivity_unit_as_reported": "S/cm",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "T = 1.0 (295 K)",
+        "measurement_temperature_C": 21.85,
+        "activation_energy_eV": null,
+        "measurement_method": "molecular dynamics simulation under applied electric field",
+        "evidence_quote": "The ionic conductivity of Li1/3 Pb1/3 Bi1/3 Te at T = 1.0 (295 K) was calculated to be 6.8 \u00d7 10\u22123 S/cm since unit",
+        "evidence_location": "Discussion",
+        "notes": "Model rock-salt random substitutional crystal from MD only (no experiment). Composition is x = 1/3 in Li_x Pb_1-2x Bi_x Te. Temperature 295 K is the reduced-unit T0 value stated in the paper; converted to C as 21.85 for convenience. Conductivity_kind not specified in the paper; it is the field-driven conductivity from Eq. 4. The Summary repeats the same value. Dopant list left empty because Li/Bi/Pb are the base substitutional components, not dopants."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 17184,
+        "outputTokens": 1729,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 17376,
+        "webSearchRequests": 0,
+        "costUSD": 0.006089659999999999,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 971,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 17376,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10517,
+    "notional_cost_usd": 0.006089659999999999
+  },
+  "paper_id": "arXiv:2505.00362",
+  "model": "haiku"
+}

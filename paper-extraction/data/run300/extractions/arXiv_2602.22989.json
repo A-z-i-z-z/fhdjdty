@@ -1,0 +1,98 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is an ab initio MD study of Li3PS4 glass, a solid Li-ion conductor, and it reports ionic conductivity values, both computed in this work and cited from prior work.",
+    "records": [
+      {
+        "material_as_written": "Li3PS4 glass",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "19.7 \u00d7 10\u22123",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "300 K",
+        "measurement_temperature_C": 26.85,
+        "activation_energy_eV": null,
+        "measurement_method": "AIMD with Nernst-Einstein relation (Arrhenius extrapolation of Li diffusion coefficient to 300 K)",
+        "evidence_quote": "The corresponding ionic conductivity calculated by means of Nernst-Einstein relation 26,27 (see Supp. Mat.) is 19.7 \u00d7 10\u22123 S cm\u22121",
+        "evidence_location": "results",
+        "notes": "Computed in this paper from AIMD diffusion data extrapolated to 300 K. The paper gives the Arrhenius fit ln(D)=2640.2/T \u2212 6.6078 but no explicit activation energy in eV, so it is left null."
+      },
+      {
+        "material_as_written": "Li3PS4 glass",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "19.0 \u00d7 10\u22123",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": "simulation (prior work, ref. 14)",
+        "evidence_quote": "close to the value of 19.0 \u00d7 10\u22123 S cm\u22121 reported in prior simulations.",
+        "evidence_location": "results",
+        "notes": "Value from prior simulations cited as ref. 14; not measured or computed in this paper. Temperature not stated for this value."
+      },
+      {
+        "material_as_written": "Li3PS4 glass (experimental, amorphous 3Li2S:1P2S5)",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "2.8\u20133.0 \u00d7 10\u22124",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": null,
+        "measurement_temperature_C": null,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "experimental values are approximately two orders of magnitude lower (\u223c 2.8\u20133.0 \u00d7 10\u22124 S cm\u22121 ), 11,15",
+        "evidence_location": "results",
+        "notes": "Experimental range for Li3PS4 glass taken from refs 11 and 15, not measured in this paper. Reported as a range, so the value string is the range. Measurement temperature not stated."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 10783,
+        "outputTokens": 2551,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 10971,
+        "webSearchRequests": 0,
+        "costUSD": 0.00457956,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1216,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 10971,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 10428,
+    "notional_cost_usd": 0.00457956
+  },
+  "paper_id": "arXiv:2602.22989",
+  "model": "haiku"
+}

@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper studies surface photovoltage and drift-diffusion modelling in mixed ionic-electronic lead halide perovskites, and reports no ionic conductivity value for a Li- or Na-ion solid conductor; its mobile ions are halide vacancies and organic/Cs cations, and it gives only time constants and a mobility ratio.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 16127,
+        "outputTokens": 508,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 16315,
+        "webSearchRequests": 0,
+        "costUSD": 0.005161260000000001,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 267,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 16315,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 2865,
+    "notional_cost_usd": 0.005161260000000001
+  },
+  "paper_id": "arXiv:2305.14942",
+  "model": "haiku"
+}

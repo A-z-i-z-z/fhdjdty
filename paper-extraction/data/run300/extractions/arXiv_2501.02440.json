@@ -1,0 +1,76 @@
+{
+  "output": {
+    "paper_in_scope": true,
+    "scope_note": "The paper is about Li and Na solid electrolytes (LiBH4, Li3PS4, Na4P2S6, Na11Sn2PS12, Na2B10H10, Na3OBH4) and reports a few explicit conductivity numbers in the text, though most conductivities appear only in figures.",
+    "records": [
+      {
+        "material_as_written": "Li3PS4",
+        "material_class": "thiophosphate_other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "computational",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "500",
+        "conductivity_unit_as_reported": "mS cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "500 K",
+        "measurement_temperature_C": 226.85,
+        "activation_energy_eV": null,
+        "measurement_method": "MLMD simulation with Nernst-Einstein conductivity",
+        "evidence_quote": "At 500 K under RTVC, the conductivity decreases from 500 mS cm\u22121 to below the measurable range (0.1 mS cm\u22121)",
+        "evidence_location": "Results, Quantifying Cation-Anion Coupling Dynamics",
+        "notes": "Simulated value for alpha-Li3PS4 from this paper's machine-learning MD. The text does not say explicitly whether 500 mS cm\u22121 is the unconstrained (UC) value; the surrounding text implies it is the value before the RTVC constraint. Conductivity kind is not specified (simulated, so likely total)."
+      },
+      {
+        "material_as_written": "LiBH4 (high-temperature hexagonal phase)",
+        "material_class": "other",
+        "mobile_ion": "Li",
+        "dopants": [],
+        "data_origin": "literature_cited",
+        "synthesis_method": null,
+        "sintering_temperature_C": null,
+        "sintering_time_h": null,
+        "relative_density_pct": null,
+        "conductivity_value_as_reported": "10\u22123",
+        "conductivity_unit_as_reported": "S cm\u22121",
+        "unit_evidence_quote": null,
+        "conductivity_kind": "unspecified",
+        "measurement_temperature_as_reported": "\u223c390 K",
+        "measurement_temperature_C": 116.85,
+        "activation_energy_eV": null,
+        "measurement_method": null,
+        "evidence_quote": "the ionic conductivity of lithium borohydride at \u223c390 K surged dramatically by three orders of magnitude to 10\u22123 S cm\u22121",
+        "evidence_location": "Introduction",
+        "notes": "Experimental value taken from Matsuo et al. 2007 (ref. 20), cited in the introduction, not measured in this paper. Temperature is approximate in the source."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 32715,
+        "outputTokens": 2404,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 32905,
+        "webSearchRequests": 0,
+        "costUSD": 0.01108606,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1346,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 32905,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 9935,
+    "notional_cost_usd": 0.01108606
+  },
+  "paper_id": "arXiv:2501.02440",
+  "model": "haiku"
+}

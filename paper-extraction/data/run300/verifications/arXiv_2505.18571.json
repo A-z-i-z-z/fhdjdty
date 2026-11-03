@@ -1,0 +1,36 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2505.18571#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The material LZHSTNSP and the 4.53 mS/cm value match the paper, which says the room-temperature conductivity was 'extrapolated from the Arrhenius curve, increased to 4.53 mS/cm' from the paper's own fine-tuned CHGNet MD, so 'computational' is right and not literature_cited. The room-temperature label with a null numeric temperature is correct, and the secondary fields (sintering, density, synthesis, activation energy) are correctly null since the paper gives none for this material."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 15139,
+        "outputTokens": 900,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 15329,
+        "webSearchRequests": 0,
+        "costUSD": 0.00504952,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 600,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 15329,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4604,
+    "notional_cost_usd": 0.00504952
+  },
+  "paper_id": "arXiv:2505.18571",
+  "model": "haiku"
+}

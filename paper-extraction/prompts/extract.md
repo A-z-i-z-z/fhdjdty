@@ -9,7 +9,9 @@ Do not create records for:
 - values only shown in a figure with no number in the text or a table;
 - vague claims such as "high conductivity" without a number.
 
-Values the paper quotes from other papers (usually in the introduction, with a citation) should be recorded with `data_origin: "literature_cited"`. Values from DFT, AIMD or MD are `computational`.
+`data_origin` says where the number was produced:
+- `experimental` or `computational` only for values measured or computed **in this paper**. Values from DFT, AIMD or MD done in this paper are `computational`.
+- `literature_cited` for every value the paper takes from an earlier publication, usually with a citation. This includes the authors' **own earlier work**: phrases like "our previous work reported", "we recall from Ref. [26]", "as we showed earlier [12]" mean `literature_cited`, even when the earlier work was a calculation by the same group.
 
 ## Rules for each field
 

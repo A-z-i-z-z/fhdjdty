@@ -21,6 +21,10 @@ class ParseConductivity(unittest.TestCase):
         "2.0 × 10-4 S • cm-1": 2.0e-4,
         "10-4 S.cm-1": 1e-4,
         "15.7 mS.cm−1": 1.57e-2,
+        # Seen in the 300-paper run.
+        "6x10−3 Ω−1 cm−1": 6e-3,
+        "5.8 ×10-­‐6 ohm-­‐1 cm-­‐1": 5.8e-6,
+        "3 x 10-4 Ω-1cm-1": 3e-4,
     }
 
     def test_cases(self):

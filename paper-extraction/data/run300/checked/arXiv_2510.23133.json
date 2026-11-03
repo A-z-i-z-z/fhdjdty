@@ -1,0 +1,113 @@
+[
+  {
+    "record_id": "arXiv:2510.23133#001",
+    "paper_id": "arXiv:2510.23133",
+    "record": {
+      "material_as_written": "Ag8SnS6",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state synthesis",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.081 \u00b1 0.007",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "298 K",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.29,
+      "measurement_method": "EIS",
+      "evidence_quote": "The obtained ionic conductivities are 0.081 \u00b1 0.007, 0.065 \u00b1",
+      "evidence_location": "Ionic conductivity section (results)",
+      "notes": "Ag is the mobile ion (not Li/Na); mapped to 'other'. Values listed in the sentence in the order Ag8SnS6, Ag8GeS6, Ag8SiS6. Activation energy 0.29 \u00b1 0.02 eV is the main-text value stated for all three compounds; Table S12 gives different per-compound values (Sn 0.31 \u00b1 0.02), so the activation energy is uncertain. Pellet relative density is not given for EIS samples (the >95% figure refers to LFA samples), so it is null."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": false,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": false,
+    "warnings": [],
+    "conductivity_S_per_cm": 7e-06,
+    "log10_conductivity": -5.155
+  },
+  {
+    "record_id": "arXiv:2510.23133#002",
+    "paper_id": "arXiv:2510.23133",
+    "record": {
+      "material_as_written": "Ag8GeS6",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state synthesis",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.065 \u00b1 0.005",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "298 K",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.29,
+      "measurement_method": "EIS",
+      "evidence_quote": "ionic conductivities are 0.081 \u00b1 0.007, 0.065 \u00b1\n0.005, and 0.075 \u00b1 0.008 mS/cm for Ag8SnS6, Ag8GeS6, and Ag8SiS6",
+      "evidence_location": "Ionic conductivity section (results)",
+      "notes": "Value is split across a line break in the PDF text. Ag is the mobile ion; mapped to 'other'. Activation energy 0.29 \u00b1 0.02 eV is the main-text value for all three compounds; Table S12 lists 0.28 \u00b1 0.01 eV for Ge, which conflicts, so the activation energy is uncertain."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 5e-06,
+    "log10_conductivity": -5.301
+  },
+  {
+    "record_id": "arXiv:2510.23133#003",
+    "paper_id": "arXiv:2510.23133",
+    "record": {
+      "material_as_written": "Ag8SiS6",
+      "material_class": "other",
+      "mobile_ion": "other",
+      "dopants": [],
+      "data_origin": "experimental",
+      "synthesis_method": "solid-state synthesis",
+      "sintering_temperature_C": null,
+      "sintering_time_h": null,
+      "relative_density_pct": null,
+      "conductivity_value_as_reported": "0.075 \u00b1 0.008",
+      "conductivity_unit_as_reported": "mS/cm",
+      "unit_evidence_quote": null,
+      "conductivity_kind": "unspecified",
+      "measurement_temperature_as_reported": "298 K",
+      "measurement_temperature_C": 25,
+      "activation_energy_eV": 0.29,
+      "measurement_method": "EIS",
+      "evidence_quote": "0.005, and 0.075 \u00b1 0.008 mS/cm for Ag8SnS6, Ag8GeS6, and Ag8SiS6",
+      "evidence_location": "Ionic conductivity section (results)",
+      "notes": "Ag is the mobile ion; mapped to 'other'. Activation energy 0.29 \u00b1 0.02 eV is the main-text value for all three compounds; Table S12 lists 0.27 \u00b1 0.02 eV for Si, which conflicts, so the activation energy is uncertain."
+    },
+    "hard_checks": {
+      "quote_in_text": true,
+      "value_in_quote": true,
+      "unit_shown": true,
+      "value_parses": true,
+      "value_in_range": true
+    },
+    "passed": true,
+    "warnings": [],
+    "conductivity_S_per_cm": 8e-06,
+    "log10_conductivity": -5.097
+  }
+]

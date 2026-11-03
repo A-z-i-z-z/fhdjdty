@@ -1,0 +1,72 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2511.15402#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The quote gives \u03c3 = 5.4 \u00b1 0.6 S/m for the pure Y end member in P3\u0304m1, matching Table I (Y6, P3\u0304m1). The paper's simulations are at 300 K (Sec. II D), and the origin is computational from this work."
+      },
+      {
+        "record_id": "arXiv:2511.15402#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The quote gives \u03c3 = 6.6 \u00b1 1.1 S/m for the Sb\u2013Y 50% alloy in P3\u0304m1, matching Table I's (Sb0.5Y0.5)6 entry. Temperature is 300 K and the origin is computational."
+      },
+      {
+        "record_id": "arXiv:2511.15402#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Sb end member in C2/m has \u03c3 = 3.7 S/m at 300 K from this work. The uncertainty \u00b10.6 is verbatim from the text, while Table I gives \u00b10.2; the central value agrees and the record notes the discrepancy."
+      },
+      {
+        "record_id": "arXiv:2511.15402#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction states 0.051 S/m for Li3YCl6 at room temperature, attributed to Asano et al. [8], so literature_cited is correct and the room-temperature label matches the paper."
+      },
+      {
+        "record_id": "arXiv:2511.15402#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The Introduction gives 0.17 S/m for Li3YBr6 at room temperature from Asano et al. [8], a cited literature value, so literature_cited and the room-temperature label are correct."
+      },
+      {
+        "record_id": "arXiv:2511.15402#006",
+        "verdict": "unsupported",
+        "field_errors": [
+          {
+            "field": "measurement_temperature_as_reported",
+            "correct_value": null,
+            "evidence": "They also report a considerably higher conductivity for Li3 YBr6 (0.47 S/m) than the one obtained by Asano et al. [8]."
+          }
+        ],
+        "explanation": "The 0.47 S/m value is correctly attributed to van der Maas et al. [13], but the sentence gives no measurement temperature. The 'room temperature' label is inferred, and the verdict rule treats a temperature not stated in the paper as unsupported."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 33498,
+        "outputTokens": 2650,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 33690,
+        "webSearchRequests": 0,
+        "costUSD": 0.01143262,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 1767,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 33690,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 11152,
+    "notional_cost_usd": 0.01143262
+  },
+  "paper_id": "arXiv:2511.15402",
+  "model": "haiku"
+}

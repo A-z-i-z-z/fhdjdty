@@ -1,0 +1,31 @@
+{
+  "output": {
+    "paper_in_scope": false,
+    "scope_note": "The paper is a theoretical defect-model discussion of the mixed mobile ion effect in glasses and reports no ionic conductivity values; its only numbers are deformation rates (Table I) and viscosity or deformation-rate figures, which are not conductivities.",
+    "records": []
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 5941,
+        "outputTokens": 385,
+        "cacheReadInputTokens": 3156,
+        "cacheCreationInputTokens": 6127,
+        "webSearchRequests": 0,
+        "costUSD": 0.00204356,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 175,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 6127,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 4984,
+    "notional_cost_usd": 0.00204356
+  },
+  "paper_id": "arXiv:0903.0848",
+  "model": "haiku"
+}

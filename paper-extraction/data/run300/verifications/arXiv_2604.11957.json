@@ -1,0 +1,72 @@
+{
+  "output": {
+    "verdicts": [
+      {
+        "record_id": "arXiv:2604.11957#001",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "The main text (Section 2.4) reports Li2MnCl4 at 5.59 \u00d7 10\u22124 mS/cm with no measurement temperature, and the value is from this paper's own campaign. The supplement's 5.95 \u00d7 10\u22126 S/cm (Index 29) is a internal inconsistency, but the quoted main-text value is what the paper reports for this material."
+      },
+      {
+        "record_id": "arXiv:2604.11957#002",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.4 reports Li2FeCl4 at 1.14 \u00d7 10\u22122 mS/cm, matching the supplement's 1.14 \u00d7 10\u22125 S/cm (Index 28). No measurement temperature is given, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2604.11957#003",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.4 states Li1.8Fe0.8In0.2Cl4 at 2.72 \u00d7 10\u22122 mS/cm, and the value is from this paper's campaign. The supplement's 2.15 \u00d7 10\u22125 S/cm at 450 \u00b0C is a separate sample, and the 450 \u00b0C is a synthesis temperature, not a measurement temperature, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2604.11957#004",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.4 says the composition designed to remove indium, Li1.8Fe1.1Cl4, reached 4.30 \u00d7 10\u22122 mS/cm. The supplement (Index 194) agrees, and no measurement temperature is stated."
+      },
+      {
+        "record_id": "arXiv:2604.11957#005",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.4 reports Li1.8Mn1.1Cl4 at 1.75 \u00d7 10\u22122 mS/cm as the result of this campaign, and the supplement (Index 250, 1.75 \u00d7 10\u22125 S/cm) agrees. No measurement temperature is stated."
+      },
+      {
+        "record_id": "arXiv:2604.11957#006",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.3 gives Li1.45Mn0.45Sc0.55Cl4 at 0.144 mS/cm (Supplementary Note S10), matching Index 318 (1.44 \u00d7 10\u22124 S/cm). The measurement temperature is not stated in the paper, so null is correct."
+      },
+      {
+        "record_id": "arXiv:2604.11957#007",
+        "verdict": "supported",
+        "field_errors": [],
+        "explanation": "Section 2.3 gives Li1.5Mn0.25Fe0.25Y0.25In0.25Cl4 at 0.136 mS/cm (Supplementary Note S9), matching Index 324 (1.36 \u00d7 10\u22124 S/cm). The paper gives no measurement temperature, and the Y and In dopant assignment is consistent with the paper."
+      }
+    ]
+  },
+  "usage": {
+    "model_usage": {
+      "claude-haiku-5-5": {
+        "inputTokens": 65180,
+        "outputTokens": 4015,
+        "cacheReadInputTokens": 1982,
+        "cacheCreationInputTokens": 65368,
+        "webSearchRequests": 0,
+        "costUSD": 0.02161892,
+        "contextWindow": 1000000,
+        "maxOutputTokens": 128000,
+        "thinkingTokens": 2930,
+        "cacheCreationEphemeral5mInputTokens": 0,
+        "cacheCreationEphemeral1hInputTokens": 65368,
+        "canonicalModel": "claude-haiku-5-5",
+        "provider": "firstParty",
+        "costBasis": "list"
+      }
+    },
+    "duration_ms": 15961,
+    "notional_cost_usd": 0.02161892
+  },
+  "paper_id": "arXiv:2604.11957",
+  "model": "haiku"
+}
