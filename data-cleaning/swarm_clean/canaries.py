@@ -12,7 +12,7 @@ CONTEXT_CATEGORIES = {"closed_qa", "information_extraction", "summarization"}
 # like "What is the official name of Singapore?" stays answerable after the
 # passage is removed, and the canary would not actually be bad.
 PASSAGE_WORDS = ("passage", "paragraph", "text", "article", "reference", "above",
-                 "below", "following", "given", "provided", "this", "based on", "from the")
+                 "below", "following", "given", "provided", "this", "based on")
 SENTENCE_END = (".", "!", "?", ":", ";", '."', '!"', '?"')
 
 

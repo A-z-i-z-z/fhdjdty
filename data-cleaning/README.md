@@ -115,27 +115,34 @@ tie-break path, and a run that must fail when the labelers miss the canaries.
 
 ## Status and next steps
 
-First live run (2026-11-02): `--backend claude-cli --limit 200 --workers 8`,
-482 Haiku calls, no errors, about 7 minutes.
+Live runs so far, all on the `claude-cli` backend (Haiku 5.5, subscription usage):
 
-| Measure | Result |
-|---|---|
-| Canary recall | 10/10 (100%), run **PASS** |
-| Kappa A vs B | keep 0.65, category 0.75 |
-| Category accuracy vs Dolly | 54.5% (198 records) |
-| Kept | 128 of 200 (71 dropped by the swarm, 1 by rules) |
-| Cost per call | about $0.0008 at API list price, as reported by the CLI |
+| Run | Kept | Canary recall | Kappa keep / category | Category vs Dolly | Cost at API list price |
+|---|---|---|---|---|---|
+| 200 records, 8 workers, prompts v1 | 128 (64%) | 10/10 | 0.65 / 0.75 | 54.5% | about $0.40 |
+| 2,000 records, 100 workers, prompts v1 | 1,311 (66%) | 99/100 | 0.72 / 0.83 | 60.4% | about $3.95 |
+| 2,000 records, 100 workers, prompts v2 | 1,666 (83%) | 99/100 | 0.73 / 0.81 | 62.8% | about $4.30 |
 
-Most category "errors" are the fuzzy Dolly boundaries: information_extraction
-and summarization labeled closed_qa, general_qa labeled open_qa. A 20-record
-side run showed two canary flaws (a truncation that ended on a full stop, and a
-passage removed from a question that does not need it); the canary maker now
-avoids both.
+With v1 the labelers dropped about a third of Dolly, mostly for reasons that
+should not disqualify a training example: missing extra detail, typos, facts
+they could not verify, and "most recent" judged against today rather than
+early 2023. Prompts v2 fix that. In a hand check of records v2 keeps and v1
+dropped, most were fine, but about a third of those with a mean quality of
+exactly 3.0 were doubtful. For a stricter set, use `--min-quality 3.5`
+(1,248 of the 2,000 records).
+
+The one missed canary in the 2,000 runs was itself a bad canary (a passage
+removed from a question that does not need one); the maker's passage check was
+tightened afterwards.
+
+100 workers on a 4-CPU container: about 11 GB of RAM, but throughput stays at
+about 1 to 2 calls a second because each `claude -p` start is CPU-bound. 200
+calls timed out in the first 100-worker run; the backend now retries a timeout
+once. For thousands of agents, the API backend is the better route.
 
 Suggested next steps:
 
-1. Spot-check 50 kept and 50 rejected records by hand. A 36% drop rate is high,
-   so the quality bar (`--min-quality 3`) may be too strict.
-2. Decide whether the category merge (closed_qa / information_extraction /
-   summarization) matters for the target model, then tune the prompt.
-3. Run the full dataset with `--batch` on the API, or with claude-cli.
+1. Decide the quality bar (3.0 or 3.5) for the target model.
+2. Decide whether the closed_qa / information_extraction / summarization split
+   matters; most category "errors" sit on that boundary.
+3. Run the full dataset, ideally on the API with `--batch`.
