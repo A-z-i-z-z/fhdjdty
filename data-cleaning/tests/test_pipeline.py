@@ -145,6 +145,10 @@ class PipelineTest(unittest.TestCase):
             for bad in ("dolly-00020", "dolly-00022", "dolly-00024", "dolly-00025"):
                 self.assertNotIn(bad, ids)
             self.assertTrue(all("labels" in r for r in clean))
+            lenient = [json.loads(l) for l in (out / "clean_lenient.jsonl").read_text().splitlines()]
+            self.assertTrue(ids <= {r["id"] for r in lenient})
+            self.assertTrue(all(r["labels"]["quality"] >= 3.5 for r in clean))
+            self.assertEqual(report["counts"]["clean_lenient"], len(lenient))
             self.assertTrue((out / "LICENSE.txt").exists())
 
     def test_resume_uses_cache(self):

@@ -131,7 +131,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--limit", type=int, default=300, help="sample size; 0 = whole dataset")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--canary-fraction", type=float, default=0.05)
-    ap.add_argument("--min-quality", type=float, default=3.0)
+    ap.add_argument("--min-quality", type=float, default=3.5,
+                    help="mean labeler quality needed for clean.jsonl")
+    ap.add_argument("--lenient-quality", type=float, default=3.0,
+                    help="lower bar for clean_lenient.jsonl (a superset of clean.jsonl)")
     ap.add_argument("--min-canary-recall", type=float, default=0.8,
                     help="fail the run if the swarm catches fewer canaries than this")
     ap.add_argument("--out", type=Path, default=Path("out"))
@@ -180,7 +183,10 @@ def main(argv: list[str] | None = None) -> int:
         cache.close()
     print(f"tie-breaks: {len(contested)}")
 
-    # 6. Verdicts
+    # 6. Verdicts. Records are judged against the lenient bar, so canary
+    # recall and the reject list describe the looser of the two outputs;
+    # clean.jsonl is then the subset that also meets --min-quality.
+    lenient_q = min(args.lenient_quality, args.min_quality)
     decisions: dict[str, dict] = {}
     for rec in stream:
         rid = rec["id"]
@@ -193,7 +199,7 @@ def main(argv: list[str] | None = None) -> int:
                               "category_agreed": False, "quality": None, "issues": [],
                               "n_labels": len(votes), "unanimous": False}
         else:
-            decisions[rid] = verify.decide(votes, args.min_quality)
+            decisions[rid] = verify.decide(votes, lenient_q)
 
     canary_stats = verify.canary_report(decisions, canaries)
     gold = verify.gold_report(kept, decisions)
@@ -216,8 +222,10 @@ def main(argv: list[str] | None = None) -> int:
             clean.append({**rec, "labels": labels})
         else:
             swarm_rejected.append({**rec, "reject_stage": "swarm", "reasons": d["reasons"], "labels": labels})
-    clean.sort(key=lambda r: r["id"])
+    lenient = sorted(clean, key=lambda r: r["id"])
+    clean = [r for r in lenient if r["labels"]["quality"] >= args.min_quality]
     write_jsonl(out / "clean.jsonl", clean)
+    write_jsonl(out / "clean_lenient.jsonl", lenient)
     write_jsonl(out / "rejected.jsonl", rejected + swarm_rejected)
     write_jsonl(out / "canaries.jsonl", [{**c, "verdict": decisions[c["id"]]} for c in canaries])
     (out / "LICENSE.txt").write_text(LICENSE_NOTE + "\n", encoding="utf-8")
@@ -234,6 +242,8 @@ def main(argv: list[str] | None = None) -> int:
         "counts": {
             "loaded": len(records), "rules_rejected": len(rejected), "labeled_real": len(kept),
             "canaries": len(canaries), "swarm_rejected": len(swarm_rejected), "clean": len(clean),
+            "clean_lenient": len(lenient), "min_quality": args.min_quality,
+            "lenient_quality": lenient_q,
             "tiebreaks": len(contested),
         },
         "passes": [stats_a, stats_b, stats_c],
@@ -289,7 +299,8 @@ def _markdown(r: dict, gold: dict) -> str:
         f"| Labeled by the swarm | {c['labeled_real']} (+{c['canaries']} canaries) |",
         f"| Needed a tie-break | {c['tiebreaks']} |",
         f"| Rejected by the swarm | {c['swarm_rejected']} |",
-        f"| **Clean** | **{c['clean']}** |",
+        f"| Clean at quality >= {c.get('lenient_quality', 3.0)} (`clean_lenient.jsonl`) | {c.get('clean_lenient', c['clean'])} |",
+        f"| **Clean at quality >= {c.get('min_quality', 3.0)}** (`clean.jsonl`) | **{c['clean']}** |",
         "",
         "## Verification",
         "",
