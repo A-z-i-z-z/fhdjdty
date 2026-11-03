@@ -129,7 +129,7 @@ Live runs so far, all on the `claude-cli` backend (Haiku 5.5, subscription usage
 | 200 records, 8 workers, prompts v1 | 128 (64%) | 10/10 | 0.65 / 0.75 | 54.5% | about $0.40 |
 | 2,000 records, 100 workers, prompts v1 | 1,311 (66%) | 99/100 | 0.72 / 0.83 | 60.4% | about $3.95 |
 | 2,000 records, 100 workers, prompts v2 | 1,666 (83%) | 99/100 | 0.73 / 0.81 | 62.8% | about $4.30 |
-| Full dataset (15,011), 64 workers, prompts v2 | 9,365 at q>=3.5, 12,233 at q>=3.0 | 737/747 | 0.71 / 0.80 | 63.0% | about $30 |
+| Full dataset (15,011), 64 workers, prompts v2 | 9,304 at q>=3.5, 12,118 at q>=3.0 (after repeated prompts) | 737/747 | 0.71 / 0.80 | 63.0% | about $30 |
 
 With v1 the labelers dropped about a third of Dolly, mostly for reasons that
 should not disqualify a training example: missing extra detail, typos, facts
@@ -152,6 +152,20 @@ tightened afterwards.
 about 1 to 2 calls a second because each `claude -p` start is CPU-bound. 200
 calls timed out in the first 100-worker run; the backend now retries a timeout
 once. For thousands of agents, the API backend is the better route.
+
+Duplicates in the full run: the rules stage left no pairs at Jaccard >= 0.7
+(checked again with a 128-permutation MinHash over the clean set). What it
+cannot see are repeated prompts: the same instruction and passage with a
+different answer, or the same answer to a reworded instruction. After labeling,
+`rules.repeated_prompts` keeps the best-rated record of each such group and
+drops 115 (pass `--keep-repeated-prompts` to keep them all). Questions that
+share a template but have a different passage are not touched.
+
+A hand audit of 50 random records from the 3.0 to 3.5 band (the 2,814 records
+that `clean_lenient.jsonl` adds) found 32 good, 15 usable but weak (thin,
+typos, an outdated name) and 3 that should go (speculative crypto picks, an
+unsafe claim that a dog will not bite a child, and an answer written as a
+person describing their own hobbies).
 
 Suggested next steps:
 

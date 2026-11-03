@@ -133,6 +133,8 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--canary-fraction", type=float, default=0.05)
     ap.add_argument("--min-quality", type=float, default=3.5,
                     help="mean labeler quality needed for clean.jsonl")
+    ap.add_argument("--keep-repeated-prompts", action="store_true",
+                    help="keep every record of a repeated prompt instead of only the best-rated one")
     ap.add_argument("--lenient-quality", type=float, default=3.0,
                     help="lower bar for clean_lenient.jsonl (a superset of clean.jsonl)")
     ap.add_argument("--min-canary-recall", type=float, default=0.8,
@@ -224,6 +226,11 @@ def main(argv: list[str] | None = None) -> int:
             clean.append({**rec, "labels": labels})
         else:
             swarm_rejected.append({**rec, "reject_stage": "swarm", "reasons": d["reasons"], "labels": labels})
+    # 8. Repeated prompts: keep the best-rated record of each (no model, no cost).
+    repeats = {} if args.keep_repeated_prompts else rules.repeated_prompts(clean)
+    swarm_rejected += [{**r, "reject_stage": "dedup", "reasons": [f"repeated_prompt_of:{repeats[r['id']]}"]}
+                       for r in clean if r["id"] in repeats]
+    clean = [r for r in clean if r["id"] not in repeats]
     lenient = sorted(clean, key=lambda r: r["id"])
     clean = [r for r in lenient if r["labels"]["quality"] >= args.min_quality]
     write_jsonl(out / "clean.jsonl", clean)
@@ -243,8 +250,8 @@ def main(argv: list[str] | None = None) -> int:
         "source": str(src), "seed": args.seed,
         "counts": {
             "loaded": len(records), "rules_rejected": len(rejected), "labeled_real": len(kept),
-            "canaries": len(canaries), "swarm_rejected": len(swarm_rejected), "clean": len(clean),
-            "clean_lenient": len(lenient), "min_quality": args.min_quality,
+            "canaries": len(canaries), "swarm_rejected": len(swarm_rejected) - len(repeats), "clean": len(clean),
+            "clean_lenient": len(lenient), "repeated_prompts_dropped": len(repeats), "min_quality": args.min_quality,
             "lenient_quality": lenient_q,
             "tiebreaks": len(contested),
         },
@@ -301,6 +308,7 @@ def _markdown(r: dict, gold: dict) -> str:
         f"| Labeled by the swarm | {c['labeled_real']} (+{c['canaries']} canaries) |",
         f"| Needed a tie-break | {c['tiebreaks']} |",
         f"| Rejected by the swarm | {c['swarm_rejected']} |",
+        f"| Dropped as a repeated prompt (best-rated copy kept) | {c.get('repeated_prompts_dropped', 0)} |",
         f"| Clean at quality >= {c.get('lenient_quality', 3.0)} (`clean_lenient.jsonl`) | {c.get('clean_lenient', c['clean'])} |",
         f"| **Clean at quality >= {c.get('min_quality', 3.0)}** (`clean.jsonl`) | **{c['clean']}** |",
         "",

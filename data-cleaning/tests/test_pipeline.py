@@ -46,6 +46,27 @@ class RulesTest(unittest.TestCase):
         self.assertNotIn("[3]", lake["context"])
 
 
+class RepeatedPromptTest(unittest.TestCase):
+    def rec(self, rid, instruction, response, quality, context=""):
+        return {"id": rid, "instruction": instruction, "context": context, "response": response,
+                "labels": {"quality": quality}}
+
+    def test_keeps_best_rated_copy(self):
+        recs = [
+            self.rec("a", "What is EDM?", "Electronic dance music.", 3.5),
+            self.rec("b", "What is  EDM ?", "EDM means electronic dance music, played in clubs.", 4.5),
+            self.rec("c", "What is EDM?", "A genre.", 4.0, context="A passage about music."),
+            self.rec("d", "What are the main ingredients for bread?", "Flour, water, yeast, and salt", 4.0),
+            self.rec("e", "What are the main ingredients for making bread?", "Flour, water, yeast and salt", 3.0),
+            self.rec("f", "Who is the bachelor president?", "James Buchanan, the 15th president of the US.", 4.0),
+            self.rec("g", "Which president came from Pennsylvania?", "James Buchanan, the 15th president of the US.", 4.0),
+        ]
+        dropped = rules.repeated_prompts(recs)
+        # Same prompt: lower-rated copy goes. Different passage: a different prompt.
+        # Same answer to a reworded question: goes. Same answer to a different question: stays.
+        self.assertEqual(dropped, {"a": "b", "e": "d"})
+
+
 class CanaryTest(unittest.TestCase):
     def test_canaries_are_broken_copies(self):
         kept, _ = rules.run(fetch.load(FIXTURE))

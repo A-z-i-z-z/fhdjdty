@@ -154,3 +154,39 @@ def run(records: list[dict], max_chars: int = 12000, near_dup_threshold: float =
                  "reasons": [f"near_duplicate_of:{kept[root]['id']}"]}
             )
     return survivors, rejected
+
+
+def repeated_prompts(records: list[dict], min_instruction_overlap: float = 0.5) -> dict[str, str]:
+    """After labeling: find records that repeat a prompt already in the set.
+
+    Two kinds survive the near-duplicate check above because their full text
+    differs: the same instruction and passage with a different answer (for
+    example three separate "What is the English Premier League?" records), and
+    the same answer under a reworded instruction. For each group the record with
+    the highest swarm quality is kept. Returns {dropped id: kept id}.
+    Records must carry `labels.quality`.
+    """
+    def norm(text: str) -> str:
+        return " ".join(_words(text))
+
+    ranked = sorted(records, key=lambda r: (-r["labels"]["quality"], r["id"]))
+    dropped: dict[str, str] = {}
+    by_prompt: dict[tuple[str, str], str] = {}
+    by_response: dict[str, list[dict]] = defaultdict(list)
+    for rec in ranked:
+        prompt = (norm(rec["instruction"]), norm(rec["context"]))
+        if prompt in by_prompt:
+            dropped[rec["id"]] = by_prompt[prompt]
+            continue
+        by_prompt[prompt] = rec["id"]
+        resp_words = _words(rec["response"])
+        if len(resp_words) >= 5:
+            instr = set(_words(rec["instruction"]))
+            twin = next((k for k in by_response[" ".join(resp_words)]
+                         if len(instr & k["w"]) / max(1, len(instr | k["w"])) >= min_instruction_overlap),
+                        None)
+            if twin:
+                dropped[rec["id"]] = twin["id"]
+                continue
+            by_response[" ".join(resp_words)].append({"id": rec["id"], "w": instr})
+    return dropped
