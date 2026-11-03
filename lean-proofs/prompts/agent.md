@@ -24,6 +24,8 @@ theorem {name} {statement} := YOUR_PROOF
 
 Think briefly about the math, then give exactly one ```lean code block containing your helpers (if any) and the main theorem with its proof. Put nothing after the code block.
 
+You cannot run Lean yourself, and you don't need to: a checker compiles your answer and, if it fails, sends you the errors so you can try again. Always answer with your best attempt in a ```lean block, even when you are unsure it will compile or the theorem looks hard. An answer without a code block counts as a failure and wastes the round.
+
 Tips: prefer short robust tactics (`omega`, `decide`, `simp`, `induction ... with`, `rcases`, `nlinarith [sq_nonneg (a - b), ...]`, `positivity`, `field_simp`, `ring`, `norm_num`, `gcongr`). If you know a library lemma that closes the goal, `exact` it. When unsure whether a lemma name exists, prefer a tactic that does not depend on remembering names.
 
 ## The task

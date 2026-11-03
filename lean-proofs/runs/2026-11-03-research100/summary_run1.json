@@ -1,0 +1,197 @@
+{
+  "backend": "claude-cli",
+  "model": "claude-haiku-5-5",
+  "agents_per_lemma": 1,
+  "rounds": 4,
+  "lemmas": 100,
+  "proved": 23,
+  "attempts": 360,
+  "by_tier": {
+    "putnam_easy": "19/30",
+    "putnam_hard": "4/30",
+    "fc_solved": "0/30",
+    "fc_open": "0/10"
+  },
+  "attempt_outcomes": {
+    "parse": 261,
+    "policy": 18,
+    "compile": 55,
+    "ok": 23,
+    "axioms": 3
+  },
+  "reported_cost_usd": 2.7566,
+  "solved": {
+    "putnam_2000_a1": {
+      "agent": 0,
+      "round": 1
+    },
+    "putnam_2000_a2": {
+      "agent": 0,
+      "round": 1
+    },
+    "putnam_2000_a6": {
+      "agent": 0,
+      "round": 2
+    },
+    "putnam_2003_a1": {
+      "agent": 0,
+      "round": 3
+    },
+    "putnam_2003_a2": {
+      "agent": 0,
+      "round": 4
+    },
+    "putnam_2005_a5": {
+      "agent": 0,
+      "round": 4
+    },
+    "putnam_2007_b5": {
+      "agent": 0,
+      "round": 3
+    },
+    "putnam_2008_b1": {
+      "agent": 0,
+      "round": 1
+    },
+    "putnam_2008_b2": {
+      "agent": 0,
+      "round": 2
+    },
+    "putnam_2010_a2": {
+      "agent": 0,
+      "round": 1
+    },
+    "putnam_2010_b6": {
+      "agent": 0,
+      "round": 3
+    },
+    "putnam_2011_a2": {
+      "agent": 0,
+      "round": 2
+    },
+    "putnam_2012_a1": {
+      "agent": 0,
+      "round": 1
+    },
+    "putnam_2012_b1": {
+      "agent": 0,
+      "round": 3
+    },
+    "putnam_2013_b1": {
+      "agent": 0,
+      "round": 1
+    },
+    "putnam_2014_b2": {
+      "agent": 0,
+      "round": 4
+    },
+    "putnam_2015_b1": {
+      "agent": 0,
+      "round": 2
+    },
+    "putnam_2016_a1": {
+      "agent": 0,
+      "round": 2
+    },
+    "putnam_2017_b1": {
+      "agent": 0,
+      "round": 4
+    },
+    "putnam_2017_b2": {
+      "agent": 0,
+      "round": 2
+    },
+    "putnam_2019_a1": {
+      "agent": 0,
+      "round": 1
+    },
+    "putnam_2025_a1": {
+      "agent": 0,
+      "round": 2
+    },
+    "putnam_2025_b2": {
+      "agent": 0,
+      "round": 3
+    }
+  },
+  "unsolved": [
+    "fc_ErdosProblems_1000_erdos_1000",
+    "fc_ErdosProblems_1026_erdos_1026_variants_hanani",
+    "fc_ErdosProblems_1034_erdos_1034_variants_k4_free",
+    "fc_ErdosProblems_1034_erdos_1034_variants_upper_bound",
+    "fc_ErdosProblems_1057_erdos_1057_variants_agp_infinite",
+    "fc_ErdosProblems_1057_erdos_1057_variants_agp_lower_bound",
+    "fc_ErdosProblems_1080_erdos_1080",
+    "fc_ErdosProblems_1122_erdos_1122_variants_sub_tendsto_zero",
+    "fc_ErdosProblems_1142_erdos_1142",
+    "fc_ErdosProblems_1142_erdos_1142_variants_mientka_weitzenkamp",
+    "fc_ErdosProblems_118_larson",
+    "fc_ErdosProblems_123_erdos_123_variants_powers_2_3",
+    "fc_ErdosProblems_15_erdos_15",
+    "fc_ErdosProblems_178_erdos_178",
+    "fc_ErdosProblems_261_erdos_261_variants_le_10000",
+    "fc_ErdosProblems_263_erdos_263_variants_sub_doubly_exponential",
+    "fc_ErdosProblems_269_erdos_269_variants_rational",
+    "fc_ErdosProblems_285_erdos_285",
+    "fc_ErdosProblems_373_erdos_373_variants_of_lower_bound",
+    "fc_ErdosProblems_423_erdos_423_variants_lower_bound",
+    "fc_ErdosProblems_423_erdos_423_variants_nondecreasing",
+    "fc_ErdosProblems_436_erdos_436_parts_ii",
+    "fc_ErdosProblems_436_erdos_436_variants_ge_four",
+    "fc_ErdosProblems_46_erdos_46",
+    "fc_ErdosProblems_535_erdos_535_variants_erdos_upper_bound",
+    "fc_ErdosProblems_619_erdos_619_variants_h_five_le",
+    "fc_ErdosProblems_64_erdos_64",
+    "fc_ErdosProblems_721_erdos_721_upper_bound",
+    "fc_ErdosProblems_743_erdos_743_variants_fishburn",
+    "fc_ErdosProblems_769_erdos_769_variants_growth_rate",
+    "fc_ErdosProblems_813_erdos_813_variants_bucic_sudakov",
+    "fc_ErdosProblems_821_erdos_821_variants_lichtman",
+    "fc_ErdosProblems_85_erdos_85",
+    "fc_ErdosProblems_873_erdos_873_variants_triple_lower_bound_infinitely_often",
+    "fc_ErdosProblems_883_erdos_883_parts_ii",
+    "fc_GreensOpenProblems_41_minCopies_set_nonempty",
+    "fc_OEIS_281976_conjecture",
+    "fc_OEIS_7013_conjecture",
+    "fc_OptimizationConstants_7a_irrationalityExponent_of_algebraic",
+    "fc_Paper_Kurepa_kurepa_conjecture",
+    "putnam_2001_b5",
+    "putnam_2001_b6",
+    "putnam_2002_b6",
+    "putnam_2003_b6",
+    "putnam_2004_a5",
+    "putnam_2005_b5",
+    "putnam_2005_b6",
+    "putnam_2006_b6",
+    "putnam_2007_a5",
+    "putnam_2008_b5",
+    "putnam_2008_b6",
+    "putnam_2009_a5",
+    "putnam_2011_a1",
+    "putnam_2011_a6",
+    "putnam_2012_b6",
+    "putnam_2013_a2",
+    "putnam_2013_b5",
+    "putnam_2014_a1",
+    "putnam_2014_b1",
+    "putnam_2015_a1",
+    "putnam_2015_a6",
+    "putnam_2015_b2",
+    "putnam_2016_b2",
+    "putnam_2016_b6",
+    "putnam_2017_b6",
+    "putnam_2019_b5",
+    "putnam_2020_a1",
+    "putnam_2021_a5",
+    "putnam_2021_a6",
+    "putnam_2021_b2",
+    "putnam_2022_b2",
+    "putnam_2022_b6",
+    "putnam_2023_a1",
+    "putnam_2023_b5",
+    "putnam_2025_a5",
+    "putnam_2025_b5",
+    "putnam_2025_b6"
+  ],
+  "already_in_library": {}
+}

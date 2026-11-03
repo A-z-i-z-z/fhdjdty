@@ -195,9 +195,12 @@ def run_lean(src: str, requires: str, project: Path, timeout: int):
 def parse_axioms(msgs: list[dict], name: str) -> list[str] | None:
     for m in msgs:
         d = m.get("data", "")
-        if f"'{name}' does not depend on any axioms" in d:
+        # Lean prints the fully qualified name, so a theorem declared inside a
+        # namespace (formal-conjectures statements) shows up as 'Ns.name'.
+        qual = rf"'(?:[^'\s]+\.)?{re.escape(name)}'"
+        if re.search(qual + " does not depend on any axioms", d):
             return []
-        hit = re.search(rf"'{re.escape(name)}' depends on axioms: \[(.*?)\]", d, flags=re.S)
+        hit = re.search(qual + r" depends on axioms: \[(.*?)\]", d, flags=re.S)
         if hit:
             return [a.strip() for a in hit.group(1).split(",") if a.strip()]
     return None

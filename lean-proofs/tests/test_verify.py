@@ -105,6 +105,18 @@ theorem core_three_dvd (n : Nat) : 3 ∣ n ^ 3 + 2 * n := by
         r = verify.verify_answer(Q["core_mul_mod"], ans(code))
         self.assertTrue(r.ok, r.errors)
 
+    def test_namespaced_statement(self):
+        # formal-conjectures statements live inside a namespace; Lean then
+        # prints the qualified name in `#print axioms`.
+        lem = {"id": "ns_test", "name": "ns_add_zero", "requires": "core", "tier": "exercise",
+               "preamble": "namespace Demo\n\ndef twice (n : Nat) : Nat := n + n",
+               "statement": "(n : Nat) : twice n = 2 * n"}
+        good = "theorem ns_add_zero (n : Nat) : twice n = 2 * n := by\n  unfold twice\n  omega"
+        r = verify.verify_answer(lem, ans(good))
+        self.assertTrue(r.ok, r.errors)
+        bad = "theorem ns_add_zero (n : Nat) : twice n = 2 * n := by\n  exact sorryAx _"
+        self.assertFalse(verify.verify_answer(lem, ans(bad)).ok)
+
     def test_wrong_proof_fails_compile(self):
         code = "theorem core_three_dvd (n : Nat) : 3 ∣ n ^ 3 + 2 * n := by\n  simp"
         r = verify.verify_answer(Q["core_three_dvd"], ans(code))
