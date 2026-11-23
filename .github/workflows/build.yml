@@ -39,6 +39,12 @@ jobs:
         run: |
           for f in runtime/pocketagent-proot.sh rootfs/*.sh rootfs/smoke/*.sh proot/*.sh; do bash -n "$f" && echo "ok $f"; done
           sh -n runtime/pocketagent-proot.sh && echo "ok (sh) runtime/pocketagent-proot.sh"
+          bash -n runtime/test-launcher.sh && sh -n runtime/test-launcher.sh && echo "ok runtime/test-launcher.sh"
+      - name: Launcher test (fake proot under a path containing '=', like Android's nativeLibraryDir)
+        run: |
+          # mksh is the shell Android runs the launcher with
+          sudo apt-get update -qq && sudo apt-get install -y -qq mksh
+          sh runtime/test-launcher.sh sh dash bash mksh
 
   proot:
     name: Build proot (NDK, arm64)
