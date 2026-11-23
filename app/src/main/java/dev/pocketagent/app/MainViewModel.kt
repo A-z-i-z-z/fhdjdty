@@ -9,14 +9,11 @@ import android.net.Uri
 import android.os.PowerManager
 import android.provider.Settings as AndroidSettings
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.core.content.FileProvider
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import dev.pocketagent.app.api.ChatEvent
-import dev.pocketagent.app.api.ChatOutcome
 import dev.pocketagent.app.diag.Diagnostics
 import dev.pocketagent.app.runtime.ApiEndpoint
 import dev.pocketagent.app.runtime.AuthMode
@@ -28,10 +25,6 @@ import dev.pocketagent.app.util.AppLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import java.util.UUID
-
-enum class LineKind { USER, ASSISTANT, TOOL, ERROR, INFO }
-data class ChatLine(val id: Long, val kind: LineKind, val text: String)
 
 /** Result of an import attempt; the UI maps it to string resources. Holds no secret values. */
 sealed class ImportResult {
@@ -41,7 +34,7 @@ sealed class ImportResult {
 }
 
 class MainViewModel(app: Application) : AndroidViewModel(app) {
-    private val pa = PocketApp.from(app)
+    private val pa = PocketApp.from(app)  // the chat engine and repository live there now (agent CHAT/ENGINE)
     val runtime = pa.runtime
     val diagnostics: Diagnostics = pa.diagnostics
     val state: StateFlow<RuntimeState> = runtime.state
@@ -106,8 +99,13 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         // Do not leave the old key in the guest .env until the next start.
         viewModelScope.launch(Dispatchers.IO) { runtime.rewriteGuestConfigIfInstalled() }
     }
-    fun removeServiceAccount() { secrets.removeServiceAccount(); hasServiceAccount = false; saSummary = summary() }
-    fun removeUserCredentials() { secrets.removeUserCredentials(); hasUserCredentials = false; saSummary = summary() }
+    fun removeServiceAccount() { secrets.removeServiceAccount(); hasServiceAccount = false; saSummary = summary(); recomputeSavedProblems() }
+    fun removeUserCredentials() { secrets.removeUserCredentials(); hasUserCredentials = false; saSummary = summary(); recomputeSavedProblems() }
+
+    /** Re-evaluates the SAVED configuration (what chat will use), e.g. after a credential import switched the saved mode. */
+    private fun recomputeSavedProblems() {
+        problemsOfSaved = ProviderConfig.problems(settings.providerInputs(secrets.geminiApiKey())).isNotEmpty()
+    }
 
     // ---- credential import ---------------------------------------------------------------------------
     fun importFromUri(uri: Uri) {
@@ -143,6 +141,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
             is SaParse.Fail -> ImportResult.Failure(p.code, p.detail)
         }
         saSummary = summary()
+        recomputeSavedProblems()
         importResult = r
     }
 
@@ -199,57 +198,4 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     } catch (e: Exception) { AppLog.e("Diag", "share failed", e); null }
 
     fun clearDiagMessage() { diagMessage = null }
-
-    // ---- chat ------------------------------------------------------------------------------------------------------
-    val chat = mutableStateListOf<ChatLine>()
-    var sending by mutableStateOf(false); private set
-    var chatInput by mutableStateOf("")
-    private var sessionId = "pa-" + UUID.randomUUID().toString().take(12)
-    private var nextId = 0L
-
-    fun newChat() { if (!sending) { chat.clear(); sessionId = "pa-" + UUID.randomUUID().toString().take(12) } }
-
-    fun cancelSend() = runtime.api.cancelChat()
-
-    fun send() {
-        val text = chatInput.trim()
-        if (text.isEmpty() || sending) return
-        chatInput = ""
-        chat += ChatLine(nextId++, LineKind.USER, text)
-        sending = true
-        val wl = pa.wakeLocks
-        wl.acquire("chat request")
-        viewModelScope.launch(Dispatchers.IO) {
-            var assistantIdx = -1
-            fun appendAssistant(t: String) {
-                if (assistantIdx < 0 || assistantIdx >= chat.size || chat[assistantIdx].kind != LineKind.ASSISTANT) {
-                    chat += ChatLine(nextId++, LineKind.ASSISTANT, t); assistantIdx = chat.size - 1
-                } else chat[assistantIdx] = chat[assistantIdx].copy(text = chat[assistantIdx].text + t)
-            }
-            try {
-                // model "hermes-agent" is the name Hermes advertises on /v1/models; the real model comes from config.yaml.
-                val outcome = runtime.api.streamChat(text, sessionId, "hermes-agent") { ev ->
-                    when (ev) {
-                        is ChatEvent.Delta -> appendAssistant(ev.text)
-                        is ChatEvent.Tool -> {
-                            val l = "${ev.tool}: ${ev.status}" + if (ev.label.isNotEmpty()) " - ${ev.label}" else ""
-                            chat += ChatLine(nextId++, LineKind.TOOL, l); assistantIdx = -1
-                        }
-                        is ChatEvent.StreamError -> chat += ChatLine(nextId++, LineKind.ERROR, ev.raw)
-                        is ChatEvent.Finish -> if (ev.reason != "stop") chat += ChatLine(nextId++, LineKind.INFO, "finish_reason=${ev.reason}" + (ev.errorCode?.let { " error_code=$it" } ?: ""))
-                        else -> {}
-                    }
-                }
-                when (outcome) {
-                    is ChatOutcome.HttpError -> chat += ChatLine(nextId++, LineKind.ERROR, "HTTP ${outcome.code}: ${outcome.body}")
-                    is ChatOutcome.TransportError -> chat += ChatLine(nextId++, LineKind.ERROR, outcome.message)
-                    ChatOutcome.Cancelled -> chat += ChatLine(nextId++, LineKind.INFO, "cancelled")
-                    ChatOutcome.Completed -> {}
-                }
-            } finally {
-                wl.release("chat request")
-                sending = false
-            }
-        }
-    }
 }

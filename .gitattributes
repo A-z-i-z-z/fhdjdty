@@ -1,3 +1,4 @@
 *.sh text eol=lf
 gradlew text eol=lf
 rootfs/smoke/fixtures/* text eol=lf
+*.pxl text eol=lf

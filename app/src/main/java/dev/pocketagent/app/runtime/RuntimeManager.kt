@@ -673,6 +673,85 @@ class RuntimeManager(
         }
     }
 
+    // ---- terminal ----------------------------------------------------------------------------------------------
+    /**
+     * Runs [command] (an argv for the guest, e.g. `bash -c "ls"`) inside the rootfs through the same launcher and environment
+     * as the gateway, but with its OWN PA_STATE ([Paths.terminalState]): it never touches the gateway process, its
+     * last-launch.txt or the runtime state, and PA_SELFTEST keeps the launcher from rewriting resolv.conf under the running gateway.
+     * HOME=/root, HERMES_HOME=/root/.hermes, TERM=dumb, PAGER=cat, NO_COLOR=1; stdin is closed so nothing waits for input.
+     *
+     * Blocks until the process ends: call from a background thread. [onOutput] receives complete lines (text, isStderr) from two
+     * reader threads. Setting [cancel] sends SIGTERM to the process tree, then SIGKILL after 2.5 s. Returns the exit code, or -1
+     * when the command could not be started (the reason arrives through [onOutput]).
+     *
+     * The guest carries the usual PA_IN_PROOT=1 marker, so starting or stopping the gateway (which sweeps stale guests) ends a
+     * running terminal command too.
+     */
+    fun execInGuest(command: List<String>, onOutput: (String, Boolean) -> Unit, cancel: AtomicBoolean): Int {
+        if (command.isEmpty()) return -1
+        if (rootfsInfo["stub_rootfs"] == "true" || prootInfo["stub_proot"] == "true" || !paths.prootBin.exists()) {
+            onOutput("This build contains no proot or rootfs (stub build).", true); return -1
+        }
+        if (!isRootfsValid()) { onOutput("The Hermes runtime is not installed yet.", true); return -1 }
+        beginOp()
+        wakeLocks.acquire("terminal", 30 * 60_000L)
+        try {
+            paths.runtimeDir.mkdirs(); paths.terminalState.mkdirs()
+            installLauncher()
+            val env = launchEnv(paths.terminalState)
+            env["PA_SELFTEST"] = "1"
+            val cmd = listOf(
+                "/system/bin/sh", paths.launcher.path,
+                "-E", "HOME=/root", "-E", "HERMES_HOME=/root/.hermes", "-E", "TERM=dumb",
+                "-E", "PAGER=cat", "-E", "GIT_PAGER=cat", "-E", "NO_COLOR=1", "--",
+            ) + command
+            val pb = ProcessBuilder(cmd)
+            pb.environment().clear(); pb.environment().putAll(env)
+            pb.directory(paths.terminalState)
+            val p = try { pb.start() } catch (e: Exception) {
+                onOutput("Could not start the shell: ${e.javaClass.simpleName}: ${e.message}", true); return -1
+            }
+            try { p.outputStream.close() } catch (_: Exception) { }
+            fun pump(stream: java.io.InputStream, isErr: Boolean): Thread = Thread {
+                try {
+                    val r = java.io.InputStreamReader(stream, Charsets.UTF_8)
+                    val sb = StringBuilder(); val buf = CharArray(4096)
+                    while (true) {
+                        val n = r.read(buf)
+                        if (n < 0) break
+                        for (i in 0 until n) { if (buf[i] == '\n') { onOutput(sb.toString(), isErr); sb.setLength(0) } else sb.append(buf[i]) }
+                        if (sb.length > 64 * 1024) { onOutput(sb.toString(), isErr); sb.setLength(0) } // runaway line without a newline
+                    }
+                    if (sb.isNotEmpty()) onOutput(sb.toString(), isErr)
+                } catch (_: Exception) { }
+            }.also { it.isDaemon = true; it.start() }
+            val outThread = pump(p.inputStream, false)
+            val errThread = pump(p.errorStream, true)
+            val pid = pidOf(p).toIntOrNull()
+            fun signalTree(sig: Int) {
+                if (pid == null) return
+                ProcTree.descendants(pid).forEach { ProcTree.signal(it, sig) }
+                if (sig == ProcTree.SIGKILL) ProcTree.signal(pid, sig)
+            }
+            var termAt = 0L
+            try {
+                while (!p.waitFor(150, TimeUnit.MILLISECONDS)) {
+                    if (!cancel.get()) continue
+                    val now = SystemClock.elapsedRealtime()
+                    if (termAt == 0L) { termAt = now; signalTree(ProcTree.SIGTERM) }
+                    else if (now - termAt > 2500) { signalTree(ProcTree.SIGKILL); p.destroyForcibly() }
+                }
+            } finally {
+                if (p.isAlive) { signalTree(ProcTree.SIGKILL); p.destroyForcibly() }
+            }
+            outThread.join(2000); errThread.join(2000)
+            return p.exitValue()
+        } finally {
+            wakeLocks.release("terminal")
+            endOp()
+        }
+    }
+
     // ---- construction ---------------------------------------------------------------------------------
     // KEEP THIS BLOCK THE LAST MEMBER OF THE CLASS. Kotlin runs property initialisers and init blocks in textual
     // order. refreshInstalledState() reads rootfsInfo, a `by lazy` property whose delegate field does not exist yet

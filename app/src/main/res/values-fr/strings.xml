@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PocketAgent</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Annuler</string>
+
+    <!-- notification -->
+    <string name="notif_channel">Environnement de l\'agent</string>
+    <string name="notif_starting">Démarrage de l\'environnement de l\'agent…</string>
+    <string name="notif_running">L\'environnement de l\'agent fonctionne</string>
+    <string name="notif_extracting">Installation de l\'environnement… %1$d %%</string>
+    <string name="action_stop">Arrêter</string>
+
+    <!-- runtime -->
+    <string name="state_not_installed">Non installé</string>
+    <string name="state_extracting">Extraction… %1$d %%</string>
+    <string name="state_starting">Démarrage</string>
+    <string name="state_running">En marche (état OK)</string>
+    <string name="state_stopped">Arrêté</string>
+    <string name="state_error">Erreur</string>
+    <string name="btn_install_start">Installer et démarrer</string>
+    <string name="btn_start">Démarrer</string>
+    <string name="btn_stop">Arrêter</string>
+    <string name="btn_restart">Redémarrer</string>
+    <string name="battery_hint">L\'optimisation de la batterie peut figer l\'environnement en arrière-plan. Autorisez l\'application à l\'ignorer.</string>
+    <string name="slow_start_hint">Le démarrage est anormalement long. Un autotest est en cours ; attendez qu\'il se termine (une à deux minutes), puis appuyez sur Réglages &gt; Diagnostic &gt; Copier le diagnostic et envoyez-le.</string>
+    <string name="selftest_running_hint">Autotest en cours. Attendez qu\'il se termine avant de copier le diagnostic, pour que le rapport contienne son résultat.</string>
+    <string name="error_hint">Quelque chose a échoué. Quand aucun autotest n\'est en cours, appuyez sur Réglages &gt; Diagnostic &gt; Copier le diagnostic et envoyez-le.</string>
+    <string name="btn_battery">Ignorer l\'optimisation de la batterie</string>
+    <string name="build_info">Version %1$s, commit %2$s</string>
+
+    <!-- setup -->
+    <string name="setup_mode">Comment l\'agent doit-il joindre Gemini ?</string>
+    <string name="mode_api_key">Clé API (le plus rapide)</string>
+    <string name="mode_sa">JSON de compte de service (Vertex AI)</string>
+    <string name="mode_user">JSON d\'identifiants utilisateur (Vertex AI, connexion gcloud)</string>
+    <string name="endpoint_studio">API Gemini (clé AI Studio)</string>
+    <string name="endpoint_express">Mode express de Vertex AI</string>
+    <string name="endpoint_studio_hint">Utilise generativelanguage.googleapis.com. Les identifiants de modèle sont simples, par exemple gemini-4-hydrogen.</string>
+    <string name="endpoint_express_hint">Utilise aiplatform.googleapis.com avec une clé du mode express. Ajouter un projet route vers son emplacement global, dont Gemini 4 Argon a besoin.</string>
+    <string name="field_api_key">Clé API Gemini</string>
+    <string name="field_api_key_stored">Clé API enregistrée (saisissez pour la remplacer)</string>
+    <string name="btn_remove_key">Supprimer la clé API enregistrée</string>
+    <string name="sa_hint">Importez le fichier de clé d\'un compte de service ayant le rôle Utilisateur Vertex AI.</string>
+    <string name="user_hint">Importez le fichier application_default_credentials.json créé par gcloud auth application-default login (type authorized_user). Il ne contient pas de projet : saisissez l\'identifiant du projet ci-dessous.</string>
+    <string name="btn_import_file">Importer un fichier JSON</string>
+    <string name="btn_paste_json">Coller le JSON</string>
+    <string name="cred_imported">Importé : %1$s</string>
+    <string name="cred_none">Rien n\'a encore été importé pour ce mode.</string>
+    <string name="btn_remove_cred">Supprimer les identifiants importés</string>
+    <string name="field_model">Identifiant du modèle</string>
+    <string name="field_effort">Effort de réflexion</string>
+    <string name="effort_hint">Par défaut, c\'est Hermes qui décide (moyen). Les niveaux bas répondent plus vite et coûtent moins.</string>
+    <string name="effort_default">Par défaut</string>
+    <string name="effort_none">Aucun</string>
+    <string name="effort_minimal">Minimal</string>
+    <string name="effort_low">Faible</string>
+    <string name="effort_medium">Moyen</string>
+    <string name="effort_high">Élevé</string>
+    <string name="effort_xhigh">Très élevé</string>
+    <string name="problem_bad_effort">Effort de réflexion inconnu. Choisissez l\'une des puces.</string>
+    <string name="field_region">Région / emplacement</string>
+    <string name="field_project">Identifiant du projet (facultatif)</string>
+    <string name="field_project_required">Identifiant du projet (obligatoire pour les identifiants utilisateur)</string>
+    <string name="problem_no_key">Saisissez une clé API Gemini.</string>
+    <string name="problem_no_project">Les identifiants utilisateur ne contiennent pas de projet : saisissez l\'identifiant du projet.</string>
+    <string name="problem_no_model">Saisissez un identifiant de modèle.</string>
+    <string name="problem_bad_project">L\'identifiant du projet ne peut contenir que des minuscules, des chiffres, - et _.</string>
+    <string name="problem_bad_region">La région ne peut contenir que des minuscules, des chiffres et -.</string>
+    <string name="chat_needs_setup">L\'environnement tourne, mais la configuration enregistrée est incomplète (identifiants ou champs). Terminez Réglages &gt; Fournisseur et modèle, puis appuyez sur Enregistrer et appliquer.</string>
+    <string name="problem_no_credentials">Aucun identifiant importé pour ce mode.</string>
+    <string name="btn_save_apply">Enregistrer et appliquer</string>
+    <string name="settings_saved">Enregistré. Prend effet au prochain démarrage de l\'environnement.</string>
+    <string name="settings_restarting">Enregistré. Redémarrage de l\'environnement pour appliquer.</string>
+
+    <!-- paste dialog / import results -->
+    <string name="paste_title">Coller le JSON d\'identifiants</string>
+    <string name="paste_hint">Collez le fichier entier. Le texte est masqué, vérifié, stocké en privé, puis effacé de ce champ.</string>
+    <string name="paste_reveal">Afficher le texte</string>
+    <string name="btn_import">Importer</string>
+    <string name="import_done">Identifiants importés</string>
+    <string name="import_failed">Échec de l\'importation</string>
+    <string name="import_ok_sa">Compte de service du projet %1$s, %2$s. Le mode est passé sur compte de service.</string>
+    <string name="import_ok_user">Identifiants utilisateur : %1$s. Le mode est passé sur identifiants utilisateur ; saisissez l\'identifiant du projet.</string>
+    <string name="import_repaired">Les sauts de ligne issus de la copie ont été réparés automatiquement.</string>
+    <string name="import_err_empty">Rien à importer : le texte est vide.</string>
+    <string name="import_err_not_json">Ce n\'est pas du JSON valide (%1$s). Copiez à nouveau le fichier complet.</string>
+    <string name="import_err_not_object">Cela ne ressemble pas à un objet JSON ; il doit commencer par { et finir par }.</string>
+    <string name="import_err_type">Type d\'identifiants non pris en charge « %1$s ». Attendu : service_account ou authorized_user.</string>
+    <string name="import_err_missing">Champs manquants ou vides : %1$s.</string>
+    <string name="import_err_key">La private_key n\'est pas une clé privée PEM (elle doit contenir BEGIN PRIVATE KEY … END PRIVATE KEY).</string>
+    <string name="import_err_unreadable">Le fichier n\'a pas pu être lu (ou dépasse 256 Ko).</string>
+
+    <!-- debug (now under Settings > Runtime and Diagnostics) -->
+    <string name="debug_no_seccomp">Désactiver le filtre seccomp de proot</string>
+    <string name="debug_no_seccomp_hint">Active PROOT_NO_SECCOMP=1. Plus lent, mais à essayer si l\'environnement meurt avec le signal 31 (SIGSYS). Redémarrez ensuite.</string>
+    <string name="btn_copy_diag">Copier le diagnostic</string>
+    <string name="btn_share_diag">Partager en fichier</string>
+    <string name="btn_selftest">Lancer l\'autotest de proot</string>
+    <string name="btn_reset_runtime">Supprimer les fichiers de l\'environnement</string>
+    <string name="diag_copied">Diagnostic copié (%1$d caractères).</string>
+    <string name="diag_copied_truncated">Diagnostic copié, mais TRONQUÉ à %1$d caractères sur %2$d (limite du presse-papiers). Utilisez Partager en fichier pour le rapport complet.</string>
+</resources>

@@ -42,8 +42,21 @@ sealed class ChatEvent {
     data class Finish(val reason: String, val errorCode: String?) : ChatEvent()
     /** An error object delivered inside the stream (HTTP status was 200). */
     data class StreamError(val message: String, val raw: String) : ChatEvent()
+    /** `event: hermes.status` — lifecycle/warning text while the stream is quiet (provider wait, retry countdown, fallback switch). */
+    data class Status(val kind: String, val text: String) : ChatEvent()
+    /**
+     * `event: approval.request` — Hermes wants permission to run a flagged command and waits. Answer with
+     * `HermesApi.resolveApproval(runId, choice)` where choice is one of [choices] (once, session, always, deny).
+     */
+    data class Approval(
+        val runId: String, val command: String, val description: String,
+        val choices: List<String>, val requestId: String, val raw: String,
+    ) : ChatEvent()
     object Done : ChatEvent()
 }
+
+/** optString returns the text "null" for a JSON null; this returns [def] instead. */
+private fun JSONObject.str(name: String, def: String): String = if (isNull(name)) def else optString(name, def)
 
 object ChatStreamDecoder {
     fun decode(ev: SseEvent): List<ChatEvent> {
@@ -53,28 +66,46 @@ object ChatStreamDecoder {
         val obj = try { JSONObject(d) } catch (_: Exception) { return emptyList() }
         if (ev.event == "hermes.tool.progress") {
             return listOf(ChatEvent.Tool(
-                tool = obj.optString("tool", "?"),
-                label = obj.optString("label", ""),
-                status = obj.optString("status", ""),
-                callId = obj.optString("toolCallId", ""),
+                tool = obj.str("tool", "?"),
+                label = obj.str("label", ""),
+                status = obj.str("status", ""),
+                callId = obj.str("toolCallId", ""),
+            ))
+        }
+        if (ev.event == "hermes.status") {
+            val text = obj.str("text", "")
+            if (text.isEmpty()) return emptyList()
+            return listOf(ChatEvent.Status(obj.str("kind", ""), text))
+        }
+        if (ev.event == "approval.request") {
+            val choices = ArrayList<String>()
+            obj.optJSONArray("choices")?.let { a -> for (i in 0 until a.length()) (if (a.isNull(i)) "" else a.optString(i, "")).takeIf { it.isNotEmpty() }?.let { choices += it } }
+            return listOf(ChatEvent.Approval(
+                runId = obj.str("run_id", ""),
+                command = obj.str("command", ""),
+                description = obj.str("description", ""),
+                choices = choices,
+                requestId = obj.str("request_id", ""),
+                raw = d,
             ))
         }
         if (ev.event != null && ev.event != "message") return emptyList() // unknown named event: ignore
-        obj.optJSONObject("error")?.let { return listOf(ChatEvent.StreamError(it.optString("message", d), d)) }
         val out = ArrayList<ChatEvent>()
+        // A failed turn ends with ONE chunk that carries both `error` and `finish_reason`: report the error first, then the finish.
+        obj.optJSONObject("error")?.let { out += ChatEvent.StreamError(it.str("message", d), d) }
         val choices = obj.optJSONArray("choices") ?: return out
         for (i in 0 until choices.length()) {
             val c = choices.optJSONObject(i) ?: continue
             val delta = c.optJSONObject("delta")
             if (delta != null) {
-                val rc = delta.optString("reasoning_content", "")
+                val rc = delta.str("reasoning_content", "")
                 if (rc.isNotEmpty()) out += ChatEvent.Reasoning(rc)
-                val content = delta.optString("content", "")
+                val content = delta.str("content", "")
                 if (content.isNotEmpty() && !delta.isNull("content")) out += ChatEvent.Delta(content)
             }
             if (!c.isNull("finish_reason")) {
-                val code = obj.optJSONObject("hermes")?.optString("error_code")?.takeIf { it.isNotEmpty() }
-                out += ChatEvent.Finish(c.optString("finish_reason"), code)
+                val code = obj.optJSONObject("hermes")?.takeIf { !it.isNull("error_code") }?.str("error_code", "")?.takeIf { it.isNotEmpty() }
+                out += ChatEvent.Finish(c.str("finish_reason", ""), code)
             }
         }
         return out

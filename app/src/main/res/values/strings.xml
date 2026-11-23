@@ -11,8 +11,7 @@
     <string name="notif_extracting">Installing the runtime… %1$d%%</string>
     <string name="action_stop">Stop</string>
 
-    <!-- runtime card -->
-    <string name="runtime_title">Runtime</string>
+    <!-- runtime -->
     <string name="state_not_installed">Not installed</string>
     <string name="state_extracting">Extracting… %1$d%%</string>
     <string name="state_starting">Starting</string>
@@ -24,14 +23,13 @@
     <string name="btn_stop">Stop</string>
     <string name="btn_restart">Restart</string>
     <string name="battery_hint">Battery optimisation can freeze the runtime in the background. Allow the app to ignore it.</string>
-    <string name="slow_start_hint">Starting is taking unusually long. A self-test is running now; wait for it to finish (a minute or two), then press Debug > Copy diagnostics and send it.</string>
+    <string name="slow_start_hint">Starting is taking unusually long. A self-test is running now; wait for it to finish (a minute or two), then press Settings &gt; Diagnostics &gt; Copy diagnostics and send it.</string>
     <string name="selftest_running_hint">Self-test running. Wait for it to finish before you copy the diagnostics, so the dump contains its result.</string>
-    <string name="error_hint">Something failed. Once no self-test is running, press Debug > Copy diagnostics and send it.</string>
+    <string name="error_hint">Something failed. Once no self-test is running, press Settings &gt; Diagnostics &gt; Copy diagnostics and send it.</string>
     <string name="btn_battery">Ignore battery optimisations</string>
     <string name="build_info">Version %1$s, commit %2$s</string>
 
-    <!-- setup card -->
-    <string name="setup_title">Setup</string>
+    <!-- setup -->
     <string name="setup_mode">How should the agent reach Gemini?</string>
     <string name="mode_api_key">API key (fastest)</string>
     <string name="mode_sa">Service-account JSON (Vertex AI)</string>
@@ -93,20 +91,7 @@
     <string name="import_err_key">The private_key is not a PEM private key (it must contain BEGIN PRIVATE KEY … END PRIVATE KEY).</string>
     <string name="import_err_unreadable">The file could not be read (or is larger than 256 KB).</string>
 
-    <!-- chat -->
-    <string name="chat_title">Chat</string>
-    <string name="chat_hint">Message</string>
-    <string name="chat_hint_not_running">Start the runtime first</string>
-    <string name="chat_you">You:</string>
-    <string name="chat_agent">Agent:</string>
-    <string name="chat_tool">[tool]</string>
-    <string name="chat_error">[error]</string>
-    <string name="btn_send">Send</string>
-    <string name="btn_cancel_request">Cancel</string>
-    <string name="btn_new_chat">New chat</string>
-
-    <!-- debug -->
-    <string name="debug_title">Debug</string>
+    <!-- debug (now under Settings > Runtime and Diagnostics) -->
     <string name="debug_no_seccomp">Disable proot seccomp filter</string>
     <string name="debug_no_seccomp_hint">Sets PROOT_NO_SECCOMP=1. Slower, but try it if the runtime dies with signal 31 (SIGSYS). Restart afterwards.</string>
     <string name="btn_copy_diag">Copy diagnostics</string>

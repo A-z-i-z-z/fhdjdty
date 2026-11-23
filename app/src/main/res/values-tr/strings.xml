@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PocketAgent</string>
+    <string name="ok">Tamam</string>
+    <string name="cancel">Vazgeç</string>
+
+    <!-- notification -->
+    <string name="notif_channel">Ajan çalışma ortamı</string>
+    <string name="notif_starting">Ajan çalışma ortamı başlatılıyor…</string>
+    <string name="notif_running">Ajan çalışma ortamı çalışıyor</string>
+    <string name="notif_extracting">Çalışma ortamı kuruluyor… %%%1$d</string>
+    <string name="action_stop">Durdur</string>
+
+    <!-- runtime -->
+    <string name="state_not_installed">Kurulu değil</string>
+    <string name="state_extracting">Çıkarılıyor… %%%1$d</string>
+    <string name="state_starting">Başlıyor</string>
+    <string name="state_running">Çalışıyor (sağlıklı)</string>
+    <string name="state_stopped">Durdu</string>
+    <string name="state_error">Hata</string>
+    <string name="btn_install_start">Kur ve başlat</string>
+    <string name="btn_start">Başlat</string>
+    <string name="btn_stop">Durdur</string>
+    <string name="btn_restart">Yeniden başlat</string>
+    <string name="battery_hint">Pil optimizasyonu, uygulama arka plandayken çalışma ortamını dondurabilir. Uygulamanın bunu yok saymasına izin ver.</string>
+    <string name="slow_start_hint">Başlatma alışılmadık şekilde uzun sürüyor. Şu anda bir kendi kendine sınama çalışıyor; bitmesini bekle (bir iki dakika), sonra Ayarlar &gt; Tanılama &gt; Tanılamayı kopyala\'ya bas ve gönder.</string>
+    <string name="selftest_running_hint">Kendi kendine sınama çalışıyor. Tanılamayı kopyalamadan önce bitmesini bekle; böylece raporda sonucu da olur.</string>
+    <string name="error_hint">Bir şey ters gitti. Çalışan bir kendi kendine sınama yoksa Ayarlar &gt; Tanılama &gt; Tanılamayı kopyala\'ya bas ve gönder.</string>
+    <string name="btn_battery">Pil optimizasyonunu yok say</string>
+    <string name="build_info">Sürüm %1$s, commit %2$s</string>
+
+    <!-- setup -->
+    <string name="setup_mode">Ajan Gemini\'ye nasıl ulaşsın?</string>
+    <string name="mode_api_key">API anahtarı (en hızlısı)</string>
+    <string name="mode_sa">Hizmet hesabı JSON\'u (Vertex AI)</string>
+    <string name="mode_user">Kullanıcı kimlik bilgileri JSON\'u (Vertex AI, gcloud girişi)</string>
+    <string name="endpoint_studio">Gemini API (AI Studio anahtarı)</string>
+    <string name="endpoint_express">Vertex AI ekspres modu</string>
+    <string name="endpoint_studio_hint">generativelanguage.googleapis.com adresini kullanır. Model adları sadedir, örneğin gemini-4-hydrogen.</string>
+    <string name="endpoint_express_hint">aiplatform.googleapis.com adresini ekspres mod anahtarıyla kullanır. Proje eklemek isteği küresel konuma yönlendirir; Gemini 4 Argon buna ihtiyaç duyar.</string>
+    <string name="field_api_key">Gemini API anahtarı</string>
+    <string name="field_api_key_stored">API anahtarı kayıtlı (değiştirmek için yaz)</string>
+    <string name="btn_remove_key">Kayıtlı API anahtarını sil</string>
+    <string name="sa_hint">Vertex AI Kullanıcısı rolüne sahip bir hizmet hesabının anahtar dosyasını içe aktar.</string>
+    <string name="user_hint">gcloud auth application-default login komutunun oluşturduğu application_default_credentials.json dosyasını içe aktar (tür: authorized_user). İçinde proje yok, bu yüzden proje kimliğini aşağıya yaz.</string>
+    <string name="btn_import_file">JSON dosyasını içe aktar</string>
+    <string name="btn_paste_json">JSON yapıştır</string>
+    <string name="cred_imported">İçe aktarıldı: %1$s</string>
+    <string name="cred_none">Bu mod için henüz bir şey içe aktarılmadı.</string>
+    <string name="btn_remove_cred">İçe aktarılan kimlik bilgilerini sil</string>
+    <string name="field_model">Model kimliği</string>
+    <string name="field_effort">Düşünme çabası</string>
+    <string name="effort_hint">Varsayılan, seçimi Hermes\'e bırakır (orta). Düşük seviyeler daha hızlı yanıtlar ve daha ucuzdur.</string>
+    <string name="effort_default">Varsayılan</string>
+    <string name="effort_none">Yok</string>
+    <string name="effort_minimal">Asgari</string>
+    <string name="effort_low">Düşük</string>
+    <string name="effort_medium">Orta</string>
+    <string name="effort_high">Yüksek</string>
+    <string name="effort_xhigh">Çok yüksek</string>
+    <string name="problem_bad_effort">Bilinmeyen düşünme çabası. Düğmelerden birini seç.</string>
+    <string name="field_region">Bölge / konum</string>
+    <string name="field_project">Proje kimliği (isteğe bağlı)</string>
+    <string name="field_project_required">Proje kimliği (kullanıcı kimlik bilgileri için zorunlu)</string>
+    <string name="problem_no_key">Bir Gemini API anahtarı gir.</string>
+    <string name="problem_no_project">Kullanıcı kimlik bilgilerinde proje yok: proje kimliğini gir.</string>
+    <string name="problem_no_model">Bir model kimliği gir.</string>
+    <string name="problem_bad_project">Proje kimliği yalnızca küçük harf, rakam, - ve _ içerebilir.</string>
+    <string name="problem_bad_region">Bölge yalnızca küçük harf, rakam ve - içerebilir.</string>
+    <string name="chat_needs_setup">Çalışma ortamı açık ama kayıtlı kurulum eksik (kimlik bilgileri veya alanlar). Ayarlar &gt; Sağlayıcı ve model bölümünü tamamla ve Kaydet ve uygula\'ya bas.</string>
+    <string name="problem_no_credentials">Bu mod için henüz kimlik bilgisi içe aktarılmadı.</string>
+    <string name="btn_save_apply">Kaydet ve uygula</string>
+    <string name="settings_saved">Kaydedildi. Çalışma ortamı bir sonraki başlayışında geçerli olur.</string>
+    <string name="settings_restarting">Kaydedildi. Uygulamak için çalışma ortamı yeniden başlatılıyor.</string>
+
+    <!-- paste dialog / import results -->
+    <string name="paste_title">Kimlik bilgisi JSON\'unu yapıştır</string>
+    <string name="paste_hint">Dosyanın tamamını yapıştır. Metin gizlenir, kontrol edilir, özel olarak saklanır ve sonra bu alandan silinir.</string>
+    <string name="paste_reveal">Metni göster</string>
+    <string name="btn_import">İçe aktar</string>
+    <string name="import_done">Kimlik bilgileri içe aktarıldı</string>
+    <string name="import_failed">İçe aktarma başarısız</string>
+    <string name="import_ok_sa">%1$s projesi için hizmet hesabı, %2$s. Mod hizmet hesabına çevrildi.</string>
+    <string name="import_ok_user">Kullanıcı kimlik bilgileri: %1$s. Mod kullanıcı kimlik bilgilerine çevrildi; proje kimliğini gir.</string>
+    <string name="import_repaired">Kopyalamadan kaynaklanan satır sonları otomatik olarak düzeltildi.</string>
+    <string name="import_err_empty">İçe aktarılacak bir şey yok: metin boş.</string>
+    <string name="import_err_not_json">Bu geçerli bir JSON değil (%1$s). Dosyanın tamamını yeniden kopyala.</string>
+    <string name="import_err_not_object">Bu bir JSON nesnesine benzemiyor; { ile başlayıp } ile bitmeli.</string>
+    <string name="import_err_type">Desteklenmeyen kimlik bilgisi türü \"%1$s\". service_account veya authorized_user bekleniyordu.</string>
+    <string name="import_err_missing">Eksik veya boş alanlar: %1$s.</string>
+    <string name="import_err_key">private_key bir PEM özel anahtarı değil (BEGIN PRIVATE KEY … END PRIVATE KEY içermeli).</string>
+    <string name="import_err_unreadable">Dosya okunamadı (veya 256 KB\'tan büyük).</string>
+
+    <!-- debug (now under Settings > Runtime and Diagnostics) -->
+    <string name="debug_no_seccomp">proot seccomp filtresini kapat</string>
+    <string name="debug_no_seccomp_hint">PROOT_NO_SECCOMP=1 ayarlar. Daha yavaştır; ama çalışma ortamı 31 numaralı sinyalle (SIGSYS) ölüyorsa dene. Sonra yeniden başlat.</string>
+    <string name="btn_copy_diag">Tanılamayı kopyala</string>
+    <string name="btn_share_diag">Dosya olarak paylaş</string>
+    <string name="btn_selftest">proot kendi kendine sınamasını çalıştır</string>
+    <string name="btn_reset_runtime">Çalışma ortamı dosyalarını sil</string>
+    <string name="diag_copied">Tanılama kopyalandı (%1$d karakter).</string>
+    <string name="diag_copied_truncated">Tanılama kopyalandı ama %2$d karakterden %1$d karakterine KISALTILDI (pano sınırı). Tamamı için Dosya olarak paylaş\'ı kullan.</string>
+</resources>

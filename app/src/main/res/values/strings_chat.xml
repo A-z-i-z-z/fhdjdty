@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- bottom bar -->
+    <string name="ui_nav_home">Home</string>
+    <string name="ui_nav_chats">Chats</string>
+    <string name="ui_nav_bots">Bots</string>
+    <string name="ui_nav_hermes">Hermes</string>
+    <string name="ui_nav_settings">Settings</string>
+
+    <!-- relative time -->
+    <string name="ui_time_now">now</string>
+    <string name="ui_time_min">%1$d min</string>
+    <string name="ui_time_yesterday">Yesterday</string>
+
+    <!-- home -->
+    <string name="ui_home_greet_morning">Good morning</string>
+    <string name="ui_home_greet_afternoon">Good afternoon</string>
+    <string name="ui_home_greet_evening">Good evening</string>
+    <string name="ui_home_greet_night">Good night</string>
+    <string name="ui_home_tagline">Your agent, in your pocket.</string>
+    <string name="ui_home_status_notinstalled">The fire is not lit yet. Hermes is not unpacked on this phone.</string>
+    <string name="ui_home_status_extracting">Unpacking Hermes… %1$d%%</string>
+    <string name="ui_home_hint_first">The first start takes about a minute. It only happens once.</string>
+    <string name="ui_home_status_starting">Hermes is waking up…</string>
+    <string name="ui_home_status_slow">This is taking longer than usual. Hang on.</string>
+    <string name="ui_home_status_running">Hermes is awake and ready.</string>
+    <string name="ui_home_status_stopped">The fire is out. Hermes is asleep.</string>
+    <string name="ui_home_status_error">Something went wrong while starting.</string>
+    <string name="ui_home_btn_start">Light the fire</string>
+    <string name="ui_home_btn_stop">Put out the fire</string>
+    <string name="ui_home_btn_cancel">Cancel</string>
+    <string name="ui_home_btn_details">Details</string>
+    <string name="ui_home_setup_title">One more step</string>
+    <string name="ui_home_setup_body">Hermes needs a Gemini sign-in before it can answer. It only takes a minute.</string>
+    <string name="ui_home_setup_btn">Set up</string>
+    <string name="ui_home_talk_title">Talk to Hermes</string>
+    <string name="ui_home_talk_hint">Ask anything…</string>
+    <string name="ui_home_talk_hint_off">Light the fire to talk</string>
+    <string name="ui_home_send">Send</string>
+    <string name="ui_home_bots">Your bots</string>
+    <string name="ui_home_new_bot">New bot</string>
+    <string name="ui_home_group_btn">Start a group chat</string>
+    <string name="ui_home_recent">Recent chats</string>
+    <string name="ui_home_see_all">See all</string>
+    <string name="ui_home_tile_hermes">Hermes inspector</string>
+    <string name="ui_home_tile_terminal">Terminal</string>
+    <string name="ui_home_mascot_cd">Pêt, the salamander. Tap to say hello.</string>
+    <string name="ui_home_no_chats">No conversations yet. Say something to Hermes above.</string>
+    <string name="ui_home_chat_with">Chat with %1$s</string>
+
+    <!-- chat list -->
+    <string name="ui_chats_title">Chats</string>
+    <string name="ui_chats_search">Search chats and messages</string>
+    <string name="ui_chats_pinned">Pinned</string>
+    <string name="ui_chats_all">All chats</string>
+    <string name="ui_chats_found_convs">Chats</string>
+    <string name="ui_chats_matches">Messages</string>
+    <string name="ui_chats_no_results">Nothing found for “%1$s”.</string>
+    <string name="ui_chats_empty_title">No chats yet</string>
+    <string name="ui_chats_empty_body">Start a conversation with Hermes or one of your bots.</string>
+    <string name="ui_chats_new">New chat</string>
+    <string name="ui_chats_untitled">New chat</string>
+    <string name="ui_chats_empty_preview">No messages yet</string>
+    <string name="ui_chats_generating">Answering</string>
+    <string name="ui_chats_pinned_cd">Pinned</string>
+
+    <!-- actions and dialogs -->
+    <string name="ui_act_pin">Pin</string>
+    <string name="ui_act_unpin">Unpin</string>
+    <string name="ui_act_rename">Rename</string>
+    <string name="ui_act_delete">Delete</string>
+    <string name="ui_act_copy">Copy</string>
+    <string name="ui_act_share">Share</string>
+    <string name="ui_act_select">Select text</string>
+    <string name="ui_act_edit">Edit and resend</string>
+    <string name="ui_act_regen">Regenerate</string>
+    <string name="ui_act_clear">Clear conversation</string>
+    <string name="ui_act_members">Members and mode</string>
+    <string name="ui_act_inspector">Open Hermes inspector</string>
+    <string name="ui_dlg_rename_title">Rename chat</string>
+    <string name="ui_dlg_rename_field">Title</string>
+    <string name="ui_dlg_save">Save</string>
+    <string name="ui_dlg_cancel">Cancel</string>
+    <string name="ui_dlg_close">Close</string>
+    <string name="ui_dlg_delete_title">Delete this chat?</string>
+    <string name="ui_dlg_delete_body">“%1$s” and all its messages will be removed. This cannot be undone.</string>
+    <string name="ui_dlg_delete_confirm">Delete</string>
+    <string name="ui_dlg_clear_title">Clear this conversation?</string>
+    <string name="ui_dlg_clear_body">All messages will be removed. The chat itself stays.</string>
+    <string name="ui_dlg_clear_confirm">Clear</string>
+
+    <!-- new chat sheet -->
+    <string name="ui_new_title">New chat</string>
+    <string name="ui_new_pick_one">Pick a bot to talk to</string>
+    <string name="ui_new_group">Group chat</string>
+    <string name="ui_new_group_sub">Several bots in one conversation</string>
+    <string name="ui_new_pick_many">Pick two or more bots</string>
+    <string name="ui_new_mode">Who answers?</string>
+    <string name="ui_new_mode_all">Everyone, in turn</string>
+    <string name="ui_new_mode_mention">Only who is mentioned</string>
+    <string name="ui_new_title_field">Group name (optional)</string>
+    <string name="ui_new_create">Create group</string>
+    <string name="ui_new_selected">%1$d selected</string>
+    <string name="ui_new_need_bots">Groups need at least two bots. Make another bot first.</string>
+    <string name="ui_new_make_bot">New bot</string>
+
+    <!-- chat screen -->
+    <string name="ui_chat_typing">typing…</string>
+    <string name="ui_chat_typing_who">%1$s is typing…</string>
+    <string name="ui_chat_input_hint">Message</string>
+    <string name="ui_chat_input_hint_group">Message the group, @ calls a bot</string>
+    <string name="ui_chat_input_hint_mention">Start with @ to pick who answers</string>
+    <string name="ui_chat_send">Send</string>
+    <string name="ui_chat_stop">Stop</string>
+    <string name="ui_chat_jump">Jump to latest</string>
+    <string name="ui_chat_more">More</string>
+    <string name="ui_chat_back">Back</string>
+    <string name="ui_chat_off_title">Hermes is asleep</string>
+    <string name="ui_chat_off_body">Light the fire to chat.</string>
+    <string name="ui_chat_starting">Hermes is waking up…</string>
+    <string name="ui_chat_setup_body">Finish the Gemini setup before chatting.</string>
+    <string name="ui_chat_setup_btn">Open setup</string>
+    <string name="ui_chat_editing">Editing your message</string>
+    <string name="ui_chat_edit_cancel">Cancel editing</string>
+    <string name="ui_chat_retry">Retry</string>
+    <string name="ui_chat_copied">Copied</string>
+    <string name="ui_chat_tool_cd">Tool call</string>
+    <string name="ui_chat_no_output">(no details)</string>
+    <string name="ui_chat_empty_title">Say hello</string>
+    <string name="ui_chat_empty_body">Write the first message below.</string>
+    <string name="ui_chat_members_title">Members</string>
+    <string name="ui_chat_mode_title">Who answers?</string>
+    <string name="ui_chat_today">Today</string>
+    <string name="ui_chat_yesterday">Yesterday</string>
+    <string name="ui_chat_select_title">Select text</string>
+    <string name="ui_chat_mention_cd">Mention %1$s</string>
+    <string name="ui_chat_deleted_bot">Deleted bot</string>
+    <string name="ui_chat_code_copy">Copy code</string>
+    <string name="ui_chat_members_count">%1$d members</string>
+    <string name="ui_chat_not_found">This chat is gone.</string>
+    <string name="ui_chat_empty_reply">(empty reply)</string>
+    <string name="ui_chat_sec">%1$d s</string>
+    <string name="ui_chat_thinking">Thinking…</string>
+    <string name="ui_chat_thought">Thought process</string>
+    <string name="ui_chat_tool_running">running</string>
+    <string name="ui_chat_tool_done">done</string>
+    <string name="ui_chat_tool_stopped">interrupted</string>
+    <string name="ui_chat_message_cd">Message actions</string>
+
+    <!-- approvals -->
+    <string name="ui_chat_appr_title">Permission needed</string>
+    <string name="ui_chat_appr_who">%1$s wants to run a command:</string>
+    <string name="ui_chat_appr_once">Allow once</string>
+    <string name="ui_chat_appr_session">Allow this session</string>
+    <string name="ui_chat_appr_always">Always allow</string>
+    <string name="ui_chat_appr_deny">Deny</string>
+</resources>

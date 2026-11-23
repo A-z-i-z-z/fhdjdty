@@ -23,6 +23,9 @@ class Paths(context: Context) {
     val lastLaunch = File(state, "last-launch.txt")
     val selfTestState = File(runtimeDir, "state-selftest") // separate PA_STATE so a self-test never overwrites the real launch record
     val lastSelfTestFile = File(selfTestState, "last-selftest.txt")
+    val terminalState = File(runtimeDir, "state-terminal") // separate PA_STATE for the terminal tab: never touches the gateway's last-launch.txt
+    val terminalHistory = File(files, "terminal/history.json")
+    val chatDir = File(files, "chat")                    // bots.json, conversations.json, messages/<id>.json
 
     val logs = File(files, "logs")
     val runtimeLog = File(logs, "runtime.log")            // stdout+stderr of the proot/Hermes process

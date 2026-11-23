@@ -86,7 +86,7 @@ android {
         // which the extracted rootfs needs. See README.
         targetSdk = 28
         versionCode = maxOf(buildNumber, 1)
-        versionName = "0.0.$buildNumber-phase0"
+        versionName = "0.1.$buildNumber"
         ndk { abiFilters += "arm64-v8a" }
         buildConfigField("String", "GIT_COMMIT", "\"$gitCommit\"")
     }

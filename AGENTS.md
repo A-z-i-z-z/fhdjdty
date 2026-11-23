@@ -49,13 +49,24 @@ Target device: Galaxy S24 Ultra, One UI 9 / Android 17 (SDK 37), arm64, 4 KB pag
 - **The owner wants test chats run with Gemini 4 Hydrogen at low effort** (cheapest). Keep the
   phone's saved setup on that unless they say otherwise.
 
+- CI build `phase0-9` (commit `b048016`) is green, including the launcher test under mksh and
+  the `studio-effort` smoke fixture.
+- **Phase 1 + 2 first cut written (2026-11-23, version 0.1.N).** The owner asked, before
+  leaving for an hour, for "the full Hermes experience": a real app with pixel-art identity
+  (Newroz fire, Kurdistan newt mascot "Pêt"; the owner is Kurdish), custom bots, group chats,
+  full control over Hermes (SOUL.md, memory, skills, config, logs, terminal), themes, colours,
+  languages (English, Turkish, French) and a new app icon. Five agents built it in parallel from
+  `docs/phase1-contract.md` (read it: it is the map of the new code). It compiles, installs and
+  starts; it was NOT yet looked at on the phone (the phone locked with a PIN), so expect visual
+  and layout fixes once someone can see it. See "Phase 1 notes" below.
+
 Next steps, in order:
-1. Check that the CI build of the latest push is green (first CI run of the launcher test under
-   mksh and of the `studio-effort` smoke fixture).
-2. Not yet exercised on the phone: file tools and longer multi-step tasks, long sessions, the
-   runtime surviving in the background with the screen off, the "Copy diagnostics" dump, a rootfs
-   update over an existing install with user data.
-3. Start Phase 1 (see "Roadmap").
+1. Look at every screen on the phone (Home, Chats, Chat, Bots, Bot editor, Hermes tabs,
+   Terminal, Settings sections) in at least NEWROZ dark and NERGIZ light; fix what looks off.
+2. Run a real 1:1 chat and a group chat (Hydrogen, low effort), a tool call, edit/regenerate,
+   stop, an approval if one comes, a terminal command (`hermes status`), and a SOUL.md edit.
+3. Not yet exercised on the phone: long sessions, background survival with the screen off, a
+   rootfs update over an existing install with user data.
 
 Small follow-ups from the last review (none blocks use; do them with the next change):
 - `tools/local-build.ps1 -Test`: count a `FileSystemException` as "expected on Windows" only when
@@ -70,7 +81,9 @@ Small follow-ups from the last review (none blocks use; do them with the next ch
 
 | Path | What it is |
 |---|---|
-| `app/` | The Android app, Kotlin + Compose. `runtime/` = install, launch, config, secrets; `service/` = foreground service; `api/` = client for Hermes's OpenAI-compatible API; `diag/` = diagnostics and redaction; `ui/` = the single screen. Unit tests in `app/src/test`. |
+| `app/` | The Android app, Kotlin + Compose. `runtime/` = install, launch, config, secrets; `service/` = foreground service; `api/` = client for Hermes's OpenAI-compatible API; `diag/` = diagnostics and redaction; `data/` = bots, conversations, messages, chat engine (group chats); `hermes/` = SOUL/memory/skills/log files and the terminal; `ui/` = screens (see `docs/phase1-contract.md`). Unit tests in `app/src/test`. |
+| `app/src/main/assets/pixel/*.pxl` | All pixel art (mascot, fire, scene, avatars, icons, app icon) as text sprites. Format in `docs/phase1-contract.md`. Preview: `tools/pixel-preview.ps1 -File <pxl> -Out dist\pixel-preview`; launcher icon XML: `tools/pxl-to-vector.ps1`. |
+| `docs/phase1-contract.md` | The API contract between UI, art, design system and engine. |
 | `runtime/pocketagent-proot.sh` | The ONE launcher that enters the rootfs. Shipped as an app asset and used unchanged by the CI smoke test. POSIX sh only (Android runs it with mksh). |
 | `runtime/test-launcher.sh` | Fast launcher test with a fake proot; runs anywhere (`sh runtime/test-launcher.sh [shells...]`). |
 | `rootfs/` | Builds the Debian trixie arm64 rootfs with Hermes preinstalled; `rootfs/smoke/` boots Hermes under proot against a mock LLM. |
@@ -186,6 +199,39 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
 - Shell scripts must stay LF (`.gitattributes`): a CRLF launcher does not run under mksh.
 - Android's file picker shows a file pushed with `adb push` only after a media scan; searching by
   name in the picker finds it.
+- **`X-Hermes-Session-Id` makes Hermes discard the history in the request body** (it reloads the
+  session from its own store and uses only the last message). The chat engine therefore never
+  sends it and always sends the full transcript; Hermes derives a session id from
+  sha256(system + first user message), so every bot's system message ends with a
+  `[chat reference <convId>/<botId>]` line to keep chats apart.
+- Client `system` messages are layered on top of Hermes's own prompt (SOUL.md stays in force):
+  that is how bot personas work.
+- Per-request model needs `model` and `provider` together (a bare model is ignored); the `vertex`
+  provider wants the `google/` prefix. Per-request effort: `"model_options":{"reasoning_effort":..}`.
+- Memory files are `HERMES_HOME/memories/MEMORY.md` and `USER.md`, entries separated by
+  `"\n§\n"`, limits 2200 / 1375 chars. SOUL.md is at the HERMES_HOME root.
+- In the guest, `bash -lc` resets PATH (Debian /etc/profile) and `hermes` is not found: the
+  terminal uses `bash -c`.
+- Starting or stopping the gateway kills running terminal commands (the launcher sweeps all
+  `PA_IN_PROOT=1` processes).
+- Kotlin nests block comments: a KDoc containing `assets/pixel/*.pxl` opens a nested comment and
+  the file no longer compiles ("Unclosed comment").
+- `adb exec-out screencap -p > file` in PowerShell corrupts the PNG; use `screencap` to
+  `/data/local/tmp` and `adb pull`.
+
+## Phase 1 notes (the new app, 2026-11-23)
+
+- Navigation is a small hand-written back stack (`ui/Nav.kt`), tabs Home, Chats, Bots, Hermes,
+  Settings. Language switching is done in `ui/AppRoot.kt` by overriding the configuration
+  (`Appearance.language`); appearance lives in `ui/theme/AppearanceStore` (SharedPreferences).
+- Chats are JSON files under `files/chat/` (`ChatRepository`, atomic writes, corrupt files kept
+  as `.bad`). Starter bots: Hermes (plain, id `hermes`), plus rebel, coder, dengbej; more
+  templates in `data/BotPresets.kt`.
+- Group chats: every bot answers in turn (or only @mentioned ones), each sees the others' lines
+  prefixed with their names.
+- Engine texts (NOTE/ERROR messages, terminal INFO lines) are English only.
+- String resources are split per owner: `strings.xml`, `strings_chat.xml` (`ui_*`),
+  `strings_control.xml` (`ctl_*`), `strings_design.xml`, each with `values-tr` and `values-fr`.
 
 ## Roadmap
 

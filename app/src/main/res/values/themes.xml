@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.PocketAgent" parent="android:Theme.Material.Light.NoActionBar"/>
+    <!-- Dark plum window so there is no white flash before Compose draws the first frame.
+         PocketTheme repaints bars and background for the chosen theme once it is running. -->
+    <style name="Theme.PocketAgent" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#1D1220</item>
+        <item name="android:colorBackground">#1D1220</item>
+        <item name="android:statusBarColor">#130A16</item>
+        <item name="android:navigationBarColor">#130A16</item>
+        <item name="android:windowSplashScreenBackground">#1D1220</item>
+    </style>
 </resources>

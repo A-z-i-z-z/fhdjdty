@@ -1,0 +1,207 @@
+package dev.pocketagent.app.ui.hermes
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import dev.pocketagent.app.R
+import dev.pocketagent.app.hermes.HermesDoc
+import dev.pocketagent.app.hermes.HermesHome
+import dev.pocketagent.app.hermes.LogKind
+import dev.pocketagent.app.hermes.SkillInfo
+import dev.pocketagent.app.ui.components.ButtonKind
+import dev.pocketagent.app.ui.components.PixelButton
+import dev.pocketagent.app.ui.components.PixelIcon
+import dev.pocketagent.app.ui.components.PixelPanel
+import dev.pocketagent.app.ui.components.PocketChip
+import dev.pocketagent.app.ui.components.PocketTextField
+import dev.pocketagent.app.ui.components.SectionHeader
+import dev.pocketagent.app.ui.settings.CText
+import dev.pocketagent.app.ui.settings.ChipRow
+import dev.pocketagent.app.ui.settings.Muted
+import dev.pocketagent.app.ui.settings.copyText
+import dev.pocketagent.app.ui.settings.shareText
+import dev.pocketagent.app.ui.settings.toast
+import dev.pocketagent.app.ui.theme.Pocket
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
+// ---- Skills --------------------------------------------------------------------------------------------------
+
+@Composable
+internal fun SkillsTab(hvm: HermesEditorsViewModel, installed: Boolean, running: Boolean, onRestart: () -> Unit) {
+    val home = hvm.home
+    var skills by remember { mutableStateOf<List<SkillInfo>?>(null) }
+    var reload by remember { mutableIntStateOf(0) }
+    var query by rememberSaveable { mutableStateOf("") }
+    var failed by remember { mutableStateOf(false) }
+
+    LaunchedEffect(installed, reload) {
+        skills = null; failed = false
+        skills = withContext(Dispatchers.IO) {
+            try { home.listSkills() } catch (e: Exception) { failed = true; emptyList() }
+        }
+    }
+
+    val current = hvm.openSkill
+    if (current != null) {
+        val state = hvm.skillState(current)
+        LaunchedEffect(state) { if (!state.loaded) state.reload() }
+        Column(Modifier.fillMaxSize()) {
+            Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                PixelButton(stringResource(R.string.ctl_skills_back), onClick = { hvm.openSkill = null }, icon = PixelIcon.BACK, kind = ButtonKind.GHOST)
+                CText(current.name, weight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
+            }
+            DocEditor(
+                state, info = current.path, explain = current.description.ifBlank { stringResource(R.string.ctl_skill_explain) },
+                installed = installed, running = running, onRestart = onRestart, modifier = Modifier.weight(1f),
+            )
+        }
+        return
+    }
+
+    val all = skills
+    Column(Modifier.fillMaxSize()) {
+        Column(Modifier.padding(horizontal = 12.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Muted(stringResource(R.string.ctl_skills_explain))
+            PocketTextField(query, { query = it }, Modifier.fillMaxWidth(), placeholder = stringResource(R.string.ctl_skills_search), singleLine = true)
+        }
+        when {
+            all == null -> Muted(stringResource(R.string.ctl_loading), Modifier.padding(12.dp))
+            failed -> CText(stringResource(R.string.ctl_skills_failed), color = Pocket.colors.error, size = 13.sp, modifier = Modifier.padding(12.dp))
+            all.isEmpty() -> Muted(stringResource(if (installed) R.string.ctl_skills_empty else R.string.ctl_doc_not_installed), Modifier.padding(12.dp))
+            else -> {
+                val q = query.trim().lowercase()
+                val shown = if (q.isEmpty()) all else all.filter {
+                    it.name.lowercase().contains(q) || it.description.lowercase().contains(q) || it.category.lowercase().contains(q)
+                }
+                val groups = shown.groupBy { it.category.ifBlank { "general" } }.toSortedMap()
+                if (shown.isEmpty()) Muted(stringResource(R.string.ctl_skills_no_match), Modifier.padding(12.dp))
+                LazyColumn(Modifier.weight(1f), contentPadding = PaddingValues(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    groups.forEach { (category, list) ->
+                        item(key = "h-$category") { SectionHeader("$category (${list.size})") }
+                        items(list, key = { it.path }) { skill ->
+                            PixelPanel(Modifier.fillMaxWidth().clickable(onClickLabel = stringResource(R.string.ctl_skills_open)) { hvm.openSkill = skill }) {
+                                Column(Modifier.fillMaxWidth().padding(12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                                    CText(skill.name + if (hvm.skillDirty(skill.path)) " •" else "", size = 15.sp, weight = FontWeight.SemiBold)
+                                    if (skill.description.isNotBlank()) Muted(skill.description, size = 13.sp)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ---- Config (read-only) ------------------------------------------------------------------------------------
+
+@Composable
+internal fun ConfigTab(home: HermesHome, installed: Boolean, onOpenProvider: () -> Unit) {
+    val ctx = LocalContext.current
+    val state = remember { DocState({ home.read(HermesDoc.CONFIG) }, { }) }
+    LaunchedEffect(installed) { state.reload() }
+    val copied = stringResource(R.string.ctl_copied)
+    val c = Pocket.colors
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Muted(stringResource(R.string.ctl_config_explain))
+        val info = remember(state.original) { runCatching { home.docInfo(HermesDoc.CONFIG) }.getOrDefault("") }
+        CText(info, color = c.textMuted, size = 11.sp, mono = true)
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+            PixelButton(stringResource(R.string.ctl_config_open_provider), onClick = onOpenProvider, icon = PixelIcon.GEAR, kind = ButtonKind.SECONDARY)
+            PixelButton(stringResource(R.string.ctl_copy), onClick = { copyText(ctx, "config.yaml", state.text); toast(ctx, copied) }, icon = PixelIcon.COPY, kind = ButtonKind.GHOST, enabled = state.text.isNotEmpty())
+        }
+        when {
+            state.loading && !state.loaded -> Muted(stringResource(R.string.ctl_loading))
+            state.error != null -> CText(stringResource(R.string.ctl_doc_error, state.error ?: ""), color = c.error, size = 13.sp)
+            !state.exists -> Muted(stringResource(if (installed) R.string.ctl_doc_missing else R.string.ctl_doc_not_installed))
+            else -> PixelPanel(Modifier.fillMaxWidth(), color = c.codeBg) {
+                SelectionContainer {
+                    CText(state.text, color = c.text, size = 12.sp, mono = true, modifier = Modifier.fillMaxWidth().padding(12.dp))
+                }
+            }
+        }
+    }
+}
+
+// ---- Logs ----------------------------------------------------------------------------------------------------
+
+@Composable
+internal fun LogsTab(home: HermesHome) {
+    val ctx = LocalContext.current
+    var kind by rememberSaveable { mutableStateOf(LogKind.APP.name) }
+    var text by remember { mutableStateOf("") }
+    var loading by remember { mutableStateOf(true) }
+    var reload by remember { mutableIntStateOf(0) }
+    val c = Pocket.colors
+
+    LaunchedEffect(kind, reload) {
+        loading = true
+        text = withContext(Dispatchers.IO) {
+            try { home.tailLog(LogKind.valueOf(kind), 80_000) } catch (e: Exception) { "(" + (e.message ?: e.javaClass.simpleName) + ")" }
+        }
+        loading = false
+    }
+    val lines = remember(text) { if (text.isEmpty()) emptyList() else text.lines().takeLast(1500) }
+    val listState = rememberLazyListState()
+    LaunchedEffect(lines.size, kind) { if (lines.isNotEmpty()) listState.scrollToItem(lines.lastIndex) }
+    val copied = stringResource(R.string.ctl_copied)
+
+    Column(Modifier.fillMaxSize().padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        ChipRow {
+            PocketChip(stringResource(R.string.ctl_log_app), selected = kind == LogKind.APP.name, onClick = { kind = LogKind.APP.name })
+            PocketChip(stringResource(R.string.ctl_log_runtime), selected = kind == LogKind.RUNTIME.name, onClick = { kind = LogKind.RUNTIME.name })
+            PocketChip(stringResource(R.string.ctl_log_api), selected = kind == LogKind.API.name, onClick = { kind = LogKind.API.name })
+        }
+        Muted(stringResource(when (kind) {
+            LogKind.RUNTIME.name -> R.string.ctl_log_runtime_help
+            LogKind.API.name -> R.string.ctl_log_api_help
+            else -> R.string.ctl_log_app_help
+        }), size = 12.sp)
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            PixelButton(stringResource(R.string.ctl_refresh), onClick = { reload++ }, icon = PixelIcon.REFRESH, kind = ButtonKind.SECONDARY)
+            PixelButton(stringResource(R.string.ctl_copy), onClick = { copyText(ctx, "PocketAgent log", text); toast(ctx, copied) }, icon = PixelIcon.COPY, kind = ButtonKind.GHOST, enabled = text.isNotEmpty())
+            PixelButton(stringResource(R.string.ctl_share), onClick = { shareText(ctx, "PocketAgent log", text) }, icon = PixelIcon.SHARE, kind = ButtonKind.GHOST, enabled = text.isNotEmpty())
+        }
+        Box(Modifier.weight(1f).fillMaxWidth().background(c.codeBg)) {
+            if (lines.isEmpty()) {
+                Muted(stringResource(if (loading) R.string.ctl_loading else R.string.ctl_log_empty), Modifier.padding(12.dp))
+            } else {
+                LazyColumn(Modifier.fillMaxSize(), state = listState, contentPadding = PaddingValues(8.dp)) {
+                    items(lines.size) { i ->
+                        CText(lines[i], color = c.text, size = 11.sp, mono = true, lineHeight = 15.sp)
+                    }
+                }
+            }
+        }
+    }
+}

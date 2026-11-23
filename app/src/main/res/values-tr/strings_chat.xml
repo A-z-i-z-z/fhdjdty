@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- bottom bar -->
+    <string name="ui_nav_home">Ana sayfa</string>
+    <string name="ui_nav_chats">Sohbetler</string>
+    <string name="ui_nav_bots">Botlar</string>
+    <string name="ui_nav_hermes">Hermes</string>
+    <string name="ui_nav_settings">Ayarlar</string>
+
+    <!-- relative time -->
+    <string name="ui_time_now">şimdi</string>
+    <string name="ui_time_min">%1$d dk</string>
+    <string name="ui_time_yesterday">Dün</string>
+
+    <!-- home -->
+    <string name="ui_home_greet_morning">Günaydın</string>
+    <string name="ui_home_greet_afternoon">İyi günler</string>
+    <string name="ui_home_greet_evening">İyi akşamlar</string>
+    <string name="ui_home_greet_night">İyi geceler</string>
+    <string name="ui_home_tagline">Cebindeki ajan.</string>
+    <string name="ui_home_status_notinstalled">Ateş henüz yanmadı. Hermes bu telefonda henüz kurulu değil.</string>
+    <string name="ui_home_status_extracting">Hermes kuruluyor… %1$d%%</string>
+    <string name="ui_home_hint_first">İlk başlatma yaklaşık bir dakika sürer. Bu yalnızca bir kez olur.</string>
+    <string name="ui_home_status_starting">Hermes uyanıyor…</string>
+    <string name="ui_home_status_slow">Bu her zamankinden uzun sürüyor. Biraz bekle.</string>
+    <string name="ui_home_status_running">Hermes uyanık ve hazır.</string>
+    <string name="ui_home_status_stopped">Ateş söndü. Hermes uyuyor.</string>
+    <string name="ui_home_status_error">Başlatırken bir şeyler ters gitti.</string>
+    <string name="ui_home_btn_start">Ateşi yak</string>
+    <string name="ui_home_btn_stop">Ateşi söndür</string>
+    <string name="ui_home_btn_cancel">Vazgeç</string>
+    <string name="ui_home_btn_details">Ayrıntılar</string>
+    <string name="ui_home_setup_title">Bir adım daha</string>
+    <string name="ui_home_setup_body">Hermes\'in cevap verebilmesi için bir Gemini girişi gerekiyor. Bir dakikanı alır.</string>
+    <string name="ui_home_setup_btn">Kur</string>
+    <string name="ui_home_talk_title">Hermes ile konuş</string>
+    <string name="ui_home_talk_hint">Bir şey sor…</string>
+    <string name="ui_home_talk_hint_off">Konuşmak için ateşi yak</string>
+    <string name="ui_home_send">Gönder</string>
+    <string name="ui_home_bots">Botların</string>
+    <string name="ui_home_new_bot">Yeni bot</string>
+    <string name="ui_home_group_btn">Grup sohbeti başlat</string>
+    <string name="ui_home_recent">Son sohbetler</string>
+    <string name="ui_home_see_all">Tümü</string>
+    <string name="ui_home_tile_hermes">Hermes denetçisi</string>
+    <string name="ui_home_tile_terminal">Terminal</string>
+    <string name="ui_home_mascot_cd">Pêt, semender. Selam vermek için dokun.</string>
+    <string name="ui_home_no_chats">Henüz sohbet yok. Yukarıdan Hermes\'e bir şey yaz.</string>
+    <string name="ui_home_chat_with">%1$s ile sohbet et</string>
+
+    <!-- chat list -->
+    <string name="ui_chats_title">Sohbetler</string>
+    <string name="ui_chats_search">Sohbetlerde ve mesajlarda ara</string>
+    <string name="ui_chats_pinned">Sabitlenenler</string>
+    <string name="ui_chats_all">Tüm sohbetler</string>
+    <string name="ui_chats_found_convs">Sohbetler</string>
+    <string name="ui_chats_matches">Mesajlar</string>
+    <string name="ui_chats_no_results">“%1$s” için sonuç bulunamadı.</string>
+    <string name="ui_chats_empty_title">Henüz sohbet yok</string>
+    <string name="ui_chats_empty_body">Hermes ile ya da botlarından biriyle konuşmaya başla.</string>
+    <string name="ui_chats_new">Yeni sohbet</string>
+    <string name="ui_chats_untitled">Yeni sohbet</string>
+    <string name="ui_chats_empty_preview">Henüz mesaj yok</string>
+    <string name="ui_chats_generating">Yanıtlıyor</string>
+    <string name="ui_chats_pinned_cd">Sabitlendi</string>
+
+    <!-- actions and dialogs -->
+    <string name="ui_act_pin">Sabitle</string>
+    <string name="ui_act_unpin">Sabitlemeyi kaldır</string>
+    <string name="ui_act_rename">Yeniden adlandır</string>
+    <string name="ui_act_delete">Sil</string>
+    <string name="ui_act_copy">Kopyala</string>
+    <string name="ui_act_share">Paylaş</string>
+    <string name="ui_act_select">Metni seç</string>
+    <string name="ui_act_edit">Düzenle ve yeniden gönder</string>
+    <string name="ui_act_regen">Yeniden üret</string>
+    <string name="ui_act_clear">Sohbeti temizle</string>
+    <string name="ui_act_members">Üyeler ve mod</string>
+    <string name="ui_act_inspector">Hermes denetçisini aç</string>
+    <string name="ui_dlg_rename_title">Sohbeti yeniden adlandır</string>
+    <string name="ui_dlg_rename_field">Başlık</string>
+    <string name="ui_dlg_save">Kaydet</string>
+    <string name="ui_dlg_cancel">Vazgeç</string>
+    <string name="ui_dlg_close">Kapat</string>
+    <string name="ui_dlg_delete_title">Bu sohbet silinsin mi?</string>
+    <string name="ui_dlg_delete_body">“%1$s” ve içindeki tüm mesajlar silinecek. Bu geri alınamaz.</string>
+    <string name="ui_dlg_delete_confirm">Sil</string>
+    <string name="ui_dlg_clear_title">Bu sohbet temizlensin mi?</string>
+    <string name="ui_dlg_clear_body">Tüm mesajlar silinecek, sohbet kalacak.</string>
+    <string name="ui_dlg_clear_confirm">Temizle</string>
+
+    <!-- new chat sheet -->
+    <string name="ui_new_title">Yeni sohbet</string>
+    <string name="ui_new_pick_one">Konuşacağın botu seç</string>
+    <string name="ui_new_group">Grup sohbeti</string>
+    <string name="ui_new_group_sub">Tek sohbette birkaç bot</string>
+    <string name="ui_new_pick_many">İki ya da daha fazla bot seç</string>
+    <string name="ui_new_mode">Kim yanıtlasın?</string>
+    <string name="ui_new_mode_all">Herkes sırayla</string>
+    <string name="ui_new_mode_mention">Yalnızca etiketlenen</string>
+    <string name="ui_new_title_field">Grup adı (isteğe bağlı)</string>
+    <string name="ui_new_create">Grubu oluştur</string>
+    <string name="ui_new_selected">%1$d seçildi</string>
+    <string name="ui_new_need_bots">Grup için en az iki bot gerekir. Önce bir bot daha oluştur.</string>
+    <string name="ui_new_make_bot">Yeni bot</string>
+
+    <!-- chat screen -->
+    <string name="ui_chat_typing">yazıyor…</string>
+    <string name="ui_chat_typing_who">%1$s yazıyor…</string>
+    <string name="ui_chat_input_hint">Mesaj</string>
+    <string name="ui_chat_input_hint_group">Gruba yaz, @ ile bot çağır</string>
+    <string name="ui_chat_input_hint_mention">Kimin yanıtlayacağını @ ile seç</string>
+    <string name="ui_chat_send">Gönder</string>
+    <string name="ui_chat_stop">Durdur</string>
+    <string name="ui_chat_jump">En sona git</string>
+    <string name="ui_chat_more">Diğer</string>
+    <string name="ui_chat_back">Geri</string>
+    <string name="ui_chat_off_title">Hermes uyuyor</string>
+    <string name="ui_chat_off_body">Sohbet etmek için ateşi yak.</string>
+    <string name="ui_chat_starting">Hermes uyanıyor…</string>
+    <string name="ui_chat_setup_body">Sohbet etmeden önce Gemini kurulumunu tamamla.</string>
+    <string name="ui_chat_setup_btn">Kurulumu aç</string>
+    <string name="ui_chat_editing">Mesajın düzenleniyor</string>
+    <string name="ui_chat_edit_cancel">Düzenlemeyi bırak</string>
+    <string name="ui_chat_retry">Tekrar dene</string>
+    <string name="ui_chat_copied">Kopyalandı</string>
+    <string name="ui_chat_tool_cd">Araç çağrısı</string>
+    <string name="ui_chat_no_output">(ayrıntı yok)</string>
+    <string name="ui_chat_empty_title">Bir merhaba de</string>
+    <string name="ui_chat_empty_body">İlk mesajı aşağıya yaz.</string>
+    <string name="ui_chat_members_title">Üyeler</string>
+    <string name="ui_chat_mode_title">Kim yanıtlasın?</string>
+    <string name="ui_chat_today">Bugün</string>
+    <string name="ui_chat_yesterday">Dün</string>
+    <string name="ui_chat_select_title">Metni seç</string>
+    <string name="ui_chat_mention_cd">%1$s etiketle</string>
+    <string name="ui_chat_deleted_bot">Silinmiş bot</string>
+    <string name="ui_chat_code_copy">Kodu kopyala</string>
+    <string name="ui_chat_members_count">%1$d üye</string>
+    <string name="ui_chat_not_found">Bu sohbet artık yok.</string>
+    <string name="ui_chat_empty_reply">(boş yanıt)</string>
+    <string name="ui_chat_sec">%1$d sn</string>
+    <string name="ui_chat_thinking">Düşünüyor…</string>
+    <string name="ui_chat_thought">Düşünce süreci</string>
+    <string name="ui_chat_tool_running">çalışıyor</string>
+    <string name="ui_chat_tool_done">bitti</string>
+    <string name="ui_chat_tool_stopped">yarıda kesildi</string>
+    <string name="ui_chat_message_cd">Mesaj işlemleri</string>
+
+    <!-- approvals -->
+    <string name="ui_chat_appr_title">İzin gerekiyor</string>
+    <string name="ui_chat_appr_who">%1$s bir komut çalıştırmak istiyor:</string>
+    <string name="ui_chat_appr_once">Bir kez izin ver</string>
+    <string name="ui_chat_appr_session">Bu oturumda izin ver</string>
+    <string name="ui_chat_appr_always">Her zaman izin ver</string>
+    <string name="ui_chat_appr_deny">Reddet</string>
+</resources>
