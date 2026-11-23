@@ -21,7 +21,14 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.mandatorySystemGestures
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.union
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -68,6 +75,17 @@ import java.util.Date
 import java.util.Locale
 
 // Small pieces shared by the chat list, the chat screen and the home screen (agent CHAT).
+
+// ---- insets ------------------------------------------------------------------------------------------------------
+
+/**
+ * Bottom space the system keeps for itself: the navigation bar, or the gesture-navigation handle area (some
+ * Android versions report that only as a system-gesture inset). Content must not sit under it.
+ */
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+internal fun bottomSafeInsets(): WindowInsets =
+    WindowInsets.navigationBars.union(WindowInsets.mandatorySystemGestures.only(WindowInsetsSides.Bottom))
 
 // ---- bots -------------------------------------------------------------------------------------------------------
 
@@ -233,7 +251,7 @@ internal fun ActionSheet(title: String?, actions: List<SheetAction>, onDismiss: 
         shape = RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp),
         dragHandle = { BottomSheetDefaults.DragHandle(color = c.textMuted) },
     ) {
-        Column(Modifier.fillMaxWidth().navigationBarsPadding().padding(bottom = 12.dp)) {
+        Column(Modifier.fillMaxWidth().windowInsetsPadding(bottomSafeInsets()).padding(bottom = 12.dp)) {
             if (!title.isNullOrBlank()) {
                 Text(
                     title, color = c.textMuted, fontSize = 13.sp, maxLines = 1,

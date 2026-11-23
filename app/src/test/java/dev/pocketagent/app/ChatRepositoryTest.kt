@@ -217,4 +217,27 @@ class ChatRepositoryTest {
         r.flush()
         assertTrue(f.isFile)
     }
+
+    @Test fun untouchedOldStarterPromptsAreUpgradedOnLoadButEditedOnesAreNot() {
+        val dir = File(tmp.root, "chat")
+        dir.mkdirs()
+        val old = dev.pocketagent.app.data.LegacyBotPrompts.byId.getValue("dengbej").first()
+        val edited = BotPresets.rebel.copy(systemPrompt = dev.pocketagent.app.data.LegacyBotPrompts.byId.getValue("rebel").first() + "\nAlso: love cats.")
+        val custom = BotPresets.coder.copy(id = "my-coder", systemPrompt = dev.pocketagent.app.data.LegacyBotPrompts.byId.getValue("coder").first())
+        File(dir, "bots.json").writeText(dev.pocketagent.app.data.ChatJson.encodeBots(listOf(BotPresets.hermes, BotPresets.dengbej.copy(systemPrompt = old), edited, custom)))
+        val r = open(dir)
+        assertEquals(BotPresets.dengbej.systemPrompt, r.bot("dengbej")!!.systemPrompt)
+        assertFalse(r.bot("dengbej")!!.systemPrompt == old)
+        assertEquals(edited.systemPrompt, r.bot("rebel")!!.systemPrompt)
+        assertEquals("other ids are never touched", custom.systemPrompt, r.bot("my-coder")!!.systemPrompt)
+        r.flush()
+        assertEquals(BotPresets.dengbej.systemPrompt, open(dir).bot("dengbej")!!.systemPrompt)
+    }
+
+    @Test fun currentPresetsAreNotTreatedAsLegacy() {
+        for (t in BotPresets.templates) assertEquals(t, BotPresets.upgradeLegacy(t))
+        // The personas that mention a language (all but the translator) really changed, so existing installs can be upgraded.
+        for (id in listOf("rebel", "coder", "dengbej", "teacher", "critic", "planner"))
+            assertTrue(id, dev.pocketagent.app.data.LegacyBotPrompts.byId.getValue(id).none { it.trim() == BotPresets.templates.first { t -> t.id == id }.systemPrompt.trim() })
+    }
 }

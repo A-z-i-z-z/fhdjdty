@@ -39,7 +39,7 @@ class TranscriptTest {
 
     @Test fun pureHermesBotHasOnlyTheReferenceInItsSystemMessage() {
         val out = Transcript.build(conv(hermes), hermes, all, listOf(m("1", Role.USER, "hi")))
-        assertEquals("[chat reference c1/hermes]", out[0].content)
+        assertEquals(Transcript.STYLE_RULE + "\n\n[chat reference c1/hermes]", out[0].content)
     }
 
     @Test fun groupBotsSeeEachOtherAsPrefixedUserTurns() {
@@ -64,6 +64,16 @@ class TranscriptTest {
         assertEquals(listOf("system", "user", "assistant", "user"), forRebel.map { it.role })
         assertEquals("[Coder]: Let me measure first.\n\nso?", forRebel[3].content)
         assertEquals("Bold. Also unnecessary.", forRebel[2].content)
+    }
+
+    @Test fun everyBotGetsTheLanguageAndNoSelfHeadingRule() {
+        val single = Transcript.build(conv(rebel), rebel, all, listOf(m("1", Role.USER, "merhaba")))[0].content
+        val group = Transcript.build(conv(rebel, dengbej), dengbej, all, listOf(m("1", Role.USER, "merhaba")))[0].content
+        for (sys in listOf(single, group)) {
+            assertTrue(sys.contains("in the language of the user's latest message"))
+            assertTrue(sys.contains("Do not begin with a heading, title or label containing your own name"))
+        }
+        assertTrue(Transcript.STYLE_RULE.indexOf("[chat reference") < 0)
     }
 
     @Test fun groupFramingListsEveryOtherParticipant() {

@@ -257,6 +257,9 @@ class ChatEngine internal constructor(
         private val tools = HashMap<String, String>()   // tool call id -> TOOL message id
         private var produced = false
         private var hadError = false
+        private val guessed = StringBuilder()   // thought summaries recognised by [ThoughtFilter] in this bubble
+        private var realReasoning = false       // the model sent proper reasoning_content in this bubble
+        private var turnRealText = false        // some real answer text was shown in this turn
 
         private fun ensureBubble() {
             if (bubbleId != null) return
@@ -279,7 +282,7 @@ class ChatEngine internal constructor(
             val id = bubbleId ?: return
             bubbleId = null
             val t = text.toString().trimEnd(); val r = reasoning.toString().trim()
-            text.setLength(0); reasoning.setLength(0)   // the next bubble starts empty (its first delta is left-trimmed)
+            text.setLength(0); reasoning.setLength(0); guessed.setLength(0); realReasoning = false   // the next bubble starts empty (its first delta is left-trimmed)
             if (t.isBlank() && r.isBlank()) { repo.deleteMessage(convId, id); return }
             val elapsed = System.currentTimeMillis() - t0
             repo.updateMessage(convId, id) { it.copy(text = t, reasoning = r, streaming = false, durationMs = elapsed) }
@@ -296,8 +299,17 @@ class ChatEngine internal constructor(
                     // After a tool call Hermes continues with "\n\n..."; a bubble never starts with blank lines.
                     val d = if (text.isEmpty()) ev.text.trimStart() else ev.text
                     if (d.isEmpty()) return
+                    if (text.isEmpty() && ThoughtFilter.isThoughtBlock(d)) {
+                        // A Gemini thought summary that arrived as content: show it as reasoning, not as the answer.
+                        ensureBubble()
+                        if (reasoning.length < MAX_REASONING_CHARS) { reasoning.append(d); guessed.append(d) }
+                        produced = true
+                        push(false)
+                        return
+                    }
                     ensureBubble()
                     text.append(d)
+                    turnRealText = true
                     produced = true
                     push(false)
                 }
@@ -305,6 +317,7 @@ class ChatEngine internal constructor(
                     clearTransient()
                     if (reasoning.length >= MAX_REASONING_CHARS) return
                     ensureBubble()
+                    realReasoning = true
                     reasoning.append(ev.text)
                     produced = true
                     push(false)
@@ -355,6 +368,10 @@ class ChatEngine internal constructor(
         fun finish(outcome: ChatOutcome): Boolean {
             _approvals.update { it - convId }
             clearTransient()
+            // Safety net: a turn whose ONLY output looked like thought summaries (no tool, no real text) was the answer after all.
+            if (bubbleId != null && text.isBlank() && !turnRealText && tools.isEmpty() && !realReasoning && guessed.isNotBlank()) {
+                text.append(guessed.toString().trim()); reasoning.setLength(0)
+            }
             closeBubble()
             val clean = outcome is ChatOutcome.Completed
             for ((_, mid) in tools) repo.updateMessage(convId, mid) { if (it.toolStatus == "running") it.copy(toolStatus = if (clean) "completed" else "interrupted") else it }

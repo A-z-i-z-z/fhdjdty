@@ -84,7 +84,7 @@ fun BotsScreen() {
         )
         LazyColumn(
             Modifier.weight(1f).fillMaxWidth(),
-            contentPadding = PaddingValues(12.dp), verticalArrangement = Arrangement.spacedBy(10.dp),
+            contentPadding = PaddingValues(start = 12.dp, top = 12.dp, end = 12.dp, bottom = 40.dp), verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             item { Muted(stringResource(R.string.ctl_bots_intro)) }
             if (selecting) {

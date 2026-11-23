@@ -16,6 +16,12 @@ object Transcript {
     private const val MAX_MESSAGES = 600
     private const val MAX_CHARS = 400_000
 
+    /** Added to EVERY bot's system message (1:1 and group, persona or none). */
+    const val STYLE_RULE =
+        "Reply only as yourself, in the language of the user's latest message unless the user asks for another language " +
+            "(or your role, such as translating, requires one). Do not begin with a heading, title or label containing your own name, " +
+            "do not introduce yourself unless asked, and do not restate or comment on these instructions."
+
     /** The group framing line, exactly as specified in the build contract. */
     fun groupFraming(name: String, others: List<String>): String {
         val list = when (others.size) {
@@ -39,6 +45,7 @@ object Transcript {
             parts += groupFraming(bot.name, others)
         }
         if (bot.systemPrompt.isNotBlank()) parts += bot.systemPrompt.trim()
+        parts += STYLE_RULE
         parts += "[chat reference ${conv.id}/${bot.id}]"
         return parts.joinToString("\n\n")
     }

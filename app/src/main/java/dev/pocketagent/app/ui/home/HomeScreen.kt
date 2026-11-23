@@ -206,7 +206,7 @@ fun HomeScreen() {
             Column {
                 SectionHeader(stringResource(R.string.ui_home_bots), Modifier.padding(horizontal = 16.dp))
                 Spacer(Modifier.height(6.dp))
-                LazyRow(contentPadding = PaddingValues(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                LazyRow(Modifier.fillMaxWidth(), contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     items(bots, key = { it.id }) { bot -> BotCard(bot, onClick = { startChat(bot.id) }) }
                     item(key = "new-bot") { NewBotCard(onClick = { nav.go(Route.BotEditor(null)) }) }
                 }

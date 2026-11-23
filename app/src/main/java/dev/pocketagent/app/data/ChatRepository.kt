@@ -76,6 +76,9 @@ class ChatRepository internal constructor(
             val firstRun = !botsFile.exists()
             val botsRead = if (firstRun) null else readList(botsFile, "bots") { ChatJson.decodeBots(it) }
             var bots = if (firstRun) BotPresets.firstRun() else botsRead ?: emptyList()
+            // Starter bots the owner never edited follow improved preset texts.
+            val upgraded = bots.map { BotPresets.upgradeLegacy(it) }
+            if (upgraded != bots) { bots = upgraded; dirtyBots.set(true) }
             if (bots.none { it.id == BotPresets.HERMES_ID }) bots = listOf(BotPresets.hermes.copy(createdAt = System.currentTimeMillis())) + bots
             bots = bots.distinctBy { it.id }.sortedByDescending { it.id == BotPresets.HERMES_ID } // stable: Hermes first
             val convsFile = File(dir, "conversations.json")

@@ -210,6 +210,7 @@ internal fun ConversationRow(
     val members = conv.botIds.map { botsById[it] }
     val untitled = stringResource(R.string.ui_chats_untitled)
     val title = titleOf(conv, botsById, untitled)
+    val preview = remember(conv.lastPreview) { markdownToPlain(conv.lastPreview) }
     Row(
         modifier.fillMaxWidth().heightIn(min = 68.dp)
             .combinedClickable(
@@ -238,7 +239,7 @@ internal fun ConversationRow(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     if (generating) stringResource(R.string.ui_chats_generating) + "…"
-                    else conv.lastPreview.replace('\n', ' ').ifBlank { stringResource(R.string.ui_chats_empty_preview) },
+                    else preview.ifBlank { stringResource(R.string.ui_chats_empty_preview) },
                     color = if (generating) c.accent else c.textMuted, fontSize = 14.sp,
                     maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f),
                 )

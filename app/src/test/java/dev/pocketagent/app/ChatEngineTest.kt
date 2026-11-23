@@ -414,4 +414,55 @@ class ChatEngineTest {
         idle(engine, c.id)
         assertNull("card is gone once the turn is over", engine.approvals.value[c.id])
     }
+
+    private val thought1 = "**Recounting Newroz's Significance**\n\nI'm reflecting on the core meaning of Newroz and how it embodies renewal.\n\n"
+    private val thought2 = "**Weaving the Narrative**\n\nMy thoughts are focused on the ancient legend of Kawa the blacksmith.\n\n"
+
+    @Test fun thoughtSummariesAtTheStartGoToReasoningNotToTheAnswer() {
+        val fake = Fake { _, _ -> ok(listOf(ChatEvent.Delta(thought1), ChatEvent.Delta(thought2), ChatEvent.Delta("Newroz, bahar"), ChatEvent.Delta("in gelisi."))) }
+        val (repo, engine, _) = setup(fake)
+        val c = repo.createConversation(listOf("hermes"))
+        engine.send(c.id, "Newroz nedir?")
+        idle(engine, c.id)
+        val bot = repo.messagesSnapshot(c.id).single { it.role == Role.BOT }
+        assertEquals("Newroz, baharin gelisi.", bot.text)
+        assertTrue(bot.reasoning.contains("Recounting Newroz") && bot.reasoning.contains("Weaving the Narrative"))
+    }
+
+    @Test fun aThoughtShapedChunkAfterRealTextStaysText() {
+        val fake = Fake { _, _ -> ok(listOf(ChatEvent.Delta("Intro. "), ChatEvent.Delta(thought1))) }
+        val (repo, engine, _) = setup(fake)
+        val c = repo.createConversation(listOf("hermes"))
+        engine.send(c.id, "hi")
+        idle(engine, c.id)
+        val bot = repo.messagesSnapshot(c.id).single { it.role == Role.BOT }
+        assertTrue(bot.text.startsWith("Intro. **Recounting"))
+        assertEquals("", bot.reasoning)
+    }
+
+    @Test fun ifTheWholeBubbleLooksLikeThoughtsItIsKeptAsTheAnswer() {
+        val fake = Fake { _, _ -> ok(listOf(ChatEvent.Delta(thought1))) }
+        val (repo, engine, _) = setup(fake)
+        val c = repo.createConversation(listOf("hermes"))
+        engine.send(c.id, "hi")
+        idle(engine, c.id)
+        val bot = repo.messagesSnapshot(c.id).single { it.role == Role.BOT }
+        assertTrue(bot.text.startsWith("**Recounting Newroz"))
+        assertEquals("", bot.reasoning)
+    }
+
+    @Test fun eachBubbleAfterAToolCallFiltersItsOwnLeadingThoughts() {
+        val fake = Fake { _, _ ->
+            ok(listOf(ChatEvent.Delta(thought1), ChatEvent.Tool("terminal", "ls", "running", "c1"), ChatEvent.Tool("terminal", "", "completed", "c1"),
+                ChatEvent.Delta(thought2), ChatEvent.Delta("Three files.")))
+        }
+        val (repo, engine, _) = setup(fake)
+        val c = repo.createConversation(listOf("hermes"))
+        engine.send(c.id, "list")
+        idle(engine, c.id)
+        val msgs = repo.messagesSnapshot(c.id)
+        val bots = msgs.filter { it.role == Role.BOT }
+        assertEquals(listOf("Three files."), bots.filter { it.text.isNotBlank() }.map { it.text })
+        assertTrue(msgs.none { it.text.startsWith("**") })
+    }
 }

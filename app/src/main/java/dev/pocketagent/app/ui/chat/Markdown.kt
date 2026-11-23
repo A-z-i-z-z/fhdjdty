@@ -280,3 +280,28 @@ private fun merge(spans: List<MdSpan>): List<MdSpan> {
     }
     return out
 }
+
+/** Plain one-line text of a Markdown string (markers, bullets, link syntax removed) for list previews. */
+fun markdownToPlain(src: String, maxLen: Int = 160): String {
+    val sb = StringBuilder()
+    fun add(t: String) {
+        if (t.isNotBlank()) { if (sb.isNotEmpty()) sb.append(' '); sb.append(t) }
+    }
+    fun spans(l: List<MdSpan>) = l.joinToString("") { it.text }
+    fun walk(blocks: List<MdBlock>) {
+        for (b in blocks) {
+            if (sb.length >= maxLen) return
+            when (b) {
+                is MdBlock.Heading -> add(spans(b.spans))
+                is MdBlock.Paragraph -> add(spans(b.spans))
+                is MdBlock.Item -> add(spans(b.spans))
+                is MdBlock.Code -> add(b.code)
+                is MdBlock.Quote -> walk(b.blocks)
+                is MdBlock.Table -> { add(b.header.joinToString(" ") { spans(it) }); b.rows.forEach { r -> add(r.joinToString(" ") { spans(it) }) } }
+                MdBlock.Rule -> Unit
+            }
+        }
+    }
+    walk(parseMarkdown(src))
+    return sb.toString().replace(Regex("\\s+"), " ").trim().take(maxLen)
+}

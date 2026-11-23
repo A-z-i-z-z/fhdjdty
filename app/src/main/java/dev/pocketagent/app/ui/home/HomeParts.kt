@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
@@ -86,13 +87,13 @@ internal fun PixelProgressBar(fraction: Float?, modifier: Modifier = Modifier) {
 internal fun BotCard(bot: Bot, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val c = Pocket.colors
     val label = stringResource(R.string.ui_home_chat_with, bot.name)
-    PixelPanel(modifier.width(96.dp).clickable(onClickLabel = label, role = Role.Button, onClick = onClick), color = c.surface) {
+    PixelPanel(modifier.width(96.dp).heightIn(min = 112.dp).clickable(onClickLabel = label, role = Role.Button, onClick = onClick), color = c.surface) {
         Column(Modifier.fillMaxWidth().padding(horizontal = 6.dp, vertical = 10.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             BotAvatar(bot, 48.dp)
             Spacer(Modifier.height(6.dp))
             Text(
                 bot.name, color = c.text, fontSize = 13.sp, fontWeight = FontWeight.Medium, maxLines = 1,
-                overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center,
+                overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center, lineHeight = 18.sp,
             )
         }
     }
@@ -101,7 +102,7 @@ internal fun BotCard(bot: Bot, onClick: () -> Unit, modifier: Modifier = Modifie
 @Composable
 internal fun NewBotCard(onClick: () -> Unit, modifier: Modifier = Modifier) {
     val c = Pocket.colors
-    PixelPanel(modifier.width(96.dp).clickable(role = Role.Button, onClick = onClick), color = c.bg, border = c.accent) {
+    PixelPanel(modifier.width(96.dp).heightIn(min = 112.dp).clickable(role = Role.Button, onClick = onClick), color = c.bg, border = c.accent) {
         Column(Modifier.fillMaxWidth().padding(horizontal = 6.dp, vertical = 10.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Box(Modifier.height(48.dp), contentAlignment = Alignment.Center) { PixelIconView(PixelIcon.PLUS, tint = c.accent, size = 28.dp) }
             Spacer(Modifier.height(6.dp))

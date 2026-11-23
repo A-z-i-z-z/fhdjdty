@@ -35,7 +35,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
@@ -67,6 +67,7 @@ import dev.pocketagent.app.ui.bots.BotEditorScreen
 import dev.pocketagent.app.ui.bots.BotsScreen
 import dev.pocketagent.app.ui.chat.ChatListScreen
 import dev.pocketagent.app.ui.chat.ChatScreen
+import dev.pocketagent.app.ui.chat.bottomSafeInsets
 import dev.pocketagent.app.ui.components.PixelIcon
 import dev.pocketagent.app.ui.components.PixelIconView
 import dev.pocketagent.app.ui.hermes.HermesScreen
@@ -211,7 +212,7 @@ private fun AppShell() {
         Column(Modifier.fillMaxSize().background(c.bg).imePadding()) {
             Box(
                 Modifier.weight(1f).fillMaxWidth()
-                    .then(if (!showBar) Modifier.navigationBarsPadding() else Modifier),
+                    .then(if (!showBar) Modifier.windowInsetsPadding(bottomSafeInsets()) else Modifier),
             ) {
                 AnimatedContent(
                     targetState = route,
@@ -253,7 +254,7 @@ private fun RouteContent(route: Route) {
 private fun PocketBottomBar(route: Route, nav: Navigator) {
     val c = Pocket.colors
     val selectedIndex = route.tabIndex()
-    Column(Modifier.fillMaxWidth().background(c.surface).navigationBarsPadding()) {
+    Column(Modifier.fillMaxWidth().background(c.surface).windowInsetsPadding(bottomSafeInsets())) {
         Box(Modifier.fillMaxWidth().height(2.dp).background(c.outline))
         Row(Modifier.fillMaxWidth().height(60.dp), verticalAlignment = Alignment.CenterVertically) {
             TABS.forEachIndexed { index, tab ->

@@ -107,7 +107,7 @@ fun TerminalScreen() {
             actions = {
                 PixelIconButton(
                     PixelIcon.COPY, onClick = {
-                        copyText(ctx, "PocketAgent terminal", lines.joinToString("\n") { (if (it.kind == TermKind.CMD) "$ " else "") + it.text }); toast(ctx, copied)
+                        copyText(ctx, "PocketAgent terminal", lines.joinToString("\n") { if (it.kind == TermKind.CMD) "$ " + it.text.removePrefix("$ ") else it.text }); toast(ctx, copied)
                     },
                     contentDescription = stringResource(R.string.ctl_copy), enabled = lines.isNotEmpty(),
                 )
@@ -132,13 +132,13 @@ fun TerminalScreen() {
                     items(lines.size) { i ->
                         val l = lines[i]
                         val (prefix, color) = when (l.kind) {
-                            TermKind.CMD -> "$ " to CONSOLE_CMD
+                            TermKind.CMD -> "$ " to CONSOLE_CMD  // the text may already start with "$ ": shown once, see below
                             TermKind.ERR -> "" to CONSOLE_ERR
                             TermKind.INFO -> "" to CONSOLE_MUTED
                             TermKind.OUT -> "" to CONSOLE_OUT
                         }
                         CText(
-                            prefix + l.text, color = color, size = 12.sp, mono = true, lineHeight = 16.sp,
+                            (if (l.kind == TermKind.CMD) prefix + l.text.removePrefix("$ ") else l.text), color = color, size = 12.sp, mono = true, lineHeight = 16.sp,
                         )
                     }
                 }

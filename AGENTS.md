@@ -57,16 +57,20 @@ Target device: Galaxy S24 Ultra, One UI 9 / Android 17 (SDK 37), arm64, 4 KB pag
   full control over Hermes (SOUL.md, memory, skills, config, logs, terminal), themes, colours,
   languages (English, Turkish, French) and a new app icon. Five agents built it in parallel from
   `docs/phase1-contract.md` (read it: it is the map of the new code). It compiles, installs and
-  starts (CI build `phase0-10`, commit `f47633e`, is green); it was NOT yet looked at on the phone (the phone locked with a PIN), so expect visual
-  and layout fixes once someone can see it. See "Phase 1 notes" below.
+  starts (CI build `phase0-10`, commit `f47633e`, is green). Checked on the phone the same day:
+  Home (all hearth states), Chats, Chat, Bots, Hermes (Soul tab), Terminal (`hermes status`),
+  Settings, Appearance; NEWROZ dark and NERGIZ light. A real 1:1 chat and a group chat (Rebel +
+  Dengbêj) work with Hydrogen at low effort and answer in Turkish. Fixed after that look:
+  invisible pixel-font text, input bar under the gesture bar, Gemini thought summaries in
+  answers, double `$` in the terminal, raw Markdown in chat previews. See "Phase 1 notes" below.
 
 Next steps, in order:
-1. Look at every screen on the phone (Home, Chats, Chat, Bots, Bot editor, Hermes tabs,
-   Terminal, Settings sections) in at least NEWROZ dark and NERGIZ light; fix what looks off.
-2. Run a real 1:1 chat and a group chat (Hydrogen, low effort), a tool call, edit/regenerate,
-   stop, an approval if one comes, a terminal command (`hermes status`), and a SOUL.md edit.
-3. Not yet exercised on the phone: long sessions, background survival with the screen off, a
-   rootfs update over an existing install with user data.
+1. Not yet tried on the phone: the bot editor, Memory/User/Skills/Config/Logs tabs and editing
+   SOUL.md, edit/regenerate/stop, a tool call and an approval in the new chat, the language
+   switch, every theme, the new launcher icon on the home screen.
+2. Starter bot names/taglines are English in every UI language (they are data, not strings).
+3. Long sessions, background survival with the screen off, a rootfs update over an existing
+   install with user data.
 
 Small follow-ups from the last review (none blocks use; do them with the next change):
 - `tools/local-build.ps1 -Test`: count a `FileSystemException` as "expected on Windows" only when
@@ -210,6 +214,12 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
   provider wants the `google/` prefix. Per-request effort: `"model_options":{"reasoning_effort":..}`.
 - Memory files are `HERMES_HOME/memories/MEMORY.md` and `USER.md`, entries separated by
   `"\n§\n"`, limits 2200 / 1375 chars. SOUL.md is at the HERMES_HOME root.
+- **Gemini 4 thought summaries arrive as normal answer text.** Hermes's Vertex profile always
+  sends `include_thoughts: true` for gemini-4, and Vertex's OpenAI-compatible stream puts each
+  summary in `delta.content` as a whole chunk `**Title**\n\n<English paragraph>\n\n` before the
+  answer. Only `reasoning_effort: "none"` turns it off (and it also forces the lowest thinking).
+  `data/ThoughtFilter.kt` moves such leading chunks into `Message.reasoning` (shown folded as
+  "Thought process").
 - In the guest, `bash -lc` resets PATH (Debian /etc/profile) and `hermes` is not found: the
   terminal uses `bash -c`.
 - Starting or stopping the gateway kills running terminal commands (the launcher sweeps all

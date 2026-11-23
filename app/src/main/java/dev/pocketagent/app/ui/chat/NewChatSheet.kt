@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -76,7 +76,7 @@ internal fun NewChatSheet(initialGroup: Boolean, onDismiss: () -> Unit, onCreate
         shape = RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp),
         dragHandle = { BottomSheetDefaults.DragHandle(color = c.textMuted) },
     ) {
-        Column(Modifier.fillMaxWidth().navigationBarsPadding().padding(horizontal = 16.dp).padding(bottom = 12.dp)) {
+        Column(Modifier.fillMaxWidth().windowInsetsPadding(bottomSafeInsets()).padding(horizontal = 16.dp).padding(bottom = 12.dp)) {
             Text(stringResource(R.string.ui_new_title), color = c.text, fontSize = 20.sp, fontWeight = FontWeight.Bold)
             Spacer(Modifier.size(4.dp))
             PocketSwitchRow(

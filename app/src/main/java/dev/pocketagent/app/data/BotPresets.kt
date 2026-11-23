@@ -6,7 +6,8 @@ package dev.pocketagent.app.data
  * On the very first run [firstRun] is saved, so group chats work out of the box.
  *
  * Personas are written in English on purpose (models follow them best); every one of them tells the bot to
- * answer in the language the user writes in.
+ * answer in the language of the user's latest message. [Transcript.systemPrompt] adds the same rule (plus "no self-titled
+ * headings") to every bot's system message, whatever its persona says.
  */
 object BotPresets {
     const val HERMES_ID = "hermes"
@@ -19,8 +20,8 @@ object BotPresets {
     )
 
     private const val LANGUAGE_RULE =
-        "Always answer in the language the user writes in (Kurmanji, Sorani, Turkish, English, French or anything else), " +
-            "unless they ask for another one."
+        "Reply in the language of the user's latest message (Kurmanji, Sorani, Turkish, English, French or anything else), " +
+            "unless they ask for another one. Never answer in English just because these instructions are in English."
 
     val rebel: Bot = Bot(
         id = "rebel", name = "Rebel", avatar = "WOLF", color = 0xFFD9483BL,
@@ -68,13 +69,13 @@ $LANGUAGE_RULE Code, identifiers and commands stay in English.
 You are a Dengbêj, a voice from the Kurdish oral-epic tradition: the singer-storyteller who sat by the fire and carried a people's memory in melody and word. You tell tales and sing kilam (lament and story songs), keeping the old stories alive: Mem û Zîn, Siyabend û Xecê, Dewrêşê Evdî, Kela Dimdimê, the songs of mountains, exile, love, blood feud and longing.
 
 How you speak:
-- Begin a tale the way a dengbêj would: a calling-in, a blessing on the listeners, a word about the mountain or the fire, then the story. A short tale first; when it ends, ask whether the listener wants the next part.
+- Begin a tale the way a dengbêj would: a calling-in, a blessing on the listeners, a word about the mountain or the fire, then the story. Do all of it inside the telling, in the listener's language: never as a heading, a title or a label with your own name, and never by introducing yourself unless you are asked who you are. A short tale first; when it ends, ask whether the listener wants the next part.
 - Rhythm matters more than ornament: short balanced lines, repetition, refrains, parallelism, proverbs and images from the land (partridge, mountain, spring, snow, horse, bread). Use verse lines for songs and flowing storytelling prose for tales.
 - Be faithful to the real epics when you retell them. When you invent a new tale or verse, say so lightly ("this one the fire gave me"), and never present an invented story as an old one.
 - Treat the history, the pain and the pride of the Kurdish people with respect and without propaganda: stay with human truth, not slogans.
 - If asked ordinary questions you can answer them plainly, but keep the dengbêj's warmth and dignity.
 
-Language: answer in the language the user writes in. If they write Kurmanji or Sorani, reply in that dialect and script; mix in a few traditional phrases when it suits the mood. If you are unsure of a word in Kurdish, use a simpler one rather than inventing a form.
+Language: answer in the language of the user's latest message (Turkish stays Turkish, English stays English). Only if they write Kurdish, reply in that dialect and script and mix in a few traditional phrases when it suits the mood. If you are unsure of a word in Kurdish, use a simpler one rather than inventing a form.
 """.trimIndent(),
     )
 
@@ -151,6 +152,17 @@ $LANGUAGE_RULE
 
     /** Saved on the very first run, next to [hermes]. */
     val firstRunBotIds: List<String> = listOf("rebel", "coder", "dengbej")
+
+    /**
+     * Saved starter bots (matched by id) whose prompt still equals an OLD preset text exactly are moved to the current text;
+     * a prompt the user edited, or a bot with another id, is returned unchanged.
+     */
+    fun upgradeLegacy(bot: Bot): Bot {
+        val current = templates.firstOrNull { it.id == bot.id } ?: return bot
+        val old = LegacyBotPrompts.byId[bot.id] ?: return bot
+        val saved = bot.systemPrompt.trim()
+        return if (saved != current.systemPrompt.trim() && old.any { it.trim() == saved }) bot.copy(systemPrompt = current.systemPrompt) else bot
+    }
 
     fun firstRun(): List<Bot> {
         val now = System.currentTimeMillis()

@@ -2,31 +2,23 @@ package dev.pocketagent.app.ui.components
 
 import android.graphics.Paint
 import android.graphics.Typeface
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.drawscope.ContentDrawScope
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toArgb
-import androidx.compose.ui.layout.Measurable
-import androidx.compose.ui.layout.MeasureResult
-import androidx.compose.ui.layout.MeasureScope
-import androidx.compose.ui.node.DrawModifierNode
-import androidx.compose.ui.node.LayoutModifierNode
-import androidx.compose.ui.node.ModifierNodeElement
-import androidx.compose.ui.node.SemanticsModifierNode
-import androidx.compose.ui.node.invalidateDraw
-import androidx.compose.ui.node.invalidateMeasurement
-import androidx.compose.ui.node.invalidateSemantics
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.layout.MeasurePolicy
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.semantics.SemanticsPropertyReceiver
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.text
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.pocketagent.app.ui.theme.PixelFont
@@ -44,6 +36,9 @@ import kotlin.math.roundToInt
  * It wraps at word boundaries to the width it is given (like Text), honours [maxLines] with a "..."
  * ellipsis, and with [center] centres each line inside the available width. Characters the font does not
  * have are drawn with the system font at matching height. [shadow] adds a 1-pixel drop shadow.
+ *
+ * Implementation: a plain Layout whose measure pass builds a list of pixel rectangles (stored in a
+ * holder) and a drawBehind that fills them with drawRect.
  */
 @Composable
 fun PixelText(
@@ -56,85 +51,60 @@ fun PixelText(
     center: Boolean = false,
 ) {
     val px = with(LocalDensity.current) { pixel.toPx() }.roundToInt().coerceAtLeast(1)
-    Spacer(modifier.then(PixelTextElement(text, color, shadow, px, maxLines, center)))
+    val holder = remember { BuiltHolder() }
+    val label = text
+    val hasShadow = shadow != null
+    Layout(
+        modifier = modifier
+            .semantics { this.text = AnnotatedString(label) }
+            .drawBehind {
+                val b = holder.built
+                if (b != null && b.source == label && b.px == px) {
+                    if (shadow != null) {
+                        translate(px.toFloat(), px.toFloat()) { drawBuilt(b, shadow) }
+                    }
+                    drawBuilt(b, color)
+                }
+            },
+        measurePolicy = MeasurePolicy { _, constraints ->
+            val maxW = if (constraints.hasBoundedWidth) constraints.maxWidth else Int.MAX_VALUE
+            val b = build(label, px, maxW, constraints.minWidth, maxLines, center, hasShadow)
+            holder.built = b
+            val w = b.width.coerceIn(constraints.minWidth, if (constraints.hasBoundedWidth) constraints.maxWidth else Int.MAX_VALUE)
+            val h = b.height.coerceIn(constraints.minHeight, if (constraints.hasBoundedHeight) constraints.maxHeight else Int.MAX_VALUE)
+            layout(w, h) {}
+        },
+    )
 }
 
-private data class PixelTextElement(
-    val text: String,
-    val color: Color,
-    val shadow: Color?,
-    val px: Int,
-    val maxLines: Int,
-    val center: Boolean,
-) : ModifierNodeElement<PixelTextNode>() {
-    override fun create() = PixelTextNode(text, color, shadow, px, maxLines, center)
-
-    override fun update(node: PixelTextNode) {
-        node.update(text, color, shadow, px, maxLines, center)
-    }
+private class BuiltHolder {
+    @Volatile var built: Built? = null
 }
 
-private class PixelTextNode(
-    private var text: String,
-    private var color: Color,
-    private var shadow: Color?,
-    private var px: Int,
-    private var maxLines: Int,
-    private var center: Boolean,
-) : Modifier.Node(), LayoutModifierNode, DrawModifierNode, SemanticsModifierNode {
-    private var built: Built? = null
-
-    fun update(text: String, color: Color, shadow: Color?, px: Int, maxLines: Int, center: Boolean) {
-        val relayout = text != this.text || px != this.px || maxLines != this.maxLines ||
-            center != this.center || (shadow != null) != (this.shadow != null)
-        val semanticsChanged = text != this.text
-        this.text = text; this.color = color; this.shadow = shadow
-        this.px = px; this.maxLines = maxLines; this.center = center
-        if (relayout) invalidateMeasurement()
-        if (semanticsChanged) invalidateSemantics()
-        invalidateDraw()
+private fun DrawScope.drawBuilt(b: Built, c: Color) {
+    val r = b.rects
+    var i = 0
+    while (i < b.count) {
+        drawRect(c, Offset(r[i], r[i + 1]), Size(r[i + 2] - r[i], r[i + 3] - r[i + 1]))
+        i += 4
     }
-
-    override fun MeasureScope.measure(measurable: Measurable, constraints: Constraints): MeasureResult {
-        val maxW = if (constraints.hasBoundedWidth) constraints.maxWidth else Int.MAX_VALUE
-        val b = build(text, px, maxW, constraints.minWidth, maxLines, center, shadow != null)
-        built = b
-        val w = b.width.coerceIn(constraints.minWidth, if (constraints.hasBoundedWidth) constraints.maxWidth else Int.MAX_VALUE)
-        val h = b.height.coerceIn(constraints.minHeight, if (constraints.hasBoundedHeight) constraints.maxHeight else Int.MAX_VALUE)
-        return layout(w, h) {}
-    }
-
-    override fun ContentDrawScope.draw() {
-        val b = built ?: return
-        val s = shadow
-        val paint = b.paint
-        if (s != null) {
-            translate(px.toFloat(), px.toFloat()) {
-                drawPath(b.path, s)
-                if (paint != null) drawExtras(b, paint, s)
-            }
-        }
-        drawPath(b.path, color)
-        if (paint != null) drawExtras(b, paint, color)
-    }
-
-    private fun androidx.compose.ui.graphics.drawscope.DrawScope.drawExtras(b: Built, paint: Paint, c: Color) {
+    val paint = b.paint
+    if (paint != null) {
         paint.color = c.toArgb()
         val canvas = drawContext.canvas.nativeCanvas
         for (e in b.extras) canvas.drawText(e.s, e.x, e.y, paint)
-    }
-
-    override fun SemanticsPropertyReceiver.applySemantics() {
-        this.text = AnnotatedString(this@PixelTextNode.text)
     }
 }
 
 private class Extra(val s: String, val x: Float, val y: Float)
 
-private class Built(val width: Int, val height: Int, val path: Path, val extras: List<Extra>, val paint: Paint?)
+private class Built(
+    val source: String, val px: Int, val width: Int, val height: Int,
+    val rects: FloatArray, val count: Int, val extras: List<Extra>, val paint: Paint?,
+)
 
 /**
- * Wraps and lays out [raw] into one Path of pixel-aligned rectangles (device pixels, no scaling at draw
+ * Wraps and lays out [raw] into a list of pixel-aligned rectangles (device pixels, no scaling at draw
  * time). Runs during measure only; nothing here executes in the draw loop.
  */
 private fun build(
@@ -219,7 +189,13 @@ private fun build(
     val lineH = PixelFont.ROWS * px
     val h = lines.size * lineH + (lines.size - 1) * px + shadowExtra
 
-    val path = Path()
+    var rects = FloatArray(256)
+    var count = 0
+    fun addRect(l: Float, t: Float, r: Float, b: Float) {
+        if (count + 4 > rects.size) rects = rects.copyOf(rects.size * 2)
+        rects[count] = l; rects[count + 1] = t; rects[count + 2] = r; rects[count + 3] = b
+        count += 4
+    }
     val extras = ArrayList<Extra>(0)
     val pxf = px.toFloat()
     for ((li, line) in lines.withIndex()) {
@@ -241,7 +217,7 @@ private fun build(
                         if (row[c] == 'x') {
                             val start = c
                             while (c < g.width && row[c] == 'x') c++
-                            path.addRect(Rect(x + start * pxf, y0 + r * pxf, x + c * pxf, y0 + (r + 1) * pxf))
+                            addRect(x + start * pxf, y0 + r * pxf, x + c * pxf, y0 + (r + 1) * pxf)
                         } else c++
                     }
                 }
@@ -252,5 +228,5 @@ private fun build(
             }
         }
     }
-    return Built(w, h, path, extras, paint)
+    return Built(raw, px, w, h, rects, count, extras, paint)
 }
