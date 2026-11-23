@@ -141,12 +141,28 @@ echo "::group::proot"
   grep -q '<string.h>' extension/ashmem_memfd/ashmem_memfd.c || \
     sed -i '0,/^#include/s//#include <string.h>\n#include/' extension/ashmem_memfd/ashmem_memfd.c
   export CFLAGS="-O2"
-  export LDFLAGS="-L$STATIC/lib -static"
+  # Bionic's static startup aborts on ARM64 when the executable's TLS segment is aligned below 64
+  # ("executable's TLS segment is underaligned: alignment is 8 ... needs to be at least 64"; found by
+  # the CI smoke test on an arm64 host). An over-aligned thread-local object in its own translation
+  # unit raises the segment alignment; it is linked explicitly so it can never be dropped.
+  cat > "$WORK/tlsalign.c" <<'TLS'
+__thread char pocketagent_tls_alignment_pad[1] __attribute__((aligned(64), used));
+TLS
+  "$CC" -O2 -fno-emulated-tls -c "$WORK/tlsalign.c" -o "$WORK/tlsalign.o"   # API<29 defaults to emulated TLS, which would emit no TLS segment
+  export LDFLAGS="-L$STATIC/lib -static $WORK/tlsalign.o"
   make V=1 -j"$(nproc)" proot > "$WORK/proot-make.log" 2>&1 || { tail -n 60 "$WORK/proot-make.log"; exit 1; }
   cp -f proot "$OUT/libproot.so"
   cp -f loader/loader "$OUT/libproot-loader.so"
 )
 "$STRIP" "$OUT/libproot.so" "$OUT/libproot-loader.so"
+# Guard against the Bionic startup abort described above.
+if [ "$ABI" = arm64-v8a ]; then
+  TLS_ALIGN="$("$READELF" -lW "$OUT/libproot.so" | awk '$1=="TLS"{print $NF}')"
+  if [ -z "$TLS_ALIGN" ] || [ $((TLS_ALIGN)) -lt 64 ]; then
+    echo "FATAL: libproot.so TLS segment alignment is '${TLS_ALIGN:-none}', Bionic needs >= 0x40" >&2; exit 1
+  fi
+  echo "TLS segment alignment: $TLS_ALIGN"
+fi
 chmod 755 "$OUT/libproot.so" "$OUT/libproot-loader.so"
 echo "::endgroup::"
 

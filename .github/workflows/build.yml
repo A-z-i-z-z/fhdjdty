@@ -51,6 +51,10 @@ jobs:
           echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/$NDK_VERSION" >> "$GITHUB_ENV"
       - name: Build proot
         run: proot/build-proot.sh --abi arm64-v8a --out "$RUNNER_TEMP/proot-out"
+      - name: Start-up check under qemu-user (catches Bionic static-start aborts)
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq qemu-user-static
+          qemu-aarch64-static "$RUNNER_TEMP/proot-out/libproot.so" --version | head -n 5
       - name: Summary
         run: |
           cat "$RUNNER_TEMP/proot-out/proot-build.info"
