@@ -13,36 +13,44 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.pocketagent.app.PocketApp
 import dev.pocketagent.app.R
 import dev.pocketagent.app.ui.components.PixelIcon
 import dev.pocketagent.app.ui.components.PixelIconView
 import dev.pocketagent.app.ui.components.PixelPanel
 import dev.pocketagent.app.ui.components.PocketChip
 import dev.pocketagent.app.ui.components.PocketSwitchRow
+import dev.pocketagent.app.ui.pixel.PixelImage
 import dev.pocketagent.app.ui.theme.AccentId
 import dev.pocketagent.app.ui.theme.AnimLevel
+import dev.pocketagent.app.ui.theme.AppIconManager
+import dev.pocketagent.app.ui.theme.AppIconStyle
 import dev.pocketagent.app.ui.theme.AppearanceStore
 import dev.pocketagent.app.ui.theme.BubbleStyle
 import dev.pocketagent.app.ui.theme.DarkMode
 import dev.pocketagent.app.ui.theme.Pocket
 import dev.pocketagent.app.ui.theme.ThemeId
 import dev.pocketagent.app.ui.theme.paletteFor
+import dev.pocketagent.app.voice.SoundCue
 import kotlin.math.roundToInt
 
 /** Theme cards with a live mini preview, accent swatches, dark mode, text size, animations, mascot, bubbles, fonts. */
@@ -130,7 +138,67 @@ internal fun AppearanceSection() {
 
         PocketSwitchRow(stringResource(R.string.ctl_ap_mascot), ap.showMascot, { v -> store.update { it.copy(showMascot = v) } }, subtitle = stringResource(R.string.ctl_ap_mascot_sub))
         PocketSwitchRow(stringResource(R.string.ctl_ap_pixel_font), ap.pixelFontTitles, { v -> store.update { it.copy(pixelFontTitles = v) } }, subtitle = stringResource(R.string.ctl_ap_pixel_font_sub))
+
+        // ---- customizable app launcher icon ----
+        var activeIcon by remember { mutableStateOf(AppIconManager.current(ctx)) }
+        val switchedMsg = stringResource(R.string.ctl_icon_switched)
+        CText(stringResource(R.string.ctl_ap_icon), size = 14.sp, weight = FontWeight.SemiBold, modifier = Modifier.padding(top = 4.dp))
+        Muted(stringResource(R.string.ctl_ap_icon_sub), size = 12.sp)
+        AppIconStyle.entries.chunked(3).forEach { row ->
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                row.forEach { style ->
+                    val on = activeIcon == style
+                    PixelPanel(
+                        Modifier
+                            .weight(1f)
+                            .selectable(selected = on, role = Role.RadioButton) {
+                                if (!on && AppIconManager.apply(ctx, style)) {
+                                    activeIcon = style
+                                    PocketApp.from(ctx).sounds.play(SoundCue.TAP)
+                                    toast(ctx, switchedMsg)
+                                }
+                            },
+                        color = if (on) c.surfaceHigh else c.bgDeep,
+                        border = if (on) c.accent else c.outline,
+                        corner = 1,
+                    ) {
+                        Column(
+                            Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 4.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.spacedBy(6.dp),
+                        ) {
+                            Box(
+                                Modifier
+                                    .size(54.dp)
+                                    .clip(RoundedCornerShape(14.dp))
+                                    .border(if (on) 2.dp else 1.dp, if (on) c.accent else c.outline, RoundedCornerShape(14.dp)),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                PixelImage(style.bgSprite, Modifier.size(54.dp))
+                                PixelImage(style.fgSprite, Modifier.size(44.dp))
+                            }
+                            CText(
+                                stringResource(iconLabel(style)),
+                                size = 11.5.sp,
+                                weight = if (on) FontWeight.Bold else FontWeight.Medium,
+                                color = if (on) c.accent else c.text,
+                                maxLines = 1,
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
+}
+
+private fun iconLabel(style: AppIconStyle): Int = when (style) {
+    AppIconStyle.NEWROZ -> R.string.ctl_icon_newroz
+    AppIconStyle.PET -> R.string.ctl_icon_pet
+    AppIconStyle.FLAME -> R.string.ctl_icon_flame
+    AppIconStyle.ZAGROS -> R.string.ctl_icon_zagros
+    AppIconStyle.KAWA -> R.string.ctl_icon_kawa
+    AppIconStyle.ROJ -> R.string.ctl_icon_roj
 }
 
 private fun accentLabel(a: AccentId): Int = when (a) {

@@ -107,7 +107,7 @@ fun TerminalScreen() {
             actions = {
                 PixelIconButton(
                     PixelIcon.COPY, onClick = {
-                        copyText(ctx, "PocketAgent terminal", lines.joinToString("\n") { if (it.kind == TermKind.CMD) "$ " + it.text.removePrefix("$ ") else it.text }); toast(ctx, copied)
+                        copyText(ctx, "Agirî terminal", lines.joinToString("\n") { if (it.kind == TermKind.CMD) "$ " + it.text.removePrefix("$ ") else it.text }); toast(ctx, copied)
                     },
                     contentDescription = stringResource(R.string.ctl_copy), enabled = lines.isNotEmpty(),
                 )

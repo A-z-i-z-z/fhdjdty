@@ -198,6 +198,8 @@ fun HearthScene(
     modifier: Modifier = Modifier,
     progress: Float? = null,
     mood: MascotMood? = null,
+    stokeBoost: Float = 0f,
+    celebration: Boolean = false,
 ) {
     SpriteBank.init(LocalContext.current)
     val colors = Pocket.colors
@@ -221,6 +223,7 @@ fun HearthScene(
                 drawHearth(
                     cache, sprites, clock.longValue / (if (anim == AnimLevel.REDUCED) 2 else 1), state, progress, mood,
                     colors, anim == AnimLevel.FULL, skyTop, skyBottom, farRamp, glowColor,
+                    stokeBoost.coerceIn(0f, 1.5f), celebration,
                 )
             },
     )
@@ -229,6 +232,7 @@ fun HearthScene(
 private fun DrawScope.drawHearth(
     cache: SceneCache, s: SceneSprites, t: Long, state: HearthState, progress: Float?, moodOverride: MascotMood?,
     colors: PocketColors, particles: Boolean, skyTop: Int, skyBottom: Int, farRamp: IntArray, glowColor: Int,
+    stokeBoost: Float, celebration: Boolean,
 ) {
     val wpx = size.width
     val hpx = size.height
@@ -258,10 +262,21 @@ private fun DrawScope.drawHearth(
         }
     }
 
-    // ---- moon and ridges ----
-    drawSpriteAt(SpriteBitmaps.plain(s.moon, 0), ox + (wl * 0.76f).toInt() * p, oy + 10 * p, p)
+    // ---- shooting star (occasional, FULL animation only) ----
+    if (particles) {
+        drawShootingStar(t, ox, oy, p, wl, g)
+    }
+
+    // ---- moon halo, moon and ridges ----
+    val moonX = (wl * 0.76f).toInt()
+    val moonY = 20
+    drawMoonHalo(ox, oy, p, moonX + 7, moonY + 7)
+    drawSpriteAt(SpriteBitmaps.plain(s.moon, 0), ox + moonX * p, oy + moonY * p, p)
     drawSpriteAt(cache.far(s.far, farRamp), ox + artX * p, oy + (g - 38) * p, p)
     drawSpriteAt(SpriteBitmaps.plain(s.near, 0), ox + artX * p, oy + (g - 14) * p, p)
+    if (state == HearthState.BLAZING && particles) {
+        drawDistantNewrozFires(t, ox, oy, p, artX, g, colors)
+    }
     drawSpriteAt(SpriteBitmaps.plain(s.ground, 0), ox + artX * p, oy + g * p, p)
 
     // ---- state: fire sprite, glow, mascot ----
@@ -285,8 +300,10 @@ private fun DrawScope.drawHearth(
         }
     }
 
-    if (intensity > 0.01f) {
-        var lvl = (intensity * (GLOW_LEVELS - 1)).roundToInt()
+    val boost = (stokeBoost + if (celebration) 0.5f else 0f).coerceIn(0f, 1.5f)
+    if (intensity > 0.01f || boost > 0.05f) {
+        val eff = (intensity + boost * 0.45f).coerceIn(0f, 1.25f)
+        var lvl = (eff * (GLOW_LEVELS - 1)).roundToInt()
         if (particles) {
             val h = (((t / 90L).toInt() * 1103515245) shr 16) and 3
             lvl += if (h == 0) -1 else if (h == 3) 1 else 0
@@ -295,7 +312,7 @@ private fun DrawScope.drawHearth(
         val img = cache.glow(lvl, glowColor)
         val cx = fx
         val cy = fbase - 8
-        drawSpriteAt(img, ox + (cx - cache.glowRx(lvl)) * p, oy + (cy - cache.glowRy(lvl)) * p, p, 0.55f + 0.45f * intensity)
+        drawSpriteAt(img, ox + (cx - cache.glowRx(lvl)) * p, oy + (cy - cache.glowRy(lvl)) * p, p, (0.55f + 0.45f * eff).coerceAtMost(1f))
     }
 
     var m = moodOverride ?: when (state) {
@@ -321,20 +338,99 @@ private fun DrawScope.drawHearth(
             HearthState.KINDLING -> if ((progress ?: 0.5f) < 0.3f) drawSmoke(t, 2, false, ox, oy, p, fx, fbase - 8)
             HearthState.BLAZING -> {}
         }
-        if (state != HearthState.COLD) {
-            val count = if (state == HearthState.SMOKE) 4 else (3f + 21f * intensity).roundToInt()
+        if (state != HearthState.COLD || boost > 0.05f || celebration) {
+            val baseCount = if (state == HearthState.SMOKE) 4 else (3f + 21f * intensity).roundToInt()
+            val count = (baseCount + (boost * 14f).roundToInt() + if (celebration) 14 else 0).coerceAtMost(s.embers.capacity)
+            val high = if (celebration) Color(0xFFFEBD11) else colors.fireHigh
+            val mid = if (celebration) Color(0xFF278E43) else colors.fireMid
+            val low = if (celebration) Color(0xFFED1C24) else colors.fireLow
             drawEmbers(
                 s.embers, count, t, pf,
                 originX = (ox + fx * p).toFloat(), originY = (oy + (fbase - 12 - (14f * intensity).toInt()) * p).toFloat(),
-                halfWidthCells = 5f + 4f * intensity, riseCells = 20f + 26f * intensity,
-                high = colors.fireHigh, mid = colors.fireMid, low = colors.fireLow,
-                strength = 0.5f + 0.5f * intensity,
+                halfWidthCells = 5f + 4f * intensity + boost * 3f, riseCells = 20f + 26f * intensity + boost * 14f,
+                high = high, mid = mid, low = low,
+                strength = (0.5f + 0.5f * intensity + boost * 0.25f).coerceAtMost(1f),
             )
+        }
+        if (state == HearthState.BLAZING || state == HearthState.KINDLING) {
+            drawFireflies(t, ox, oy, p, wl, g, colors)
         }
     }
 
     // ---- foreground grass ----
     drawSpriteAt(SpriteBitmaps.plain(s.fore, 0), ox + artX * p, oy + (hl - 11) * p, p)
+}
+
+/** Soft stepped pixel glow around the crescent moon. */
+private fun DrawScope.drawMoonHalo(ox: Int, oy: Int, p: Int, cx: Int, cy: Int) {
+    val pf = p.toFloat()
+    val halo = Color(0xFFFFF2C8)
+    for (dy in -10..10) {
+        for (dx in -10..10) {
+            val d = sqrt((dx * dx + dy * dy).toFloat())
+            if (d > 10.5f || d < 4.2f) continue
+            val norm = 1f - (d - 4.2f) / 6.3f
+            if (norm > bayer(cx + dx, cy + dy) * 1.15f) {
+                px(halo.copy(alpha = 0.08f + norm * 0.09f), (ox + (cx + dx) * p).toFloat(), (oy + (cy + dy) * p).toFloat(), pf, pf)
+            }
+        }
+    }
+}
+
+/** Tiny warm distant Newroz bonfires twinkling along the far Zagros hillside ridge when blazing. */
+private fun DrawScope.drawDistantNewrozFires(t: Long, ox: Int, oy: Int, p: Int, artX: Int, g: Int, colors: PocketColors) {
+    val pf = p.toFloat()
+    val spots = intArrayOf(34, -2, 74, -4, 152, -3)
+    var i = 0
+    while (i < spots.size) {
+        val sx = artX + spots[i]
+        val sy = g + spots[i + 1]
+        val flick = (sin(t * 0.008f + i * 2.1f) + 1f) * 0.5f
+        px(colors.fireLow.copy(alpha = 0.25f + flick * 0.2f), (ox + (sx - 1) * p).toFloat(), (oy + sy * p).toFloat(), pf * 3f, pf)
+        px(if (flick > 0.45f) colors.fireHigh else colors.fireMid, (ox + sx * p).toFloat(), (oy + sy * p).toFloat(), pf, pf)
+        i += 2
+    }
+}
+
+/** Gentle pulsing golden alpine fireflies hovering over the meadow flanks. */
+private fun DrawScope.drawFireflies(t: Long, ox: Int, oy: Int, p: Int, wl: Int, g: Int, colors: PocketColors) {
+    val pf = p.toFloat()
+    val base = Color(0xFFFFEA8A)
+    for (k in 0 until 6) {
+        val anchorX = if (k < 3) (wl * (0.10f + k * 0.09f)) else (wl * (0.80f + (k - 3) * 0.06f))
+        val anchorY = g + 6f + (k % 3) * 5f
+        val fx = (anchorX + sin(t * 0.0007f + k * 1.9f) * 5.5f).roundToInt()
+        val fy = (anchorY + sin(t * 0.0011f + k * 2.7f) * 2.8f).roundToInt()
+        val pulse = (sin(t * 0.0022f + k * 1.4f) + 1f) * 0.5f
+        if (pulse < 0.25f) continue
+        val a = ((pulse - 0.25f) / 0.75f).coerceIn(0f, 1f)
+        px(colors.fireMid.copy(alpha = a * 0.25f), (ox + (fx - 1) * p).toFloat(), (oy + fy * p).toFloat(), pf * 3f, pf)
+        px(base.copy(alpha = a * 0.9f), (ox + fx * p).toFloat(), (oy + fy * p).toFloat(), pf, pf)
+    }
+}
+
+/** Occasional quiet pixel shooting star streaking across the upper night sky every ~14 seconds. */
+private fun DrawScope.drawShootingStar(t: Long, ox: Int, oy: Int, p: Int, wl: Int, g: Int) {
+    val cycle = 14000L
+    val phase = t % cycle
+    if (phase > 720L) return
+    val u = phase / 720f
+    val seed = ((t / cycle) % 3L).toInt()
+    val startX = (wl * (0.18f + seed * 0.16f)).toInt()
+    val startY = 16 + seed * 3
+    val headX = startX + (u * 34f).roundToInt()
+    val headY = startY + (u * 11f).roundToInt()
+    if (headY >= g - 16) return
+    val pf = p.toFloat()
+    val fade = (if (u < 0.15f) u / 0.15f else (1f - u) / 0.85f).coerceIn(0f, 1f)
+    for (step in 0..5) {
+        val tx = headX - step * 2
+        val ty = headY - (step * 2) / 3
+        val ta = fade * (1f - step / 6f)
+        if (ta <= 0.05f) continue
+        val col = if (step == 0) STAR_BRIGHT else if (step <= 2) STAR_MID else STAR_DIM
+        px(col.copy(alpha = ta), (ox + tx * p).toFloat(), (oy + ty * p).toFloat(), pf, pf)
+    }
 }
 
 /** Grey puffs rising from the coals: octagons of 1-4 logical px radius that grow, drift right and fade. */

@@ -1,5 +1,12 @@
 package dev.pocketagent.app.ui.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +19,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -22,8 +30,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -64,7 +74,9 @@ import dev.pocketagent.app.ui.pixel.HearthScene
 import dev.pocketagent.app.ui.pixel.HearthState
 import dev.pocketagent.app.ui.pixel.MascotMood
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.voice.SoundCue
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.util.Calendar
 
 /** The home tab: a living hearth scene that mirrors the runtime, the main action, quick chat, bots and recents. */
@@ -89,7 +101,15 @@ fun HomeScreen() {
     var showNew by remember { mutableStateOf(false) }
     var tapMood by remember { mutableStateOf<MascotMood?>(null) }
     var taps by remember { mutableIntStateOf(0) }
+    var streak by remember { mutableIntStateOf(0) }
+    var lastTapMs by remember { mutableLongStateOf(0L) }
+    var celebration by remember { mutableStateOf(false) }
+    var quipRes by remember { mutableStateOf<Int?>(null) }
+    val stoke = remember { Animatable(0f) }
+    val scope = rememberCoroutineScope()
     LaunchedEffect(tapMood, taps) { if (tapMood != null) { delay(1900); tapMood = null } }
+    LaunchedEffect(quipRes, taps) { if (quipRes != null) { delay(2400); quipRes = null } }
+    LaunchedEffect(celebration) { if (celebration) { delay(4200); celebration = false } }
 
     val setupIncomplete = vm.savedConfigIncomplete()
     val canChat = s == RuntimeState.Running && !setupIncomplete
@@ -116,19 +136,61 @@ fun HomeScreen() {
         contentPadding = PaddingValues(bottom = 24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        // ---- the scene: tap the mascot for a little joy ----
+        // ---- the scene: tap the mascot for a little joy (7 quick taps = Newroz overdrive) ----
         item(key = "scene") {
             val cd = stringResource(R.string.ui_home_mascot_cd)
+            val quips = remember { listOf(R.string.ui_home_quip_1, R.string.ui_home_quip_2, R.string.ui_home_quip_3, R.string.ui_home_quip_4) }
             Box(
                 Modifier.fillMaxWidth()
                     .semantics { contentDescription = cd }
                     .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null, role = Role.Button) {
-                        haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                        val now = System.currentTimeMillis()
+                        streak = if (now - lastTapMs <= 1200L) streak + 1 else 1
+                        lastTapMs = now
                         taps++
-                        tapMood = if (taps % 2 == 0) MascotMood.WAVING else MascotMood.HAPPY
+                        if (streak >= 7) {
+                            streak = 0
+                            celebration = true
+                            tapMood = MascotMood.HAPPY
+                            quipRes = R.string.ui_home_quip_overdrive
+                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            app.sounds.play(SoundCue.FORGE)
+                        } else {
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            app.sounds.play(SoundCue.SPARK)
+                            tapMood = if (taps % 2 == 0) MascotMood.WAVING else MascotMood.HAPPY
+                            quipRes = quips[(taps - 1) % quips.size]
+                        }
+                        scope.launch {
+                            stoke.snapTo(1.2f)
+                            stoke.animateTo(0f, tween(1200))
+                        }
                     },
             ) {
-                HearthScene(hearth, Modifier.fillMaxWidth().height(250.dp), progress = sceneProgress, mood = tapMood)
+                HearthScene(
+                    hearth,
+                    Modifier.fillMaxWidth().height(280.dp),
+                    progress = sceneProgress,
+                    mood = tapMood,
+                    stokeBoost = stoke.value,
+                    celebration = celebration,
+                )
+                androidx.compose.animation.AnimatedVisibility(
+                    visible = quipRes != null,
+                    enter = fadeIn(tween(150)),
+                    exit = fadeOut(tween(250)),
+                    modifier = Modifier.align(Alignment.TopStart).statusBarsPadding().padding(12.dp),
+                ) {
+                    quipRes?.let { resId ->
+                        Box(
+                            Modifier.background(c.surface.copy(alpha = 0.92f))
+                                .border(2.dp, if (celebration) c.fireHigh else c.outline)
+                                .padding(horizontal = 10.dp, vertical = 6.dp),
+                        ) {
+                            Text(stringResource(resId), color = c.text, fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                        }
+                    }
+                }
             }
         }
 
@@ -183,8 +245,11 @@ fun HomeScreen() {
                                     var conv = repo.openOneToOne(BotPresets.HERMES_ID)
                                     if (conv.id in busy) conv = repo.createConversation(listOf(BotPresets.HERMES_ID))
                                     val accepted = app.engine.send(conv.id, text).accepted()
-                                    if (accepted) quick = ""
-                                    if (accepted) nav.go(Route.Chat(conv.id))
+                                    if (accepted) {
+                                        app.sounds.play(SoundCue.SEND)
+                                        quick = ""
+                                        nav.go(Route.Chat(conv.id))
+                                    }
                                 }
                             },
                             tint = if (quick.isNotBlank()) c.accent else c.textMuted, enabled = quick.isNotBlank(),

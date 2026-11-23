@@ -38,8 +38,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.pocketagent.app.R
+import dev.pocketagent.app.data.Attachment
 import dev.pocketagent.app.data.Bot
 import dev.pocketagent.app.data.PendingApproval
+import dev.pocketagent.app.data.SlashCommands
+import dev.pocketagent.app.data.SlashCommands.SlashCommandDef
 import dev.pocketagent.app.data.Transcript
 import dev.pocketagent.app.runtime.RuntimeState
 import dev.pocketagent.app.ui.components.ButtonKind
@@ -134,6 +137,12 @@ internal fun ChatInputBar(
     onStop: () -> Unit,
     onStart: () -> Unit,
     onOpenSetup: () -> Unit,
+    attachments: List<Attachment> = emptyList(),
+    onAttachClick: () -> Unit = {},
+    onRemoveAttachment: (String) -> Unit = {},
+    onSlashPick: (SlashCommandDef) -> Unit = {},
+    listening: Boolean = false,
+    onMicClick: () -> Unit = {},
 ) {
     val c = Pocket.colors
     val canChat = runtime == RuntimeState.Running && !setupIncomplete
@@ -142,7 +151,10 @@ internal fun ChatInputBar(
         if (!canChat) {
             UnavailableCard(runtime, onStart, onOpenSetup)
         } else {
-            val query = if (isGroup) mentionQuery(text) else null
+            val slashSuggestions = if (!editing && !busy) SlashCommands.suggestions(text) else emptyList()
+            SlashCommandPalette(slashSuggestions, onSlashPick)
+
+            val query = if (isGroup && slashSuggestions.isEmpty()) mentionQuery(text) else null
             val suggestions = if (query != null) mentionSuggestions(query, members) else emptyList()
             AnimatedVisibility(suggestions.isNotEmpty()) {
                 Row(
@@ -172,7 +184,20 @@ internal fun ChatInputBar(
                     PixelIconButton(PixelIcon.CLOSE, onClick = onCancelEdit, contentDescription = stringResource(R.string.ui_chat_edit_cancel))
                 }
             }
+            AnimatedVisibility(attachments.isNotEmpty() && !editing) {
+                PendingAttachmentsStrip(attachments, onRemoveAttachment)
+            }
             Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp), verticalAlignment = Alignment.Bottom) {
+                if (!editing) {
+                    PixelIconButton(
+                        PixelIcon.CLIP,
+                        onClick = onAttachClick,
+                        contentDescription = stringResource(R.string.ui_attach_cd),
+                        tint = if (!busy) c.textMuted else c.outline,
+                        enabled = !busy,
+                    )
+                    Spacer(Modifier.width(2.dp))
+                }
                 PocketTextField(
                     value = text, onValueChange = onTextChange, modifier = Modifier.weight(1f),
                     placeholder = stringResource(
@@ -184,12 +209,20 @@ internal fun ChatInputBar(
                     ),
                     minLines = 1, maxLines = 6,
                 )
-                Spacer(Modifier.width(4.dp))
+                Spacer(Modifier.width(2.dp))
+                if (!busy && !editing) {
+                    PixelIconButton(
+                        if (listening) PixelIcon.WAVE else PixelIcon.MIC,
+                        onClick = onMicClick,
+                        contentDescription = stringResource(if (listening) R.string.ui_voice_listening else R.string.ui_voice_mic_cd),
+                        tint = if (listening) c.fireMid else c.textMuted,
+                    )
+                }
                 Box(contentAlignment = Alignment.Center) {
                     if (busy) {
                         PixelIconButton(PixelIcon.STOP, onClick = onStop, contentDescription = stringResource(R.string.ui_chat_stop), tint = c.error)
                     } else {
-                        val ready = text.isNotBlank()
+                        val ready = text.isNotBlank() || attachments.isNotEmpty()
                         PixelIconButton(
                             PixelIcon.SEND, onClick = onSend, contentDescription = stringResource(R.string.ui_chat_send),
                             tint = if (ready) c.accent else c.textMuted, enabled = ready,

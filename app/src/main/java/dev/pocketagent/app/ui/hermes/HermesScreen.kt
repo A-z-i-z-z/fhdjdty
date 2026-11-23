@@ -80,8 +80,9 @@ fun HermesScreen() {
     val soul = hvm.soul
     val memory = hvm.memory
     val user = hvm.user
-    LaunchedEffect(installed) {
-        // Files appear once the runtime is installed; never overwrite what the user is typing.
+    val memUpdates by PocketApp.from(ctx).engine.memoryUpdates.collectAsState()
+    LaunchedEffect(installed, memUpdates) {
+        // Files appear once the runtime is installed (or after chat updates memory); never overwrite what the user is typing.
         listOf(soul, memory, user).forEach { if (!it.dirty) it.reload() }
     }
     BackHandler(enabled = hvm.anyDirty) { confirmLeave = true }

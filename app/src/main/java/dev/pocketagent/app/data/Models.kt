@@ -6,6 +6,9 @@ package dev.pocketagent.app.data
  * the built-in "Hermes" bot has none. [model] "" means "whatever Hermes is configured with"; [effort] "" means
  * "Hermes default", otherwise one of none/minimal/low/medium/high/xhigh.
  */
+/** Per-bot spoken delivery style applied to Supertonic 3 cadence/pauses and system TTS pitch/rate. */
+enum class BotVoiceStyle { DEFAULT, CALM, SERIOUS, HAPPY, EXCITED, STORYTELLER }
+
 data class Bot(
     val id: String,
     val name: String,
@@ -17,6 +20,12 @@ data class Bot(
     val effort: String = "",
     val builtIn: Boolean = false,
     val createdAt: Long = System.currentTimeMillis(),
+    /** Supertonic 3 speaker id: -1 = follow global default, 0..4 = female (F1..F5), 5..9 = male (M1..M5). */
+    val voiceSid: Int = -1,
+    /** Spoken delivery mood/style (happy, serious, excited, calm, storyteller). */
+    val voiceStyle: BotVoiceStyle = BotVoiceStyle.DEFAULT,
+    /** Optional per-bot speech speed override (0f = follow global speed + mood, else 0.85..1.35). */
+    val voiceSpeed: Float = 0f,
 )
 
 /**
@@ -25,6 +34,21 @@ data class Bot(
  * NOTE: a neutral system note (English text, not translated). ERROR: a failure, verbatim and redacted.
  */
 enum class Role { USER, BOT, TOOL, NOTE, ERROR }
+
+enum class AttachmentKind { IMAGE, DOCUMENT }
+
+data class Attachment(
+    val id: String,
+    val name: String,
+    val mime: String,
+    val kind: AttachmentKind,
+    val localPath: String,
+    val guestPath: String = "",
+    val sizeBytes: Long = 0L,
+    val textExcerpt: String = "",
+)
+
+enum class ChatMode { NORMAL, PLAN, GOAL, ULTRACODE, LOOP }
 
 data class Message(
     val id: String,
@@ -39,6 +63,8 @@ data class Message(
     val durationMs: Long? = null,
     /** Reasoning ("thinking") text the model streamed for this BOT message; "" when there is none. */
     val reasoning: String = "",
+    val attachments: List<Attachment> = emptyList(),
+    val forgedBotIds: List<String> = emptyList(),
 )
 
 /** Group chats: every bot answers in order, or only the @mentioned ones (else the first bot). */
@@ -57,6 +83,11 @@ data class Conversation(
     val pinned: Boolean = false,
     val groupMode: GroupMode = GroupMode.ALL_IN_TURN,
     val lastPreview: String = "",
+    val mode: ChatMode = ChatMode.NORMAL,
+    /** Per-chat model override ("" = use bot's model or Hermes global default). */
+    val modelOverride: String = "",
+    /** Per-chat thinking effort override ("" = use bot's effort or Hermes global default). */
+    val effortOverride: String = "",
 ) {
     val isGroup: Boolean get() = botIds.size > 1
 }

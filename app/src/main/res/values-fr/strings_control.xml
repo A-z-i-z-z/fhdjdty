@@ -124,12 +124,12 @@
     <string name="ctl_skills_open">Ouvrir la compétence</string>
     <string name="ctl_skills_back">Compétences</string>
     <string name="ctl_skill_explain">Voici le fichier SKILL.md de la compétence. Laissez l\'en-tête (les lignes entre ---) intact.</string>
-    <string name="ctl_config_explain">config.yaml est en lecture seule ici. PocketAgent le réécrit à partir de vos Réglages à chaque démarrage de Hermes : changez plutôt le fournisseur et le modèle dans les Réglages.</string>
+    <string name="ctl_config_explain">config.yaml est en lecture seule ici. Agirî le réécrit à partir de vos Réglages à chaque démarrage de Hermes : changez plutôt le fournisseur et le modèle dans les Réglages.</string>
     <string name="ctl_config_open_provider">Ouvrir les réglages du fournisseur</string>
     <string name="ctl_log_app">Appli</string>
     <string name="ctl_log_runtime">Environnement</string>
     <string name="ctl_log_api">API</string>
-    <string name="ctl_log_app_help">Ce qu\'a fait l\'application PocketAgent (les secrets sont masqués).</string>
+    <string name="ctl_log_app_help">Ce qu\'a fait l\'application Agirî (les secrets sont masqués).</string>
     <string name="ctl_log_runtime_help">Ce que Hermes et la couche Linux ont affiché.</string>
     <string name="ctl_log_api_help">Les requêtes de l\'application vers Hermes (les secrets sont masqués).</string>
     <string name="ctl_log_empty">Rien n\'a encore été journalisé.</string>
@@ -201,9 +201,70 @@
     <string name="ctl_diag_explain">Crée un rapport de l\'application et de l\'environnement à envoyer en cas de problème. Les secrets sont retirés automatiquement. Si un autotest est en cours, attendez qu\'il se termine.</string>
     <string name="ctl_about_what">Une maison de poche pour agents IA : tout tourne sur votre téléphone, seul le modèle de langage est distant.</string>
     <string name="ctl_about_hermes_title">HERMES AGENT</string>
-    <string name="ctl_about_hermes">PocketAgent fait tourner Hermes Agent v0.23.3 de Nous Research (licence MIT). Les compétences et la mémoire de l\'agent sont leur travail.</string>
+    <string name="ctl_about_hermes">Agirî fait tourner Hermes Agent v0.23.3 de Nous Research (licence MIT). Les compétences et la mémoire de l\'agent sont leur travail.</string>
     <string name="ctl_about_pet_title">PÊT, LE TRITON</string>
     <string name="ctl_about_pet">Pêt est un petit triton du Kurdistan, une salamandre : l\'esprit qui vit dans le feu. Son nom signifie « étincelle » en kurmandji. Il garde le feu de Newroz allumé pendant que vous travaillez.</string>
     <string name="ctl_about_licences_title">LICENCES</string>
-    <string name="ctl_about_licences">Contient des logiciels libres, chacun sous sa propre licence : Hermes Agent (MIT), PRoot (GPL-2.0), Debian GNU/Linux, Python et d\'autres paquets. Les textes complets se trouvent dans le dépôt du projet.</string>
+    <string name="ctl_about_licences">Contient des logiciels et ressources libres, chacun sous sa licence : Hermes Agent (MIT), PRoot (GPL-2.0), Debian GNU/Linux, Python, sherpa-onnx (Apache-2.0), Supertonic 3 (MIT / OpenRAIL-M, téléchargement local optionnel) et sons uisfx (CC0-1.0). Textes complets dans le dépôt.</string>
+    <string name="ctl_about_secret_title">STATS DU GARDIEN DU FOYER</string>
+    <string name="ctl_about_secret_body">Bots : %1$d • Chats : %2$d • Actif : %3$s\n« Je veille toujours sur les braises. » — Pêt</string>
+
+    <!-- customizable app icons -->
+    <string name="ctl_ap_icon">Icône de l\'application</string>
+    <string name="ctl_ap_icon_sub">Choisissez votre icône sur l\'écran d\'accueil. Le lanceur l\'actualise en une seconde.</string>
+    <string name="ctl_icon_switched">Icône mise à jour.</string>
+    <string name="ctl_icon_newroz">Newroz</string>
+    <string name="ctl_icon_pet">Pêt</string>
+    <string name="ctl_icon_flame">Agirî</string>
+    <string name="ctl_icon_zagros">Zagros</string>
+    <string name="ctl_icon_kawa">Kawa</string>
+    <string name="ctl_icon_roj">Roj</string>
+
+    <!-- voice & sound -->
+    <string name="ctl_set_voice">Voix et sons</string>
+    <string name="ctl_voice_neural_title">Voix neurale hors ligne</string>
+    <string name="ctl_voice_neural_sub">31 langues (EN / FR / TR) · 10 voix femmes et hommes · CPU local</string>
+    <string name="ctl_voice_not_installed">Non téléchargé (~%1$d Mo). La voix système est utilisée en attendant.</string>
+    <string name="ctl_voice_download">Télécharger Supertonic 3 (%1$d Mo)</string>
+    <string name="ctl_voice_downloading">Téléchargement %1$d/%2$d · %3$d / %4$d Mo…</string>
+    <string name="ctl_voice_installed">Installé (%1$d Mo) · Prêt hors ligne</string>
+    <string name="ctl_voice_test">Tester la voix</string>
+    <string name="ctl_voice_synth">Synthèse…</string>
+    <string name="ctl_voice_engine">Moteur vocal</string>
+    <string name="ctl_voice_engine_auto">Auto (Supertonic 3)</string>
+    <string name="ctl_voice_engine_system">Voix système</string>
+    <string name="ctl_voice_speaker">Voix par défaut</string>
+    <string name="ctl_voice_speed">Vitesse</string>
+    <string name="ctl_voice_quality">Qualité de synthèse</string>
+    <string name="ctl_voice_q_fast">Rapide (3)</string>
+    <string name="ctl_voice_q_balanced">Équilibrée (5)</string>
+    <string name="ctl_voice_q_high">Studio (8)</string>
+    <string name="ctl_voice_autospeak">Lecture automatique</string>
+    <string name="ctl_voice_autospeak_sub">Lit automatiquement chaque réponse terminée du bot.</string>
+    <string name="ctl_voice_delete_title">Supprimer la voix neurale ?</string>
+    <string name="ctl_voice_delete_body">Libère environ 139 Mo. Vous pourrez retélécharger Supertonic 3 à tout moment.</string>
+
+    <string name="ctl_sfx_title">Effets sonores</string>
+    <string name="ctl_sfx_sub">Sons doux et chaleureux quand l\'agent termine, utilise un outil ou forge un bot.</string>
+    <string name="ctl_sfx_hearth">Foyer</string>
+    <string name="ctl_sfx_studio">Studio</string>
+    <string name="ctl_sfx_off">Silencieux</string>
+    <string name="ctl_sfx_volume">Volume des effets</string>
+    <string name="ctl_sfx_preview_done">Fin de tâche</string>
+    <string name="ctl_sfx_preview_forge">Accord forge</string>
+    <string name="ctl_sfx_preview_spark">Étincelle</string>
+
+    <!-- per-bot voice & mood -->
+    <string name="ctl_bot_section_voice">VOIX ET TON</string>
+    <string name="ctl_bot_voice_help">Choisissez une voix femme ou homme et un ton (joyeux, sérieux, enthousiaste, calme, conteur) pour ce bot.</string>
+    <string name="ctl_bot_voice_female">VOIX FÉMININES</string>
+    <string name="ctl_bot_voice_male">VOIX MASCULINES</string>
+    <string name="ctl_bot_voice_mood">Ton de lecture</string>
+    <string name="ctl_bot_mood_default">Naturel</string>
+    <string name="ctl_bot_mood_happy">Joyeux</string>
+    <string name="ctl_bot_mood_excited">Enthousiaste</string>
+    <string name="ctl_bot_mood_serious">Sérieux</string>
+    <string name="ctl_bot_mood_calm">Calme</string>
+    <string name="ctl_bot_mood_storyteller">Conteur</string>
+    <string name="ctl_bot_voice_test">Écouter la voix du bot</string>
 </resources>

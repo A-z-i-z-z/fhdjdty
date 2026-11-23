@@ -147,6 +147,15 @@ internal object ChatDrafts {
     operator fun set(convId: String, text: String) { if (text.isBlank()) map.remove(convId) else map[convId] = text }
 }
 
+/** Pending attachments handed to a chat (e.g. from Android ACTION_SEND share intent). */
+internal object ChatPendingAttachments {
+    private val map = HashMap<String, List<dev.pocketagent.app.data.Attachment>>()
+    fun add(convId: String, att: dev.pocketagent.app.data.Attachment) {
+        map[convId] = (map[convId] ?: emptyList()) + att
+    }
+    fun consume(convId: String): List<dev.pocketagent.app.data.Attachment> = map.remove(convId) ?: emptyList()
+}
+
 // ---- time -------------------------------------------------------------------------------------------------------
 
 private const val DAY_MS = 24L * 60 * 60 * 1000
@@ -201,7 +210,7 @@ internal fun sameCalendarDay(a: Long, b: Long): Boolean = sameDay(a, b)
 
 internal fun copyToClipboard(ctx: Context, text: String) {
     val cm = ctx.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    cm.setPrimaryClip(ClipData.newPlainText("PocketAgent", text))
+    cm.setPrimaryClip(ClipData.newPlainText("Agirî", text))
     // Android 13+ shows its own confirmation.
     if (Build.VERSION.SDK_INT < 33) Toast.makeText(ctx, ctx.getString(R.string.ui_chat_copied), Toast.LENGTH_SHORT).show()
 }

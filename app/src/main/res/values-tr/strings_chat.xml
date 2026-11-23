@@ -154,4 +154,119 @@
     <string name="ui_chat_appr_session">Bu oturumda izin ver</string>
     <string name="ui_chat_appr_always">Her zaman izin ver</string>
     <string name="ui_chat_appr_deny">Reddet</string>
+
+    <!-- attachments -->
+    <string name="ui_attach_cd">Fotoğraf veya dosya ekle</string>
+    <string name="ui_attach_title">Mesaja ekle</string>
+    <string name="ui_attach_camera">Kamera ile fotoğraf çek</string>
+    <string name="ui_attach_gallery">Galeriden seç</string>
+    <string name="ui_attach_doc">Belge veya dosya ekle</string>
+    <string name="ui_attach_remove">Eki kaldır</string>
+    <string name="ui_attach_failed">Dosya eklenemedi: %1$s</string>
+    <string name="ui_attach_preview">Ek</string>
+
+    <!-- forged bots & memory -->
+    <string name="ui_forged_badge">ÜRETİLDİ</string>
+    <string name="ui_forged_chat">Sohbet et</string>
+    <string name="ui_forged_add">Gruba ekle</string>
+    <string name="ui_forged_edit">Düzenle</string>
+    <string name="ui_chat_memory_updated">Hafıza güncellendi</string>
+    <string name="ui_chat_memory_open">Hafızayı aç</string>
+
+    <!-- slash commands & modes -->
+    <string name="ui_slash_mode_badge">MOD</string>
+    <string name="ui_slash_action_badge">KOMUT</string>
+    <string name="ui_slash_desc_plan">Adım adım planlayarak ilerle</string>
+    <string name="ui_slash_desc_goal">Hedef doğrulanana kadar otonom yürüt</string>
+    <string name="ui_slash_desc_ultracode">Kıdemli mühendis kodlama &amp; doğrulama</string>
+    <string name="ui_slash_desc_loop">Çok turlu kendi kendini iyileştirme (2-5x)</string>
+    <string name="ui_slash_desc_normal">Normal sohbet moduna dön</string>
+    <string name="ui_slash_desc_forge">Kişilik ve görünümüyle yeni bot üret</string>
+    <string name="ui_slash_desc_skills">Yüklü Hermes becerilerini listele veya ara</string>
+    <string name="ui_slash_desc_remember">USER.md hafızasına doğrudan bilgi kaydet</string>
+    <string name="ui_slash_desc_memory">Mevcut MEMORY.md ve USER.md özetini göster</string>
+    <string name="ui_slash_desc_theme">Uygulama temasını anında değiştir</string>
+    <string name="ui_slash_desc_export">Bu sohbeti Markdown olarak dışa aktar</string>
+    <string name="ui_slash_desc_clear">Bu sohbetteki mesajları temizle</string>
+    <string name="ui_slash_desc_help">Tüm komutları ve modları göster</string>
+    <string name="ui_mode_banner_plan">Plan modu</string>
+    <string name="ui_mode_banner_goal">Goal modu</string>
+    <string name="ui_mode_banner_ultracode">UltraCode modu</string>
+    <string name="ui_mode_banner_loop">Loop modu</string>
+    <string name="ui_mode_exit_cd">Normal moda dön</string>
+    <string name="ui_mode_on_note">%1$s etkin. Bundan sonraki mesajların bu modda çalışır.</string>
+    <string name="ui_mode_off_note">Normal moda dönüldü.</string>
+    <string name="ui_cmd_forge_usage">Kullanım: /forge &lt;oluşturmak istediğin botu anlat&gt;</string>
+    <string name="ui_cmd_remember_usage">Kullanım: /remember &lt;USER.md\'ye kaydedilecek bilgi&gt;</string>
+    <string name="ui_cmd_remember_saved">USER.md\'ye kaydedildi (%1$d/%2$d karakter).</string>
+    <string name="ui_cmd_remember_full">USER.md kotası aşıldı (%1$d/%2$d karakter). Hermes &gt; Sen bölümünden kısaltabilirsin.</string>
+    <string name="ui_cmd_theme_usage">Temalar: %1$s. Kullanım: /theme newroz</string>
+    <string name="ui_cmd_theme_switched">Tema %1$s olarak değiştirildi.</string>
+    <string name="ui_cmd_skills_none">Eşleşen beceri bulunamadı.</string>
+    <string name="ui_cmd_skills_header">Yüklü beceriler (%1$d):</string>
+    <string name="ui_cmd_memory_header">Hermes Hafıza Özeti:</string>
+    <string name="ui_cmd_memory_empty">Henüz kayıtlı hafıza girdisi yok.</string>
+    <string name="ui_cmd_help_header">Komutlar ve Modlar:</string>
+    <string name="ui_cmd_pet_quip1">Pêt korları eşeler: \"Ateş sıcacık ve %1$d bot göreve hazır!\"</string>
+    <string name="ui_cmd_pet_quip2">Pêt göz kırpar: \"İstemlerini net tut, hafızanı düzenli tut.\"</string>
+    <string name="ui_cmd_pet_quip3">Pêt taşların arasından turuncu kuyruğunu sallar: \"Bu ocakta şimdiye kadar %1$d mesaj var!\"</string>
+    <string name="ui_cmd_newroz_msg">Newroz pîroz be! Ocak daha gür yanıyor.</string>
+    <string name="ui_cmd_roll_coin_heads">Yazı-Tura: Yazı</string>
+    <string name="ui_cmd_roll_coin_tails">Yazı-Tura: Tura</string>
+    <string name="ui_cmd_roll_dice">d%1$d atıldı: %2$d</string>
+
+    <!-- home interactive hearth -->
+    <string name="ui_home_quip_1">Pêt taşların yanında ısınıyor.</string>
+    <string name="ui_home_quip_2">Ateş daha gür harlandı!</string>
+    <string name="ui_home_quip_3">Her şeyi sor, ya da sohbette /forge dene!</string>
+    <string name="ui_home_quip_4">Sohbette /plan, /ultracode veya /loop dene.</string>
+    <string name="ui_home_quip_overdrive">Newroz ateşi coştu!</string>
+
+    <!-- inline actions, forking, code run, voice input -->
+    <string name="ui_act_speak">Sesli oku</string>
+    <string name="ui_act_stop_speak">Okumayı durdur</string>
+    <string name="ui_act_fork">Buradan dallandır</string>
+    <string name="ui_fork_suffix"> (dal)</string>
+    <string name="ui_fork_created">Yeni sohbet dalı oluşturuldu.</string>
+    <string name="ui_chat_code_run">Çalıştır</string>
+    <string name="ui_run_term_title">Terminalde çalıştırılsın mı?</string>
+    <string name="ui_run_term_body">Bu komut Hermes\'in Linux kabuğunda çalıştırılacak:</string>
+    <string name="ui_group_bar_all">Hepsi</string>
+    <string name="ui_group_bar_mention">@sadece</string>
+
+    <!-- in-chat quick controls -->
+    <string name="ui_ctrl_title">Sohbet Kontrolleri</string>
+    <string name="ui_ctrl_mode">ÇALIŞMA MODU</string>
+    <string name="ui_ctrl_mode_normal">Normal</string>
+    <string name="ui_ctrl_model">BU SOHBET İÇİN MODEL</string>
+    <string name="ui_ctrl_effort">BU SOHBET İÇİN DÜŞÜNME EFORU</string>
+    <string name="ui_ctrl_effort_short">Efor</string>
+    <string name="ui_ctrl_reset">Sıfırla</string>
+    <string name="ui_ctrl_skills">Beceri Seçici</string>
+    <string name="ui_ctrl_fork">Sohbeti Dallandır</string>
+
+    <!-- visual skill picker -->
+    <string name="ui_skills_picker_title">Hermes Becerileri (%1$d)</string>
+    <string name="ui_skills_picker_manage">Yönet</string>
+    <string name="ui_skills_picker_search">Beceri ara…</string>
+    <string name="ui_skills_picker_loading">Beceriler yükleniyor…</string>
+    <string name="ui_skills_picker_use">Sohbette kullan</string>
+    <string name="ui_skills_picker_prompt">\"%1$s\" becerisini kullanarak bana yardım et: </string>
+
+    <!-- voice input -->
+    <string name="ui_voice_mic_cd">Sesli giriş</string>
+    <string name="ui_voice_listening">Dinleniyor…</string>
+    <string name="ui_voice_prompt">Agirî\'ye konuş…</string>
+    <string name="ui_voice_unavailable">Bu cihazda sesli giriş kullanılamıyor.</string>
+
+    <!-- chat list filters & share target -->
+    <string name="ui_filter_all">Tümü</string>
+    <string name="ui_filter_pinned">Sabitli</string>
+    <string name="ui_filter_groups">Gruplar</string>
+    <string name="ui_filter_direct">1:1</string>
+    <string name="ui_filter_modes">Modlu</string>
+    <string name="ui_filter_empty">Bu filtreye uyan sohbet yok.</string>
+    <string name="ui_share_target_title">Agirî\'ye Gönder</string>
+    <string name="ui_share_new_chat">Hermes ile yeni sohbet</string>
+    <string name="ui_cmd_agir_msg">Agirî pîroz e! \"Paylaşılan bir kıvılcım tüm dağı ısıtır.\"</string>
 </resources>

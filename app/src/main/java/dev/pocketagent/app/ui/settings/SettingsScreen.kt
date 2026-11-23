@@ -43,6 +43,7 @@ import dev.pocketagent.app.ui.theme.Pocket
 private enum class Section(val key: String, val title: Int, val icon: PixelIcon) {
     PROVIDER("provider", R.string.ctl_set_provider, PixelIcon.KEY),
     APPEARANCE("appearance", R.string.ctl_set_appearance, PixelIcon.PALETTE),
+    VOICE("voice", R.string.ctl_set_voice, PixelIcon.VOLUME),
     LANGUAGE("language", R.string.ctl_set_language, PixelIcon.GLOBE),
     RUNTIME("runtime", R.string.ctl_set_runtime, PixelIcon.PLAY),
     DIAGNOSTICS("diagnostics", R.string.ctl_set_diagnostics, PixelIcon.BUG),
@@ -101,6 +102,7 @@ fun SettingsScreen(section: String?) {
                                     when (sec) {
                                         Section.PROVIDER -> ProviderSection(vm)
                                         Section.APPEARANCE -> AppearanceSection()
+                                        Section.VOICE -> VoiceSoundSection()
                                         Section.LANGUAGE -> LanguageSection()
                                         Section.RUNTIME -> RuntimeSection(vm)
                                         Section.DIAGNOSTICS -> DiagnosticsSection(vm)
@@ -136,6 +138,18 @@ private fun summaryOf(sec: Section, vm: dev.pocketagent.app.MainViewModel, state
         Section.APPEARANCE -> {
             val ap = AppearanceStore.get(ctx).appearance.collectAsState().value
             ap.theme.name.lowercase().replaceFirstChar { it.uppercase() }
+        }
+        Section.VOICE -> {
+            val app = dev.pocketagent.app.PocketApp.from(ctx)
+            val vs = app.voicePrefs.settings.collectAsState().value
+            val installed = app.ttsModels.state.collectAsState().value is dev.pocketagent.app.voice.TtsModelState.Installed
+            val ttsLabel = if (installed && vs.ttsEngine != dev.pocketagent.app.voice.TtsEngineMode.SYSTEM) "Supertonic 3" else stringResource(R.string.ctl_voice_engine_system)
+            val sfxLabel = when (vs.soundPack) {
+                dev.pocketagent.app.voice.SoundPack.HEARTH -> stringResource(R.string.ctl_sfx_hearth)
+                dev.pocketagent.app.voice.SoundPack.STUDIO -> stringResource(R.string.ctl_sfx_studio)
+                dev.pocketagent.app.voice.SoundPack.OFF -> stringResource(R.string.ctl_sfx_off)
+            }
+            "$ttsLabel · $sfxLabel"
         }
         Section.LANGUAGE -> {
             val ap = AppearanceStore.get(ctx).appearance.collectAsState().value

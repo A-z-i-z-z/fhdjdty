@@ -1,4 +1,4 @@
-# PocketAgent: notes for whoever picks this up next
+# Agirî (formerly PocketAgent): notes for whoever picks this up next
 
 This file is the handoff note for any AI agent (or person) continuing the project. Read it before
 touching anything. **Keep it current:** at the end of a working session update "Current status",
@@ -10,8 +10,9 @@ Last updated: 2026-11-23
 ## What this is
 
 A sideloaded Android app that runs agent platforms fully on the phone, with only the LLM remote.
-First target: Nous Research's Hermes Agent. More agents may follow. Working name "PocketAgent",
-applicationId `dev.pocketagent.app` (the owner has not confirmed the name).
+First target: Nous Research's Hermes Agent. More agents may follow. Confirmed official app name:
+**"Agirî"**, keeping `applicationId = "dev.pocketagent.app"` intact so APK updates preserve
+credentials, chats, and extracted rootfs on existing installs.
 
 Target device: Galaxy S24 Ultra, One UI 9 / Android 17 (SDK 37), arm64, 4 KB pages.
 
@@ -64,22 +65,82 @@ Target device: Galaxy S24 Ultra, One UI 9 / Android 17 (SDK 37), arm64, 4 KB pag
   invisible pixel-font text, input bar under the gesture bar, Gemini thought summaries in
   answers, double `$` in the terminal, raw Markdown in chat previews. See "Phase 1 notes" below.
 
-Next steps, in order:
-1. Not yet tried on the phone: the bot editor, Memory/User/Skills/Config/Logs tabs and editing
-   SOUL.md, edit/regenerate/stop, a tool call and an approval in the new chat, the language
-   switch, every theme, the new launcher icon on the home screen.
-2. Starter bot names/taglines are English in every UI language (they are data, not strings).
-3. Long sessions, background survival with the screen off, a rootfs update over an existing
-   install with user data.
+- **Masterpiece upgrade + full phone verification (2026-11-23, local build 18 / 0.1.18).**
+  Added and verified on the Galaxy S24 Ultra (`google/gemini-4-hydrogen` at `low` effort):
+  - **Multimodal attachments (`AttachmentStore`, `AttachmentUi`, `HermesApi`):** Camera capture
+    (without adding `CAMERA` permission — `TakePicture` + `FileProvider`), gallery image picker
+    (downscaled <= 1600px JPEG + EXIF rotation, sent as `image_url` base64 data URLs for the
+    last 3 image turns), and document picker (text excerpts up to 12k chars + PDF page counts,
+    plus mirroring into `/root/.hermes/attachments/` so Hermes's tools can access them too).
+  - **Autonomous Bot Forge (`BotForge`) & Live Memory:** Bots can emit ```` ```pocket-bot ``` ````
+    specs when asked (or via `/forge`) to create new bots into `bots.json` with an interactive
+    `ForgedBotCard` (`Chat now`, `Add to group`, `Edit`). Native Hermes `memory` tool updates
+    surface a highlighted **Memory updated** card with an `Open Memory` shortcut and trigger
+    `HermesScreen` auto-reload via `ChatEngine.memoryUpdates`.
+  - **Slash Commands & Modes (`SlashCommands`, `SlashPalette`):** Autocomplete palette for
+    `/plan`, `/goal`, `/ultracode`, `/loop [2-5]`, `/normal`, `/forge`, `/skills`, `/remember`,
+    `/memory`, `/theme`, `/export`, `/clear`, `/help`, plus secret easter eggs (`/pet`, `/newroz`
+    ember shower, `/roll`) and an `ActiveModeBanner`.
+  - **Interactive Hearth & Secrets:** Tapping the home hearth stokes the fire with Pêt quips;
+    7 quick taps trigger **Newroz Blaze Overdrive**; 5 taps on Pêt in About reveal **Hearthkeeper
+    Stats**.
+  - **Phone checks passed on v0.1.17/18:** Home hearth & overdrive, Bot Editor, Hermes tabs
+    (Soul, Memory, User, Skills, Config, Logs), About secret stats, `/` palette & local commands,
+    live `/forge` (forged bot "Uluğ"), live `memory` tool (`USER.md` with `\n§\n`), multimodal
+    image vision & document reading, `/plan` banner, `terminal` (`uname -a`) tool call, message
+    actions, `/theme zagros` -> `newroz`, and `force-stop` -> reopen survival (Running in 9s,
+    zero crashes in `app.log`). Also completed all three small review follow-ups from the
+    previous handoff.
 
-Small follow-ups from the last review (none blocks use; do them with the next change):
-- `tools/local-build.ps1 -Test`: count a `FileSystemException` as "expected on Windows" only when
-  its message is the missing-symlink-privilege one; treat a robocopy timeout (exit -1) as failure.
-- `RuntimeManager`: "Delete runtime files" should delete the stamp with `FileUtil.deleteOrThrow`
-  (an undeletable stamp currently wedges Start); the unreadable-stamp error text says "Reset" but
-  the button is "Delete runtime files".
-- `ProviderConfigTest`: the `studio-effort` comment overstates it. The smoke test only proves that
-  Hermes boots with an `agent:` block, not that it applies the level.
+- **Agirî Masterpiece Release + full phone verification (2026-11-23, local build 22 / 0.1.22).**
+  Confirmed official name **"Agirî"** (keeping `applicationId = "dev.pocketagent.app"`). Added,
+  unit-tested (`172` tests, 0 unexpected failures), and verified live on the Galaxy S24 Ultra
+  (Snapdragon 8 Gen 3, saved config kept on `google/gemini-4-hydrogen` at `low` effort):
+  - **On-device Neural TTS (`voice/VoiceEngine`, `SupertonicModelStore`, `TtsTextCleaner`, `VoicePrefs`):**
+    Integrated **Supertonic 3 INT8** (99M, 31 languages including TR/EN/FR, 10 female/male voices
+    F1–F5 & M1–M5) via `sherpa-onnx` v2.0.3 (static-link ONNX Runtime AAR fetched via GitHub Releases
+    Ivy repo) with automatic Android `TextToSpeech` fallback, in-app resumable/atomic model
+    downloader (`~139 MB` stored in `files/tts/supertonic-3-int8/`), EN/FR/TR language detection
+    that respects Kurdish names (`Agirî`, `Pêt`, `Dengbêj`), and **per-bot customizable TTS voice
+    & delivery mood** (`Natural`, `Happy`, `Excited`, `Serious`, `Calm`, `Storyteller` + speed
+    override + live preview in Bot Editor + signature starter bot defaults + Bot Forge voice tags).
+    Measured live on Snapdragon 8 Gen 3 CPU: loads in ~1.0 s, synthesizes 44.1 kHz Turkish speech
+    at **RTF 0.30–0.32** (~3.2× faster than real time).
+  - **Curated CC0 UI Sound Library (`voice/SoundEngine`, `res/raw/sfx_*.ogg`):** 20 CC0 `.ogg` cues
+    (~73 KB total from `romainsimon/uisfx`) across `Hearth`, `Studio`, and `Silent` packs for send,
+    reply complete (OpenCode-style completion chime), tool finished, memory saved, bot forged,
+    approval requested, error, hearth stoke, and subtle UI taps.
+  - **Artistic Pixel Art Refresh & 6 Switchable Launcher Icons (`AppIconManager`, `assets/pixel/*.pxl`):**
+    Redrew the fire hearth, overlapping Mount Agirî & Zagros panorama with *Nêrgiz* alpine meadow
+    (no polka-dot grass or vertical seams), all 16 bot avatars, and 6 distinct switchable adaptive
+    launcher icons (`Newroz`, `Pêt`, `Agirî`, `Zagros`, `Kawa`, `Roj`) via `<activity-alias>` in
+    Appearance settings (keeping `MainActivity` always enabled). Added moon halo, distant twinkling
+    Newroz ridge bonfires, meadow fireflies, and occasional pixel shooting stars in `HearthScene`.
+  - **Deep UI/UX & Power Features:** Fixed double status-bar padding (`AppRoot`/`PocketTopBar`,
+    full-bleed `HearthScene`), in-chat **Chat Controls** sheet (Mode + per-chat Model & Thinking
+    Effort overrides), voice input (`SpeechRecognizer` + `RecognizerIntent` fallback), inline bot
+    quick-action strip (Speak/Stop, Copy, Fork, Regenerate) + **Conversation Forking**, syntax-
+    highlighted code blocks with **Run in Terminal** confirmation dialog & execution, visual
+    searchable **Skill Picker** sheet, **Group Chat participant bar** (tap to `@mention`),
+    ChatList filter chips (`All`, `Pinned`, `Groups`, `1:1`, `Modes`), Android `ACTION_SEND` share
+    target (`Send to Agirî` dialog), plus subtle surprises (double-tap bot avatar spring bounce,
+    `/agir` secret command).
+  - **Phone checks passed on v0.1.20–0.1.22:** Home full-bleed night sky & blazing hearth, live
+    Supertonic 3 Turkish synthesis (default F1 `RTF=0.32`, Coder M5/Serious `RTF=0.30`, Dengbêj
+    M4/Storyteller `RTF=0.34`), live 6-icon switcher (`NEWROZ` -> `PET` -> `NEWROZ` verified via
+    `dumpsys package`), Bot Voice & Delivery editor, Chats filter chips, Group Participant Bar,
+    Chat Controls sheet, Visual Skill Picker (44 Hermes skills), live Coder reply with syntax-
+    highlighted `bash` block -> **Run in Terminal** (`uname -a` executed cleanly), **Fork**
+    branching, `ACTION_SEND` share target dialog, `force-stop` -> reopen -> Start recovery (11s
+    to `Running`), and 22-minute steady background run (~260 MiB RSS, zero crashes).
+
+Next steps, in order:
+1. Not yet tried on the phone: editing `SOUL.md` end-to-end, live `TakePicture` camera shutter,
+   live microphone STT dictation (requires interactive speech), `/loop` multi-pass mode,
+   edit/regenerate/stop buttons in-flow, an approval card, and a rootfs update over an existing
+   install with user data.
+2. Verify CI green build on `ccr-bb6d7bcc-9eojyu` after push (confirms GitHub Releases Ivy fetch of
+   `sherpa-onnx` works cleanly in Actions too).
 
 ## Repo map
 
@@ -228,6 +289,35 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
   the file no longer compiles ("Unclosed comment").
 - `adb exec-out screencap -p > file` in PowerShell corrupts the PNG; use `screencap` to
   `/data/local/tmp` and `adb pull`.
+- On localized (e.g. Turkish) Windows, `FileSystemException` symlink-privilege errors print
+  `"Gereken ayrıcalık istemcide yok"`, and PowerShell 5.1 `Get-Content` defaults to ANSI unless
+  `-Encoding UTF8` is passed (important when parsing `uiautomator dump` XML).
+- `ActivityResultContracts.TakePicture()` works without runtime `CAMERA` permission only when
+  `android.permission.CAMERA` is NOT declared in `AndroidManifest.xml`.
+- Hermes gateway (`api_server.py`) natively accepts OpenAI multimodal `content` arrays with
+  `type: "text"` and `type: "image_url"` (`data:image/jpeg;base64,...`) and routes them through
+  Vertex (`google/gemini-4-hydrogen` verified).
+- **sherpa-onnx JNI + Kotlin 2.x invokedynamic trap:** `OfflineTts.generateWithConfigAndCallback`
+  looks up `invoke([F)Ljava/lang/Integer;` via JNI `GetMethodID`, which throws `NoSuchMethodError`
+  and aborts (`SIGABRT`) when given a Kotlin 2.x invokedynamic lambda (`$$ExternalSyntheticLambda`).
+  Always call `OfflineTts.generateWithConfig(text, config)` (passes `null` callback to native code)
+  and split long text into sentences in Kotlin instead.
+- **Supertonic 3 language detection vs. Kurdish names:** Circumflex vowels (`î`, `ê`, `û`) appear
+  in Kurdish names (`Agirî`, `Pêt`, `Dengbêj`). Never weight circumflexes as uniquely French;
+  score EN/FR/TR explicitly and resolve empty `Appearance.language` (`""` = System language) via
+  `Locale.getDefault().language`.
+- **Android VectorDrawable 32,767-char `pathData` limit:** High-res dithered `.pxl` backgrounds
+  (e.g. 90×90) easily exceed Android's string pool limit per `<path>`. Keep adaptive icon
+  backgrounds at 45×45 (`-Pixel 2.4`), keeping every `<path>` well under 9 KB.
+- **Switchable launcher icons (`<activity-alias>`):** Keep `MainActivity` always `enabled="true"`
+  (handling `ACTION_SEND` etc.) and place `MAIN`/`LAUNCHER` exclusively on the `<activity-alias>`
+  entries so `adb shell am start -n dev.pocketagent.app/.MainActivity` and in-app intents never
+  break regardless of which icon is active.
+- **`PixelPanel` fill opacity:** `PixelPanel` draws the `border` color behind the inner fill; never
+  pass a translucent `color` with a bright `border` (it bleeds solid `border` color through).
+- **Android 11+ package visibility (`<queries>`):** Declare `<queries>` intents for
+  `android.speech.RecognitionService` and `android.intent.action.TTS_SERVICE` in
+  `AndroidManifest.xml` so voice dictation and fallback System TTS resolve cleanly on Android 11–17.
 
 ## Phase 1 notes (the new app, 2026-11-23)
 
@@ -254,7 +344,6 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
 
 ## Open decisions with the owner
 
-1. The app name ("PocketAgent" is a working name).
-2. Design direction: three pixel-art options (A Hearthlight, B Plotter, C Sprig; the designer
-   recommends A). The owner has the link.
-3. Which Gemini model to use by default once Vertex works (they intend to use Gemini 4 models).
+1. ~~The app name~~ — **Confirmed: "Agirî"** (keeping `applicationId = "dev.pocketagent.app"`).
+2. ~~Design direction~~ — Hearthlight / Newroz pixel-art identity with Pêt & 6 selectable themes + 6 selectable app icons shipped.
+3. Which Gemini model to use by default long-term (currently kept on `google/gemini-4-hydrogen` at `low` effort for $0 testing).

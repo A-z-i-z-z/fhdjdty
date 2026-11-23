@@ -30,7 +30,7 @@ class ProviderConfigTest {
     @Test fun studioMode() = check("studio",
         ProviderInputs(AuthMode.API_KEY, ApiEndpoint.STUDIO, "gemini-4-hydrogen", "global", "", "smoke-gemini-key"))
 
-    /** The same fixture CI boots the real Hermes with: proves Hermes accepts `agent.reasoning_effort` and the app writes exactly that. */
+    /** The same fixture CI boots the real Hermes with: proves Hermes boots with an `agent:` block (not whether the level reaches Google on the wire). */
     @Test fun studioModeWithThinkingEffortLow() = check("studio-effort",
         ProviderInputs(AuthMode.API_KEY, ApiEndpoint.STUDIO, "gemini-4-hydrogen", "global", "", "smoke-gemini-key", "low"))
 

@@ -154,4 +154,119 @@
     <string name="ui_chat_appr_session">Allow this session</string>
     <string name="ui_chat_appr_always">Always allow</string>
     <string name="ui_chat_appr_deny">Deny</string>
+
+    <!-- attachments -->
+    <string name="ui_attach_cd">Attach photo or file</string>
+    <string name="ui_attach_title">Attach to message</string>
+    <string name="ui_attach_camera">Take photo</string>
+    <string name="ui_attach_gallery">Choose from gallery</string>
+    <string name="ui_attach_doc">Attach document or file</string>
+    <string name="ui_attach_remove">Remove attachment</string>
+    <string name="ui_attach_failed">Could not attach file: %1$s</string>
+    <string name="ui_attach_preview">Attachment</string>
+
+    <!-- forged bots & memory -->
+    <string name="ui_forged_badge">FORGED</string>
+    <string name="ui_forged_chat">Chat now</string>
+    <string name="ui_forged_add">Add to group</string>
+    <string name="ui_forged_edit">Edit</string>
+    <string name="ui_chat_memory_updated">Memory updated</string>
+    <string name="ui_chat_memory_open">Open Memory</string>
+
+    <!-- slash commands & modes -->
+    <string name="ui_slash_mode_badge">MODE</string>
+    <string name="ui_slash_action_badge">CMD</string>
+    <string name="ui_slash_desc_plan">Plan step-by-step before acting</string>
+    <string name="ui_slash_desc_goal">Autonomous goal execution until verified</string>
+    <string name="ui_slash_desc_ultracode">Staff-engineer coding &amp; verification</string>
+    <string name="ui_slash_desc_loop">Multi-pass self-refining loop (2-5x)</string>
+    <string name="ui_slash_desc_normal">Return to standard chat mode</string>
+    <string name="ui_slash_desc_forge">Forge a custom bot with persona &amp; look</string>
+    <string name="ui_slash_desc_skills">List or search installed Hermes skills</string>
+    <string name="ui_slash_desc_remember">Save a fact directly to USER.md memory</string>
+    <string name="ui_slash_desc_memory">Show current MEMORY.md &amp; USER.md</string>
+    <string name="ui_slash_desc_theme">Switch app theme live</string>
+    <string name="ui_slash_desc_export">Export this chat as Markdown</string>
+    <string name="ui_slash_desc_clear">Clear messages in this chat</string>
+    <string name="ui_slash_desc_help">Show all commands &amp; modes</string>
+    <string name="ui_mode_banner_plan">Plan mode</string>
+    <string name="ui_mode_banner_goal">Goal mode</string>
+    <string name="ui_mode_banner_ultracode">UltraCode mode</string>
+    <string name="ui_mode_banner_loop">Loop mode</string>
+    <string name="ui_mode_exit_cd">Return to normal mode</string>
+    <string name="ui_mode_on_note">%1$s enabled. Your next messages follow this mode.</string>
+    <string name="ui_mode_off_note">Returned to Normal mode.</string>
+    <string name="ui_cmd_forge_usage">Usage: /forge &lt;describe the bot you want&gt;</string>
+    <string name="ui_cmd_remember_usage">Usage: /remember &lt;fact to save in USER.md&gt;</string>
+    <string name="ui_cmd_remember_saved">Saved to USER.md (%1$d/%2$d chars).</string>
+    <string name="ui_cmd_remember_full">USER.md budget exceeded (%1$d/%2$d chars). Trim entries in Hermes &gt; You.</string>
+    <string name="ui_cmd_theme_usage">Available themes: %1$s. Usage: /theme newroz</string>
+    <string name="ui_cmd_theme_switched">Theme switched to %1$s.</string>
+    <string name="ui_cmd_skills_none">No matching skills found.</string>
+    <string name="ui_cmd_skills_header">Installed skills (%1$d):</string>
+    <string name="ui_cmd_memory_header">Hermes Memory Snapshot:</string>
+    <string name="ui_cmd_memory_empty">No entries saved yet.</string>
+    <string name="ui_cmd_help_header">Commands &amp; Modes:</string>
+    <string name="ui_cmd_pet_quip1">Pêt pokes an ember: \"The fire is warm and %1$d bots stand ready!\"</string>
+    <string name="ui_cmd_pet_quip2">Pêt blinks slowly: \"Keep your prompts sharp and your memory tidy.\"</string>
+    <string name="ui_cmd_pet_quip3">Pêt waves a tiny orange tail from the stones: \"%1$d messages in this hearth so far!\"</string>
+    <string name="ui_cmd_newroz_msg">Newroz pîroz be! The hearth blazes brighter.</string>
+    <string name="ui_cmd_roll_coin_heads">Coin flip: Heads</string>
+    <string name="ui_cmd_roll_coin_tails">Coin flip: Tails</string>
+    <string name="ui_cmd_roll_dice">Rolled d%1$d: %2$d</string>
+
+    <!-- home interactive hearth -->
+    <string name="ui_home_quip_1">Pêt warms up by the stones.</string>
+    <string name="ui_home_quip_2">The fire crackles brighter!</string>
+    <string name="ui_home_quip_3">Ask anything, or try /forge in chat!</string>
+    <string name="ui_home_quip_4">Try /plan, /ultracode or /loop in chat.</string>
+    <string name="ui_home_quip_overdrive">Newroz blaze overdrive!</string>
+
+    <!-- inline actions, forking, code run, voice input -->
+    <string name="ui_act_speak">Speak</string>
+    <string name="ui_act_stop_speak">Stop speaking</string>
+    <string name="ui_act_fork">Fork chat here</string>
+    <string name="ui_fork_suffix"> (fork)</string>
+    <string name="ui_fork_created">Branched into a new chat.</string>
+    <string name="ui_chat_code_run">Run</string>
+    <string name="ui_run_term_title">Run in Terminal?</string>
+    <string name="ui_run_term_body">This command will execute inside Hermes\'s Linux shell:</string>
+    <string name="ui_group_bar_all">All</string>
+    <string name="ui_group_bar_mention">@only</string>
+
+    <!-- in-chat quick controls -->
+    <string name="ui_ctrl_title">Chat Controls</string>
+    <string name="ui_ctrl_mode">OPERATING MODE</string>
+    <string name="ui_ctrl_mode_normal">Normal</string>
+    <string name="ui_ctrl_model">MODEL FOR THIS CHAT</string>
+    <string name="ui_ctrl_effort">THINKING EFFORT FOR THIS CHAT</string>
+    <string name="ui_ctrl_effort_short">Effort</string>
+    <string name="ui_ctrl_reset">Reset</string>
+    <string name="ui_ctrl_skills">Skill Picker</string>
+    <string name="ui_ctrl_fork">Fork Chat</string>
+
+    <!-- visual skill picker -->
+    <string name="ui_skills_picker_title">Hermes Skills (%1$d)</string>
+    <string name="ui_skills_picker_manage">Manage</string>
+    <string name="ui_skills_picker_search">Search skills…</string>
+    <string name="ui_skills_picker_loading">Loading skills…</string>
+    <string name="ui_skills_picker_use">Use in chat</string>
+    <string name="ui_skills_picker_prompt">Use the \"%1$s\" skill to help me: </string>
+
+    <!-- voice input -->
+    <string name="ui_voice_mic_cd">Voice input</string>
+    <string name="ui_voice_listening">Listening…</string>
+    <string name="ui_voice_prompt">Speak to Agirî…</string>
+    <string name="ui_voice_unavailable">Voice input is not available on this device.</string>
+
+    <!-- chat list filters & share target -->
+    <string name="ui_filter_all">All</string>
+    <string name="ui_filter_pinned">Pinned</string>
+    <string name="ui_filter_groups">Groups</string>
+    <string name="ui_filter_direct">1:1</string>
+    <string name="ui_filter_modes">Modes</string>
+    <string name="ui_filter_empty">No chats match this filter.</string>
+    <string name="ui_share_target_title">Send to Agirî</string>
+    <string name="ui_share_new_chat">New chat with Hermes</string>
+    <string name="ui_cmd_agir_msg">Agirî pîroz e! \"A spark shared warms the whole mountain.\"</string>
 </resources>

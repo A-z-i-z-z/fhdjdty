@@ -7,6 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +23,8 @@ import androidx.compose.material3.SliderDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -41,6 +45,7 @@ import dev.pocketagent.app.PocketApp
 import dev.pocketagent.app.R
 import dev.pocketagent.app.data.Bot
 import dev.pocketagent.app.data.BotPresets
+import dev.pocketagent.app.data.BotVoiceStyle
 import dev.pocketagent.app.runtime.ProviderConfig
 import dev.pocketagent.app.ui.LocalNavigator
 import dev.pocketagent.app.ui.components.ButtonKind
@@ -63,7 +68,11 @@ import dev.pocketagent.app.ui.settings.EFFORT_CHIPS
 import dev.pocketagent.app.ui.settings.Muted
 import dev.pocketagent.app.ui.settings.mainVm
 import dev.pocketagent.app.ui.settings.toast
+import dev.pocketagent.app.ui.theme.AppearanceStore
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.voice.SUPERTONIC_VOICES
+import dev.pocketagent.app.voice.VoiceOverride
+import kotlin.math.roundToInt
 
 /** 16 hand-picked colours (ARGB). The first three are the colours of the Kurdish flag. */
 private val SWATCHES = listOf(
@@ -105,13 +114,17 @@ fun BotEditorScreen(botId: String?) {
     BotEditorContent(botId)
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun BotEditorContent(botId: String?) {
     val ctx = LocalContext.current
     val nav = LocalNavigator.current
-    val repo = remember { PocketApp.from(ctx).chat }
+    val app = remember { PocketApp.from(ctx) }
+    val repo = app.chat
     val vm = mainVm()
     val c = Pocket.colors
+    val ap by AppearanceStore.get(ctx).appearance.collectAsState()
+    val speakingId by app.voice.speakingId.collectAsState()
     val existing: Bot? = remember(botId) { botId?.let { repo.bot(it) } }
 
     var name by rememberSaveable(botId) { mutableStateOf(existing?.name ?: "") }
@@ -121,15 +134,21 @@ private fun BotEditorContent(botId: String?) {
     var prompt by rememberSaveable(botId) { mutableStateOf(existing?.systemPrompt ?: "") }
     var model by rememberSaveable(botId) { mutableStateOf(existing?.model ?: "") }
     var effort by rememberSaveable(botId) { mutableStateOf(existing?.effort ?: "") }
+    var voiceSid by rememberSaveable(botId) { mutableIntStateOf(existing?.voiceSid ?: -1) }
+    var voiceStyleName by rememberSaveable(botId) { mutableStateOf((existing?.voiceStyle ?: BotVoiceStyle.DEFAULT).name) }
+    var voiceSpeed by rememberSaveable(botId) { mutableFloatStateOf(existing?.voiceSpeed ?: 0f) }
+    val voiceStyle = remember(voiceStyleName) { runCatching { BotVoiceStyle.valueOf(voiceStyleName) }.getOrDefault(BotVoiceStyle.DEFAULT) }
     var mono by rememberSaveable { mutableStateOf(false) }
     var showDiscard by remember { mutableStateOf(false) }
     var showDelete by remember { mutableStateOf(false) }
 
     val dirty = if (existing == null) {
-        name.isNotBlank() || tagline.isNotBlank() || prompt.isNotBlank() || model.isNotBlank() || effort.isNotBlank()
+        name.isNotBlank() || tagline.isNotBlank() || prompt.isNotBlank() || model.isNotBlank() || effort.isNotBlank() ||
+            voiceSid != -1 || voiceStyle != BotVoiceStyle.DEFAULT || voiceSpeed > 0f
     } else {
         name != existing.name || tagline != existing.tagline || avatar != avatarIdOf(existing.avatar).name ||
-            colorArgb != existing.color || prompt != existing.systemPrompt || model != existing.model || effort != existing.effort
+            colorArgb != existing.color || prompt != existing.systemPrompt || model != existing.model || effort != existing.effort ||
+            voiceSid != existing.voiceSid || voiceStyle != existing.voiceStyle || voiceSpeed != existing.voiceSpeed
     }
     val avatarId = avatarIdOf(avatar)
     val color = colorArgb.toColor()
@@ -149,6 +168,7 @@ private fun BotEditorContent(botId: String?) {
         return base.copy(
             name = name.trim(), avatar = avatarId.name, color = colorArgb, tagline = tagline.trim(),
             systemPrompt = prompt, model = model.trim(), effort = effort,
+            voiceSid = voiceSid, voiceStyle = voiceStyle, voiceSpeed = voiceSpeed,
         )
     }
 
@@ -229,6 +249,70 @@ private fun BotEditorContent(botId: String?) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Muted(stringResource(R.string.ctl_bot_chars, prompt.length), Modifier.weight(1f), size = 12.sp)
                 PocketChip(stringResource(R.string.ctl_bot_mono), selected = mono, onClick = { mono = !mono })
+            }
+
+            // ---- voice & delivery mood ----
+            SectionHeader(stringResource(R.string.ctl_bot_section_voice))
+            Muted(stringResource(R.string.ctl_bot_voice_help))
+            CtlCard {
+                CText(stringResource(R.string.ctl_bot_voice_female), size = 12.5.sp, weight = FontWeight.SemiBold, color = c.textMuted)
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    PocketChip(stringResource(R.string.effort_default), selected = voiceSid == -1, onClick = { voiceSid = -1 })
+                    SUPERTONIC_VOICES.filter { it.sid in 0..4 }.forEach { v ->
+                        PocketChip(v.label, selected = voiceSid == v.sid, onClick = { voiceSid = v.sid })
+                    }
+                }
+                CText(stringResource(R.string.ctl_bot_voice_male), size = 12.5.sp, weight = FontWeight.SemiBold, color = c.textMuted, modifier = Modifier.padding(top = 4.dp))
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    SUPERTONIC_VOICES.filter { it.sid in 5..9 }.forEach { v ->
+                        PocketChip(v.label, selected = voiceSid == v.sid, onClick = { voiceSid = v.sid })
+                    }
+                }
+                CText(stringResource(R.string.ctl_bot_voice_mood), size = 13.sp, weight = FontWeight.SemiBold, modifier = Modifier.padding(top = 6.dp))
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    val moods = listOf(
+                        BotVoiceStyle.DEFAULT to R.string.ctl_bot_mood_default,
+                        BotVoiceStyle.HAPPY to R.string.ctl_bot_mood_happy,
+                        BotVoiceStyle.EXCITED to R.string.ctl_bot_mood_excited,
+                        BotVoiceStyle.SERIOUS to R.string.ctl_bot_mood_serious,
+                        BotVoiceStyle.CALM to R.string.ctl_bot_mood_calm,
+                        BotVoiceStyle.STORYTELLER to R.string.ctl_bot_mood_storyteller,
+                    )
+                    moods.forEach { (st, lbl) ->
+                        PocketChip(stringResource(lbl), selected = voiceStyle == st, onClick = { voiceStyleName = st.name })
+                    }
+                }
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
+                    CText(stringResource(R.string.ctl_voice_speed), size = 13.sp, weight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
+                    Muted(if (voiceSpeed <= 0f) stringResource(R.string.effort_default) else "${"%.2f".format(voiceSpeed)}×")
+                }
+                Slider(
+                    value = if (voiceSpeed <= 0f) 1.0f else voiceSpeed,
+                    onValueChange = { v -> voiceSpeed = (v * 20f).roundToInt() / 20f },
+                    valueRange = 0.85f..1.35f,
+                    steps = 9,
+                    colors = SliderDefaults.colors(thumbColor = c.accent, activeTrackColor = c.accent, inactiveTrackColor = c.outline),
+                )
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    val previewing = speakingId == "bot-sample"
+                    PixelButton(
+                        stringResource(if (previewing) R.string.btn_stop else R.string.ctl_bot_voice_test),
+                        onClick = {
+                            if (previewing) app.voice.stop()
+                            else app.voice.speakBotSample(name, ap.language, VoiceOverride(voiceSid, voiceStyle, voiceSpeed))
+                        },
+                        modifier = Modifier.weight(1f),
+                        icon = if (previewing) PixelIcon.STOP else PixelIcon.VOLUME,
+                        kind = ButtonKind.SECONDARY,
+                    )
+                    if (voiceSpeed > 0f) {
+                        PixelButton(
+                            stringResource(R.string.ui_ctrl_reset),
+                            onClick = { voiceSpeed = 0f },
+                            kind = ButtonKind.GHOST,
+                        )
+                    }
+                }
             }
 
             // ---- model ----

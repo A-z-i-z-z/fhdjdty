@@ -26,6 +26,7 @@ object BotPresets {
     val rebel: Bot = Bot(
         id = "rebel", name = "Rebel", avatar = "WOLF", color = 0xFFD9483BL,
         tagline = "Blunt, witty, allergic to nonsense",
+        voiceSid = 2, voiceStyle = BotVoiceStyle.EXCITED,
         systemPrompt = """
 You are Rebel: a sharp-tongued, quick-witted friend who says what everybody else is too polite to say.
 
@@ -47,6 +48,7 @@ $LANGUAGE_RULE
     val coder: Bot = Bot(
         id = "coder", name = "Coder", avatar = "ROBOT", color = 0xFF3FA7B5L,
         tagline = "Senior engineer: code first, proof over opinion",
+        voiceSid = 9, voiceStyle = BotVoiceStyle.SERIOUS,
         systemPrompt = """
 You are Coder: a senior software engineer with twenty years of scars and no ego about it.
 
@@ -65,6 +67,7 @@ $LANGUAGE_RULE Code, identifiers and commands stay in English.
     val dengbej: Bot = Bot(
         id = "dengbej", name = "Dengbêj", avatar = "PARTRIDGE", color = 0xFFD9A441L,
         tagline = "Kurdish oral epics, told by the fire",
+        voiceSid = 8, voiceStyle = BotVoiceStyle.STORYTELLER,
         systemPrompt = """
 You are a Dengbêj, a voice from the Kurdish oral-epic tradition: the singer-storyteller who sat by the fire and carried a people's memory in melody and word. You tell tales and sing kilam (lament and story songs), keeping the old stories alive: Mem û Zîn, Siyabend û Xecê, Dewrêşê Evdî, Kela Dimdimê, the songs of mountains, exile, love, blood feud and longing.
 
@@ -82,6 +85,7 @@ Language: answer in the language of the user's latest message (Turkish stays Tur
     val teacher: Bot = Bot(
         id = "teacher", name = "Teacher", avatar = "OWL", color = 0xFF5E9E5AL,
         tagline = "Patient explanations, one step at a time",
+        voiceSid = 1, voiceStyle = BotVoiceStyle.CALM,
         systemPrompt = """
 You are Teacher: a patient, encouraging tutor who explains anything from first principles.
 
@@ -100,6 +104,7 @@ $LANGUAGE_RULE
     val translator: Bot = Bot(
         id = "translator", name = "Translator", avatar = "BEE", color = 0xFFE3B72FL,
         tagline = "Kurdish, Turkish, English, French",
+        voiceSid = 0, voiceStyle = BotVoiceStyle.DEFAULT,
         systemPrompt = """
 You are Translator: a careful professional translator between Kurdish (Kurmanji in Latin script and Sorani in Arabic script), Turkish, English and French. You can handle other languages too.
 
@@ -115,6 +120,7 @@ Rules:
     val critic: Bot = Bot(
         id = "critic", name = "Critic", avatar = "FOX", color = 0xFF8E5BB5L,
         tagline = "Devil's advocate: finds the crack",
+        voiceSid = 6, voiceStyle = BotVoiceStyle.SERIOUS,
         systemPrompt = """
 You are Critic: a devil's advocate whose job is to make ideas stronger by attacking them honestly.
 
@@ -132,6 +138,7 @@ $LANGUAGE_RULE
     val planner: Bot = Bot(
         id = "planner", name = "Planner", avatar = "MOUNTAIN", color = 0xFF5B7FA6L,
         tagline = "Calm plans, clear next steps",
+        voiceSid = 5, voiceStyle = BotVoiceStyle.CALM,
         systemPrompt = """
 You are Planner: a calm, practical planner who turns tangled goals into a clear next step.
 
@@ -159,9 +166,16 @@ $LANGUAGE_RULE
      */
     fun upgradeLegacy(bot: Bot): Bot {
         val current = templates.firstOrNull { it.id == bot.id } ?: return bot
-        val old = LegacyBotPrompts.byId[bot.id] ?: return bot
+        val old = LegacyBotPrompts.byId[bot.id]
         val saved = bot.systemPrompt.trim()
-        return if (saved != current.systemPrompt.trim() && old.any { it.trim() == saved }) bot.copy(systemPrompt = current.systemPrompt) else bot
+        var out = if (old != null && saved != current.systemPrompt.trim() && old.any { it.trim() == saved }) {
+            bot.copy(systemPrompt = current.systemPrompt)
+        } else bot
+        // Give untouched starter bots their signature Supertonic voice & delivery style once.
+        if (out.voiceSid == -1 && out.voiceStyle == BotVoiceStyle.DEFAULT && (current.voiceSid >= 0 || current.voiceStyle != BotVoiceStyle.DEFAULT)) {
+            out = out.copy(voiceSid = current.voiceSid, voiceStyle = current.voiceStyle)
+        }
+        return out
     }
 
     fun firstRun(): List<Bot> {

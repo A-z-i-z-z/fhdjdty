@@ -23,6 +23,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,18 +34,22 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,14 +67,25 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import android.widget.Toast
+import dev.pocketagent.app.IncomingShare
+import dev.pocketagent.app.PocketApp
 import dev.pocketagent.app.R
+import dev.pocketagent.app.data.BotPresets
 import dev.pocketagent.app.ui.bots.BotEditorScreen
 import dev.pocketagent.app.ui.bots.BotsScreen
+import dev.pocketagent.app.ui.chat.AvatarStack
+import dev.pocketagent.app.ui.chat.ChatDrafts
 import dev.pocketagent.app.ui.chat.ChatListScreen
+import dev.pocketagent.app.ui.chat.ChatPendingAttachments
 import dev.pocketagent.app.ui.chat.ChatScreen
 import dev.pocketagent.app.ui.chat.bottomSafeInsets
+import dev.pocketagent.app.ui.chat.titleOf
+import dev.pocketagent.app.ui.components.ButtonKind
+import dev.pocketagent.app.ui.components.PixelButton
 import dev.pocketagent.app.ui.components.PixelIcon
 import dev.pocketagent.app.ui.components.PixelIconView
+import dev.pocketagent.app.ui.components.PocketDialog
 import dev.pocketagent.app.ui.hermes.HermesScreen
 import dev.pocketagent.app.ui.hermes.TerminalScreen
 import dev.pocketagent.app.ui.home.HomeScreen
@@ -78,6 +94,9 @@ import dev.pocketagent.app.ui.theme.AnimLevel
 import dev.pocketagent.app.ui.theme.AppearanceStore
 import dev.pocketagent.app.ui.theme.Pocket
 import dev.pocketagent.app.ui.theme.PocketTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.Locale
 
 /**
@@ -197,6 +216,10 @@ private fun routeTransition(from: Route, to: Route, anim: AnimLevel): ContentTra
 @Composable
 private fun AppShell() {
     val nav = rememberSaveable(saver = Navigator.Saver) { Navigator() }
+    val ctx = LocalContext.current
+    val app = remember { PocketApp.from(ctx) }
+    val share by app.incomingShare.collectAsState()
+    val scope = rememberCoroutineScope()
     val c = Pocket.colors
     val anim = Pocket.anim
     val route = nav.current
@@ -220,7 +243,8 @@ private fun AppShell() {
                     transitionSpec = { routeTransition(initialState, targetState, anim) },
                     label = "route",
                 ) { r ->
-                    Box(Modifier.fillMaxSize().background(c.bg).statusBarsPadding()) { RouteContent(r) }
+                    // PocketTopBar handles status-bar inset once with bgDeep; HomeScreen bleeds its night sky full-bleed.
+                    Box(Modifier.fillMaxSize().background(c.bg)) { RouteContent(r) }
                 }
             }
             AnimatedVisibility(
@@ -229,6 +253,96 @@ private fun AppShell() {
                 exit = if (anim == AnimLevel.OFF) ExitTransition.None else slideOutVertically(tween(140)) { it } + fadeOut(tween(140)),
             ) {
                 PocketBottomBar(route, nav)
+            }
+        }
+
+        share?.let { payload ->
+            IncomingShareDialog(
+                share = payload,
+                onDismiss = { app.incomingShare.value = null },
+                onPickConv = { convId ->
+                    app.incomingShare.value = null
+                    scope.launch {
+                        if (!payload.text.isNullOrBlank()) {
+                            val cur = ChatDrafts[convId]
+                            ChatDrafts[convId] = if (cur.isBlank()) payload.text else "$cur\n${payload.text}"
+                        }
+                        if (payload.uri != null) {
+                            try {
+                                val att = withContext(Dispatchers.IO) {
+                                    if (payload.mime?.startsWith("image/", ignoreCase = true) == true) {
+                                        app.attachments.importImage(payload.uri)
+                                    } else {
+                                        app.attachments.importDocument(payload.uri)
+                                    }
+                                }
+                                ChatPendingAttachments.add(convId, att)
+                            } catch (e: Exception) {
+                                Toast.makeText(ctx, ctx.getString(R.string.ui_attach_failed, e.message ?: "share"), Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                        nav.go(Route.Chat(convId))
+                    }
+                },
+            )
+        }
+    }
+}
+
+@Composable
+private fun IncomingShareDialog(
+    share: IncomingShare,
+    onDismiss: () -> Unit,
+    onPickConv: (String) -> Unit,
+) {
+    val ctx = LocalContext.current
+    val app = remember { PocketApp.from(ctx) }
+    val convs by app.chat.conversations.collectAsState()
+    val bots by app.chat.bots.collectAsState()
+    val botsById = remember(bots) { bots.associateBy { it.id } }
+    val untitled = stringResource(R.string.ui_chats_untitled)
+    val c = Pocket.colors
+    PocketDialog(
+        title = stringResource(R.string.ui_share_target_title),
+        onDismiss = onDismiss,
+        dismiss = { PixelButton(stringResource(R.string.ui_dlg_cancel), onClick = onDismiss, kind = ButtonKind.GHOST) },
+    ) {
+        if (!share.text.isNullOrBlank()) {
+            Text(
+                share.text.take(160),
+                color = c.textMuted, fontSize = 12.5.sp, maxLines = 2, overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(bottom = 8.dp),
+            )
+        }
+        PixelButton(
+            stringResource(R.string.ui_share_new_chat),
+            onClick = {
+                val fresh = app.chat.createConversation(listOf(BotPresets.HERMES_ID))
+                onPickConv(fresh.id)
+            },
+            modifier = Modifier.fillMaxWidth(),
+            icon = PixelIcon.PLUS,
+        )
+        if (convs.isNotEmpty()) {
+            Spacer(Modifier.height(8.dp))
+            Column(Modifier.heightIn(max = 260.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                convs.take(8).forEach { cv ->
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .clickable(role = Role.Button) { onPickConv(cv.id) }
+                            .padding(vertical = 8.dp, horizontal = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        AvatarStack(cv.botIds.map { botsById[it] }, 32.dp)
+                        Spacer(Modifier.width(10.dp))
+                        Text(
+                            titleOf(cv, botsById, untitled),
+                            color = c.text, fontSize = 14.sp, fontWeight = FontWeight.Medium,
+                            maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f),
+                        )
+                    }
+                }
             }
         }
     }

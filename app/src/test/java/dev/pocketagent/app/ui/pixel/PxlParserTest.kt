@@ -100,7 +100,13 @@ class PxlParserTest {
         for (m in MascotMood.entries) need(m.spriteName())
         for (a in AvatarId.entries) need(a.spriteName())
         listOf("fire_cold", "fire_out", "fire_low", "fire_mid", "fire_high", "scene_far", "scene_near", "scene_ground",
-            "scene_fore", "scene_moon", "icon_fg", "icon_bg", "icon_mono", "notif_flame").forEach { need(it) }
+            "scene_fore", "scene_moon", "icon_fg", "icon_bg", "icon_mono", "notif_flame",
+            "icon_pet_fg", "icon_pet_bg", "icon_pet_mono",
+            "icon_flame_fg", "icon_flame_bg", "icon_flame_mono",
+            "icon_zagros_fg", "icon_zagros_bg", "icon_zagros_mono",
+            "icon_kawa_fg", "icon_kawa_bg", "icon_kawa_mono",
+            "icon_roj_fg", "icon_roj_bg", "icon_roj_mono").forEach { need(it) }
+        for (ic in dev.pocketagent.app.ui.components.PixelIcon.entries) need(ic.spriteName)
     }
 
     @Test fun avatarIdOfIsSafe() {

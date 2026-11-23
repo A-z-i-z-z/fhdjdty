@@ -405,7 +405,7 @@ function Invoke-TestCopy {
     New-Item -ItemType Directory -Force $copy | Out-Null
     # Mirror the sources; build output and Gradle state in the copy are kept between runs (excluded dirs are not purged), so reruns are fast.
     $rc = Invoke-Native 'robocopy.exe' @($Repo_Root, $copy, '/MIR', '/XD', '.git', '.gradle', 'build', 'dist', '.idea', '.kotlin', '/NFL', '/NDL', '/NJH', '/NJS', '/NP', '/R:1', '/W:1') $Repo_Root '' '' 600000
-    if ($rc.ExitCode -ge 8) { Stop-Script ('robocopy failed (exit ' + $rc.ExitCode + '): ' + $rc.Text.Trim()) }
+    if ($rc.TimedOut -or $rc.ExitCode -lt 0 -or $rc.ExitCode -ge 8) { Stop-Script ('robocopy failed (exit ' + $rc.ExitCode + '): ' + $rc.Text.Trim()) }
     $log = Join-Path $Dist 'local-test.log'
     New-Item -ItemType Directory -Force $Dist | Out-Null
     # The copy keeps its build directory between runs: delete the old results first, so a compile error can never show
@@ -428,10 +428,12 @@ function Invoke-TestCopy {
         foreach ($c in @($suite.testcase)) {
             if ($c.PSObject.Properties['failure'] -and $c.failure) {
                 $failed++
-                $why = ([string]$c.failure.message)
-                if ($why.Length -gt 110) { $why = $why.Substring(0, 110) + '...' }
-                # Symlink creation without the privilege: java.nio.file.FileSystemException in the two suites that make symlinks.
-                $known = ([string]$c.failure.type -eq 'java.nio.file.FileSystemException') -and (@('dev.pocketagent.app.TarExtractorTest', 'dev.pocketagent.app.FileAndUserStateTest') -contains [string]$suite.name)
+                $rawWhy = [string]$c.failure.message
+                $why = if ($rawWhy.Length -gt 110) { $rawWhy.Substring(0, 110) + '...' } else { $rawWhy }
+                # Symlink creation without the privilege: java.nio.file.FileSystemException in the two suites that make symlinks (English or Turkish Windows).
+                $known = ([string]$c.failure.type -eq 'java.nio.file.FileSystemException') -and
+                    (@('dev.pocketagent.app.TarExtractorTest', 'dev.pocketagent.app.FileAndUserStateTest') -contains [string]$suite.name) -and
+                    ($rawWhy -imatch 'required privilege|symlink|A required privilege is not held|Gereken ayr')
                 if ($known) { $windowsOnly++; $label = 'expected on Windows (symlink privilege)' } else { $unexpected++; $label = 'UNEXPECTED' }
                 Write-Host ('   FAILED [' + $label + '] ' + $suite.name + ' > ' + $c.name + ' : ' + $why)
             }

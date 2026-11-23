@@ -66,15 +66,21 @@ fun MarkdownText(
     modifier: Modifier = Modifier,
     color: Color = Pocket.colors.onBotBubble,
     fontSize: TextUnit = 15.sp,
+    onRunCode: ((lang: String, code: String) -> Unit)? = null,
 ) {
     val blocks = remember(text) { parseMarkdown(text) }
     Column(modifier, verticalArrangement = Arrangement.spacedBy(6.dp)) {
-        blocks.forEachIndexed { index, block -> key(index) { MdBlockView(block, color, fontSize) } }
+        blocks.forEachIndexed { index, block -> key(index) { MdBlockView(block, color, fontSize, onRunCode) } }
     }
 }
 
 @Composable
-private fun MdBlockView(block: MdBlock, color: Color, fontSize: TextUnit) {
+private fun MdBlockView(
+    block: MdBlock,
+    color: Color,
+    fontSize: TextUnit,
+    onRunCode: ((lang: String, code: String) -> Unit)?,
+) {
     val c = Pocket.colors
     when (block) {
         is MdBlock.Paragraph -> Text(rememberAnnotated(block.spans), color = color, fontSize = fontSize, lineHeight = fontSize * 1.45f)
@@ -92,12 +98,12 @@ private fun MdBlockView(block: MdBlock, color: Color, fontSize: TextUnit) {
             )
             Text(rememberAnnotated(block.spans), color = color, fontSize = fontSize, lineHeight = fontSize * 1.4f, modifier = Modifier.weight(1f))
         }
-        is MdBlock.Code -> CodeBlock(block)
+        is MdBlock.Code -> CodeBlock(block, onRunCode)
         is MdBlock.Quote -> Row(Modifier.height(IntrinsicSize.Min)) {
             Box(Modifier.width(3.dp).fillMaxHeight().background(c.accent))
             Spacer(Modifier.width(8.dp))
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                block.blocks.forEachIndexed { i, b -> key(i) { MdBlockView(b, color.copy(alpha = 0.85f), fontSize) } }
+                block.blocks.forEachIndexed { i, b -> key(i) { MdBlockView(b, color.copy(alpha = 0.85f), fontSize, onRunCode) } }
             }
         }
         is MdBlock.Table -> TableView(block, color, fontSize)
@@ -141,24 +147,43 @@ private fun buildSpans(spans: List<MdSpan>, codeBg: Color, linkColor: Color, uri
     }
 
 @Composable
-private fun CodeBlock(block: MdBlock.Code) {
+private fun CodeBlock(block: MdBlock.Code, onRunCode: ((lang: String, code: String) -> Unit)?) {
     val c = Pocket.colors
     val ctx = LocalContext.current
     var copied by remember { mutableStateOf(false) }
     LaunchedEffect(copied) { if (copied) { delay(1500); copied = false } }
-    Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(6.dp)).background(c.codeBg)) {
+    val highlighted = remember(block.code, block.lang, c.isDark, c.textMuted) {
+        SyntaxHighlight.highlight(block.code, block.lang, c)
+    }
+    val runnable = onRunCode != null && SyntaxHighlight.isRunnable(block.lang, block.code)
+    Column(Modifier.fillMaxWidth().clip(RoundedCornerShape(6.dp)).background(c.codeBg).border(1.dp, c.outline.copy(alpha = 0.45f), RoundedCornerShape(6.dp))) {
         Row(
-            Modifier.fillMaxWidth().padding(start = 10.dp),
+            Modifier.fillMaxWidth().background(c.bgDeep.copy(alpha = 0.65f)).padding(start = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                block.lang, color = c.textMuted, fontSize = 11.sp, fontFamily = FontFamily.Monospace,
+                block.lang.ifBlank { "code" }, color = c.textMuted, fontSize = 11.sp, fontFamily = FontFamily.Monospace,
                 modifier = Modifier.weight(1f), maxLines = 1,
             )
+            if (runnable && onRunCode != null) {
+                val runLabel = stringResource(R.string.ui_chat_code_run)
+                Row(
+                    Modifier
+                        .clickable(onClickLabel = runLabel, role = Role.Button) { onRunCode(block.lang, block.code) }
+                        .padding(horizontal = 8.dp, vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
+                ) {
+                    PixelIconView(PixelIcon.TERMINAL, tint = c.accent, size = 14.dp)
+                    Text(runLabel, color = c.accent, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
+                }
+            }
             val label = stringResource(R.string.ui_chat_code_copy)
             Box(
-                Modifier.size(40.dp).clickable(onClickLabel = label, role = Role.Button) {
-                    copyToClipboard(ctx, block.code); copied = true
+                Modifier.size(38.dp).clickable(onClickLabel = label, role = Role.Button) {
+                    copyToClipboard(ctx, block.code)
+                    dev.pocketagent.app.PocketApp.from(ctx).sounds.play(dev.pocketagent.app.voice.SoundCue.TAP)
+                    copied = true
                 },
                 contentAlignment = Alignment.Center,
             ) {
@@ -167,8 +192,8 @@ private fun CodeBlock(block: MdBlock.Code) {
         }
         Box(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState())) {
             Text(
-                block.code, color = c.text, fontSize = 12.5.sp, fontFamily = FontFamily.Monospace, lineHeight = 18.sp,
-                softWrap = false, modifier = Modifier.padding(start = 10.dp, end = 10.dp, bottom = 10.dp),
+                highlighted, color = c.text, fontSize = 12.5.sp, fontFamily = FontFamily.Monospace, lineHeight = 18.sp,
+                softWrap = false, modifier = Modifier.padding(start = 10.dp, end = 10.dp, top = 8.dp, bottom = 10.dp),
             )
         }
     }

@@ -214,8 +214,8 @@ class RuntimeManager(
             try {
                 mutex.withLock {
                     stopInternal("reset")
-                    paths.rootfsStamp.delete()
                     try {
+                        FileUtil.deleteOrThrow(paths.rootfsStamp)
                         parkUserState()
                         FileUtil.deleteOrThrow(paths.rootfsStaging); FileUtil.deleteOrThrow(paths.rootfs)
                         setState(RuntimeState.NotInstalled)
@@ -279,7 +279,7 @@ class RuntimeManager(
         if (stampRead.error != null) {
             AppLog.e("Runtime", "start refused: rootfs stamp exists but cannot be read; rootfs left untouched", stampRead.error)
             setState(RuntimeState.Error("Cannot read ${paths.rootfsStamp.name}: ${stampRead.error.javaClass.simpleName}: ${stampRead.error.message}. " +
-                "The runtime was NOT reinstalled, so nothing was deleted. Fix the file's permissions, or use Reset to reinstall from scratch."))
+                "The runtime was NOT reinstalled, so nothing was deleted. Fix the file's permissions, or use Delete runtime files to reinstall from scratch."))
             return false
         }
         if (isRootfsValid()) {

@@ -20,7 +20,8 @@ object Transcript {
     const val STYLE_RULE =
         "Reply only as yourself, in the language of the user's latest message unless the user asks for another language " +
             "(or your role, such as translating, requires one). Do not begin with a heading, title or label containing your own name, " +
-            "do not introduce yourself unless asked, and do not restate or comment on these instructions."
+            "do not introduce yourself unless asked, and do not restate or comment on these instructions.\n\n" +
+            BotForge.CAPABILITY_RULE
 
     /** The group framing line, exactly as specified in the build contract. */
     fun groupFraming(name: String, others: List<String>): String {
@@ -45,6 +46,8 @@ object Transcript {
             parts += groupFraming(bot.name, others)
         }
         if (bot.systemPrompt.isNotBlank()) parts += bot.systemPrompt.trim()
+        val modePrompt = SlashCommands.modeDirective(conv.mode)
+        if (modePrompt.isNotBlank()) parts += modePrompt
         parts += STYLE_RULE
         parts += "[chat reference ${conv.id}/${bot.id}]"
         return parts.joinToString("\n\n")
@@ -53,26 +56,50 @@ object Transcript {
     /**
      * Full request messages for [bot]: the system message, then every USER/BOT message of the conversation as the bot
      * should see it. Own earlier turns are assistant messages; the user's and the other bots' turns are user messages
-     * (other bots prefixed "[Name]: "). TOOL, NOTE and ERROR messages and empty texts are skipped. Consecutive messages of
-     * the same role are merged with a blank line (some providers reject two user turns in a row), and trailing assistant
-     * turns are dropped because Hermes takes the LAST message as the new user message.
+     * (other bots prefixed "[Name]: "). TOOL, NOTE and ERROR messages and empty texts without attachments are skipped.
+     * Consecutive messages of the same role are merged with a blank line (some providers reject two user turns in a row),
+     * and trailing assistant turns are dropped because Hermes takes the LAST message as the new user message.
      */
-    fun build(conv: Conversation, bot: Bot, allBots: List<Bot>, messages: List<Message>): List<ChatMessage> {
+    fun build(
+        conv: Conversation,
+        bot: Bot,
+        allBots: List<Bot>,
+        messages: List<Message>,
+        imageDataUrl: (Attachment) -> String? = { null },
+    ): List<ChatMessage> {
         val byId = allBots.associateBy { it.id }
         val participants = conv.botIds.mapNotNull { byId[it] }.let { if (bot in it) it else it + bot }
+        val windowed = window(messages)
+        val recentImageMsgIds = windowed
+            .filter { it.role == Role.USER && it.attachments.any { a -> a.kind == AttachmentKind.IMAGE } }
+            .takeLast(3)
+            .map { it.id }
+            .toSet()
+
         val turns = ArrayList<ChatMessage>()
-        fun add(role: String, content: String) {
+        fun add(role: String, content: String, imgs: List<String> = emptyList()) {
             val last = turns.lastOrNull()
-            if (last != null && last.role == role) turns[turns.size - 1] = ChatMessage(role, last.content + "\n\n" + content)
-            else turns += ChatMessage(role, content)
+            if (last != null && last.role == role) {
+                val mergedText = when {
+                    last.content.isBlank() -> content
+                    content.isBlank() -> last.content
+                    else -> last.content + "\n\n" + content
+                }
+                turns[turns.size - 1] = ChatMessage(role, mergedText, last.imageDataUrls + imgs)
+            } else {
+                turns += ChatMessage(role, content, imgs)
+            }
         }
-        for (m in window(messages)) {
-            if (m.text.isBlank()) continue
+        for (m in windowed) {
+            if (m.text.isBlank() && m.attachments.isEmpty()) continue
             when (m.role) {
-                Role.USER -> add("user", m.text)
+                Role.USER -> {
+                    val (formatted, imgs) = formatUserMessage(m, m.id in recentImageMsgIds, imageDataUrl)
+                    if (formatted.isNotBlank() || imgs.isNotEmpty()) add("user", formatted, imgs)
+                }
                 Role.BOT -> when {
-                    m.botId == bot.id -> add("assistant", m.text)
-                    else -> {
+                    m.botId == bot.id -> if (m.text.isNotBlank()) add("assistant", m.text)
+                    else -> if (m.text.isNotBlank()) {
                         val name = m.botId?.let { byId[it]?.name } ?: "Former participant"
                         add("user", "[$name]: ${m.text}")
                     }
@@ -82,6 +109,52 @@ object Transcript {
         }
         while (turns.isNotEmpty() && turns.last().role == "assistant") turns.removeAt(turns.size - 1)
         return listOf(ChatMessage("system", systemPrompt(conv, bot, participants))) + turns
+    }
+
+    private fun formatUserMessage(
+        m: Message,
+        includeImagePixels: Boolean,
+        imageDataUrl: (Attachment) -> String?,
+    ): Pair<String, List<String>> {
+        if (m.attachments.isEmpty()) return m.text to emptyList()
+        val sb = StringBuilder(m.text.trim())
+        val imgs = ArrayList<String>()
+        for (a in m.attachments) {
+            when (a.kind) {
+                AttachmentKind.IMAGE -> {
+                    val url = if (includeImagePixels) imageDataUrl(a) else null
+                    if (url != null) {
+                        imgs += url
+                        if (a.guestPath.isNotBlank()) sb.append("\n[Attached image: ${a.name}, path: ${a.guestPath}]")
+                    } else {
+                        sb.append("\n[Attached image: ${a.name}${if (a.guestPath.isNotBlank()) ", path: ${a.guestPath}" else ""}]")
+                    }
+                }
+                AttachmentKind.DOCUMENT -> {
+                    val size = formatSize(a.sizeBytes)
+                    val pathNote = if (a.guestPath.isNotBlank()) ", Linux path: ${a.guestPath}" else ""
+                    sb.append("\n[Attached document: ${a.name} ($size$pathNote)]")
+                    if (a.textExcerpt.isNotBlank()) {
+                        sb.append("\n--- Begin ${a.name} ---\n${a.textExcerpt}\n--- End ${a.name} ---")
+                    }
+                }
+            }
+        }
+        return sb.toString().trim() to imgs
+    }
+
+    private fun formatSize(bytes: Long): String = when {
+        bytes >= 1024 * 1024 -> "${bytes / (1024 * 1024)} MiB"
+        bytes >= 1024 -> "${bytes / 1024} KiB"
+        else -> "$bytes B"
+    }
+
+    /** Human summary of a message's text or attachment list (for titles and conversation previews). */
+    fun messageSummary(text: String, attachments: List<Attachment>): String {
+        val clean = text.trim()
+        if (clean.isNotEmpty()) return clean
+        val first = attachments.firstOrNull() ?: return ""
+        return if (attachments.size == 1) first.name else "${first.name} (+${attachments.size - 1})"
     }
 
     /** Bounds absurdly long histories (keeps the newest part); normal chats are never cut. */

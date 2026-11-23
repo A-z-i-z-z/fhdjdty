@@ -25,7 +25,7 @@ sealed class ChatOutcome {
 }
 
 /** One message of a chat request. [role] is system, user or assistant. */
-data class ChatMessage(val role: String, val content: String)
+data class ChatMessage(val role: String, val content: String, val imageDataUrls: List<String> = emptyList())
 
 /**
  * A streaming chat request. Hermes v0.23.3 (api_server_openai_routes.py): `system` messages become an ephemeral system
@@ -51,7 +51,25 @@ data class ChatRequest(
         if (!provider.isNullOrBlank() && m.isNotEmpty() && m != VIRTUAL_MODEL) o.put("provider", provider.trim())
         o.put("stream", true)
         if (!reasoningEffort.isNullOrBlank()) o.put("model_options", JSONObject().put("reasoning_effort", reasoningEffort.trim()))
-        o.put("messages", JSONArray().also { a -> messages.forEach { a.put(JSONObject().put("role", it.role).put("content", it.content)) } })
+        o.put(
+            "messages",
+            JSONArray().also { a ->
+                messages.forEach { msg ->
+                    val obj = JSONObject().put("role", msg.role)
+                    if (msg.imageDataUrls.isEmpty()) {
+                        obj.put("content", msg.content)
+                    } else {
+                        val parts = JSONArray()
+                        parts.put(JSONObject().put("type", "text").put("text", msg.content.ifBlank { "Analyze the attached image(s)." }))
+                        for (url in msg.imageDataUrls) {
+                            parts.put(JSONObject().put("type", "image_url").put("image_url", JSONObject().put("url", url)))
+                        }
+                        obj.put("content", parts)
+                    }
+                    a.put(obj)
+                }
+            },
+        )
         return o
     }
 
@@ -155,7 +173,9 @@ class HermesApi(
         val t0 = System.nanoTime()
         val body = request.toJson().toString()
         val chars = request.messages.sumOf { it.content.length }
+        val imgs = request.messages.sumOf { it.imageDataUrls.size }
         val desc = "POST /v1/chat/completions (stream, ${request.messages.size} msgs, $chars chars" +
+            (if (imgs > 0) ", $imgs imgs" else "") +
             (request.model.ifBlank { null }?.let { ", model=$it" } ?: "") + (request.reasoningEffort?.let { ", effort=$it" } ?: "") +
             (request.sessionId?.let { ", session=$it" } ?: "") + ")"
         var conn: HttpURLConnection? = null

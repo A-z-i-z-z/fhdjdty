@@ -124,12 +124,12 @@
     <string name="ctl_skills_open">Open skill</string>
     <string name="ctl_skills_back">Skills</string>
     <string name="ctl_skill_explain">This is the SKILL.md file of the skill. Keep the header (the lines between ---) intact.</string>
-    <string name="ctl_config_explain">config.yaml is read-only here. PocketAgent writes it again from your Settings every time Hermes starts, so change the provider and model in Settings instead.</string>
+    <string name="ctl_config_explain">config.yaml is read-only here. Agirî writes it again from your Settings every time Hermes starts, so change the provider and model in Settings instead.</string>
     <string name="ctl_config_open_provider">Open provider settings</string>
     <string name="ctl_log_app">App</string>
     <string name="ctl_log_runtime">Runtime</string>
     <string name="ctl_log_api">API</string>
-    <string name="ctl_log_app_help">What the PocketAgent app did (secrets are hidden).</string>
+    <string name="ctl_log_app_help">What the Agirî app did (secrets are hidden).</string>
     <string name="ctl_log_runtime_help">What Hermes and the Linux layer printed.</string>
     <string name="ctl_log_api_help">The requests the app made to Hermes (secrets are hidden).</string>
     <string name="ctl_log_empty">Nothing logged yet.</string>
@@ -201,9 +201,70 @@
     <string name="ctl_diag_explain">Creates a report of the app and the runtime to send when something goes wrong. Secrets are removed automatically. If a self-test is running, wait for it to finish first.</string>
     <string name="ctl_about_what">A pocket-sized home for AI agents: everything runs on your phone, only the language model is remote.</string>
     <string name="ctl_about_hermes_title">HERMES AGENT</string>
-    <string name="ctl_about_hermes">PocketAgent runs Hermes Agent v0.23.3 by Nous Research (MIT licence). The agent\'s skills and memory are their work.</string>
+    <string name="ctl_about_hermes">Agirî runs Hermes Agent v0.23.3 by Nous Research (MIT licence). The agent\'s skills and memory are their work.</string>
     <string name="ctl_about_pet_title">PÊT, THE NEWT</string>
     <string name="ctl_about_pet">Pêt is a little Kurdistan newt, a salamander: the spirit that lives in fire. Its name means \"spark\" in Kurmanji. It keeps the Newroz fire burning while you work.</string>
     <string name="ctl_about_licences_title">LICENCES</string>
-    <string name="ctl_about_licences">Includes open-source software, each under its own licence: Hermes Agent (MIT), PRoot (GPL-2.0), Debian GNU/Linux, Python and other packages. Full texts are in the project repository.</string>
+    <string name="ctl_about_licences">Includes open-source software and assets, each under its own licence: Hermes Agent (MIT), PRoot (GPL-2.0), Debian GNU/Linux, Python, sherpa-onnx (Apache-2.0), Supertonic 3 (MIT / OpenRAIL-M, optional on-device download), and uisfx sound cues (CC0-1.0). Full texts are in the project repository.</string>
+    <string name="ctl_about_secret_title">HEARTHKEEPER STATS</string>
+    <string name="ctl_about_secret_body">Bots: %1$d • Chats: %2$d • Uptime: %3$s\n\"Still guarding the embers.\" — Pêt</string>
+
+    <!-- customizable app icons -->
+    <string name="ctl_ap_icon">App icon</string>
+    <string name="ctl_ap_icon_sub">Pick your home-screen icon style. Your launcher refreshes it within a second.</string>
+    <string name="ctl_icon_switched">App icon updated.</string>
+    <string name="ctl_icon_newroz">Newroz</string>
+    <string name="ctl_icon_pet">Pêt</string>
+    <string name="ctl_icon_flame">Agirî</string>
+    <string name="ctl_icon_zagros">Zagros</string>
+    <string name="ctl_icon_kawa">Kawa</string>
+    <string name="ctl_icon_roj">Roj</string>
+
+    <!-- voice & sound -->
+    <string name="ctl_set_voice">Voice &amp; Sound</string>
+    <string name="ctl_voice_neural_title">On-device neural voice</string>
+    <string name="ctl_voice_neural_sub">31 languages (EN / FR / TR) · 10 female &amp; male voices · Offline CPU</string>
+    <string name="ctl_voice_not_installed">Not downloaded yet (~%1$d MB). System TTS is used until installed.</string>
+    <string name="ctl_voice_download">Download Supertonic 3 (%1$d MB)</string>
+    <string name="ctl_voice_downloading">Downloading %1$d/%2$d · %3$d / %4$d MB…</string>
+    <string name="ctl_voice_installed">Installed (%1$d MB) · Ready offline</string>
+    <string name="ctl_voice_test">Test voice</string>
+    <string name="ctl_voice_synth">Synthesising…</string>
+    <string name="ctl_voice_engine">Speech engine</string>
+    <string name="ctl_voice_engine_auto">Auto (Supertonic 3)</string>
+    <string name="ctl_voice_engine_system">System TTS</string>
+    <string name="ctl_voice_speaker">Default voice</string>
+    <string name="ctl_voice_speed">Speech speed</string>
+    <string name="ctl_voice_quality">Synthesis quality</string>
+    <string name="ctl_voice_q_fast">Fast (3)</string>
+    <string name="ctl_voice_q_balanced">Balanced (5)</string>
+    <string name="ctl_voice_q_high">Studio (8)</string>
+    <string name="ctl_voice_autospeak">Auto-speak replies</string>
+    <string name="ctl_voice_autospeak_sub">Read each completed bot reply aloud automatically.</string>
+    <string name="ctl_voice_delete_title">Delete neural voice?</string>
+    <string name="ctl_voice_delete_body">Frees ~139 MB. You can re-download Supertonic 3 anytime; System TTS remains available.</string>
+
+    <string name="ctl_sfx_title">Sound effects</string>
+    <string name="ctl_sfx_sub">Warm, subtle audio cues when a bot finishes responding, runs tools or forges a persona.</string>
+    <string name="ctl_sfx_hearth">Hearth</string>
+    <string name="ctl_sfx_studio">Studio</string>
+    <string name="ctl_sfx_off">Silent</string>
+    <string name="ctl_sfx_volume">Sound volume</string>
+    <string name="ctl_sfx_preview_done">Done chime</string>
+    <string name="ctl_sfx_preview_forge">Forge chord</string>
+    <string name="ctl_sfx_preview_spark">Hearth spark</string>
+
+    <!-- per-bot voice & mood -->
+    <string name="ctl_bot_section_voice">VOICE &amp; DELIVERY</string>
+    <string name="ctl_bot_voice_help">Give this bot its own voice character and mood (happy, serious, excited, calm, storyteller).</string>
+    <string name="ctl_bot_voice_female">FEMALE VOICES</string>
+    <string name="ctl_bot_voice_male">MALE VOICES</string>
+    <string name="ctl_bot_voice_mood">Delivery mood</string>
+    <string name="ctl_bot_mood_default">Natural</string>
+    <string name="ctl_bot_mood_happy">Happy</string>
+    <string name="ctl_bot_mood_excited">Excited</string>
+    <string name="ctl_bot_mood_serious">Serious</string>
+    <string name="ctl_bot_mood_calm">Calm</string>
+    <string name="ctl_bot_mood_storyteller">Storyteller</string>
+    <string name="ctl_bot_voice_test">Preview bot voice</string>
 </resources>

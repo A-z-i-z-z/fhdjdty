@@ -1,21 +1,42 @@
-# PocketAgent (Phase 0)
+# Agirî
 
 A sideloaded native Android app (`dev.pocketagent.app`) that runs [Hermes Agent](https://github.com/NousResearch/hermes-agent)
 (Python) entirely on the phone, inside **proot** with a **Debian trixie arm64 rootfs**. Only the LLM is remote
-(Google Gemini). The app starts Hermes's OpenAI-compatible API server on `127.0.0.1:8642` and chats with it.
+(Google Gemini via AI Studio or Vertex AI). Named after Mount Agirî and guided by **Pêt**, a pixel-art Kurdistan
+newt keeping the Newroz hearth burning.
 
-Phase 0 has one job: answer on a real device whether **unmodified Hermes runs under proot inside the app**. The UI is
-deliberately plain Material 3; the *Copy diagnostics* button is the main feature.
+## Highlights
+
+- **Full Hermes Agent on-device:** runs unmodified `hermes gateway` v0.23.3 on loopback (`127.0.0.1`, random port,
+  per-install Bearer key), with built-in terminal (`bash -c`), `SOUL.md`, `MEMORY.md` / `USER.md`, skills, config,
+  and raw log inspector.
+- **Custom Bots, Group Chats & Bot Forge:** starter personas (Hermes, Rebel, Coder, Dengbêj) plus templates,
+  multi-bot group chats with participant bar & `@mention` routing, conversation forking, and autonomous Bot Forge
+  (`/forge` or ```` ```pocket-bot ``` ````).
+- **Multimodal & Power Chat:** gallery/camera image vision (`TakePicture` without `CAMERA` permission), document
+  excerpts mirrored into `/root/.hermes/attachments/`, syntax-highlighted code blocks with one-tap **Run in Terminal**,
+  visual searchable **Skill Picker**, in-chat **Chat Controls** (Mode + per-chat Model & Thinking Effort overrides),
+  slash command palette (`/plan`, `/goal`, `/ultracode`, `/loop`, `/forge`, `/skills`, `/remember`, `/theme`, …),
+  ChatList filter chips, and Android `ACTION_SEND` share target.
+- **On-device Neural Voice (Supertonic 3 INT8) & Curated CC0 Sounds:** optional offline 99M neural TTS via
+  `sherpa-onnx` (31 languages including TR/EN/FR, 10 female/male voices F1–F5 & M1–M5, automatic Android TTS
+  fallback), **per-bot voice & delivery mood** (Natural, Happy, Excited, Serious, Calm, Storyteller + speed),
+  voice dictation (STT), and subtle CC0 sound effects (`Hearth`, `Studio`, `Silent`).
+- **Pixel-art Identity & Personalisation:** 6 themes (`Newroz`, `Zagros`, `Semender`, `Nergiz`, `Kawa`, `Roj`),
+  8 accent colours, English / Turkish / French UI, and **6 switchable adaptive launcher icons**.
 
 ## Repository layout
 
 | Path | What |
 |---|---|
-| `app/` | Kotlin + Jetpack Compose app (single activity, foreground service, runtime manager, diagnostics) |
-| `runtime/pocketagent-proot.sh` | **The** proot launcher. Shipped as an app asset *and* used by the CI smoke test |
-| `rootfs/build-rootfs.sh`, `rootfs/install-hermes.sh` | Builds the Debian rootfs with Hermes preinstalled (arch-parametric: arm64, amd64) |
+| `app/` | Kotlin + Jetpack Compose app (`runtime/`, `service/`, `api/`, `data/`, `hermes/`, `voice/`, `diag/`, `ui/`) |
+| `app/src/main/assets/pixel/*.pxl` | Pixel-art sprites (mascot, hearth fire, mountain panorama, 16 bot avatars, icons, 6 app icons) |
+| `app/src/main/res/raw/sfx_*.ogg` | Curated CC0 UI sound cues (`romainsimon/uisfx`) |
+| `runtime/pocketagent-proot.sh` | **The** proot launcher. Shipped as an app asset *and* used by the CI smoke test (POSIX sh / mksh) |
+| `rootfs/build-rootfs.sh`, `rootfs/install-hermes.sh` | Builds the Debian trixie rootfs with Hermes preinstalled (arm64, amd64) |
 | `rootfs/smoke/` | Smoke test (boots Hermes under proot, checks the API), mock LLM, golden provider config fixtures |
-| `proot/build-proot.sh` | Builds proot from source with the NDK (static, relocatable) |
+| `proot/build-proot.sh` | Builds static proot + loader from source with the NDK |
+| `tools/` | Windows local build/test runner (`local-build.ps1`), pixel previewer, vector icon generator |
 | `.github/workflows/build.yml` | CI: unit tests, proot, rootfs, smoke test, APK, prerelease |
 
 ## How it works
@@ -46,9 +67,9 @@ sudo rootfs/build-rootfs.sh --arch arm64 --out out/rootfs     # on an arm64 Linu
 ./gradlew :app:assembleDebug -ProotfsArchive=$PWD/out/rootfs/rootfs-arm64.tar.xz -PprootDir=$PWD/out/proot
 ```
 
-Without those two properties a stub APK is built (it starts, but shows "stub build"); handy for UI work.
-`./gradlew :app:testDebugUnitTest` runs the unit tests (SSE parsing, redaction, tar extraction, credential parsing,
-provider config golden files).
+Without those two properties a stub APK is built (starts UI without rootfs); handy for pure UI work.
+On Windows, `tools/local-build.ps1 -Test` runs unit tests and `tools/local-build.ps1 -Start` builds and installs fast
+against cached runtime parts in `dist/runtime-parts/`.
 
 ## Signing key (sideload test builds only)
 
@@ -58,43 +79,30 @@ on a phone. It must never be used for anything else, and no other credential of 
 
 ## On the phone
 
-1. Download the APK from the latest `phase0-*` prerelease on the GitHub Releases page and open it (allow installs from
+1. Download the APK from the latest prerelease on the GitHub Releases page and open it (allow installs from
    the browser or file manager when asked). About 1.5 GB of free storage are needed (the APK plus the extracted runtime of about 1 GB).
-2. Open PocketAgent. Press **Install and start**. First start extracts the rootfs (progress shown), then boots Hermes
-   (the first boot can take a minute or two; a slow phone shows "still starting" instead of an error). Hermes boots
-   even before credentials exist, so this can be done first.
-3. In **Setup** choose a credential mode, enter/import credentials, **Save and apply** (a running runtime restarts itself).
-   Chat stays disabled until the saved setup is complete.
-4. Chat once the state shows *Running (health OK)*.
-5. If a start fails (red error, or "still starting" for several minutes), the app runs a self-test by itself (about a
-   minute; the screen says so). **Wait until that message disappears**, then **Debug > Copy diagnostics** (or *Share as
-   file*) and paste it back. A dump taken while the self-test runs says so at the top and in the self-test section.
-   If the state shows signal 31 / SIGSYS, switch on *Disable proot seccomp filter* and restart.
+2. Open **Agirî** and press **Light the fire**. First start extracts the rootfs (progress shown), then boots Hermes.
+3. In **Settings > Provider & model**, choose a credential mode, enter/import credentials, and **Save and apply**.
+4. Optionally open **Settings > Voice & Sound** to download the offline Supertonic 3 INT8 voice model (~139 MB),
+   and **Settings > Appearance** to pick your theme, accent, and launcher icon style.
+5. If a start fails, open **Settings > Diagnostics > Copy diagnostics** (secrets are redacted automatically).
 
 ## Security notes
 
 * **Only install builds from this repository's Releases page.** The committed sideload keystore is public, so
   anybody can produce an APK that Android accepts as an update of this app. Treat any APK from elsewhere as hostile.
 * **proot is not a security boundary.** The agent's terminal tool runs as the app's own user, so it can read the
-  app's private files, including the stored API key / service-account JSON / the API-server key. Untrusted content
-  the agent reads (web pages, files, messages) can try to talk it into doing so (prompt injection). Do not point the
-  agent at material you do not trust, and use credentials that are limited in scope and budget.
-* The API server listens on `127.0.0.1` only, on a random port per launch. The app sends its Bearer key only after
-  the child process announced that exact port in its own output, and (where Android lets apps read
-  `/proc/net/tcp`) the listener's uid is ours. Loopback calls bypass any system proxy.
-* Pinning: the Hermes installer is fetched by commit SHA and the tag is verified against that commit; Python
-  dependencies are installed by Hermes's own `uv sync --locked` from its hash-carrying `uv.lock`; uv, Python and
-  ripgrep come from Hermes's hash-pinned `pm/lock.json`; proot by commit and talloc by SHA-256; GitHub Actions by commit
-  SHA; the Gradle distribution by SHA-256. Still unpinned: the Debian trixie packages (current mirror state at build
-  time) and Gradle/AGP/Maven dependency resolution (versions pinned, no dependency lockfile).
+  app's private files, including stored credentials and the API-server key. Do not point the agent at untrusted
+  material, and use credentials with limited scope and budget.
+* The API server listens on `127.0.0.1` only, on a random port per launch. Loopback calls bypass any system proxy.
 
 ## Updates and user data
 
-Your chat history, memories and skills live in Hermes's home inside the rootfs. When an APK update replaces the rootfs,
-the app first moves that user data aside, replaces the rootfs, and moves it back (credentials and settings live outside
-the rootfs and are never touched). Install artifacts (Hermes code, Python) always come from the new build. If an update
-is interrupted, the parked data is restored on the next start.
+Your chat history, bots, memories and skills live in app-private storage and Hermes's home inside the rootfs. When an
+APK update replaces the rootfs, the app parks Hermes user data aside, replaces the rootfs, and restores it
+automatically (credentials, settings, chats, and downloaded TTS models live outside the rootfs and are never touched).
 
 ## Known limitations
 
 * The Hermes `/v1/chat/completions` stream is not resumable: if the app is killed mid-answer, resend.
+* Interactive full-screen CLI programs (e.g. `vim`, `hermes chat`) are not supported in the built-in terminal.

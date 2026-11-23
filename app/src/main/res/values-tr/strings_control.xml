@@ -124,12 +124,12 @@
     <string name="ctl_skills_open">Beceriyi aç</string>
     <string name="ctl_skills_back">Beceriler</string>
     <string name="ctl_skill_explain">Bu, becerinin SKILL.md dosyasıdır. Üst bilgiyi (--- arasındaki satırlar) bozma.</string>
-    <string name="ctl_config_explain">config.yaml burada salt okunur. PocketAgent, Hermes her başladığında bu dosyayı Ayarların\'dan yeniden yazar; sağlayıcıyı ve modeli bunun yerine Ayarlar\'dan değiştir.</string>
+    <string name="ctl_config_explain">config.yaml burada salt okunur. Agirî, Hermes her başladığında bu dosyayı Ayarların\'dan yeniden yazar; sağlayıcıyı ve modeli bunun yerine Ayarlar\'dan değiştir.</string>
     <string name="ctl_config_open_provider">Sağlayıcı ayarlarını aç</string>
     <string name="ctl_log_app">Uygulama</string>
     <string name="ctl_log_runtime">Çalışma ortamı</string>
     <string name="ctl_log_api">API</string>
-    <string name="ctl_log_app_help">PocketAgent uygulamasının yaptıkları (gizli bilgiler gizlenir).</string>
+    <string name="ctl_log_app_help">Agirî uygulamasının yaptıkları (gizli bilgiler gizlenir).</string>
     <string name="ctl_log_runtime_help">Hermes\'in ve Linux katmanının yazdıkları.</string>
     <string name="ctl_log_api_help">Uygulamanın Hermes\'e yaptığı istekler (gizli bilgiler gizlenir).</string>
     <string name="ctl_log_empty">Henüz kayıt yok.</string>
@@ -201,9 +201,70 @@
     <string name="ctl_diag_explain">Bir şey ters gittiğinde göndermek için uygulamanın ve çalışma ortamının raporunu oluşturur. Gizli bilgiler otomatik olarak çıkarılır. Çalışan bir kendi kendine sınama varsa önce bitmesini bekle.</string>
     <string name="ctl_about_what">Yapay zekâ ajanları için cep boyutunda bir ev: her şey telefonunda çalışır, yalnızca dil modeli uzaktadır.</string>
     <string name="ctl_about_hermes_title">HERMES AGENT</string>
-    <string name="ctl_about_hermes">PocketAgent, Nous Research\'ün Hermes Agent v0.23.3 sürümünü çalıştırır (MIT lisansı). Ajanın becerileri ve belleği onların emeğidir.</string>
+    <string name="ctl_about_hermes">Agirî, Nous Research\'ün Hermes Agent v0.23.3 sürümünü çalıştırır (MIT lisansı). Ajanın becerileri ve belleği onların emeğidir.</string>
     <string name="ctl_about_pet_title">PÊT, SEMENDER</string>
     <string name="ctl_about_pet">Pêt, küçük bir Kürdistan semenderidir: ateşte yaşayan ruh. Adı Kurmancî\'de \"kıvılcım\" demek. Sen çalışırken Newroz ateşini yanık tutar.</string>
     <string name="ctl_about_licences_title">LİSANSLAR</string>
-    <string name="ctl_about_licences">Açık kaynaklı yazılımlar içerir, her biri kendi lisansı altında: Hermes Agent (MIT), PRoot (GPL-2.0), Debian GNU/Linux, Python ve diğer paketler. Tam metinler proje deposunda.</string>
+    <string name="ctl_about_licences">Açık kaynaklı yazılım ve varlıklar içerir, her biri kendi lisansı altında: Hermes Agent (MIT), PRoot (GPL-2.0), Debian GNU/Linux, Python, sherpa-onnx (Apache-2.0), Supertonic 3 (MIT / OpenRAIL-M, isteğe bağlı cihaz içi indirme) ve uisfx sesleri (CC0-1.0). Tam metinler proje deposunda.</string>
+    <string name="ctl_about_secret_title">OCAK BEKÇİSİ İSTATİSTİKLERİ</string>
+    <string name="ctl_about_secret_body">Botlar: %1$d • Sohbetler: %2$d • Çalışma süresi: %3$s\n\"Közleri hâlâ bekliyorum.\" — Pêt</string>
+
+    <!-- customizable app icons -->
+    <string name="ctl_ap_icon">Uygulama simgesi</string>
+    <string name="ctl_ap_icon_sub">Ana ekran simge stilini seç. Başlatıcı birkaç saniyede günceller.</string>
+    <string name="ctl_icon_switched">Uygulama simgesi güncellendi.</string>
+    <string name="ctl_icon_newroz">Newroz</string>
+    <string name="ctl_icon_pet">Pêt</string>
+    <string name="ctl_icon_flame">Agirî</string>
+    <string name="ctl_icon_zagros">Zagros</string>
+    <string name="ctl_icon_kawa">Kawa</string>
+    <string name="ctl_icon_roj">Roj</string>
+
+    <!-- voice & sound -->
+    <string name="ctl_set_voice">Ses ve Efektler</string>
+    <string name="ctl_voice_neural_title">Cihaz içi yapay zekâ sesi</string>
+    <string name="ctl_voice_neural_sub">31 dil (TR / EN / FR) · 10 kadın ve erkek sesi · Çevrimdışı CPU</string>
+    <string name="ctl_voice_not_installed">Henüz indirilmedi (~%1$d MB). İndirilene kadar sistem TTS kullanılır.</string>
+    <string name="ctl_voice_download">Supertonic 3 İndir (%1$d MB)</string>
+    <string name="ctl_voice_downloading">İndiriliyor %1$d/%2$d · %3$d / %4$d MB…</string>
+    <string name="ctl_voice_installed">Kurulu (%1$d MB) · Çevrimdışı hazır</string>
+    <string name="ctl_voice_test">Sesi dene</string>
+    <string name="ctl_voice_synth">Üretiliyor…</string>
+    <string name="ctl_voice_engine">Konuşma motoru</string>
+    <string name="ctl_voice_engine_auto">Otomatik (Supertonic 3)</string>
+    <string name="ctl_voice_engine_system">Sistem TTS</string>
+    <string name="ctl_voice_speaker">Varsayılan ses</string>
+    <string name="ctl_voice_speed">Konuşma hızı</string>
+    <string name="ctl_voice_quality">Sentez kalitesi</string>
+    <string name="ctl_voice_q_fast">Hızlı (3)</string>
+    <string name="ctl_voice_q_balanced">Dengeli (5)</string>
+    <string name="ctl_voice_q_high">Stüdyo (8)</string>
+    <string name="ctl_voice_autospeak">Yanıtları otomatik oku</string>
+    <string name="ctl_voice_autospeak_sub">Bot yanıtını bitirdiğinde otomatik olarak sesli okur.</string>
+    <string name="ctl_voice_delete_title">Yapay zekâ sesi silinsin mi?</string>
+    <string name="ctl_voice_delete_body">Yaklaşık 139 MB yer açar. Supertonic 3\'ü istediğin zaman yeniden indirebilirsin.</string>
+
+    <string name="ctl_sfx_title">Ses efektleri</string>
+    <string name="ctl_sfx_sub">Ajan işini bitirdiğinde, araç çalıştırdığında veya bot dövdüğünde sıcak ve yumuşak ses ipuçları.</string>
+    <string name="ctl_sfx_hearth">Ocak</string>
+    <string name="ctl_sfx_studio">Stüdyo</string>
+    <string name="ctl_sfx_off">Sessiz</string>
+    <string name="ctl_sfx_volume">Efekt ses düzeyi</string>
+    <string name="ctl_sfx_preview_done">Bitiş tınısı</string>
+    <string name="ctl_sfx_preview_forge">Ocak akoru</string>
+    <string name="ctl_sfx_preview_spark">Kıvılcım</string>
+
+    <!-- per-bot voice & mood -->
+    <string name="ctl_bot_section_voice">SES VE ÜSLUP</string>
+    <string name="ctl_bot_voice_help">Bu bota özel kadın/erkek sesi ve konuşma havası (mutlu, ciddi, heyecanlı, sakin, anlatıcı) seç.</string>
+    <string name="ctl_bot_voice_female">KADIN SESLERİ</string>
+    <string name="ctl_bot_voice_male">ERKEK SESLERİ</string>
+    <string name="ctl_bot_voice_mood">Konuşma havası</string>
+    <string name="ctl_bot_mood_default">Doğal</string>
+    <string name="ctl_bot_mood_happy">Mutlu</string>
+    <string name="ctl_bot_mood_excited">Heyecanlı</string>
+    <string name="ctl_bot_mood_serious">Ciddi</string>
+    <string name="ctl_bot_mood_calm">Sakin</string>
+    <string name="ctl_bot_mood_storyteller">Anlatıcı</string>
+    <string name="ctl_bot_voice_test">Bot sesini dinle</string>
 </resources>

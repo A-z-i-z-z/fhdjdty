@@ -10,6 +10,14 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        ivy {
+            url = uri("https://github.com")
+            patternLayout {
+                artifact("/[organisation]/[module]/releases/download/v[revision]/[artifact]-[revision].[ext]")
+            }
+            metadataSources { artifact() }
+            content { includeGroup("k2-fsa") }
+        }
     }
 }
 rootProject.name = "PocketAgent"

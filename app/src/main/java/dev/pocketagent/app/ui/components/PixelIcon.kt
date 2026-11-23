@@ -21,7 +21,8 @@ import dev.pocketagent.app.ui.theme.Pocket
 enum class PixelIcon {
     HEARTH, CHATS, BOTS, SCROLL, TERMINAL, GEAR, SEND, STOP, PLUS, BACK, MORE, COPY, EDIT, TRASH, PIN, GROUP,
     TOOL, MEMORY, SKILL, SOUL, SEARCH, REFRESH, PLAY, CHECK, CLOSE, PALETTE, GLOBE, BUG, DOWN, UP, SPARK,
-    SHARE, USER, KEY, INFO, MIC;
+    SHARE, USER, KEY, INFO, MIC, CLIP, CAMERA, IMAGE, FILE, BOLT, FORGE,
+    VOLUME, MUTE, FORK, SLIDERS, FILTER, APPICON, WAVE, MUSIC;
 
     /** Sprite name in the sprite bank. */
     val spriteName: String get() = "icon_" + name.lowercase()

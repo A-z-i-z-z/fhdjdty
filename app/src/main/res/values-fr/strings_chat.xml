@@ -154,4 +154,119 @@
     <string name="ui_chat_appr_session">Autoriser pour cette session</string>
     <string name="ui_chat_appr_always">Toujours autoriser</string>
     <string name="ui_chat_appr_deny">Refuser</string>
+
+    <!-- attachments -->
+    <string name="ui_attach_cd">Joindre photo ou fichier</string>
+    <string name="ui_attach_title">Joindre au message</string>
+    <string name="ui_attach_camera">Prendre une photo</string>
+    <string name="ui_attach_gallery">Choisir dans la galerie</string>
+    <string name="ui_attach_doc">Joindre un document ou fichier</string>
+    <string name="ui_attach_remove">Retirer la pièce jointe</string>
+    <string name="ui_attach_failed">Impossible de joindre le fichier : %1$s</string>
+    <string name="ui_attach_preview">Pièce jointe</string>
+
+    <!-- forged bots & memory -->
+    <string name="ui_forged_badge">FORGÉ</string>
+    <string name="ui_forged_chat">Discuter</string>
+    <string name="ui_forged_add">Ajouter au groupe</string>
+    <string name="ui_forged_edit">Modifier</string>
+    <string name="ui_chat_memory_updated">Mémoire mise à jour</string>
+    <string name="ui_chat_memory_open">Ouvrir Mémoire</string>
+
+    <!-- slash commands & modes -->
+    <string name="ui_slash_mode_badge">MODE</string>
+    <string name="ui_slash_action_badge">CMD</string>
+    <string name="ui_slash_desc_plan">Planifier étape par étape avant d\'agir</string>
+    <string name="ui_slash_desc_goal">Exécution autonome jusqu\'à vérification</string>
+    <string name="ui_slash_desc_ultracode">Code &amp; vérification d\'ingénieur senior</string>
+    <string name="ui_slash_desc_loop">Boucle d\'auto-amélioration (2-5x)</string>
+    <string name="ui_slash_desc_normal">Revenir au mode normal</string>
+    <string name="ui_slash_desc_forge">Forger un bot avec personnalité et style</string>
+    <string name="ui_slash_desc_skills">Lister ou chercher les compétences Hermes</string>
+    <string name="ui_slash_desc_remember">Enregistrer un fait dans USER.md</string>
+    <string name="ui_slash_desc_memory">Afficher MEMORY.md &amp; USER.md</string>
+    <string name="ui_slash_desc_theme">Changer de thème instantanément</string>
+    <string name="ui_slash_desc_export">Exporter la discussion en Markdown</string>
+    <string name="ui_slash_desc_clear">Effacer les messages de la discussion</string>
+    <string name="ui_slash_desc_help">Afficher toutes les commandes et modes</string>
+    <string name="ui_mode_banner_plan">Mode Plan</string>
+    <string name="ui_mode_banner_goal">Mode Goal</string>
+    <string name="ui_mode_banner_ultracode">Mode UltraCode</string>
+    <string name="ui_mode_banner_loop">Mode Loop</string>
+    <string name="ui_mode_exit_cd">Quitter le mode</string>
+    <string name="ui_mode_on_note">%1$s activé. Vos prochains messages suivent ce mode.</string>
+    <string name="ui_mode_off_note">Retour au mode Normal.</string>
+    <string name="ui_cmd_forge_usage">Usage : /forge &lt;décrivez le bot souhaité&gt;</string>
+    <string name="ui_cmd_remember_usage">Usage : /remember &lt;fait à noter dans USER.md&gt;</string>
+    <string name="ui_cmd_remember_saved">Enregistré dans USER.md (%1$d/%2$d car.).</string>
+    <string name="ui_cmd_remember_full">Quota USER.md dépassé (%1$d/%2$d car.). Réduisez dans Hermes &gt; Vous.</string>
+    <string name="ui_cmd_theme_usage">Thèmes : %1$s. Usage : /theme newroz</string>
+    <string name="ui_cmd_theme_switched">Thème changé pour %1$s.</string>
+    <string name="ui_cmd_skills_none">Aucune compétence correspondante.</string>
+    <string name="ui_cmd_skills_header">Compétences installées (%1$d) :</string>
+    <string name="ui_cmd_memory_header">Aperçu de la mémoire Hermes :</string>
+    <string name="ui_cmd_memory_empty">Aucune entrée enregistrée pour l\'instant.</string>
+    <string name="ui_cmd_help_header">Commandes &amp; Modes :</string>
+    <string name="ui_cmd_pet_quip1">Pêt attise une braise : « Le feu est chaud et %1$d bots sont prêts ! »</string>
+    <string name="ui_cmd_pet_quip2">Pêt cligne doucement : « Gardez vos requêtes nettes et votre mémoire claire. »</string>
+    <string name="ui_cmd_pet_quip3">Pêt remue sa petite queue orange : « %1$d messages dans ce foyer jusqu\'ici ! »</string>
+    <string name="ui_cmd_newroz_msg">Newroz pîroz be ! Le foyer flambe de plus belle.</string>
+    <string name="ui_cmd_roll_coin_heads">Pile ou face : Face</string>
+    <string name="ui_cmd_roll_coin_tails">Pile ou face : Pile</string>
+    <string name="ui_cmd_roll_dice">Dé d%1$d : %2$d</string>
+
+    <!-- home interactive hearth -->
+    <string name="ui_home_quip_1">Pêt se réchauffe près des pierres.</string>
+    <string name="ui_home_quip_2">Le feu crépite plus fort !</string>
+    <string name="ui_home_quip_3">Demandez tout, ou essayez /forge !</string>
+    <string name="ui_home_quip_4">Essayez /plan, /ultracode ou /loop en chat.</string>
+    <string name="ui_home_quip_overdrive">Surcharge de flamme Newroz !</string>
+
+    <!-- inline actions, forking, code run, voice input -->
+    <string name="ui_act_speak">Lire à voix haute</string>
+    <string name="ui_act_stop_speak">Arrêter la lecture</string>
+    <string name="ui_act_fork">Bifurquer ici</string>
+    <string name="ui_fork_suffix"> (branche)</string>
+    <string name="ui_fork_created">Nouvelle branche de discussion créée.</string>
+    <string name="ui_chat_code_run">Exécuter</string>
+    <string name="ui_run_term_title">Exécuter dans le terminal ?</string>
+    <string name="ui_run_term_body">Cette commande va tourner dans le shell Linux de Hermes :</string>
+    <string name="ui_group_bar_all">Tous</string>
+    <string name="ui_group_bar_mention">@seuls</string>
+
+    <!-- in-chat quick controls -->
+    <string name="ui_ctrl_title">Contrôles du chat</string>
+    <string name="ui_ctrl_mode">MODE DE TRAVAIL</string>
+    <string name="ui_ctrl_mode_normal">Normal</string>
+    <string name="ui_ctrl_model">MODÈLE POUR CE CHAT</string>
+    <string name="ui_ctrl_effort">EFFORT DE RÉFLEXION POUR CE CHAT</string>
+    <string name="ui_ctrl_effort_short">Effort</string>
+    <string name="ui_ctrl_reset">Réinitialiser</string>
+    <string name="ui_ctrl_skills">Compétences</string>
+    <string name="ui_ctrl_fork">Bifurquer</string>
+
+    <!-- visual skill picker -->
+    <string name="ui_skills_picker_title">Compétences Hermes (%1$d)</string>
+    <string name="ui_skills_picker_manage">Gérer</string>
+    <string name="ui_skills_picker_search">Rechercher une compétence…</string>
+    <string name="ui_skills_picker_loading">Chargement des compétences…</string>
+    <string name="ui_skills_picker_use">Utiliser</string>
+    <string name="ui_skills_picker_prompt">Utilise la compétence « %1$s » pour m\'aider : </string>
+
+    <!-- voice input -->
+    <string name="ui_voice_mic_cd">Dictée vocale</string>
+    <string name="ui_voice_listening">Écoute…</string>
+    <string name="ui_voice_prompt">Parlez à Agirî…</string>
+    <string name="ui_voice_unavailable">La dictée vocale n\'est pas disponible sur cet appareil.</string>
+
+    <!-- chat list filters & share target -->
+    <string name="ui_filter_all">Tous</string>
+    <string name="ui_filter_pinned">Épinglés</string>
+    <string name="ui_filter_groups">Groupes</string>
+    <string name="ui_filter_direct">1:1</string>
+    <string name="ui_filter_modes">Modes</string>
+    <string name="ui_filter_empty">Aucune discussion ne correspond à ce filtre.</string>
+    <string name="ui_share_target_title">Envoyer vers Agirî</string>
+    <string name="ui_share_new_chat">Nouveau chat avec Hermes</string>
+    <string name="ui_cmd_agir_msg">Agirî pîroz e ! « Une étincelle partagée réchauffe toute la montagne. »</string>
 </resources>

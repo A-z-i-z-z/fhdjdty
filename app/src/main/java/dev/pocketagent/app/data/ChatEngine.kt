@@ -1,6 +1,7 @@
 package dev.pocketagent.app.data
 
 import dev.pocketagent.app.api.ChatEvent
+import dev.pocketagent.app.api.ChatMessage
 import dev.pocketagent.app.api.ChatOutcome
 import dev.pocketagent.app.api.ChatRequest
 import dev.pocketagent.app.api.HermesApi
@@ -12,11 +13,25 @@ import dev.pocketagent.app.util.AppLog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.atomic.AtomicInteger
+
+/** Events emitted by [ChatEngine] for sound cues, auto-speak, and live UI feedback. */
+sealed interface EngineEvent {
+    data class TurnCompleted(val convId: String, val messageId: String, val botId: String, val text: String) : EngineEvent
+    data class ToolFinished(val convId: String, val toolName: String) : EngineEvent
+    data class MemorySaved(val convId: String) : EngineEvent
+    data class BotForged(val convId: String, val botIds: List<String>) : EngineEvent
+    data class ApprovalRequested(val convId: String) : EngineEvent
+    data class TurnFailed(val convId: String) : EngineEvent
+}
 
 /** The transport the engine talks through; [HermesApi.streamCompletion] in the app, a fake in tests. */
 internal fun interface ChatBackend {
@@ -62,21 +77,26 @@ class ChatEngine internal constructor(
     /** False while Hermes is not up; a send then fails fast with an ERROR message instead of a connection error. */
     private val isReady: () -> Boolean,
     private val scope: CoroutineScope,
+    private val imageLoader: (Attachment) -> String? = { null },
 ) {
     constructor(
         repo: ChatRepository, api: HermesApi, wakeLocks: WakeLocks,
         provider: () -> String, isReady: () -> Boolean,
+        imageLoader: (Attachment) -> String? = { null },
     ) : this(
         repo, ChatBackend { req, h, ev -> api.streamCompletion(req, h, ev) },
         { runId, choice, requestId -> api.resolveApproval(runId, choice, requestId) },
         { why -> wakeLocks.acquire(why, 30 * 60_000L) }, { why -> wakeLocks.release(why) },
-        provider, isReady, CoroutineScope(SupervisorJob() + Dispatchers.IO),
+        provider, isReady, CoroutineScope(SupervisorJob() + Dispatchers.IO), imageLoader,
     )
 
     private val _busy = MutableStateFlow<Set<String>>(emptySet())
     private val _speaking = MutableStateFlow<Map<String, String>>(emptyMap())
     private val _status = MutableStateFlow<Map<String, String>>(emptyMap())
     private val _approvals = MutableStateFlow<Map<String, PendingApproval>>(emptyMap())
+    private val _memoryUpdates = MutableStateFlow(0)
+    private val memoryCounter = AtomicInteger(0)
+    private val _events = MutableSharedFlow<EngineEvent>(extraBufferCapacity = 32)
 
     /** convIds generating now. */
     val busy: StateFlow<Set<String>> = _busy
@@ -86,6 +106,10 @@ class ChatEngine internal constructor(
     val status: StateFlow<Map<String, String>> = _status
     /** convId -> the command Hermes wants permission for. The turn waits until [resolveApproval] (or Hermes's own timeout). */
     val approvals: StateFlow<Map<String, PendingApproval>> = _approvals
+    /** Increments whenever Hermes finishes a `memory` tool call in any chat (lets the inspector auto-reload). */
+    val memoryUpdates: StateFlow<Int> = _memoryUpdates
+    /** High-level events (completion chime, tool finished, bot forged, memory updated, errors). */
+    val events: SharedFlow<EngineEvent> = _events.asSharedFlow()
 
     private class Run {
         @Volatile var stop = false
@@ -100,16 +124,54 @@ class ChatEngine internal constructor(
      * Returns true when accepted; false when ignored (empty text, the conversation is already generating, or Hermes is not
      * running): nothing was added to the chat then, so the caller should keep the user's text.
      */
-    fun send(convId: String, text: String, onlyBotIds: List<String> = emptyList()): Boolean {
+    fun send(
+        convId: String,
+        text: String,
+        onlyBotIds: List<String> = emptyList(),
+        attachments: List<Attachment> = emptyList(),
+    ): Boolean {
         val clean = text.trim()
-        if (clean.isEmpty() || !isReady()) return false
+        if ((clean.isEmpty() && attachments.isEmpty()) || !isReady()) return false
         return startRun(convId) {
             val conv = repo.conversation(convId) ?: return@startRun
-            repo.addMessage(newMessage(convId, Role.USER, null, clean))
-            if (conv.title.isBlank()) repo.renameConversation(convId, Transcript.autoTitle(clean))
+            repo.addMessage(newMessage(convId, Role.USER, null, clean, attachments = attachments))
+            val summary = Transcript.messageSummary(clean, attachments)
+            if (conv.title.isBlank() && summary.isNotBlank()) repo.renameConversation(convId, Transcript.autoTitle(summary))
             val targets = Transcript.selectBots(conv, convBots(conv), clean, onlyBotIds)
             if (targets.isEmpty()) { addIssue(convId, Role.ERROR, null, "This chat has no bots (they were deleted). Add a bot to the chat first."); return@startRun }
             runTurn(it, convId, targets.map { b -> b.id })
+        }
+    }
+
+    /** Runs a multi-pass refinement loop ([passes] clamped to 2..5) over [prompt], stopping cleanly on cancellation. */
+    fun runLoop(
+        convId: String,
+        prompt: String,
+        passes: Int = 3,
+        attachments: List<Attachment> = emptyList(),
+        onlyBotIds: List<String> = emptyList(),
+    ): Boolean {
+        val clean = prompt.trim()
+        if ((clean.isEmpty() && attachments.isEmpty()) || !isReady()) return false
+        val totalPasses = passes.coerceIn(2, 5)
+        return startRun(convId) { run ->
+            val conv = repo.conversation(convId) ?: return@startRun
+            repo.addMessage(newMessage(convId, Role.USER, null, clean, attachments = attachments))
+            val summary = Transcript.messageSummary(clean, attachments)
+            if (conv.title.isBlank() && summary.isNotBlank()) repo.renameConversation(convId, Transcript.autoTitle(summary))
+            val targets = Transcript.selectBots(conv, convBots(conv), clean, onlyBotIds)
+            if (targets.isEmpty()) { addIssue(convId, Role.ERROR, null, "This chat has no bots (they were deleted). Add a bot to the chat first."); return@startRun }
+            val ids = targets.map { it.id }
+            addIssue(convId, Role.NOTE, null, "Loop mode: pass 1/$totalPasses")
+            if (!runTurn(run, convId, ids)) return@startRun
+            for (pass in 2..totalPasses) {
+                if (run.stop) break
+                addIssue(convId, Role.NOTE, null, "Loop mode: pass $pass/$totalPasses — refining…")
+                val refinePrompt =
+                    "Critically review your previous response in this conversation (pass $pass of $totalPasses). " +
+                        "Fix any gaps, unclear reasoning, or missing edge cases and present an improved, tighter final version."
+                if (!runTurn(run, convId, ids, ephemeralUserTurn = refinePrompt)) break
+            }
         }
     }
 
@@ -202,22 +264,39 @@ class ChatEngine internal constructor(
 
     private fun convBots(conv: Conversation): List<Bot> = conv.botIds.mapNotNull { repo.bot(it) }
 
-    private fun runTurn(run: Run, convId: String, botIds: List<String>) {
+    private fun runTurn(run: Run, convId: String, botIds: List<String>, ephemeralUserTurn: String? = null): Boolean {
         for (id in botIds) {
-            if (run.stop) break
-            if (!generate(run, convId, id)) break
+            if (run.stop) return false
+            if (!generate(run, convId, id, ephemeralUserTurn)) return false
         }
+        return true
     }
 
-    private fun newMessage(convId: String, role: Role, botId: String?, text: String, streaming: Boolean = false) =
-        Message(repo.newId(), convId, role, botId, text, System.currentTimeMillis(), streaming = streaming)
+    private fun newMessage(
+        convId: String,
+        role: Role,
+        botId: String?,
+        text: String,
+        streaming: Boolean = false,
+        attachments: List<Attachment> = emptyList(),
+    ) = Message(repo.newId(), convId, role, botId, text, System.currentTimeMillis(), streaming = streaming, attachments = attachments)
+
+    /** Appends a local system note (used by slash commands and local helpers). */
+    fun addLocalNote(convId: String, text: String) {
+        addIssue(convId, Role.NOTE, null, text)
+    }
+
+    /** Notifies listeners (e.g. HermesScreen) that on-disk memory files were updated locally. */
+    fun notifyMemoryUpdated() {
+        _memoryUpdates.value = memoryCounter.incrementAndGet()
+    }
 
     private fun addIssue(convId: String, role: Role, botId: String?, text: String) {
         repo.addMessage(newMessage(convId, role, botId, text.take(4000)))
     }
 
     /** One bot's answer. Returns true when the stream completed cleanly (the next bot of a group may go on). */
-    private fun generate(run: Run, convId: String, botId: String): Boolean {
+    private fun generate(run: Run, convId: String, botId: String, ephemeralUserTurn: String? = null): Boolean {
         val conv = repo.conversation(convId) ?: return false
         val bot = repo.bot(botId)
         if (bot == null) { addIssue(convId, Role.ERROR, null, "Bot not found (it was deleted)."); return false }
@@ -227,12 +306,19 @@ class ChatEngine internal constructor(
         }
         val history = repo.messagesSnapshot(convId)
         val providerName = provider()
-        val hasModel = bot.model.isNotBlank()
+        // Precedence: per-conversation override -> bot override -> Hermes global default
+        val effectiveModel = conv.modelOverride.ifBlank { bot.model }
+        val effectiveEffort = conv.effortOverride.ifBlank { bot.effort }
+        val hasModel = effectiveModel.isNotBlank()
+        var built = Transcript.build(conv, bot, repo.bots.value, history, imageLoader)
+        if (!ephemeralUserTurn.isNullOrBlank()) {
+            built = built + ChatMessage("user", ephemeralUserTurn)
+        }
         val req = ChatRequest(
-            messages = Transcript.build(conv, bot, repo.bots.value, history),
-            model = if (hasModel) ModelIds.normalize(providerName, bot.model) else "",
+            messages = built,
+            model = if (hasModel) ModelIds.normalize(providerName, effectiveModel) else "",
             provider = if (hasModel) providerName else null,
-            reasoningEffort = bot.effort.takeIf { it in EFFORTS },
+            reasoningEffort = effectiveEffort.takeIf { it in EFFORTS },
         )
         val handle = StreamHandle()
         run.handle = handle
@@ -260,6 +346,8 @@ class ChatEngine internal constructor(
         private val guessed = StringBuilder()   // thought summaries recognised by [ThoughtFilter] in this bubble
         private var realReasoning = false       // the model sent proper reasoning_content in this bubble
         private var turnRealText = false        // some real answer text was shown in this turn
+        private var lastClosedId: String? = null
+        private var lastClosedText: String = ""
 
         private fun ensureBubble() {
             if (bubbleId != null) return
@@ -281,11 +369,41 @@ class ChatEngine internal constructor(
         private fun closeBubble() {
             val id = bubbleId ?: return
             bubbleId = null
-            val t = text.toString().trimEnd(); val r = reasoning.toString().trim()
+            val rawText = text.toString().trimEnd(); val r = reasoning.toString().trim()
             text.setLength(0); reasoning.setLength(0); guessed.setLength(0); realReasoning = false   // the next bubble starts empty (its first delta is left-trimmed)
-            if (t.isBlank() && r.isBlank()) { repo.deleteMessage(convId, id); return }
+            if (rawText.isBlank() && r.isBlank()) { repo.deleteMessage(convId, id); return }
+            val extracted = BotForge.extract(rawText)
+            val forgedIds = if (extracted.bots.isNotEmpty()) {
+                val now = System.currentTimeMillis()
+                extracted.bots.mapIndexed { idx, spec ->
+                    val newBot = Bot(
+                        id = repo.newId(),
+                        name = spec.name,
+                        avatar = spec.avatar,
+                        color = spec.color,
+                        tagline = spec.tagline,
+                        systemPrompt = spec.systemPrompt,
+                        builtIn = false,
+                        createdAt = now + idx,
+                        voiceSid = spec.voiceSid,
+                        voiceStyle = spec.voiceStyle,
+                    )
+                    repo.saveBot(newBot)
+                    newBot.id
+                }
+            } else emptyList()
+            val finalText = if (forgedIds.isNotEmpty() && extracted.cleanedText.isBlank()) {
+                extracted.bots.joinToString(", ") { it.name }
+            } else extracted.cleanedText
             val elapsed = System.currentTimeMillis() - t0
-            repo.updateMessage(convId, id) { it.copy(text = t, reasoning = r, streaming = false, durationMs = elapsed) }
+            repo.updateMessage(convId, id) {
+                it.copy(text = finalText, reasoning = r, streaming = false, durationMs = elapsed, forgedBotIds = forgedIds)
+            }
+            if (finalText.isNotBlank()) {
+                lastClosedId = id
+                lastClosedText = finalText
+            }
+            if (forgedIds.isNotEmpty()) _events.tryEmit(EngineEvent.BotForged(convId, forgedIds))
         }
 
         private fun clearTransient() {
@@ -336,12 +454,21 @@ class ChatEngine internal constructor(
                         repo.addMessage(m)
                         tools[key] = m.id
                     }
+                    if (ev.status.lowercase() != "running") {
+                        if (ev.tool.contains("memory", ignoreCase = true)) {
+                            _memoryUpdates.value = memoryCounter.incrementAndGet()
+                            _events.tryEmit(EngineEvent.MemorySaved(convId))
+                        } else {
+                            _events.tryEmit(EngineEvent.ToolFinished(convId, ev.tool))
+                        }
+                    }
                 }
                 is ChatEvent.Status -> _status.update { it + (convId to Diag.redactor.redact(ev.text).take(300)) }
                 is ChatEvent.Approval -> {
                     val cmd = Diag.redactor.redact(ev.command)
                     val desc = Diag.redactor.redact(ev.description)
                     _approvals.update { it + (convId to PendingApproval(convId, botId, ev.runId, ev.requestId, cmd, desc, ev.choices)) }
+                    _events.tryEmit(EngineEvent.ApprovalRequested(convId))
                     closeBubble()
                     addIssue(convId, Role.NOTE, botId, "Hermes asks permission before it runs this and is waiting for an answer:\n" +
                         (if (cmd.isNotBlank()) cmd else desc) + (if (cmd.isNotBlank() && desc.isNotBlank()) "\n($desc)" else ""))
@@ -376,10 +503,24 @@ class ChatEngine internal constructor(
             val clean = outcome is ChatOutcome.Completed
             for ((_, mid) in tools) repo.updateMessage(convId, mid) { if (it.toolStatus == "running") it.copy(toolStatus = if (clean) "completed" else "interrupted") else it }
             when (outcome) {
-                ChatOutcome.Completed -> if (!produced && !hadError) addIssue(convId, Role.NOTE, botId, "The bot returned an empty reply.")
+                ChatOutcome.Completed -> {
+                    if (!produced && !hadError) addIssue(convId, Role.NOTE, botId, "The bot returned an empty reply.")
+                    if (!hadError) {
+                        val cid = lastClosedId
+                        if (cid != null) _events.tryEmit(EngineEvent.TurnCompleted(convId, cid, botId, lastClosedText))
+                    } else {
+                        _events.tryEmit(EngineEvent.TurnFailed(convId))
+                    }
+                }
                 ChatOutcome.Cancelled -> {}
-                is ChatOutcome.HttpError -> addIssue(convId, Role.ERROR, botId, "HTTP ${outcome.code}: ${Diag.redactor.redact(outcome.body)}")
-                is ChatOutcome.TransportError -> addIssue(convId, Role.ERROR, botId, Diag.redactor.redact(outcome.message))
+                is ChatOutcome.HttpError -> {
+                    addIssue(convId, Role.ERROR, botId, "HTTP ${outcome.code}: ${Diag.redactor.redact(outcome.body)}")
+                    _events.tryEmit(EngineEvent.TurnFailed(convId))
+                }
+                is ChatOutcome.TransportError -> {
+                    addIssue(convId, Role.ERROR, botId, Diag.redactor.redact(outcome.message))
+                    _events.tryEmit(EngineEvent.TurnFailed(convId))
+                }
             }
             return clean && !hadError
         }

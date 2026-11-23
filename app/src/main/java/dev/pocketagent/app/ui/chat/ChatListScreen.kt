@@ -2,6 +2,7 @@ package dev.pocketagent.app.ui.chat
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -42,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import dev.pocketagent.app.PocketApp
 import dev.pocketagent.app.R
 import dev.pocketagent.app.data.Bot
+import dev.pocketagent.app.data.ChatMode
 import dev.pocketagent.app.data.Conversation
 import dev.pocketagent.app.data.Message
 import dev.pocketagent.app.ui.LocalNavigator
@@ -51,6 +54,7 @@ import dev.pocketagent.app.ui.components.PixelButton
 import dev.pocketagent.app.ui.components.PixelIcon
 import dev.pocketagent.app.ui.components.PixelIconButton
 import dev.pocketagent.app.ui.components.PixelIconView
+import dev.pocketagent.app.ui.components.PocketChip
 import dev.pocketagent.app.ui.components.PocketTextField
 import dev.pocketagent.app.ui.components.PocketTopBar
 import dev.pocketagent.app.ui.theme.Pocket
@@ -73,6 +77,7 @@ fun ChatListScreen() {
     val untitled = stringResource(R.string.ui_chats_untitled)
 
     var query by rememberSaveable { mutableStateOf("") }
+    var filter by rememberSaveable { mutableStateOf("ALL") }
     var showNew by remember { mutableStateOf(false) }
     var menuFor by remember { mutableStateOf<Conversation?>(null) }
     var renameFor by remember { mutableStateOf<Conversation?>(null) }
@@ -88,9 +93,18 @@ fun ChatListScreen() {
         }
     }
 
-    val matchingConvs = remember(convs, botsById, q) {
-        if (q.isEmpty()) convs
-        else convs.filter { cv ->
+    val filteredConvs = remember(convs, filter) {
+        when (filter) {
+            "PINNED" -> convs.filter { it.pinned }
+            "GROUPS" -> convs.filter { it.isGroup }
+            "DIRECT" -> convs.filter { !it.isGroup }
+            "MODES" -> convs.filter { it.mode != ChatMode.NORMAL || it.modelOverride.isNotBlank() || it.effortOverride.isNotBlank() }
+            else -> convs
+        }
+    }
+    val matchingConvs = remember(filteredConvs, botsById, q) {
+        if (q.isEmpty()) filteredConvs
+        else filteredConvs.filter { cv ->
             titleOf(cv, botsById, untitled).contains(q, ignoreCase = true) ||
                 cv.botIds.any { botsById[it]?.name?.contains(q, ignoreCase = true) == true }
         }
@@ -110,11 +124,29 @@ fun ChatListScreen() {
                     PixelIconButton(PixelIcon.CLOSE, onClick = { query = "" }, contentDescription = stringResource(R.string.ui_dlg_close))
                 } else Spacer(Modifier.width(8.dp))
             }
+            if (convs.isNotEmpty()) {
+                Row(
+                    Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = 12.dp, vertical = 4.dp),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                ) {
+                    PocketChip(stringResource(R.string.ui_filter_all), filter == "ALL", { filter = "ALL" })
+                    PocketChip(stringResource(R.string.ui_filter_pinned), filter == "PINNED", { filter = "PINNED" }, icon = PixelIcon.PIN)
+                    PocketChip(stringResource(R.string.ui_filter_groups), filter == "GROUPS", { filter = "GROUPS" }, icon = PixelIcon.GROUP)
+                    PocketChip(stringResource(R.string.ui_filter_direct), filter == "DIRECT", { filter = "DIRECT" }, icon = PixelIcon.USER)
+                    PocketChip(stringResource(R.string.ui_filter_modes), filter == "MODES", { filter = "MODES" }, icon = PixelIcon.BOLT)
+                }
+            }
             when {
                 convs.isEmpty() -> Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
                     EmptyState(
                         stringResource(R.string.ui_chats_empty_title), stringResource(R.string.ui_chats_empty_body),
                         action = { PixelButton(stringResource(R.string.ui_chats_new), onClick = { showNew = true }, icon = PixelIcon.PLUS) },
+                    )
+                }
+                q.isEmpty() && matchingConvs.isEmpty() -> Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
+                    Text(
+                        stringResource(R.string.ui_filter_empty), color = c.textMuted, fontSize = 15.sp,
+                        modifier = Modifier.padding(24.dp),
                     )
                 }
                 q.isNotEmpty() && matchingConvs.isEmpty() && hits.isEmpty() -> Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.TopCenter) {

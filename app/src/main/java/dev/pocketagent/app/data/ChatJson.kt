@@ -15,9 +15,17 @@ internal object ChatJson {
         .put("id", b.id).put("name", b.name).put("avatar", b.avatar).put("color", b.color)
         .put("tagline", b.tagline).put("systemPrompt", b.systemPrompt).put("model", b.model).put("effort", b.effort)
         .put("builtIn", b.builtIn).put("createdAt", b.createdAt)
+        .also {
+            if (b.voiceSid >= 0) it.put("voiceSid", b.voiceSid)
+            if (b.voiceStyle != BotVoiceStyle.DEFAULT) it.put("voiceStyle", b.voiceStyle.name)
+            if (b.voiceSpeed > 0f) it.put("voiceSpeed", b.voiceSpeed.toDouble())
+        }
 
     fun botFromJson(o: JSONObject): Bot? {
         val id = o.str("id")?.takeIf { it.isNotBlank() } ?: return null
+        val sid = if (o.has("voiceSid") && !o.isNull("voiceSid")) o.optInt("voiceSid", -1) else -1
+        val vStyle = try { BotVoiceStyle.valueOf(o.str("voiceStyle") ?: "") } catch (_: Exception) { BotVoiceStyle.DEFAULT }
+        val vSpeed = if (o.has("voiceSpeed") && !o.isNull("voiceSpeed")) o.optDouble("voiceSpeed", 0.0).toFloat().coerceIn(0f, 1.5f) else 0f
         return Bot(
             id = id,
             name = o.str("name") ?: id,
@@ -29,6 +37,9 @@ internal object ChatJson {
             effort = o.str("effort") ?: "",
             builtIn = o.bool("builtIn", false),
             createdAt = o.lng("createdAt", 0L),
+            voiceSid = sid,
+            voiceStyle = vStyle,
+            voiceSpeed = vSpeed,
         )
     }
 
@@ -36,6 +47,11 @@ internal object ChatJson {
         .put("id", c.id).put("title", c.title).put("botIds", JSONArray(c.botIds))
         .put("createdAt", c.createdAt).put("updatedAt", c.updatedAt).put("pinned", c.pinned)
         .put("groupMode", c.groupMode.name).put("lastPreview", c.lastPreview)
+        .also {
+            if (c.mode != ChatMode.NORMAL) it.put("mode", c.mode.name)
+            if (c.modelOverride.isNotEmpty()) it.put("modelOverride", c.modelOverride)
+            if (c.effortOverride.isNotEmpty()) it.put("effortOverride", c.effortOverride)
+        }
 
     fun convFromJson(o: JSONObject): Conversation? {
         val id = o.str("id")?.takeIf { it.isNotBlank() } ?: return null
@@ -51,6 +67,37 @@ internal object ChatJson {
             pinned = o.bool("pinned", false),
             groupMode = try { GroupMode.valueOf(o.str("groupMode") ?: "") } catch (_: Exception) { GroupMode.ALL_IN_TURN },
             lastPreview = o.str("lastPreview") ?: "",
+            mode = try { ChatMode.valueOf(o.str("mode") ?: "") } catch (_: Exception) { ChatMode.NORMAL },
+            modelOverride = o.str("modelOverride") ?: "",
+            effortOverride = o.str("effortOverride") ?: "",
+        )
+    }
+
+    fun attachmentToJson(a: Attachment): JSONObject = JSONObject()
+        .put("id", a.id)
+        .put("name", a.name)
+        .put("mime", a.mime)
+        .put("kind", a.kind.name)
+        .put("localPath", a.localPath)
+        .also {
+            if (a.guestPath.isNotEmpty()) it.put("guestPath", a.guestPath)
+            if (a.sizeBytes > 0L) it.put("sizeBytes", a.sizeBytes)
+            if (a.textExcerpt.isNotEmpty()) it.put("textExcerpt", a.textExcerpt)
+        }
+
+    fun attachmentFromJson(o: JSONObject): Attachment? {
+        val id = o.str("id")?.takeIf { it.isNotBlank() } ?: return null
+        val localPath = o.str("localPath")?.takeIf { it.isNotBlank() } ?: return null
+        val kind = try { AttachmentKind.valueOf(o.str("kind") ?: "") } catch (_: Exception) { AttachmentKind.DOCUMENT }
+        return Attachment(
+            id = id,
+            name = o.str("name") ?: id,
+            mime = o.str("mime") ?: "application/octet-stream",
+            kind = kind,
+            localPath = localPath,
+            guestPath = o.str("guestPath") ?: "",
+            sizeBytes = o.lng("sizeBytes", 0L),
+            textExcerpt = o.str("textExcerpt") ?: "",
         )
     }
 
@@ -63,12 +110,20 @@ internal object ChatJson {
         if (m.streaming) o.put("streaming", true)
         m.durationMs?.let { o.put("durationMs", it) }
         if (m.reasoning.isNotEmpty()) o.put("reasoning", m.reasoning)
+        if (m.attachments.isNotEmpty()) o.put("attachments", JSONArray().also { arr -> m.attachments.forEach { arr.put(attachmentToJson(it)) } })
+        if (m.forgedBotIds.isNotEmpty()) o.put("forgedBotIds", JSONArray(m.forgedBotIds))
         return o
     }
 
     fun msgFromJson(o: JSONObject, fallbackConvId: String): Message? {
         val id = o.str("id")?.takeIf { it.isNotBlank() } ?: return null
         val role = try { Role.valueOf(o.str("role") ?: "") } catch (_: Exception) { return null }
+        val attachments = o.optJSONArray("attachments")?.let { a ->
+            (0 until a.length()).mapNotNull { a.optJSONObject(it)?.let(::attachmentFromJson) }
+        } ?: emptyList()
+        val forged = o.optJSONArray("forgedBotIds")?.let { a ->
+            (0 until a.length()).mapNotNull { i -> a.optString(i).takeIf { !a.isNull(i) && it.isNotBlank() } }
+        } ?: emptyList()
         return Message(
             id = id,
             convId = o.str("convId") ?: fallbackConvId,
@@ -83,6 +138,8 @@ internal object ChatJson {
             streaming = false,
             durationMs = if (o.has("durationMs") && !o.isNull("durationMs")) o.optLong("durationMs") else null,
             reasoning = o.str("reasoning") ?: "",
+            attachments = attachments,
+            forgedBotIds = forged,
         )
     }
 

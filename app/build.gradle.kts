@@ -169,6 +169,13 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.commons.compress)
     implementation(libs.tukaani.xz)
+    // On-device neural TTS engine (Supertonic 3 INT8 multilingual EN/FR/TR). Stripped to arm64-v8a via abiFilters.
+    implementation("k2-fsa:sherpa-onnx:2.0.3") {
+        artifact {
+            name = "sherpa-onnx-static-link-onnxruntime"
+            type = "aar"
+        }
+    }
 
     testImplementation(libs.junit)
     testImplementation(libs.org.json)

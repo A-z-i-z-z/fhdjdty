@@ -182,7 +182,52 @@ class ChatRepository internal constructor(
     fun renameConversation(id: String, title: String) = updateConversation(id, touch = false) { it.copy(title = title.trim()) }
     fun setPinned(id: String, pinned: Boolean) = updateConversation(id, touch = false) { it.copy(pinned = pinned) }
     fun setGroupMode(id: String, mode: GroupMode) = updateConversation(id, touch = false) { it.copy(groupMode = mode) }
+    fun setMode(id: String, mode: ChatMode) = updateConversation(id, touch = false) { it.copy(mode = mode) }
+    fun setOverrides(id: String, model: String, effort: String) = updateConversation(id, touch = false) {
+        it.copy(modelOverride = model.trim(), effortOverride = effort.trim())
+    }
     fun setConversationBots(id: String, botIds: List<String>) = updateConversation(id, touch = false) { it.copy(botIds = botIds.distinct()) }
+
+    /**
+     * Branches a new conversation containing every message from [convId] up to and including [upToMessageId]
+     * (or all messages when [upToMessageId] is null). Preserves bots, group mode, mode and model/effort overrides.
+     */
+    fun forkConversation(convId: String, upToMessageId: String? = null, titleSuffix: String = " (fork)"): Conversation? {
+        val orig = conversation(convId) ?: return null
+        val srcMsgs = messagesSnapshot(convId)
+        val cut = if (upToMessageId == null) srcMsgs else {
+            val idx = srcMsgs.indexOfFirst { it.id == upToMessageId }
+            if (idx < 0) srcMsgs else srcMsgs.subList(0, idx + 1)
+        }
+        val now = System.currentTimeMillis()
+        val newConvId = newId()
+        val baseTitle = orig.title.trim()
+        val forkedTitle = if (baseTitle.isBlank()) "" else {
+            if (baseTitle.endsWith(titleSuffix)) baseTitle else (baseTitle + titleSuffix).take(64)
+        }
+        val cloned = cut.map { m -> m.copy(id = newId(), convId = newConvId, streaming = false) }
+        val preview = cloned.lastOrNull {
+            (it.role == Role.USER || it.role == Role.BOT) && (it.text.isNotBlank() || it.attachments.isNotEmpty())
+        }?.let { Transcript.preview(Transcript.messageSummary(it.text, it.attachments)) } ?: ""
+        val fork = orig.copy(
+            id = newConvId,
+            title = forkedTitle,
+            createdAt = now,
+            updatedAt = now,
+            pinned = false,
+            lastPreview = preview,
+        )
+        synchronized(lock) {
+            _conversations.value = sortConvs(_conversations.value + fork)
+            val s = slots.getOrPut(newConvId) { Slot() }
+            s.flow.value = cloned
+            s.loaded = true
+            dirtyConvs.set(true)
+            dirtyMessages += newConvId
+        }
+        schedule()
+        return fork
+    }
 
     /** Applies [change] to a conversation; [touch] also bumps `updatedAt`. */
     fun updateConversation(id: String, touch: Boolean = false, change: (Conversation) -> Conversation) {
@@ -236,8 +281,9 @@ class ChatRepository internal constructor(
             s.flow.value = s.flow.value + m
             dirtyMessages += m.convId
         }
-        if ((m.role == Role.USER || m.role == Role.BOT) && m.text.isNotBlank()) {
-            updateConversation(m.convId, touch = true) { it.copy(lastPreview = Transcript.preview(m.text)) }
+        val summary = Transcript.messageSummary(m.text, m.attachments)
+        if ((m.role == Role.USER || m.role == Role.BOT) && summary.isNotBlank()) {
+            updateConversation(m.convId, touch = true) { it.copy(lastPreview = Transcript.preview(summary)) }
         } else updateConversation(m.convId, touch = true) { it }
         schedule()
     }
@@ -297,10 +343,12 @@ class ChatRepository internal constructor(
         schedule()
     }
 
-    /** Recomputes `lastPreview` from the newest USER/BOT message with text (call after deleting or when a stream ends). */
+    /** Recomputes `lastPreview` from the newest USER/BOT message with text or attachments (call after deleting or when a stream ends). */
     fun refreshPreview(convId: String) {
-        val last = slot(convId).flow.value.lastOrNull { (it.role == Role.USER || it.role == Role.BOT) && it.text.isNotBlank() }
-        val p = last?.let { Transcript.preview(it.text) } ?: ""
+        val last = slot(convId).flow.value.lastOrNull {
+            (it.role == Role.USER || it.role == Role.BOT) && (it.text.isNotBlank() || it.attachments.isNotEmpty())
+        }
+        val p = last?.let { Transcript.preview(Transcript.messageSummary(it.text, it.attachments)) } ?: ""
         updateConversation(convId, touch = false) { if (it.lastPreview == p) it else it.copy(lastPreview = p) }
     }
 
