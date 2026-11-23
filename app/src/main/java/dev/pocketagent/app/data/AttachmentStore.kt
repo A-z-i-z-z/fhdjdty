@@ -149,7 +149,7 @@ class AttachmentStore(private val context: Context, private val paths: Paths) {
     private fun mirrorToGuest(src: File, guestName: String): String {
         val guestRel = "/root/.hermes/attachments/$guestName"
         return try {
-            if (!paths.hermesHome.isDirectory) return guestRel
+            if (!paths.hermesHome.isDirectory) return ""
             guestDir.mkdirs()
             src.copyTo(File(guestDir, guestName), overwrite = true)
             guestRel

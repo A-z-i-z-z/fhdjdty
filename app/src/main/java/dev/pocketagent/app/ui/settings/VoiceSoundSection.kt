@@ -58,6 +58,7 @@ internal fun VoiceSoundSection() {
     val modelState by app.ttsModels.state.collectAsState()
     val speakingId by app.voice.speakingId.collectAsState()
     val synthesizing by app.voice.synthesizing.collectAsState()
+    val voiceError by app.voice.lastError.collectAsState()
     val ap by AppearanceStore.get(ctx).appearance.collectAsState()
     val c = Pocket.colors
     var confirmDelete by remember { mutableStateOf(false) }
@@ -164,6 +165,26 @@ internal fun VoiceSoundSection() {
                 { prefs.update { it.copy(ttsEngine = TtsEngineMode.SYSTEM) } },
             )
         }
+        if (modelState !is TtsModelState.Installed || settings.ttsEngine == TtsEngineMode.SYSTEM) {
+            val playingSample = speakingId == "sample"
+            PixelButton(
+                stringResource(
+                    when {
+                        playingSample && synthesizing -> R.string.ctl_voice_synth
+                        playingSample -> R.string.btn_stop
+                        else -> R.string.ctl_voice_test
+                    },
+                ),
+                onClick = {
+                    if (playingSample) app.voice.stop()
+                    else app.voice.speakSample(ap.language)
+                },
+                modifier = Modifier.fillMaxWidth(),
+                icon = if (playingSample) PixelIcon.STOP else PixelIcon.PLAY,
+                kind = ButtonKind.SECONDARY,
+            )
+        }
+        voiceError?.let { err -> ErrorText(err) }
 
         // ---- Supertonic 3 Speaker Voice ----
         CText(stringResource(R.string.ctl_voice_speaker), size = 14.sp, weight = FontWeight.SemiBold)

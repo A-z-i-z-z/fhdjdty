@@ -3,6 +3,7 @@ package dev.pocketagent.app.ui.theme
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import android.os.Build
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -156,18 +157,35 @@ private fun PocketColors.toMaterial(): ColorScheme {
     }
 }
 
-/** Status / navigation bars take the theme's deepest colour; icon colour follows light/dark. */
+/** Transparent edge-to-edge system bars; callers can override status-bar icon polarity for dark hero scenes. */
 @Composable
 private fun SystemBars(colors: PocketColors) {
     val view = LocalView.current
     if (view.isInEditMode) return
     SideEffect {
         val window = view.context.findActivity()?.window ?: return@SideEffect
-        window.statusBarColor = colors.bgDeep.toArgb()
-        window.navigationBarColor = colors.bgDeep.toArgb()
+        @Suppress("DEPRECATION")
+        window.statusBarColor = android.graphics.Color.TRANSPARENT
+        @Suppress("DEPRECATION")
+        window.navigationBarColor = android.graphics.Color.TRANSPARENT
+        if (Build.VERSION.SDK_INT >= 29) {
+            window.isStatusBarContrastEnforced = false
+            window.isNavigationBarContrastEnforced = false
+        }
         val controller = WindowCompat.getInsetsController(window, view)
         controller.isAppearanceLightStatusBars = !colors.isDark
         controller.isAppearanceLightNavigationBars = !colors.isDark
+    }
+}
+
+/** Overrides only the status-bar icon polarity (e.g. light icons over HomeScreen's always-dark night sky). */
+@Composable
+fun SystemStatusBarIcons(darkIcons: Boolean) {
+    val view = LocalView.current
+    if (view.isInEditMode) return
+    SideEffect {
+        val window = view.context.findActivity()?.window ?: return@SideEffect
+        WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkIcons
     }
 }
 

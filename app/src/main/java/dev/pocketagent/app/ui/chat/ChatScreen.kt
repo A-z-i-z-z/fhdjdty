@@ -184,7 +184,22 @@ private fun ChatBody(conv: Conversation) {
     DisposableEffect(convId) { onDispose { ChatDrafts[convId] = input } }
     var editing by remember(convId) { mutableStateOf<Message?>(null) }
     var spark by remember { mutableIntStateOf(0) }
-    var pendingAttachments by remember(convId) { mutableStateOf<List<Attachment>>(ChatPendingAttachments.consume(convId)) }
+    var pendingAttachments by remember(convId) { mutableStateOf<List<Attachment>>(emptyList()) }
+    val shareInbox by ChatShareInbox.pending.collectAsState()
+    LaunchedEffect(convId, shareInbox[convId]) {
+        val items = ChatShareInbox.take(convId)
+        if (items.isNotEmpty()) {
+            val sharedTexts = items.mapNotNull { it.text?.trim()?.takeIf(String::isNotEmpty) }
+            if (sharedTexts.isNotEmpty()) {
+                val joined = sharedTexts.joinToString("\n")
+                input = if (input.isBlank()) joined else "${input.trimEnd()}\n$joined"
+            }
+            val sharedAtts = items.mapNotNull { it.attachment }
+            if (sharedAtts.isNotEmpty()) {
+                pendingAttachments = pendingAttachments + sharedAtts
+            }
+        }
+    }
     var pendingCameraFile by remember { mutableStateOf<File?>(null) }
     var celebrateTrigger by remember { mutableIntStateOf(0) }
     var listening by remember { mutableStateOf(false) }
@@ -263,7 +278,11 @@ private fun ChatBody(conv: Conversation) {
                     listening = false
                     runCatching { sr.destroy() }
                     if (activeRecognizer === sr) activeRecognizer = null
-                    if (error != SpeechRecognizer.ERROR_NO_MATCH && error != SpeechRecognizer.ERROR_CLIENT) {
+                    if (
+                        error != SpeechRecognizer.ERROR_NO_MATCH &&
+                        error != SpeechRecognizer.ERROR_SPEECH_TIMEOUT &&
+                        error != SpeechRecognizer.ERROR_CLIENT
+                    ) {
                         launchVoiceDialog()
                     }
                 }
@@ -547,6 +566,12 @@ private fun ChatBody(conv: Conversation) {
     }
 
     val doSend: () -> Unit = {
+        if (listening || activeRecognizer != null) {
+            runCatching { activeRecognizer?.cancel() }
+            runCatching { activeRecognizer?.destroy() }
+            activeRecognizer = null
+            listening = false
+        }
         val t = input.trim()
         val ed = editing
         if (ed != null) {

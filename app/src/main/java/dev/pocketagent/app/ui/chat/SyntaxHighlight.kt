@@ -39,9 +39,11 @@ object SyntaxHighlight {
     fun isRunnable(lang: String, code: String): Boolean {
         val l = lang.trim().lowercase()
         if (code.isBlank()) return false
-        if (l in RUNNABLE_LANGS) return true
-        val first = code.trim().lineSequence().firstOrNull()?.trim().orEmpty()
-        return l.isEmpty() && (first.startsWith("hermes ") || first.startsWith("$ ") || first.startsWith("ls ") || first.startsWith("uname"))
+        val matchesLang = l in RUNNABLE_LANGS || run {
+            val first = code.trim().lineSequence().firstOrNull()?.trim().orEmpty()
+            l.isEmpty() && (first.startsWith("hermes ") || first.startsWith("$ ") || first.startsWith("ls ") || first.startsWith("uname"))
+        }
+        return matchesLang && toTerminalCommand(lang, code).isNotBlank()
     }
 
     /** Formats a shell or Python code block into a single command ready for [TerminalSession.run]. */

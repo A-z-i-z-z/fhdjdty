@@ -15,8 +15,8 @@ internal object ChatJson {
         .put("id", b.id).put("name", b.name).put("avatar", b.avatar).put("color", b.color)
         .put("tagline", b.tagline).put("systemPrompt", b.systemPrompt).put("model", b.model).put("effort", b.effort)
         .put("builtIn", b.builtIn).put("createdAt", b.createdAt)
+        .put("voiceSid", b.voiceSid)
         .also {
-            if (b.voiceSid >= 0) it.put("voiceSid", b.voiceSid)
             if (b.voiceStyle != BotVoiceStyle.DEFAULT) it.put("voiceStyle", b.voiceStyle.name)
             if (b.voiceSpeed > 0f) it.put("voiceSpeed", b.voiceSpeed.toDouble())
         }
@@ -156,6 +156,20 @@ internal object ChatJson {
     fun decodeBots(text: String): List<Bot> {
         val arr = JSONObject(text).getJSONArray("bots")
         return (0 until arr.length()).mapNotNull { arr.optJSONObject(it)?.let(::botFromJson) }
+    }
+
+    /** Returns IDs of bots in [text] written before per-bot voice settings existed (no `voiceSid` or `voiceStyle` key). */
+    fun botsWithoutVoiceField(text: String): Set<String> = try {
+        val arr = JSONObject(text).getJSONArray("bots")
+        buildSet {
+            for (i in 0 until arr.length()) {
+                val o = arr.optJSONObject(i) ?: continue
+                val id = o.str("id")?.takeIf { it.isNotBlank() } ?: continue
+                if (!o.has("voiceSid") && !o.has("voiceStyle")) add(id)
+            }
+        }
+    } catch (_: Exception) {
+        emptySet()
     }
 
     fun decodeConversations(text: String): List<Conversation> {

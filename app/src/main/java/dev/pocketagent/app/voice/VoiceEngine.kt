@@ -18,6 +18,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,6 +26,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.util.Locale
 import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicLong
 
 /** Per-bot voice character & delivery mood overrides. */
 data class VoiceOverride(
@@ -68,13 +70,29 @@ class VoiceEngine(
 ) {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val ttsLock = Any()
+    private val systemTtsLock = Any()
+    private val stateLock = Any()
 
     @Volatile private var supertonic: OfflineTts? = null
     @Volatile private var systemTts: TextToSpeech? = null
     @Volatile private var systemTtsReady = false
+    @Volatile private var systemTtsInitializing = false
+    @Volatile private var pendingSystemUtterance: PendingSystemUtterance? = null
     @Volatile private var activeTrack: AudioTrack? = null
-    private val cancelled = AtomicBoolean(false)
+    @Volatile private var activeCancel: AtomicBoolean? = null
     @Volatile private var speakJob: Job? = null
+    @Volatile private var idleUnloadJob: Job? = null
+    private val speakSeq = AtomicLong(0L)
+
+    private data class PendingSystemUtterance(
+        val seq: Long,
+        val id: String,
+        val text: String,
+        val lang: String,
+        val speed: Float,
+        val pitch: Float,
+        val cancelFlag: AtomicBoolean,
+    )
 
     private val _speakingId = MutableStateFlow<String?>(null)
     private val _synthesizing = MutableStateFlow(false)
@@ -113,32 +131,44 @@ class VoiceEngine(
         val resolvedLang = appLang.ifBlank { Locale.getDefault().language }
         val lang = TtsTextCleaner.detectSupertonicLang(clean, resolvedLang)
         _lastError.value = null
-        cancelled.set(false)
-        _speakingId.value = id
+
+        val mySeq = speakSeq.incrementAndGet()
+        val myCancel = AtomicBoolean(false)
+        synchronized(stateLock) {
+            idleUnloadJob?.cancel()
+            idleUnloadJob = null
+            activeCancel = myCancel
+            _speakingId.value = id
+        }
 
         val useNeural = cfg.ttsEngine != TtsEngineMode.SYSTEM && modelStore.isInstalled()
         if (useNeural) {
-            speakJob = scope.launch {
+            val job = scope.launch {
                 var handedToSystem = false
                 try {
+                    if (myCancel.get()) return@launch
                     _synthesizing.value = true
-                    speakWithSupertonic(clean, lang, effectiveSid, effectiveSpeed, mod.silenceSec, cfg.qualitySteps)
+                    speakWithSupertonic(clean, lang, effectiveSid, effectiveSpeed, mod.silenceSec, cfg.qualitySteps, myCancel)
                 } catch (e: Throwable) {
-                    if (!cancelled.get()) {
+                    if (!myCancel.get()) {
                         AppLog.e("TTS", "Supertonic synthesis failed, falling back to system TTS", e)
                         _lastError.value = e.message ?: e.javaClass.simpleName
                         handedToSystem = true
-                        speakWithSystem(id, clean, lang, effectiveSpeed, mod.systemPitch)
+                        speakWithSystem(mySeq, id, clean, lang, effectiveSpeed, mod.systemPitch, myCancel)
                     }
                 } finally {
-                    if (!handedToSystem) {
+                    if (!handedToSystem && speakSeq.get() == mySeq) {
                         _synthesizing.value = false
                         if (_speakingId.value == id) _speakingId.value = null
+                        scheduleIdleUnload(mySeq)
                     }
                 }
             }
+            synchronized(stateLock) {
+                if (speakSeq.get() == mySeq) speakJob = job else job.cancel()
+            }
         } else {
-            speakWithSystem(id, clean, lang, effectiveSpeed, mod.systemPitch)
+            speakWithSystem(mySeq, id, clean, lang, effectiveSpeed, mod.systemPitch, myCancel)
         }
     }
 
@@ -185,60 +215,85 @@ class VoiceEngine(
     }
 
     fun stop() {
-        cancelled.set(true)
-        speakJob?.cancel()
-        speakJob = null
-        activeTrack?.let { tr ->
+        val prevTrack: AudioTrack?
+        synchronized(stateLock) {
+            speakSeq.incrementAndGet()
+            activeCancel?.set(true)
+            activeCancel = null
+            speakJob?.cancel()
+            speakJob = null
+            prevTrack = activeTrack
+            activeTrack = null
+            pendingSystemUtterance = null
+            _synthesizing.value = false
+            _speakingId.value = null
+        }
+        prevTrack?.let { tr ->
             runCatching {
                 if (tr.playState == AudioTrack.PLAYSTATE_PLAYING) tr.pause()
                 tr.flush()
                 tr.stop()
-                tr.release()
             }
         }
-        activeTrack = null
         runCatching { systemTts?.stop() }
-        _synthesizing.value = false
-        _speakingId.value = null
     }
 
     fun releaseNeuralModel() {
         stop()
+        synchronized(stateLock) {
+            idleUnloadJob?.cancel()
+            idleUnloadJob = null
+        }
         synchronized(ttsLock) {
             runCatching { supertonic?.release() }
             supertonic = null
         }
     }
 
-    private fun ensureSupertonic(): OfflineTts {
-        supertonic?.let { return it }
-        synchronized(ttsLock) {
-            supertonic?.let { return it }
-            val dir = modelStore.modelDir
-            val sup = OfflineTtsSupertonicModelConfig(
-                durationPredictor = File(dir, "duration_predictor.int8.onnx").absolutePath,
-                textEncoder = File(dir, "text_encoder.int8.onnx").absolutePath,
-                vectorEstimator = File(dir, "vector_estimator.int8.onnx").absolutePath,
-                vocoder = File(dir, "vocoder.int8.onnx").absolutePath,
-                ttsJson = File(dir, "tts.json").absolutePath,
-                unicodeIndexer = File(dir, "unicode_indexer.bin").absolutePath,
-                voiceStyle = File(dir, "voice.bin").absolutePath,
-            )
-            val threads = Runtime.getRuntime().availableProcessors().coerceIn(2, 4)
-            val config = OfflineTtsConfig(
-                model = OfflineTtsModelConfig(
-                    supertonic = sup,
-                    numThreads = threads,
-                    debug = false,
-                    provider = "cpu",
-                ),
-            )
-            val t0 = System.currentTimeMillis()
-            val engine = OfflineTts(assetManager = null, config = config)
-            AppLog.i("TTS", "Supertonic 3 loaded in ${System.currentTimeMillis() - t0} ms (sr=${engine.sampleRate()}, speakers=${engine.numSpeakers()})")
-            supertonic = engine
-            return engine
+    private fun scheduleIdleUnload(completedSeq: Long) {
+        synchronized(stateLock) {
+            idleUnloadJob?.cancel()
+            idleUnloadJob = scope.launch {
+                delay(IDLE_UNLOAD_MS)
+                if (speakSeq.get() != completedSeq || _speakingId.value != null) return@launch
+                synchronized(ttsLock) {
+                    if (speakSeq.get() == completedSeq && _speakingId.value == null && supertonic != null) {
+                        runCatching { supertonic?.release() }
+                        supertonic = null
+                        AppLog.i("TTS", "Supertonic 3 unloaded after idle timeout")
+                    }
+                }
+            }
         }
+    }
+
+    /** Caller must hold [ttsLock]. */
+    private fun ensureSupertonicLocked(): OfflineTts {
+        supertonic?.let { return it }
+        val dir = modelStore.modelDir
+        val sup = OfflineTtsSupertonicModelConfig(
+            durationPredictor = File(dir, "duration_predictor.int8.onnx").absolutePath,
+            textEncoder = File(dir, "text_encoder.int8.onnx").absolutePath,
+            vectorEstimator = File(dir, "vector_estimator.int8.onnx").absolutePath,
+            vocoder = File(dir, "vocoder.int8.onnx").absolutePath,
+            ttsJson = File(dir, "tts.json").absolutePath,
+            unicodeIndexer = File(dir, "unicode_indexer.bin").absolutePath,
+            voiceStyle = File(dir, "voice.bin").absolutePath,
+        )
+        val threads = Runtime.getRuntime().availableProcessors().coerceIn(2, 4)
+        val config = OfflineTtsConfig(
+            model = OfflineTtsModelConfig(
+                supertonic = sup,
+                numThreads = threads,
+                debug = false,
+                provider = "cpu",
+            ),
+        )
+        val t0 = System.currentTimeMillis()
+        val engine = OfflineTts(assetManager = null, config = config)
+        AppLog.i("TTS", "Supertonic 3 loaded in ${System.currentTimeMillis() - t0} ms (sr=${engine.sampleRate()}, speakers=${engine.numSpeakers()})")
+        supertonic = engine
+        return engine
     }
 
     private fun speakWithSupertonic(
@@ -248,10 +303,14 @@ class VoiceEngine(
         speed: Float,
         silenceSec: Float,
         qualitySteps: Int,
+        myCancel: AtomicBoolean,
     ) {
-        val tts = ensureSupertonic()
-        if (cancelled.get()) return
-        val sr = tts.sampleRate().coerceAtLeast(16_000)
+        val (sr, numSpeakers) = synchronized(ttsLock) {
+            if (myCancel.get()) return
+            val tts = ensureSupertonicLocked()
+            tts.sampleRate().coerceAtLeast(16_000) to tts.numSpeakers()
+        }
+        if (myCancel.get()) return
         val minBuf = AudioTrack.getMinBufferSize(sr, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_FLOAT)
             .coerceAtLeast(sr)
         val track = AudioTrack.Builder()
@@ -271,11 +330,18 @@ class VoiceEngine(
             .setBufferSizeInBytes(minBuf * 2)
             .setTransferMode(AudioTrack.MODE_STREAM)
             .build()
-        activeTrack = track
+        synchronized(stateLock) {
+            if (myCancel.get()) {
+                runCatching { track.release() }
+                return
+            }
+            activeTrack = track
+        }
+        var totalFramesWritten = 0L
         try {
             track.play()
             val chunks = TtsTextCleaner.splitSentences(cleanText, maxChunkChars = 220)
-            val sid = voiceSid.coerceIn(0, (tts.numSpeakers() - 1).coerceAtLeast(0))
+            val sid = voiceSid.coerceIn(0, (numSpeakers - 1).coerceAtLeast(0))
             val genCfg = GenerationConfig(
                 sid = sid,
                 speed = speed,
@@ -288,14 +354,18 @@ class VoiceEngine(
                 ),
             )
             for (chunk in chunks) {
-                if (cancelled.get()) break
+                if (myCancel.get()) break
                 val t0 = System.currentTimeMillis()
-                // Use generateWithConfig (no JNI Function1 callback) to stay immune to Kotlin 2.x
-                // invokedynamic lambda bridge erasure mismatches in sherpa-onnx's native GetMethodID.
-                val audio = tts.generateWithConfig(chunk, genCfg)
+                // Serialize native OfflineTts synthesis & lifecycle under ttsLock so concurrent taps or
+                // deleteModel() can never race against an active ONNX call. Use generateWithConfig (null
+                // callback) to stay immune to Kotlin 2.x invokedynamic lambda bridge erasure in JNI.
+                val samples: FloatArray = synchronized(ttsLock) {
+                    if (myCancel.get()) return@synchronized FloatArray(0)
+                    val tts = ensureSupertonicLocked()
+                    tts.generateWithConfig(chunk, genCfg).samples
+                }
                 val synthMs = System.currentTimeMillis() - t0
-                if (cancelled.get()) break
-                val samples = audio.samples
+                if (myCancel.get()) break
                 val audioSec = samples.size.toFloat() / sr.toFloat()
                 if (audioSec > 0.05f) {
                     AppLog.i(
@@ -311,63 +381,146 @@ class VoiceEngine(
                     _synthesizing.value = false
                     var offset = 0
                     val frameStep = 4096
-                    while (offset < samples.size && !cancelled.get()) {
+                    while (offset < samples.size && !myCancel.get()) {
                         val n = minOf(frameStep, samples.size - offset)
-                        track.write(samples, offset, n, AudioTrack.WRITE_BLOCKING)
-                        offset += n
+                        val written = track.write(samples, offset, n, AudioTrack.WRITE_BLOCKING)
+                        if (written <= 0) break
+                        offset += written
+                        totalFramesWritten += written
                     }
                 }
             }
-            if (!cancelled.get()) {
-                runCatching { Thread.sleep(160) }
+            if (!myCancel.get() && totalFramesWritten > 0L) {
+                // Let MODE_STREAM drain buffered tail audio cleanly before releasing the native AudioTrack.
+                val deadline = System.currentTimeMillis() + 900L
+                while (!myCancel.get() && System.currentTimeMillis() < deadline) {
+                    val played = track.playbackHeadPosition.toLong() and 0xFFFFFFFFL
+                    if (played >= totalFramesWritten) break
+                    runCatching { Thread.sleep(30) }
+                }
             }
         } finally {
+            synchronized(stateLock) {
+                if (activeTrack === track) activeTrack = null
+            }
             runCatching {
-                track.stop()
+                if (track.playState == AudioTrack.PLAYSTATE_PLAYING) track.stop()
                 track.release()
             }
-            if (activeTrack === track) activeTrack = null
         }
     }
 
-    private fun speakWithSystem(id: String, text: String, lang: String, speed: Float, pitch: Float) {
-        val locale = when (lang) {
-            "tr" -> Locale("tr", "TR")
-            "fr" -> Locale.FRENCH
-            else -> Locale.US
-        }
-        val runSpeak: (TextToSpeech) -> Unit = { tts ->
-            if (!cancelled.get()) {
-                tts.language = locale
-                tts.setSpeechRate(speed)
-                tts.setPitch(pitch)
+    private fun speakWithSystem(
+        mySeq: Long,
+        id: String,
+        text: String,
+        lang: String,
+        speed: Float,
+        pitch: Float,
+        myCancel: AtomicBoolean,
+    ) {
+        val clipped = text.take(TextToSpeech.getMaxSpeechInputLength().coerceIn(500, 3500))
+        val runSpeak: (TextToSpeech, PendingSystemUtterance) -> Unit = { tts, u ->
+            if (!u.cancelFlag.get() && speakSeq.get() == u.seq) {
+                tts.language = when (u.lang) {
+                    "tr" -> Locale("tr", "TR")
+                    "fr" -> Locale.FRENCH
+                    else -> Locale.US
+                }
+                tts.setSpeechRate(u.speed)
+                tts.setPitch(u.pitch)
                 tts.setOnUtteranceProgressListener(object : UtteranceProgressListener() {
-                    override fun onStart(utteranceId: String?) { _synthesizing.value = false }
-                    override fun onDone(utteranceId: String?) { if (_speakingId.value == id) _speakingId.value = null }
+                    override fun onStart(utteranceId: String?) {
+                        if (speakSeq.get() == u.seq) _synthesizing.value = false
+                    }
+                    override fun onDone(utteranceId: String?) {
+                        if (speakSeq.get() == u.seq) {
+                            _synthesizing.value = false
+                            if (_speakingId.value == u.id) _speakingId.value = null
+                        }
+                    }
+                    override fun onStop(utteranceId: String?, interrupted: Boolean) {
+                        if (speakSeq.get() == u.seq) {
+                            _synthesizing.value = false
+                            if (_speakingId.value == u.id) _speakingId.value = null
+                        }
+                    }
                     @Deprecated("Deprecated in Android API")
-                    override fun onError(utteranceId: String?) { if (_speakingId.value == id) _speakingId.value = null }
+                    override fun onError(utteranceId: String?) {
+                        if (speakSeq.get() == u.seq) {
+                            _synthesizing.value = false
+                            if (_speakingId.value == u.id) _speakingId.value = null
+                        }
+                    }
+                    override fun onError(utteranceId: String?, errorCode: Int) {
+                        if (speakSeq.get() == u.seq) {
+                            _synthesizing.value = false
+                            if (_speakingId.value == u.id) _speakingId.value = null
+                            _lastError.value = "System TTS error ($errorCode)"
+                        }
+                    }
                 })
-                tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, id)
+                val rc = tts.speak(u.text, TextToSpeech.QUEUE_FLUSH, null, u.id)
+                if (rc != TextToSpeech.SUCCESS) {
+                    AppLog.w("TTS", "System TTS speak() returned error ($rc)")
+                    if (speakSeq.get() == u.seq) {
+                        _synthesizing.value = false
+                        if (_speakingId.value == u.id) _speakingId.value = null
+                        _lastError.value = "System TTS unavailable"
+                    }
+                }
             }
         }
-        val existing = systemTts
-        if (existing != null && systemTtsReady) {
-            runSpeak(existing)
+        val utterance = PendingSystemUtterance(mySeq, id, clipped, lang, speed, pitch, myCancel)
+        val shouldCreate: Boolean
+        val readyTts: TextToSpeech?
+        synchronized(systemTtsLock) {
+            val existing = systemTts
+            if (existing != null && systemTtsReady) {
+                readyTts = existing
+                shouldCreate = false
+            } else {
+                readyTts = null
+                pendingSystemUtterance = utterance
+                shouldCreate = !systemTtsInitializing
+                if (shouldCreate) systemTtsInitializing = true
+            }
+        }
+        if (readyTts != null) {
+            runSpeak(readyTts, utterance)
             return
         }
         _synthesizing.value = true
+        if (!shouldCreate) return
         var created: TextToSpeech? = null
         created = TextToSpeech(context.applicationContext) { status ->
-            if (status == TextToSpeech.SUCCESS) {
-                systemTtsReady = true
-                created?.let {
-                    systemTts = it
-                    runSpeak(it)
+            val nextToSpeak: PendingSystemUtterance?
+            val engine: TextToSpeech?
+            synchronized(systemTtsLock) {
+                systemTtsInitializing = false
+                if (status == TextToSpeech.SUCCESS && created != null) {
+                    systemTtsReady = true
+                    systemTts = created
+                    engine = created
+                    nextToSpeak = pendingSystemUtterance
+                    pendingSystemUtterance = null
+                } else {
+                    engine = null
+                    nextToSpeak = pendingSystemUtterance
+                    pendingSystemUtterance = null
                 }
-            } else {
+            }
+            if (engine != null && nextToSpeak != null) {
+                runSpeak(engine, nextToSpeak)
+            } else if (nextToSpeak != null && speakSeq.get() == nextToSpeak.seq) {
                 _synthesizing.value = false
-                if (_speakingId.value == id) _speakingId.value = null
+                if (_speakingId.value == nextToSpeak.id) _speakingId.value = null
+                _lastError.value = "System TTS init failed ($status)"
             }
         }
+    }
+
+    companion object {
+        private const val IDLE_UNLOAD_MS = 5L * 60_000L
     }
 }

@@ -61,7 +61,7 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
             sb.append(SectionFormat.redactThenCap(Diag.redactor, text, cap, keepHead = !tail)).append('\n')
         }
         val now = System.currentTimeMillis()
-        sb.append("PocketAgent diagnostics\ngenerated: ${t(now)}\n")
+        sb.append("Agirî diagnostics\ngenerated: ${t(now)}\n")
         sb.append("state now: ${rt.state.value.label()}; process alive: ${rt.processAlive()}; self-test: ${if (rt.selfTestStartedAt > 0) "RUNNING since ${t(rt.selfTestStartedAt)} (wait, then copy again)" else "idle"}\n")
 
         safe("App") {

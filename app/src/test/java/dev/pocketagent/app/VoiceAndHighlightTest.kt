@@ -2,6 +2,7 @@ package dev.pocketagent.app
 
 import dev.pocketagent.app.data.Bot
 import dev.pocketagent.app.data.BotForge
+import dev.pocketagent.app.data.BotPresets
 import dev.pocketagent.app.data.BotVoiceStyle
 import dev.pocketagent.app.data.ChatJson
 import dev.pocketagent.app.data.ChatMode
@@ -11,6 +12,7 @@ import dev.pocketagent.app.data.Message
 import dev.pocketagent.app.data.Role
 import dev.pocketagent.app.data.SlashCommands
 import dev.pocketagent.app.ui.chat.SyntaxHighlight
+import dev.pocketagent.app.ui.chat.markdownToPlain
 import dev.pocketagent.app.voice.TtsTextCleaner
 import dev.pocketagent.app.voice.styleModulation
 import kotlinx.coroutines.CoroutineScope
@@ -24,6 +26,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
+import java.io.File
 
 class VoiceAndHighlightTest {
     @get:Rule val tmp = TemporaryFolder()
@@ -148,5 +151,61 @@ class VoiceAndHighlightTest {
     @Test fun secretAgirSlashCommandParses() {
         assertEquals("agir", SlashCommands.parse("/agir")?.name)
         assertEquals("fire", SlashCommands.parse("/fire")?.name)
+    }
+
+    @Test fun markdownToPlainHandlesFlattenedSingleLineCodeBlockPreviews() {
+        val flattened = "```bash uname -a ``` Bu komut sistemin çekirdek sürümünü gösterir."
+        val plain = markdownToPlain(flattened)
+        assertTrue("preview must not vanish when starting with flattened fence: '$plain'", plain.contains("uname -a"))
+        assertTrue(plain.contains("çekirdek sürümünü"))
+        assertFalse(plain.contains("```"))
+    }
+
+    @Test fun ttsCleanerDropsCodeOnlyAndPreservesSnakeCaseAndContractions() {
+        assertEquals("", TtsTextCleaner.cleanForSpeech("```bash\nuname -a\n```"))
+        val snake = TtsTextCleaner.cleanForSpeech("Check `user_name` and **hello_world**")
+        assertTrue("snake_case should preserve word break: '$snake'", snake.contains("user name"))
+        assertTrue(snake.contains("hello world"))
+
+        // Turkish words overlapping English stopwords ("can", "not") must respect Turkish appLang
+        assertEquals("tr", TtsTextCleaner.detectSupertonicLang("Can geldi, not defteri ac", "tr"))
+        // French contractions with apostrophes must match French words ("c'est", "d'aujourd'hui")
+        assertEquals("fr", TtsTextCleaner.detectSupertonicLang("C'est l'homme d'aujourd'hui, n'est-ce pas?", "en"))
+    }
+
+    @Test fun syntaxHighlightRejectsCommentOnlyShellBlocks() {
+        assertFalse(SyntaxHighlight.isRunnable("bash", "# only a comment\n   # another comment"))
+        assertEquals("", SyntaxHighlight.toTerminalCommand("bash", "# only a comment"))
+    }
+
+    @Test fun forkConversationAlwaysInsertsSpaceBeforeTrimmedSuffix() {
+        val repo = ChatRepository(tmp.newFolder("chat-fork"), CoroutineScope(SupervisorJob() + Dispatchers.Unconfined), debounceMs = 10_000L)
+        val conv = repo.createConversation(listOf("hermes"), "Sadece uname -a")
+        // Android aapt2 trims leading whitespace in <string> resources, so runtime receives "(dal)"
+        val forked = repo.forkConversation(conv.id, upToMessageId = null, titleSuffix = "(dal)")!!
+        assertEquals("Sadece uname -a (dal)", forked.title)
+        val forkedAgain = repo.forkConversation(forked.id, upToMessageId = null, titleSuffix = "(dal)")!!
+        assertEquals("Sadece uname -a (dal)", forkedAgain.title)
+    }
+
+    @Test fun userResetBotVoiceToDefaultSurvivesRestartWhileLegacyFileMigratesOnce() {
+        val dir = tmp.newFolder("chat-voice-mig")
+        // 1) Legacy bots.json without voiceSid key -> gets signature voice once
+        val legacyJson = """{"v":1,"bots":[${
+            ChatJson.botToJson(BotPresets.rebel).apply { remove("voiceSid"); remove("voiceStyle") }
+        }]}"""
+        File(dir, "bots.json").writeText(legacyJson)
+        val repo1 = ChatRepository(dir, CoroutineScope(SupervisorJob() + Dispatchers.Unconfined), debounceMs = 10_000L)
+        assertEquals(BotPresets.rebel.voiceSid, repo1.bot("rebel")!!.voiceSid)
+        assertEquals(BotPresets.rebel.voiceStyle, repo1.bot("rebel")!!.voiceStyle)
+
+        // 2) User intentionally edits Rebel back to Follow Default (-1) + Natural (DEFAULT)
+        repo1.saveBot(repo1.bot("rebel")!!.copy(voiceSid = -1, voiceStyle = BotVoiceStyle.DEFAULT))
+        repo1.flush()
+
+        // 3) Reopen repository -> user's choice (-1 / DEFAULT) must survive!
+        val repo2 = ChatRepository(dir, CoroutineScope(SupervisorJob() + Dispatchers.Unconfined), debounceMs = 10_000L)
+        assertEquals(-1, repo2.bot("rebel")!!.voiceSid)
+        assertEquals(BotVoiceStyle.DEFAULT, repo2.bot("rebel")!!.voiceStyle)
     }
 }

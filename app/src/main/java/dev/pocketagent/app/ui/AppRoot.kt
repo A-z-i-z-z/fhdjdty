@@ -75,10 +75,9 @@ import dev.pocketagent.app.data.BotPresets
 import dev.pocketagent.app.ui.bots.BotEditorScreen
 import dev.pocketagent.app.ui.bots.BotsScreen
 import dev.pocketagent.app.ui.chat.AvatarStack
-import dev.pocketagent.app.ui.chat.ChatDrafts
 import dev.pocketagent.app.ui.chat.ChatListScreen
-import dev.pocketagent.app.ui.chat.ChatPendingAttachments
 import dev.pocketagent.app.ui.chat.ChatScreen
+import dev.pocketagent.app.ui.chat.ChatShareInbox
 import dev.pocketagent.app.ui.chat.bottomSafeInsets
 import dev.pocketagent.app.ui.chat.titleOf
 import dev.pocketagent.app.ui.components.ButtonKind
@@ -94,6 +93,7 @@ import dev.pocketagent.app.ui.theme.AnimLevel
 import dev.pocketagent.app.ui.theme.AppearanceStore
 import dev.pocketagent.app.ui.theme.Pocket
 import dev.pocketagent.app.ui.theme.PocketTheme
+import dev.pocketagent.app.ui.theme.SystemStatusBarIcons
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -226,6 +226,9 @@ private fun AppShell() {
     val imeOpen = WindowInsets.isImeVisible
     val showBar = route.showsBar() && !imeOpen
 
+    // HomeScreen always paints the dark Zagros night sky full-bleed behind the status bar, even in light themes.
+    SystemStatusBarIcons(darkIcons = route != Route.Home && !c.isDark)
+
     // Back: pop the stack; on the root of a tab other than Home go to Home; on Home the system leaves the app.
     BackHandler(enabled = nav.canPop || route != Route.Home) {
         if (!nav.back()) nav.tab(Route.Home)
@@ -263,24 +266,21 @@ private fun AppShell() {
                 onPickConv = { convId ->
                     app.incomingShare.value = null
                     scope.launch {
-                        if (!payload.text.isNullOrBlank()) {
-                            val cur = ChatDrafts[convId]
-                            ChatDrafts[convId] = if (cur.isBlank()) payload.text else "$cur\n${payload.text}"
-                        }
-                        if (payload.uri != null) {
+                        val importedAtt = if (payload.uri != null) {
                             try {
-                                val att = withContext(Dispatchers.IO) {
+                                withContext(Dispatchers.IO) {
                                     if (payload.mime?.startsWith("image/", ignoreCase = true) == true) {
                                         app.attachments.importImage(payload.uri)
                                     } else {
                                         app.attachments.importDocument(payload.uri)
                                     }
                                 }
-                                ChatPendingAttachments.add(convId, att)
                             } catch (e: Exception) {
                                 Toast.makeText(ctx, ctx.getString(R.string.ui_attach_failed, e.message ?: "share"), Toast.LENGTH_SHORT).show()
+                                null
                             }
-                        }
+                        } else null
+                        ChatShareInbox.enqueue(convId, payload.text, importedAtt)
                         nav.go(Route.Chat(convId))
                     }
                 },

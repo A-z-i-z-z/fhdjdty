@@ -21,6 +21,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
@@ -125,6 +126,10 @@ private fun BotEditorContent(botId: String?) {
     val c = Pocket.colors
     val ap by AppearanceStore.get(ctx).appearance.collectAsState()
     val speakingId by app.voice.speakingId.collectAsState()
+    val synthesizing by app.voice.synthesizing.collectAsState()
+    DisposableEffect(Unit) {
+        onDispose { if (app.voice.speakingId.value == "bot-sample") app.voice.stop() }
+    }
     val existing: Bot? = remember(botId) { botId?.let { repo.bot(it) } }
 
     var name by rememberSaveable(botId) { mutableStateOf(existing?.name ?: "") }
@@ -296,7 +301,13 @@ private fun BotEditorContent(botId: String?) {
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     val previewing = speakingId == "bot-sample"
                     PixelButton(
-                        stringResource(if (previewing) R.string.btn_stop else R.string.ctl_bot_voice_test),
+                        stringResource(
+                            when {
+                                previewing && synthesizing -> R.string.ctl_voice_synth
+                                previewing -> R.string.btn_stop
+                                else -> R.string.ctl_bot_voice_test
+                            },
+                        ),
                         onClick = {
                             if (previewing) app.voice.stop()
                             else app.voice.speakBotSample(name, ap.language, VoiceOverride(voiceSid, voiceStyle, voiceSpeed))

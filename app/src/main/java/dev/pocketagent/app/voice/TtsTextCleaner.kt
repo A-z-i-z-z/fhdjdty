@@ -15,7 +15,9 @@ object TtsTextCleaner {
     private val MD_LIST = Regex("(?m)^\\s*([-*+]|\\d+\\.)\\s+")
     private val MD_RULE = Regex("(?m)^\\s*[-*_]{3,}\\s*$")
     private val MD_TABLE_SEP = Regex("(?m)^\\|?[\\s:|-]+\\|?$")
+    private val SNAKE_UNDERSCORE = Regex("(?<=[\\p{L}\\p{N}])_(?=[\\p{L}\\p{N}])")
     private val MD_EMPH = Regex("[*_~]{1,3}")
+    private val SINGLE_NL_PAUSE = Regex("(?<=[\\p{L}\\p{N}])\\n(?=[\\p{L}\\p{N}])")
     private val MULTI_SPACE = Regex("[ \\t]{2,}")
     private val MULTI_NL = Regex("\\n{2,}")
 
@@ -28,14 +30,17 @@ object TtsTextCleaner {
     private val TR_WORDS = setOf(
         "bir", "ve", "bu", "için", "ile", "olarak", "daha", "çok", "ama", "veya", "ben", "sen",
         "merhaba", "evet", "hayır", "nasıl", "neden", "şimdi", "burada", "gibi", "değil", "var",
+        "tamam", "harika", "oldu", "olur", "güzel", "lütfen", "teşekkürler", "sadece", "bugün", "bence",
     )
     private val FR_WORDS = setOf(
         "le", "la", "les", "des", "une", "un", "je", "suis", "pour", "dans", "avec", "est", "sont",
-        "mais", "vous", "nous", "bonjour", "merci", "très", "aussi", "cette", "tout", "comme", "plus", "être", "pas",
+        "mais", "vous", "nous", "bonjour", "merci", "très", "aussi", "cette", "tout", "comme", "plus",
+        "être", "pas", "aujourd", "hui", "bien", "oui", "non", "elle", "qui", "que", "sur", "aux",
     )
+    // Avoid words that collide with common Turkish words ("can", "not")
     private val EN_WORDS = setOf(
         "the", "and", "is", "are", "was", "for", "with", "this", "that", "from", "have", "your",
-        "you", "hello", "what", "when", "where", "how", "can", "will", "not", "but", "here", "into",
+        "you", "hello", "what", "when", "where", "how", "will", "but", "here", "into", "they", "their", "about",
     )
 
     private const val MAX_SPEECH_CHARS = 2400
@@ -56,6 +61,7 @@ object TtsTextCleaner {
             .replace(MD_QUOTE, "")
             .replace(MD_LIST, "")
             .replace("|", ", ")
+            .replace(SNAKE_UNDERSCORE, " ")
             .replace(MD_EMPH, "")
         // Strip emoji/pictographs and control characters that confuse phoneme indexers
         val sb = StringBuilder(s.length)
@@ -71,11 +77,13 @@ object TtsTextCleaner {
         }
         s = sb.toString()
             .replace(MULTI_NL, ". ")
+            .replace(SINGLE_NL_PAUSE, ". ")
             .replace('\n', ' ')
             .replace(MULTI_SPACE, " ")
             .replace("..", ".")
             .replace(". .", ".")
             .trim()
+        if (s.none { it.isLetterOrDigit() }) return ""
         return if (s.length <= MAX_SPEECH_CHARS) s else s.take(MAX_SPEECH_CHARS).substringBeforeLast(' ', s.take(MAX_SPEECH_CHARS))
     }
 
@@ -85,15 +93,17 @@ object TtsTextCleaner {
      */
     fun detectSupertonicLang(text: String, appLang: String = ""): String {
         val sample = text.take(600)
-        var trScore = 0
-        var frScore = 0
-        var enScore = 0
+        val pref = appLang.lowercase().take(2)
+        var trScore = if (pref == "tr") 1 else 0
+        var frScore = if (pref == "fr") 1 else 0
+        var enScore = if (pref == "en") 1 else 0
         for (ch in sample) {
             if (ch in TR_UNIQUE) trScore += 4
             else if (ch in TR_SHARED) trScore += 1
             if (ch in FR_UNIQUE) frScore += 3
         }
-        val words = sample.lowercase().split(Regex("[^\\p{L}']+")).filter { it.length >= 2 }
+        // Split on all non-letters (including apostrophes) so French contractions like "c'est", "d'un" match cleanly.
+        val words = sample.lowercase().split(Regex("[^\\p{L}]+")).filter { it.length >= 2 }
         for (w in words) {
             if (w in TR_WORDS) trScore += 2
             if (w in FR_WORDS) frScore += 2
@@ -101,11 +111,11 @@ object TtsTextCleaner {
         }
         if (trScore >= 3 && trScore >= frScore && trScore >= enScore) return "tr"
         if (frScore >= 3 && frScore > trScore && frScore >= enScore) return "fr"
-        if (enScore >= 2 && enScore >= trScore && enScore >= frScore) return "en"
-        return when (appLang.lowercase().take(2)) {
-            "tr" -> if (trScore >= enScore && trScore >= frScore) "tr" else "en"
-            "fr" -> if (frScore >= enScore && frScore > trScore) "fr" else "en"
-            else -> "en"
+        if (enScore >= 3 && enScore >= trScore && enScore >= frScore) return "en"
+        return when (pref) {
+            "tr" -> if (trScore >= enScore && trScore >= frScore) "tr" else if (frScore > enScore) "fr" else "en"
+            "fr" -> if (frScore >= enScore && frScore >= trScore) "fr" else if (trScore > enScore) "tr" else "en"
+            else -> if (trScore > enScore && trScore >= frScore) "tr" else if (frScore > enScore) "fr" else "en"
         }
     }
 

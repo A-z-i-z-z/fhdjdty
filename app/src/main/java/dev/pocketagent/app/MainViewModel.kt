@@ -181,7 +181,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch(Dispatchers.IO) {
             val r = diagnostics.buildForClipboard()
             val cm = getApplication<Application>().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            cm.setPrimaryClip(ClipData.newPlainText("PocketAgent diagnostics", r.text))
+            cm.setPrimaryClip(ClipData.newPlainText("Agirî diagnostics", r.text))
             diagMessage = if (r.truncated) "truncated:${r.fullLength}:${r.text.length}" else "copied:${r.text.length}"
         }
     }
@@ -192,7 +192,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         val uri = FileProvider.getUriForFile(app, app.packageName + ".fileprovider", f)
         Intent.createChooser(
             Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_STREAM, uri)
-                .putExtra(Intent.EXTRA_SUBJECT, "PocketAgent diagnostics").addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION),
+                .putExtra(Intent.EXTRA_SUBJECT, "Agirî diagnostics").addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION),
             null,
         ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     } catch (e: Exception) { AppLog.e("Diag", "share failed", e); null }

@@ -245,7 +245,7 @@
     <string name="ctl_voice_delete_body">Yaklaşık 139 MB yer açar. Supertonic 3\'ü istediğin zaman yeniden indirebilirsin.</string>
 
     <string name="ctl_sfx_title">Ses efektleri</string>
-    <string name="ctl_sfx_sub">Ajan işini bitirdiğinde, araç çalıştırdığında veya bot dövdüğünde sıcak ve yumuşak ses ipuçları.</string>
+    <string name="ctl_sfx_sub">Ajan işini bitirdiğinde, araç çalıştırdığında veya yeni bot oluşturduğunda sıcak ve yumuşak ses ipuçları.</string>
     <string name="ctl_sfx_hearth">Ocak</string>
     <string name="ctl_sfx_studio">Stüdyo</string>
     <string name="ctl_sfx_off">Sessiz</string>

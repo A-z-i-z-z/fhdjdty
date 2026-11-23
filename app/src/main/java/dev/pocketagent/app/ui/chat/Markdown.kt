@@ -283,6 +283,14 @@ private fun merge(spans: List<MdSpan>): List<MdSpan> {
 
 /** Plain one-line text of a Markdown string (markers, bullets, link syntax removed) for list previews. */
 fun markdownToPlain(src: String, maxLen: Int = 160): String {
+    if (src.isBlank()) return ""
+    // Previews stored in conversations.json are single-line (newlines flattened to spaces); a leading
+    // triple-backtick fence would otherwise be parsed as an empty-body fence header by parseMarkdown.
+    val normalized = if (!src.contains('\n') && src.contains("```")) {
+        src.replace(Regex("```[A-Za-z0-9_+.-]*"), " ")
+    } else {
+        src
+    }
     val sb = StringBuilder()
     fun add(t: String) {
         if (t.isNotBlank()) { if (sb.isNotEmpty()) sb.append(' '); sb.append(t) }
@@ -302,6 +310,8 @@ fun markdownToPlain(src: String, maxLen: Int = 160): String {
             }
         }
     }
-    walk(parseMarkdown(src))
-    return sb.toString().replace(Regex("\\s+"), " ").trim().take(maxLen)
+    walk(parseMarkdown(normalized))
+    val out = sb.toString().replace(Regex("\\s+"), " ").trim()
+    if (out.isNotEmpty()) return out.take(maxLen)
+    return normalized.replace(Regex("```[A-Za-z0-9_+.-]*"), " ").replace(Regex("\\s+"), " ").trim().take(maxLen)
 }

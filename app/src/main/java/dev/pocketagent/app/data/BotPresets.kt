@@ -163,16 +163,19 @@ $LANGUAGE_RULE
     /**
      * Saved starter bots (matched by id) whose prompt still equals an OLD preset text exactly are moved to the current text;
      * a prompt the user edited, or a bot with another id, is returned unchanged.
+     * When [migrateVoice] is true (a pre-TTS bots.json without `voiceSid`), untouched starter bots also receive their
+     * signature voice once; subsequent user edits back to `-1` (follow default) are preserved.
      */
-    fun upgradeLegacy(bot: Bot): Bot {
+    fun upgradeLegacy(bot: Bot, migrateVoice: Boolean = false): Bot {
         val current = templates.firstOrNull { it.id == bot.id } ?: return bot
         val old = LegacyBotPrompts.byId[bot.id]
         val saved = bot.systemPrompt.trim()
         var out = if (old != null && saved != current.systemPrompt.trim() && old.any { it.trim() == saved }) {
             bot.copy(systemPrompt = current.systemPrompt)
         } else bot
-        // Give untouched starter bots their signature Supertonic voice & delivery style once.
-        if (out.voiceSid == -1 && out.voiceStyle == BotVoiceStyle.DEFAULT && (current.voiceSid >= 0 || current.voiceStyle != BotVoiceStyle.DEFAULT)) {
+        if (migrateVoice && out.voiceSid == -1 && out.voiceStyle == BotVoiceStyle.DEFAULT &&
+            (current.voiceSid >= 0 || current.voiceStyle != BotVoiceStyle.DEFAULT)
+        ) {
             out = out.copy(voiceSid = current.voiceSid, voiceStyle = current.voiceStyle)
         }
         return out

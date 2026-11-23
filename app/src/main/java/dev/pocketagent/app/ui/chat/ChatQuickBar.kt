@@ -140,7 +140,10 @@ internal fun ChatOverridesBanner(
         PixelIconView(PixelIcon.SLIDERS, tint = c.accent, size = 14.dp)
         val summary = buildList {
             if (modelOverride.isNotBlank()) add(modelOverride.substringAfterLast('/'))
-            if (effortOverride.isNotBlank()) add("${stringResource(R.string.ui_ctrl_effort_short)}: $effortOverride")
+            if (effortOverride.isNotBlank()) {
+                val efLabel = effortLabelRes(effortOverride)?.let { stringResource(it) } ?: effortOverride
+                add("${stringResource(R.string.ui_ctrl_effort_short)}: $efLabel")
+            }
         }.joinToString(" · ")
         Text(
             summary,
@@ -247,8 +250,9 @@ internal fun ChatControlsSheet(
                     onClick = { onSelectOverrides(conv.modelOverride, "") },
                 )
                 ProviderConfig.REASONING_EFFORTS.forEach { ef ->
+                    val label = effortLabelRes(ef)?.let { stringResource(it) } ?: ef.replaceFirstChar { it.uppercase() }
                     PocketChip(
-                        ef.replaceFirstChar { it.uppercase() },
+                        label,
                         selected = conv.effortOverride == ef,
                         onClick = { onSelectOverrides(conv.modelOverride, ef) },
                     )
@@ -275,4 +279,14 @@ internal fun ChatControlsSheet(
             Spacer(Modifier.height(8.dp))
         }
     }
+}
+
+private fun effortLabelRes(effort: String): Int? = when (effort.trim().lowercase()) {
+    "none" -> R.string.effort_none
+    "minimal" -> R.string.effort_minimal
+    "low" -> R.string.effort_low
+    "medium" -> R.string.effort_medium
+    "high" -> R.string.effort_high
+    "xhigh" -> R.string.effort_xhigh
+    else -> null
 }

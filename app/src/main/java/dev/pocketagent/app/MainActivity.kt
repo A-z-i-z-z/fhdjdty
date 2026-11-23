@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
 
     private fun handleIncomingIntent(intent: Intent?) {
         if (intent?.action != Intent.ACTION_SEND) return
+        if ((intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0) return
         val text = intent.getStringExtra(Intent.EXTRA_TEXT)?.trim()?.takeIf { it.isNotEmpty() }
         val streamUri: Uri? = if (Build.VERSION.SDK_INT >= 33) {
             intent.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java)
@@ -45,6 +46,8 @@ class MainActivity : ComponentActivity() {
         val mime = intent.type
         if (text != null || streamUri != null) {
             PocketApp.from(this).incomingShare.value = IncomingShare(text = text, uri = streamUri, mime = mime)
+            // Clear action so Android Recents / Activity recreation never replays a consumed share.
+            intent.action = Intent.ACTION_MAIN
         }
     }
 }

@@ -125,22 +125,42 @@ Target device: Galaxy S24 Ultra, One UI 9 / Android 17 (SDK 37), arm64, 4 KB pag
     ChatList filter chips (`All`, `Pinned`, `Groups`, `1:1`, `Modes`), Android `ACTION_SEND` share
     target (`Send to Agirî` dialog), plus subtle surprises (double-tap bot avatar spring bounce,
     `/agir` secret command).
-  - **Phone checks passed on v0.1.20–0.1.22:** Home full-bleed night sky & blazing hearth, live
-    Supertonic 3 Turkish synthesis (default F1 `RTF=0.32`, Coder M5/Serious `RTF=0.30`, Dengbêj
-    M4/Storyteller `RTF=0.34`), live 6-icon switcher (`NEWROZ` -> `PET` -> `NEWROZ` verified via
-    `dumpsys package`), Bot Voice & Delivery editor, Chats filter chips, Group Participant Bar,
-    Chat Controls sheet, Visual Skill Picker (44 Hermes skills), live Coder reply with syntax-
-    highlighted `bash` block -> **Run in Terminal** (`uname -a` executed cleanly), **Fork**
-    branching, `ACTION_SEND` share target dialog, `force-stop` -> reopen -> Start recovery (11s
-    to `Running`), and 22-minute steady background run (~260 MiB RSS, zero crashes).
+  - **Phone checks passed on v0.1.20–0.1.23:** Home full-bleed night sky & blazing hearth in BOTH
+    Newroz Dark and Nergiz Light (transparent status bar with adaptive white icons over Home's night
+    sky), live Supertonic 3 Turkish synthesis (default F1 `RTF=0.32`, Coder M5/Serious `RTF=0.30`,
+    Dengbêj M4/Storyteller `RTF=0.34`), live in-app HuggingFace download (~139 MB in ~5s on Wi-Fi 6E)
+    & instant mid-download cancellation, live System TTS test button & playback, live `SpeechRecognizer`
+    permission + listening state, live 6-icon switcher (`NEWROZ` -> `PET` -> `NEWROZ` verified via
+    `dumpsys package`), Bot Voice & Delivery editor, Chats filter chips + code-block message previews,
+    Group Participant Bar, localized Chat Controls sheet, Visual Skill Picker (44 Hermes skills),
+    live Coder reply with syntax-highlighted `bash` block -> **Run in Terminal** (`uname -a` executed
+    cleanly), **Fork** branching, `ACTION_SEND` share target (including into the currently open chat),
+    `force-stop` -> reopen -> Start recovery (11s to `Running`), and 22-minute steady background run
+    (~260 MiB RSS, zero crashes).
+  - **Adversarial review fixes (v0.1.23, `177` unit tests, 0 unexpected failures; CI run #12 on
+    `c421cad` green end-to-end including `sherpa-onnx:2.0.3` Ivy fetch):**
+    - Serialized native `OfflineTts` inference/release under `ttsLock` with per-utterance `speakSeq`
+      + `AtomicBoolean` cancellation (fixes concurrent native ONNX overlap & delete-while-speaking
+      use-after-free), clean `AudioTrack` tail drain, 5-min idle neural unload, and hardened System TTS.
+    - Fixed `SupertonicModelStore.cancelDownload()` to close active `HttpURLConnection` immediately
+      and guard progress updates against overwriting cancelled state.
+    - Fixed `ACTION_SEND` into the currently open chat via reactive `ChatShareInbox` and blocked
+      Recents intent replays (`FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY`).
+    - Fixed opaque `window.statusBarColor` clipping Home's night sky in dark & light themes.
+    - Fixed `markdownToPlain` returning blank (`"No messages yet"`) for single-line flattened code-block
+      previews, fixed `forkConversation` spacing after `aapt2` whitespace trimming, localized effort
+      chips in `ChatControlsSheet`/`ChatOverridesBanner`, fixed `BotPresets.upgradeLegacy` overwriting
+      explicit `Follow default` voice choices across restarts, fixed comment-only shell `isRunnable`,
+      refined `TtsTextCleaner` (code-only replies, `snake_case`, French contractions, Turkish stopwords),
+      added System TTS preview button when Supertonic isn't installed, fixed Turkish typo in `ctl_sfx_sub`,
+      and updated leftover `"PocketAgent diagnostics"` strings to `"Agirî diagnostics"`.
 
 Next steps, in order:
 1. Not yet tried on the phone: editing `SOUL.md` end-to-end, live `TakePicture` camera shutter,
-   live microphone STT dictation (requires interactive speech), `/loop` multi-pass mode,
-   edit/regenerate/stop buttons in-flow, an approval card, and a rootfs update over an existing
+   spoken STT speech-to-text transcription (microphone capture tested in silence), `/loop` multi-pass
+   mode, edit/regenerate/stop buttons in-flow, an approval card, and a rootfs update over an existing
    install with user data.
-2. Verify CI green build on `ccr-bb6d7bcc-9eojyu` after push (confirms GitHub Releases Ivy fetch of
-   `sherpa-onnx` works cleanly in Actions too).
+2. Monitor CI run on `ccr-bb6d7bcc-9eojyu` after this review-fixes push.
 
 ## Repo map
 
@@ -318,6 +338,12 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
 - **Android 11+ package visibility (`<queries>`):** Declare `<queries>` intents for
   `android.speech.RecognitionService` and `android.intent.action.TTS_SERVICE` in
   `AndroidManifest.xml` so voice dictation and fallback System TTS resolve cleanly on Android 11–17.
+- **`aapt2` trims unquoted leading/trailing whitespace in `<string>` XML:** Never rely on a leading
+  space inside `<string name="ui_fork_suffix"> (fork)</string>`; insert separator spaces in Kotlin.
+- **Transparent edge-to-edge bars vs. `PocketTheme.SystemBars`:** Do not set opaque
+  `window.statusBarColor = colors.bgDeep.toArgb()` after `enableEdgeToEdge()`, or full-bleed hero
+  scenes like `HearthScene` get clipped by an opaque colored slab in light themes. Keep system bars
+  transparent and toggle `isAppearanceLightStatusBars` per route (`false` on `Route.Home`).
 
 ## Phase 1 notes (the new app, 2026-11-23)
 

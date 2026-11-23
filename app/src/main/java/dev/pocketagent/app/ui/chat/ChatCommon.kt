@@ -147,13 +147,33 @@ internal object ChatDrafts {
     operator fun set(convId: String, text: String) { if (text.isBlank()) map.remove(convId) else map[convId] = text }
 }
 
-/** Pending attachments handed to a chat (e.g. from Android ACTION_SEND share intent). */
-internal object ChatPendingAttachments {
-    private val map = HashMap<String, List<dev.pocketagent.app.data.Attachment>>()
-    fun add(convId: String, att: dev.pocketagent.app.data.Attachment) {
-        map[convId] = (map[convId] ?: emptyList()) + att
+/** Reactive inbox for Android ACTION_SEND payloads handed into a chat (works even if that chat is already open). */
+internal data class SharedChatPayload(
+    val text: String? = null,
+    val attachment: dev.pocketagent.app.data.Attachment? = null,
+)
+
+internal object ChatShareInbox {
+    private val _pending = kotlinx.coroutines.flow.MutableStateFlow<Map<String, List<SharedChatPayload>>>(emptyMap())
+    val pending: kotlinx.coroutines.flow.StateFlow<Map<String, List<SharedChatPayload>>> = _pending
+
+    fun enqueue(convId: String, text: String?, attachment: dev.pocketagent.app.data.Attachment?) {
+        if (text.isNullOrBlank() && attachment == null) return
+        val item = SharedChatPayload(text = text?.takeIf { it.isNotBlank() }, attachment = attachment)
+        while (true) {
+            val cur = _pending.value
+            val next = cur + (convId to ((cur[convId] ?: emptyList()) + item))
+            if (_pending.compareAndSet(cur, next)) return
+        }
     }
-    fun consume(convId: String): List<dev.pocketagent.app.data.Attachment> = map.remove(convId) ?: emptyList()
+
+    fun take(convId: String): List<SharedChatPayload> {
+        while (true) {
+            val cur = _pending.value
+            val list = cur[convId] ?: return emptyList()
+            if (_pending.compareAndSet(cur, cur - convId)) return list
+        }
+    }
 }
 
 // ---- time -------------------------------------------------------------------------------------------------------

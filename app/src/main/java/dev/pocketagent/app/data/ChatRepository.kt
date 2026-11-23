@@ -74,10 +74,14 @@ class ChatRepository internal constructor(
         try {
             val botsFile = File(dir, "bots.json")
             val firstRun = !botsFile.exists()
-            val botsRead = if (firstRun) null else readList(botsFile, "bots") { ChatJson.decodeBots(it) }
+            var legacyVoiceIds: Set<String> = emptySet()
+            val botsRead = if (firstRun) null else readList(botsFile, "bots") { raw ->
+                legacyVoiceIds = ChatJson.botsWithoutVoiceField(raw)
+                ChatJson.decodeBots(raw)
+            }
             var bots = if (firstRun) BotPresets.firstRun() else botsRead ?: emptyList()
-            // Starter bots the owner never edited follow improved preset texts.
-            val upgraded = bots.map { BotPresets.upgradeLegacy(it) }
+            // Starter bots the owner never edited follow improved preset texts; legacy pre-TTS bots get signature voices once.
+            val upgraded = bots.map { BotPresets.upgradeLegacy(it, migrateVoice = it.id in legacyVoiceIds) }
             if (upgraded != bots) { bots = upgraded; dirtyBots.set(true) }
             if (bots.none { it.id == BotPresets.HERMES_ID }) bots = listOf(BotPresets.hermes.copy(createdAt = System.currentTimeMillis())) + bots
             bots = bots.distinctBy { it.id }.sortedByDescending { it.id == BotPresets.HERMES_ID } // stable: Hermes first
@@ -202,8 +206,9 @@ class ChatRepository internal constructor(
         val now = System.currentTimeMillis()
         val newConvId = newId()
         val baseTitle = orig.title.trim()
-        val forkedTitle = if (baseTitle.isBlank()) "" else {
-            if (baseTitle.endsWith(titleSuffix)) baseTitle else (baseTitle + titleSuffix).take(64)
+        val cleanSuffix = titleSuffix.trim()
+        val forkedTitle = if (baseTitle.isBlank()) "" else if (cleanSuffix.isEmpty()) baseTitle.take(64) else {
+            if (baseTitle.endsWith(cleanSuffix)) baseTitle.take(64) else "$baseTitle $cleanSuffix".take(64)
         }
         val cloned = cut.map { m -> m.copy(id = newId(), convId = newConvId, streaming = false) }
         val preview = cloned.lastOrNull {
