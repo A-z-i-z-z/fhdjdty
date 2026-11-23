@@ -142,6 +142,12 @@ jobs:
         run: |
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-37.2" "build-tools;36.0.0" >/dev/null
+      - name: Extraction test against the real rootfs archive (app extractor vs GNU tar)
+        run: |
+          POCKETAGENT_ROOTFS_ARCHIVE="$PWD/dl/rootfs/rootfs-arm64.tar.xz" \
+            ./gradlew --no-daemon :app:testDebugUnitTest --tests '*RealRootfsExtractionTest*' -i | grep -E "extractor:|PASSED|FAILED|BUILD" || true
+          POCKETAGENT_ROOTFS_ARCHIVE="$PWD/dl/rootfs/rootfs-arm64.tar.xz" \
+            ./gradlew --no-daemon :app:testDebugUnitTest --tests '*RealRootfsExtractionTest*'
       - name: Build APK (rootfs and proot embedded)
         run: |
           ./gradlew --no-daemon :app:assembleDebug \
