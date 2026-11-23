@@ -1,0 +1,21 @@
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+.kotlin/
+# build products - never commit
+*.tar.xz
+*.tar.zst
+/dist/
+/out/
+/work/
+captures/
+# local scratch / sdk / downloaded third-party binaries (fetched + checksummed at build time)
+/sdk/
+/android-sdk/
+/rootfs-*/
+/proot-build/
+libproot*.so
+*.zst
+*.xz
