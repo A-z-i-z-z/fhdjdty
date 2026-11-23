@@ -54,6 +54,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     var model by mutableStateOf(settings.model)
     var region by mutableStateOf(settings.region)
     var projectId by mutableStateOf(settings.projectId)
+    var reasoningEffort by mutableStateOf(settings.reasoningEffort)   // "" = default (not written to config.yaml)
     var apiKeyInput by mutableStateOf("")                 // never pre-filled; cleared after saving
     var hasStoredApiKey by mutableStateOf(secrets.hasGeminiApiKey); private set
     var hasServiceAccount by mutableStateOf(secrets.hasServiceAccount); private set
@@ -74,7 +75,8 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     /** Pure function of in-memory state (called during composition: no file or binder access here). */
     fun problems() = ProviderConfig.problems(ProviderInputs(
         authMode, endpoint, model, region, projectId,
-        geminiApiKey = apiKeyInput.ifBlank { if (hasStoredApiKey) "stored" else "" }))
+        geminiApiKey = apiKeyInput.ifBlank { if (hasStoredApiKey) "stored" else "" },
+        reasoningEffort = reasoningEffort))
 
     /** True when the saved configuration lacks credentials/valid fields, so chatting would fail. */
     fun savedConfigIncomplete(): Boolean = problemsOfSaved
@@ -85,7 +87,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     fun saveSettings(): List<ProviderConfig.Problem> {
         settings.authMode = authMode; settings.endpoint = endpoint
         settings.setModelFor(authMode, endpoint, model)
-        settings.region = region; settings.projectId = projectId
+        settings.region = region; settings.projectId = projectId; settings.reasoningEffort = reasoningEffort
         if (apiKeyInput.isNotBlank()) { secrets.setGeminiApiKey(apiKeyInput); apiKeyInput = ""; hasStoredApiKey = secrets.hasGeminiApiKey }
         val probs = ProviderConfig.problems(settings.providerInputs(secrets.geminiApiKey()))
         problemsOfSaved = probs.isNotEmpty()

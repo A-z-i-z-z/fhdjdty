@@ -20,6 +20,9 @@ class PocketApp : Application() {
         super.onCreate()
         Diag.install()
         AppLog.init(this)
+        // Right after the log exists and before anything else is constructed: a crash while building the runtime
+        // (build 8's) must reach app.log. It depends on AppLog only.
+        Thread.setDefaultUncaughtExceptionHandler(CrashLogger(Thread.getDefaultUncaughtExceptionHandler()))
         val paths = Paths(this)
         val settings = Settings(this)
         val secrets = SecretStore(paths, settings)
@@ -27,7 +30,6 @@ class PocketApp : Application() {
         runtime = RuntimeManager(this, paths, settings, secrets, wakeLocks)
         diagnostics = Diagnostics(this, runtime)
         AppLog.i("App", "started build ${BuildConfig.GIT_COMMIT} (${BuildConfig.VERSION_NAME})")
-        Thread.setDefaultUncaughtExceptionHandler(CrashLogger(Thread.getDefaultUncaughtExceptionHandler()))
     }
 
     private class CrashLogger(private val next: Thread.UncaughtExceptionHandler?) : Thread.UncaughtExceptionHandler {

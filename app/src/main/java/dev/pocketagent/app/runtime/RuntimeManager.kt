@@ -126,9 +126,33 @@ class RuntimeManager(
     val prootInfo: Map<String, String> by lazy { assetInfo("proot.info") }
     private val expectedBuildId: String get() = rootfsInfo["build_id"] ?: "unknown"
 
-    fun isRootfsValid(): Boolean =
-        paths.rootfsStamp.isFile && paths.rootfsStamp.readText().trim() == expectedBuildId &&
-            File(paths.rootfs, "usr/bin").isDirectory && !paths.rootfsStaging.exists()
+    private val stampErrorLogged = AtomicBoolean(false)
+
+    /** Result of reading rootfs.stamp: [text] is null when the file is absent; [error] is set when it exists but cannot be read. */
+    private class StampRead(val text: String?, val error: Exception?)
+
+    private fun readStamp(): StampRead = try {
+        val f = paths.rootfsStamp
+        when {
+            !f.exists() -> StampRead(null, null)
+            !f.isFile -> StampRead(null, java.io.IOException("${f.name} exists but is not a regular file"))
+            else -> StampRead(f.readText().trim(), null)
+        }
+    } catch (e: Exception) { StampRead(null, e) }
+
+    /**
+     * Lenient on purpose: an unreadable stamp (permissions, I/O error) just means "not valid" here, so that callers such as
+     * the constructor (PocketApp.onCreate) can never crash. The Start path does NOT treat it as "not installed": see [ensureRootfs].
+     */
+    fun isRootfsValid(): Boolean {
+        val r = readStamp()
+        if (r.error != null) {
+            if (stampErrorLogged.compareAndSet(false, true)) AppLog.w("Runtime", "rootfs stamp unreadable, treating the rootfs as not valid", r.error)
+            return false
+        }
+        val stamp = r.text ?: return false
+        return stamp == expectedBuildId && File(paths.rootfs, "usr/bin").isDirectory && !paths.rootfsStaging.exists()
+    }
 
     /** Re-derives Stopped/NotInstalled from disk. An Error stays on screen until the next Start or Reset. */
     fun refreshInstalledState() {
@@ -247,6 +271,15 @@ class RuntimeManager(
     private fun ensureRootfs(): Boolean {
         if (rootfsInfo["stub_rootfs"] == "true") {
             setState(RuntimeState.Error("This build contains no rootfs (stub build). Install the APK produced by CI."))
+            return false
+        }
+        // A stamp that exists but cannot be read must NOT lead to "delete the rootfs and extract again": that would silently throw
+        // away guest files outside HERMES_HOME. Refuse to start, say why, and leave everything on disk as it is (Reset is the way out).
+        val stampRead = readStamp()
+        if (stampRead.error != null) {
+            AppLog.e("Runtime", "start refused: rootfs stamp exists but cannot be read; rootfs left untouched", stampRead.error)
+            setState(RuntimeState.Error("Cannot read ${paths.rootfsStamp.name}: ${stampRead.error.javaClass.simpleName}: ${stampRead.error.message}. " +
+                "The runtime was NOT reinstalled, so nothing was deleted. Fix the file's permissions, or use Reset to reinstall from scratch."))
             return false
         }
         if (isRootfsValid()) {
@@ -642,9 +675,11 @@ class RuntimeManager(
 
     // ---- construction ---------------------------------------------------------------------------------
     // KEEP THIS BLOCK THE LAST MEMBER OF THE CLASS. Kotlin runs property initialisers and init blocks in textual
-    // order, and refreshInstalledState() reaches rootfsInfo (a `by lazy` delegate), the history lists, the state
-    // flows, [scope] and, through setState, selfTest(). Placed anywhere earlier it would see those still null: the
-    // app crashed at start with a NullPointerException in Lazy.getValue() once a rootfs was installed (build 8).
+    // order. refreshInstalledState() reads rootfsInfo, a `by lazy` property whose delegate field does not exist yet
+    // while an init block above its declaration runs: build 8 crashed at start with a NullPointerException in
+    // Lazy.getValue() whenever a rootfs was installed. Everything else it reaches (state flow, history, AppLog) was
+    // already declared above the old position, and selfTest() cannot be reached from here (it needs the Error
+    // state; the constructor only moves between NotInstalled and Stopped). Last place = safe for properties added later.
     // Covered by RuntimeManagerInitTest.
     init { refreshInstalledState() }
 }

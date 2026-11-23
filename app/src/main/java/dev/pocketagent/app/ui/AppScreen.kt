@@ -200,6 +200,13 @@ private fun SetupCard(vm: MainViewModel) {
                 FilterChip(selected = vm.model == id, onClick = { vm.model = id }, label = { Text(id, fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis) })
             }
         }
+        Text(stringResource(R.string.field_effort), style = MaterialTheme.typography.labelLarge)
+        androidx.compose.foundation.lazy.LazyRow(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+            items(EFFORT_CHIPS) { (value, label) ->
+                FilterChip(selected = vm.reasoningEffort == value, onClick = { vm.reasoningEffort = value }, label = { Text(stringResource(label), fontSize = 12.sp, maxLines = 1) })
+            }
+        }
+        Text(stringResource(R.string.effort_hint), fontSize = 12.sp)
         val showRegionProject = vm.authMode != AuthMode.API_KEY || vm.endpoint == ApiEndpoint.VERTEX_EXPRESS
         if (showRegionProject) {
             OutlinedTextField(value = vm.region, onValueChange = { vm.region = it }, singleLine = true,
@@ -216,6 +223,7 @@ private fun SetupCard(vm: MainViewModel) {
                 ProviderConfig.Problem.EMPTY_MODEL -> R.string.problem_no_model
                 ProviderConfig.Problem.INVALID_PROJECT -> R.string.problem_bad_project
                 ProviderConfig.Problem.INVALID_REGION -> R.string.problem_bad_region
+                ProviderConfig.Problem.INVALID_REASONING_EFFORT -> R.string.problem_bad_effort
             }), color = MaterialTheme.colorScheme.error, fontSize = 13.sp)
         }
         val needCredFile = (vm.authMode == AuthMode.SERVICE_ACCOUNT && !vm.hasServiceAccount) || (vm.authMode == AuthMode.USER_CREDENTIALS && !vm.hasUserCredentials)
@@ -225,6 +233,12 @@ private fun SetupCard(vm: MainViewModel) {
     }
     if (showPaste) PasteDialog(vm) { showPaste = false }
 }
+
+/** Thinking-effort chips: the value stored in Settings ("" = not set, Hermes default) and its label. */
+private val EFFORT_CHIPS = listOf(
+    "" to R.string.effort_default, "none" to R.string.effort_none, "minimal" to R.string.effort_minimal, "low" to R.string.effort_low,
+    "medium" to R.string.effort_medium, "high" to R.string.effort_high, "xhigh" to R.string.effort_xhigh,
+)
 
 @Composable
 private fun ModeRow(selected: Boolean, label: String, onClick: () -> Unit) {

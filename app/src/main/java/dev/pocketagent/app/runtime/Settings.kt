@@ -56,8 +56,13 @@ class Settings(context: Context) {
         get() = sp.getString("user_cred_masked", "") ?: ""
         set(v) = sp.edit().putString("user_cred_masked", v).apply()
 
+    /** Hermes `agent.reasoning_effort`; "" = not set. An unknown stored value reads as "not set". */
+    var reasoningEffort: String
+        get() = (sp.getString("reasoning_effort", "") ?: "").takeIf { it in ProviderConfig.REASONING_EFFORTS } ?: ""
+        set(v) = sp.edit().putString("reasoning_effort", v).apply()
+
     fun providerInputs(geminiApiKey: String): ProviderInputs =
-        ProviderInputs(authMode, endpoint, model, region, projectId, geminiApiKey)
+        ProviderInputs(authMode, endpoint, model, region, projectId, geminiApiKey, reasoningEffort)
 
     companion object {
         const val DEFAULT_REGION = "global"

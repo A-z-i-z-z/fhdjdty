@@ -51,6 +51,16 @@
     <string name="cred_none">Nothing imported for this mode yet.</string>
     <string name="btn_remove_cred">Remove imported credentials</string>
     <string name="field_model">Model id</string>
+    <string name="field_effort">Thinking effort</string>
+    <string name="effort_hint">Default leaves it to Hermes (medium). Lower levels answer faster and cost less.</string>
+    <string name="effort_default">Default</string>
+    <string name="effort_none">None</string>
+    <string name="effort_minimal">Minimal</string>
+    <string name="effort_low">Low</string>
+    <string name="effort_medium">Medium</string>
+    <string name="effort_high">High</string>
+    <string name="effort_xhigh">XHigh</string>
+    <string name="problem_bad_effort">Unknown thinking effort. Pick one of the chips.</string>
     <string name="field_region">Region / location</string>
     <string name="field_project">Project id (optional)</string>
     <string name="field_project_required">Project id (required for user credentials)</string>

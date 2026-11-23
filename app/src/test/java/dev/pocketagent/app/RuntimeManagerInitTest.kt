@@ -11,6 +11,7 @@ import dev.pocketagent.app.runtime.SecretStore
 import dev.pocketagent.app.runtime.Settings
 import dev.pocketagent.app.runtime.WakeLocks
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
@@ -71,6 +72,23 @@ class RuntimeManagerInitTest {
         File(files, "rootfs/usr/bin").mkdirs()
         File(files, "rootfs.stamp").writeText("some-older-build\n")
         assertEquals(RuntimeState.NotInstalled, construct(files).state.value)
+    }
+
+    /** An existing but unreadable stamp (here: a directory in its place) must not crash the constructor and must not make Start reinstall. */
+    @Test fun unreadableStampNeitherCrashesNorGetsTheRootfsDeleted() {
+        val files = filesDir()
+        File(files, "rootfs/usr/bin").mkdirs()
+        File(files, "rootfs/keep-me").writeText("guest file outside HERMES_HOME")
+        File(files, "rootfs.stamp").mkdirs()
+        val rt = construct(files)                                   // lenient: no crash
+        assertEquals(RuntimeState.NotInstalled, rt.state.value)
+        rt.start()
+        val deadline = System.currentTimeMillis() + 15_000
+        while (rt.state.value !is RuntimeState.Error && System.currentTimeMillis() < deadline) Thread.sleep(50)
+        val s = rt.state.value
+        assertTrue("expected an Error state, got $s", s is RuntimeState.Error && s.reason.contains("Cannot read rootfs.stamp") && s.reason.contains("NOT reinstalled"))
+        assertEquals("guest file outside HERMES_HOME", File(files, "rootfs/keep-me").readText())   // nothing deleted
+        assertTrue(File(files, "rootfs.stamp").isDirectory)
     }
 
     @Test fun interruptedExtractionIsNotInstalled() {

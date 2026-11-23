@@ -20,6 +20,8 @@ data class ProviderInputs(
     val region: String,
     val projectId: String,
     val geminiApiKey: String = "",
+    /** Hermes `agent.reasoning_effort`; "" = not set (the block is not written and Hermes's own default, "medium", applies). */
+    val reasoningEffort: String = "",
 )
 
 object ProviderConfig {
@@ -40,10 +42,18 @@ object ProviderConfig {
         else -> DEFAULT_MODEL_VERTEX
     }
 
+    /** Model chips: the Gemini 4 family first (Neon, Carbon, Argon, Hydrogen), then the Flash ids. */
     fun suggestions(mode: AuthMode, endpoint: ApiEndpoint): List<String> = when (mode) {
-        AuthMode.API_KEY -> listOf("gemini-4-hydrogen", "gemini-4-argon", "gemini-4-carbon", "gemini-3.8-flash", "gemini-3.7-flash")
-        else -> listOf("google/gemini-4-argon", "google/gemini-3.8-flash", "google/gemini-3.7-flash", "google/gemini-3.1-pro-preview")
+        AuthMode.API_KEY -> listOf(
+            "gemini-4-neon", "gemini-4-carbon", "gemini-4-argon", "gemini-4-hydrogen",
+            "gemini-3.8-flash", "gemini-3.7-flash")
+        else -> listOf(
+            "google/gemini-4-neon", "google/gemini-4-carbon", "google/gemini-4-argon", "google/gemini-4-hydrogen",
+            "google/gemini-3.8-flash", "google/gemini-3.7-flash", "google/gemini-3.1-pro-preview")
     }
+
+    /** Values Hermes v0.23.3 accepts for `agent.reasoning_effort` (cli-config.yaml.example). "" in the app means "not set". */
+    val REASONING_EFFORTS = listOf("none", "minimal", "low", "medium", "high", "xhigh")
 
     fun providerName(i: ProviderInputs) = if (i.mode == AuthMode.API_KEY) "gemini" else "vertex"
 
@@ -57,7 +67,7 @@ object ProviderConfig {
             else "$EXPRESS_HOST/v1beta1/projects/${i.projectId.trim()}/locations/${i.region.trim().ifEmpty { "global" }}"
         } else null
 
-    enum class Problem { NO_API_KEY, NO_PROJECT_FOR_USER_CREDENTIALS, EMPTY_MODEL, INVALID_PROJECT, INVALID_REGION }
+    enum class Problem { NO_API_KEY, NO_PROJECT_FOR_USER_CREDENTIALS, EMPTY_MODEL, INVALID_PROJECT, INVALID_REGION, INVALID_REASONING_EFFORT }
 
     private val PROJECT_RE = Regex("^[a-z0-9_-]+$")
     private val REGION_RE = Regex("^[a-z0-9-]+$")
@@ -71,10 +81,11 @@ object ProviderConfig {
         if (i.projectId.isNotBlank() && !PROJECT_RE.matches(i.projectId.trim())) add(Problem.INVALID_PROJECT)
         val usesRegion = i.mode != AuthMode.API_KEY || i.endpoint == ApiEndpoint.VERTEX_EXPRESS
         if (usesRegion && i.region.isNotBlank() && !REGION_RE.matches(i.region.trim())) add(Problem.INVALID_REGION)
+        if (i.reasoningEffort.isNotBlank() && i.reasoningEffort.trim() !in REASONING_EFFORTS) add(Problem.INVALID_REASONING_EFFORT)
     }
 
     /** Problems that make a start pointless or unsafe. Missing credentials are NOT blocking: Hermes boots without them. */
-    fun blocking(p: List<Problem>) = p.filter { it == Problem.EMPTY_MODEL || it == Problem.INVALID_PROJECT || it == Problem.INVALID_REGION }
+    fun blocking(p: List<Problem>) = p.filter { it == Problem.EMPTY_MODEL || it == Problem.INVALID_PROJECT || it == Problem.INVALID_REGION || it == Problem.INVALID_REASONING_EFFORT }
 
     fun yamlEscape(v: String): String = v.filter { it >= ' ' }.replace("\\", "\\\\").replace("\"", "\\\"")
     private fun envValue(v: String): String = v.filter { it >= ' ' }.trim()
@@ -109,10 +120,16 @@ object ProviderConfig {
             if (i.projectId.isNotBlank()) appendLine("  project_id: \"${yamlEscape(i.projectId.trim())}\"")
             appendLine("  region: \"${yamlEscape(i.region.trim().ifEmpty { Settings.DEFAULT_REGION })}\"")
         }
+        // Only a level from the fixed list is ever written; "not set" leaves the block out (Hermes default applies).
+        val effort = i.reasoningEffort.trim()
+        if (effort in REASONING_EFFORTS) {
+            appendLine("agent:")
+            appendLine("  reasoning_effort: \"$effort\"")
+        }
     }
 
     /** One line for diagnostics: what is configured, without any secret. */
     fun describe(i: ProviderInputs): String =
         "mode=${i.mode} provider=${providerName(i)} model=${i.model} base_url=${baseUrl(i) ?: "(provider default)"} " +
-            "region=${i.region} project=${i.projectId.ifBlank { "(none)" }} api_key=${if (i.geminiApiKey.isBlank()) "absent" else "present(len=${i.geminiApiKey.length})"}"
+            "region=${i.region} project=${i.projectId.ifBlank { "(none)" }} reasoning_effort=${i.reasoningEffort.ifBlank { "(default)" }} api_key=${if (i.geminiApiKey.isBlank()) "absent" else "present(len=${i.geminiApiKey.length})"}"
 }

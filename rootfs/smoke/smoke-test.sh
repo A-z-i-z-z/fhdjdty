@@ -154,7 +154,7 @@ echo "$pyc" | awk '/^PYC .*workspace/ {split($3,a,"=");split($4,b,"="); if (b[2]
 grep -qF -- "$PROOT" "$PA_STATE/last-launch.txt" && pass "every boot here runs through a proot path containing '=' (Android's nativeLibraryDir shape)" || fail "last-launch.txt does not show the '=' proot path"
 
 # ---------------------------------------------------------------------------------------------
-for fx in studio express vertex-sa vertex-user studio-nokey; do
+for fx in studio express vertex-sa vertex-user studio-nokey studio-effort; do
   echo "== phase 2: boot gateway with fixture '$fx'"
   stop_gateway
   install_fixture "$fx"
