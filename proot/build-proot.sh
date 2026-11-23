@@ -149,7 +149,7 @@ echo "::group::proot"
 __thread char pocketagent_tls_alignment_pad[1] __attribute__((aligned(64), used));
 TLS
   "$CC" -O2 -fno-emulated-tls -c "$WORK/tlsalign.c" -o "$WORK/tlsalign.o"   # API<29 defaults to emulated TLS, which would emit no TLS segment
-  export LDFLAGS="-L$STATIC/lib -static $WORK/tlsalign.o"
+  export LDFLAGS="-L$STATIC/lib -static -Wl,-z,max-page-size=16384 $WORK/tlsalign.o"
   make V=1 -j"$(nproc)" proot > "$WORK/proot-make.log" 2>&1 || { tail -n 60 "$WORK/proot-make.log"; exit 1; }
   cp -f proot "$OUT/libproot.so"
   cp -f loader/loader "$OUT/libproot-loader.so"
