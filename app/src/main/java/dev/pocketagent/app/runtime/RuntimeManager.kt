@@ -84,7 +84,7 @@ class RuntimeManager(
 
     val api = HermesApi({ apiPort }, { if (apiVerified) secrets.apiKey() else null })
 
-    init { refreshInstalledState() }
+    // No init block here: it must be the LAST member of the class (see the end of the file).
 
     // ---- history / observability -----------------------------------------------------------------
     fun stateHistory(): List<StateEntry> = synchronized(historyLock) { history.toList() }
@@ -639,4 +639,12 @@ class RuntimeManager(
             endOp()
         }
     }
+
+    // ---- construction ---------------------------------------------------------------------------------
+    // KEEP THIS BLOCK THE LAST MEMBER OF THE CLASS. Kotlin runs property initialisers and init blocks in textual
+    // order, and refreshInstalledState() reaches rootfsInfo (a `by lazy` delegate), the history lists, the state
+    // flows, [scope] and, through setState, selfTest(). Placed anywhere earlier it would see those still null: the
+    // app crashed at start with a NullPointerException in Lazy.getValue() once a rootfs was installed (build 8).
+    // Covered by RuntimeManagerInitTest.
+    init { refreshInstalledState() }
 }
