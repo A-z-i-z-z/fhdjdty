@@ -50,15 +50,31 @@ check() { # description command...
   if "$@" >/dev/null 2>&1; then pass "$d"; else fail "$d"; fi
 }
 
+# proot ignores SIGTERM and --kill-on-exit does not take the guest down when proot is killed, so
+# (exactly like the app does) find guest processes through the PA_IN_PROOT=1 marker the launcher
+# puts in their environment and signal them directly.
+guest_pids() {
+  local e p
+  for e in /proc/[0-9]*/environ; do
+    if tr '\0' '\n' 2>/dev/null < "$e" | grep -qx 'PA_IN_PROOT=1'; then p="${e#/proc/}"; echo "${p%%/*}"; fi
+  done
+}
+
 stop_gateway() {
-  if [ -n "$GW_PID" ] && kill -0 "$GW_PID" 2>/dev/null; then
-    kill -TERM "$GW_PID" 2>/dev/null
-    for _ in $(seq 1 20); do kill -0 "$GW_PID" 2>/dev/null || break; sleep 0.5; done
-    kill -KILL "$GW_PID" 2>/dev/null
+  local p
+  for p in $(guest_pids); do kill -TERM "$p" 2>/dev/null; done
+  if [ -n "$GW_PID" ]; then
+    for _ in $(seq 1 30); do kill -0 "$GW_PID" 2>/dev/null || break; sleep 0.5; done
   fi
+  for p in $(guest_pids); do kill -KILL "$p" 2>/dev/null; done
+  [ -n "$GW_PID" ] && kill -KILL "$GW_PID" 2>/dev/null
   GW_PID=""
-  pkill -KILL -f -- "-r $ROOTFS -w /root" 2>/dev/null || true
-  for _ in $(seq 1 30); do curl -s -m 1 "http://127.0.0.1:$PORT/health" >/dev/null 2>&1 || return 0; sleep 0.5; done
+  for _ in $(seq 1 40); do
+    curl -s -m 1 "http://127.0.0.1:$PORT/health" >/dev/null 2>&1 || { sleep 1; return 0; }
+    sleep 0.5
+  done
+  echo "  WARNING: something still answers on port $PORT after stop"
+  return 0
 }
 
 cleanup() {

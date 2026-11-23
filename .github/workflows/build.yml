@@ -189,7 +189,9 @@ jobs:
           - APK size: $(numfmt --to=iec ${{ steps.apk.outputs.size }})
           - Signed with the shared sideload debug key, so builds update each other.
           EOF
-          gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+          # The tag is created on the default branch, not on this commit: the Actions token gets a 403
+          # when a tag points at a commit that touches .github/workflows. The build commit is in the notes.
+          gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "${{ github.event.repository.default_branch }}" \
             --prerelease --title "Phase 0 build ${{ github.run_number }}" --notes-file notes.md \
             "${{ steps.apk.outputs.name }}" SHA256SUMS.txt rootfs-arm64.info proot-build.info
           echo "Release: https://github.com/$GITHUB_REPOSITORY/releases/tag/$TAG" | tee -a "$GITHUB_STEP_SUMMARY"

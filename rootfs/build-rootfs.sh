@@ -61,6 +61,14 @@ cleanup_mounts() {
 }
 trap cleanup_mounts EXIT
 
+kill_chroot_procs() { # anything still running inside the rootfs (background helpers spawned by hermes/uv)
+  local p
+  for p in /proc/[0-9]*; do
+    if [ "$(readlink "$p/root" 2>/dev/null)" = "$ROOT" ]; then kill -KILL "${p#/proc/}" 2>/dev/null || true; fi
+  done
+  sleep 1
+}
+
 in_chroot() { # run a command in the rootfs with a clean environment
   # shellcheck disable=SC2086
   chroot "$ROOT" /usr/bin/env -i HOME=/root TERM=dumb LANG=C.UTF-8 DEBIAN_FRONTEND=noninteractive \
@@ -97,6 +105,7 @@ in_chroot env HERMES_TAG="$HERMES_TAG" HERMES_COMMIT="$HERMES_COMMIT" bash /tmp/
 echo "::endgroup::"
 
 echo "::group::cleanup"
+kill_chroot_procs
 rm -f "$ROOT/usr/sbin/policy-rc.d"
 in_chroot apt-get clean
 rm -rf "$ROOT"/var/lib/apt/lists/* "$ROOT"/var/cache/apt/* "$ROOT"/var/cache/debconf/*-old \
@@ -121,6 +130,7 @@ fi
 find "$ROOT/root" -name '*.log' -path '*logs*' -size +1M -delete 2>/dev/null || true
 echo "::endgroup::"
 
+kill_chroot_procs
 cleanup_mounts
 # Empty mountpoints must exist, nothing else may linger from the bind mounts.
 mkdir -p "$ROOT/proc" "$ROOT/sys" "$ROOT/dev" "$ROOT/tmp"; chmod 1777 "$ROOT/tmp"

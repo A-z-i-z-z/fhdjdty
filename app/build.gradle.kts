@@ -130,7 +130,11 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    testOptions { unitTests.isReturnDefaultValues = true }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+        // The JVM maps file names through the locale; rootfs file names are UTF-8.
+        unitTests.all { it.environment("LC_ALL", "C.UTF-8"); it.environment("POCKETAGENT_ROOTFS_ARCHIVE", System.getenv("POCKETAGENT_ROOTFS_ARCHIVE") ?: "") }
+    }
     lint { abortOnError = false }
 }
 

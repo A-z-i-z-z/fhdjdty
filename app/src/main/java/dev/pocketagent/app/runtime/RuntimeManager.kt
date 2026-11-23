@@ -196,6 +196,7 @@ class RuntimeManager(
     // ---- start / monitor --------------------------------------------------------------------------
     private suspend fun launchHermes() {
         setState(RuntimeState.Starting("preparing"))
+        killStaleGuests("before start")
         if (rootfsInfo["stub_rootfs"] == "true" || prootInfo["stub_proot"] == "true") {
             setState(RuntimeState.Error("Stub build: no proot binary bundled."))
             return
@@ -287,15 +288,30 @@ class RuntimeManager(
         stopRequested = true
         if (p != null && p.isAlive) {
             AppLog.i("Runtime", "stopping ($reason)")
-            p.destroy()
-            if (!p.waitFor(8, TimeUnit.SECONDS)) {
-                AppLog.w("Runtime", "did not exit after SIGTERM, killing")
+            // proot ignores SIGTERM and does not kill the guest when it dies, so signal the guest's
+            // processes directly (Hermes shuts down cleanly on SIGTERM); proot exits when its root
+            // tracee does.
+            val pid = pidOf(p).toIntOrNull()
+            if (pid != null) ProcTree.descendants(pid).forEach { ProcTree.signal(it, ProcTree.SIGTERM) }
+            if (!p.waitFor(10, TimeUnit.SECONDS)) {
+                AppLog.w("Runtime", "guest did not exit after SIGTERM, killing")
+                if (pid != null) ProcTree.descendants(pid).forEach { ProcTree.signal(it, ProcTree.SIGKILL) }
                 p.destroyForcibly()
                 p.waitFor(5, TimeUnit.SECONDS)
             }
         }
         process = null
+        killStaleGuests("after stop")
         if (_state.value.isBusyOrRunning) setState(RuntimeState.Stopped("stopped ($reason)"))
+    }
+
+    /** Kills leftovers of earlier runs (guest processes orphaned by a killed proot or a swiped-away app). */
+    private fun killStaleGuests(why: String) {
+        val own = android.os.Process.myPid()
+        val victims = (ProcTree.prootProcesses(paths.prootBin.path) + ProcTree.guestProcesses()).distinct().filter { it != own }
+        if (victims.isEmpty()) return
+        AppLog.w("Runtime", "killing ${victims.size} stale proot/guest processes ($why): $victims")
+        victims.forEach { ProcTree.signal(it, ProcTree.SIGKILL) }
     }
 
     private fun rotateRuntimeLog() {

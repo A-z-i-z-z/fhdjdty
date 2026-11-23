@@ -63,7 +63,7 @@ class TarExtractor(private val fs: FsOps) {
         val buf = ByteArray(256 * 1024)
 
         XZCompressorInputStream(counting, false, 64 * 1024 * 1024 /* memory limit in KiB */).use { xz ->
-            TarArchiveInputStream(xz).use { tar ->
+            TarArchiveInputStream(xz, "UTF-8").use { tar -> // names are UTF-8 (e.g. ca-certificates has non-ASCII file names)
                 var e: TarArchiveEntry? = tar.nextEntry
                 while (e != null) {
                     if (isCancelled()) throw InterruptedException("extraction cancelled")
