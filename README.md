@@ -59,7 +59,7 @@ on a phone. It must never be used for anything else, and no other credential of 
 ## On the phone
 
 1. Download the APK from the latest `phase0-*` prerelease on the GitHub Releases page and open it (allow installs from
-   the browser or file manager when asked). About 500 MB of free storage are needed for the extracted runtime.
+   the browser or file manager when asked). About 1.5 GB of free storage are needed (the APK plus the extracted runtime of about 1 GB).
 2. Open PocketAgent. Press **Install and start**. First start extracts the rootfs (progress shown), then boots Hermes
    (the first boot can take a minute or two).
 3. In **Setup** choose a credential mode, enter/import credentials, **Save and apply**.
