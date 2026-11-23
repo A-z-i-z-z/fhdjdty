@@ -1,0 +1,42 @@
+PocketAgent (Phase 0) - third-party software and licenses
+==========================================================
+
+This repository contains only build scripts and app source. The binaries that end up in a built
+APK are fetched, checksummed and compiled by CI; none of them is committed here.
+
+proot  (GPL-2.0-or-later)
+  Bundled as lib/arm64-v8a/libproot.so and libproot-loader.so, built from source by
+  proot/build-proot.sh.
+  Source:  https://github.com/termux/proot   (pinned commit in proot/build-proot.sh, tag v5.1.107.102)
+  Upstream: https://github.com/proot-me/proot
+  proot runs as a separate executable; the app and the rootfs only invoke it. The complete
+  corresponding source is available at the URL above (the exact commit is recorded in the
+  "proot-build.info" file attached to every release and in the APK's assets/proot.info).
+
+talloc  (LGPL-3.0-or-later)
+  Statically linked into libproot.so.
+  Source:  https://download.samba.org/pub/talloc/talloc-2.4.3.tar.gz   (SHA-256 pinned in proot/build-proot.sh)
+  To relink proot against a modified talloc, run proot/build-proot.sh with a patched tarball.
+
+Debian GNU/Linux 13 "trixie" userland  (various free-software licenses)
+  The rootfs is a minimal Debian system created with debootstrap (arm64). Every package's license is
+  in /usr/share/doc/<package>/copyright inside the rootfs (kept deliberately); package sources are
+  available from https://deb.debian.org/debian and https://snapshot.debian.org.
+
+Hermes Agent  (MIT)
+  https://github.com/NousResearch/hermes-agent, release v0.23.3, installed unmodified by
+  rootfs/install-hermes.sh using the project's own installer stages. Its Python dependencies keep
+  their own licenses (see the packages' metadata inside the rootfs).
+
+Python (PSF License) and uv (MIT/Apache-2.0)
+  Provisioned by the Hermes installer inside the rootfs.
+
+Android app dependencies
+  AndroidX, Jetpack Compose, Material 3, Kotlin standard library and kotlinx.coroutines  (Apache-2.0)
+  Apache Commons Compress  (Apache-2.0)
+  XZ for Java  (public domain / 0BSD)
+
+GPL/LGPL source offer
+  For any of the GPL/LGPL components above, the build scripts in this repository plus the pinned
+  upstream sources reproduce the shipped binaries. If a link above stops working, open an issue
+  in this repository and the sources will be provided.
