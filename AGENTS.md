@@ -57,7 +57,7 @@ Target device: Galaxy S24 Ultra, One UI 9 / Android 17 (SDK 37), arm64, 4 KB pag
   full control over Hermes (SOUL.md, memory, skills, config, logs, terminal), themes, colours,
   languages (English, Turkish, French) and a new app icon. Five agents built it in parallel from
   `docs/phase1-contract.md` (read it: it is the map of the new code). It compiles, installs and
-  starts; it was NOT yet looked at on the phone (the phone locked with a PIN), so expect visual
+  starts (CI build `phase0-10`, commit `f47633e`, is green); it was NOT yet looked at on the phone (the phone locked with a PIN), so expect visual
   and layout fixes once someone can see it. See "Phase 1 notes" below.
 
 Next steps, in order:
