@@ -291,7 +291,7 @@ class RuntimeManager(
             // proot ignores SIGTERM and does not kill the guest when it dies, so signal the guest's
             // processes directly (Hermes shuts down cleanly on SIGTERM); proot exits when its root
             // tracee does.
-            val pid = pidOf(p).toIntOrNull()
+            val pid = pidOf(p).toIntOrNull() ?: ProcTree.prootProcesses(paths.prootBin.path).firstOrNull()
             if (pid != null) ProcTree.descendants(pid).forEach { ProcTree.signal(it, ProcTree.SIGTERM) }
             if (!p.waitFor(10, TimeUnit.SECONDS)) {
                 AppLog.w("Runtime", "guest did not exit after SIGTERM, killing")
@@ -338,7 +338,8 @@ class RuntimeManager(
     }
 
     private fun pidOf(p: Process): String = try {
-        val f = p.javaClass.getDeclaredField("pid"); f.isAccessible = true; f.get(p).toString()
+        if (android.os.Build.VERSION.SDK_INT >= 33) p.pid().toString()
+        else { val f = p.javaClass.getDeclaredField("pid"); f.isAccessible = true; f.get(p).toString() }
     } catch (_: Throwable) { "?" }
 
     fun processAlive(): Boolean = process?.isAlive == true

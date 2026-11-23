@@ -121,6 +121,8 @@ echo "$out" | sed 's/^/  | /'
 echo "$out" | grep -q "Hermes Agent v0.23.3" && pass "hermes --version works" || fail "hermes --version"
 echo "$out" | grep -q "pocketagent" && pass "fake kernel release applied (-k)" || fail "kernel release"
 head -n 2 <<<"$out" | tail -n 1 | grep -qx 0 && pass "fake root (id -u = 0)" || fail "id -u"
+imp="$(sh "$LAUNCH" -- sh -c 'for py in /root/.hermes/installs/*/environments/*/venv/bin/python; do "$py" -c "import aiohttp, google.auth, google.oauth2.service_account, google.oauth2.credentials; print(\"IMPORTS-OK\")"; done' 2>&1)"
+echo "$imp" | grep -q IMPORTS-OK && pass "aiohttp + google-auth importable in the Hermes venv (API server and Vertex/ADC need them)" || { fail "venv imports: $imp"; }
 [ -s "$PA_STATE/last-launch.txt" ] && pass "launcher wrote last-launch.txt" || fail "last-launch.txt missing"
 
 # ---------------------------------------------------------------------------------------------
