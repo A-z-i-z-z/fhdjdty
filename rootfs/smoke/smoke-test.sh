@@ -86,7 +86,7 @@ trap cleanup EXIT
 start_gateway() { # logfile
   # PA_CLEAN_STALE=1 is what the app sets for its gateway launch: the launcher itself removes leftovers
   # of a killed run (the smoke test no longer does it, so the crash-recovery phase below is meaningful).
-  PA_CLEAN_STALE=1 sh "$LAUNCH" -- hermes gateway run --replace -v > "$1" 2>&1 &
+  PA_CLEAN_STALE=1 sh "$LAUNCH" -- hermes gateway run --replace -v >> "$1" 2>&1 &
   GW_PID=$!
 }
 
@@ -103,6 +103,13 @@ wait_health() { # seconds
 }
 
 http_code() { curl -s -o /dev/null -m 20 -w '%{http_code}' "$@"; }
+
+# The app's contract (PortAnnouncement.kt): only bytes written AFTER the offset recorded right before the launch
+# count, and the port must be followed by a non-digit. The log is appended across runs.
+announced_since() { # logfile offset port
+  tail -c +$(( $2 + 1 )) "$1" 2>/dev/null | grep -Eq "API server listening on http://127\.0\.0\.1:$3([^0-9]|$)"
+}
+log_size() { if [ -f "$1" ]; then wc -c < "$1" | tr -d ' '; else echo 0; fi; }
 
 dump_log() { echo "----- tail of $1 -----"; tail -n 60 "$1" 2>/dev/null | cut -c1-300; echo "-----"; }
 
@@ -150,6 +157,7 @@ for fx in studio express vertex-sa vertex-user studio-nokey; do
     if command -v ss >/dev/null 2>&1; then
       if ss -ltnH 2>/dev/null | awk '{print $4}' | grep -E ":$PORT\$" | grep -vq '^127\.0\.0\.1:'; then fail "[$fx] API port is bound beyond loopback: $(ss -ltnH | grep ":$PORT")"; else pass "[$fx] API port bound to loopback only"; fi
     fi
+    announced_since "$LOG" 0 "$PORT" && pass "[$fx] log announces the listener on port $PORT (app contract)" || fail "[$fx] no 'API server listening on ...:$PORT' announcement in the log"
     if grep -Eqi "Traceback|ModuleNotFoundError|ImportError" "$LOG"; then fail "[$fx] Python errors in gateway log"; dump_log "$LOG"; else pass "[$fx] no Python tracebacks in gateway log"; fi
   else
     fail "[$fx] gateway did not become healthy"
@@ -164,12 +172,12 @@ stop_gateway
 install_fixture studio-nokey
 OLDPORT=$PORT; PORT=18642
 sed -i "s/^API_SERVER_PORT=.*/API_SERVER_PORT=$PORT/" "$H/.env"
-LOG="$WORK/gateway-crash1.log"
+LOG="$WORK/gateway-crash.log"; : > "$LOG"      # ONE log for both boots, appended, exactly like the app's runtime.log
+OFF1=$(log_size "$LOG")
 start_gateway "$LOG"
 if wait_health 240; then
   pass "[crash] first boot healthy on port $PORT"
-  # The app only sends its Bearer key after the child announced this exact port in its own stdout.
-  grep -q "API server listening on http://127.0.0.1:$PORT" "$LOG" && pass "[crash] gateway log announces the listener on the random port (what the app verifies before sending the key)" || fail "[crash] no 'API server listening on ...:$PORT' line in the log"
+  announced_since "$LOG" "$OFF1" "$PORT" && pass "[crash] boot 1 announced the listener on port $PORT" || fail "[crash] boot 1: no announcement on port $PORT"
   # simulate the app being killed: SIGKILL proot and every guest process, leaving state files behind
   for p in $(guest_pids); do kill -KILL "$p" 2>/dev/null; done
   kill -KILL "$GW_PID" 2>/dev/null; GW_PID=""
@@ -178,12 +186,16 @@ if wait_health 240; then
   sleep 300 & VICTIM=$!
   echo "{\"pid\": $VICTIM, \"kind\": \"hermes-gateway\", \"argv\": [\"hermes\", \"gateway\", \"run\"], \"start_time\": 1}" > "$H/gateway.pid"
   [ -e "$H/gateway.lock" ] && pass "[crash] stale gateway.lock was left behind by the kill" || echo "  note: no gateway.lock left behind"
-  LOG="$WORK/gateway-crash2.log"
+  OFF2=$(log_size "$LOG")
   start_gateway "$LOG"
   if wait_health 240; then
     pass "[crash] gateway boots after a crash with stale pid/lock files"
+    # same port as boot 1: the OLD run's line sits before OFF2 and must not count; the new run's own line must
+    for _ in $(seq 1 30); do announced_since "$LOG" "$OFF2" "$PORT" && break; sleep 1; done
+    announced_since "$LOG" "$OFF2" "$PORT" && pass "[crash] boot 2 announced its own listener after the recorded offset (old run's identical line is ignored by offset)" || fail "[crash] boot 2 announcement not found after offset $OFF2"
+    head -c "$OFF2" "$LOG" | grep -Eq "API server listening on http://127\.0\.0\.1:$PORT([^0-9]|$)" && pass "[crash] sanity: the old run's identical line really is in the log before the offset" || fail "[crash] sanity: old announcement missing"
     kill -0 "$VICTIM" 2>/dev/null && pass "[crash] unrelated live process named by a stale pid file was not touched" || fail "[crash] stale pid file got an unrelated process killed"
-    grep -Eqi "Traceback" "$LOG" && { fail "[crash] traceback after crash recovery"; dump_log "$LOG"; } || pass "[crash] no tracebacks after recovery"
+    tail -c +$(( OFF2 + 1 )) "$LOG" | grep -Eqi "Traceback" && { fail "[crash] traceback after crash recovery"; dump_log "$LOG"; } || pass "[crash] no tracebacks after recovery"
   else
     fail "[crash] gateway did not recover after a crash"; dump_log "$LOG"
   fi

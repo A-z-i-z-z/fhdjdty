@@ -49,7 +49,8 @@ class AgentService : Service() {
             // The runtime owns the decision: it asks for the foreground while an operation is in flight or a
             // child process is alive, so transient Stopped/Error states in between cannot end the service.
             combine(rt.foregroundNeeded, rt.state) { fg, s -> fg to s }.collect { (fg, s) ->
-                if (!fg) {
+                // `fg` may be a stale emission: re-read the live value right before acting on it.
+                if (!fg && !rt.foregroundNeeded.value) {
                     AppLog.i("Service", "nothing running (${s.label()}); leaving foreground")
                     stopForeground(true)
                     inForeground = false
@@ -69,6 +70,11 @@ class AgentService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         lastStartId = startId
+        // Every startForegroundService() call must be answered with startForeground(), including when this
+        // instance is already running (it may have left the foreground since). The collector below ends it
+        // again if nothing needs it.
+        startForeground(NOTIF_ID, build(lastText ?: getString(R.string.notif_starting)))
+        inForeground = true
         if (intent?.action == ACTION_STOP) PocketApp.from(this).runtime.stop()
         return START_NOT_STICKY
     }

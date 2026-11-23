@@ -66,7 +66,9 @@ on a phone. It must never be used for anything else, and no other credential of 
 3. In **Setup** choose a credential mode, enter/import credentials, **Save and apply** (a running runtime restarts itself).
    Chat stays disabled until the saved setup is complete.
 4. Chat once the state shows *Running (health OK)*.
-5. If anything fails: **Debug > Copy diagnostics** (or *Share as file*) and paste it back.
+5. If a start fails (red error, or "still starting" for several minutes), the app runs a self-test by itself (about a
+   minute; the screen says so). **Wait until that message disappears**, then **Debug > Copy diagnostics** (or *Share as
+   file*) and paste it back. A dump taken while the self-test runs says so at the top and in the self-test section.
    If the state shows signal 31 / SIGSYS, switch on *Disable proot seccomp filter* and restart.
 
 ## Security notes

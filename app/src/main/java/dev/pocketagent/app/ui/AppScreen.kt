@@ -134,6 +134,16 @@ private fun RuntimeCard(vm: MainViewModel, state: RuntimeState) {
             OutlinedButton(onClick = { vm.stop() }, enabled = state.isBusyOrRunning || state is RuntimeState.Error) { Text(stringResource(R.string.btn_stop)) }
             OutlinedButton(onClick = { vm.restart() }, enabled = state == RuntimeState.Running) { Text(stringResource(R.string.btn_restart)) }
         }
+        val selfTestActive by vm.selfTestActive.collectAsState()
+        if (state is RuntimeState.Starting && state.step.startsWith("still starting")) {
+            Text(stringResource(R.string.slow_start_hint), color = MaterialTheme.colorScheme.error, fontSize = 13.sp)
+        }
+        if (selfTestActive) {
+            Text(stringResource(R.string.selftest_running_hint), color = MaterialTheme.colorScheme.error, fontSize = 13.sp)
+            LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
+        } else if (state is RuntimeState.Error) {
+            Text(stringResource(R.string.error_hint), fontSize = 13.sp)
+        }
         if (!vm.ignoringBattery) {
             Text(stringResource(R.string.battery_hint), fontSize = 13.sp)
             OutlinedButton(onClick = { ctx.startActivity(vm.batteryOptimizationIntent()) }) { Text(stringResource(R.string.btn_battery)) }
@@ -323,10 +333,11 @@ private fun DebugCard(vm: MainViewModel) {
             OutlinedButton(onClick = { vm.shareDiagnosticsIntent()?.let { ctx.startActivity(it) } }) { Text(stringResource(R.string.btn_share_diag)) }
         }
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedButton(onClick = { vm.runSelfTest() }, enabled = !vm.selfTestRunning) { Text(stringResource(R.string.btn_selftest)) }
+            val selfTestActive by vm.selfTestActive.collectAsState()
+            OutlinedButton(onClick = { vm.runSelfTest() }, enabled = !selfTestActive) { Text(stringResource(R.string.btn_selftest)) }
             OutlinedButton(onClick = { vm.resetRuntime() }) { Text(stringResource(R.string.btn_reset_runtime)) }
         }
-        if (vm.selfTestRunning) LinearProgressIndicator(Modifier.fillMaxWidth())
-        if (vm.selfTestOutput.isNotEmpty()) SelectionContainer { Text(vm.selfTestOutput, fontFamily = FontFamily.Monospace, fontSize = 11.sp) }
+        val selfTestText by vm.selfTestText.collectAsState()
+        if (selfTestText.isNotEmpty()) SelectionContainer { Text(selfTestText, fontFamily = FontFamily.Monospace, fontSize = 11.sp) }
     }
 }

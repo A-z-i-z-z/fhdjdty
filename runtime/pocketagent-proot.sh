@@ -23,6 +23,9 @@
 #   PA_KERNEL       fake `uname -r` (default 6.8.0-pocketagent)        (optional)
 #   PA_FAKE_PROC    "1" force fake /proc files, "0" never, else auto   (optional)
 #   PA_EXTRA_BIND   extra proot -b arguments, space separated          (optional)
+#   PA_GUEST_MARKER value of PA_IN_PROOT in the guest (default 1; the app's self-test uses "selftest" so that
+#                   killing stale gateway processes leaves it alone)                      (optional)
+#   PA_SELFTEST     "1" do not rewrite resolv.conf (a live runtime may be using it)         (optional)
 #   PA_CLEAN_STALE  "1" remove leftover gateway pid/lock/socket files of a   (optional)
 #                   killed earlier run before starting (the app and the CI
 #                   smoke test set it for gateway launches only)
@@ -72,8 +75,9 @@ if [ "${PA_DRY_RUN:-}" != 1 ]; then
     rm -rf "$PA_ROOTFS/root/.local/state/hermes/gateway-locks" 2>/dev/null
   fi
 
-  # resolv.conf: Android has none that a glibc process can use.
-  if [ -n "${PA_DNS:-}" ]; then
+  # resolv.conf: Android has none that a glibc process can use. A self-test (PA_SELFTEST=1) never rewrites it
+  # while another runtime may be using it; it only creates a default when the file is missing or empty.
+  if [ -n "${PA_DNS:-}" ] && [ "${PA_SELFTEST:-}" != 1 ]; then
     : > "$PA_ROOTFS/etc/resolv.conf" 2>/dev/null
     for ns in $PA_DNS; do echo "nameserver $ns" >> "$PA_ROOTFS/etc/resolv.conf" 2>/dev/null; done
   elif [ ! -s "$PA_ROOTFS/etc/resolv.conf" ]; then
@@ -138,7 +142,7 @@ PYTHONIOENCODING=utf-8
 UV_LINK_MODE=copy
 UV_NO_CONFIG=1
 SSL_CERT_FILE=/etc/ssl/certs/ca-certificates.crt
-PA_IN_PROOT=1"
+PA_IN_PROOT=${PA_GUEST_MARKER:-1}"
 [ -n "${PA_TZ:-}" ] && GUEST_ENV="$GUEST_ENV${NL}TZ=$PA_TZ"
 GUEST_ENV="$GUEST_ENV$USER_ENV"
 

@@ -46,10 +46,15 @@ object ProcTree {
         catch (_: Exception) { false }
     }
 
-    /** proot processes started from [prootPath] (own uid). */
+    /** Marker of the self-test's guest processes: they are NOT stale gateway processes and must survive Start/Stop. */
+    const val SELFTEST_MARKER = "PA_IN_PROOT=selftest"
+
+    /** proot processes started from [prootPath] (own uid), excluding the self-test's (its argv carries [SELFTEST_MARKER]). */
     fun prootProcesses(prootPath: String): List<Int> = pids().filter { pid ->
-        try { File("/proc/$pid/cmdline").readBytes().toString(Charsets.ISO_8859_1).split('\u0000').firstOrNull() == prootPath }
-        catch (_: Exception) { false }
+        try {
+            val args = File("/proc/$pid/cmdline").readBytes().toString(Charsets.ISO_8859_1).split('\u0000')
+            args.firstOrNull() == prootPath && SELFTEST_MARKER !in args
+        } catch (_: Exception) { false }
     }
 
     fun signal(pid: Int, sig: Int) {

@@ -153,12 +153,9 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     fun resetRuntime() = runtime.resetRootfs()
     var noSeccomp by mutableStateOf(settings.noSeccomp); private set
     fun updateNoSeccomp(v: Boolean) { settings.noSeccomp = v; noSeccomp = v; AppLog.i("Debug", "noSeccomp=$v") }
-    var selfTestOutput by mutableStateOf(""); private set
-    var selfTestRunning by mutableStateOf(false); private set
-    fun runSelfTest() {
-        selfTestRunning = true
-        runtime.selfTest(auto = false) { selfTestOutput = it; selfTestRunning = false }
-    }
+    val selfTestActive: StateFlow<Boolean> = runtime.selfTestActive
+    val selfTestText: StateFlow<String> = runtime.selfTestText
+    fun runSelfTest() = runtime.selfTest(auto = false)
 
     var ignoringBattery by mutableStateOf(true); private set
     /** Called from onResume (not during composition). */

@@ -33,6 +33,9 @@ object FileUtil {
         } catch (e: Exception) { "(unreadable: ${e.message})" }
     }
 
+    /** Keeps the first [cap] characters, marking the cut (for head-oriented sections). */
+    fun capHead(s: String, cap: Int): String = if (s.length <= cap) s else s.take(cap) + "\n[...cut, first $cap of ${s.length} chars...]"
+
     /** Keeps the last [cap] characters, marking the cut. */
     fun capTail(s: String, cap: Int): String = if (s.length <= cap) s else "[...cut, last $cap of ${s.length} chars...]\n" + s.takeLast(cap)
 
@@ -43,13 +46,16 @@ object FileUtil {
     /** Atomically replace [dest] with [bytes], creating it with [mode]. */
     fun writeAtomic(dest: File, bytes: ByteArray, mode: Int = 384 /* 0600 */) {
         dest.parentFile?.mkdirs()
-        val tmp = File(dest.parentFile, dest.name + ".tmp")
-        tmp.writeBytes(bytes)
-        chmod(tmp, mode)
-        if (!tmp.renameTo(dest)) {
-            dest.delete()
-            if (!tmp.renameTo(dest)) throw java.io.IOException("cannot replace ${dest.name}")
-        }
+        // Unique temp name: callers may race (start path, self-test, UI) and must never share a ".tmp".
+        val tmp = File(dest.parentFile, ".${dest.name}.${android.os.Process.myPid()}.${System.nanoTime()}.tmp")
+        try {
+            tmp.writeBytes(bytes)
+            chmod(tmp, mode)
+            if (!tmp.renameTo(dest)) {
+                dest.delete()
+                if (!tmp.renameTo(dest)) throw java.io.IOException("cannot replace ${dest.name}")
+            }
+        } finally { if (tmp.exists()) tmp.delete() }
     }
 
     /**

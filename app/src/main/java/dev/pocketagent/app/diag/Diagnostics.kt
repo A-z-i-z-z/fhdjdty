@@ -53,12 +53,16 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
     private fun assemble(logLines: Int, apiLines: Int, cap: Int): String {
         val sb = StringBuilder()
         fun h(title: String) { sb.append("\n==== ").append(title).append(" ====\n") }
-        fun safe(title: String, block: () -> String) {
+        // Each section is redacted BEFORE it is capped. Head-oriented sections (state, launch header, self-test...)
+        // keep their first characters; log tails (tail = true) keep their last.
+        fun safe(title: String, tail: Boolean = false, block: () -> String) {
             h(title)
-            sb.append(FileUtil.capTail(try { block() } catch (e: Throwable) { "(section failed: ${e.javaClass.simpleName}: ${e.message})" }, cap)).append('\n')
+            val text = try { block() } catch (e: Throwable) { "(section failed: ${e.javaClass.simpleName}: ${e.message})" }
+            sb.append(SectionFormat.redactThenCap(Diag.redactor, text, cap, keepHead = !tail)).append('\n')
         }
         val now = System.currentTimeMillis()
         sb.append("PocketAgent diagnostics\ngenerated: ${t(now)}\n")
+        sb.append("state now: ${rt.state.value.label()}; process alive: ${rt.processAlive()}; self-test: ${if (rt.selfTestStartedAt > 0) "RUNNING since ${t(rt.selfTestStartedAt)} (wait, then copy again)" else "idle"}\n")
 
         safe("App") {
             val pi = context.packageManager.getPackageInfo(context.packageName, 0)
@@ -128,7 +132,7 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
             }
         }
 
-        safe("Memory samples and Android process-killer settings") {
+        safe("Memory samples and Android process-killer settings", tail = true) {
             val samples = rt.memorySamples().takeLast(40)
             val gs = { name: String -> try { android.provider.Settings.Global.getString(context.contentResolver, name) ?: "(absent)" } catch (e: Throwable) { "(unreadable: ${e.javaClass.simpleName})" } }
             buildString {
@@ -149,9 +153,12 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
             }
         }
 
-        safe("Self-test output (proot sanity + DNS/HTTPS probes from inside the guest)") { rt.lastSelfTest.ifEmpty { rt.paths.lastSelfTestFile.takeIf { it.isFile }?.readText() ?: "(not run yet; it runs automatically after any error, or use Debug > Run proot self-test)" } }
+        safe("Self-test output (proot sanity + DNS/HTTPS probes from inside the guest)") {
+            val since = rt.selfTestStartedAt
+            val running = if (since > 0) "*** SELF-TEST IS STILL RUNNING (since ${t(since)}, ${(System.currentTimeMillis() - since) / 1000} s ago): wait for it to finish, then copy diagnostics again. Output below, if any, is from an EARLIER run. ***\n" else ""
+            running + rt.lastSelfTest.ifEmpty { rt.paths.lastSelfTestFile.takeIf { it.isFile }?.readText() ?: "(not run yet; it runs automatically after any error, or use Debug > Run proot self-test)" } }
         safe("runtime.log: first lines of the latest start") { FileUtil.headFromLastMarker(rt.paths.runtimeLog, " start build=", 60) }
-        safe("proot + Hermes stdout/stderr (runtime.log, tail $logLines)") { FileUtil.tail(rt.paths.runtimeLog, logLines) }
+        safe("proot + Hermes stdout/stderr (runtime.log, tail $logLines)", tail = true) { FileUtil.tail(rt.paths.runtimeLog, logLines) }
 
         safe("Power and network") {
             val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
@@ -200,8 +207,8 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
             }
         }
 
-        safe("App log (tail $logLines)") { AppLog.tail(logLines) }
-        safe("HERMES_HOME/logs") {
+        safe("App log (tail $logLines)", tail = true) { AppLog.tail(logLines) }
+        safe("HERMES_HOME/logs", tail = true) {
             val dir = rt.paths.hermesLogs
             val files = dir.walkTopDown().filter { it.isFile && it.length() > 0 }.sortedByDescending { it.lastModified() }.take(6).toList()
             if (files.isEmpty()) "(no log files under ${dir.path})" else buildString {
@@ -212,7 +219,7 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
             }
         }
 
-        safe("Recent API requests/responses") { ApiLog.snapshot().takeLast(apiLines).joinToString("\n").ifEmpty { "(none)" } }
+        safe("Recent API requests/responses", tail = true) { ApiLog.snapshot().takeLast(apiLines).joinToString("\n").ifEmpty { "(none)" } }
 
         safe("Hermes .env (secrets redacted)") {
             val f = rt.paths.hermesEnv
