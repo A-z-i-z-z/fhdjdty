@@ -57,6 +57,15 @@ Next steps, in order:
    update over an existing install with user data.
 3. Start Phase 1 (see "Roadmap").
 
+Small follow-ups from the last review (none blocks use; do them with the next change):
+- `tools/local-build.ps1 -Test`: count a `FileSystemException` as "expected on Windows" only when
+  its message is the missing-symlink-privilege one; treat a robocopy timeout (exit -1) as failure.
+- `RuntimeManager`: "Delete runtime files" should delete the stamp with `FileUtil.deleteOrThrow`
+  (an undeletable stamp currently wedges Start); the unreadable-stamp error text says "Reset" but
+  the button is "Delete runtime files".
+- `ProviderConfigTest`: the `studio-effort` comment overstates it. The smoke test only proves that
+  Hermes boots with an `agent:` block, not that it applies the level.
+
 ## Repo map
 
 | Path | What it is |
