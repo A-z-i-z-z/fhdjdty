@@ -4,6 +4,9 @@
 #
 #   rootfs/smoke/smoke-test.sh --rootfs DIR --proot PATH [--loader PATH] [--work DIR]
 #
+# proot and its loader are copied to $WORK/~~ab==/pkg-cd==/lib/arm64/ first: like on Android, the path the launcher
+# receives contains "=" (see the comment where it is done).
+#
 # Phases
 #   1. proot basics (uname, id, hermes --version) - catches a broken proot/rootfs early.
 #   2. For every provider fixture (the very files the app's config generator is unit-tested
@@ -31,6 +34,19 @@ done
 WORK="${WORK:-$(mktemp -d)}"; mkdir -p "$WORK"
 ROOTFS="$(cd "$ROOTFS" && pwd)"; WORK="$(cd "$WORK" && pwd)"
 LAUNCH="$REPO/runtime/pocketagent-proot.sh"
+# Android installs the app's native libraries in a directory whose name contains "=" (e.g.
+# /data/app/~~h-vFz...==/dev.pocketagent.app-UKIp...==/lib/arm64/libproot.so) and `env` takes any argument
+# with "=" for a NAME=VALUE assignment ("env: exec -0: No such file or directory"). Run every boot of this test
+# through proot and loader paths of that shape, so the launcher cannot regress without CI noticing.
+LIBDIR="$WORK/~~ab==/pkg-cd==/lib/arm64"
+mkdir -p "$LIBDIR"
+cp -p "$PROOT" "$LIBDIR/libproot.so" || { echo "cannot copy proot to $LIBDIR" >&2; exit 2; }
+PROOT="$LIBDIR/libproot.so"
+if [ -n "$LOADER" ]; then
+  cp -p "$LOADER" "$LIBDIR/libproot-loader.so" || { echo "cannot copy the proot loader to $LIBDIR" >&2; exit 2; }
+  LOADER="$LIBDIR/libproot-loader.so"
+fi
+case "$PROOT" in *=*) ;; *) echo "internal error: the proot path must contain '='" >&2; exit 2 ;; esac
 H="$ROOTFS/root/.hermes"
 PORT=8642
 KEY="smoke-api-key-0123456789abcdef0123456789"   # same as in the fixtures
@@ -135,6 +151,7 @@ pyc="$(sh "$LAUNCH" -- sh -c 'for d in /root/.hermes/installs/*/environments/*/w
 echo "$pyc" | sed 's/^/  | /'
 echo "$pyc" | awk '/^PYC .*workspace/ {split($3,a,"=");split($4,b,"="); if (b[2] >= a[2]*0.9) ok=1} END{exit !ok}' && pass "bytecode is precompiled for the code that runs (workspace >= 90% of .py files have .pyc)" || fail "bytecode not precompiled: $pyc"
 [ -s "$PA_STATE/last-launch.txt" ] && pass "launcher wrote last-launch.txt" || fail "last-launch.txt missing"
+grep -qF -- "$PROOT" "$PA_STATE/last-launch.txt" && pass "every boot here runs through a proot path containing '=' (Android's nativeLibraryDir shape)" || fail "last-launch.txt does not show the '=' proot path"
 
 # ---------------------------------------------------------------------------------------------
 for fx in studio express vertex-sa vertex-user studio-nokey; do

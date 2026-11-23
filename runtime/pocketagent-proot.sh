@@ -7,6 +7,13 @@
 # mksh) and keep every Android-specific tweak conditional so that it stays inert
 # on a plain Linux runner.
 #
+# Android install paths contain "=": PA_PROOT lives in the app's nativeLibraryDir, e.g.
+# /data/app/~~h-vFzy...==/dev.pocketagent.app-UKIp...==/lib/arm64/libproot.so. `env` treats ANY
+# argument containing "=" as a NAME=VALUE assignment, so `env -i VARS... $PA_PROOT -0 ...` would
+# assign a variable and then try to execute "-0". The launcher therefore puts a `sh -c 'exec "$@"'`
+# trampoline between the assignments and the proot path (see the PREFIX line); the same rule is why
+# the user command must not start with a NAME=VALUE word (use -E).
+#
 # Usage:
 #   pocketagent-proot.sh [-E NAME=VALUE]... [-- command [args...]]
 # With no command an interactive login shell (bash -l) is started.
@@ -52,12 +59,17 @@ NL='
 USER_ENV=""
 while [ $# -gt 0 ]; do
   case "$1" in
-    -E) [ $# -ge 2 ] || fail "-E needs NAME=VALUE"; USER_ENV="$USER_ENV$NL$2"; shift 2 ;;
+    -E) [ $# -ge 2 ] || fail "-E needs NAME=VALUE"
+        case "$2" in ?*=*) ;; *) fail "-E needs NAME=VALUE (got '$2')" ;; esac
+        USER_ENV="$USER_ENV$NL$2"; shift 2 ;;
     --) shift; break ;;
     *) break ;;
   esac
 done
 if [ $# -eq 0 ]; then set -- /bin/bash -l; fi
+# `/usr/bin/env -i <vars> command` in the guest would swallow a first word that contains "=" as one more
+# variable (or run nothing at all); refuse it loudly instead. Variables go through -E.
+case "$1" in *=*) fail "the command must not start with a NAME=VALUE word (got '$1'); use -E NAME=VALUE" ;; esac
 
 # ---- host side preparation ------------------------------------------------------
 if [ "${PA_DRY_RUN:-}" != 1 ]; then
@@ -156,7 +168,12 @@ PROOT_TMP_DIR=$PA_STATE/tmp"
 # Prefix items are newline separated; IFS=newline + noglob splits them without
 # touching spaces inside paths. The user command (already in "$@") keeps its
 # exact argument boundaries.
-PREFIX="env${NL}-i${NL}${HOST_ENV}${NL}${PA_PROOT}${NL}-0${NL}--link2symlink${NL}--kill-on-exit${NL}-k${NL}${PA_KERNEL:-6.8.0-pocketagent}${NL}-r${NL}${PA_ROOTFS}${NL}-w${NL}/root${NL}-b${NL}/dev${NL}-b${NL}/proc${SYS_BIND}${NL}-b${NL}${PA_STATE}/shm:/dev/shm${FAKE_BINDS}${EXTRA_BINDS}${NL}/usr/bin/env${NL}-i${NL}${GUEST_ENV}"
+# `env -i VARS` isolates the host side. `sh -c 'exec "$@"' sh PROOT ...` is a trampoline that exists only
+# because PA_PROOT may contain "=" (Android's nativeLibraryDir): if that path directly followed the
+# assignments, env would take it for another assignment and then try to run "-0". After the trampoline
+# `exec "$@"` runs PROOT as the program no matter what its path looks like. `sh` is found through the PATH
+# in HOST_ENV (env -i execvp()s with the new environment: /system/bin on Android, /usr/bin or /bin on Linux).
+PREFIX="env${NL}-i${NL}${HOST_ENV}${NL}sh${NL}-c${NL}exec \"\$@\"${NL}sh${NL}${PA_PROOT}${NL}-0${NL}--link2symlink${NL}--kill-on-exit${NL}-k${NL}${PA_KERNEL:-6.8.0-pocketagent}${NL}-r${NL}${PA_ROOTFS}${NL}-w${NL}/root${NL}-b${NL}/dev${NL}-b${NL}/proc${SYS_BIND}${NL}-b${NL}${PA_STATE}/shm:/dev/shm${FAKE_BINDS}${EXTRA_BINDS}${NL}/usr/bin/env${NL}-i${NL}${GUEST_ENV}"
 OLD_IFS=$IFS
 IFS=$NL
 set -f
