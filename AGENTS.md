@@ -31,24 +31,31 @@ Target device: Galaxy S24 Ultra, One UI 9 / Android 17 (SDK 37), arm64, 4 KB pag
 
 - Branch `ccr-bb6d7bcc-9eojyu` is the work branch. `main` holds only the initial commit. Other
   branches and the `yerel-latest` release belong to unrelated projects: leave them alone.
-- **Build 7 (`phase0-7`) on the real phone:** installs, opens, extracts the 1.1 GB rootfs in 53 s,
-  then the runtime dies at once with `env: exec -0: No such file or directory` (exit 127). Cause:
-  see "Hard-won facts", first item.
-- **Fix (commit `0520db0`, build 8):** `sh -c 'exec "$@"'` trampoline in the launcher, a
-  runner-independent launcher test, and the smoke test routed through a path containing `=`.
-  Reviewed. A patched copy of the launcher was run by hand on the phone: Hermes v0.23.3 boots under
-  proot on Android 17 and the API server listens after about 15 s.
-- **Not yet verified:** build 8 started from the app itself on the phone; any real Gemini/Vertex
-  call. The owner's Vertex credentials (gcloud user credentials, `authorized_user`) are already
-  imported in the app on the phone and the setup is saved (provider `vertex`, model
-  `google/gemini-4-argon`, region `global`).
-- One local commit may still be unpushed: the CI step that runs `runtime/test-launcher.sh`.
+- **Phase 0 is proven on the real phone (2026-11-23).** With a local build of commit `4e9611c`:
+  the app extracts the rootfs (about 60 s), starts Hermes under proot, reaches "Running" about 10 s
+  after launch, survives force-stop and reopen, and a real chat through Vertex
+  (`google/gemini-4-neon`, region `global`, gcloud user credentials) answered in about 12 s.
+  Hermes sits at roughly 250 to 300 MB of RAM.
+- Two device-only bugs were found and fixed on the way (both invisible to CI at the time):
+  the `=` in Android's install path (build 7, see "Hard-won facts") and a crash at every cold
+  start once the rootfs was installed (build 8, init-order NPE in `RuntimeManager`).
+- The owner's Vertex credentials are imported in the app on the phone; nothing about them is in
+  this repo.
+- Also verified on the phone with later local builds: the Gemini 4 model chips, the "Thinking
+  effort" setting (written to Hermes's `config.yaml` as `agent.reasoning_effort`), and a tool call
+  through the chat (Hermes ran `uname -a` with its terminal tool, 2 API calls, 10 s total with
+  `google/gemini-4-hydrogen` at low effort). Not confirmed: that the effort level reaches Google
+  on the wire (only that the config file is written correctly).
+- **The owner wants test chats run with Gemini 4 Hydrogen at low effort** (cheapest). Keep the
+  phone's saved setup on that unless they say otherwise.
 
 Next steps, in order:
-1. Install build 8, start the runtime from the app, confirm it reaches "Running".
-2. Send a real chat message through Vertex; fix whatever breaks.
-3. Set up a fast local build (see "Faster iteration").
-4. Start Phase 1 (see "Roadmap").
+1. Check that the CI build of the latest push is green (first CI run of the launcher test under
+   mksh and of the `studio-effort` smoke fixture).
+2. Not yet exercised on the phone: file tools and longer multi-step tasks, long sessions, the
+   runtime surviving in the background with the screen off, the "Copy diagnostics" dump, a rootfs
+   update over an existing install with user data.
+3. Start Phase 1 (see "Roadmap").
 
 ## Repo map
 
@@ -59,6 +66,7 @@ Next steps, in order:
 | `runtime/test-launcher.sh` | Fast launcher test with a fake proot; runs anywhere (`sh runtime/test-launcher.sh [shells...]`). |
 | `rootfs/` | Builds the Debian trixie arm64 rootfs with Hermes preinstalled; `rootfs/smoke/` boots Hermes under proot against a mock LLM. |
 | `proot/build-proot.sh` | Builds static proot + loader from a pinned commit with the NDK. |
+| `tools/local-build.ps1` | Fast local build, install and unit-test runner for Windows (see "Faster iteration"). |
 | `.github/workflows/build.yml` | CI: unit tests, proot, rootfs, smoke test, APK, prerelease. |
 | `dist/` | Git-ignored. Downloaded builds and screenshots. |
 
@@ -119,12 +127,32 @@ adb logcat | grep PocketAgent/
 
 CI rebuilds the Linux system and proot on every push, which is wasted time for app-only changes.
 
-- App code, UI and launcher changes can be built locally: `app/build.gradle.kts` accepts
-  `-ProotfsArchive=<rootfs-arm64.tar.xz>` and `-PprootDir=<dir with libproot.so and
-  libproot-loader.so>`. Both can be taken out of the latest CI APK (`assets/rootfs.tar.xz`,
-  `lib/arm64-v8a/`). Without them the build produces stubs. Not set up yet on the owner's PC.
-- Reinstalling with an unchanged rootfs does not extract it again (`files/rootfs.stamp`).
-- Use CI when `rootfs/` or `proot/` change, and for the builds the owner keeps.
+- App code, UI and launcher changes are built locally on the owner's Windows PC with
+  `tools/local-build.ps1` (about 30 s to build, 15 s to install, against 10 minutes on CI):
+
+  ```powershell
+  powershell -NoProfile -ExecutionPolicy Bypass -File tools\local-build.ps1 -Start
+  ```
+
+  | Switch | What it does |
+  |---|---|
+  | (none) | Build the debug APK with the rootfs and proot from `dist\runtime-parts\` |
+  | `-FetchParts [phase0-N]` | Refresh those parts from a release APK (hash-checked); default latest |
+  | `-Install` / `-Start` | Install on the connected phone / also launch the app |
+  | `-BuildNumber N` | Version number; must not go below what is installed, so raise it each time |
+  | `-Test` | Run the unit tests from a copy outside the apostrophe path (see below) |
+  | `-ListDevices` | Show connected phones |
+
+- It needs JDK 21 (Android Studio's `jbr` is used) and the Android SDK with platform
+  `android-37.2` and build-tools 36.0.0; both are installed on the owner's PC.
+- The checkout path `C:\Claude's_WorkSpace` contains an apostrophe: assembling works, but Gradle's
+  test workers fail with `ClassNotFoundException` there, hence `-Test`. Four tests that create
+  symlinks fail on Windows without Developer Mode; `-Test` reports them as expected (exit 2).
+- Reinstalling with an unchanged rootfs does not extract it again (`files/rootfs.stamp` holds the
+  rootfs build id). Every CI run produces a new build id, so switching between a CI APK and a local
+  build made from other parts re-extracts (about a minute; user state is kept).
+- Use CI when `rootfs/` or `proot/` change, and for the builds the owner keeps. Then run
+  `-FetchParts` once to build locally against the new parts.
 
 ## Hard-won facts
 
@@ -132,6 +160,11 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
   `/data/app/~~<random>==/dev.pocketagent.app-<random>==/lib/arm64`. `env` (toybox and GNU alike)
   treats any argument containing `=` as an assignment, so never put such a path directly after
   `env VAR=...`. CI did not catch this until the smoke test was routed through such a path.
+- **The first launch is not the only launch.** Paths that only run once state exists on disk
+  (installed rootfs, saved settings, imported credentials) are not covered by a fresh-install
+  test. Always test: install, start, force-stop, reopen, start again.
+- Kotlin initialises properties and `init` blocks in textual order: an `init` that calls a method
+  must come after every property that method can reach, including `by lazy` delegates.
 - `filesDir` is behind a symlink (`/data/user/0` -> `/data/data`): always compare canonical paths.
 - proot ignores SIGTERM and `--kill-on-exit` does not kill guests. Guests are found by the
   `PA_IN_PROOT` environment marker; PIDs are not virtualised.
