@@ -1,0 +1,242 @@
+package dev.pocketagent.app
+
+import android.app.Application
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.os.PowerManager
+import android.provider.Settings as AndroidSettings
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.core.content.FileProvider
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
+import dev.pocketagent.app.api.ChatEvent
+import dev.pocketagent.app.api.ChatOutcome
+import dev.pocketagent.app.diag.Diagnostics
+import dev.pocketagent.app.runtime.ApiEndpoint
+import dev.pocketagent.app.runtime.AuthMode
+import dev.pocketagent.app.runtime.ProviderConfig
+import dev.pocketagent.app.runtime.RuntimeState
+import dev.pocketagent.app.runtime.SaParse
+import dev.pocketagent.app.service.AgentService
+import dev.pocketagent.app.util.AppLog
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import java.util.UUID
+
+enum class LineKind { USER, ASSISTANT, TOOL, ERROR, INFO }
+data class ChatLine(val id: Long, val kind: LineKind, val text: String)
+
+/** Result of an import attempt; the UI maps it to string resources. Holds no secret values. */
+sealed class ImportResult {
+    data class ServiceAccount(val projectId: String, val maskedEmail: String, val repaired: Boolean) : ImportResult()
+    data class UserCredentials(val masked: String, val repaired: Boolean) : ImportResult()
+    data class Failure(val code: SaParse.Code?, val detail: String) : ImportResult()
+}
+
+class MainViewModel(app: Application) : AndroidViewModel(app) {
+    private val pa = PocketApp.from(app)
+    val runtime = pa.runtime
+    val diagnostics: Diagnostics = pa.diagnostics
+    val state: StateFlow<RuntimeState> = runtime.state
+    private val settings = runtime.settings
+    private val secrets = runtime.secrets
+
+    // ---- setup form -------------------------------------------------------------------------------
+    var authMode by mutableStateOf(settings.authMode); private set
+    var endpoint by mutableStateOf(settings.endpoint); private set
+    var model by mutableStateOf(settings.model)
+    var region by mutableStateOf(settings.region)
+    var projectId by mutableStateOf(settings.projectId)
+    var apiKeyInput by mutableStateOf("")                 // never pre-filled; cleared after saving
+    var hasStoredApiKey by mutableStateOf(secrets.hasGeminiApiKey); private set
+    var hasServiceAccount by mutableStateOf(secrets.hasServiceAccount); private set
+    var hasUserCredentials by mutableStateOf(secrets.hasUserCredentials); private set
+    var saSummary by mutableStateOf(summary()); private set
+    var importResult by mutableStateOf<ImportResult?>(null); private set
+    var pasteText by mutableStateOf("")                   // cleared right after every import attempt
+    var settingsMessage by mutableStateOf<String?>(null); private set
+
+    private fun summary() = listOfNotNull(
+        settings.saProjectId.takeIf { it.isNotEmpty() && secrets.hasServiceAccount }?.let { "SA project $it, ${settings.saMaskedEmail}" },
+        settings.userCredMasked.takeIf { it.isNotEmpty() && secrets.hasUserCredentials },
+    ).joinToString(" | ")
+
+    fun selectMode(m: AuthMode) { authMode = m; model = settings.modelFor(m, endpoint) }
+    fun selectEndpoint(e: ApiEndpoint) { endpoint = e; model = settings.modelFor(authMode, e) }
+
+    fun problems() = ProviderConfig.problems(settings.providerInputs(secrets.geminiApiKey()).copy(
+        mode = authMode, endpoint = endpoint, model = model, region = region, projectId = projectId,
+        geminiApiKey = apiKeyInput.ifBlank { secrets.geminiApiKey() }))
+
+    /** Persists the form. Returns the problems found (settings are still saved). Restarts a running gateway. */
+    fun saveSettings(): List<ProviderConfig.Problem> {
+        settings.authMode = authMode; settings.endpoint = endpoint
+        settings.setModelFor(authMode, endpoint, model)
+        settings.region = region; settings.projectId = projectId
+        if (apiKeyInput.isNotBlank()) { secrets.setGeminiApiKey(apiKeyInput); apiKeyInput = ""; hasStoredApiKey = secrets.hasGeminiApiKey }
+        val probs = ProviderConfig.problems(settings.providerInputs(secrets.geminiApiKey()))
+        AppLog.i("Setup", "settings saved: ${ProviderConfig.describe(settings.providerInputs(secrets.geminiApiKey()))} problems=$probs")
+        if (state.value == RuntimeState.Running || state.value is RuntimeState.Starting) {
+            AppLog.i("Setup", "runtime active: restarting to apply settings")
+            restart()
+            settingsMessage = "restarting"
+        } else settingsMessage = "saved"
+        return probs
+    }
+
+    fun clearApiKey() { secrets.setGeminiApiKey(""); hasStoredApiKey = false }
+    fun removeServiceAccount() { secrets.removeServiceAccount(); hasServiceAccount = false; saSummary = summary() }
+    fun removeUserCredentials() { secrets.removeUserCredentials(); hasUserCredentials = false; saSummary = summary() }
+
+    // ---- credential import ---------------------------------------------------------------------------
+    fun importFromUri(uri: Uri) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val text = try {
+                getApplication<Application>().contentResolver.openInputStream(uri)?.use { s ->
+                    val bytes = s.readNBytes(256 * 1024 + 1)
+                    if (bytes.size > 256 * 1024) null else String(bytes, Charsets.UTF_8)
+                }
+            } catch (e: Exception) { AppLog.w("Import", "could not read picked file: ${e.javaClass.simpleName}"); null }
+            handleImport(text)
+        }
+    }
+
+    fun importPasted() {
+        val text = pasteText
+        pasteText = "" // clear immediately, whatever happens
+        viewModelScope.launch(Dispatchers.IO) { handleImport(text) }
+    }
+
+    private fun handleImport(text: String?) {
+        val r = if (text == null) ImportResult.Failure(null, "unreadable") else when (val p = secrets.importCredentials(text)) {
+            is SaParse.Ok -> {
+                hasServiceAccount = true; authMode = AuthMode.SERVICE_ACCOUNT; model = settings.modelFor(authMode, endpoint)
+                settings.authMode = authMode
+                ImportResult.ServiceAccount(p.projectId, p.maskedEmail, p.repaired)
+            }
+            is SaParse.OkUser -> {
+                hasUserCredentials = true; authMode = AuthMode.USER_CREDENTIALS; model = settings.modelFor(authMode, endpoint)
+                settings.authMode = authMode
+                ImportResult.UserCredentials(p.masked, p.repaired)
+            }
+            is SaParse.Fail -> ImportResult.Failure(p.code, p.detail)
+        }
+        saSummary = summary()
+        importResult = r
+    }
+
+    fun dismissImportResult() { importResult = null }
+
+    // ---- runtime ------------------------------------------------------------------------------------------
+    fun start() { AgentService.ensureRunning(getApplication()); runtime.start() }
+    fun stop() = runtime.stop()
+    fun restart() { AgentService.ensureRunning(getApplication()); runtime.restart() }
+    fun resetRuntime() = runtime.resetRootfs()
+    var noSeccomp by mutableStateOf(settings.noSeccomp); private set
+    fun updateNoSeccomp(v: Boolean) { settings.noSeccomp = v; noSeccomp = v; AppLog.i("Debug", "noSeccomp=$v") }
+    var selfTestOutput by mutableStateOf(""); private set
+    var selfTestRunning by mutableStateOf(false); private set
+    fun runSelfTest() {
+        selfTestRunning = true
+        runtime.selfTest { selfTestOutput = it; selfTestRunning = false }
+    }
+
+    fun isIgnoringBatteryOptimizations(): Boolean {
+        val pm = getApplication<Application>().getSystemService(Context.POWER_SERVICE) as PowerManager
+        return pm.isIgnoringBatteryOptimizations(getApplication<Application>().packageName)
+    }
+
+    fun batteryOptimizationIntent(): Intent {
+        val pkg = getApplication<Application>().packageName
+        return try {
+            Intent(AndroidSettings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS, Uri.parse("package:$pkg")).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        } catch (_: Exception) {
+            Intent(AndroidSettings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+    }
+
+    // ---- diagnostics ------------------------------------------------------------------------------------------
+    var diagMessage by mutableStateOf<String?>(null); private set
+
+    fun copyDiagnostics() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val r = diagnostics.buildForClipboard()
+            val cm = getApplication<Application>().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            cm.setPrimaryClip(ClipData.newPlainText("PocketAgent diagnostics", r.text))
+            diagMessage = if (r.truncated) "truncated:${r.fullLength}:${r.text.length}" else "copied:${r.text.length}"
+        }
+    }
+
+    fun shareDiagnosticsIntent(): Intent? = try {
+        val app = getApplication<Application>()
+        val f = diagnostics.writeFullToFile()
+        val uri = FileProvider.getUriForFile(app, app.packageName + ".fileprovider", f)
+        Intent.createChooser(
+            Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_STREAM, uri)
+                .putExtra(Intent.EXTRA_SUBJECT, "PocketAgent diagnostics").addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION),
+            null,
+        ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    } catch (e: Exception) { AppLog.e("Diag", "share failed", e); null }
+
+    fun clearDiagMessage() { diagMessage = null }
+
+    // ---- chat ------------------------------------------------------------------------------------------------------
+    val chat = mutableStateListOf<ChatLine>()
+    var sending by mutableStateOf(false); private set
+    var chatInput by mutableStateOf("")
+    private var sessionId = "pa-" + UUID.randomUUID().toString().take(12)
+    private var nextId = 0L
+
+    fun newChat() { if (!sending) { chat.clear(); sessionId = "pa-" + UUID.randomUUID().toString().take(12) } }
+
+    fun cancelSend() = runtime.api.cancelChat()
+
+    fun send() {
+        val text = chatInput.trim()
+        if (text.isEmpty() || sending) return
+        chatInput = ""
+        chat += ChatLine(nextId++, LineKind.USER, text)
+        sending = true
+        val wl = pa.wakeLocks
+        wl.acquire("chat request")
+        viewModelScope.launch(Dispatchers.IO) {
+            var assistantIdx = -1
+            fun appendAssistant(t: String) {
+                if (assistantIdx < 0 || assistantIdx >= chat.size || chat[assistantIdx].kind != LineKind.ASSISTANT) {
+                    chat += ChatLine(nextId++, LineKind.ASSISTANT, t); assistantIdx = chat.size - 1
+                } else chat[assistantIdx] = chat[assistantIdx].copy(text = chat[assistantIdx].text + t)
+            }
+            try {
+                // model "hermes-agent" is the name Hermes advertises on /v1/models; the real model comes from config.yaml.
+                val outcome = runtime.api.streamChat(text, sessionId, "hermes-agent") { ev ->
+                    when (ev) {
+                        is ChatEvent.Delta -> appendAssistant(ev.text)
+                        is ChatEvent.Tool -> {
+                            val l = "${ev.tool}: ${ev.status}" + if (ev.label.isNotEmpty()) " - ${ev.label}" else ""
+                            chat += ChatLine(nextId++, LineKind.TOOL, l); assistantIdx = -1
+                        }
+                        is ChatEvent.StreamError -> chat += ChatLine(nextId++, LineKind.ERROR, ev.raw)
+                        is ChatEvent.Finish -> if (ev.reason != "stop") chat += ChatLine(nextId++, LineKind.INFO, "finish_reason=${ev.reason}" + (ev.errorCode?.let { " error_code=$it" } ?: ""))
+                        else -> {}
+                    }
+                }
+                when (outcome) {
+                    is ChatOutcome.HttpError -> chat += ChatLine(nextId++, LineKind.ERROR, "HTTP ${outcome.code}: ${outcome.body}")
+                    is ChatOutcome.TransportError -> chat += ChatLine(nextId++, LineKind.ERROR, outcome.message)
+                    ChatOutcome.Cancelled -> chat += ChatLine(nextId++, LineKind.INFO, "cancelled")
+                    ChatOutcome.Completed -> {}
+                }
+            } finally {
+                wl.release("chat request")
+                sending = false
+            }
+        }
+    }
+}

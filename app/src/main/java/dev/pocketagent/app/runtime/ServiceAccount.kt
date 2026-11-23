@@ -3,8 +3,19 @@ package dev.pocketagent.app.runtime
 import org.json.JSONException
 import org.json.JSONObject
 
-/** Result of validating a pasted or picked service-account JSON. Never contains the secret values in messages. */
+/** Result of validating a pasted or picked Google credentials JSON. Messages never contain secret values. */
 sealed class SaParse {
+    /** `authorized_user` ADC file (gcloud auth application-default login). Carries no project. */
+    class OkUser(
+        val jsonText: String,
+        val repaired: Boolean,
+        val clientId: String,
+        val clientSecret: String,
+        val refreshToken: String,
+    ) : SaParse() {
+        val masked: String get() = "client " + clientId.take(8) + "…, refresh token " + "*".repeat(6)
+    }
+
     class Ok(
         /** Text to store. Equals the input byte-for-byte unless [repaired]. */
         val jsonText: String,
@@ -53,6 +64,7 @@ object ServiceAccountParser {
         val o = obj!!
 
         val type = o.optString("type", "")
+        if (type == "authorized_user") return parseAuthorizedUser(o, raw, repaired)
         val missing = REQUIRED.filter { it != "type" && o.optString(it, "").isBlank() } .toMutableList()
         if (type.isBlank()) missing.add(0, "type")
         if (type.isNotBlank() && type != "service_account") {
@@ -82,6 +94,24 @@ object ServiceAccountParser {
             privateKeyId = o.optString("private_key_id", ""),
             clientId = o.optString("client_id", ""),
             privateKey = o.getString("private_key"),
+        )
+    }
+
+    private fun parseAuthorizedUser(o: JSONObject, raw: String, repairedBefore: Boolean): SaParse {
+        var repaired = repairedBefore
+        val required = listOf("client_id", "client_secret", "refresh_token")
+        val missing = required.filter { o.optString(it, "").isBlank() }
+        if (missing.isNotEmpty()) return SaParse.Fail(SaParse.Code.MISSING_FIELDS, missing.joinToString(", "))
+        for (k in required) {
+            val v = o.getString(k); val sq = v.filterNot { it.isWhitespace() }
+            if (sq != v) { o.put(k, sq); repaired = true }
+        }
+        return SaParse.OkUser(
+            jsonText = if (repaired) o.toString(2) + "\n" else raw,
+            repaired = repaired,
+            clientId = o.getString("client_id"),
+            clientSecret = o.getString("client_secret"),
+            refreshToken = o.getString("refresh_token"),
         )
     }
 

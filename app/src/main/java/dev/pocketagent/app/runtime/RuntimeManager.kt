@@ -208,7 +208,7 @@ class RuntimeManager(
         context.assets.open("pocketagent-proot.sh").use { i -> FileOutputStream(paths.launcher).use { o -> i.copyTo(o) } }
         FileUtil.chmod(paths.launcher, 448)
 
-        HermesConfig.apply(context, paths, settings, secrets.apiKey())
+        HermesConfig.apply(paths, settings, secrets, secrets.apiKey())
 
         val env = LinkedHashMap<String, String>()
         env["PA_PROOT"] = paths.prootBin.path

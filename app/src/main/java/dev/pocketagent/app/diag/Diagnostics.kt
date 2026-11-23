@@ -117,15 +117,19 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
             "current: ${rt.state.value.label()}\nprocess alive: ${rt.processAlive()} (uptime ${rt.processUptimeMillis() / 1000}s)\nhistory (oldest first):\n$hist"
         }
 
-        safe("Settings") {
+        safe("Settings and provider configuration") {
             val s = rt.settings
+            val inputs = s.providerInputs(rt.secrets.geminiApiKey())
+            val probs = dev.pocketagent.app.runtime.ProviderConfig.problems(inputs)
             """
-            model: ${s.model}
-            region: ${s.region}
-            project id override: ${s.projectId.ifEmpty { "(none)" }}
+            configured: ${dev.pocketagent.app.runtime.ProviderConfig.describe(inputs)}
+            config problems: ${if (probs.isEmpty()) "none" else probs.joinToString()}
             PROOT_NO_SECCOMP toggle: ${s.noSeccomp}
             service account imported: ${rt.secrets.hasServiceAccount}  project=${s.saProjectId.ifEmpty { "-" }} email=${s.saMaskedEmail.ifEmpty { "-" }}
-            API key: ${if (rt.paths.apiKeyFile.isFile) "present (${rt.paths.apiKeyFile.length()} bytes)" else "not generated yet"}
+            user (authorized_user) credentials imported: ${rt.secrets.hasUserCredentials}  ${s.userCredMasked}
+            Gemini API key: ${if (rt.secrets.hasGeminiApiKey) "present (${rt.secrets.geminiApiKey().length} chars)" else "absent"}
+            API server key: ${if (rt.paths.apiKeyFile.isFile) "present (${rt.paths.apiKeyFile.length()} bytes)" else "not generated yet"}
+            guest credential files: sa=${rt.paths.guestServiceAccount.isFile} adc=${rt.paths.guestAdcFile.isFile}
             """.trimIndent()
         }
 

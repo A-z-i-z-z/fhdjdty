@@ -52,7 +52,7 @@ class ServiceAccountTest {
     }
 
     @Test fun rejectsWrongType() {
-        val r = ServiceAccountParser.parse(json(type = "authorized_user")) as SaParse.Fail
+        val r = ServiceAccountParser.parse(json(type = "external_account")) as SaParse.Fail
         assertEquals(SaParse.Code.WRONG_TYPE, r.code)
     }
 
@@ -73,5 +73,19 @@ class ServiceAccountTest {
     @Test fun masksEmail() {
         assertEquals("a***z@x.com", ServiceAccountParser.maskEmail("abcdz@x.com"))
         assertEquals("**@x.com", ServiceAccountParser.maskEmail("ab@x.com"))
+    }
+
+    @Test fun acceptsAuthorizedUserCredentials() {
+        val raw = """{"type":"authorized_user","client_id":"1234-abc.apps.googleusercontent.com","client_secret":"GOCSPX-secretsecret","refresh_token":"1//0gRefreshTokenValue"}"""
+        val r = ServiceAccountParser.parse(raw) as SaParse.OkUser
+        assertEquals("1//0gRefreshTokenValue", r.refreshToken)
+        assertFalse(r.repaired)
+        assertFalse(r.masked.contains("secret")); assertFalse(r.masked.contains("Refresh"))
+    }
+
+    @Test fun authorizedUserNamesMissingFields() {
+        val r = ServiceAccountParser.parse("""{"type":"authorized_user","client_id":"x"}""") as SaParse.Fail
+        assertEquals(SaParse.Code.MISSING_FIELDS, r.code)
+        assertTrue(r.detail.contains("refresh_token") && r.detail.contains("client_secret"))
     }
 }

@@ -53,13 +53,16 @@ class Redactor {
             Rule(Regex("-----BEGIN [A-Z ]*PRIVATE KEY-----[A-Za-z0-9+/=\\\\\\s]{20,}")) {
                 tag("private-key-partial", it.value.length)
             },
-            Rule(Regex("(\"(?:private_key_id|private_key|client_email|client_id)\"\\s*:\\s*\")([^\"]*)(\")")) {
+            Rule(Regex("(\"(?:private_key_id|private_key|client_email|client_id|client_secret|refresh_token)\"\\s*:\\s*\")([^\"]*)(\")")) {
                 it.groupValues[1] + tag(it.groupValues[0].substringAfter('"').substringBefore('"'), it.groupValues[2].length) + it.groupValues[3]
             },
             Rule(Regex("[A-Za-z0-9._-]+@[A-Za-z0-9-]+\\.iam\\.gserviceaccount\\.com")) { tag("sa-email", it.value.length) },
             Rule(Regex("ya29\\.[A-Za-z0-9._\\-]{10,}")) { tag("google-access-token", it.value.length) },
             Rule(Regex("eyJ[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]{10,}\\.[A-Za-z0-9_-]*")) { tag("jwt", it.value.length) },
             Rule(Regex("AIza[0-9A-Za-z_\\-]{30,}")) { tag("google-api-key", it.value.length) },
+            Rule(Regex("AQ\\.[A-Za-z0-9_\\-]{20,}")) { tag("google-api-key", it.value.length) },
+            Rule(Regex("GOCSPX-[A-Za-z0-9_\\-]{10,}")) { tag("oauth-client-secret", it.value.length) },
+            Rule(Regex("1//[A-Za-z0-9_\\-]{20,}")) { tag("oauth-refresh-token", it.value.length) },
             Rule(Regex("(?i)(bearer\\s+)([A-Za-z0-9._~+/=\\-]{6,})")) { it.groupValues[1] + tag("bearer", it.groupValues[2].length) },
             Rule(Regex("(?i)(API_SERVER_KEY\\s*[=:]\\s*)(\\S+)")) { it.groupValues[1] + tag("api-server-key", it.groupValues[2].length) },
             Rule(Regex("(?i)((?:api[_-]?key|secret|token|password|passwd|authorization)[\"']?\\s*[:=]\\s*[\"']?)([^\\s\"',;}]{6,})")) {

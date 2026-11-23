@@ -20,8 +20,8 @@ val buildNumber = providers.gradleProperty("buildNumber").orNull?.toIntOrNull() 
 // absent, in which case a clearly-marked stub is packaged instead.
 //   -ProotfsArchive=/path/rootfs-arm64.tar.xz   (+ sibling rootfs-arm64.info)
 //   -PprootDir=/path/with/libproot.so+libproot-loader.so (+ proot-build.info)
-val rootfsArchive = providers.gradleProperty("rootfsArchive").orNull
-val prootDir = providers.gradleProperty("prootDir").orNull
+val rootfsArchivePath = providers.gradleProperty("rootfsArchive").orNull
+val prootDirPath = providers.gradleProperty("prootDir").orNull
 
 abstract class PrepareRuntimeTask : DefaultTask() {
     @get:Optional @get:InputFile @get:PathSensitive(PathSensitivity.NONE)
@@ -75,7 +75,9 @@ abstract class PrepareRuntimeTask : DefaultTask() {
 
 android {
     namespace = "dev.pocketagent.app"
-    compileSdk = 37
+    compileSdk {
+        version = release(37) { minorApiLevel = 2 }
+    }
 
     defaultConfig {
         applicationId = "dev.pocketagent.app"
@@ -137,12 +139,12 @@ androidComponents {
         val cap = variant.name.replaceFirstChar { it.uppercase() }
         val prep = tasks.register<PrepareRuntimeTask>("prepareRuntime$cap") {
             launcherScript.set(rootProject.layout.projectDirectory.file("runtime/pocketagent-proot.sh"))
-            rootfsArchive?.let {
-                this.rootfsArchive.set(file(it))
+            rootfsArchivePath?.let {
+                rootfsArchive.set(file(it))
                 val infoFile = File(file(it).parentFile, file(it).name.replace(".tar.xz", ".info"))
                 if (infoFile.exists()) rootfsInfo.set(infoFile)
             }
-            prootDir?.let { this.prootDir.set(file(it)) }
+            prootDirPath?.let { prootDir.set(file(it)) }
             assetsOut.set(layout.buildDirectory.dir("generated/pa-runtime/${variant.name}/assets"))
             jniOut.set(layout.buildDirectory.dir("generated/pa-runtime/${variant.name}/jniLibs"))
         }

@@ -59,4 +59,10 @@ class RedactorTest {
         val out = r.redact("{\"k\":\"" + pem.replace("\n", "\\n") + "\"}")
         assertFalse(out.contains("MIIEvQ"))
     }
+
+    @Test fun redactsApiKeysAndOauthSecrets() {
+        val out = Redactor().redact("x-goog-api-key: AQ.Ab8RN6IexampleExampleExample12345 GEMINI_API_KEY=AIzaSyExampleExampleExampleExample123456 " +
+            "{\"client_secret\":\"GOCSPX-abcdefghij12345\",\"refresh_token\":\"1//0gabcdefghijklmnopqrstuvwxyz\"}")
+        assertFalse(out.contains("Ab8RN6I")); assertFalse(out.contains("AIzaSy")); assertFalse(out.contains("GOCSPX")); assertFalse(out.contains("0gabcdef"))
+    }
 }

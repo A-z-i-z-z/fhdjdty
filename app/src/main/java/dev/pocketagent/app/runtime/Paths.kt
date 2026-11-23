@@ -24,6 +24,8 @@ class Paths(context: Context) {
     val secrets = File(files, "secrets")
     val apiKeyFile = File(secrets, "api_key")
     val serviceAccountFile = File(secrets, "service-account.json")
+    val userCredentialsFile = File(secrets, "authorized-user.json")
+    val geminiKeyFile = File(secrets, "gemini_api_key")
 
     val prootBin = File(nativeLibDir, "libproot.so")
     val prootLoader = File(nativeLibDir, "libproot-loader.so")
@@ -35,9 +37,9 @@ class Paths(context: Context) {
     val hermesLogs = File(hermesHome, "logs")
     val guestSecretsDir = File(hermesHome, "secrets")
     val guestServiceAccount = File(guestSecretsDir, "vertex-sa.json")
+    val guestAdcFile = File(rootfs, ProviderConfig.GUEST_ADC_RELATIVE)
 
     companion object {
-        const val GUEST_SERVICE_ACCOUNT = "/root/.hermes/secrets/vertex-sa.json"
         const val API_HOST = "127.0.0.1"
         const val API_PORT = 8642
     }
