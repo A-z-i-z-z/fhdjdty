@@ -20,14 +20,15 @@ set -euo pipefail
 export HOME=/root
 export HERMES_HOME=/root/.hermes
 export UV_NO_CONFIG=1
+export UV_COMPILE_BYTECODE=1
 export PYTHONUNBUFFERED=1
 INSTALL_DIR="$HERMES_HOME/hermes-agent"
 INSTALLER=/tmp/hermes-install.sh
 
-echo "::group::fetch installer ($HERMES_TAG)"
+echo "::group::fetch installer (pinned commit $HERMES_COMMIT = $HERMES_TAG)"
 mkdir -p "$HERMES_HOME"
 curl -fsSL --retry 5 --retry-delay 3 \
-  "https://raw.githubusercontent.com/NousResearch/hermes-agent/${HERMES_TAG}/scripts/install.sh" -o "$INSTALLER"
+  "https://raw.githubusercontent.com/NousResearch/hermes-agent/${HERMES_COMMIT}/scripts/install.sh" -o "$INSTALLER"
 echo "::endgroup::"
 
 run_stage() {
@@ -79,6 +80,19 @@ run_stage complete
 export PATH="/root/.local/bin:$INSTALL_DIR/.hermes/bin:$PATH"
 echo "::group::sanity: hermes --version"
 hermes --version
+echo "::endgroup::"
+
+# Precompile bytecode for everything that runs. Under ptrace on a phone, importing ~8000 modules from source
+# on first start is far slower than on a CI runner; the editable "workspace" copy that actually runs
+# (and the checkout) ship without .pyc files. The archive extractor preserves mtimes, so the
+# timestamp-based .pyc files stay valid after extraction.
+echo "::group::precompile bytecode"
+count_pyc() { echo "$1: py=$(find "$1" -name '*.py' | wc -l) pyc=$(find "$1" -name '*.pyc' | wc -l)"; }
+for d in "$INSTALL_DIR" "$HERMES_HOME"/installs/*/environments/*/workspace "$HERMES_HOME"/installs/*/environments/*/venv/lib; do
+  count_pyc "$d"
+  "$PROJECT_PY" -m compileall -q -j0 "$d" || echo "warning: compileall reported errors in $d (non-fatal, usually py2-only test data)"
+  count_pyc "$d"
+done
 echo "::endgroup::"
 
 # Seal the install. The installer's checkout is a blobless clone with every branch (~300 MB of

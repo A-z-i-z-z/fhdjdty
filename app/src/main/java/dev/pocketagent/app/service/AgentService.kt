@@ -19,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 /**
@@ -30,6 +30,9 @@ import kotlinx.coroutines.launch
 class AgentService : Service() {
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
     private var job: Job? = null
+    private var lastStartId = 0
+    private var lastText: String? = null
+    private var inForeground = true
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -40,27 +43,32 @@ class AgentService : Service() {
             NotificationChannel(CHANNEL, getString(R.string.notif_channel), NotificationManager.IMPORTANCE_LOW)
         )
         startForeground(NOTIF_ID, build(getString(R.string.notif_starting)))
+        lastText = getString(R.string.notif_starting)
         val rt = PocketApp.from(this).runtime
         job = scope.launch {
-            rt.state.collect { s ->
+            // The runtime owns the decision: it asks for the foreground while an operation is in flight or a
+            // child process is alive, so transient Stopped/Error states in between cannot end the service.
+            combine(rt.foregroundNeeded, rt.state) { fg, s -> fg to s }.collect { (fg, s) ->
+                if (!fg) {
+                    AppLog.i("Service", "nothing running (${s.label()}); leaving foreground")
+                    stopForeground(true)
+                    inForeground = false
+                    stopSelf(lastStartId) // no-op when a newer start command arrived meanwhile
+                    return@collect
+                }
                 val text = when (s) {
                     is RuntimeState.Running -> getString(R.string.notif_running)
                     is RuntimeState.Extracting -> getString(R.string.notif_extracting, (s.fraction * 100).toInt())
-                    is RuntimeState.Starting -> getString(R.string.notif_starting)
-                    else -> null
+                    else -> getString(R.string.notif_starting)
                 }
-                if (text == null) {
-                    AppLog.i("Service", "runtime not active (${s.label()}); leaving foreground")
-                    stopForeground(true)
-                    stopSelf()
-                } else {
-                    nm.notify(NOTIF_ID, build(text))
-                }
+                if (!inForeground) { inForeground = true; lastText = text; startForeground(NOTIF_ID, build(text)) } // restarted while still alive
+                else if (text != lastText) { lastText = text; nm.notify(NOTIF_ID, build(text)) } // only when the text changed
             }
         }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        lastStartId = startId
         if (intent?.action == ACTION_STOP) PocketApp.from(this).runtime.stop()
         return START_NOT_STICKY
     }

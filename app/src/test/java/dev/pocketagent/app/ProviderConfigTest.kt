@@ -26,6 +26,26 @@ class ProviderConfigTest {
     @Test fun studioMode() = check("studio",
         ProviderInputs(AuthMode.API_KEY, ApiEndpoint.STUDIO, "gemini-4-hydrogen", "global", "", "smoke-gemini-key"))
 
+    @Test fun studioModeWithoutKeyBootsAndIsNotBlocking() {
+        val i = ProviderInputs(AuthMode.API_KEY, ApiEndpoint.STUDIO, "gemini-4-hydrogen", "global", "", "")
+        check("studio-nokey", i)
+        assertEquals(listOf(ProviderConfig.Problem.NO_API_KEY), ProviderConfig.problems(i))
+        assertTrue(ProviderConfig.blocking(ProviderConfig.problems(i)).isEmpty())
+    }
+
+    @Test fun portIsConfigurable() {
+        val e = ProviderConfig.renderEnv(apiKey, ProviderInputs(AuthMode.API_KEY, ApiEndpoint.STUDIO, "m", "global", "", "k"), 40123)
+        assertTrue(e.contains("API_SERVER_PORT=40123")); assertFalse(e.contains("8642"))
+    }
+
+    @Test fun rejectsBadProjectAndRegion() {
+        val bad = ProviderInputs(AuthMode.SERVICE_ACCOUNT, ApiEndpoint.STUDIO, "m", "us central\n1", "Proj;x")
+        val p = ProviderConfig.problems(bad)
+        assertTrue(ProviderConfig.Problem.INVALID_PROJECT in p && ProviderConfig.Problem.INVALID_REGION in p)
+        assertEquals(2, ProviderConfig.blocking(p).size)
+        assertTrue(ProviderConfig.problems(ProviderInputs(AuthMode.SERVICE_ACCOUNT, ApiEndpoint.STUDIO, "m", "us-central1", "my_proj-1")).isEmpty())
+    }
+
     @Test fun expressMode() = check("express",
         ProviderInputs(AuthMode.API_KEY, ApiEndpoint.VERTEX_EXPRESS, "gemini-4-argon", "global", "smoke-project", "smoke-gemini-key"))
 

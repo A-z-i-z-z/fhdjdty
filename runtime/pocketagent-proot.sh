@@ -23,6 +23,9 @@
 #   PA_KERNEL       fake `uname -r` (default 6.8.0-pocketagent)        (optional)
 #   PA_FAKE_PROC    "1" force fake /proc files, "0" never, else auto   (optional)
 #   PA_EXTRA_BIND   extra proot -b arguments, space separated          (optional)
+#   PA_CLEAN_STALE  "1" remove leftover gateway pid/lock/socket files of a   (optional)
+#                   killed earlier run before starting (the app and the CI
+#                   smoke test set it for gateway launches only)
 #   PA_DRY_RUN      "1" print the final command line and exit          (optional)
 #
 # Every launch writes the resolved command line to $PA_STATE/last-launch.txt so
@@ -59,6 +62,15 @@ if [ "${PA_DRY_RUN:-}" != 1 ]; then
   chmod 1777 "$PA_STATE/shm" 2>/dev/null
   mkdir -p "$PA_ROOTFS/tmp" "$PA_ROOTFS/root" "$PA_ROOTFS/dev" "$PA_ROOTFS/proc" "$PA_ROOTFS/sys" "$PA_ROOTFS/etc" 2>/dev/null
   chmod 1777 "$PA_ROOTFS/tmp" 2>/dev/null
+
+  # A killed app/proot leaves gateway.pid, gateway.lock, the control socket and the host-role lock behind.
+  # PIDs are not virtualised under proot, so a stale pid can name an unrelated live process (or the app
+  # itself): remove them so Hermes never acts on them. Only for the gateway launch, never for probes.
+  if [ "${PA_CLEAN_STALE:-}" = 1 ]; then
+    H="$PA_ROOTFS/root/.hermes"
+    rm -f "$H/gateway.pid" "$H/gateway.lock" "$H/gateway.sock" "$H/gateway_state.json" 2>/dev/null
+    rm -rf "$PA_ROOTFS/root/.local/state/hermes/gateway-locks" 2>/dev/null
+  fi
 
   # resolv.conf: Android has none that a glibc process can use.
   if [ -n "${PA_DNS:-}" ]; then

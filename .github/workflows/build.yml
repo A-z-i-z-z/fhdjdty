@@ -25,8 +25,9 @@ jobs:
     name: Unit tests
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with: { persist-credentials: false }
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4.9.1
         with: { distribution: temurin, java-version: '21' }
       - name: Install Android SDK pieces
         run: |
@@ -43,7 +44,8 @@ jobs:
     name: Build proot (NDK, arm64)
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with: { persist-credentials: false }
       - name: Install NDK
         run: |
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
@@ -60,7 +62,7 @@ jobs:
           cat "$RUNNER_TEMP/proot-out/proot-build.info"
           file "$RUNNER_TEMP/proot-out/libproot.so" "$RUNNER_TEMP/proot-out/libproot-loader.so"
           ls -l "$RUNNER_TEMP/proot-out"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: proot-arm64
           path: ${{ runner.temp }}/proot-out/
@@ -70,7 +72,8 @@ jobs:
     name: Build rootfs (arm64)
     runs-on: ubuntu-24.04-arm
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with: { persist-credentials: false }
       - name: Install build tools
         run: |
           sudo apt-get update
@@ -89,7 +92,7 @@ jobs:
             cat "$RUNNER_TEMP/dist/rootfs-arm64.info"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: rootfs-arm64
           path: |
@@ -103,10 +106,11 @@ jobs:
     needs: [rootfs, proot]
     runs-on: ubuntu-24.04-arm
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with: { persist-credentials: false }
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with: { name: rootfs-arm64, path: dl/rootfs }
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with: { name: proot-arm64, path: dl/proot }
       - name: Extract rootfs (as an unprivileged user, like the app does)
         run: |
@@ -122,25 +126,26 @@ jobs:
             --work "$RUNNER_TEMP/smoke-work"
       - name: Upload logs
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: smoke-logs
           path: ${{ runner.temp }}/smoke-work/*.log
           if-no-files-found: ignore
 
   apk:
-    name: Build APK and publish prerelease
+    name: Build APK
     needs: [unit, smoke, rootfs, proot]
     runs-on: ubuntu-24.04
     permissions:
-      contents: write
+      contents: read   # this job runs Gradle (downloaded plugins): it never gets write access
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with: { persist-credentials: false }
+      - uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4.9.1
         with: { distribution: temurin, java-version: '21' }
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with: { name: rootfs-arm64, path: dl/rootfs }
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
         with: { name: proot-arm64, path: dl/proot }
       - name: Install Android SDK pieces
         run: |
@@ -176,32 +181,50 @@ jobs:
             echo '### APK'
             echo "$NAME: $(numfmt --to=iec "$SIZE") ($SIZE bytes)"
           } >> "$GITHUB_STEP_SUMMARY"
-      - uses: actions/upload-artifact@v4
+      - name: Collect release files
+        run: |
+          mkdir -p release-files
+          cp "${{ steps.apk.outputs.name }}" SHA256SUMS.txt release-files/
+          cp dl/rootfs/rootfs-arm64.info release-files/rootfs-arm64.info
+          cp dl/proot/proot-build.info release-files/proot-build.info
+          echo "${{ steps.apk.outputs.size }}" > release-files/apk-size.txt
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: apk
-          path: ${{ steps.apk.outputs.name }}
+          path: release-files/
           compression-level: 0
           if-no-files-found: error
+
+  release:
+    name: Publish prerelease
+    needs: [apk]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write   # the only job with write access; it runs no project code and has no checkout
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with: { name: apk, path: release-files }
       - name: Publish prerelease
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: phase0-${{ github.run_number }}
         run: |
-          cp dl/rootfs/rootfs-arm64.info rootfs-arm64.info
-          cp dl/proot/proot-build.info proot-build.info
+          cd release-files
+          APK="$(ls PocketAgent-phase0-*.apk)"
+          SIZE="$(cat apk-size.txt)"
           cat > notes.md <<EOF
           Phase 0 sideload test build #${{ github.run_number }} (commit ${GITHUB_SHA::7}).
 
-          Install the .apk on the phone, open it, press "Install and start", then paste the
-          "Copy diagnostics" output back if anything fails.
+          Install this .apk (only from this Releases page: all builds share one public test signing key).
+          Open it, press "Install and start", then paste the "Copy diagnostics" output back if anything fails.
 
           - Hermes: ${HERMES_TAG} (${HERMES_COMMIT})
-          - APK size: $(numfmt --to=iec ${{ steps.apk.outputs.size }})
+          - APK size: $(numfmt --to=iec "$SIZE")
           - Signed with the shared sideload debug key, so builds update each other.
           EOF
           # The tag is created on the default branch, not on this commit: the Actions token gets a 403
           # when a tag points at a commit that touches .github/workflows. The build commit is in the notes.
           gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "${{ github.event.repository.default_branch }}" \
             --prerelease --title "Phase 0 build ${{ github.run_number }}" --notes-file notes.md \
-            "${{ steps.apk.outputs.name }}" SHA256SUMS.txt rootfs-arm64.info proot-build.info
+            "$APK" SHA256SUMS.txt rootfs-arm64.info proot-build.info
           echo "Release: https://github.com/$GITHUB_REPOSITORY/releases/tag/$TAG" | tee -a "$GITHUB_STEP_SUMMARY"

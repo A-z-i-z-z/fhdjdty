@@ -21,9 +21,9 @@ import dev.pocketagent.app.diag.Diagnostics
 import dev.pocketagent.app.runtime.ApiEndpoint
 import dev.pocketagent.app.runtime.AuthMode
 import dev.pocketagent.app.runtime.ProviderConfig
+import dev.pocketagent.app.runtime.ProviderInputs
 import dev.pocketagent.app.runtime.RuntimeState
 import dev.pocketagent.app.runtime.SaParse
-import dev.pocketagent.app.service.AgentService
 import dev.pocketagent.app.util.AppLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
@@ -71,9 +71,15 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     fun selectMode(m: AuthMode) { authMode = m; model = settings.modelFor(m, endpoint) }
     fun selectEndpoint(e: ApiEndpoint) { endpoint = e; model = settings.modelFor(authMode, e) }
 
-    fun problems() = ProviderConfig.problems(settings.providerInputs(secrets.geminiApiKey()).copy(
-        mode = authMode, endpoint = endpoint, model = model, region = region, projectId = projectId,
-        geminiApiKey = apiKeyInput.ifBlank { secrets.geminiApiKey() }))
+    /** Pure function of in-memory state (called during composition: no file or binder access here). */
+    fun problems() = ProviderConfig.problems(ProviderInputs(
+        authMode, endpoint, model, region, projectId,
+        geminiApiKey = apiKeyInput.ifBlank { if (hasStoredApiKey) "stored" else "" }))
+
+    /** True when the saved configuration lacks credentials/valid fields, so chatting would fail. */
+    fun savedConfigIncomplete(): Boolean = problemsOfSaved
+
+    private var problemsOfSaved by mutableStateOf(ProviderConfig.problems(settings.providerInputs(secrets.geminiApiKey())).isNotEmpty())
 
     /** Persists the form. Returns the problems found (settings are still saved). Restarts a running gateway. */
     fun saveSettings(): List<ProviderConfig.Problem> {
@@ -82,6 +88,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         settings.region = region; settings.projectId = projectId
         if (apiKeyInput.isNotBlank()) { secrets.setGeminiApiKey(apiKeyInput); apiKeyInput = ""; hasStoredApiKey = secrets.hasGeminiApiKey }
         val probs = ProviderConfig.problems(settings.providerInputs(secrets.geminiApiKey()))
+        problemsOfSaved = probs.isNotEmpty()
         AppLog.i("Setup", "settings saved: ${ProviderConfig.describe(settings.providerInputs(secrets.geminiApiKey()))} problems=$probs")
         if (state.value == RuntimeState.Running || state.value is RuntimeState.Starting) {
             AppLog.i("Setup", "runtime active: restarting to apply settings")
@@ -91,7 +98,12 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         return probs
     }
 
-    fun clearApiKey() { secrets.setGeminiApiKey(""); hasStoredApiKey = false }
+    fun clearApiKey() {
+        secrets.setGeminiApiKey(""); hasStoredApiKey = false
+        problemsOfSaved = true
+        // Do not leave the old key in the guest .env until the next start.
+        viewModelScope.launch(Dispatchers.IO) { runtime.rewriteGuestConfigIfInstalled() }
+    }
     fun removeServiceAccount() { secrets.removeServiceAccount(); hasServiceAccount = false; saSummary = summary() }
     fun removeUserCredentials() { secrets.removeUserCredentials(); hasUserCredentials = false; saSummary = summary() }
 
@@ -100,7 +112,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch(Dispatchers.IO) {
             val text = try {
                 getApplication<Application>().contentResolver.openInputStream(uri)?.use { s ->
-                    val bytes = s.readNBytes(256 * 1024 + 1)
+                    val bytes = dev.pocketagent.app.util.FileUtil.readLimited(s, 256 * 1024 + 1)
                     if (bytes.size > 256 * 1024) null else String(bytes, Charsets.UTF_8)
                 }
             } catch (e: Exception) { AppLog.w("Import", "could not read picked file: ${e.javaClass.simpleName}"); null }
@@ -135,9 +147,9 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     fun dismissImportResult() { importResult = null }
 
     // ---- runtime ------------------------------------------------------------------------------------------
-    fun start() { AgentService.ensureRunning(getApplication()); runtime.start() }
+    fun start() = runtime.start()
     fun stop() = runtime.stop()
-    fun restart() { AgentService.ensureRunning(getApplication()); runtime.restart() }
+    fun restart() = runtime.restart()
     fun resetRuntime() = runtime.resetRootfs()
     var noSeccomp by mutableStateOf(settings.noSeccomp); private set
     fun updateNoSeccomp(v: Boolean) { settings.noSeccomp = v; noSeccomp = v; AppLog.i("Debug", "noSeccomp=$v") }
@@ -145,12 +157,14 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     var selfTestRunning by mutableStateOf(false); private set
     fun runSelfTest() {
         selfTestRunning = true
-        runtime.selfTest { selfTestOutput = it; selfTestRunning = false }
+        runtime.selfTest(auto = false) { selfTestOutput = it; selfTestRunning = false }
     }
 
-    fun isIgnoringBatteryOptimizations(): Boolean {
+    var ignoringBattery by mutableStateOf(true); private set
+    /** Called from onResume (not during composition). */
+    fun refreshBattery() {
         val pm = getApplication<Application>().getSystemService(Context.POWER_SERVICE) as PowerManager
-        return pm.isIgnoringBatteryOptimizations(getApplication<Application>().packageName)
+        ignoringBattery = pm.isIgnoringBatteryOptimizations(getApplication<Application>().packageName)
     }
 
     fun batteryOptimizationIntent(): Intent {

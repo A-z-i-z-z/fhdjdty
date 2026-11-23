@@ -2,9 +2,11 @@ package dev.pocketagent.app.runtime
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.os.SystemClock
 import android.os.StatFs
 import dev.pocketagent.app.BuildConfig
 import dev.pocketagent.app.api.HermesApi
+import dev.pocketagent.app.service.AgentService
 import dev.pocketagent.app.util.AppLog
 import dev.pocketagent.app.util.FileUtil
 import kotlinx.coroutines.CoroutineScope
@@ -17,12 +19,25 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import java.io.File
-import java.io.FileOutputStream
+import java.net.InetAddress
+import java.net.ServerSocket
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicInteger
+
+/** One launch of proot+Hermes. Exits of superseded runs must never be attributed to the current one. */
+class RunHandle(val generation: Int, val process: Process, val port: Int) {
+    val startElapsed: Long = SystemClock.elapsedRealtime()
+    val startWall: Long = System.currentTimeMillis()
+    val stopRequested = AtomicBoolean(false)
+}
+
+data class MemSample(val timeMillis: Long, val guestProcesses: Int, val rssKb: Long)
 
 /**
  * Owns the rootfs and the proot/Hermes child process and exposes the state machine
- * NotInstalled -> Extracting -> Starting -> Running -> Stopped/Error.
+ * NotInstalled -> Extracting -> Starting -> Running -> Stopped/Error. It also owns the foreground service:
+ * [foregroundNeeded] is true while any operation is in flight or a child process is alive.
  */
 class RuntimeManager(
     private val context: Context,
@@ -36,43 +51,67 @@ class RuntimeManager(
     private val _state = MutableStateFlow<RuntimeState>(RuntimeState.NotInstalled)
     val state: StateFlow<RuntimeState> = _state
 
+    private val opCount = AtomicInteger(0)
+    private val _foreground = MutableStateFlow(false)
+    /** True while an operation (start/stop/extract) runs or a child process is alive. The service follows this. */
+    val foregroundNeeded: StateFlow<Boolean> = _foreground
+
     private val historyLock = Any()
     private val history = ArrayList<StateEntry>()
     private val exits = ArrayList<ExitRecord>()
+    private val memSamples = ArrayList<MemSample>()
 
-    @Volatile private var process: Process? = null
-    @Volatile private var processStart = 0L
-    @Volatile private var stopRequested = false
+    @Volatile private var current: RunHandle? = null
+    private val generationCounter = AtomicInteger(0)
+    @Volatile private var cancelExtract = false
+    private val wakeHeld = AtomicBoolean(false)
+
+    @Volatile var apiPort: Int = Paths.DEFAULT_API_PORT; private set
+    /** True once the listener on [apiPort] has been proven to be our own Hermes; only then is the Bearer key sent. */
+    @Volatile private var apiVerified = false
+
     @Volatile var lastLaunchEnv: Map<String, String> = emptyMap(); private set
     @Volatile var lastLaunchCommand: List<String> = emptyList(); private set
     @Volatile var lastExtractStats: String = ""; private set
     @Volatile var lastSelfTest: String = ""; private set
+    @Volatile var lastPreservedUserState: String = ""; private set
+    private val selfTestRunning = AtomicBoolean(false)
 
-    val api = HermesApi { secrets.apiKey() }
+    val api = HermesApi({ apiPort }, { if (apiVerified) secrets.apiKey() else null })
 
-    init {
-        refreshInstalledState()
-    }
+    init { refreshInstalledState() }
 
-    // ---- observable history (for diagnostics) --------------------------------------------------
+    // ---- history / observability -----------------------------------------------------------------
     fun stateHistory(): List<StateEntry> = synchronized(historyLock) { history.toList() }
     fun exitRecords(): List<ExitRecord> = synchronized(historyLock) { exits.toList() }
+    fun memorySamples(): List<MemSample> = synchronized(historyLock) { memSamples.toList() }
+    fun processAlive(): Boolean = current?.process?.isAlive == true
+    fun processUptimeMillis(): Long = current?.takeIf { it.process.isAlive }?.let { SystemClock.elapsedRealtime() - it.startElapsed } ?: 0L
+
+    private fun recomputeForeground() {
+        _foreground.value = opCount.get() > 0 || _state.value.isBusyOrRunning || processAlive()
+    }
+
+    private fun beginOp() { opCount.incrementAndGet(); recomputeForeground() }
+    private fun endOp() { opCount.decrementAndGet(); recomputeForeground() }
 
     private fun setState(s: RuntimeState, record: Boolean = true) {
         val prev = _state.value
         _state.value = s
-        // Extraction progress updates are not history entries (only the first one is).
-        val skip = s is RuntimeState.Extracting && prev is RuntimeState.Extracting
-        if (record && !skip) {
+        val skip = !record || (s is RuntimeState.Extracting && prev is RuntimeState.Extracting) ||
+            (s is RuntimeState.Starting && prev is RuntimeState.Starting && s.step.substringBefore(" (") == prev.step.substringBefore(" ("))
+        if (!skip) {
             synchronized(historyLock) {
                 history += StateEntry(System.currentTimeMillis(), s.label())
                 while (history.size > 200) history.removeAt(0)
             }
             AppLog.i("State", s.label())
         }
+        recomputeForeground()
+        if (s is RuntimeState.Error && prev !is RuntimeState.Error) selfTest(auto = true)
     }
 
-    // ---- bundled build facts -------------------------------------------------------------------
+    // ---- bundled build facts ------------------------------------------------------------------------
     fun assetInfo(name: String): Map<String, String> = try {
         context.assets.open(name).bufferedReader().readLines()
             .mapNotNull { l -> l.indexOf('=').takeIf { it > 0 }?.let { l.substring(0, it) to l.substring(it + 1) } }.toMap()
@@ -86,68 +125,117 @@ class RuntimeManager(
         paths.rootfsStamp.isFile && paths.rootfsStamp.readText().trim() == expectedBuildId &&
             File(paths.rootfs, "usr/bin").isDirectory && !paths.rootfsStaging.exists()
 
+    /** Re-derives Stopped/NotInstalled from disk. An Error stays on screen until the next Start or Reset. */
     fun refreshInstalledState() {
-        if (_state.value.isBusyOrRunning) return
-        if (isRootfsValid()) {
-            if (_state.value is RuntimeState.NotInstalled || _state.value is RuntimeState.Error) setState(RuntimeState.Stopped("ready"))
-        } else {
-            setState(RuntimeState.NotInstalled)
-        }
+        val s = _state.value
+        if (s.isBusyOrRunning || s is RuntimeState.Error) return
+        if (isRootfsValid()) { if (s is RuntimeState.NotInstalled) setState(RuntimeState.Stopped("ready")) }
+        else if (s !is RuntimeState.NotInstalled) setState(RuntimeState.NotInstalled)
+        else if (s is RuntimeState.NotInstalled && history.isEmpty()) setState(RuntimeState.NotInstalled)
     }
 
-    // ---- public operations ----------------------------------------------------------------------
+    // ---- public operations -----------------------------------------------------------------------------
     fun start() {
+        beginOp()
         scope.launch {
-            mutex.withLock {
-                if (_state.value.isBusyOrRunning && process?.isAlive == true) return@withLock
-                wakeLocks.acquire("start")
-                try {
-                    stopRequested = false
-                    if (!ensureRootfs()) return@withLock
-                    launchHermes()
-                } catch (e: Exception) {
-                    AppLog.e("Runtime", "start failed", e)
-                    setState(RuntimeState.Error("${e.javaClass.simpleName}: ${e.message}"))
-                } finally {
-                    wakeLocks.release("start")
+            try {
+                mutex.withLock {
+                    if (_state.value.isBusyOrRunning && processAlive()) return@withLock
+                    ensureServiceStarted()
+                    holdWake("start")
+                    var handedOver = false
+                    try {
+                        cancelExtract = false
+                        // A previous run that is still alive (Error state after a health timeout) is superseded.
+                        current?.stopRequested?.set(true)
+                        current = null // its exit is now a superseded run's exit
+                        if (!ensureRootfs()) return@withLock
+                        handedOver = launchHermes()
+                    } catch (e: Exception) {
+                        AppLog.e("Runtime", "start failed", e)
+                        setState(RuntimeState.Error("${e.javaClass.simpleName}: ${e.message}"))
+                    } finally {
+                        if (!handedOver) releaseWake("start failed or aborted")
+                    }
                 }
-            }
+            } finally { endOp() }
         }
     }
 
     fun stop() {
-        stopRequested = true // lets a running extraction / health wait notice immediately
-        scope.launch { mutex.withLock { stopInternal("user") } }
+        beginOp()
+        cancelExtract = true // lets a running extraction notice immediately
+        current?.stopRequested?.set(true)
+        scope.launch { try { mutex.withLock { stopInternal("user") } } finally { endOp() } }
     }
 
     fun restart() {
+        beginOp()
         scope.launch {
-            mutex.withLock { stopInternal("restart") }
+            try { mutex.withLock { stopInternal("restart") } } finally { endOp() }
             delay(500)
             start()
         }
     }
 
-    /** Deletes the extracted rootfs (forces a fresh extraction on the next start). */
+    /** Deletes the extracted rootfs (forces a fresh extraction on the next start). User state is parked first. */
     fun resetRootfs() {
+        beginOp()
         scope.launch {
-            mutex.withLock {
-                stopInternal("reset")
-                paths.rootfsStamp.delete()
-                FileUtil.deleteRecursivelyNoFollow(paths.rootfsStaging)
-                FileUtil.deleteRecursivelyNoFollow(paths.rootfs)
-                setState(RuntimeState.NotInstalled)
-            }
+            try {
+                mutex.withLock {
+                    stopInternal("reset")
+                    paths.rootfsStamp.delete()
+                    try {
+                        parkUserState()
+                        FileUtil.deleteOrThrow(paths.rootfsStaging); FileUtil.deleteOrThrow(paths.rootfs)
+                        setState(RuntimeState.NotInstalled)
+                    } catch (e: Exception) {
+                        setState(RuntimeState.Error("Could not delete the runtime: ${e.message}"))
+                    }
+                }
+            } finally { endOp() }
         }
     }
 
-    // ---- extraction -----------------------------------------------------------------------------
+    /** Rewrites the guest .env/config.yaml from the current settings (e.g. after the API key was removed). */
+    fun rewriteGuestConfigIfInstalled() {
+        try { if (isRootfsValid()) HermesConfig.apply(paths, settings, secrets, secrets.apiKey(), apiPort) }
+        catch (e: Exception) { AppLog.w("Runtime", "could not rewrite guest config", e) }
+    }
+
+    private fun ensureServiceStarted() {
+        try { AgentService.ensureRunning(context) }
+        catch (e: Exception) { AppLog.w("Runtime", "could not start the foreground service (app in background?)", e) }
+    }
+
+    private fun holdWake(why: String) { if (wakeHeld.compareAndSet(false, true)) wakeLocks.acquire(why, 25 * 60_000L) }
+    private fun releaseWake(why: String) { if (wakeHeld.compareAndSet(true, false)) wakeLocks.release(why) }
+
+    // ---- rootfs: extraction and user-state preservation --------------------------------------------------
+    private fun parkUserState() {
+        if (!paths.hermesHome.isDirectory) return
+        val moved = UserState.park(paths.hermesHome, paths.userStatePreserve)
+        if (moved.isNotEmpty()) { lastPreservedUserState = "parked ${moved.size} entries: ${moved.joinToString()}"; AppLog.i("UserState", lastPreservedUserState) }
+    }
+
+    private fun restoreUserState() {
+        if (!paths.userStatePreserve.exists()) return
+        val r = UserState.restore(paths.userStatePreserve, paths.hermesHome)
+        lastPreservedUserState = "restored ${r.size} entries: ${r.joinToString()}"
+        AppLog.i("UserState", lastPreservedUserState)
+    }
+
     private fun ensureRootfs(): Boolean {
         if (rootfsInfo["stub_rootfs"] == "true") {
             setState(RuntimeState.Error("This build contains no rootfs (stub build). Install the APK produced by CI."))
             return false
         }
-        if (isRootfsValid()) return true
+        if (isRootfsValid()) {
+            // The app may have died between "rootfs replaced" and "user state moved back".
+            try { restoreUserState() } catch (e: Exception) { AppLog.e("UserState", "restore failed", e) }
+            return true
+        }
 
         setState(RuntimeState.Extracting(0f, "preparing"))
         val need = rootfsInfo["unpacked_bytes"]?.toLongOrNull() ?: 0L
@@ -156,18 +244,19 @@ class RuntimeManager(
             setState(RuntimeState.Error("Not enough free storage: need about ${FileUtil.formatBytes(need + need / 8)}, have ${FileUtil.formatBytes(free)}"))
             return false
         }
-        // Anything left from an earlier attempt is by definition incomplete.
-        paths.rootfsStamp.delete()
-        FileUtil.deleteRecursivelyNoFollow(paths.rootfsStaging)
-        FileUtil.deleteRecursivelyNoFollow(paths.rootfs)
-
         val t0 = System.currentTimeMillis()
         try {
+            paths.rootfsStamp.delete()
+            // Chat history, memories, skills... live inside the rootfs: park them, replace the rootfs, move them back.
+            parkUserState()
+            FileUtil.deleteOrThrow(paths.rootfsStaging)
+            FileUtil.deleteOrThrow(paths.rootfs)
+
             context.assets.openFd("rootfs.tar.xz").use { afd ->
                 afd.createInputStream().use { input ->
                     val stats = TarExtractor(AndroidFsOps()).extractTarXz(
                         input, afd.length, paths.rootfsStaging,
-                        isCancelled = { stopRequested },
+                        isCancelled = { cancelExtract },
                     ) { p ->
                         val frac = if (p.compressedTotal > 0) (p.compressedRead.toFloat() / p.compressedTotal).coerceIn(0f, 1f) else 0f
                         setState(RuntimeState.Extracting(frac, "${p.entries} entries"), record = false)
@@ -175,7 +264,8 @@ class RuntimeManager(
                     lastExtractStats = stats.toString()
                 }
             }
-            if (!paths.rootfsStaging.renameTo(paths.rootfs)) throw java.io.IOException("could not move extracted rootfs into place")
+            if (!paths.rootfsStaging.renameTo(paths.rootfs)) throw java.io.IOException("could not move ${paths.rootfsStaging} to ${paths.rootfs}")
+            restoreUserState()
             FileUtil.writeAtomic(paths.rootfsStamp, expectedBuildId.toByteArray(), 420)
             AppLog.i("Extract", "done in ${(System.currentTimeMillis() - t0) / 1000}s: $lastExtractStats")
             return true
@@ -185,48 +275,66 @@ class RuntimeManager(
             return false
         } catch (e: Exception) {
             AppLog.e("Extract", "failed", e)
-            // Leave nothing that could be mistaken for a complete rootfs.
-            paths.rootfsStamp.delete()
+            paths.rootfsStamp.delete() // nothing that could be mistaken for a complete rootfs
             FileUtil.deleteRecursivelyNoFollow(paths.rootfsStaging)
             setState(RuntimeState.Error("Extraction failed: ${e.javaClass.simpleName}: ${e.message}"))
             return false
         }
     }
 
-    // ---- start / monitor --------------------------------------------------------------------------
-    private suspend fun launchHermes() {
-        setState(RuntimeState.Starting("preparing"))
-        killStaleGuests("before start")
-        if (rootfsInfo["stub_rootfs"] == "true" || prootInfo["stub_proot"] == "true") {
-            setState(RuntimeState.Error("Stub build: no proot binary bundled."))
-            return
-        }
-        if (!paths.prootBin.exists()) {
-            setState(RuntimeState.Error("proot binary missing: ${paths.prootBin}"))
-            return
-        }
-        paths.runtimeDir.mkdirs(); paths.state.mkdirs(); paths.logs.mkdirs()
-        context.assets.open("pocketagent-proot.sh").use { i -> FileOutputStream(paths.launcher).use { o -> i.copyTo(o) } }
-        FileUtil.chmod(paths.launcher, 448)
+    // ---- launch ------------------------------------------------------------------------------------------------
+    private fun installLauncher() {
+        val bytes = context.assets.open("pocketagent-proot.sh").use { it.readBytes() }
+        // Replaced atomically (and only when different): a running `sh` keeps reading its old inode.
+        if (!paths.launcher.isFile || !paths.launcher.readBytes().contentEquals(bytes)) FileUtil.writeAtomic(paths.launcher, bytes, 448)
+    }
 
-        HermesConfig.apply(paths, settings, secrets, secrets.apiKey())
-
+    private fun launchEnv(state: File): LinkedHashMap<String, String> {
         val env = LinkedHashMap<String, String>()
         env["PA_PROOT"] = paths.prootBin.path
         env["PA_LOADER"] = paths.prootLoader.path
         env["PA_ROOTFS"] = paths.rootfs.path
-        env["PA_STATE"] = paths.state.path
+        env["PA_STATE"] = state.path
         env["PA_DNS"] = dnsServers().joinToString(" ")
         env["PA_TZ"] = java.util.TimeZone.getDefault().id
         if (settings.noSeccomp) env["PA_NO_SECCOMP"] = "1"
         env["PATH"] = "/system/bin:/system/xbin"
-        env["TMPDIR"] = File(paths.state, "tmp").also { it.mkdirs() }.path
+        env["TMPDIR"] = File(state, "tmp").also { it.mkdirs() }.path
+        return env
+    }
 
+    private fun pickFreePort(): Int {
+        repeat(20) {
+            try { ServerSocket(0, 1, InetAddress.getByName(Paths.API_HOST)).use { return it.localPort } } catch (_: Exception) { }
+        }
+        return Paths.DEFAULT_API_PORT
+    }
+
+    /** Returns true when ownership of the wake lock has been handed to the health-wait coroutine. */
+    private suspend fun launchHermes(): Boolean {
+        setState(RuntimeState.Starting("preparing"))
+        killStaleGuests("before start")
+        if (rootfsInfo["stub_rootfs"] == "true" || prootInfo["stub_proot"] == "true") {
+            setState(RuntimeState.Error("Stub build: no proot binary bundled.")); return false
+        }
+        if (!paths.prootBin.exists()) { setState(RuntimeState.Error("proot binary missing: ${paths.prootBin}")); return false }
+        val inputs = settings.providerInputs(secrets.geminiApiKey())
+        val blocking = ProviderConfig.blocking(ProviderConfig.problems(inputs))
+        if (blocking.isNotEmpty()) { setState(RuntimeState.Error("Invalid configuration: $blocking (fix it under Setup)")); return false }
+
+        paths.runtimeDir.mkdirs(); paths.state.mkdirs(); paths.logs.mkdirs()
+        installLauncher()
+        val port = pickFreePort()
+        apiPort = port; apiVerified = false
+        HermesConfig.apply(paths, settings, secrets, secrets.apiKey(), port)
+
+        val env = launchEnv(paths.state)
+        env["PA_CLEAN_STALE"] = "1" // the launcher removes leftover gateway pid/lock/socket files of a killed run
         val cmd = listOf("/system/bin/sh", paths.launcher.path, "--", "hermes", "gateway", "run", "--replace", "-v")
         lastLaunchEnv = env; lastLaunchCommand = cmd
 
         rotateRuntimeLog()
-        val header = "=== ${java.util.Date()} start build=${BuildConfig.GIT_COMMIT} noSeccomp=${settings.noSeccomp}\n=== cmd: ${cmd.joinToString(" ")}\n"
+        val header = "=== ${java.util.Date()} start build=${BuildConfig.GIT_COMMIT} port=$port noSeccomp=${settings.noSeccomp}\n=== cmd: ${cmd.joinToString(" ")}\n"
         paths.runtimeLog.appendText(header)
 
         val pb = ProcessBuilder(cmd)
@@ -236,56 +344,125 @@ class RuntimeManager(
         pb.redirectOutput(ProcessBuilder.Redirect.appendTo(paths.runtimeLog))
         setState(RuntimeState.Starting("launching proot"))
         val p = pb.start()
-        process = p
-        processStart = System.currentTimeMillis()
-        AppLog.i("Runtime", "process started (pid ${pidOf(p)})")
-        scope.launch { watchExit(p) }
-
-        scope.launch { waitForHealth(p) }
+        val handle = RunHandle(generationCounter.incrementAndGet(), p, port)
+        current = handle
+        recomputeForeground()
+        AppLog.i("Runtime", "process started (gen ${handle.generation}, pid ${pidOf(p)}, port $port)")
+        scope.launch { watchExit(handle) }
+        scope.launch { monitor(handle) }
+        scope.launch { waitForHealth(handle) }
+        return true
     }
 
-    /** Runs outside the start/stop mutex so that Stop stays responsive while Hermes boots. */
-    private suspend fun waitForHealth(p: Process) {
-        // Python 3.14 + imports under proot on a phone can take a minute.
-        setState(RuntimeState.Starting("waiting for Hermes API"))
-        val deadline = System.currentTimeMillis() + 240_000
-        while (System.currentTimeMillis() < deadline) {
-            if (!p.isAlive || stopRequested) return // watchExit sets the resulting state
-            val h = api.health()
-            if (h.ok) {
-                val m = api.models()
-                if (m.code == 401) {
-                    setState(RuntimeState.Error("Hermes is up but rejected our API key (HTTP 401): ${m.body.take(200)}"))
+    /** Runs outside the start/stop mutex so that Stop stays responsive while Hermes boots. Owns the wake lock. */
+    private suspend fun waitForHealth(h: RunHandle) {
+        try {
+            // Python 3.14 + imports under proot on a phone can take minutes; a live child is never an error before 20 min.
+            var announcedSlow = false
+            while (h.process.isAlive && !h.stopRequested.get() && current === h) {
+                val elapsed = (SystemClock.elapsedRealtime() - h.startElapsed) / 1000
+                if (elapsed > 1200) {
+                    setState(RuntimeState.Error("Hermes did not become healthy within 20 minutes (process still alive; see runtime log). Press Stop, then Start."))
                     return
                 }
-                AppLog.i("Runtime", "health OK after ${(System.currentTimeMillis() - processStart) / 1000}s; /v1/models -> ${m.code}")
-                setState(RuntimeState.Running)
-                return
+                val hr = api.health()
+                if (hr.ok) {
+                    if (!apiVerified) {
+                        when (verifyListener(h)) {
+                            Verdict.OK -> { apiVerified = true; AppLog.i("Runtime", "listener on port ${h.port} verified as our Hermes") }
+                            Verdict.FOREIGN -> { setState(RuntimeState.Error("Port ${h.port} is answered by a process that is not our Hermes (another app?). Press Start to retry on a new port.")); return }
+                            Verdict.NOT_YET -> { /* health answered but our Hermes has not announced the port yet */ }
+                        }
+                    }
+                    if (apiVerified) {
+                        val m = api.models()
+                        if (m.code == 401) { setState(RuntimeState.Error("Hermes is up but rejected our API key (HTTP 401): ${m.body.take(200)}")); return }
+                        AppLog.i("Runtime", "health OK after ${elapsed}s; /v1/models -> ${m.code}")
+                        setState(RuntimeState.Running)
+                        return
+                    }
+                }
+                val label = if (elapsed > 240) "still starting (${elapsed} s, process alive)" else "waiting for Hermes API (${elapsed} s)"
+                if (!announcedSlow && elapsed > 240) { announcedSlow = true; AppLog.w("Runtime", "still starting after ${elapsed}s") }
+                setState(RuntimeState.Starting(label))
+                delay(1000)
             }
-            delay(1000)
+        } finally {
+            releaseWake("health wait finished")
         }
-        if (p.isAlive && !stopRequested)
-            setState(RuntimeState.Error("Hermes did not become healthy within 240 s (see the runtime log in diagnostics)"))
     }
 
-    private fun watchExit(p: Process) {
-        val code = try { p.waitFor() } catch (_: InterruptedException) { -1 }
-        val rec = ExitRecord(System.currentTimeMillis(), code, System.currentTimeMillis() - processStart, stopRequested)
+    private enum class Verdict { OK, FOREIGN, NOT_YET }
+
+    /**
+     * Before the Bearer key is ever sent we must know that whatever answers on the port is OUR Hermes:
+     * (1) our child announced exactly this port in its own stdout (a squatter cannot write our log), and
+     * (2) where /proc/net/tcp is readable, the listener's uid is ours.
+     */
+    private fun verifyListener(h: RunHandle): Verdict {
+        if (!h.process.isAlive) return Verdict.NOT_YET
+        val uid = listenerUid(h.port)
+        if (uid != null && uid != android.os.Process.myUid()) return Verdict.FOREIGN
+        val tail = FileUtil.tail(paths.runtimeLog, 400)
+        val announced = tail.contains("API server listening on http://${Paths.API_HOST}:${h.port}")
+        return if (announced) Verdict.OK else Verdict.NOT_YET
+    }
+
+    /** uid owning the LISTEN socket on 127.0.0.1:[port], or null when /proc/net/tcp is unreadable or has no such entry. */
+    private fun listenerUid(port: Int): Int? {
+        for (f in listOf("/proc/net/tcp", "/proc/net/tcp6")) {
+            try {
+                for (line in File(f).readLines().drop(1)) {
+                    val c = line.trim().split(Regex("\\s+"))
+                    if (c.size < 8 || c[3] != "0A") continue
+                    val localPort = c[1].substringAfter(':').toInt(16)
+                    if (localPort == port) return c[7].toInt()
+                }
+            } catch (_: Exception) { }
+        }
+        return null
+    }
+
+    private fun watchExit(h: RunHandle) {
+        val code = try { h.process.waitFor() } catch (_: InterruptedException) { -1 }
+        val rec = ExitRecord(System.currentTimeMillis(), code, SystemClock.elapsedRealtime() - h.startElapsed, h.stopRequested.get())
         synchronized(historyLock) { exits += rec; while (exits.size > 30) exits.removeAt(0) }
-        AppLog.i("Runtime", "child exited: ${rec.describe()}")
-        if (process === p) process = null
+        val superseded = current !== h
+        AppLog.i("Runtime", "child (gen ${h.generation}) exited: ${rec.describe()}${if (superseded) " [superseded run, state untouched]" else ""}")
+        if (superseded) { recomputeForeground(); return }
+        current = null
         val cur = _state.value
         when {
-            stopRequested -> setState(RuntimeState.Stopped("stopped"))
+            h.stopRequested.get() -> setState(RuntimeState.Stopped("stopped"))
             cur is RuntimeState.Starting || cur == RuntimeState.Running ->
                 setState(RuntimeState.Error("Hermes exited unexpectedly: ${rec.describe()}" + (ExitRecord.hint(code)?.let { " - $it" } ?: "")))
             else -> {}
         }
+        recomputeForeground()
+    }
+
+    /** Every ~30 s: how many guest processes exist and how much memory they use (to attribute a later exit 137). */
+    private suspend fun monitor(h: RunHandle) {
+        while (h.process.isAlive && current === h) {
+            try {
+                val pids = ProcTree.guestProcesses().toMutableList()
+                pidOf(h.process).toIntOrNull()?.let { if (it !in pids) pids += it }
+                var rss = 0L
+                for (pid in pids) {
+                    try { File("/proc/$pid/status").useLines { ls -> ls.firstOrNull { it.startsWith("VmRSS:") }?.let { rss += it.filter(Char::isDigit).toLongOrNull() ?: 0 } } } catch (_: Exception) { }
+                }
+                val s = MemSample(System.currentTimeMillis(), pids.size, rss)
+                synchronized(historyLock) { memSamples += s; while (memSamples.size > 60) memSamples.removeAt(0) }
+                AppLog.i("Mem", "guest processes=${pids.size} rss=${FileUtil.formatBytes(rss * 1024)} state=${_state.value.label()}")
+            } catch (_: Exception) { }
+            delay(30_000)
+        }
     }
 
     private fun stopInternal(reason: String) {
-        val p = process
-        stopRequested = true
+        val h = current
+        h?.stopRequested?.set(true)
+        val p = h?.process
         if (p != null && p.isAlive) {
             AppLog.i("Runtime", "stopping ($reason)")
             // proot ignores SIGTERM and does not kill the guest when it dies, so signal the guest's
@@ -300,9 +477,9 @@ class RuntimeManager(
                 p.waitFor(5, TimeUnit.SECONDS)
             }
         }
-        process = null
         killStaleGuests("after stop")
-        if (_state.value.isBusyOrRunning) setState(RuntimeState.Stopped("stopped ($reason)"))
+        if (_state.value.isBusyOrRunning || _state.value is RuntimeState.Error) setState(RuntimeState.Stopped("stopped ($reason)"))
+        recomputeForeground()
     }
 
     /** Kills leftovers of earlier runs (guest processes orphaned by a killed proot or a swiped-away app). */
@@ -342,50 +519,72 @@ class RuntimeManager(
         else { val f = p.javaClass.getDeclaredField("pid"); f.isAccessible = true; f.get(p).toString() }
     } catch (_: Throwable) { "?" }
 
-    fun processAlive(): Boolean = process?.isAlive == true
-    fun processUptimeMillis(): Long = if (process?.isAlive == true) System.currentTimeMillis() - processStart else 0L
+    // ---- self-test ----------------------------------------------------------------------------------------------
+    /** Hosts the configured mode must be able to reach (DNS + TLS), for the self-test probes. */
+    private fun probeHosts(): List<String> {
+        val s = settings
+        val region = s.region.trim().takeIf { Regex("^[a-z0-9-]+$").matches(it) } ?: "global"
+        val aiplatform = if (region == "global") "aiplatform.googleapis.com" else "$region-aiplatform.googleapis.com"
+        return when (s.authMode) {
+            AuthMode.API_KEY -> if (s.endpoint == ApiEndpoint.STUDIO) listOf("generativelanguage.googleapis.com") else listOf("aiplatform.googleapis.com")
+            AuthMode.SERVICE_ACCOUNT, AuthMode.USER_CREDENTIALS -> listOf(aiplatform, "oauth2.googleapis.com")
+        }
+    }
 
     /**
-     * Runs a short command under proot (same launcher, same env as the real start) and keeps the
-     * output for the diagnostics dump. Answers "does proot + the rootfs work at all on this device?"
-     * independently of Hermes.
+     * Runs a short probe under proot: same launcher, same environment as the real start (separate PA_STATE so
+     * last-launch.txt is not overwritten), plus DNS and HTTPS probes from inside the guest. Runs automatically
+     * on every Error and from the Debug button; output goes to [lastSelfTest] and last-selftest.txt.
      */
-    fun selfTest(onDone: (String) -> Unit = {}) {
+    fun selfTest(auto: Boolean = false, onDone: (String) -> Unit = {}) {
+        if (!selfTestRunning.compareAndSet(false, true)) return
         scope.launch {
-            val out = StringBuilder()
+            val out = StringBuffer()
             try {
-                if (!isRootfsValid()) { out.append("rootfs not installed yet; press Start first.\n") }
-                else if (!paths.prootBin.exists()) { out.append("proot binary missing\n") }
+                if (!isRootfsValid()) out.append("rootfs not installed yet; press Start first.\n")
+                else if (!paths.prootBin.exists() || rootfsInfo["stub_rootfs"] == "true") out.append("proot binary or rootfs missing (stub build?)\n")
                 else {
-                    paths.runtimeDir.mkdirs(); paths.state.mkdirs()
-                    context.assets.open("pocketagent-proot.sh").use { i -> FileOutputStream(paths.launcher).use { o -> i.copyTo(o) } }
-                    val script = "echo uname=\$(uname -a); echo id=\$(id); head -n 2 /etc/os-release; " +
-                        "echo cpu-proc-readable=\$(cat /proc/stat >/dev/null 2>&1 && echo yes || echo no); " +
-                        "ls -ld /tmp /dev/shm /root; echo hostname=\$(hostname); " +
-                        "for p in /root/.hermes/tools/python-*/bin/python3; do echo python=\$p; \$p -c 'import sys,platform,ssl;print(sys.version);print(platform.platform());print(ssl.OPENSSL_VERSION)'; done; " +
-                        "hermes --version 2>&1 | head -n 3; echo SELFTEST-DONE"
-                    val env = LinkedHashMap<String, String>()
-                    env["PA_PROOT"] = paths.prootBin.path; env["PA_LOADER"] = paths.prootLoader.path
-                    env["PA_ROOTFS"] = paths.rootfs.path; env["PA_STATE"] = paths.state.path
-                    env["PA_DNS"] = dnsServers().joinToString(" "); env["PATH"] = "/system/bin:/system/xbin"
-                    if (settings.noSeccomp) env["PA_NO_SECCOMP"] = "1"
+                    paths.runtimeDir.mkdirs(); paths.selfTestState.mkdirs()
+                    installLauncher()
+                    val probes = probeHosts().joinToString("\n") { h ->
+                        "echo \"-- $h\"; getent hosts $h || echo \"DNS FAILED for $h\"; " +
+                            "curl -sS -I -m 15 -o /dev/null -w \"https $h http=%{http_code} connect=%{time_connect}s total=%{time_total}s\\n\" https://$h/ 2>&1 || echo \"HTTPS FAILED for $h\""
+                    }
+                    val script = listOf(
+                        "echo '== identity'; uname -a; id; head -n 2 /etc/os-release; hostname",
+                        "echo '== /proc and dirs'; echo cpu-stat-readable=\$(cat /proc/stat >/dev/null 2>&1 && echo yes || echo no); ls -ld /tmp /dev/shm /root",
+                        "echo '== python imports (same check as the CI smoke test)'; for py in /root/.hermes/installs/*/environments/*/venv/bin/python; do echo \"\$py\"; \"\$py\" -c 'import sys,platform,ssl,aiohttp,google.auth,google.oauth2.service_account,google.oauth2.credentials; print(\"IMPORTS-OK\", sys.version.split()[0], platform.release(), ssl.OPENSSL_VERSION)'; done",
+                        "echo '== hermes'; hermes --version 2>&1 | head -n 3",
+                        "echo '== network probes from inside the guest'; cat /etc/resolv.conf",
+                        probes,
+                        "echo SELFTEST-DONE",
+                    ).joinToString("\n")
+                    val env = launchEnv(paths.selfTestState)
                     val pb = ProcessBuilder("/system/bin/sh", paths.launcher.path, "--", "/bin/sh", "-c", script)
                     pb.environment().clear(); pb.environment().putAll(env); pb.redirectErrorStream(true)
-                    val t0 = System.currentTimeMillis()
+                    val t0 = SystemClock.elapsedRealtime()
                     val p = pb.start()
-                    val reader = Thread { try { out.append(p.inputStream.bufferedReader().readText()) } catch (_: Exception) {} }
+                    val reader = Thread { try { p.inputStream.bufferedReader().forEachLine { out.append(it).append('\n') } } catch (_: Exception) { } }
                     reader.start()
-                    val finished = p.waitFor(150, TimeUnit.SECONDS)
-                    if (!finished) { p.destroyForcibly(); out.append("\n[timed out after 150 s]\n") }
-                    reader.join(2000)
-                    out.append("\n[exit value ${if (finished) p.exitValue() else -1} after ${(System.currentTimeMillis() - t0) / 1000}s; noSeccomp=${settings.noSeccomp}]\n")
+                    val finished = p.waitFor(180, TimeUnit.SECONDS)
+                    if (!finished) {
+                        // Kill the whole probe tree (not just proot, which would orphan the guest processes).
+                        pidOf(p).toIntOrNull()?.let { pid -> ProcTree.descendants(pid).forEach { ProcTree.signal(it, ProcTree.SIGKILL) } }
+                        p.destroyForcibly()
+                        out.append("\n[timed out after 180 s]\n")
+                    }
+                    reader.join(3000)
+                    out.append("\n[exit value ${if (finished) p.exitValue() else -1} after ${(SystemClock.elapsedRealtime() - t0) / 1000}s; noSeccomp=${settings.noSeccomp}; trigger=${if (auto) "automatic (after an error)" else "button"}]\n")
                 }
             } catch (e: Exception) {
                 out.append("self-test failed to run: ${e.javaClass.simpleName}: ${e.message}\n")
             }
-            lastSelfTest = "${java.util.Date()}\n$out"
+            val text = "${java.util.Date()}\n$out"
+            lastSelfTest = text
+            try { paths.selfTestState.mkdirs(); paths.lastSelfTestFile.writeText(text) } catch (_: Exception) { }
             AppLog.i("SelfTest", out.toString().take(1500))
-            onDone(lastSelfTest)
+            selfTestRunning.set(false)
+            onDone(text)
         }
     }
 }

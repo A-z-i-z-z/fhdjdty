@@ -5,21 +5,28 @@ import java.io.File
 
 /** All on-device locations in one place. Everything lives in app-private storage. */
 class Paths(context: Context) {
-    val files: File = context.filesDir
-    val nativeLibDir: File = File(context.applicationInfo.nativeLibraryDir)
+    // Canonical on purpose: on Android filesDir is /data/user/0/<pkg>/files, where /data/user/0 is a
+    // symlink to /data/data. Every path handed to the extractor, the launcher or compared against
+    // /proc entries must be the resolved one, or prefix checks and process matching silently fail.
+    val files: File = context.filesDir.canonicalFile
+    val nativeLibDir: File = File(context.applicationInfo.nativeLibraryDir).canonicalFile
+    val cacheDir: File = context.cacheDir.canonicalFile
 
     val rootfs = File(files, "rootfs")                    // guest "/"
     val rootfsStaging = File(files, "rootfs.new")         // extraction target; renamed to [rootfs] when complete
     val rootfsStamp = File(files, "rootfs.stamp")         // build id of a COMPLETE rootfs; absent => not valid
+    val userStatePreserve = File(files, "userstate.preserve") // HERMES_HOME user data parked while the rootfs is replaced
 
     val runtimeDir = File(files, "runtime")
     val launcher = File(runtimeDir, "pocketagent-proot.sh")
     val state = File(runtimeDir, "state")                 // PA_STATE: scratch, fake /proc, last-launch.txt
     val lastLaunch = File(state, "last-launch.txt")
+    val selfTestState = File(runtimeDir, "state-selftest") // separate PA_STATE so a self-test never overwrites the real launch record
+    val lastSelfTestFile = File(selfTestState, "last-selftest.txt")
 
     val logs = File(files, "logs")
     val runtimeLog = File(logs, "runtime.log")            // stdout+stderr of the proot/Hermes process
-    val diagnosticsDir = File(context.cacheDir, "diagnostics")
+    val diagnosticsDir = File(cacheDir, "diagnostics")
 
     val secrets = File(files, "secrets")
     val apiKeyFile = File(secrets, "api_key")
@@ -41,6 +48,6 @@ class Paths(context: Context) {
 
     companion object {
         const val API_HOST = "127.0.0.1"
-        const val API_PORT = 8642
+        const val DEFAULT_API_PORT = 8642
     }
 }

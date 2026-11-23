@@ -56,6 +56,8 @@ class TarExtractor(private val fs: FsOps) {
         val counting = CountingInputStream(source.buffered(1 shl 20))
         val stats = ExtractStats()
         dest.mkdirs()
+        // Resolve symlinks in the destination once (on Android /data/user/0 -> /data/data) and build every
+        // entry path from the resolved root, so the confinement check compares like with like.
         val destCanonical = dest.canonicalFile
         val dirModes = ArrayList<Pair<File, Int>>()
         var entries = 0L
@@ -69,7 +71,7 @@ class TarExtractor(private val fs: FsOps) {
                     if (isCancelled()) throw InterruptedException("extraction cancelled")
                     val rel = normalise(e.name)
                     if (rel.isNotEmpty()) {
-                        val out = File(dest, rel)
+                        val out = File(destCanonical, rel)
                         confine(destCanonical, out, rel)
                         out.parentFile?.let { if (!it.exists()) it.mkdirs() }
                         when {
@@ -85,7 +87,7 @@ class TarExtractor(private val fs: FsOps) {
                             }
                             e.isLink -> {
                                 removeExisting(out)
-                                val target = File(dest, normalise(e.linkName))
+                                val target = File(destCanonical, normalise(e.linkName))
                                 confine(destCanonical, target, e.linkName)
                                 try { fs.hardLink(target, out); stats.hardlinks++ }
                                 catch (_: Exception) {

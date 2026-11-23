@@ -25,8 +25,13 @@ sealed class ChatOutcome {
 }
 
 /** Minimal client for Hermes's OpenAI-compatible API server on loopback. */
-class HermesApi(private val apiKey: () -> String?) {
-    private val base = "http://${Paths.API_HOST}:${Paths.API_PORT}"
+class HermesApi(
+    /** Port of the CURRENT launch (random per launch). */
+    private val port: () -> Int,
+    /** The Bearer key, or null while the listener on [port] has not been proven to be our own Hermes. */
+    private val apiKey: () -> String?,
+) {
+    private fun base() = "http://${Paths.API_HOST}:${port()}"
     @Volatile private var activeStream: HttpURLConnection? = null
     @Volatile private var cancelRequested = false
 
@@ -108,7 +113,10 @@ class HermesApi(private val apiKey: () -> String?) {
                 }
             }
             ApiLog.add("stream ended: events=$events text_chars=$chars tool_events=$tools done=$sawDone total=${(System.nanoTime() - t0) / 1_000_000}ms")
-            return ChatOutcome.Completed
+            // A well-formed Hermes stream always ends with `data: [DONE]`; anything else means the
+            // connection or the gateway died mid-answer.
+            return if (sawDone) ChatOutcome.Completed
+            else ChatOutcome.TransportError("stream ended without [DONE] (connection or gateway died mid-answer; $chars characters received)")
         } catch (e: Exception) {
             if (cancelRequested) { ApiLog.add("stream cancelled by user"); return ChatOutcome.Cancelled }
             ApiLog.add("stream failed: ${e.javaClass.simpleName}: ${e.message} after ${(System.nanoTime() - t0) / 1_000_000}ms")
@@ -120,12 +128,16 @@ class HermesApi(private val apiKey: () -> String?) {
     }
 
     private fun open(path: String, method: String, auth: Boolean, connectMs: Int, readMs: Int): HttpURLConnection {
-        val c = URL(base + path).openConnection() as HttpURLConnection
+        // Loopback only; never through a system/enterprise proxy.
+        val c = URL(base() + path).openConnection(java.net.Proxy.NO_PROXY) as HttpURLConnection
         c.requestMethod = method
         c.connectTimeout = connectMs
         c.readTimeout = readMs
         c.useCaches = false
-        if (auth) apiKey()?.let { c.setRequestProperty("Authorization", "Bearer $it") }
+        if (auth) {
+            val k = apiKey() ?: throw java.io.IOException("refusing to send the API key: the listener on this port is not verified as our Hermes")
+            c.setRequestProperty("Authorization", "Bearer $k")
+        }
         return c
     }
 

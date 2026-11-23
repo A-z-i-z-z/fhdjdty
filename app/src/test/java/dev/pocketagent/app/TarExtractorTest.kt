@@ -96,4 +96,24 @@ class TarExtractorTest {
         TarExtractor(NioFsOps()).extractTarXz(bytes.inputStream(), bytes.size.toLong(), dest) { last = it.compressedRead }
         assertEquals(bytes.size.toLong(), last)
     }
+
+    @Test fun worksWhenDestinationSitsUnderASymlinkedDirectory() {
+        // Android: filesDir = /data/user/0/<pkg>/files where /data/user/0 is a symlink to /data/data.
+        val real = tmp.newFolder("data-data"); val pkg = java.io.File(real, "pkg").also { it.mkdirs() }
+        val link = java.io.File(tmp.root, "user-0")
+        Files.createSymbolicLink(link.toPath(), real.toPath())
+        val dest = java.io.File(link, "pkg/files/rootfs.new") // non-canonical path
+        val bytes = archive { t -> t.dir("./usr"); t.file("./usr/f", "x".toByteArray()); t.symlink("./l", "usr/f") }
+        TarExtractor(NioFsOps()).extractTarXz(bytes.inputStream(), bytes.size.toLong(), dest)
+        assertEquals("x", java.io.File(pkg, "files/rootfs.new/usr/f").readText())
+        assertEquals("usr/f", Files.readSymbolicLink(java.io.File(pkg, "files/rootfs.new/l").toPath()).toString())
+    }
+
+    @Test fun stillRejectsEscapesWithSymlinkedDestination() {
+        val real = tmp.newFolder("real2"); val link = java.io.File(tmp.root, "lnk2")
+        Files.createSymbolicLink(link.toPath(), real.toPath())
+        val bytes = archive { t -> t.file("../../evil", "x".toByteArray()) }
+        try { TarExtractor(NioFsOps()).extractTarXz(bytes.inputStream(), bytes.size.toLong(), java.io.File(link, "d")); fail("expected IOException") }
+        catch (e: IOException) { assertTrue(e.message!!.contains("unsafe")) }
+    }
 }

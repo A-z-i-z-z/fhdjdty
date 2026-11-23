@@ -8,7 +8,7 @@ import dev.pocketagent.app.util.FileUtil
  * installs exactly the credential files the selected mode needs, removing the others.
  */
 object HermesConfig {
-    fun apply(paths: Paths, settings: Settings, secrets: SecretStore, apiServerKey: String) {
+    fun apply(paths: Paths, settings: Settings, secrets: SecretStore, apiServerKey: String, apiPort: Int) {
         val inputs = settings.providerInputs(secrets.geminiApiKey())
         paths.hermesHome.mkdirs()
         paths.guestSecretsDir.mkdirs()
@@ -26,6 +26,6 @@ object HermesConfig {
         } else paths.guestAdcFile.delete()
 
         FileUtil.writeAtomic(paths.hermesConfig, ProviderConfig.renderYaml(inputs).toByteArray())
-        FileUtil.writeAtomic(paths.hermesEnv, ProviderConfig.renderEnv(apiServerKey, inputs).toByteArray())
+        FileUtil.writeAtomic(paths.hermesEnv, ProviderConfig.renderEnv(apiServerKey, inputs, apiPort).toByteArray())
     }
 }

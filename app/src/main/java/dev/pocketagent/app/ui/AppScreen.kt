@@ -131,10 +131,10 @@ private fun RuntimeCard(vm: MainViewModel, state: RuntimeState) {
             Button(onClick = { vm.start() }, enabled = canStart) {
                 Text(stringResource(if (state is RuntimeState.NotInstalled) R.string.btn_install_start else R.string.btn_start))
             }
-            OutlinedButton(onClick = { vm.stop() }, enabled = state.isBusyOrRunning) { Text(stringResource(R.string.btn_stop)) }
+            OutlinedButton(onClick = { vm.stop() }, enabled = state.isBusyOrRunning || state is RuntimeState.Error) { Text(stringResource(R.string.btn_stop)) }
             OutlinedButton(onClick = { vm.restart() }, enabled = state == RuntimeState.Running) { Text(stringResource(R.string.btn_restart)) }
         }
-        if (!vm.isIgnoringBatteryOptimizations()) {
+        if (!vm.ignoringBattery) {
             Text(stringResource(R.string.battery_hint), fontSize = 13.sp)
             OutlinedButton(onClick = { ctx.startActivity(vm.batteryOptimizationIntent()) }) { Text(stringResource(R.string.btn_battery)) }
         }
@@ -204,6 +204,8 @@ private fun SetupCard(vm: MainViewModel) {
                 ProviderConfig.Problem.NO_API_KEY -> R.string.problem_no_key
                 ProviderConfig.Problem.NO_PROJECT_FOR_USER_CREDENTIALS -> R.string.problem_no_project
                 ProviderConfig.Problem.EMPTY_MODEL -> R.string.problem_no_model
+                ProviderConfig.Problem.INVALID_PROJECT -> R.string.problem_bad_project
+                ProviderConfig.Problem.INVALID_REGION -> R.string.problem_bad_region
             }), color = MaterialTheme.colorScheme.error, fontSize = 13.sp)
         }
         val needCredFile = (vm.authMode == AuthMode.SERVICE_ACCOUNT && !vm.hasServiceAccount) || (vm.authMode == AuthMode.USER_CREDENTIALS && !vm.hasUserCredentials)
@@ -293,11 +295,12 @@ private fun ChatBubble(line: ChatLine) {
 @Composable
 private fun ChatInput(vm: MainViewModel, state: RuntimeState) {
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        if (state == RuntimeState.Running && vm.savedConfigIncomplete()) Text(stringResource(R.string.chat_needs_setup), color = MaterialTheme.colorScheme.error, fontSize = 13.sp)
         OutlinedTextField(value = vm.chatInput, onValueChange = { vm.chatInput = it }, modifier = Modifier.fillMaxWidth(),
             label = { Text(stringResource(if (state == RuntimeState.Running) R.string.chat_hint else R.string.chat_hint_not_running)) },
             minLines = 1, maxLines = 5)
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = { vm.send() }, enabled = state == RuntimeState.Running && !vm.sending && vm.chatInput.isNotBlank()) { Text(stringResource(R.string.btn_send)) }
+            Button(onClick = { vm.send() }, enabled = state == RuntimeState.Running && !vm.sending && vm.chatInput.isNotBlank() && !vm.savedConfigIncomplete()) { Text(stringResource(R.string.btn_send)) }
             if (vm.sending) OutlinedButton(onClick = { vm.cancelSend() }) { Text(stringResource(R.string.btn_cancel_request)) }
             OutlinedButton(onClick = { vm.newChat() }, enabled = !vm.sending) { Text(stringResource(R.string.btn_new_chat)) }
         }

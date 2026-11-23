@@ -84,8 +84,9 @@ cleanup() {
 trap cleanup EXIT
 
 start_gateway() { # logfile
-  rm -f "$H/gateway.pid" "$H/gateway.sock" "$H"/gateway*.lock 2>/dev/null
-  sh "$LAUNCH" -- hermes gateway run --replace -v > "$1" 2>&1 &
+  # PA_CLEAN_STALE=1 is what the app sets for its gateway launch: the launcher itself removes leftovers
+  # of a killed run (the smoke test no longer does it, so the crash-recovery phase below is meaningful).
+  PA_CLEAN_STALE=1 sh "$LAUNCH" -- hermes gateway run --replace -v > "$1" 2>&1 &
   GW_PID=$!
 }
 
@@ -123,10 +124,13 @@ echo "$out" | grep -q "pocketagent" && pass "fake kernel release applied (-k)" |
 head -n 2 <<<"$out" | tail -n 1 | grep -qx 0 && pass "fake root (id -u = 0)" || fail "id -u"
 imp="$(sh "$LAUNCH" -- sh -c 'for py in /root/.hermes/installs/*/environments/*/venv/bin/python; do "$py" -c "import aiohttp, google.auth, google.oauth2.service_account, google.oauth2.credentials; print(\"IMPORTS-OK\")"; done' 2>&1)"
 echo "$imp" | grep -q IMPORTS-OK && pass "aiohttp + google-auth importable in the Hermes venv (API server and Vertex/ADC need them)" || { fail "venv imports: $imp"; }
+pyc="$(sh "$LAUNCH" -- sh -c 'for d in /root/.hermes/installs/*/environments/*/workspace /root/.hermes/hermes-agent; do py=$(find "$d" -name "*.py" | wc -l); pyc=$(find "$d" -name "*.pyc" | wc -l); echo "PYC $d py=$py pyc=$pyc"; done' 2>&1)"
+echo "$pyc" | sed 's/^/  | /'
+echo "$pyc" | awk '/^PYC .*workspace/ {split($3,a,"=");split($4,b,"="); if (b[2] >= a[2]*0.9) ok=1} END{exit !ok}' && pass "bytecode is precompiled for the code that runs (workspace >= 90% of .py files have .pyc)" || fail "bytecode not precompiled: $pyc"
 [ -s "$PA_STATE/last-launch.txt" ] && pass "launcher wrote last-launch.txt" || fail "last-launch.txt missing"
 
 # ---------------------------------------------------------------------------------------------
-for fx in studio express vertex-sa vertex-user; do
+for fx in studio express vertex-sa vertex-user studio-nokey; do
   echo "== phase 2: boot gateway with fixture '$fx'"
   stop_gateway
   install_fixture "$fx"
@@ -153,6 +157,42 @@ for fx in studio express vertex-sa vertex-user; do
   fi
 done
 unset PA_NO_SECCOMP
+
+# ---------------------------------------------------------------------------------------------
+echo "== phase 2b: recovery after a crash (stale pid/lock/socket files) on a random port"
+stop_gateway
+install_fixture studio-nokey
+OLDPORT=$PORT; PORT=18642
+sed -i "s/^API_SERVER_PORT=.*/API_SERVER_PORT=$PORT/" "$H/.env"
+LOG="$WORK/gateway-crash1.log"
+start_gateway "$LOG"
+if wait_health 240; then
+  pass "[crash] first boot healthy on port $PORT"
+  # The app only sends its Bearer key after the child announced this exact port in its own stdout.
+  grep -q "API server listening on http://127.0.0.1:$PORT" "$LOG" && pass "[crash] gateway log announces the listener on the random port (what the app verifies before sending the key)" || fail "[crash] no 'API server listening on ...:$PORT' line in the log"
+  # simulate the app being killed: SIGKILL proot and every guest process, leaving state files behind
+  for p in $(guest_pids); do kill -KILL "$p" 2>/dev/null; done
+  kill -KILL "$GW_PID" 2>/dev/null; GW_PID=""
+  sleep 2
+  # plant the nasty case: a pid file naming a LIVE, unrelated process (pids are not virtualised under proot)
+  sleep 300 & VICTIM=$!
+  echo "{\"pid\": $VICTIM, \"kind\": \"hermes-gateway\", \"argv\": [\"hermes\", \"gateway\", \"run\"], \"start_time\": 1}" > "$H/gateway.pid"
+  [ -e "$H/gateway.lock" ] && pass "[crash] stale gateway.lock was left behind by the kill" || echo "  note: no gateway.lock left behind"
+  LOG="$WORK/gateway-crash2.log"
+  start_gateway "$LOG"
+  if wait_health 240; then
+    pass "[crash] gateway boots after a crash with stale pid/lock files"
+    kill -0 "$VICTIM" 2>/dev/null && pass "[crash] unrelated live process named by a stale pid file was not touched" || fail "[crash] stale pid file got an unrelated process killed"
+    grep -Eqi "Traceback" "$LOG" && { fail "[crash] traceback after crash recovery"; dump_log "$LOG"; } || pass "[crash] no tracebacks after recovery"
+  else
+    fail "[crash] gateway did not recover after a crash"; dump_log "$LOG"
+  fi
+  kill "$VICTIM" 2>/dev/null
+else
+  fail "[crash] first boot failed"; dump_log "$LOG"
+fi
+stop_gateway
+PORT=$OLDPORT
 
 # ---------------------------------------------------------------------------------------------
 echo "== phase 3: end-to-end chat against a local mock LLM"

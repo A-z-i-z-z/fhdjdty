@@ -28,15 +28,19 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
     class Result(val text: String, val truncated: Boolean, val fullLength: Int)
 
     /** Complete dump (for "Share as file"). */
-    fun buildFull(): String = redact(assemble(logLines = 1500, apiLines = 60))
+    fun buildFull(): String = redact(assemble(logLines = 1500, apiLines = 60, cap = 400_000))
 
-    /** Dump sized for the clipboard: progressively fewer log lines until it fits, then a hard cut. */
+    /**
+     * Dump sized for the clipboard (and messengers/GitHub comments, which choke around 65,536 characters):
+     * the important sections come first; bulky log sections are shortened step by step until the whole
+     * dump fits, so the end of the dump is never simply cut off.
+     */
     fun buildForClipboard(maxChars: Int = CLIPBOARD_LIMIT): Result {
         var full = ""
-        for (lines in intArrayOf(400, 200, 100, 50, 25)) {
-            full = redact(assemble(logLines = lines, apiLines = minOf(lines, 40)))
+        for ((lines, cap) in listOf(400 to 10_000, 200 to 6_000, 100 to 3_500, 50 to 2_000, 25 to 1_000)) {
+            full = redact(assemble(logLines = lines, apiLines = minOf(lines, 40), cap = cap))
             if (full.length <= maxChars) {
-                val note = if (lines < 400) "NOTE: log tails shortened to $lines lines to fit the clipboard; use 'Share as file' for the full dump.\n" else ""
+                val note = if (lines < 400) "NOTE: log sections shortened to fit the clipboard (${cap} chars each); use 'Share as file' for the full dump.\n" else ""
                 return Result(note + full, false, full.length)
             }
         }
@@ -46,12 +50,12 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
 
     private fun redact(s: String) = Diag.redactor.redact(s)
 
-    private fun assemble(logLines: Int, apiLines: Int): String {
+    private fun assemble(logLines: Int, apiLines: Int, cap: Int): String {
         val sb = StringBuilder()
         fun h(title: String) { sb.append("\n==== ").append(title).append(" ====\n") }
         fun safe(title: String, block: () -> String) {
             h(title)
-            sb.append(try { block() } catch (e: Throwable) { "(section failed: ${e.javaClass.simpleName}: ${e.message})" }).append('\n')
+            sb.append(FileUtil.capTail(try { block() } catch (e: Throwable) { "(section failed: ${e.javaClass.simpleName}: ${e.message})" }, cap)).append('\n')
         }
         val now = System.currentTimeMillis()
         sb.append("PocketAgent diagnostics\ngenerated: ${t(now)}\n")
@@ -86,32 +90,6 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
             """.trimIndent()
         }
 
-        safe("Memory and storage") {
-            val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-            val mi = ActivityManager.MemoryInfo().also { am.getMemoryInfo(it) }
-            val st = StatFs(context.filesDir.path)
-            """
-            RAM: total ${FileUtil.formatBytes(mi.totalMem)}, available ${FileUtil.formatBytes(mi.availMem)}, low=${mi.lowMemory}, threshold ${FileUtil.formatBytes(mi.threshold)}
-            app data dir free: ${FileUtil.formatBytes(st.availableBytes)} of ${FileUtil.formatBytes(st.totalBytes)}
-            JVM heap: used ${FileUtil.formatBytes(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())} max ${FileUtil.formatBytes(Runtime.getRuntime().maxMemory())}
-            /proc/meminfo head: ${FileUtil.tail(File("/proc/meminfo"), 3).replace("\n", " | ")}
-            """.trimIndent()
-        }
-
-        safe("Power and network") {
-            val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
-            val bm = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
-            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val lp = cm.getLinkProperties(cm.activeNetwork)
-            """
-            ignoring battery optimizations: ${pm.isIgnoringBatteryOptimizations(context.packageName)}
-            power save mode: ${pm.isPowerSaveMode}  device idle: ${pm.isDeviceIdleMode}
-            battery: ${bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)}%
-            wake lock held by app: ${rt.wakeLocks.isHeld}
-            active network DNS: ${lp?.dnsServers?.joinToString { it.hostAddress ?: "?" }}  private DNS: ${lp?.isPrivateDnsActive}
-            """.trimIndent()
-        }
-
         safe("Runtime state") {
             val hist = rt.stateHistory().joinToString("\n") { "  ${t(it.timeMillis)}  ${it.label}" }
             "current: ${rt.state.value.label()}\nprocess alive: ${rt.processAlive()} (uptime ${rt.processUptimeMillis() / 1000}s)\nhistory (oldest first):\n$hist"
@@ -130,6 +108,74 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
             Gemini API key: ${if (rt.secrets.hasGeminiApiKey) "present (${rt.secrets.geminiApiKey().length} chars)" else "absent"}
             API server key: ${if (rt.paths.apiKeyFile.isFile) "present (${rt.paths.apiKeyFile.length()} bytes)" else "not generated yet"}
             guest credential files: sa=${rt.paths.guestServiceAccount.isFile} adc=${rt.paths.guestAdcFile.isFile}
+            """.trimIndent()
+        }
+
+        safe("Child process exits") {
+            val e = rt.exitRecords()
+            if (e.isEmpty()) "(none recorded)" else e.joinToString("\n") { r ->
+                "  ${t(r.timeMillis)}  ${r.describe()}" + (ExitRecord.hint(r.rawExitValue)?.let { "\n      hint: $it" } ?: "")
+            }
+        }
+
+        safe("Historical process exit reasons (ActivityManager)") {
+            if (Build.VERSION.SDK_INT < 30) "(needs Android 11+)" else {
+                val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+                val list = am.getHistoricalProcessExitReasons(context.packageName, 0, 20)
+                if (list.isEmpty()) "(none)" else list.joinToString("\n") { i ->
+                    "  ${t(i.timestamp)}  reason=${reasonName(i.reason)}(${i.reason}) status=${i.status} importance=${i.importance} pss=${i.pss}KB rss=${i.rss}KB pid=${i.pid}  desc=${i.description}"
+                }
+            }
+        }
+
+        safe("Memory samples and Android process-killer settings") {
+            val samples = rt.memorySamples().takeLast(40)
+            val gs = { name: String -> try { android.provider.Settings.Global.getString(context.contentResolver, name) ?: "(absent)" } catch (e: Throwable) { "(unreadable: ${e.javaClass.simpleName})" } }
+            buildString {
+                appendLine("settings_enable_monitor_phantom_procs = ${gs("settings_enable_monitor_phantom_procs")}")
+                appendLine("cached_apps_freezer = ${gs("cached_apps_freezer")}")
+                appendLine("max_phantom_processes (device_config) not readable by apps; see exit reasons above.")
+                appendLine("guest process count and total RSS, every ~30 s while Hermes runs (oldest first):")
+                if (samples.isEmpty()) append("  (no samples)") else samples.forEach { appendLine("  ${t(it.timeMillis)}  processes=${it.guestProcesses}  rss=${FileUtil.formatBytes(it.rssKb * 1024)}") }
+            }
+        }
+        safe("Launch command and environment") {
+            val p = rt.paths
+            buildString {
+                appendLine("process command (app -> sh): ${rt.lastLaunchCommand.joinToString(" ")}")
+                appendLine("environment given to sh:"); rt.lastLaunchEnv.forEach { (k, v) -> appendLine("  $k=$v") }
+                appendLine("resolved proot command line (written by the launcher):")
+                append(if (p.lastLaunch.isFile) p.lastLaunch.readText().trim() else "(not launched yet)")
+            }
+        }
+
+        safe("Self-test output (proot sanity + DNS/HTTPS probes from inside the guest)") { rt.lastSelfTest.ifEmpty { rt.paths.lastSelfTestFile.takeIf { it.isFile }?.readText() ?: "(not run yet; it runs automatically after any error, or use Debug > Run proot self-test)" } }
+        safe("runtime.log: first lines of the latest start") { FileUtil.headFromLastMarker(rt.paths.runtimeLog, " start build=", 60) }
+        safe("proot + Hermes stdout/stderr (runtime.log, tail $logLines)") { FileUtil.tail(rt.paths.runtimeLog, logLines) }
+
+        safe("Power and network") {
+            val pm = context.getSystemService(Context.POWER_SERVICE) as PowerManager
+            val bm = context.getSystemService(Context.BATTERY_SERVICE) as BatteryManager
+            val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val lp = cm.getLinkProperties(cm.activeNetwork)
+            """
+            ignoring battery optimizations: ${pm.isIgnoringBatteryOptimizations(context.packageName)}
+            power save mode: ${pm.isPowerSaveMode}  device idle: ${pm.isDeviceIdleMode}
+            battery: ${bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)}%
+            wake lock held by app: ${rt.wakeLocks.isHeld}
+            active network DNS: ${lp?.dnsServers?.joinToString { it.hostAddress ?: "?" }}  private DNS: ${lp?.isPrivateDnsActive}
+            """.trimIndent()
+        }
+
+        safe("Memory and storage") {
+            val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+            val mi = ActivityManager.MemoryInfo().also { am.getMemoryInfo(it) }
+            val st = StatFs(context.filesDir.path)
+            """
+            RAM: total ${FileUtil.formatBytes(mi.totalMem)}, available ${FileUtil.formatBytes(mi.availMem)}, low=${mi.lowMemory}, threshold ${FileUtil.formatBytes(mi.threshold)}
+            app data dir free: ${FileUtil.formatBytes(st.availableBytes)} of ${FileUtil.formatBytes(st.totalBytes)}
+            JVM heap: used ${FileUtil.formatBytes(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())} max ${FileUtil.formatBytes(Runtime.getRuntime().maxMemory())}
+            /proc/meminfo head: ${FileUtil.tail(File("/proc/meminfo"), 3).replace("\n", " | ")}
             """.trimIndent()
         }
 
@@ -154,47 +200,7 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
             }
         }
 
-        safe("Launch command and environment") {
-            val p = rt.paths
-            buildString {
-                appendLine("process command (app -> sh): ${rt.lastLaunchCommand.joinToString(" ")}")
-                appendLine("environment given to sh:"); rt.lastLaunchEnv.forEach { (k, v) -> appendLine("  $k=$v") }
-                appendLine("resolved proot command line (written by the launcher):")
-                append(if (p.lastLaunch.isFile) p.lastLaunch.readText().trim() else "(not launched yet)")
-            }
-        }
-
-        safe("Child process exits") {
-            val e = rt.exitRecords()
-            if (e.isEmpty()) "(none recorded)" else e.joinToString("\n") { r ->
-                "  ${t(r.timeMillis)}  ${r.describe()}" + (ExitRecord.hint(r.rawExitValue)?.let { "\n      hint: $it" } ?: "")
-            }
-        }
-
-        safe("Historical process exit reasons (ActivityManager)") {
-            if (Build.VERSION.SDK_INT < 30) "(needs Android 11+)" else {
-                val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-                val list = am.getHistoricalProcessExitReasons(context.packageName, 0, 20)
-                if (list.isEmpty()) "(none)" else list.joinToString("\n") { i ->
-                    "  ${t(i.timestamp)}  reason=${reasonName(i.reason)}(${i.reason}) status=${i.status} importance=${i.importance} pss=${i.pss}KB rss=${i.rss}KB pid=${i.pid}  desc=${i.description}"
-                }
-            }
-        }
-
-        safe("Self-test output (last run)") { rt.lastSelfTest.ifEmpty { "(not run; use Debug > Run proot self-test)" } }
-
-        safe("Hermes .env (secrets redacted)") {
-            val f = rt.paths.hermesEnv
-            if (f.isFile) f.readText() else "(missing)"
-        }
-        safe("Hermes config.yaml") {
-            val f = rt.paths.hermesConfig
-            if (f.isFile) FileUtil.tail(f, 60) else "(missing)"
-        }
-
         safe("App log (tail $logLines)") { AppLog.tail(logLines) }
-        safe("proot + Hermes stdout/stderr (runtime.log, tail $logLines)") { FileUtil.tail(rt.paths.runtimeLog, logLines) }
-
         safe("HERMES_HOME/logs") {
             val dir = rt.paths.hermesLogs
             val files = dir.walkTopDown().filter { it.isFile && it.length() > 0 }.sortedByDescending { it.lastModified() }.take(6).toList()
@@ -207,6 +213,15 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
         }
 
         safe("Recent API requests/responses") { ApiLog.snapshot().takeLast(apiLines).joinToString("\n").ifEmpty { "(none)" } }
+
+        safe("Hermes .env (secrets redacted)") {
+            val f = rt.paths.hermesEnv
+            if (f.isFile) f.readText() else "(missing)"
+        }
+        safe("Hermes config.yaml") {
+            val f = rt.paths.hermesConfig
+            if (f.isFile) FileUtil.tail(f, 60) else "(missing)"
+        }
 
         sb.append("\n==== end of diagnostics ====\n")
         return sb.toString()
@@ -230,5 +245,5 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
         return f
     }
 
-    companion object { const val CLIPBOARD_LIMIT = 120_000 }
+    companion object { const val CLIPBOARD_LIMIT = 60_000 }
 }

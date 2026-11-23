@@ -54,6 +54,9 @@
     <string name="problem_no_key">Enter a Gemini API key.</string>
     <string name="problem_no_project">User credentials contain no project: enter the project id.</string>
     <string name="problem_no_model">Enter a model id.</string>
+    <string name="problem_bad_project">Project id may only contain lowercase letters, digits, - and _.</string>
+    <string name="problem_bad_region">Region may only contain lowercase letters, digits and -.</string>
+    <string name="chat_needs_setup">The runtime is up, but the saved setup is incomplete (credentials or fields). Finish Setup and press Save and apply.</string>
     <string name="problem_no_credentials">No credentials imported for this mode yet.</string>
     <string name="btn_save_apply">Save and apply</string>
     <string name="settings_saved">Saved. Takes effect the next time the runtime starts.</string>

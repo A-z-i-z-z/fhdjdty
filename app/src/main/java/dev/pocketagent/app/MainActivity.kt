@@ -17,5 +17,6 @@ class MainActivity : ComponentActivity() {
     override fun onResume() {
         super.onResume()
         vm.runtime.refreshInstalledState()
+        vm.refreshBattery()
     }
 }

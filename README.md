@@ -61,13 +61,38 @@ on a phone. It must never be used for anything else, and no other credential of 
 1. Download the APK from the latest `phase0-*` prerelease on the GitHub Releases page and open it (allow installs from
    the browser or file manager when asked). About 1.5 GB of free storage are needed (the APK plus the extracted runtime of about 1 GB).
 2. Open PocketAgent. Press **Install and start**. First start extracts the rootfs (progress shown), then boots Hermes
-   (the first boot can take a minute or two).
-3. In **Setup** choose a credential mode, enter/import credentials, **Save and apply**.
+   (the first boot can take a minute or two; a slow phone shows "still starting" instead of an error). Hermes boots
+   even before credentials exist, so this can be done first.
+3. In **Setup** choose a credential mode, enter/import credentials, **Save and apply** (a running runtime restarts itself).
+   Chat stays disabled until the saved setup is complete.
 4. Chat once the state shows *Running (health OK)*.
 5. If anything fails: **Debug > Copy diagnostics** (or *Share as file*) and paste it back.
    If the state shows signal 31 / SIGSYS, switch on *Disable proot seccomp filter* and restart.
 
+## Security notes
+
+* **Only install builds from this repository's Releases page.** The committed sideload keystore is public, so
+  anybody can produce an APK that Android accepts as an update of this app. Treat any APK from elsewhere as hostile.
+* **proot is not a security boundary.** The agent's terminal tool runs as the app's own user, so it can read the
+  app's private files, including the stored API key / service-account JSON / the API-server key. Untrusted content
+  the agent reads (web pages, files, messages) can try to talk it into doing so (prompt injection). Do not point the
+  agent at material you do not trust, and use credentials that are limited in scope and budget.
+* The API server listens on `127.0.0.1` only, on a random port per launch. The app sends its Bearer key only after
+  the child process announced that exact port in its own output, and (where Android lets apps read
+  `/proc/net/tcp`) the listener's uid is ours. Loopback calls bypass any system proxy.
+* Pinning: the Hermes installer is fetched by commit SHA and the tag is verified against that commit; Python
+  dependencies are installed by Hermes's own `uv sync --locked` from its hash-carrying `uv.lock`; uv, Python and
+  ripgrep come from Hermes's hash-pinned `pm/lock.json`; proot by commit and talloc by SHA-256; GitHub Actions by commit
+  SHA; the Gradle distribution by SHA-256. Still unpinned: the Debian trixie packages (current mirror state at build
+  time) and Gradle/AGP/Maven dependency resolution (versions pinned, no dependency lockfile).
+
+## Updates and user data
+
+Your chat history, memories and skills live in Hermes's home inside the rootfs. When an APK update replaces the rootfs,
+the app first moves that user data aside, replaces the rootfs, and moves it back (credentials and settings live outside
+the rootfs and are never touched). Install artifacts (Hermes code, Python) always come from the new build. If an update
+is interrupted, the parked data is restored on the next start.
+
 ## Known limitations
 
-* Re-extraction after an app update wipes the runtime's own data (chat history). Credentials and settings are kept.
 * The Hermes `/v1/chat/completions` stream is not resumable: if the app is killed mid-answer, resend.
