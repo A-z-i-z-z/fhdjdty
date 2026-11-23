@@ -81,39 +81,23 @@ echo "::group::sanity: hermes --version"
 hermes --version
 echo "::endgroup::"
 
-# Hermes keeps an isolated "PM runtime" venv. The installer prepares it against the
-# bootstrap interpreter, but the first real CLI launch wants it built against the
-# managed (store) Python and, when it differs, re-downloads it from PyPI. On a phone
-# that would mean a surprise network sync on first use, so do that launch here, drop
-# the bootstrap interpreter, and prove that a cold launch is then quiet.
-echo "::group::warm-up: PM runtime for the store Python"
-hermes config check > /tmp/warm1.txt 2>&1 || true
-tail -n 3 /tmp/warm1.txt || true
-rm -rf /root/.local/share/uv/python
-for d in "$HERMES_HOME"/installs/*/pm-runtime; do
-  [ -f "$d/selected.json" ] || continue
-  keep="$("$PROJECT_PY" -c 'import json,sys; print(json.load(open(sys.argv[1]))["generation"])' "$d/selected.json")"
-  for g in "$d"/generations/*; do
-    [ "generations/$(basename "$g")" = "$keep" ] || rm -rf "$g"
-  done
-done
-hermes config check > /tmp/warm2.txt 2>&1 || true
-if grep -Eq "completing source-update|Preparing the isolated|dependencies failed|No interpreter found" /tmp/warm2.txt; then
-  echo "FATAL: a cold hermes launch still tries to sync dependencies:" >&2
-  head -n 30 /tmp/warm2.txt >&2
-  exit 1
+# Seal the install. The installer's checkout is a blobless clone with every branch (~300 MB of
+# history we never use), and with a .git directory present Hermes's launcher treats the tree as a
+# self-updating checkout: any ordinary CLI command first runs a "source-update completion", which
+# on a phone would re-download Node, ffmpeg, pnpm (1 GB) and rebuild the PM runtime. Without
+# .git, prepare_launch returns early and none of that happens. The tag and commit are recorded in
+# /etc/pocketagent-rootfs and .hermes-bootstrap-complete.
+echo "::group::seal install (drop .git and the bootstrap interpreter)"
+rm -rf "$INSTALL_DIR/.git"
+# The PM runtime venv was built against the bootstrap interpreter; both go (about 110 MB). If a lazy
+# `pm.ensure_import` ever needs the runtime it is rebuilt on demand.
+rm -rf /root/.local/share/uv/python "$HERMES_HOME"/installs/*/pm-runtime "$HERMES_HOME/cache"
+
+hermes --version
+hermes config check > /tmp/seal.txt 2>&1 || true
+if grep -Eq "completing source-update|Preparing the isolated|dependencies failed|No interpreter found|Traceback" /tmp/seal.txt; then
+  echo "FATAL: a cold hermes launch still tries to sync dependencies:" >&2; head -n 30 /tmp/seal.txt >&2; exit 1
 fi
 echo "cold launch is quiet"
-
-# The installer's checkout is a blobless clone with every branch: ~300 MB of history we never
-# use. Without a .git directory Hermes's launcher skips its self-update/dependency-sync logic
-# entirely (prepare_launch returns early), which is exactly what a sealed phone install wants.
-# The tag + commit are recorded in /etc/pocketagent-rootfs and .hermes-bootstrap-complete.
-rm -rf "$INSTALL_DIR/.git"
-hermes config check > /tmp/warm3.txt 2>&1 || true
-if grep -Eq "completing source-update|Preparing the isolated|dependencies failed|No interpreter found|Traceback" /tmp/warm3.txt; then
-  echo "FATAL: hermes misbehaves without .git:" >&2; head -n 30 /tmp/warm3.txt >&2; exit 1
-fi
-hermes --version
-rm -f /tmp/warm1.txt /tmp/warm2.txt /tmp/warm3.txt
+rm -f /tmp/seal.txt
 echo "::endgroup::"

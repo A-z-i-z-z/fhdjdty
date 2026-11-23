@@ -1,0 +1,195 @@
+name: build
+
+# Delivery channel for the sideload test builds: every push to the Phase 0 branch builds the
+# rootfs, smoke-tests it under proot, builds the APK and publishes it as a prerelease.
+on:
+  push:
+    branches: [ccr-bb6d7bcc-9eojyu]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  HERMES_TAG: v0.23.3
+  # Full commit the tag must resolve to (the build aborts if the tag was moved).
+  HERMES_COMMIT: caafe5389ae585ef77387a962aee05b1bcf17029
+  NDK_VERSION: 27.3.13750724
+
+jobs:
+  unit:
+    name: Unit tests
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '21' }
+      - name: Install Android SDK pieces
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-37.2" "build-tools;36.0.0" >/dev/null
+      - name: Unit tests
+        run: ./gradlew --no-daemon :app:testDebugUnitTest
+      - name: Shell syntax checks
+        run: |
+          for f in runtime/pocketagent-proot.sh rootfs/*.sh rootfs/smoke/*.sh proot/*.sh; do bash -n "$f" && echo "ok $f"; done
+          sh -n runtime/pocketagent-proot.sh && echo "ok (sh) runtime/pocketagent-proot.sh"
+
+  proot:
+    name: Build proot (NDK, arm64)
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install NDK
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "ndk;$NDK_VERSION" >/dev/null
+          echo "ANDROID_NDK_HOME=$ANDROID_HOME/ndk/$NDK_VERSION" >> "$GITHUB_ENV"
+      - name: Build proot
+        run: proot/build-proot.sh --abi arm64-v8a --out "$RUNNER_TEMP/proot-out"
+      - name: Summary
+        run: |
+          cat "$RUNNER_TEMP/proot-out/proot-build.info"
+          file "$RUNNER_TEMP/proot-out/libproot.so" "$RUNNER_TEMP/proot-out/libproot-loader.so"
+          ls -l "$RUNNER_TEMP/proot-out"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: proot-arm64
+          path: ${{ runner.temp }}/proot-out/
+          if-no-files-found: error
+
+  rootfs:
+    name: Build rootfs (arm64)
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y debootstrap debian-archive-keyring xz-utils curl git ca-certificates
+      - name: Build rootfs
+        run: |
+          sudo env XZ_LEVEL=7 HERMES_TAG="$HERMES_TAG" HERMES_COMMIT="$HERMES_COMMIT" \
+            rootfs/build-rootfs.sh --arch arm64 --out "$RUNNER_TEMP/dist" --work "$RUNNER_TEMP/rootfs-work"
+      - name: Sizes
+        run: |
+          cat "$RUNNER_TEMP/dist/rootfs-arm64.info"
+          ls -l "$RUNNER_TEMP/dist"
+          {
+            echo '### Rootfs (arm64)'
+            echo '```'
+            cat "$RUNNER_TEMP/dist/rootfs-arm64.info"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: rootfs-arm64
+          path: |
+            ${{ runner.temp }}/dist/rootfs-arm64.tar.xz
+            ${{ runner.temp }}/dist/rootfs-arm64.info
+          compression-level: 0
+          if-no-files-found: error
+
+  smoke:
+    name: Smoke test (proot + Hermes gateway)
+    needs: [rootfs, proot]
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: { name: rootfs-arm64, path: dl/rootfs }
+      - uses: actions/download-artifact@v4
+        with: { name: proot-arm64, path: dl/proot }
+      - name: Extract rootfs (as an unprivileged user, like the app does)
+        run: |
+          mkdir -p "$RUNNER_TEMP/rootfs"
+          time tar -xJf dl/rootfs/rootfs-arm64.tar.xz -C "$RUNNER_TEMP/rootfs"
+          echo "extracted size: $(du -sh "$RUNNER_TEMP/rootfs" | cut -f1) ($(du -sb "$RUNNER_TEMP/rootfs" | cut -f1) bytes)"
+          echo "archive size: $(stat -c %s dl/rootfs/rootfs-arm64.tar.xz) bytes"
+          chmod +x dl/proot/libproot.so dl/proot/libproot-loader.so
+      - name: Smoke test
+        run: |
+          rootfs/smoke/smoke-test.sh --rootfs "$RUNNER_TEMP/rootfs" \
+            --proot "$PWD/dl/proot/libproot.so" --loader "$PWD/dl/proot/libproot-loader.so" \
+            --work "$RUNNER_TEMP/smoke-work"
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-logs
+          path: ${{ runner.temp }}/smoke-work/*.log
+          if-no-files-found: ignore
+
+  apk:
+    name: Build APK and publish prerelease
+    needs: [unit, smoke, rootfs, proot]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '21' }
+      - uses: actions/download-artifact@v4
+        with: { name: rootfs-arm64, path: dl/rootfs }
+      - uses: actions/download-artifact@v4
+        with: { name: proot-arm64, path: dl/proot }
+      - name: Install Android SDK pieces
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-37.2" "build-tools;36.0.0" >/dev/null
+      - name: Build APK (rootfs and proot embedded)
+        run: |
+          ./gradlew --no-daemon :app:assembleDebug \
+            -ProotfsArchive="$PWD/dl/rootfs/rootfs-arm64.tar.xz" \
+            -PprootDir="$PWD/dl/proot" \
+            -PbuildNumber="${{ github.run_number }}" \
+            -PgitCommit="${GITHUB_SHA::12}"
+      - name: Verify and name the APK
+        id: apk
+        run: |
+          APK=app/build/outputs/apk/debug/app-debug.apk
+          NAME="PocketAgent-phase0-${{ github.run_number }}-${GITHUB_SHA::7}.apk"
+          cp "$APK" "$NAME"
+          unzip -l "$NAME" | grep -E "lib/arm64-v8a/libproot|assets/rootfs"
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs "$NAME" | head -n 3
+          SIZE=$(stat -c %s "$NAME")
+          echo "APK size: $SIZE bytes ($(numfmt --to=iec "$SIZE"))"
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "size=$SIZE" >> "$GITHUB_OUTPUT"
+          sha256sum "$NAME" > SHA256SUMS.txt
+          {
+            echo '### APK'
+            echo "$NAME: $(numfmt --to=iec "$SIZE") ($SIZE bytes)"
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk
+          path: ${{ steps.apk.outputs.name }}
+          compression-level: 0
+          if-no-files-found: error
+      - name: Publish prerelease
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: phase0-${{ github.run_number }}
+        run: |
+          cp dl/rootfs/rootfs-arm64.info rootfs-arm64.info
+          cp dl/proot/proot-build.info proot-build.info
+          cat > notes.md <<EOF
+          Phase 0 sideload test build #${{ github.run_number }} (commit ${GITHUB_SHA::7}).
+
+          Install the .apk on the phone, open it, press "Install and start", then paste the
+          "Copy diagnostics" output back if anything fails.
+
+          - Hermes: ${HERMES_TAG} (${HERMES_COMMIT})
+          - APK size: $(numfmt --to=iec ${{ steps.apk.outputs.size }})
+          - Signed with the shared sideload debug key, so builds update each other.
+          EOF
+          gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --prerelease --title "Phase 0 build ${{ github.run_number }}" --notes-file notes.md \
+            "${{ steps.apk.outputs.name }}" SHA256SUMS.txt rootfs-arm64.info proot-build.info
+          echo "Release: https://github.com/$GITHUB_REPOSITORY/releases/tag/$TAG" | tee -a "$GITHUB_STEP_SUMMARY"
