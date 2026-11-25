@@ -234,4 +234,16 @@ class HermesHomeTest {
         dev.pocketagent.app.diag.ApiLog.add("GET /health -> 200 3ms")
         assertTrue(hh.tailLog(LogKind.API).contains("GET /health -> 200 3ms"))
     }
+
+    @Test fun skillTemplateHeadingDoesNotDependOnTheLanguage() {
+        val saved = java.util.Locale.getDefault()
+        try {
+            java.util.Locale.setDefault(java.util.Locale.forLanguageTag("tr"))
+            val text = dev.pocketagent.app.hermes.SkillTemplate.render("image-tools", "d")
+            assertTrue(text, text.contains("\n# Image tools\n"))
+            assertFalse(text.contains("İ"))
+        } finally {
+            java.util.Locale.setDefault(saved)
+        }
+    }
 }

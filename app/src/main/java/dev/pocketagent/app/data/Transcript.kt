@@ -119,10 +119,14 @@ object Transcript {
 
     /**
      * Cuts [text] into parts of at most [max] characters (Hermes joins the text parts of one message with a newline, so the pieces
-     * read as the original). Text up to [max] is one part, unchanged. Otherwise each part ends at the last newline in the
-     * second half of its window (the newline is dropped: the join puts it back), else at the last space (it becomes that newline),
-     * else hard at [max] characters, one earlier when that would split a surrogate pair. Every part has 1..[max] characters.
-     * Kotlin counts UTF-16 units and Hermes code points, so a part under [max] here is under it there too.
+     * read as the original). Text up to [max] is one part, unchanged. Otherwise each part ends, in this order of preference, at
+     * a newline in the second half of its window, at a space in the second half, at a newline in the first half, at a space in
+     * the first half. A newline is dropped from the parts (the join puts it back, so the join is exactly the original there). A
+     * space STAYS at the end of the left part, so the join reads "word \nword": a newline appears after a space, but no word,
+     * token or base64 run is ever split. Only a run longer than [max] with no newline and no space in the window has no
+     * boundary: that one is cut hard at [max] characters (one earlier when that would split a surrogate pair), which cannot be
+     * avoided. Every part has 1..[max] characters. Kotlin counts UTF-16 units and Hermes code points, so a part under [max]
+     * here is under it there too.
      */
     fun splitLong(text: String, max: Int = MAX_PART_CHARS): List<String> {
         require(max >= 2) { "max must be at least 2" }
@@ -130,21 +134,31 @@ object Transcript {
         val parts = ArrayList<String>()
         var pos = 0
         while (text.length - pos > max) {
-            // The cut character sits at index `at`, pos + max / 2 .. pos + max - 1, so the rest is never empty.
-            val lo = pos + max / 2
-            val hi = pos + max - 1
-            var at = -1
-            for (i in hi downTo lo) if (text[i] == '\n') { at = i; break }
-            if (at < 0) for (i in hi downTo lo) if (text[i] == ' ') { at = i; break }
-            if (at >= 0) {
-                parts += text.substring(pos, at)
-                pos = at + 1
-            } else {
-                var cut = pos + max
-                // never between the two halves of a surrogate pair
-                if (Character.isHighSurrogate(text[cut - 1]) && Character.isLowSurrogate(text[cut])) cut -= 1
-                parts += text.substring(pos, cut)
-                pos = cut
+            val half = pos + max / 2
+            // A newline may sit at pos + 1 .. pos + max (its part is then 1..max characters) but never at the very last character
+            // of the text, so the rest after it is never empty.
+            var nl = text.lastIndexOf('\n', minOf(pos + max, text.length - 2))
+            if (nl <= pos) nl = -1
+            // A space stays in the left part, so it sits at pos .. pos + max - 1.
+            var sp = text.lastIndexOf(' ', pos + max - 1)
+            if (sp < pos) sp = -1
+            when {
+                nl >= half || (nl >= 0 && sp < half) -> {
+                    // (a newline in the second half, or no space there and a newline in the first half)
+                    parts += text.substring(pos, nl)
+                    pos = nl + 1
+                }
+                sp >= 0 -> {
+                    parts += text.substring(pos, sp + 1)
+                    pos = sp + 1
+                }
+                else -> {
+                    var cut = pos + max
+                    // never between the two halves of a surrogate pair
+                    if (Character.isHighSurrogate(text[cut - 1]) && Character.isLowSurrogate(text[cut])) cut -= 1
+                    parts += text.substring(pos, cut)
+                    pos = cut
+                }
             }
         }
         parts += text.substring(pos)

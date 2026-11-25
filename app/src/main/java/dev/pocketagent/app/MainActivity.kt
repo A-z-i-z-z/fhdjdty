@@ -62,7 +62,8 @@ class MainActivity : ComponentActivity() {
         if ((intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0) return
 
         // The debug link of a build with test hooks comes first (a release build never gets a request from it).
-        val debugRequest = DebugLinks.parse(intent)
+        // It is inert unless it carries the token from files/debug-link.token (see DebugLinks).
+        val debugRequest = DebugLinks.parse(intent, java.io.File(filesDir, DebugLinks.TOKEN_FILE))
         if (debugRequest != null) {
             runDebugLink(debugRequest)
             intent.action = Intent.ACTION_MAIN // consumed: Recents / recreation must not replay it

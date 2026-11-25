@@ -59,6 +59,18 @@ class TranscriptSplitTest {
         assertEquals(small, Transcript.splitLong(small, 25).joinToString("\n"))
     }
 
+    @Test fun aRunExactlyMaxLongBeforeANewlineIsCutAtTheNewlineAndJoinsBack() {
+        val text = "a".repeat(40) + "\n" + "b".repeat(30)
+        val parts = Transcript.splitLong(text, 40)
+        assertEquals(listOf("a".repeat(40), "b".repeat(30)), parts)
+        assertEquals(text, parts.joinToString("\n"))
+        // a newline as the very last character is never the cut (the rest would be empty)
+        val trailing = "a".repeat(40) + "\n"
+        val p2 = Transcript.splitLong(trailing, 40)
+        for (p in p2) assertTrue(p.length in 1..40)
+        assertEquals(trailing, p2.joinToString(""))
+    }
+
     @Test fun spaceAndHardCutsOnlyChangeWhitespace() {
         fun squash(s: String) = s.filterNot { it == '\n' || it == ' ' }
         val spaced = "word ".repeat(70_000)
@@ -67,9 +79,42 @@ class TranscriptSplitTest {
         val parts = Transcript.splitLong(hard)
         assertEquals(hard, parts.joinToString(""))                    // hard cuts lose nothing at all
         assertEquals(listOf(max, max, max, max, max), parts.map { it.length })
-        // a space is chosen over a hard cut and becomes the newline of the join
+        // a space is chosen over a hard cut and stays at the end of the left part (the join then reads "a... \nb...")
         val one = "a".repeat(40) + " " + "b".repeat(40)
-        assertEquals(listOf("a".repeat(40), "b".repeat(40)), Transcript.splitLong(one, 60))
+        assertEquals(listOf("a".repeat(40) + " ", "b".repeat(40)), Transcript.splitLong(one, 60))
+    }
+
+    @Test fun cutsOnlyAtANewlineOrAtASpaceThatStaysAtTheEndOfThePart() {
+        // Space cuts never lose a character: the parts joined WITHOUT a separator are the original text, and no word is split.
+        val words = (1..30_000).joinToString(" ") { "token$it" }
+        val parts = Transcript.splitLong(words)
+        assertTrue(parts.size >= 3)
+        assertEquals(words, parts.joinToString(""))
+        for (p in parts.dropLast(1)) assertTrue("part ends with a space", p.endsWith(" "))
+        for (p in parts.drop(1)) assertTrue("part starts at a word", p.startsWith("token"))
+        // Hermes's join (a newline between the parts) only inserts newlines after those spaces
+        assertEquals(words, parts.joinToString("\n").replace(" \n", " "))
+    }
+
+    @Test fun aSpaceInTheSecondHalfBeatsANewlineInTheFirstHalf() {
+        // newline in the first half, space in the second half: the space wins (the newline is a worse place to cut)
+        val text = "a".repeat(5) + "\n" + "b".repeat(30) + " " + "c".repeat(30)
+        assertEquals(listOf("a".repeat(5) + "\n" + "b".repeat(30) + " ", "c".repeat(30)), Transcript.splitLong(text, 40))
+        // newline in the first half and no space at all: the newline is the cut
+        val nlOnly = "a".repeat(5) + "\n" + "b".repeat(60)
+        assertEquals(listOf("a".repeat(5), "b".repeat(40), "b".repeat(20)), Transcript.splitLong(nlOnly, 40))
+    }
+
+    @Test fun anUnbrokenRunShorterThanMaxIsNeverSplit() {
+        // 'x' run of 30 between spaces, max 40: every cut falls on a space, so the run stays whole
+        val text = ("y y " + "x".repeat(30) + " ").repeat(20)
+        val parts = Transcript.splitLong(text, 40)
+        assertEquals(text, parts.joinToString(""))
+        for (p in parts) {
+            assertTrue("part of ${p.length}", p.length in 1..40)
+            for (run in Regex("x+").findAll(p)) assertEquals("a run was split", 30, run.value.length)
+        }
+        for (p in parts.dropLast(1)) assertTrue(p.endsWith(" "))
     }
 
     @Test fun surrogatePairIsNeverSplit() {

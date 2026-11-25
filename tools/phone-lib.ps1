@@ -41,7 +41,37 @@ $script:Pa = @{
     SeenScreens = @{}; A11y = $null; Cut = $null; A11yAllow = @(); CutAllow = @()
     LogcatText = ''; LastDump = $null; ScreenW = 0; ScreenH = 0
     ScalesTouched = $false; FunctionalScales = $false; Sampler = $null; Hook = $null; LastDumpText = ''; PracticeTurnedOn = $false; TapCache = @{}; Leaks = $null; ScenarioScaled = $false; CapturedVars = $null
+    # the focus guard (section 3b): Halted blocks every input until a link brings the app back; FocusRefused stays set for the runners; CurrentOp
+    # is the op of the step that runs now; InputOk is true only while Invoke-PaInput sends its one device command
+    Halted = $false; FocusRefused = $false; HaltReason = ''; CurrentOp = ''; InputOk = $false
 }
+
+# Which packages may hold the focus while the robot sends input, per op. The package under test is always allowed, for every op; this table
+# lists the system surfaces that ONE op may meet besides it (the notification shade for the notification op, the system file picker and the
+# permission dialog for pick, the permission dialog and the share chooser for key, which sends BACK only there). Nothing else is allowed anywhere.
+$script:PaFocusAllow = [ordered]@{
+    'notification' = @('com.android.systemui')
+    'pick'         = @('com.android.documentsui', 'com.google.android.documentsui', 'com.sec.android.app.myfiles', 'com.google.android.permissioncontroller', 'com.android.permissioncontroller')
+    'key'          = @('com.google.android.permissioncontroller', 'com.android.permissioncontroller', 'com.android.intentresolver', 'com.samsung.android.app.sharelive')
+}
+
+# The shapes the free adb op may run (the whole argument list joined with single spaces must match, case sensitive). {PKG} is the package the
+# session targets. RO marks the read-only shapes: the only ones a session on the owner package could ever use (the op itself refuses that
+# session first, see Invoke-PaOpAdb). Nothing that installs, removes, clears, writes, types or taps is on the list.
+$script:PaAdbShapes = @(
+    @{ Re = '^devices\z'; RO = $true },
+    @{ Re = '^logcat -d( -v (brief|threadtime|time|long))?( -s [A-Za-z0-9_.]+:[VDIWEF])?\z'; RO = $true },
+    @{ Re = '^logcat -c\z'; RO = $false },
+    @{ Re = '^shell dumpsys (package|meminfo|gfxinfo) {PKG}( framestats)?\z'; RO = $true },
+    @{ Re = '^shell dumpsys gfxinfo {PKG} reset\z'; RO = $false },
+    @{ Re = '^shell dumpsys (alarm|window)\z'; RO = $true },
+    @{ Re = '^shell pidof {PKG}\z'; RO = $true },
+    @{ Re = '^shell wm size\z'; RO = $true },
+    @{ Re = '^shell getprop [A-Za-z0-9_.]+\z'; RO = $true },
+    @{ Re = '^shell cmd statusbar (expand-notifications|collapse)\z'; RO = $false },
+    @{ Re = '^shell am start -n {PKG}/[A-Za-z0-9_.$]+\z'; RO = $false },
+    @{ Re = '^shell am (force-stop|kill) {PKG}\z'; RO = $false }
+)
 
 # ============================================================================================================
 # 1. small helpers
@@ -184,7 +214,18 @@ function Find-PaAdb([string]$Hint = '') {
     return ''
 }
 
+# True when the arguments are a device shell command that injects input (tap, swipe, key, text, raw events, monkey). Only Invoke-PaInput may send one.
+function Test-PaAdbInputCommand([string[]]$ArgList) {
+    $i = [Array]::IndexOf($ArgList, 'shell')
+    if ($i -lt 0) { return $false }
+    $cmd = (@($ArgList | Select-Object -Skip ($i + 1)) -join ' ')
+    return ($cmd -cmatch "(^|[;&|(]\s*|\bsh\s+-c\s+['""])\s*(input|monkey|sendevent)(\s|$)")
+}
+
 function Invoke-PaAdb([string[]]$ArgList, [int]$TimeoutMs = 30000) {
+    if ((Test-PaAdbInputCommand $ArgList) -and -not [bool]$script:Pa.InputOk) {
+        throw 'refused: an input command may only be sent by Invoke-PaInput (it checks the focus first)'
+    }
     $a = @()
     if ($script:Pa.Serial -ne '') { $a += @('-s', $script:Pa.Serial) }
     $a += $ArgList
@@ -470,6 +511,215 @@ function Test-PaOwnerTypeAllowed([string]$Tag, [string]$Text) {
         if ($w -cmatch '^[A-Z_]{3,}$' -and ($script:PaKeywords -ccontains $w) -and $w -ne 'LONG' -and $w -ne 'PAUSE') { return $false }
     }
     return $true
+}
+
+# ---- the focus guard: the only way input reaches the phone ----------------------------------------------------
+# An earlier experiment sent blind taps into a third-party app after the app under test had crashed. So no input leaves this script
+# without Invoke-PaInput, and Invoke-PaInput sends nothing unless the window that has the focus belongs to the package under test (or, for
+# the few ops named in $script:PaFocusAllow, to a system surface that op meets). Invoke-PaAdb refuses an input command from anywhere else, and
+# the self test greps every tool script for the spelling of one outside Invoke-PaInput.
+
+# The system packages the op may meet besides the package under test (see the table at the top of this file).
+function Get-PaFocusExtra([string]$Op) {
+    if ($script:PaFocusAllow.Contains($Op)) { return @($script:PaFocusAllow[$Op]) }
+    return @()
+}
+
+# The text of the lines "mCurrentFocus=..." and "mFocusedApp=..." of `dumpsys window` into facts: Windows (distinct, non-null: Hash, Name, Package
+# - the package is known only when the window name is "<package>/<class>"), Apps (the packages of the focused activities), Seen (a line was there).
+function Get-PaFocusFacts([string]$Text) {
+    $windows = New-Object System.Collections.ArrayList
+    $apps = New-Object System.Collections.ArrayList
+    $seen = $false
+    foreach ($raw in ($Text -csplit "`n")) {
+        $l = $raw.Trim()
+        $m = [regex]::Match($l, '^mCurrentFocus=Window\{([0-9A-Fa-f]+) u\d+ (.*)\}$')
+        if ($m.Success) {
+            $seen = $true
+            $name = $m.Groups[2].Value.Trim()
+            $pkg = ''
+            $c = [regex]::Match($name, '^([A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)+)/\S+$')
+            if ($c.Success) { $pkg = $c.Groups[1].Value }
+            # a window without a title is named by the package the system recorded for it (a dialog or sheet of the app looks like this)
+            elseif ($name -cmatch '^[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)+$') { $pkg = $name }
+            elseif ($name -ceq 'NotificationShade') { $pkg = 'com.android.systemui' }   # only SystemUI can create this window type
+            $dup = $false
+            foreach ($w in $windows) { if ($w.Hash -ceq $m.Groups[1].Value) { $dup = $true } }
+            if (-not $dup) { [void]$windows.Add([pscustomobject]@{ Hash = $m.Groups[1].Value; Name = $name; Package = $pkg }) }
+            continue
+        }
+        if ($l -cmatch '^mCurrentFocus=') { $seen = $true; continue }
+        $a = [regex]::Match($l, '^mFocusedApp=ActivityRecord\{[0-9A-Fa-f]+ u\d+ ([A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)+)/')
+        if ($a.Success) { $seen = $true; if (-not $apps.Contains($a.Groups[1].Value)) { [void]$apps.Add($a.Groups[1].Value) } }
+        elseif ($l -cmatch '^mFocusedApp=') { $seen = $true }
+    }
+    return [pscustomobject]@{ Windows = @($windows); Apps = @($apps); Seen = $seen }
+}
+
+# The package that owns the window with this hash, read from the "Window #n Window{<hash> ...}:" block of `dumpsys window windows` ("package=<name>"),
+# or '' when the block or the line is not there.
+function Get-PaWindowPackage([string]$WindowsText, [string]$Hash) {
+    if ($Hash -cnotmatch '^[0-9A-Fa-f]+$') { return '' }
+    $start = [regex]::Match($WindowsText, 'Window #\d+ Window\{' + $Hash + ' [^\r\n]*\}:')
+    if (-not $start.Success) { return '' }
+    $rest = $WindowsText.Substring($start.Index + $start.Length)
+    $next = [regex]::Match($rest, '\n\s*Window #\d+ ')
+    if ($next.Success) { $rest = $rest.Substring(0, $next.Index) }
+    $p = [regex]::Match($rest, '\bpackage=([A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)*)')
+    if ($p.Success) { return $p.Groups[1].Value }
+    return ''
+}
+
+# Pure. Is the focus in these facts acceptable? Result: Ok, Kind (ok | none | lookup | foreign), Why.
+#   none    no window has the focus (or the lines are unreadable): the caller may read again, a transition can show it for a moment
+#   lookup  a window whose package is not in its name: the caller reads `dumpsys window windows` and asks again with its text in $WindowsText
+#   foreign the focus is somewhere else (the message names the window)
+# Every focused window must belong to the package under test or to $Extra; when one belongs to the package under test, every focused activity
+# must too (mFocusedApp is the second source).
+function Test-PaFocusFacts($Facts, [string]$Package, [string[]]$Extra = @(), [string]$WindowsText = '') {
+    if (-not $Facts.Seen -or @($Facts.Windows).Count -eq 0) {
+        return [pscustomobject]@{ Ok = $false; Kind = 'none'; Why = 'no window has the focus (mCurrentFocus is null or cannot be read)' }
+    }
+    $ownWindow = $false
+    foreach ($w in @($Facts.Windows)) {
+        $pkg = $w.Package
+        if ($pkg -eq '' -and $WindowsText -eq '') {
+            return [pscustomobject]@{ Ok = $false; Kind = 'lookup'; Why = ('the package of the window ' + $w.Name + ' is not in its name') }
+        }
+        if ($pkg -eq '') { $pkg = Get-PaWindowPackage $WindowsText $w.Hash }
+        if ($pkg -eq '') {
+            return [pscustomobject]@{ Ok = $false; Kind = 'foreign'; Why = ('focus is the window ''' + $w.Name + ''' whose package cannot be read, not ' + $Package) }
+        }
+        if ($pkg -ceq $Package) { $ownWindow = $true; continue }
+        if (@($Extra) -ccontains $pkg) { continue }
+        return [pscustomobject]@{ Ok = $false; Kind = 'foreign'; Why = ('focus is ' + $pkg + ' (window ''' + $w.Name + '''), not ' + $Package) }
+    }
+    if ($ownWindow) {
+        foreach ($a in @($Facts.Apps)) {
+            if ($a -cne $Package) {
+                return [pscustomobject]@{ Ok = $false; Kind = 'foreign'; Why = ('the focused window is ' + $Package + ' but the focused activity is ' + $a) }
+            }
+        }
+    }
+    return [pscustomobject]@{ Ok = $true; Kind = 'ok'; Why = '' }
+}
+
+# Reads the focus from the phone (two read-only dumpsys calls at most) and judges it. Sends nothing.
+function Get-PaFocusVerdict([string[]]$Extra = @()) {
+    $r = Invoke-PaShell "dumpsys window | grep -E 'mCurrentFocus|mFocusedApp'" 30000
+    if ($r.TimedOut -or $r.ExitCode -ne 0) {
+        return [pscustomobject]@{ Ok = $false; Kind = 'foreign'; Why = 'the focus could not be read from the phone (dumpsys failed, timed out or listed no focus line)' }
+    }
+    $facts = Get-PaFocusFacts $r.Out
+    $v = Test-PaFocusFacts $facts $script:Pa.Package $Extra ''
+    if ($v.Kind -eq 'lookup') {
+        $w = Invoke-PaShell 'dumpsys window windows' 60000
+        $v = Test-PaFocusFacts $facts $script:Pa.Package $Extra $w.Out
+        if ($v.Kind -eq 'lookup') { $v = [pscustomobject]@{ Ok = $false; Kind = 'foreign'; Why = $v.Why } }
+    }
+    return $v
+}
+
+# Stops all input: remembers why, takes a picture, throws. The runners see FocusRefused and end the run.
+function Stop-PaForFocus([string]$Why) {
+    $script:Pa.Halted = $true
+    $script:Pa.FocusRefused = $true
+    $script:Pa.HaltReason = $Why
+    $shot = ''
+    try { $shot = Save-PaShot 'focus-refused' } catch { }
+    $tail = ''
+    if ($shot -ne '') { $tail = (' (shot ' + $shot + ')') }
+    throw ('refused: focus: ' + $Why + '; no input was sent' + $tail)
+}
+
+# Throws unless the focus is where input may go. -AppOnly ignores the system surfaces of the op. A stopped run stays stopped
+# until a link (Invoke-PaOpLink) has brought the package under test to the front again.
+function Assert-PaFocus([string]$Op = '', [switch]$AppOnly) {
+    if ($script:Pa.Halted) {
+        throw ('refused: focus: input is stopped (' + $script:Pa.HaltReason + '); a link step has to bring the app to the front first')
+    }
+    if ($Op -eq '') { $Op = [string]$script:Pa.CurrentOp }
+    $extra = @()
+    if (-not $AppOnly) { $extra = @(Get-PaFocusExtra $Op) }
+    $v = $null
+    for ($i = 0; $i -lt 4; $i++) {
+        $v = Get-PaFocusVerdict $extra
+        if ($v.Kind -ne 'none') { break }
+        Start-Sleep -Milliseconds 350
+    }
+    if ($v.Ok) { return }
+    Stop-PaForFocus $v.Why
+}
+
+# THE ONLY function that spells a device input command. Kind: tap, swipe, text or keyevent. Checks the focus first, every time.
+function Invoke-PaInput([string]$Kind, [string]$InputArgs, [switch]$AppOnly) {
+    if (@('tap', 'swipe', 'text', 'keyevent') -cnotcontains $Kind) { throw ("input: unknown kind '{0}'" -f $Kind) }
+    Assert-PaFocus '' -AppOnly:$AppOnly
+    $script:Pa.InputOk = $true
+    try { Invoke-PaShell ("input {0} {1}" -f $Kind, $InputArgs) | Out-Null } finally { $script:Pa.InputOk = $false }
+}
+
+# After a link: when the run was stopped by the focus guard, the stop ends only if the package under test really is in front now.
+function Clear-PaHaltAfterLink {
+    if (-not $script:Pa.Halted) { return }
+    Start-Sleep -Milliseconds 900
+    $v = Get-PaFocusVerdict @()
+    if ($v.Ok) { $script:Pa.Halted = $false; $script:Pa.HaltReason = '' }
+}
+
+# For the runners' finally blocks: the app under test is brought to the front by an explicit link (no input), so that practice mode can still
+# be switched off. Does nothing when the run was not stopped.
+function Restore-PaForeground {
+    if (-not $script:Pa.Halted) { return }
+    try { Invoke-PaOpLink ([pscustomobject]@{ intent = [pscustomobject]@{ action = 'android.intent.action.MAIN' } }) }
+    catch { Write-Host ('NOTE the app could not be brought to the front: ' + $_.Exception.Message) }
+}
+
+# A free-form adb call: '' when the argument list is one of the allowed shapes for this package, else the reason. Pure.
+function Test-PaAdbShape([string[]]$ArgList, [string]$Package, [bool]$OwnerSession) {
+    $joined = (@($ArgList) -join ' ')
+    if ($joined.Trim() -eq '') { return 'no arguments' }
+    if ($joined -cmatch '[\x00-\x1F\x7F`$;|&<>(){}\[\]\\!*?''"]') { return 'the arguments contain a character the allow list never needs ($ ` ; | & < > ( ) { } [ ] \ ! * ? quotes or a control character)' }
+    $ownerToken = '(^|[^.\w])' + [regex]::Escape($PaOwnerPackage) + '(\z|[^.\w])'
+    if ((-not (Test-PaOwnerPackage $Package)) -and $joined -cmatch $ownerToken) { return 'an argument names the owner package while the session targets another one' }
+    foreach ($s in $script:PaAdbShapes) {
+        if ($OwnerSession -and -not $s.RO) { continue }
+        $re = $s.Re.Replace('{PKG}', [regex]::Escape($Package))
+        if ($joined -cmatch $re) { return '' }
+    }
+    if ($OwnerSession) { return 'this shape is not on the read-only list (sessions on the owner package get nothing else)' }
+    return 'this argument list is not one of the shapes on the allow list (tools/phone-lib.ps1, PaAdbShapes)'
+}
+
+# The package an APK declares (aapt2 dump packagename). Throws when aapt2 or the answer is missing: nothing is installed on a guess.
+function Get-PaApkPackage([string]$Apk) {
+    $roots = @()
+    if ($env:ANDROID_HOME) { $roots += $env:ANDROID_HOME }
+    if ($env:ANDROID_SDK_ROOT) { $roots += $env:ANDROID_SDK_ROOT }
+    if ($env:LOCALAPPDATA) { $roots += (Join-Path (Join-Path $env:LOCALAPPDATA 'Android') 'Sdk') }
+    $exe = ''
+    foreach ($r in $roots) {
+        $bt = Join-Path $r 'build-tools'
+        if (-not (Test-Path -LiteralPath $bt)) { continue }
+        foreach ($d in @(Get-ChildItem -LiteralPath $bt -Directory | Sort-Object Name -Descending)) {
+            foreach ($n in @('aapt2.exe', 'aapt2')) {
+                $p = Join-Path $d.FullName $n
+                if ($exe -eq '' -and (Test-Path -LiteralPath $p)) { $exe = $p }
+            }
+        }
+    }
+    if ($exe -eq '') { throw 'refused: install: aapt2 was not found, so the package of the APK cannot be read' }
+    $r = Invoke-PaNative $exe @('dump', 'packagename', $Apk) 120000
+    $name = $r.Out.Trim()
+    if ($r.ExitCode -ne 0 -or $name -cnotmatch '^[A-Za-z0-9_.]+$') { throw ('refused: install: the package of the APK cannot be read (' + $r.Text.Trim() + ')') }
+    return $name
+}
+
+# Throws unless the package is the test twin. The install op calls it with the package of the APK it is about to install.
+function Assert-PaInstallablePackage([string]$Package) {
+    if ($Package -cne $PaTwinPackage) {
+        throw ("refused: install: the APK is for '{0}', not for the test twin ({1}); the owner package is never installed from a scenario" -f $Package, $PaTwinPackage)
+    }
 }
 
 # ============================================================================================================
@@ -801,17 +1051,19 @@ function Format-PaSelector($Sel) {
     return ($parts -join ' ')
 }
 
-function Send-PaTap([int]$X, [int]$Y) { Invoke-PaShell ("input tap {0} {1}" -f $X, $Y) | Out-Null }
+function Send-PaTap([int]$X, [int]$Y) { Invoke-PaInput 'tap' ("{0} {1}" -f $X, $Y) }
 
 function Send-PaKey([string]$Name) {
     $codes = @{ HOME = 3; BACK = 4; ENTER = 66; DEL = 67; TAB = 61; APP_SWITCH = 187 }
     $k = $Name.ToUpperInvariant()
     if (-not $codes.ContainsKey($k)) { throw ("unknown key '{0}'" -f $Name) }
-    Invoke-PaShell ("input keyevent {0}" -f $codes[$k]) | Out-Null
+    # in the key op a system surface (permission dialog, share chooser) may hold the focus for BACK only
+    $appOnly = (($k -ne 'BACK') -and ([string]$script:Pa.CurrentOp -ceq 'key'))
+    Invoke-PaInput 'keyevent' ([string]$codes[$k]) -AppOnly:$appOnly
 }
 
 function Send-PaText([string]$Text) {
-    if ($Text -cmatch "[^\x20-\x7E]") { throw 'type: the text must be ASCII (input text cannot type other characters)' }
+    if ($Text -cmatch "[^\x20-\x7E]") { throw 'type: the text must be ASCII (the typing command cannot type other characters)' }
     if ($Text.Contains("'")) { throw "type: the text cannot contain a single quote" }
     $enc = $Text -replace ' ', '%s'
     $i = 0
@@ -819,7 +1071,7 @@ function Send-PaText([string]$Text) {
         $len = [Math]::Min(40, $enc.Length - $i)
         # never cut a %s in the middle
         if ($enc[$i + $len - 1] -eq '%' -and ($i + $len) -lt $enc.Length) { $len++ }
-        Invoke-PaShell ("input text '{0}'" -f $enc.Substring($i, $len)) | Out-Null
+        Invoke-PaInput 'text' ("'{0}'" -f $enc.Substring($i, $len))
         $i += $len
     }
 }
@@ -827,7 +1079,9 @@ function Send-PaText([string]$Text) {
 function Save-PaShot([string]$Name) {
     $script:Pa.ShotNo = $script:Pa.ShotNo + 1
     $file = ('{0:00}-{1}.png' -f $script:Pa.ShotNo, ($Name -creplace '[^A-Za-z0-9._-]', '_'))
-    $dest = Join-Path $script:Pa.ScenarioDir $file
+    $shotDir = [string]$script:Pa.ScenarioDir
+    if ($shotDir -eq '') { $shotDir = Get-PaTempDir }
+    $dest = Join-Path $shotDir $file
     Invoke-PaShell 'screencap -p /data/local/tmp/pa-shot.png' 30000 | Out-Null
     Invoke-PaAdb @('pull', '/data/local/tmp/pa-shot.png', $dest) 30000 | Out-Null
     Invoke-PaShell 'rm -f /data/local/tmp/pa-shot.png' | Out-Null
@@ -870,6 +1124,25 @@ function Get-PaCrashLines([string]$Text, [string]$Package) {
 }
 
 # ---- the ops ------------------------------------------------------------------------------------------------
+# The token of the debug link: the content of files/debug-link.token of the app under test (32 hex characters made at its first start; another
+# app cannot read it, the shell can on a debuggable build through run-as). Read-only. When the file is not there yet the app is started once
+# with its normal launcher intent and the file is waited for.
+function Get-PaDebugToken {
+    $deadline = (Get-Date).AddSeconds(30)
+    $started = $false
+    while ($true) {
+        $r = Invoke-PaShell ("run-as {0} sh -c 'cat files/debug-link.token 2>/dev/null'" -f $script:Pa.Package) 20000
+        $t = $r.Out.Trim()
+        if ($t -cmatch '^[0-9a-f]{16,64}$') { return $t }
+        if (-not $started) {
+            Invoke-PaShell ("am start -n {0}" -f (Get-PaComponent $script:Pa.Package $PaMainActivity)) 30000 | Out-Null
+            $started = $true
+        }
+        if ((Get-Date) -gt $deadline) { throw 'link: files/debug-link.token of the app under test cannot be read (is this a build with test hooks?)' }
+        Start-Sleep -Seconds 1
+    }
+}
+
 function Invoke-PaOpLink($Step) {
     $comp = Get-PaComponent $script:Pa.Package $PaMainActivity
     $act = [string](Get-PaProp $Step 'action' '')
@@ -888,9 +1161,12 @@ function Invoke-PaOpLink($Step) {
         foreach ($k in (Get-PaPropNames $dbg)) {
             $v = [string](Get-PaProp $dbg $k '')
             if ($k -cnotmatch '^[a-z]+$') { throw ("link: bad extra name '{0}'" -f $k) }
+            if ($k -ceq 'token') { throw 'link: the token extra is added by the robot, a scenario does not name it' }
             if ($v.Contains("'")) { throw 'link: a single quote in an extra' }
             $line += (" --es {0} '{1}'" -f $k, $v)
         }
+        # the debug link is inert without the token only the shell can read (see DebugLinks.kt)
+        $line += (" --es token '{0}'" -f (Get-PaDebugToken))
     } elseif ($null -ne $intent) {
         $ia = [string](Get-PaProp $intent 'action' 'android.intent.action.MAIN')
         if ($ia -cnotmatch '^[A-Za-z0-9_.]+$') { throw 'link: bad intent action' }
@@ -904,6 +1180,8 @@ function Invoke-PaOpLink($Step) {
     $r = Invoke-PaShell $line 30000
     if ($r.Text -cmatch '(?m)^Error' -or $r.Text -cmatch 'Exception') { throw ("link failed: " + $r.Text.Trim()) }
     Start-Sleep -Milliseconds 400
+    # a run stopped by the focus guard goes on only after a link has really put the app under test in front
+    Clear-PaHaltAfterLink
 }
 
 function Invoke-PaOpTap($Step) {
@@ -924,7 +1202,7 @@ function Invoke-PaOpTap($Step) {
     if (-not $w.Ok) { throw ("tap: {0} not found after {1}s" -f (Format-PaSelector $Step), $t) }
     $c = Get-PaNodeCenter $w.Node
     if ($key -ne '') { $script:Pa.TapCache[$key] = $c }
-    if ($hold -gt 0) { Invoke-PaShell ("input swipe {0} {1} {0} {1} {2}" -f $c[0], $c[1], $hold) | Out-Null }
+    if ($hold -gt 0) { Invoke-PaInput 'swipe' ("{0} {1} {0} {1} {2}" -f $c[0], $c[1], $hold) }
     else { Send-PaTap $c[0] $c[1] }
     Start-Sleep -Milliseconds 300
 }
@@ -949,8 +1227,8 @@ function Invoke-PaOpType($Step) {
         throw 'refused: on the owner package only plain text, LONG and PAUSE may be typed'
     }
     if ([bool](Get-PaProp $Step 'clear' $false)) {
-        Invoke-PaShell 'input keyevent 123' | Out-Null
-        Invoke-PaShell ('input keyevent ' + ((1..60 | ForEach-Object { '67' }) -join ' ')) | Out-Null
+        Invoke-PaInput 'keyevent' '123'
+        Invoke-PaInput 'keyevent' ((1..60 | ForEach-Object { '67' }) -join ' ')
     }
     Send-PaText $text
     if ([bool](Get-PaProp $Step 'submit' $false)) { Send-PaKey 'ENTER' }
@@ -1144,7 +1422,7 @@ function Invoke-PaOpSwipe($Step) {
     $y1 = [int]($wh[1] * 0.72); $y2 = [int]($wh[1] * 0.30)
     if ($dir -eq 'down') { $tmp = $y1; $y1 = $y2; $y2 = $tmp } elseif ($dir -ne 'up') { throw 'swipe: dir is up or down' }
     for ($i = 0; $i -lt $times; $i++) {
-        Invoke-PaShell ("input swipe {0} {1} {2} {3} {4}" -f $x, $y1, $x, $y2, $ms) | Out-Null
+        Invoke-PaInput 'swipe' ("{0} {1} {2} {3} {4}" -f $x, $y1, $x, $y2, $ms)
         Invoke-PaHook
         Start-Sleep -Milliseconds 150
     }
@@ -1414,6 +1692,8 @@ function Invoke-PaOpInstall($Step) {
     Assert-PaTwinTarget $script:Pa.Package
     $apk = [string](Get-PaProp $Step 'apk' '')
     if ($apk -eq '' -or -not (Test-Path -LiteralPath $apk)) { throw 'install: apk not found' }
+    # the twin and the owner-debug build leave their APK at the same path: only an APK that declares the twin's package is installed here
+    Assert-PaInstallablePackage (Get-PaApkPackage $apk)
     $r = Invoke-PaAdb @('install', '-r', $apk) 240000
     if ($r.Text -cnotmatch 'Success') { throw ("install: " + $r.Text.Trim()) }
 }
@@ -1446,13 +1726,9 @@ function Invoke-PaOpAdb($Step) {
     Assert-PaTwinTarget $script:Pa.Package
     $argv = @(Get-PaProp $Step 'args' @() | ForEach-Object { [string]$_ })
     if ($argv.Count -eq 0) { throw 'adb: args is empty' }
-    # the words are refused whole; the first one is written in two pieces so that no script contains the forbidden command verbatim
-    $deny = '^(un' + 'install|clear|install|settings|rm|run-as)$'
-    foreach ($a in $argv) {
-        foreach ($w in ($a -csplit '\s+')) {
-            if ($w -cmatch $deny) { throw ("adb: refused word '{0}'" -f $w) }
-        }
-    }
+    # an allow list of exact shapes, each bound to the package of the session (Test-PaAdbShape); everything else is refused
+    $why = Test-PaAdbShape $argv $script:Pa.Package $script:Pa.Owner
+    if ($why -ne '') { throw ('refused: adb: ' + $why) }
     $r = Invoke-PaAdb $argv 60000
     $want = [int](Get-PaProp $Step 'expectExit' 0)
     if ($r.ExitCode -ne $want) { throw ("adb: exit {0}, wanted {1}: {2}" -f $r.ExitCode, $want, $r.Text.Trim()) }
@@ -1516,36 +1792,41 @@ function Invoke-PaStep($Step, [int]$Depth = 0) {
     $step = Expand-PaStep $Step
     $op = [string](Get-PaProp $step 'op' '')
     if ($script:PaOps -cnotcontains $op) { throw ("unknown op '{0}'" -f $op) }
-    switch ($op) {
-        'link' { Invoke-PaOpLink $step }
-        'tap' { Invoke-PaOpTap $step }
-        'type' { Invoke-PaOpType $step }
-        'wait' { Invoke-PaOpWait $step }
-        'expect' { Invoke-PaOpExpect $step $false }
-        'expectNot' { Invoke-PaOpExpect $step $true }
-        'shot' { Save-PaShot ([string](Get-PaProp $step 'name' 'shot')) | Out-Null }
-        'kill' { Invoke-PaOpKill }
-        'forceStop' { Invoke-PaOpForceStop }
-        'notification' { Invoke-PaOpNotification $step }
-        'noCrash' { Invoke-PaOpNoCrash }
-        'key' { Send-PaKey ([string](Get-PaProp $step 'key' '')) }
-        'swipe' { Invoke-PaOpSwipe $step }
-        'scale' { Invoke-PaOpScale $step }
-        'a11y' { Invoke-PaOpA11y }
-        'scanDump' { Invoke-PaOpScanDump $step }
-        'expectColor' { Invoke-PaOpExpectColor $step }
-        'wipe' { Invoke-PaOpWipe $step }
-        'pref' { Invoke-PaOpPref $step }
-        'seed' { Invoke-PaOpSeed $step }
-        'killGuest' { Invoke-PaOpKillGuest }
-        'expectFile' { Invoke-PaOpExpectFile $step }
-        'restore' { Invoke-PaOpRestore $step }
-        'install' { Invoke-PaOpInstall $step }
-        'pick' { Invoke-PaOpPick $step }
-        'adb' { Invoke-PaOpAdb $step }
-        'measure' { Invoke-PaOpMeasure $step }
-        'eachRoute' { Invoke-PaOpEachRoute $step $Depth }
-    }
+    # the focus guard needs to know the op (the system surfaces an op may meet are listed per op); nested steps restore the outer one
+    $outerOp = [string]$script:Pa.CurrentOp
+    $script:Pa.CurrentOp = $op
+    try {
+        switch ($op) {
+            'link' { Invoke-PaOpLink $step }
+            'tap' { Invoke-PaOpTap $step }
+            'type' { Invoke-PaOpType $step }
+            'wait' { Invoke-PaOpWait $step }
+            'expect' { Invoke-PaOpExpect $step $false }
+            'expectNot' { Invoke-PaOpExpect $step $true }
+            'shot' { Save-PaShot ([string](Get-PaProp $step 'name' 'shot')) | Out-Null }
+            'kill' { Invoke-PaOpKill }
+            'forceStop' { Invoke-PaOpForceStop }
+            'notification' { Invoke-PaOpNotification $step }
+            'noCrash' { Invoke-PaOpNoCrash }
+            'key' { Send-PaKey ([string](Get-PaProp $step 'key' '')) }
+            'swipe' { Invoke-PaOpSwipe $step }
+            'scale' { Invoke-PaOpScale $step }
+            'a11y' { Invoke-PaOpA11y }
+            'scanDump' { Invoke-PaOpScanDump $step }
+            'expectColor' { Invoke-PaOpExpectColor $step }
+            'wipe' { Invoke-PaOpWipe $step }
+            'pref' { Invoke-PaOpPref $step }
+            'seed' { Invoke-PaOpSeed $step }
+            'killGuest' { Invoke-PaOpKillGuest }
+            'expectFile' { Invoke-PaOpExpectFile $step }
+            'restore' { Invoke-PaOpRestore $step }
+            'install' { Invoke-PaOpInstall $step }
+            'pick' { Invoke-PaOpPick $step }
+            'adb' { Invoke-PaOpAdb $step }
+            'measure' { Invoke-PaOpMeasure $step }
+            'eachRoute' { Invoke-PaOpEachRoute $step $Depth }
+        }
+    } finally { $script:Pa.CurrentOp = $outerOp }
 }
 
 function Invoke-PaOpMeasure($Step) {
@@ -1839,6 +2120,179 @@ function Assert-PaSelf([bool]$Cond, [string]$Message) {
     if (-not $Cond) { throw ("SELFTEST FAIL: " + $Message) }
 }
 
+# The lines of a script that could get an input command to the phone without the focus guard: a device input command spelled outside
+# Invoke-PaInput, or a direct call of adb through Invoke-PaNative outside Invoke-PaAdb and Get-PaDevices. Comment lines are skipped.
+# Returns "<line>: <what>" strings.
+function Get-PaInputLeaks([string]$Text) {
+    $hits = New-Object System.Collections.ArrayList
+    $fn = ''
+    $inBlock = $false
+    $no = 0
+    foreach ($raw in ($Text -csplit "`n")) {
+        $no++
+        $l = $raw.TrimEnd("`r")
+        $t = $l.Trim()
+        if ($inBlock) { if ($t.Contains('#>')) { $inBlock = $false }; continue }
+        if ($t.StartsWith('<#')) { if (-not $t.Contains('#>')) { $inBlock = $true }; continue }
+        if ($t.StartsWith('#')) { continue }
+        $oneLine = $false
+        $h = [regex]::Match($l, '^function\s+([A-Za-z0-9_-]+)')
+        if ($h.Success) {
+            $fn = $h.Groups[1].Value
+            $opens = @($l.ToCharArray() | Where-Object { $_ -eq '{' }).Count
+            $closes = @($l.ToCharArray() | Where-Object { $_ -eq '}' }).Count
+            if ($opens -gt 0 -and $opens -eq $closes) { $oneLine = $true }
+        }
+        if ($fn -cne 'Invoke-PaInput') {
+            if ($l -cmatch '(?i)\bshell\s+input\b' -or $l -cmatch '(?i)\binput\s+(tap|swipe|text|keyevent|press|roll|draganddrop)\b') {
+                [void]$hits.Add(("{0}: spells an input command outside Invoke-PaInput (in '{1}')" -f $no, $fn))
+            }
+        }
+        if (@('Invoke-PaAdb', 'Get-PaDevices') -cnotcontains $fn -and $l -cmatch 'Invoke-PaNative\s+\$script:Pa\.Adb') {
+            [void]$hits.Add(("{0}: calls adb directly through Invoke-PaNative (in '{1}')" -f $no, $fn))
+        }
+        if ($oneLine -or $l -ceq '}') { $fn = '' }
+    }
+    return @($hits)
+}
+
+# Self test of the focus guard, the input choke point, the adb allow list and the install check. No phone: nothing here reaches adb.
+function Invoke-PaGuardSelfTest {
+    $twin = $PaTwinPackage
+    $ownerPkg = $PaOwnerPackage
+    $script:Pa.Package = $twin
+    $script:Pa.Halted = $false; $script:Pa.FocusRefused = $false; $script:Pa.HaltReason = ''; $script:Pa.CurrentOp = ''; $script:Pa.InputOk = $false
+    $main = $PaMainActivity
+    $nl = "`n"
+
+    # ---- the focus text of the phone into a verdict
+    $appWin = 'mCurrentFocus=Window{4b3c8c1 u0 ' + $twin + '/' + $main + '}'
+    $appRec = 'mFocusedApp=ActivityRecord{1a2b3c u0 ' + $twin + '/' + $main + ' t12}'
+    $v = Test-PaFocusFacts (Get-PaFocusFacts ($appWin + $nl + $appRec + $nl)) $twin @() ''
+    Assert-PaSelf ($v.Ok -and $v.Kind -eq 'ok') 'focus: the app window and the app activity are accepted'
+    $v = Test-PaFocusFacts (Get-PaFocusFacts ('  ' + $appWin + $nl + '  ' + $appWin + $nl + '  ' + $appRec + $nl)) $twin @() ''
+    Assert-PaSelf $v.Ok 'focus: the same window listed twice (several displays) is accepted'
+    $v = Test-PaFocusFacts (Get-PaFocusFacts ('mCurrentFocus=Window{5c u0 ' + $twin + '}' + $nl + $appRec)) $twin @() ''
+    Assert-PaSelf ($v.Ok -and $v.Kind -eq 'ok') 'focus: a dialog of the app (window named by the package alone) is accepted without a lookup'
+    $v = Test-PaFocusFacts (Get-PaFocusFacts ('mCurrentFocus=Window{5c u0 ' + $ownerPkg + '}')) $twin @() ''
+    Assert-PaSelf ((-not $v.Ok) -and $v.Kind -eq 'foreign') 'focus: a dialog of the owner package is not a dialog of the twin'
+    $launcher = 'mCurrentFocus=Window{9d8e7f u0 com.sec.android.app.launcher/com.sec.android.app.launcher.activities.LauncherActivity}'
+    $v = Test-PaFocusFacts (Get-PaFocusFacts ($launcher + $nl + 'mFocusedApp=ActivityRecord{55aa u0 com.sec.android.app.launcher/.activities.LauncherActivity t2}')) $twin @() ''
+    Assert-PaSelf ((-not $v.Ok) -and $v.Kind -eq 'foreign' -and $v.Why.Contains('com.sec.android.app.launcher')) 'focus: a launcher window is refused and named'
+    $v = Test-PaFocusFacts (Get-PaFocusFacts ('mCurrentFocus=Window{33cc u0 ' + $ownerPkg + '/' + $main + '}')) $twin @() ''
+    Assert-PaSelf ((-not $v.Ok) -and $v.Kind -eq 'foreign') 'focus: the owner package is not the twin (a prefix is not a match)'
+    $v = Test-PaFocusFacts (Get-PaFocusFacts ('mCurrentFocus=Window{33cc u0 ' + $twin + '/' + $main + '}')) $ownerPkg @() ''
+    Assert-PaSelf ((-not $v.Ok) -and $v.Kind -eq 'foreign') 'focus: the twin is not the owner package'
+    $v = Test-PaFocusFacts (Get-PaFocusFacts ('mCurrentFocus=null' + $nl + 'mFocusedApp=null' + $nl)) $twin @() ''
+    Assert-PaSelf ((-not $v.Ok) -and $v.Kind -eq 'none') 'focus: no focused window is its own kind (the caller reads again)'
+    $v = Test-PaFocusFacts (Get-PaFocusFacts '') $twin @() ''
+    Assert-PaSelf ((-not $v.Ok) -and $v.Kind -eq 'none') 'focus: unreadable text is refused'
+    $v = Test-PaFocusFacts (Get-PaFocusFacts ($appWin + $nl + 'mFocusedApp=ActivityRecord{55aa u0 com.sec.android.app.launcher/.activities.LauncherActivity t2}')) $twin @() ''
+    Assert-PaSelf ((-not $v.Ok) -and $v.Why.Contains('focused activity')) 'focus: the second source (mFocusedApp) must agree'
+    $v = Test-PaFocusFacts (Get-PaFocusFacts ($appWin + $nl + $launcher)) $twin @() ''
+    Assert-PaSelf (-not $v.Ok) 'focus: two different focused windows are refused'
+    $shade = 'mCurrentFocus=Window{71 u0 NotificationShade}'
+    $v = Test-PaFocusFacts (Get-PaFocusFacts ($shade + $nl + $appRec)) $twin @() ''
+    Assert-PaSelf ((-not $v.Ok) -and $v.Why.Contains('com.android.systemui')) 'focus: the notification shade is refused for an ordinary op'
+    $v = Test-PaFocusFacts (Get-PaFocusFacts ($shade + $nl + $appRec)) $twin @(Get-PaFocusExtra 'notification') ''
+    Assert-PaSelf $v.Ok 'focus: the notification shade is accepted for the notification op'
+    Assert-PaSelf (@(Get-PaFocusExtra 'tap').Count -eq 0 -and @(Get-PaFocusExtra 'notification') -ccontains 'com.android.systemui') 'focus: the allow table is per op'
+    # a window whose name has no package: the package comes from the window list
+    $popup = 'mCurrentFocus=Window{9f9f u0 Popup Window}'
+    $facts = Get-PaFocusFacts $popup
+    Assert-PaSelf ((Test-PaFocusFacts $facts $twin @() '').Kind -eq 'lookup') 'focus: a window without a package in its name asks for the window list'
+    $list = '  Window #3 Window{9f9f u0 Popup Window}:' + $nl + '    mDisplayId=0 rootTaskId=7' + $nl + '    mOwnerUid=10123 showForAllUsers=false package=' + $twin + ' appop=NONE' + $nl +
+        '  Window #4 Window{aaaa u0 Other}:' + $nl + '    mOwnerUid=10999 showForAllUsers=false package=com.example.other appop=NONE' + $nl
+    Assert-PaSelf ((Get-PaWindowPackage $list '9f9f') -eq $twin) 'focus: the window list names the owner of a window'
+    Assert-PaSelf ((Get-PaWindowPackage $list 'aaaa') -eq 'com.example.other') 'focus: the window list reads the last block too'
+    Assert-PaSelf ((Get-PaWindowPackage $list 'bbbb') -eq '') 'focus: an unknown window has no package'
+    Assert-PaSelf ((Test-PaFocusFacts $facts $twin @() $list).Ok) 'focus: a popup of the app is accepted through the window list'
+    $other = $list.Replace('package=' + $twin, 'package=com.example.other')
+    Assert-PaSelf (-not (Test-PaFocusFacts $facts $twin @() $other).Ok) 'focus: a popup of another package is refused'
+    $crash = 'mCurrentFocus=Window{c1 u0 Application Error: ' + $twin + '}'
+    $v = Test-PaFocusFacts (Get-PaFocusFacts $crash) $twin @() ('  Window #0 Window{c1 u0 Application Error: ' + $twin + '}:' + $nl + '    mOwnerUid=1000 showForAllUsers=true package=android appop=NONE' + $nl)
+    Assert-PaSelf ((-not $v.Ok) -and $v.Why.Contains('android')) 'focus: the crash dialog (package android) is refused although its title names the app'
+    $v = Test-PaFocusFacts (Get-PaFocusFacts $crash) $twin @() 'nothing useful here'
+    Assert-PaSelf ((-not $v.Ok) -and $v.Kind -eq 'foreign') 'focus: a window whose package cannot be read is refused'
+
+    # ---- every input goes through Invoke-PaInput and stops when the run is stopped
+    $in = 'in' + 'put'
+    Assert-PaSelf (Test-PaAdbInputCommand @('shell', ($in + ' tap 1 1'))) 'input guard: the one-argument form is recognised'
+    Assert-PaSelf (Test-PaAdbInputCommand @('-s', 'x', 'shell', $in, 'keyevent', '4')) 'input guard: the split form is recognised'
+    Assert-PaSelf (Test-PaAdbInputCommand @('shell', ('sleep 1; ' + $in + ' swipe 1 2 3 4'))) 'input guard: a command after a semicolon is recognised'
+    Assert-PaSelf (Test-PaAdbInputCommand @('shell', ('sh -c ''' + $in + ' text a'''))) 'input guard: a command inside sh -c is recognised'
+    Assert-PaSelf (-not (Test-PaAdbInputCommand @('shell', "dumpsys window | grep -E 'mCurrentFocus|mFocusedApp'"))) 'input guard: the focus read is not an input command'
+    Assert-PaSelf (-not (Test-PaAdbInputCommand @('shell', 'uiautomator dump /data/local/tmp/pa-dump.xml'))) 'input guard: a dump is not an input command'
+    $refused = $false
+    try { Invoke-PaAdb @('shell', ($in + ' tap 1 1')) | Out-Null } catch { $refused = $_.Exception.Message.StartsWith('refused:') }
+    Assert-PaSelf $refused 'input guard: Invoke-PaAdb refuses an input command that did not come from Invoke-PaInput'
+    $refused = $false
+    try { Invoke-PaShell ($in + ' keyevent 4') | Out-Null } catch { $refused = $_.Exception.Message.StartsWith('refused:') }
+    Assert-PaSelf $refused 'input guard: Invoke-PaShell cannot be used to type either'
+    $script:Pa.Halted = $true; $script:Pa.HaltReason = 'selftest'
+    foreach ($send in @({ Send-PaTap 1 1 }, { Send-PaKey 'BACK' }, { Send-PaText 'abc' }, { Invoke-PaInput 'swipe' '1 2 3 4 5' })) {
+        $refused = $false
+        try { & $send } catch { $refused = $_.Exception.Message.StartsWith('refused: focus: input is stopped') }
+        Assert-PaSelf $refused 'input guard: a stopped run sends nothing (tap, key, text, swipe)'
+    }
+    $script:Pa.Halted = $false; $script:Pa.HaltReason = ''
+    $refused = $false
+    try { Invoke-PaInput 'roll' '1 1' } catch { $refused = $true }
+    Assert-PaSelf $refused 'input guard: only tap, swipe, text and keyevent exist'
+    $scriptDir = $script:PaLibDir
+    $scanned = 0
+    foreach ($f in @(Get-ChildItem -LiteralPath $scriptDir -Filter '*.ps1' -File)) {
+        $leaks = @(Get-PaInputLeaks (Read-PaTextFile $f.FullName))
+        Assert-PaSelf ($leaks.Count -eq 0) ('input guard: ' + $f.Name + ' line ' + $leaks[0])
+        $scanned++
+    }
+    Assert-PaSelf ($scanned -ge 5) 'input guard: the scan saw the tool scripts'
+    $planted = ('function Bad {' + $nl + '    Invoke-PaShell ("' + $in + ' tap 1 1")' + $nl + '}' + $nl +
+        'function Invoke-PaInput {' + $nl + '    Invoke-PaShell ("' + $in + ' tap 1 1")' + $nl + '}' + $nl +
+        'function Worse { Invoke-PaNative $script:Pa.' + 'Adb @(''shell'') }' + $nl + '# ' + $in + ' tap 1 1' + $nl)
+    $found = @(Get-PaInputLeaks $planted)
+    Assert-PaSelf ($found.Count -eq 2 -and $found[0].StartsWith('2:') -and $found[1].StartsWith('7:')) ('input guard: the scan finds a planted leak and a planted direct adb call, and nothing else (' + ($found -join ' | ') + ')')
+
+    # ---- the free adb op: an allow list bound to the package of the session
+    $comp = Get-PaComponent $twin $main
+    $ok = @(
+        @('devices'), @('logcat', '-d'), @('logcat', '-d', '-v', 'threadtime'), @('logcat', '-d', '-s', 'AgiriCut:W'),
+        @('shell', 'dumpsys', 'package', $twin), @('shell', ('dumpsys gfxinfo ' + $twin + ' framestats')), @('shell', 'pidof', $twin),
+        @('shell', 'am', 'force-stop', $twin), @('shell', 'am', 'kill', $twin), @('shell', 'am', 'start', '-n', $comp),
+        @('shell', 'cmd', 'statusbar', 'collapse'), @('shell', 'getprop', 'ro.build.version.release'), @('shell', 'wm', 'size')
+    )
+    foreach ($a in $ok) { Assert-PaSelf ((Test-PaAdbShape $a $twin $false) -eq '') ('adb allow list: ' + ($a -join ' ') + ' is allowed') }
+    $vi = 'in' + 'stall'
+    $vu = 'un' + $vi
+    $clearWord = 'cl' + 'ear'
+    $set = 'sett' + 'ings'
+    $bad = @(
+        @($vi, '-r', 'app.apk'), @(($vi + '-multiple'), '-r', '-d', 'app.apk'), @($vu, $ownerPkg), @($vu, $twin),
+        @('shell', ('pm${IFS}' + $clearWord + ' ' + $ownerPkg)), @('shell', 'pm', $clearWord, $twin), @('shell', 'pm', 'disable-user', $ownerPkg),
+        @('shell', 'cmd', 'package', 'list', 'packages'), @('shell', 'cmd', 'appops', 'set', $ownerPkg, 'RUN_IN_BACKGROUND', 'deny'),
+        @('shell', 'am', 'force-stop', $ownerPkg), @('shell', 'am', 'kill', $ownerPkg), @('shell', 'am', 'force-stop', 'com.example.other'),
+        @('shell', 'am', 'kill', 'com.example.other'), @('shell', 'am', 'start', '-n', ($ownerPkg + '/.MainActivity')),
+        @('shell', 'run-as', $ownerPkg, 'cat', 'files/x'), @('shell', 'run-as', $twin, 'cat', 'files/x'), @('shell', 'rm', '-rf', '/sdcard/x'),
+        @('shell', $set, 'put', 'global', 'x', '1'), @('shell', ($in + ' tap 1 1')), @('shell', 'dumpsys', 'package', $ownerPkg),
+        @('shell', ('dumpsys package ' + $twin + '; reboot')), @('shell', ('dumpsys package ' + $twin + ' | tee /sdcard/x')), @('shell', ('pidof ' + $twin + ' > /sdcard/x')),
+        @('shell', ('dumpsys package ' + $twin + "`nreboot")), @('push', 'a', '/sdcard/a'), @('pull', '/sdcard/a', 'b'), @('reboot'), @('-s', 'x', 'shell', 'getprop', 'a'),
+        @('shell', 'dumpsys', 'package', ($twin + '.other')), @('shell', 'dumpsys', 'package', ('x' + $twin)), @('')
+    )
+    foreach ($a in $bad) { Assert-PaSelf ((Test-PaAdbShape $a $twin $false) -ne '') ('adb allow list: [' + ($a -join ' ') + '] must be refused') }
+    Assert-PaSelf ((Test-PaAdbShape @('shell', 'dumpsys', 'meminfo', $ownerPkg) $ownerPkg $true) -eq '') 'adb allow list: a read-only shape for the owner session'
+    Assert-PaSelf ((Test-PaAdbShape @('shell', 'am', 'force-stop', $ownerPkg) $ownerPkg $true) -ne '') 'adb allow list: an owner session gets no shape that changes anything'
+    Assert-PaSelf ((Test-PaAdbShape @('shell', 'am', 'start', '-n', (Get-PaComponent $ownerPkg $main)) $ownerPkg $true) -ne '') 'adb allow list: an owner session cannot start anything'
+    Assert-PaSelf ((Test-PaAdbShape @('shell', 'dumpsys', 'meminfo', $twin) $ownerPkg $true) -ne '') 'adb allow list: the shapes are bound to the package of the session'
+
+    # ---- the install op only takes an APK of the twin
+    Assert-PaInstallablePackage $twin
+    foreach ($p in @($ownerPkg, 'com.example.other', '', ($twin + '.x'))) {
+        $refused = $false
+        try { Assert-PaInstallablePackage $p } catch { $refused = $_.Exception.Message.StartsWith('refused: install:') }
+        Assert-PaSelf $refused ("install check: the package '" + $p + "' is refused")
+    }
+}
+
 function Invoke-PaLibSelfTest {
     $root = Get-PaScenarioRoot
     $fixture = Join-Path (Join-Path $root 'fixtures') 'dump-sample.xml'
@@ -1934,6 +2388,8 @@ function Invoke-PaLibSelfTest {
     try { Set-PaSystemScales @{ font_scale = '2.0' } } catch { $threw = $true }
     Assert-PaSelf $threw 'system scales refused on the owner package without -AllowSystemSettings'
     $script:Pa.Owner = $false
+
+    Invoke-PaGuardSelfTest
 
     # frame statistics
     $gfx = Read-PaTextFile (Join-Path (Join-Path $root 'fixtures') 'gfxinfo-sample.txt')

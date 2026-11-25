@@ -217,3 +217,18 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   Full text with everything the reviewers checked and found right: `docs/waves/w0/final-review.md`.
 - **11:15, step 0.i started: the findings are fixed** (two Sonnet agents: app, tools), the fixes are
   looked at once by Opus, then everything is built and tested again.
+- **11:55, step 0.i done: the review's findings are fixed and the code of Wave 0 is closed.** All nine
+  findings applied; one Opus look at the fixes found the note fix incomplete (the newest composed
+  host, not the visible one) and two small things, all applied. What changed: Pêt's note host
+  follows the activity's lifecycle; every input the robot injects goes through one function that
+  first reads the focused window and fails closed; the robot's free adb step is an allow list and
+  its install step reads the APK's package; the debug link needs a token that only `run-as` can
+  read (`files/debug-link.token`), so no other app can send it; seeding also checks the package
+  name; the practice banner sits above the screens instead of over them; `local-build.ps1`
+  recompiles from clean when the variant changes. After the fixes: twin, owner-debug and R8 builds
+  green, **804 unit tests, 0 unexpected failures** in both variants, every self-test and check green.
+  The three final APKs are in `dist/final/` (git-ignored). Details: `docs/waves/w0/final-fixes.md`.
+  Committed and pushed for CI. Phone: no.
+- **11:55, step 0.j started: proving on the phone** (owner-debug over the owner's app; see decisions
+  G2 to G6): "before" pictures and numbers from build 32, the rollback APK, the install, the start,
+  the robot's safe scenarios, the practice model through the app's own interface, one real turn.

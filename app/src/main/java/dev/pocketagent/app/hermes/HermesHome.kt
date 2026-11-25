@@ -296,7 +296,7 @@ object SkillTemplate {
     fun render(name: String, description: String): String {
         val desc = description.trim().ifEmpty { "Use when ... (say in one sentence when Hermes should use this skill)." }
         val quoted = "\"" + desc.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", " ") + "\""
-        val title = name.split('-', '_').filter { it.isNotEmpty() }.joinToString(" ").replaceFirstChar { it.titlecase(Texts.currentLocale()) }
+        val title = name.split('-', '_').filter { it.isNotEmpty() }.joinToString(" ").replaceFirstChar { it.uppercase() } // agent-facing file content: locale-invariant (Turkish would make a dotted capital)
         return """---
 name: $name
 description: $quoted

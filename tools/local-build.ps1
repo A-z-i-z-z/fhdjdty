@@ -47,7 +47,12 @@
   dist\owner-backup\ that is newer than the installed app, and the same Linux image. The script never removes an app,
   never clears data, never changes a system setting and never allows a downgrade of the owner's package.
 
-  Output lines for humans and the robot: APK:, PACKAGE:, VERSION:, CERT-SHA256:, INSTALLED-CERT-SHA256:, COMPILE:.
+  Variant safety: the twin and the owner-debug build share one Gradle variant and one build folder. When the previous build of that
+  variant was another identity (a memo under app\build and the generated BuildConfig say so), the Kotlin outputs are deleted and compiled from
+  scratch without the build cache. After every build, and before every install, the APK itself is asked which variant its compiled code
+  believes it is (the start line in the dex files, line VARIANT:); a mismatch stops the script, and an owner install needs owner-debug or owner.
+
+  Output lines for humans and the robot: APK:, PACKAGE:, VARIANT:, VERSION:, CERT-SHA256:, INSTALLED-CERT-SHA256:, COMPILE:.
   Exit codes: 0 ok, 1 error, 2 only the expected Windows symlink test failures, 3 refused for safety.
 
   A plain run stops with a clear message when Java or the Android SDK pieces are missing, when the parts are missing,
@@ -100,9 +105,11 @@ $VersionOffset = 0
 if ($Identity -ne 'twin') { $VersionOffset = 10000 }
 $ApkPath = Join-Path $Repo_Root 'app\build\outputs\apk\debug\app-debug.apk'
 $GradleTask = ':app:assembleDebug'
+$GradleVariant = 'debug'
 if ($Identity -eq 'owner') {
     $ApkPath = Join-Path $Repo_Root 'app\build\outputs\apk\release\app-release.apk'
     $GradleTask = ':app:assembleRelease'
+    $GradleVariant = 'release'
 }
 
 function Write-Info([string]$m) { Write-Host $m }
@@ -495,6 +502,82 @@ function Get-ApkCertSha256([string]$apk) {
     return $m.Groups[1].Value.ToLowerInvariant()
 }
 
+# ---- which variant the compiled code believes it is -------------------------------------------------------------------
+# The twin and the owner-debug build are the same Gradle variant ("debug") in the same build folder. BuildConfig.IS_TWIN and APP_VARIANT are
+# compile-time constants: Kotlin copies them into its callers. A real experiment (twin, then owner-debug, then twin again, each with
+# javap on the Kotlin output) found them always up to date, but nothing here depends on that: when the previous build was another variant the
+# Kotlin outputs are deleted and compiled again from scratch, and after every build the APK itself is asked.
+# The start line of PocketApp ("started Agiri build <commit> (<version>) variant=<APP_VARIANT> signing=...") holds the copied constant and is
+# the very text the phone robot reads to decide whether it is on the test twin, so it is read out of the dex files of the APK.
+# $null when it is not found exactly once with one value (callers refuse: fail closed).
+function Get-ApkCompiledVariant([string]$apk) {
+    Add-Type -AssemblyName System.IO.Compression.FileSystem
+    $latin1 = [System.Text.Encoding]::GetEncoding(28591)
+    $found = New-Object System.Collections.ArrayList
+    $zip = [System.IO.Compression.ZipFile]::OpenRead($apk)
+    try {
+        foreach ($e in $zip.Entries) {
+            if ($e.FullName -notmatch '^classes\d*\.dex$') { continue }
+            $ms = New-Object System.IO.MemoryStream
+            $s = $e.Open()
+            try { $s.CopyTo($ms) } finally { $s.Dispose() }
+            $text = $latin1.GetString($ms.ToArray())
+            $ms.Dispose()
+            $from = 0
+            while ($true) {
+                $i = $text.IndexOf('started Agiri build ', $from, [System.StringComparison]::Ordinal)
+                if ($i -lt 0) { break }
+                $len = [Math]::Min(300, $text.Length - $i)
+                $m = [regex]::Match($text.Substring($i, $len), '^started Agiri build \S+ \([^)]*\) variant=([A-Za-z-]+) ')
+                if ($m.Success -and -not $found.Contains($m.Groups[1].Value)) { [void]$found.Add($m.Groups[1].Value) }
+                $from = $i + 20
+            }
+        }
+    } finally { $zip.Dispose() }
+    if ($found.Count -eq 1) { return [string]$found[0] }
+    return $null
+}
+
+function Get-AppBuildDir { return (Join-Path (Join-Path $Repo_Root 'app') 'build') }
+function Get-VariantMemoPath { return (Join-Path (Get-AppBuildDir) ('agiri-last-variant-' + $GradleVariant + '.txt')) }
+
+# The variant of the BuildConfig that the last Gradle run generated for this Gradle variant ('' when there is none).
+function Get-GeneratedBuildConfigVariant {
+    $dir = Join-Path (Join-Path (Get-AppBuildDir) 'generated\source\buildConfig') $GradleVariant
+    if (-not (Test-Path -LiteralPath $dir)) { return '' }
+    $f = Get-ChildItem -LiteralPath $dir -Recurse -Filter 'BuildConfig.java' -File | Select-Object -First 1
+    if ($null -eq $f) { return '' }
+    $m = [regex]::Match([System.IO.File]::ReadAllText($f.FullName), 'APP_VARIANT\s*=\s*"([^"]*)"')
+    if ($m.Success) { return $m.Groups[1].Value }
+    return ''
+}
+
+# True unless the memo of the last build (a small file under app\build) AND the BuildConfig it generated both say this run's variant.
+function Test-VariantChanged {
+    $memo = ''
+    $p = Get-VariantMemoPath
+    if (Test-Path -LiteralPath $p) { $memo = ([System.IO.File]::ReadAllText($p)).Trim() }
+    return (($memo -ne $Identity) -or ((Get-GeneratedBuildConfigVariant) -ne $Identity))
+}
+
+# Deletes what the Kotlin compiler and the BuildConfig generator left for this Gradle variant (and the incremental caches), so that the next
+# build compiles every Kotlin file again. Only paths under app\build are touched.
+function Clear-KotlinOutputs {
+    $build = Get-AppBuildDir
+    $cap = $GradleVariant.Substring(0, 1).ToUpperInvariant() + $GradleVariant.Substring(1)
+    $dirs = @(
+        (Join-Path $build ('intermediates\built_in_kotlinc\' + $GradleVariant)),
+        (Join-Path $build ('kotlin\compile' + $cap + 'Kotlin')),
+        (Join-Path $build ('tmp\kotlin-classes\' + $GradleVariant)),
+        (Join-Path $build ('intermediates\javac\' + $GradleVariant)),
+        (Join-Path $build ('generated\source\buildConfig\' + $GradleVariant))
+    )
+    foreach ($d in $dirs) {
+        if (-not $d.StartsWith($build + '\')) { Stop-Script ('refusing to delete outside app\build: ' + $d) }
+        if (Test-Path -LiteralPath $d) { Remove-Item -LiteralPath $d -Recurse -Force }
+    }
+}
+
 # ---- adb ----------------------------------------------------------------------------------------------------------
 function Get-AdbBase([string]$adb) {
     $r = Invoke-Native $adb @('devices') $Repo_Root '' '' 60000
@@ -658,6 +741,11 @@ function Test-OwnerBackup($since) {
 function Assert-OwnerInstallAllowed([string]$apk) {
     $badge = Get-ApkBadging $apk
     if (-not (Test-PaOwnerPackage $badge.Package)) { Stop-Refused ('The APK is for ' + $badge.Package + ', not for the owner''s package; refusing an owner install.') }
+    # the package name alone cannot tell a twin build with stale constants from the real thing: the compiled code must say owner-debug or owner
+    $compiled = Get-ApkCompiledVariant $apk
+    if ($compiled -ne 'owner-debug' -and $compiled -ne 'owner') {
+        Stop-Refused ('The compiled code of the APK says variant ''' + $compiled + ''' (not owner-debug or owner, or the start line cannot be read); refusing an owner install.')
+    }
     $built = Get-ApkCertSha256 $apk
     if (-not $built) { Stop-Refused ('The APK has no valid signature: ' + $apk) }
     $info = Get-InstalledPackageInfo $PaOwnerPackage
@@ -737,6 +825,12 @@ function Invoke-Build {
     $gradle = Join-Path $Repo_Root 'gradlew.bat'
     $a = @('--no-daemon', $GradleTask, ('-ProotfsArchive=' + $rootfs), ('-PprootDir=' + $proot), ('-PciRun=' + $bn), ('-PlocalSeq=' + $seq), ('-PgitCommit=' + $commit))
     if ($Identity -eq 'owner-debug') { $a += '-PownerDebug=true' }
+    # The previous build of this Gradle variant was another identity (or nothing is known about it): compile the Kotlin from scratch.
+    if (Test-VariantChanged) {
+        Write-Info ('   the previous build was not ' + $Identity + ': the Kotlin outputs are deleted and compiled again from scratch (no build cache)')
+        Clear-KotlinOutputs
+        $a += '--no-build-cache'
+    }
     # A product left over from an earlier build must never be mistaken for this one.
     if (Test-Path $ApkPath) { Remove-Item -Force $ApkPath }
     # Start-Process with -WorkingDirectory: "cmd /c gradlew.bat" breaks on the apostrophe in the checkout path.
@@ -749,6 +843,8 @@ function Invoke-Build {
     }
     if (-not (Test-Path $ApkPath)) { Stop-Script ('Gradle reported success but ' + $ApkPath + ' does not exist.') }
     Show-ApkFacts $ApkPath
+    # only a build whose APK passed every check is remembered as the last one of its variant
+    [System.IO.File]::WriteAllText((Get-VariantMemoPath), ($Identity + "`n"), $Utf8)
 }
 
 # Prints the grep-able lines and checks that the file is the build that was asked for.
@@ -769,6 +865,12 @@ function Show-ApkFacts([string]$apk) {
         Stop-Script ('The APK has debuggable = ' + $badge.Debuggable + ' but the ' + $Identity + ' build must have ' + $wantDebuggable + '. A stale file at ' + $apk + '?')
     }
     if ($badge.TargetSdk -ne 28) { Stop-Script ('The APK targets SDK ' + $badge.TargetSdk + ', not 28: the extracted Linux image could not run.') }
+    # what the compiled code believes (see Get-ApkCompiledVariant): a stale constant would show here
+    $compiled = Get-ApkCompiledVariant $apk
+    Write-Result ('VARIANT: ' + $(if ($compiled) { $compiled } else { 'unknown' }))
+    if ($compiled -ne $Identity) {
+        Stop-Script ('The compiled code of the APK says variant ''' + $compiled + ''' but this run builds ' + $Identity + '. Nothing is installed; run the build again (it compiles the Kotlin from scratch when the variant changes).')
+    }
 }
 
 # ---- tests ------------------------------------------------------------------------------------------------------
@@ -863,6 +965,10 @@ function Invoke-Install {
     $wantDebuggable = ($Identity -ne 'owner')
     if ($badge.Debuggable -ne $wantDebuggable) {
         Stop-Script ('The APK at ' + $ApkPath + ' has debuggable = ' + $badge.Debuggable + ', not what the ' + $Identity + ' build must be. Build again.')
+    }
+    $compiled = Get-ApkCompiledVariant $ApkPath
+    if ($compiled -ne $Identity) {
+        Stop-Script ('The compiled code of the APK at ' + $ApkPath + ' says variant ''' + $compiled + ''', not what the ' + $Identity + ' build must say. Build again.')
     }
     if ($Identity -eq 'owner' -and -not $AcknowledgeS2.IsPresent) {
         Stop-Refused 'The optimised owner build goes onto the owner''s phone only after experiment S2 passed in the twin. Pass -AcknowledgeS2 once that is true.'

@@ -29,6 +29,9 @@ import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import dev.pocketagent.app.R
 import dev.pocketagent.app.ui.pixel.Mascot
 import dev.pocketagent.app.ui.pixel.MascotMood
@@ -65,12 +68,15 @@ class PetNote(
  * (the oldest one without an action is dropped first); the same text and kind within [DUPLICATE_MS] of the
  * last one is ignored; the visible time is [displayMillis]; the timer is paused while an overlay (a sheet or
  * a dialog) is open; with no host attached nothing becomes visible, and a note older than [STALE_MS] when a
- * host attaches is dropped. Not thread-safe: PetNotes locks around it.
+ * host attaches is dropped. Any number of hosts may be attached at once (two MainActivity instances can be
+ * alive when a share starts a second one; a host counts as attached while its activity is started, not
+ * merely composed): notes are shown while at least one host is attached, and the newest attached
+ * (started) host ([activeHost]) is the one that draws them. Not thread-safe: PetNotes locks around it.
  */
 class PetNoteQueue(private val clock: () -> Long) {
     private val waiting = ArrayList<PetNote>()
     private var nextId = 1L
-    private var hostAttached = false
+    private val hosts = ArrayList<Any>()
     private var overlays = 0
     private var elapsed = 0L
     private var lastTick = 0L
@@ -101,19 +107,35 @@ class PetNoteQueue(private val clock: () -> Long) {
         return note
     }
 
-    /** A host was composed: drops notes older than [STALE_MS] and shows the first of the rest. */
-    fun attach() {
-        hostAttached = true
+    /** The newest attached (started) host, or null when none is attached. Only this host draws the visible note. */
+    val activeHost: Any? get() = hosts.lastOrNull()
+
+    /**
+     * A host was started (identified by [host]; every call without an argument is a new host): drops notes
+     * older than [STALE_MS] and shows the first of the rest.
+     */
+    fun attach(host: Any = Any()) {
+        hosts.add(host)
         val now = clock()
         waiting.removeAll { now - it.postedAt > STALE_MS }
         promote()
     }
 
-    /** The host left: the visible note goes back to the front of the queue. */
-    fun detach() {
-        hostAttached = false
-        visible?.let { waiting.add(0, it) }
-        visible = null
+    /**
+     * A host left ([host], or the newest one when none is named). The visible note goes back to the front of
+     * the queue only when no host is left; otherwise the remaining newest host carries on showing it.
+     */
+    fun detach(host: Any? = null) {
+        if (host == null) {
+            if (hosts.isNotEmpty()) hosts.removeAt(hosts.size - 1)
+        } else {
+            val at = hosts.indexOfFirst { it === host }
+            if (at >= 0) hosts.removeAt(at)
+        }
+        if (hosts.isEmpty()) {
+            visible?.let { waiting.add(0, it) }
+            visible = null
+        }
     }
 
     /** Time passes: expires the visible note when its time is up (never while an overlay is open). */
@@ -154,7 +176,7 @@ class PetNoteQueue(private val clock: () -> Long) {
     }
 
     private fun promote() {
-        if (visible != null || !hostAttached || waiting.isEmpty()) return
+        if (visible != null || hosts.isEmpty() || waiting.isEmpty()) return
         visible = waiting.removeAt(0)
         elapsed = 0L
         lastTick = clock()
@@ -175,9 +197,13 @@ object PetNotes {
     private val lock = Any()
     private val queue = PetNoteQueue { System.nanoTime() / 1_000_000L }
     private val state = MutableStateFlow<PetNote?>(null)
+    private val active = MutableStateFlow<Any?>(null)
 
     /** The note on screen. The host reads it. */
     internal val visible: StateFlow<PetNote?> = state.asStateFlow()
+
+    /** The newest attached host: only that host draws [visible]. */
+    internal val activeHost: StateFlow<Any?> = active.asStateFlow()
 
     /** Shows a note at the bottom of the screen. Any thread; never throws; needs no Context. */
     fun show(text: String, kind: PetNoteKind = PetNoteKind.INFO, actionLabel: String? = null, onAction: (() -> Unit)? = null) {
@@ -197,8 +223,8 @@ object PetNotes {
         }
     }
 
-    internal fun attachHost() = locked { it.attach() }
-    internal fun detachHost() = locked { it.detach() }
+    internal fun attachHost(host: Any) = locked { it.attach(host) }
+    internal fun detachHost(host: Any) = locked { it.detach(host) }
     internal fun tick() = locked { it.tick() }
     internal fun dismissVisible() = locked { it.dismissVisible() }
     internal fun overlayOpened() = locked { it.overlayOpened() }
@@ -207,6 +233,7 @@ object PetNotes {
     private fun locked(block: (PetNoteQueue) -> Unit) {
         synchronized(lock) {
             block(queue)
+            active.value = queue.activeHost
             state.value = queue.visible
         }
     }
@@ -236,11 +263,38 @@ private fun PetNoteKind.mood(): MascotMood = when (this) {
 fun PetNoteHost(modifier: Modifier = Modifier) {
     val c = Pocket.colors
     val motion = Pocket.motion
-    DisposableEffect(Unit) {
-        PetNotes.attachHost()
-        onDispose { PetNotes.detachHost() }
+    // Two MainActivity instances can be alive (a share starts a second one): each host has its own token and
+    // only the newest STARTED host draws, so a host that is stopped (behind the other task) or gone never
+    // swallows a note, and one host leaving never turns the other one off. With no started host, notes wait.
+    val token = remember { Any() }
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner, token) {
+        var attached = false
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_START -> if (!attached) {
+                    attached = true
+                    PetNotes.attachHost(token)
+                }
+                Lifecycle.Event.ON_STOP -> if (attached) {
+                    attached = false
+                    PetNotes.detachHost(token)
+                }
+                else -> {}
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+            if (attached) {
+                attached = false
+                PetNotes.detachHost(token)
+            }
+        }
     }
-    val note by PetNotes.visible.collectAsState()
+    val current by PetNotes.visible.collectAsState()
+    val activeHost by PetNotes.activeHost.collectAsState()
+    val note = if (activeHost === token) current else null
     var shown by remember { mutableStateOf<PetNote?>(null) }
     val frac = remember { Animatable(0f) }
     LaunchedEffect(note?.id) {

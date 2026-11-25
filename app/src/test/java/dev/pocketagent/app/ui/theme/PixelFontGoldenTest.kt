@@ -50,7 +50,8 @@ class PixelFontGoldenTest {
                 return
             }
         }
-        val golden = text.lines().filter { it.isNotBlank() }
+        // CI checks the file out with LF, this PC with CRLF: the comparison must not depend on it.
+        val golden = text.replace("\r\n", "\n").replace('\r', '\n').split('\n').filter { it.isNotBlank() }
         assertNotNull(golden)
         assertEquals("the golden file is not empty", false, golden.isEmpty())
         for (line in golden) {

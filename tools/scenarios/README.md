@@ -27,6 +27,32 @@ Every op that changes data starts with `Assert-PaTwinTarget` (package is the twi
 `dist\phone-test\system-settings-backup.json`, restores them in a `finally`, and on the owner's package works only with
 `-AllowSystemSettings` (the lead passes it).
 
+### The focus guard (every tap, swipe, key and text)
+
+An earlier experiment sent blind taps into a third-party app after the app under test had crashed. So the robot sends no input without first
+reading which window has the focus (`dumpsys window`: `mCurrentFocus`, with `mFocusedApp` as the second source; a window whose name carries no
+package is looked up in `dumpsys window windows`). It continues only when that window belongs to the package under test, or, for the few ops
+named in the one table `$script:PaFocusAllow` of `phone-lib.ps1`, to a system surface that op may meet (`notification`: the shade; `pick`: the
+file picker and the permission dialog; `key`: the permission dialog and the share chooser, BACK only). Cached taps and every swipe of a repeat
+are checked one by one. Anything else: no input is sent, the step fails with `refused: focus: focus is <package> (window '<name>'), not <app>`,
+a picture `focus-refused` is taken, and the run stops (exit 3). Input stays stopped until a `link` step has put the app in front again; the
+runners' `finally` blocks do that (an explicit link, no input) before they switch practice mode off. One function, `Invoke-PaInput`, spells the
+device command; `Invoke-PaAdb` refuses an input command from anywhere else, and `phone-test.ps1 -SelfTest` greps every `tools\*.ps1` for one.
+
+### The free `adb` and the `install` op (twin only)
+
+`adb` runs only an exact shape of a short allow list (`$script:PaAdbShapes`: `devices`, `logcat -d ...`, a few `dumpsys` reads, `pidof`,
+`am start -n`, `am force-stop`, `am kill`, `cmd statusbar`, `getprop`, `wm size`), each bound to the package of the session; no shell
+metacharacter, no other package, nothing that installs, removes, clears, writes, taps or types. `install` reads the package of the APK with
+`aapt2` first and refuses unless it is the twin's: the twin and the owner-debug build leave their APK at the same path, and the owner package
+is installed by `tools\local-build.ps1` only (behind `Assert-OwnerInstallAllowed`).
+
+### The debug link and its token
+
+`link` with `debug` extras carries `--es token <T>` where T is the content of `files/debug-link.token` of the app under test (read through
+`run-as`; the app makes the file at its first start; the robot starts the app once when it is missing). The extra is added by the robot; a
+scenario never names it.
+
 ## File format
 
 ```json

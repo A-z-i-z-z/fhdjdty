@@ -143,7 +143,7 @@ Memory mode (cut item 1): phases `M0` app only (Hermes stopped), `M1` Hermes idl
 
 | op | Parameters | Behaviour / failure |
 |---|---|---|
-| `link` | `action` (`OPEN_CHAT` `NEW_CHAT` `TERMINAL` `ROUTINES` `USAGE`, extra `conv_id`) or `debug` {`route`,`clock`,`lang`,`rtl`,`reset`} or `intent` {`action`,`data`} | `am start -a dev.pocketagent.app.<ACTION> -n <Get-PaComponent> [-d agiri://chat/<id>] --es k v`; `debug` sends `-a dev.pocketagent.app.DEBUG` (NAV; twin only). Fails when `am` prints `Error` |
+| `link` | `action` (`OPEN_CHAT` `NEW_CHAT` `TERMINAL` `ROUTINES` `USAGE`, extra `conv_id`) or `debug` {`route`,`clock`,`lang`,`rtl`,`reset`} or `intent` {`action`,`data`} | `am start -a dev.pocketagent.app.<ACTION> -n <Get-PaComponent> [-d agiri://chat/<id>] --es k v`; `debug` sends `-a dev.pocketagent.app.DEBUG` (NAV; twin only) and the robot adds `--es token <T>` itself (T read with `run-as <pkg> cat files/debug-link.token`). Fails when `am` prints `Error` |
 | `tap` | selector, `timeout` 10 | Waits for the node, `input tap` at the centre of bounds. Fails when absent |
 | `type` | selector or none (focused), `text` (ASCII), `clear` false, `submit` false | Taps the field, `input text` in chunks of 40, `%s` for spaces; `clear` sends 60 deletes first |
 | `wait` | `ms` OR selector OR `state` (`Running`, `Stopped`, `Error`; twin: last `I/State:` line of `app.log`, owner: text of `settings.runtime.state`) OR `log` (regex over `app.log` since scenario start), `gone` false, `timeout` 30 | Polls every 500 ms. Fails on timeout |

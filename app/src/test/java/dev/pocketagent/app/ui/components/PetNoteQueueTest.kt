@@ -114,6 +114,58 @@ class PetNoteQueueTest {
     }
 
     @Test
+    fun secondHostLeavingKeepsTheFirstOneShowingNotes() {
+        val a = Any()
+        val b = Any()
+        queue.attach(a)
+        queue.attach(b)
+        assertSame("the newest host draws", b, queue.activeHost)
+        queue.detach(b)
+        assertSame(a, queue.activeHost)
+        queue.offer("after B left", PetNoteKind.ERROR)
+        assertEquals("after B left", queue.visible?.text)
+    }
+
+    @Test
+    fun firstHostLeavingFirstKeepsTheSecondOneShowingNotes() {
+        val a = Any()
+        val b = Any()
+        queue.attach(a)
+        queue.attach(b)
+        queue.detach(a)
+        assertSame(b, queue.activeHost)
+        queue.offer("after A left", PetNoteKind.ERROR)
+        assertEquals("after A left", queue.visible?.text)
+    }
+
+    @Test
+    fun visibleNoteSurvivesOneOfTwoHostsLeavingAndGoesBackOnlyWhenNoneIsLeft() {
+        val a = Any()
+        val b = Any()
+        queue.attach(a)
+        queue.attach(b)
+        queue.offer("shown", PetNoteKind.INFO)
+        queue.detach(b)
+        assertEquals("shown", queue.visible?.text)
+        assertEquals(0, queue.waitingCount)
+        queue.detach(a)
+        assertNull(queue.visible)
+        assertEquals(1, queue.waitingCount)
+        queue.attach()
+        assertEquals("shown", queue.visible?.text)
+    }
+
+    @Test
+    fun detachingAnUnknownHostChangesNothing() {
+        val a = Any()
+        queue.attach(a)
+        queue.detach(Any())
+        assertSame(a, queue.activeHost)
+        queue.offer("still shown", PetNoteKind.INFO)
+        assertEquals("still shown", queue.visible?.text)
+    }
+
+    @Test
     fun clearEmptiesAll() {
         attached()
         queue.offer("a", PetNoteKind.INFO)

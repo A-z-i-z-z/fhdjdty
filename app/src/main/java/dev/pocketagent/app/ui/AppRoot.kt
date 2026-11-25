@@ -33,7 +33,8 @@ import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -105,6 +106,7 @@ import dev.pocketagent.app.ui.nav.robotRoot
 import dev.pocketagent.app.ui.routines.RoutineEditorScreen
 import dev.pocketagent.app.ui.routines.RoutinesScreen
 import dev.pocketagent.app.ui.settings.PracticeBanner
+import dev.pocketagent.app.ui.settings.practiceBannerShows
 import dev.pocketagent.app.ui.settings.SettingsScreen
 import dev.pocketagent.app.ui.text.ProvideTexts
 import dev.pocketagent.app.ui.theme.AnimLevel
@@ -224,8 +226,12 @@ private fun AppShell() {
     // Height of the bar's own content (without the navigation bar inset): the pet's note rests just above it.
     var barHeight by remember { mutableStateOf(0.dp) }
 
-    // HomeScreen always paints the dark Zagros night sky full-bleed behind the status bar, even in light themes.
-    SystemStatusBarIcons(darkIcons = route != Route.Home && !c.isDark)
+    // True while the practice banner takes the row under the status bar (see PracticeBanner).
+    val practiceOn = practiceBannerShows()
+
+    // HomeScreen always paints the dark Zagros night sky full-bleed behind the status bar, even in light themes; while the
+    // practice banner is on, the area behind the status bar is the banner's own deep background instead.
+    SystemStatusBarIcons(darkIcons = (route != Route.Home || practiceOn) && !c.isDark)
 
     // Links from notifications, launcher shortcuts, the Quick Settings tile and the debug link (see AppLinks / MainActivity).
     LaunchedEffect(link) {
@@ -247,8 +253,13 @@ private fun AppShell() {
     CompositionLocalProvider(LocalNavigator provides nav) {
         Box(Modifier.fillMaxSize().robotRoot()) {
             Column(Modifier.fillMaxSize().background(c.bg).imePadding()) {
+                // The practice-model banner is a row of its own above every screen (it draws nothing while the switch is
+                // off). It takes the status-bar inset, so the screens below consume it while it shows: they are pushed
+                // down instead of being covered, and no top bar pads for the status bar twice.
+                PracticeBanner()
                 Box(
                     Modifier.weight(1f).fillMaxWidth()
+                        .then(if (practiceOn) Modifier.consumeWindowInsets(WindowInsets.statusBars) else Modifier)
                         .then(if (!showBar) Modifier.windowInsetsPadding(bottomSafeInsets()) else Modifier),
                 ) {
                     NavDisplay(nav, Modifier.fillMaxSize()) { entry ->
@@ -265,9 +276,7 @@ private fun AppShell() {
                 }
             }
 
-            // On top of the screens: the practice-model banner (no layout effect), the crash offer, the share dialog,
-            // and last the pet's notes.
-            PracticeBanner(Modifier.align(Alignment.TopCenter).statusBarsPadding())
+            // On top of the screens: the crash offer, the share dialog, and last the pet's notes.
             CrashReportOffer()
 
             share?.let { payload ->

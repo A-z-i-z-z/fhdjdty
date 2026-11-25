@@ -112,6 +112,8 @@ class PocketApp : Application() {
         // Right after the log exists and before anything else is constructed: a crash while building the runtime
         // (build 8's) must reach app.log. It depends on AppLog only.
         Thread.setDefaultUncaughtExceptionHandler(CrashLogger(Thread.getDefaultUncaughtExceptionHandler()))
+        // Builds with test hooks only: the secret a debug link must carry (never throws).
+        DebugLinks.ensureToken(filesDir)
         val paths = Paths(this)
         val settings = Settings(this)
         // Before anything that can call ProviderConfig.savedProblems: it reads the practice flag this sets.

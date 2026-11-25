@@ -159,8 +159,9 @@ A pinned clock is **frozen** (it does not advance). Only code that asks `AppCloc
 
 **The link, exact command line** (robot's `link` step; the twin's component needs the FULL class name because the package is `dev.pocketagent.app.debug` and `.MainActivity` would resolve to `dev.pocketagent.app.debug.MainActivity`, which does not exist):
 ```
-adb shell am start -a dev.pocketagent.app.DEBUG -n dev.pocketagent.app.debug/dev.pocketagent.app.MainActivity --es route chat:abc123 --es clock 2027-03-21T20:30 --es lang tr --es rtl 1
+adb shell am start -a dev.pocketagent.app.DEBUG -n dev.pocketagent.app.debug/dev.pocketagent.app.MainActivity --es route chat:abc123 --es clock 2027-03-21T20:30 --es lang tr --es rtl 1 --es token <T>
 ```
+`T` is `adb shell run-as <pkg> cat files/debug-link.token` (trimmed). The app creates that file at its first start and never rotates it. A link without the right token is ignored and `app.log` gets one line "debug link refused".
 | Extra (all `--es`) | Values | Effect |
 |---|---|---|
 | `route` | A `Route.encode()` key: `home chats chat:<id> bots botnew bot:<id> hermes terminal settings settings:<section> routines routinenew routine:<id> starred` | Stack becomes `DebugLinks.stackFor(route)` through `nav.reset`, after the chats have loaded. Unknown key: listed in `rejected`, nothing opens |

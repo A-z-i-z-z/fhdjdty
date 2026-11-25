@@ -6,6 +6,9 @@ import dev.pocketagent.app.ui.decodeRoute
 import dev.pocketagent.app.ui.nav.NavFlags
 import dev.pocketagent.app.ui.nav.parseNavFlags
 import dev.pocketagent.app.util.AppLog
+import java.io.File
+import java.security.MessageDigest
+import java.security.SecureRandom
 import java.time.ZoneId
 
 /** One extra of a debug link: left alone, cleared back to the normal value, or set. */
@@ -38,10 +41,29 @@ data class DebugRequest(
  * adb shell am start -a dev.pocketagent.app.DEBUG -n PACKAGE/dev.pocketagent.app.MainActivity
  * --es route chat:abc --es clock 2027-03-21T20:30 --es lang tr --es rtl 1 --es reset 1 --es seed chats:120 --es nav back=0,shared=0
  *
- * All extras are strings and all are optional (a missing one means: keep). In a build without test hooks [parse]
- * returns null whatever the extras, so the intent is ignored.
+ * All extras are strings and all are optional (a missing one means: keep), except [EXTRA_TOKEN], which is required.
+ * In a build without test hooks [parse] returns null whatever the extras, so the intent is ignored.
+ *
+ * THE TOKEN (who may send a link). MainActivity is exported (share target), so any installed app could address it
+ * with this action. The link is therefore inert unless it carries `--es token <T>`, where T is the content of the
+ * file `files/debug-link.token` in the app's private directory. [ensureToken] creates that file (32 hex characters
+ * from SecureRandom) at the first start of a build with test hooks and never changes it afterwards (it is removed only
+ * by `pm clear` or an uninstall). Another app cannot read the file; the shell can, on a debuggable build, through
+ * run-as. The protocol for the phone robot, for every link:
+ *
+ * 1. T = `adb shell run-as PACKAGE cat files/debug-link.token`, trimmed (PACKAGE is the package under test: the owner's
+ *    debug build or the twin).
+ * 2. If the file is missing (a fresh install or after `pm clear`), start the app once with its normal launcher intent
+ *    (`adb shell am start -n PACKAGE/dev.pocketagent.app.MainActivity`), wait until it runs and read the file again.
+ * 3. Add `--es token T` to the command line above. A link without the extra, or with a wrong value, is ignored (one
+ *    warning line in app.log: "debug link refused") and changes nothing.
  */
 object DebugLinks {
+    const val EXTRA_TOKEN = "token"
+    const val TOKEN_FILE = "debug-link.token"
+    private const val TOKEN_CHARS = 32
+    private const val TOKEN_MIN = 16
+
     const val EXTRA_ROUTE = "route"
     const val EXTRA_CLOCK = "clock"
     const val EXTRA_LANG = "lang"
@@ -52,9 +74,54 @@ object DebugLinks {
 
     private val LANGUAGE_TAG = Regex("^[A-Za-z]{2,8}([-_][A-Za-z0-9]{1,8})*$")
 
-    /** The request an incoming intent makes, or null (a release build, another action, an intent replayed from Recents). */
-    fun parse(intent: Intent?, debug: Boolean = BuildConfig.TEST_HOOKS, zone: ZoneId = ZoneId.systemDefault()): DebugRequest? {
+    /**
+     * Makes the token file when it is missing or unreadable (a build with test hooks only; never throws). Called once from
+     * PocketApp.onCreate. The token is never rotated, so a link sent while the app starts cold still matches.
+     */
+    fun ensureToken(filesDir: File, debug: Boolean = BuildConfig.TEST_HOOKS) {
+        if (!debug) return
+        try {
+            val file = File(filesDir, TOKEN_FILE)
+            if (readToken(file) != null) return
+            val bytes = ByteArray(TOKEN_CHARS / 2)
+            SecureRandom().nextBytes(bytes)
+            val hex = "0123456789abcdef"
+            file.writeText(bytes.joinToString("") { "${hex[(it.toInt() shr 4) and 0xf]}${hex[it.toInt() and 0xf]}" } + "\n")
+        } catch (e: Exception) {
+            AppLog.w("Debug", "debug link token could not be written", e)
+        }
+    }
+
+    /** The token in [file] (trimmed), or null when the file is missing, unreadable or shorter than a token made here. */
+    internal fun readToken(file: File): String? =
+        try { file.readText().trim().takeIf { it.length >= TOKEN_MIN } } catch (_: Exception) { null }
+
+    /** True when [given] is exactly [expected] (both trimmed, compared in constant time); false when either is missing. */
+    internal fun tokenAccepted(given: String?, expected: String?): Boolean {
+        val g = given?.trim() ?: return false
+        val e = expected?.trim() ?: return false
+        if (e.length < TOKEN_MIN) return false
+        return MessageDigest.isEqual(g.toByteArray(Charsets.UTF_8), e.toByteArray(Charsets.UTF_8))
+    }
+
+    /**
+     * The request an incoming intent makes, or null (a release build, another action, an intent replayed from Recents, a
+     * missing or wrong token). [tokenFile] is `File(filesDir, TOKEN_FILE)`; without it nothing is accepted.
+     */
+    fun parse(
+        intent: Intent?,
+        tokenFile: File? = null,
+        debug: Boolean = BuildConfig.TEST_HOOKS,
+        zone: ZoneId = ZoneId.systemDefault(),
+    ): DebugRequest? {
         if (intent == null || !debug) return null
+        if (intent.action != AppLinks.ACTION_DEBUG) return null
+        if (!tokenAccepted(intent.getStringExtra(EXTRA_TOKEN), tokenFile?.let { readToken(it) })) {
+            if ((intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) == 0) {
+                AppLog.w("Debug", "debug link refused: the token is missing or wrong")
+            }
+            return null
+        }
         val extras = HashMap<String, String?>()
         for (name in listOf(EXTRA_ROUTE, EXTRA_CLOCK, EXTRA_LANG, EXTRA_RTL, EXTRA_RESET, EXTRA_SEED, EXTRA_NAV)) {
             extras[name] = intent.getStringExtra(name)
@@ -182,7 +249,7 @@ object DebugLinks {
     }
 
     private fun runSeed(app: PocketApp, text: String) {
-        if (!BuildConfig.IS_TWIN) {
+        if (!DebugSeeder.isTwinPackage(app)) {
             AppLog.w("Debug", "debug link: seed ignored, only the twin build seeds test data")
             return
         }

@@ -122,6 +122,45 @@ class DebugLinksTest {
         assertEquals(listOf(DebugLinks.EXTRA_NAV), bad.rejected)
     }
 
+    @Test fun tokenMustMatchExactly() {
+        val t = "0123456789abcdef0123456789abcdef"
+        assertTrue(DebugLinks.tokenAccepted(t, t))
+        assertTrue("whitespace around either side does not matter", DebugLinks.tokenAccepted(" $t\n", "$t\n"))
+        assertFalse(DebugLinks.tokenAccepted(null, t))
+        assertFalse(DebugLinks.tokenAccepted(t, null))
+        assertFalse(DebugLinks.tokenAccepted(null, null))
+        assertFalse(DebugLinks.tokenAccepted("", t))
+        assertFalse(DebugLinks.tokenAccepted(t.dropLast(1), t))
+        assertFalse(DebugLinks.tokenAccepted(t + "0", t))
+        assertFalse(DebugLinks.tokenAccepted("f" + t.drop(1), t))
+        // an empty or too short token file never accepts anything, not even an empty extra
+        assertFalse(DebugLinks.tokenAccepted("", ""))
+        assertFalse(DebugLinks.tokenAccepted("abc", "abc"))
+    }
+
+    @Test fun tokenFileIsMadeOnceAndKept() {
+        val dir = java.nio.file.Files.createTempDirectory("agiri-token").toFile()
+        try {
+            val file = java.io.File(dir, DebugLinks.TOKEN_FILE)
+            DebugLinks.ensureToken(dir, debug = false)
+            assertFalse("a build without test hooks writes nothing", file.exists())
+            DebugLinks.ensureToken(dir, debug = true)
+            val first = DebugLinks.readToken(file)
+            assertNotNull(first)
+            assertTrue(Regex("[0-9a-f]{32}").matches(first!!))
+            DebugLinks.ensureToken(dir, debug = true)
+            assertEquals("the token is never rotated", first, DebugLinks.readToken(file))
+            // a damaged file is replaced
+            file.writeText("x")
+            assertNull(DebugLinks.readToken(file))
+            DebugLinks.ensureToken(dir, debug = true)
+            assertNotNull(DebugLinks.readToken(file))
+            assertNull(DebugLinks.readToken(java.io.File(dir, "missing")))
+        } finally {
+            dir.deleteRecursively()
+        }
+    }
+
     @Test fun stackForEveryRoute() {
         val routes = listOf(
             Route.Home, Route.Chats, Route.Chat("c1"), Route.Bots, Route.BotEditor(null), Route.BotEditor("b1"), Route.Hermes,

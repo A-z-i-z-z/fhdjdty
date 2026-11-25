@@ -25,7 +25,11 @@
 
   Output lines: PASS name 41.2s | FAIL name step 7 ... | SKIP name (reason) | A11Y ... | CUT ... | SUMMARY pass=n fail=n skip=n a11y=n cut=n
   Exit codes: 0 all passed, 1 a FAIL or an unlisted finding, 2 usage or environment (no phone, package missing, screen locked),
-  3 nothing ran, or refused for safety (alarm due, practice mode not provable).
+  3 nothing ran, or refused for safety (alarm due, practice mode not provable, or the window in front is not the app under test).
+
+  Focus guard: before EVERY tap, swipe, key and typed text the robot reads which window has the focus (phone-lib.ps1, Invoke-PaInput) and
+  sends nothing unless it belongs to the package under test (or a system surface the op is allowed to meet). Otherwise the scenario fails
+  naming the window, a picture is taken and the run stops with exit 3; only a link step that brings the app back lets input go on.
 #>
 [CmdletBinding()]
 param(
@@ -198,11 +202,14 @@ try {
                 Write-Host ('FAIL {0} practice mode: {1}' -f $name, $msg)
                 if ($msg.StartsWith('refused:')) { $refusedForSafety = $true }
                 if ($StopOnFail) { $stop = $true }
+                # the focus guard stopped the input: nothing else of this run sends any
+                if ($script:Pa.FocusRefused) { $stop = $true; $refusedForSafety = $true }
                 continue
             }
         }
         $r = Invoke-PaScenario $scn (Join-Path $Out $name)
         [void]$results.Add($r)
+        if ($script:Pa.FocusRefused) { $stop = $true; $refusedForSafety = $true }
         if ($r.Status -eq 'PASS') {
             Write-Host ('PASS {0} {1}s' -f $r.Name, (Format-PaMs $r.Seconds))
             if ($r.Detail -ne '') { Write-Host ('NOTE {0}: {1}' -f $r.Name, $r.Detail) }
@@ -216,6 +223,8 @@ try {
 } finally {
     try { Set-PaSystemScales -Restore } catch { Write-Host ('WARNING could not restore the system scales: ' + $_.Exception.Message) }
     if ($script:Pa.PracticeTurnedOn) {
+        # after a stop by the focus guard the app is first brought to the front by a link (no input); the switch is tapped only when it is there
+        Restore-PaForeground
         try { [void](Set-PaPracticeMode $false) } catch { Write-Host ('WARNING practice mode may still be on: ' + $_.Exception.Message) }
     }
     try {

@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.platform.LocalDensity
 import dev.pocketagent.app.ui.pixel.hearthSkyTop
+import dev.pocketagent.app.ui.settings.practiceBannerShows
 import dev.pocketagent.app.ui.theme.Pocket
 
 /**
@@ -38,6 +39,8 @@ internal fun statusScrimAlpha(firstVisibleIndex: Int, firstVisibleOffsetPx: Int,
  */
 @Composable
 internal fun BoxScope.HomeStatusScrim(listState: LazyListState) {
+    // The practice banner takes the status-bar row (Home sits below it): the scrim would cover content there.
+    if (practiceBannerShows()) return
     val colors = Pocket.colors
     val statusPx = WindowInsets.statusBars.getTop(LocalDensity.current)
     val alpha by remember(listState, statusPx) {

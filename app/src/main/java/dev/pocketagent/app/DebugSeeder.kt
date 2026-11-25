@@ -92,7 +92,13 @@ object DebugSeeder {
      * BLOCKING: call off the main thread (it waits up to 5 s for the chat data and a big `chat:` seed makes thousands of writes);
      * may throw [IllegalStateException] (not the twin, or `clear` before the chats are loaded).
      */
-    fun run(app: PocketApp, spec: Spec): String = run(app, spec, BuildConfig.IS_TWIN)
+    fun run(app: PocketApp, spec: Spec): String = run(app, spec, isTwinPackage(app))
+
+    /**
+     * True only on the twin: the build flag AND the twin's package name (the twin is the ".debug" package). The second half does not
+     * depend on a compile-time constant, so a stale incremental compile that inlined the wrong flag can never make the owner's package seed.
+     */
+    internal fun isTwinPackage(app: PocketApp): Boolean = BuildConfig.IS_TWIN && app.packageName.endsWith(".debug")
 
     internal fun run(app: PocketApp, spec: Spec, isTwin: Boolean): String {
         requireTwin(isTwin)

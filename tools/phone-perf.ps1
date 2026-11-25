@@ -25,7 +25,10 @@
   -SelfTest                            no phone; parses the gfxinfo fixture, checks budgets and the line format; prints SELFTEST OK
 
   Exit codes: 0 after a run (budgets are reported), 1 only with -Enforce and a missed budget, 2 usage or environment,
-  3 refused for safety (alarm due, practice mode not provable).
+  3 refused for safety (alarm due, practice mode not provable, or the window in front is not the app under test).
+
+  Focus guard: before EVERY swipe, tap, key and typed text (cached taps too) the robot reads which window has the focus and sends nothing
+  unless it belongs to the package under test; otherwise the run stops with exit 3 (see tools\phone-test.ps1 and phone-lib.ps1).
 #>
 [CmdletBinding()]
 param(
@@ -340,6 +343,8 @@ try {
             try { [void](Set-PaPracticeMode $true) } catch {
                 Write-Host ('FAIL {0} practice mode: {1}' -f $name, $_.Exception.Message)
                 if ($_.Exception.Message.StartsWith('refused:') -or $isOwner) { $refused = $true }
+                # the focus guard stopped the input: no other scenario of this run sends any
+                if ($script:Pa.FocusRefused) { $refused = $true; break }
                 continue
             }
         }
@@ -361,7 +366,11 @@ try {
             $polls += $sampler.Polls
         }
         $script:Pa.Sampler = $null
-        if ($failed -ne '') { Write-Host ('FAIL {0} {1}' -f $name, $failed); continue }
+        if ($failed -ne '') {
+            Write-Host ('FAIL {0} {1}' -f $name, $failed)
+            if ($script:Pa.FocusRefused) { $refused = $true; break }
+            continue
+        }
         $sum = Get-PaFrameSummary ([double[]]@($durations))
         $b = Test-PerfBudget $budget $sum
         if ($kind -eq 'idle') { $b = @{ Pass = $true; Kind = 'NONE'; Detail = '' } }
@@ -394,6 +403,8 @@ try {
     $script:Pa.Hook = $null
     try { Set-PaSystemScales -Restore } catch { Write-Host ('WARNING could not restore the system scales: ' + $_.Exception.Message) }
     if ($practiceOn) {
+        # after a stop by the focus guard the app is first brought to the front by a link (no input); the switch is tapped only when it is there
+        Restore-PaForeground
         try { [void](Set-PaPracticeMode $false) } catch { Write-Host ('WARNING practice mode may still be on: ' + $_.Exception.Message); $refused = $true }
     }
 }
