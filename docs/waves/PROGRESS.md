@@ -10,18 +10,22 @@ for the wave named under "Where we are". Continue from the first step that is no
 
 ## Where we are
 
-*(Rewritten whenever the state changes. Last rewrite: 2026-11-25, 15:10 UTC.)*
+*(Rewritten whenever the state changes. Last rewrite: 2026-11-25, 16:10 UTC.)*
 
-- **Wave 0, Foundation: built, reviewed, green in CI (run 16, `phase0-16`), and installed over the
-  owner's own app as an owner-debug build (version code 1000801). It starts, Hermes runs, the
-  owner's data is byte for byte unchanged.** Its proof on the phone is in progress (step 0.j,
-  part 3): look at the last log entries. What can only be proven on the test twin waits for the
-  owner (see "Waiting for the owner", first row).
-- **Wave 1a (the scene and the real sky, the fire, Pêt, Home 2.0): the eight area drafts are written
-  (`docs/waves/w1/`), the contract `docs/waves/w1a-contract.md` is being merged and reviewed.** No
-  code of Wave 1 exists yet.
-- The subscription's usage limit has stopped the work twice for about two hours each time; the
-  workflows resume by themselves.
+- **The owner's app is back on the pre-wave code** (`dev.pocketagent.app`, version code 1000899,
+  the rollback build; rolled back at 16:02 UTC). Reason: the proof on the phone found two severe
+  defects in Wave 0 (every bottom sheet stays invisible at the phone's normal animation speed; an
+  approval card cannot be answered). The owner's data is byte for byte unchanged through the install
+  and the rollback. **Wave 0 goes back onto the owner's app only after the defects are fixed and the
+  fixes are proven on the twin.**
+- **The test twin is installed** (`dev.pocketagent.app.debug`, since 15:43 UTC; the owner tapped
+  "Install anyway"). From now on everything is tried there first.
+- **Wave 0, Foundation:** built, reviewed, green in CI (run 16). Its phone proof is done
+  (`docs/waves/w0/phone-proof.md`): most of it passed; the defects it found are being fixed (see the
+  last log entries for how far that is).
+- **Wave 1a:** the contract is reviewed (`docs/waves/w1a-contract.md`); slice A (pure logic and
+  tests) is being built in the worktree `dist/wt-w1` (local branch `w1a`). Nothing of Wave 1 is in
+  the work branch's code yet.
 
 ## Handoff: if you are taking over
 
@@ -33,30 +37,34 @@ section, then the log below from the bottom up.
 | Thing | State |
 |---|---|
 | Branch `ccr-bb6d7bcc-9eojyu` | Everything is committed. The last pushed commit that CI built green is `d52bf49` (run 16). Later commits are records, tool fixes found on the phone, and the Wave 1 drafts |
-| The owner's phone | `dev.pocketagent.app` is Wave 0 as an **owner-debug** build (debuggable, committed key, version code 1000801, the same Linux image as before). **The twin `dev.pocketagent.app.debug` is installed since 15:43 UTC (the owner tapped "Install anyway"); it has not been started yet.** `/data/local/tmp/exp-s5` (1.2 GB) is a leftover harness that may be deleted |
+| The owner's phone | `dev.pocketagent.app` is the **rollback build** (pre-wave code `41e8d4d`, debuggable, committed key, version code 1000899, the same Linux image as always). `dev.pocketagent.app.debug` is the **test twin** (Wave 0 debug build, version code 801, never started yet unless the log says so). `/data/local/tmp/exp-s5` (1.2 GB) is a leftover harness that may be deleted |
 | The way back | `dist/rollback/agiri-rollback-1000899.apk` (the pre-wave code; install with `adb install -r`; no data is lost). Safety copies of the owner's data: `dist/owner-backup/*.tar` (no credentials). Both are on the owner's PC only (`dist/` is git-ignored) |
-| Wave 0 on the phone | Proven: install over real data, start, Hermes Running, data unchanged, Home looks the same. In progress or still to do: see "What is left of Wave 0" |
+| Wave 0 on the phone | Proven on the owner's data and then rolled back: install, start, Hermes Running, data unchanged, looks the same, the practice model through the interface, one real turn, navigation. Defects found: `docs/waves/w0/phone-proof.md`. To put Wave 0 back on the owner's app after the fixes: the version code must be above 1000899, so build with `tools\local-build.ps1 -OwnerDebug -BuildNumber 16 -Install` (gives 10016xx); take a fresh copy into `dist/owner-backup/` first |
 | Wave 1a | Drafts and the lead's decisions in `docs/waves/w1/`; the contract `docs/waves/w1a-contract.md` when it exists. Not built |
 
 **What is left of Wave 0** (in this order)
 
-1. Finish step 0.j part 3 (the log says how far it got): the robot's safe scenarios with `-Owner`,
-   the "after" numbers, the practice model through the app's interface, navigation, one real turn.
-   Whatever it finds in the *app* is fixed by a Sonnet agent, looked at by Opus, rebuilt
-   (`tools\local-build.ps1 -OwnerDebug`, then `-Test`), and installed again with
-   `tools\local-build.ps1 -OwnerDebug -Install` (take a fresh copy into `dist/owner-backup/` first:
-   the script insists on it).
-2. Write `docs/perf/w0.md` from `dist/perf/build32/` (before) and `dist/perf/w0-owner-debug/` (after).
-3. Update `README.md` and `docs/APP_OVERVIEW.md` for Wave 0 (not done yet), then commit and push.
-4. **The owner has tapped "Install anyway" for the twin (15:43 UTC), so this is now open:** `tools\local-build.ps1 -Start`
-   (the twin), then experiments S2 and S4 (build `-Release`, install it over the *twin's* package is
-   not possible, so S2 is tried as the plan says: an optimised build under a throwaway package; ask
-   the owner for the tap again), S6 with a throwaway package, S7 (memory), then the twin-only robot
-   scenarios (they are not written yet: contract 11.10) and the fourteen old-debt items of plan 0.4.
-   Only after S2 has passed may the owner's app become the optimised build
-   (`tools\local-build.ps1 -Release -Install -AcknowledgeS2`).
-5. The private signing key (S6) is the owner's to make; until then everything is signed with the
-   committed key.
+1. **Fix the defects of the phone proof** (`docs/waves/w0/phone-proof.md`, both "Defects of the app"
+   lists): the two severe ones first (sheets invisible at normal animation speed; the approval
+   answer refused with HTTP 400 because `execution_generation` is not sent), then dialogs that show
+   Turkish in an English interface, the stretched test language leaking into the normal interface
+   (`app_name`), a failed turn shown as raw JSON, the unlabelled controls, practice tokens counted in
+   the owner's usage. Sonnet fixes, Opus looks, rebuild, unit tests.
+2. **Prove the fixes on the twin** (first start of the twin, practice model on; sheets at animation
+   scale 1; the approval card with Deny and Allow once; dialogs' language). The twin has no
+   credentials and needs none.
+3. **S2 on the twin:** `tools\local-build.ps1 -TwinRelease -Install` (the optimised build over the
+   twin), then Hermes start, the neural voice, backup and restore, the icon switch; then S4 (compile
+   filter) and the smoothness numbers of the optimised build; S7 (memory). Put the debug twin back
+   afterwards (`tools\local-build.ps1 -Install`).
+4. **Smoothness:** the debug numbers after the wave were not better than before (Home idle about
+   1.4 ms per frame slower, though on a warmer phone). Measure the twin's optimised build, and if the
+   scene is still over budget, find out why before Wave 1 adds to it (the stage draws into a
+   framebuffer on the CPU).
+5. Put Wave 0 back on the owner's app (see the table above), write `docs/perf/w0.md`, update
+   `README.md` and `docs/APP_OVERVIEW.md`, commit, push.
+6. The twin-only robot scenarios (not written yet: contract 11.10) and the old-debt items of plan
+   0.4; S6 needs a throwaway package (one more tap by the owner) and the owner's own key.
 
 **What is next after that**
 
@@ -422,3 +430,37 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   native abort. The robot's guarded twin steps refuse this build (it has no debug links), so S2 is
   driven by plain taps through the focus-checked input function. Afterwards a debug twin can be put
   back with `tools\local-build.ps1 -Install` (the script picks a higher version code).
+- **16:02, step 0.j is finished, and the owner's app was rolled back.** Report:
+  `docs/waves/w0/phone-proof.md`.
+  - **Passed on the owner's app:** the practice model through the interface (switch on, banner above
+    the top bar, Hermes restarts in practice, mock answers, a tool step, a long stream that stays at
+    the bottom, a folded thought, an error turn, switch off: the generated files and the owner's
+    provider settings are again exactly what they were, secrets untouched); copy, star, find,
+    regenerate, stop, fork, a local slash command, delete with the new confirm dialog; **one real
+    turn on Hydrogen at low effort: answered in 6 s, 9.8k tokens in, 12 out, no thought leak** (a
+    plain turn cost about 11k before the wave's shorter tool list); navigation state kept; the back
+    swipe pops with the transition after the gesture; the shared avatar travels; Diagnostics shows
+    exit reasons, the guest-code row and Export logs up to the share sheet; the web-lookups row.
+    Every chat the test made was deleted; the owner's one chat was never opened.
+  - **Severe defects found:** (1) every `PocketSheet` (New chat, Chat Controls, tool output, message
+    menu) stays invisible at animation scale 1 and its invisible scrim swallows touches until Back;
+    it only works with animations off, which is how the robot ran until then. (2) An approval card
+    appears but none of its four answers works: Hermes answers HTTP 400 because the app does not
+    send `execution_generation`; the chat's session then stays blocked for minutes. (Approvals had
+    never been tried on a phone before; this one is older than the wave.)
+  - **Other defects:** dialogs and sheets show Turkish in an English interface (the phone's system
+    language is Turkish; the dialog windows do not get the app's language); the app's name on the
+    About row comes from the stretched test language; a failed turn shows the raw stream chunk; the
+    About mascot and the sheet scrim have no spoken label; the tool-output sheet shows the command
+    but not the output; practice tokens seem to count in the owner's usage; in a mirrored layout
+    numbers, paths and the terminal are reordered (for Wave 12's list).
+  - **Smoothness after, debug against debug:** not better. Home scroll 17 to 20 % of frames within
+    8.3 ms (before 23 %), worst 41 to 60 ms (before 25); Home idle 6 to 9 % (before 12 %), median
+    11.0 ms (before 9.7). The phone was about 9 degrees warmer in the after run, so this is not
+    yet proof of a regression, but it must be measured again (handoff, point 4). Streaming a long
+    answer: 21 % within 8.3 ms, worst 44 ms. Cold start 931 ms (before 1,108).
+  - **Rollback:** because of the two severe defects the owner's app was put back on the pre-wave
+    code with `adb install -r dist/rollback/agiri-rollback-1000899.apk` (Success). Checksums of the
+    owner's files before and after: identical. The rolled-back app starts, Hermes Running after
+    11 s, no crash. Hermes was left running (the app starts it when opened). A third safety copy is
+    `dist/owner-backup/2026-11-25-before-rollback.tar`. Phone: yes.
