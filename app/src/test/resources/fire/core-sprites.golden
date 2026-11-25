@@ -1,0 +1,5 @@
+sprite fire_cold 32x36 frames=1 times=1000 palette=ALSWacfghlmorswy sha256=7db62184f33038fc84bcb5a480f87b3b693aea661cab034aedcc176c1f7d7f5f
+sprite fire_out 32x36 frames=4 times=260,260,260,260 palette=ALSWacfghlmorswy sha256=5c5c6223db087c9a34e7323a5c9a537d7944b90686c17c2b1d46e48dd0fd57a3
+sprite fire_low 32x36 frames=6 times=130,130,130,130,130,130 palette=ALSWacfghlmorswy sha256=74b351f9b8eea3c67ddd757077766331b37f1a31a67d0d5e8623c8eb30683201
+sprite fire_mid 32x36 frames=8 times=110,110,110,110,110,110,110,110 palette=ALSWacfghlmorswy sha256=43db60ef8ebbfeaa51e6685bc6f80609346d618e4a5c736117b9340b75c791c7
+sprite fire_high 32x36 frames=8 times=95,95,95,95,95,95,95,95 palette=ALSWacfghlmorswy sha256=06398f5907ea6540ee84cfd9e61b24488018212b89e5b266b616d6c0f94a1996
