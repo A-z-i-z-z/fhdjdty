@@ -189,15 +189,17 @@ Target device: Galaxy S24 Ultra, One UI 9 / Android 17 (SDK 37), arm64, 4 KB pag
     is tested), approval card and approval notification, inline reply from a notification, budget
     warn / block, idle stop, auto-restart after a crash, bot export / import, skill create / delete,
     terminal colours, restoring on another phone.
-  - Nothing of Phase 3 is committed or pushed yet unless `git log` says otherwise: the owner decides.
+  - Committed and pushed as `844e48e`; CI run #14 is green end-to-end (unit tests, proot, rootfs, smoke
+    test, APK, prerelease `phase0-14`). The phone runs local build 32 of the same code. CI run #13 (commit
+    `7523b1b`) had failed for a reason outside the code: Gradle could not download the Kotlin Compose
+    plugin that time; the build files were unchanged and the next run passed.
 
 Next steps, in order:
-1. If Phase 3 is still uncommitted: get the owner's go-ahead, commit, push, and watch the CI run (the
-   manifest, a new `:restart` process and four new provider modes are all new to CI's smoke test).
-2. Try on the phone what the list above says was not tried. Older leftovers: editing `SOUL.md`
+1. Try on the phone what the list above says was not tried. Older leftovers: editing `SOUL.md`
    end-to-end, the live camera shutter, spoken dictation, `/loop`, an approval card, a rootfs update over
    an existing install with user data.
-3. Ideas not built are listed at the end of `docs/APP_OVERVIEW.md` ("What does not exist").
+2. Ideas not built are listed at the end of `docs/APP_OVERVIEW.md` ("What does not exist"). The owner
+   plans to have a detailed plan for the next steps written from that file.
 
 ## Repo map
 
