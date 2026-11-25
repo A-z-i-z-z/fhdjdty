@@ -478,3 +478,19 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   off; read `git diff`, run `tools\local-build.ps1 -Test`, and either finish the proof on the twin
   or `git stash` the changes and start the fixes again from the list in the handoff section.
   Phone: not yet.
+- **16:25, Wave 1a slice B (the art and the data) was started** in its own worktree `dist/wt-w1b`
+  (local branch `w1a-art`, cut from `a1f54df`), next to slice A in `dist/wt-w1` (branch `w1a`).
+  Workflow `w1a-slice-b-art`: five generators (`tools/art/stars.py`, `tools/places/make_places.py`,
+  `tools/art/make_sounds.py`, `tools/art/pet_clips.py`, new builders in `tools/art/craft_art.py`),
+  each written by Sonnet, read by Opus, repaired; then the generators that need no download are run
+  and the contact sheets rendered into `docs/waves/w1/look/`; an Opus reviewer looks at every sprite
+  (keep, fix or cut), one repair round, a second look; its report will be
+  `docs/waves/w1/slice-b-report.md`. **The two downloads (HYG star catalogue, Natural Earth city
+  list) are not made yet:** the owner was asked through the watcher session; until the answer the
+  star table and the city list do not exist and the code falls back (today's 46 stars; zones only).
+  **If you take over:** neither worktree is merged; finished work in them is only what
+  `git -C dist/wt-w1 log` and `git -C dist/wt-w1b log` show as commits above `a1f54df`; uncommitted
+  files there belong to a workflow that was cut off (judge them with the slice's checks: for A a
+  compile and `-Test` in that worktree, for B the scripts' `--check` and `--selftest`).
+  The owner's clarification of 16:20: the session may end earlier or later than 16:00 Quebec time;
+  the work goes on at full pace until it really stops. Phone: no.
