@@ -540,3 +540,27 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   and design) and their findings worked in (`docs/waves/w1b/contract-review.md`). Four workflows now
   run side by side: the Wave 0 defect fixes (main tree), Wave 1a slice A (`dist/wt-w1`), slice B
   (`dist/wt-w1b`), and this one. Phone: no.
+- **20:05 UTC, Wave 1a slice A is finished** (local branch `w1a` in the worktree `dist/wt-w1`,
+  commit `e9dc0bf`: 102 new files, 14,819 lines; not merged into the work branch and not pushed
+  yet). The pure logic of every area and its unit tests: the sky model (sun, moon, stars, planets,
+  moments of the day, seasons, the calendar of days), places and the weather model with its guard,
+  the fire's feed and mathematics, Pêt's brain and placement, the logic of Home 2.0, appearance
+  helpers. Eight areas written by Sonnet, each read by Opus (15 findings, all applied), then
+  integrated: **the twin compiles, 1334 unit tests, 0 unexpected failures** (804 before), `lint-ui`
+  and `strings-check` pass. Reference values of the astronomy were recomputed independently by
+  writer and reviewer. To know: `ui/pixel/PetArt.kt` is a temporary stand-in until slice B's real
+  file lands (same path); three tests skip until slice B's data exists (`PlacesTest` twice,
+  `StarTableTest.realAsset`); open looks for LOOK: a small step of the sky's gold tint at local
+  midnight under the midnight sun, and the far ridge being pure black at night with "black night".
+  Phone: no.
+- **20:05 UTC, slice C was started** in the same worktree (workflow `w1a-slice-c`): everything
+  that draws, hosts or stores for the scene (the sky's draw functions, the renderer pipeline,
+  `SkyHost.kt`, `HearthScene.kt`, the weather layers and stores, the fire's driver and layers,
+  `PetHost.kt`, the model parts of Appearance and the sound engine), with Turkish and French for
+  every new key at once, six areas each read by Opus, an integration (twin and owner-debug compile,
+  unit tests, the checks, stills rendered into `dist/wt-w1/dist/stills-c`), then two Opus reviews of
+  the whole slice (speed and lifecycle; today unchanged and data, with a look at the stills) and a
+  repair. At its end the app must compile and work with today's Home screen (Home 2.0 is slice D).
+  **Merging:** the slices are merged into the work branch only after the Wave 0 defect fixes are
+  committed there, so that the fixes can be proven on the twin without Wave 1 code if wanted.
+  Phone: no.
