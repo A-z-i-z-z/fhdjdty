@@ -679,3 +679,24 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   `docs/waves/w1b-contract.md` from them the way `w1a-contract.md` was made). The twin experiments
   (S2, S4, S7, smoothness) are dropped from this session unless usage remains after the owner's
   install. Slice C is stopped after its integration (no whole-slice review). Phone: in use (twin).
+- **20:25 UTC, STOPPED BY THE USAGE LIMIT. This is the state to take over from.**
+  - **The proof of the fixes on the twin did NOT happen.** The twin was updated in place (version
+    code 802, the fixed Wave 0) and started, but its first start shows the system notice "Android
+    App Compatibility" (a debuggable app whose native libraries are not 16 KB aligned:
+    `libsherpa-onnx-jni.so`, `libproot.so`, `libproot-loader.so`, `libandroidx.graphics.path.so`;
+    buttons "OK" and "Don't Show Again"), and the robot rightly refuses input while a system window
+    has the focus. Every item is "untried" (`docs/waves/w0/fix-proof.md`). **The notice is still
+    open on the phone over the twin.** The lead made one direct tap meant for "Don't Show Again"
+    that landed on the notice's text instead (wrong bounds; nothing happened). The buttons are at
+    OK `[127,2880][524,3015]`, Don't Show Again `[528,2880][1313,3015]`. Next: the owner (or the
+    next agent, with a tap checked against a fresh screen dump) dismisses it on the TWIN, then the
+    proof runs (the item list is at the end of `docs/waves/w0/fix-report.md`). The same notice will
+    appear on the owner's app with an owner-debug build if it was never dismissed there.
+  - **The owner's app is untouched: the rollback build, version code 1000899, working.** The fixed
+    Wave 0 was NOT installed on it, because the proof did not run.
+  - Wave 1a slice C: the worktree `dist/wt-w1` holds a WIP commit on local branch `w1a` (written and
+    reviewed per area; the integration was cut off, so it may not compile). Slice B second half:
+    a WIP commit on local branch `w1a-art` in `dist/wt-w1b` (tables and two sprite repairs cut off,
+    unverified: run the scripts' `--verify`, `--check`, `--selftest`). All workflows are stopped.
+  - A flaw to avoid: the proof workflow treated "untried" items as not failing and went on to the
+    experiments; it was stopped at once and nothing of them ran.
