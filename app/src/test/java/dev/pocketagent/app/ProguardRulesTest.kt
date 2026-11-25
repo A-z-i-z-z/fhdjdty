@@ -64,4 +64,15 @@ class ProguardRulesTest {
         }
         assertFalse("strict shrink mode would drop the unreferenced ones", text.contains("shrinkMode=\"strict\""))
     }
+
+    @Test fun theTwinOverlayIconsSurviveResourceShrinkingInTheOptimisedTwin() {
+        // twin-release (-PtwinRelease=true) shrinks resources with the twin overlays attached: the overlay launcher icons are
+        // chosen at run time (icon switcher) and must match the keep pattern @mipmap/ic_launcher*
+        val dir = listOf(File("src/twin/res/mipmap-anydpi-v26"), File("app/src/twin/res/mipmap-anydpi-v26"), File("../app/src/twin/res/mipmap-anydpi-v26"))
+            .firstOrNull { it.isDirectory }
+        Assume.assumeTrue("twin overlay not reachable", dir != null)
+        val names = dir!!.list()!!.toList()
+        assertTrue(names.isNotEmpty())
+        assertTrue(names.toString(), names.all { it.startsWith("ic_launcher") })
+    }
 }

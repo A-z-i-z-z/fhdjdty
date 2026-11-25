@@ -9,13 +9,19 @@
   Run it (script execution is disabled on this PC, so always go through -ExecutionPolicy Bypass):
     powershell -NoProfile -ExecutionPolicy Bypass -File tools\local-build.ps1 [switches]
 
-  Three builds, one identity each (package names come from tools\build-ids.ps1):
+  Four builds, one identity each (package names come from tools\build-ids.ps1):
     (none)        the TEST TWIN: debug type, package dev.pocketagent.app.debug, label "Agiri Test", marked icons.
                   app\build\outputs\apk\debug\app-debug.apk
     -OwnerDebug   the owner's package as a debug build (no twin suffix, no twin overlays). Used until the twin can be
                   installed. Same output path as the twin: the package of the file is checked before every install.
     -Release      the OWNER build: package dev.pocketagent.app, R8 and resource shrinking, not debuggable.
                   app\build\outputs\apk\release\app-release.apk
+    -TwinRelease  the OPTIMISED TWIN (experiment S2): the release type (R8, resource shrinking, not debuggable, no test hooks)
+                  with the twin's identity: package dev.pocketagent.app.debug, label "Agiri Test", marked icons, the twin's version
+                  scheme (run * 100 + local sequence), the committed key always. Same output file as -Release (the package of the
+                  file is checked before every install). -Install installs it ONLY as an update over the installed twin, with a
+                  version code above the installed one, then runs "cmd package compile -m speed -f" on the twin and prints COMPILE:.
+                  It can never be installed over the owner's package.
 
   Switches
     -FetchParts [phase0-N]   download that release (default: the latest phase0-* release) with gh, verify the APK
@@ -24,19 +30,19 @@
                              Builds afterwards unless -NoBuild is given. (The tag is a plain second word, or -Tag.)
                              Takes the twin APK of the release (Agiri-N-test.apk), or the legacy PocketAgent-phase0-N APK.
     -FromApk <file>          like -FetchParts but from a local APK (needs SHA256SUMS.txt next to it, or -Sums).
-    -Release | -OwnerDebug   which build to make and install (see above); they exclude each other.
+    -Release | -OwnerDebug | -TwinRelease   which build to make and install (see above); they exclude each other.
     -BuildNumber <n>         the CI run number the build belongs to (version 0.2.<n>). Default: the number of the release
                              the parts came from. Refused when lower than that number.
     -Install                 adb install -r the built APK on the one connected phone (-Serial <id> to pick one).
     -Start                   -Install, then launch the app.
-    -NoCompile               skip the compile step (cmd package compile -m speed -f) that follows -Release -Install.
+    -NoCompile               skip the compile step (cmd package compile -m speed -f) that follows -Release or -TwinRelease -Install.
     -CheckSigning            print the certificate digest of the built APK and of the installed app, then exit:
                              0 same, 3 different or not installed.
     -AcknowledgeS2           required for -Release -Install: says that experiment S2 (the optimised build) passed on the twin.
     -AllowReextract          the owner's install normally refuses an APK whose Linux image differs from the installed one
                              (it would extract, park and restore the agent's data). This switch lifts that one refusal.
     -Test                    run :app:testDebugUnitTest from an apostrophe-free copy of the tree (see the note below);
-                             with -OwnerDebug the owner-debug variant is tested.
+                             with -OwnerDebug the owner-debug variant is tested (-TwinRelease tests the twin variant: unit tests run on the debug type).
     -NoBuild                 skip the build (e.g. -FetchParts -NoBuild, or -Install of the APK built last time).
     -ListDevices             only list the phones adb sees (starts the adb server if needed); installs nothing.
 
@@ -47,7 +53,8 @@
   dist\owner-backup\ that is newer than the installed app, and the same Linux image. The script never removes an app,
   never clears data, never changes a system setting and never allows a downgrade of the owner's package.
 
-  Variant safety: the twin and the owner-debug build share one Gradle variant and one build folder. When the previous build of that
+  Variant safety: the twin and the owner-debug build share one Gradle variant and one build folder, and so do the owner build and the
+  twin-release build (the release type). When the previous build of that
   variant was another identity (a memo under app\build and the generated BuildConfig say so), the Kotlin outputs are deleted and compiled from
   scratch without the build cache. After every build, and before every install, the APK itself is asked which variant its compiled code
   believes it is (the start line in the dex files, line VARIANT:); a mismatch stops the script, and an owner install needs owner-debug or owner.
@@ -72,6 +79,7 @@ param(
     [int]$BuildNumber = 0,
     [switch]$Release,
     [switch]$OwnerDebug,
+    [switch]$TwinRelease,
     [switch]$Install,
     [switch]$Start,
     [switch]$NoCompile,
@@ -96,17 +104,22 @@ $Total = [System.Diagnostics.Stopwatch]::StartNew()
 $Utf8 = New-Object System.Text.UTF8Encoding($false)
 
 # Which build this run is about. Package names come only from build-ids.ps1.
-if ($Release.IsPresent -and $OwnerDebug.IsPresent) { Write-Host 'ERROR: -Release and -OwnerDebug exclude each other.' -ForegroundColor Red; exit 1 }
+if (@(@($Release.IsPresent, $OwnerDebug.IsPresent, $TwinRelease.IsPresent) | Where-Object { $_ }).Count -gt 1) {
+    Write-Host 'ERROR: -Release, -OwnerDebug and -TwinRelease exclude each other.' -ForegroundColor Red; exit 1
+}
 $Identity = 'twin'
-if ($Release.IsPresent) { $Identity = 'owner' } elseif ($OwnerDebug.IsPresent) { $Identity = 'owner-debug' }
+if ($Release.IsPresent) { $Identity = 'owner' } elseif ($OwnerDebug.IsPresent) { $Identity = 'owner-debug' } elseif ($TwinRelease.IsPresent) { $Identity = 'twin-release' }
+# The twin and twin-release live in the twin's package; owner and owner-debug in the owner's.
 $TargetPackage = $PaTwinPackage
-if ($Identity -ne 'twin') { $TargetPackage = $PaOwnerPackage }
+if ($Identity -eq 'owner' -or $Identity -eq 'owner-debug') { $TargetPackage = $PaOwnerPackage }
 $VersionOffset = 0
-if ($Identity -ne 'twin') { $VersionOffset = 10000 }
+if ($Identity -eq 'owner' -or $Identity -eq 'owner-debug') { $VersionOffset = 10000 }
+# Debuggable: the two debug builds only. The optimised builds (owner, twin-release) must not be.
+$WantDebuggable = ($Identity -eq 'twin' -or $Identity -eq 'owner-debug')
 $ApkPath = Join-Path $Repo_Root 'app\build\outputs\apk\debug\app-debug.apk'
 $GradleTask = ':app:assembleDebug'
 $GradleVariant = 'debug'
-if ($Identity -eq 'owner') {
+if ($Identity -eq 'owner' -or $Identity -eq 'twin-release') {
     $ApkPath = Join-Path $Repo_Root 'app\build\outputs\apk\release\app-release.apk'
     $GradleTask = ':app:assembleRelease'
     $GradleVariant = 'release'
@@ -790,6 +803,22 @@ function Assert-OwnerInstallAllowed([string]$apk) {
     Write-Info '   owner install allowed: same certificate, higher version code, data copy present, same Linux image'
 }
 
+# Every install of the optimised twin goes through here (after the package, debuggable and variant checks of Invoke-Install).
+# Allowed only as an UPDATE of the installed twin (a new package name would raise the Play Protect dialog again) with a version
+# code above the installed one (a non-debuggable app cannot be downgraded later, and the twin's -d retry is not used for this build).
+function Assert-TwinReleaseInstallAllowed([string]$apk, $badge) {
+    if ($badge.Package -ne $PaTwinPackage) { Stop-Refused ('The APK is for ' + $badge.Package + ', not for the test twin; refusing.') }
+    $info = Get-InstalledPackageInfo $PaTwinPackage
+    if (-not $info.Known) { Stop-Refused 'Could not ask the phone whether the test twin is installed (dumpsys failed or timed out); nothing was changed.' }
+    if (-not $info.Exists) {
+        Stop-Refused ('The test twin (' + $PaTwinPackage + ') is not installed: the optimised twin goes only over an installed twin (a first install would show the Play Protect dialog again). Nothing was changed.')
+    }
+    if ($null -eq $info.VersionCode -or $badge.VersionCode -le $info.VersionCode) {
+        Stop-Refused ('The APK version code ' + $badge.VersionCode + ' is not higher than the installed twin''s ' + $info.VersionCode + '. Build again with the phone connected (the script then picks the next local number).')
+    }
+    Write-Info ('   twin-release install allowed: update over the installed twin, version code ' + $info.VersionCode + ' -> ' + $badge.VersionCode)
+}
+
 function Get-CompileState([string]$pkg) {
     $r = Invoke-Adb @('shell', 'dumpsys', 'package', $pkg) 120000
     $m = [regex]::Match($r.Out, 'arm64[^\r\n]*\[status=([A-Za-z\-]+)\]')
@@ -807,7 +836,8 @@ function Invoke-CompileSpeed([string]$pkg) {
 function Invoke-Build {
     Test-Launcher
     Test-Parts
-    if ($Identity -ne 'owner') { Test-StretchedLanguage }
+    # the optimised builds (release type) carry no stretched test language
+    if ($Identity -ne 'owner' -and $Identity -ne 'twin-release') { Test-StretchedLanguage }
     $bn = Resolve-BuildNumber
     $commit = Get-GitCommitLabel
     $seq = 1
@@ -825,6 +855,7 @@ function Invoke-Build {
     $gradle = Join-Path $Repo_Root 'gradlew.bat'
     $a = @('--no-daemon', $GradleTask, ('-ProotfsArchive=' + $rootfs), ('-PprootDir=' + $proot), ('-PciRun=' + $bn), ('-PlocalSeq=' + $seq), ('-PgitCommit=' + $commit))
     if ($Identity -eq 'owner-debug') { $a += '-PownerDebug=true' }
+    if ($Identity -eq 'twin-release') { $a += '-PtwinRelease=true' }
     # The previous build of this Gradle variant was another identity (or nothing is known about it): compile the Kotlin from scratch.
     if (Test-VariantChanged) {
         Write-Info ('   the previous build was not ' + $Identity + ': the Kotlin outputs are deleted and compiled again from scratch (no build cache)')
@@ -860,9 +891,8 @@ function Show-ApkFacts([string]$apk) {
     if ($badge.Package -ne $TargetPackage) {
         Stop-Script ('The APK is for ' + $badge.Package + ' but this run builds ' + $Identity + ' (' + $TargetPackage + '). A stale file at ' + $apk + '?')
     }
-    $wantDebuggable = ($Identity -ne 'owner')
-    if ($badge.Debuggable -ne $wantDebuggable) {
-        Stop-Script ('The APK has debuggable = ' + $badge.Debuggable + ' but the ' + $Identity + ' build must have ' + $wantDebuggable + '. A stale file at ' + $apk + '?')
+    if ($badge.Debuggable -ne $WantDebuggable) {
+        Stop-Script ('The APK has debuggable = ' + $badge.Debuggable + ' but the ' + $Identity + ' build must have ' + $WantDebuggable + '. A stale file at ' + $apk + '?')
     }
     if ($badge.TargetSdk -ne 28) { Stop-Script ('The APK targets SDK ' + $badge.TargetSdk + ', not 28: the extracted Linux image could not run.') }
     # what the compiled code believes (see Get-ApkCompiledVariant): a stale constant would show here
@@ -958,12 +988,15 @@ function Invoke-Install {
     if (-not (Test-Path $ApkPath)) { Stop-Script ('No APK at ' + $ApkPath + '; build first.') }
     # Stale-file guard: the package of the file must be the one this run is about.
     $pkg = Get-ApkPackage $ApkPath
+    # The optimised twin goes over the installed twin and over nothing else: refused (exit 3) for any other package.
+    if ($Identity -eq 'twin-release' -and $pkg -ne $PaTwinPackage) {
+        Stop-Refused ('The twin-release build installs only over ' + $PaTwinPackage + '; the APK at ' + $ApkPath + ' is for ' + $pkg + '. Nothing was installed.')
+    }
     if ($pkg -ne $TargetPackage) {
         Stop-Script ('The APK at ' + $ApkPath + ' is for ' + $pkg + ', but this run installs ' + $Identity + ' (' + $TargetPackage + '). Build again.')
     }
     $badge = Get-ApkBadging $ApkPath
-    $wantDebuggable = ($Identity -ne 'owner')
-    if ($badge.Debuggable -ne $wantDebuggable) {
+    if ($badge.Debuggable -ne $WantDebuggable) {
         Stop-Script ('The APK at ' + $ApkPath + ' has debuggable = ' + $badge.Debuggable + ', not what the ' + $Identity + ' build must be. Build again.')
     }
     $compiled = Get-ApkCompiledVariant $ApkPath
@@ -974,12 +1007,13 @@ function Invoke-Install {
         Stop-Refused 'The optimised owner build goes onto the owner''s phone only after experiment S2 passed in the twin. Pass -AcknowledgeS2 once that is true.'
     }
     if (Test-PaOwnerPackage $pkg) { Assert-OwnerInstallAllowed $ApkPath }
+    if ($Identity -eq 'twin-release') { Assert-TwinReleaseInstallAllowed $ApkPath $badge }
     $adb = Find-Adb
     $base = Get-AdbBase $adb
     Write-Info ('   adb install -r of ' + $pkg + ' on ' + $base[1])
     $r = Invoke-Native $adb ($base + @('install', '-r', $ApkPath)) $Repo_Root '' '' 900000
     if ($r.ExitCode -ne 0 -or $r.Text -notmatch 'Success') {
-        if ($r.Text -match 'INSTALL_FAILED_VERSION_DOWNGRADE' -and $pkg -eq $PaTwinPackage) {
+        if ($r.Text -match 'INSTALL_FAILED_VERSION_DOWNGRADE' -and $pkg -eq $PaTwinPackage -and $Identity -ne 'twin-release') {
             Write-Info '   version downgrade refused; the test twin may be downgraded, retrying'
             if ($pkg -eq $PaTwinPackage) { $r = Invoke-Native $adb ($base + @('install', '-r', '-d', $ApkPath)) $Repo_Root '' '' 900000 }
         }
@@ -991,7 +1025,7 @@ function Invoke-Install {
         Stop-Script ('adb install failed: ' + $r.Text.Trim())
     }
     Write-Info '   installed (Success)'
-    if ($Identity -eq 'owner' -and -not $NoCompile.IsPresent) { Invoke-CompileSpeed $pkg }
+    if (($Identity -eq 'owner' -or $Identity -eq 'twin-release') -and -not $NoCompile.IsPresent) { Invoke-CompileSpeed $pkg }
     Write-Result ('COMPILE: ' + (Get-CompileState $pkg))
 }
 

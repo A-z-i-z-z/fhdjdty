@@ -41,7 +41,7 @@ class LocalBuildSafetyTest {
         val text = script("tools/local-build.ps1")
         for (name in listOf(
             "Get-ApkPackage", "Get-ApkCertSha256", "Get-InstalledCertSha256", "Get-InstalledVersionCode", "Resolve-LocalSeq",
-            "Assert-OwnerInstallAllowed", "Invoke-CompileSpeed", "Get-CompileState",
+            "Assert-OwnerInstallAllowed", "Assert-TwinReleaseInstallAllowed", "Invoke-CompileSpeed", "Get-CompileState",
         )) {
             assertTrue("function $name is missing", Regex("(?m)^function\\s+" + Regex.escape(name) + "\\b").containsMatchIn(text))
         }
@@ -81,6 +81,37 @@ class LocalBuildSafetyTest {
         assertTrue(text.contains("owner-backup"))
         assertTrue(text.contains("rootfs.stamp"))
         assertTrue(text.contains("AllowReextract"))
+    }
+
+    @Test fun theOptimisedTwinInstallsOnlyOverTheTwin() {
+        val text = script("tools/local-build.ps1").replace("\r\n", "\n")
+        assertTrue("the -TwinRelease switch", text.contains("[switch]\$TwinRelease"))
+        assertTrue("the three builds exclude each other", text.contains("-Release, -OwnerDebug and -TwinRelease exclude each other"))
+        // the identity is chosen from the switch, and twin-release lives in the twin's package, never the owner's
+        assertTrue(text.contains("elseif (\$TwinRelease.IsPresent) { \$Identity = 'twin-release' }"))
+        assertTrue(text.contains("if (\$Identity -eq 'owner' -or \$Identity -eq 'owner-debug') { \$TargetPackage = \$PaOwnerPackage }"))
+        assertTrue(text.contains("\$WantDebuggable = (\$Identity -eq 'twin' -or \$Identity -eq 'owner-debug')"))
+        assertTrue("-PtwinRelease reaches Gradle", text.contains("-PtwinRelease=true"))
+        // Invoke-Install: refuse any other package first, then the update-only assertion, both before the adb install
+        val body = Regex("(?s)function Invoke-Install \\{.*?\\n\\}\\n").find(text)!!.value
+        val refuse = body.indexOf("\$Identity -eq 'twin-release' -and \$pkg -ne \$PaTwinPackage")
+        val assertAt = body.indexOf("Assert-TwinReleaseInstallAllowed")
+        val installAt = body.indexOf("'install', '-r'")
+        assertTrue("package refusal missing", refuse >= 0)
+        assertTrue("assertion call missing", assertAt > refuse)
+        assertTrue("the assertion must come before the adb install", assertAt < installAt)
+        // the twin's downgrade retry is not used for it, and it is compiled with the speed filter like the owner build
+        assertTrue(body.contains("-and \$Identity -ne 'twin-release'"))
+        assertTrue(body.contains("(\$Identity -eq 'owner' -or \$Identity -eq 'twin-release') -and -not \$NoCompile.IsPresent) { Invoke-CompileSpeed"))
+        // the assertion: installed twin only, version code above the installed one
+        val assertion = Regex("(?s)function Assert-TwinReleaseInstallAllowed.*?\\n\\}\\n").find(text)!!.value
+        assertTrue(assertion.contains("\$badge.Package -ne \$PaTwinPackage"))
+        assertTrue(assertion.contains("Get-InstalledPackageInfo \$PaTwinPackage"))
+        assertTrue(assertion.contains("\$badge.VersionCode -le \$info.VersionCode"))
+        assertFalse("it must never be the owner assertion", assertion.contains("PaOwnerPackage"))
+        // the owner build and twin-release share the release folder: a change of variant triggers the clean Kotlin recompile
+        assertTrue(text.contains("((\$memo -ne \$Identity)"))
+        assertTrue(text.contains("if (\$Identity -eq 'owner' -or \$Identity -eq 'twin-release') {"))
     }
 
     @Test fun theSigningScriptNeverPrintsASecret() {

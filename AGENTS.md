@@ -385,6 +385,7 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
   | (none) | Build **the twin** (`dev.pocketagent.app.debug`) with the rootfs and proot from `dist\runtime-parts\` |
   | `-OwnerDebug` | Build the owner's package as a debug build (the interim build while the twin cannot be installed) |
   | `-Release` | Build the owner's optimised build (R8); `-Install` then also needs `-AcknowledgeS2` and compiles the app on the phone |
+  | `-TwinRelease` | Build the optimised twin (experiment S2): R8, not debuggable, no test hooks, the twin's package, label, version scheme and committed key; `-Install` installs it only as an update over the installed twin (higher version code), then compiles it on the phone |
   | `-FetchParts [phase0-N]` | Refresh those parts from a release APK (hash-checked); default latest |
   | `-Install` / `-Start` | Install on the connected phone / also launch the app. Over the owner's package only after its checks pass: same certificate, higher version code, a fresh copy in `dist\owner-backup\`, the same Linux image as on the phone (`-AllowReextract` to override the last) |
   | `-BuildNumber N` | The CI run number the build belongs to (version 0.2.N); the local sequence is found from the phone |

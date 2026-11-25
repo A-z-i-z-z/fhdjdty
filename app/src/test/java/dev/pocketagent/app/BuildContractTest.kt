@@ -26,25 +26,30 @@ class BuildContractTest {
         return candidates.firstOrNull { it.isFile }
     }
 
-    @Test fun theVariantNameIsOneOfTheThree() {
-        assertTrue(BuildConfig.APP_VARIANT, BuildConfig.APP_VARIANT in setOf("owner", "twin", "owner-debug"))
+    /** Both variants that live in the twin's package: the debug twin and the optimised twin (-PtwinRelease=true, experiment S2). */
+    private val twinVariants = setOf("twin", "twin-release")
+
+    @Test fun theVariantNameIsOneOfTheFour() {
+        assertTrue(BuildConfig.APP_VARIANT, BuildConfig.APP_VARIANT in setOf("owner", "twin", "owner-debug", "twin-release"))
     }
 
     @Test fun thePackageIdFollowsTheVariant() {
         assertEquals(ownerPackage, BuildConfig.OWNER_PACKAGE)
         when (BuildConfig.APP_VARIANT) {
-            "twin" -> assertEquals(BuildConfig.OWNER_PACKAGE + ".debug", BuildConfig.APPLICATION_ID)
+            "twin", "twin-release" -> assertEquals(BuildConfig.OWNER_PACKAGE + ".debug", BuildConfig.APPLICATION_ID)
             "owner", "owner-debug" -> assertEquals(BuildConfig.OWNER_PACKAGE, BuildConfig.APPLICATION_ID)
             else -> throw AssertionError("unknown variant ${BuildConfig.APP_VARIANT}")
         }
     }
 
     @Test fun theGatesFollowTheVariant() {
-        // IS_TWIN is true for the twin only; TEST_HOOKS for both debug variants and never for the owner build.
-        assertEquals(BuildConfig.APP_VARIANT == "twin", BuildConfig.IS_TWIN)
-        assertEquals(BuildConfig.APP_VARIANT != "owner", BuildConfig.TEST_HOOKS)
-        // Never gate on DEBUG: the owner build is not debuggable, the debug variants are.
-        assertEquals(BuildConfig.APP_VARIANT != "owner", BuildConfig.DEBUG)
+        // IS_TWIN is true for the two variants in the twin's package (they hold only test data); TEST_HOOKS for the two debug
+        // variants only (twin-release is optimised and not debuggable: no debug links, no stretched language).
+        val debugVariant = BuildConfig.APP_VARIANT == "twin" || BuildConfig.APP_VARIANT == "owner-debug"
+        assertEquals(BuildConfig.APP_VARIANT in twinVariants, BuildConfig.IS_TWIN)
+        assertEquals(debugVariant, BuildConfig.TEST_HOOKS)
+        // Never gate on DEBUG: the owner build and twin-release are not debuggable, the debug variants are.
+        assertEquals(debugVariant, BuildConfig.DEBUG)
     }
 
     @Test fun buildConfigExposesTheDocumentedFields() {
@@ -63,10 +68,10 @@ class BuildContractTest {
         field("GIT_COMMIT", String::class.java)
         assertTrue(BuildConfig.SIGNING_KIND, BuildConfig.SIGNING_KIND in setOf("committed", "private"))
         assertTrue(BuildConfig.CI_RUN >= 0)
-        val scheme = if (BuildConfig.APP_VARIANT == "twin") "agiri-test" else "agiri"
+        val scheme = if (BuildConfig.APP_VARIANT in twinVariants) "agiri-test" else "agiri"
         assertEquals(scheme, BuildConfig.DEEP_LINK_SCHEME)
-        // Debug builds are always signed with the committed test key.
-        if (BuildConfig.TEST_HOOKS) assertEquals("committed", BuildConfig.SIGNING_KIND)
+        // Debug builds and twin-release are always signed with the committed test key.
+        if (BuildConfig.TEST_HOOKS || BuildConfig.APP_VARIANT == "twin-release") assertEquals("committed", BuildConfig.SIGNING_KIND)
     }
 
     @Test fun classesKeepTheirNamesUnderTheSuffix() {
@@ -91,7 +96,7 @@ class BuildContractTest {
         assertTrue("local seq in 0..99", seq in 0..99)
         val name = BuildConfig.VERSION_NAME
         when (BuildConfig.APP_VARIANT) {
-            "twin" -> {
+            "twin", "twin-release" -> {
                 assertEquals(maxOf(BuildConfig.CI_RUN * 100 + seq, 1), BuildConfig.VERSION_CODE)
                 assertTrue(name, Regex("^0\\.2\\.\\d+(-local\\d+)?-test$").matches(name))
             }
@@ -109,11 +114,51 @@ class BuildContractTest {
         // 99 local builds fit under one run's number: the next run starts 100 codes higher.
         val seq = localSeq()
         val next = when (BuildConfig.APP_VARIANT) {
-            "twin" -> (BuildConfig.CI_RUN + 1) * 100
+            "twin", "twin-release" -> (BuildConfig.CI_RUN + 1) * 100
             else -> (10000 + BuildConfig.CI_RUN + 1) * 100
         }
         assertTrue(BuildConfig.VERSION_CODE < next)
         assertTrue(seq <= 99)
+    }
+
+    private fun gradleText(): String {
+        val f = repoFile("app/build.gradle.kts")
+        Assume.assumeTrue("app/build.gradle.kts not reachable from the test's working directory", f != null)
+        return f!!.readText().replace("\r\n", "\n")
+    }
+
+    /** The text of one buildTypes block ("debug" or "release"), from its opening line to the matching closing brace. */
+    private fun buildTypeBlock(gradle: String, name: String): String {
+        val start = Regex("(?m)^        $name \\{\\n").find(gradle)
+        assertNotNull("buildTypes.$name not found", start)
+        val end = gradle.indexOf("\n        }\n", start!!.range.last)
+        assertTrue("end of buildTypes.$name not found", end > 0)
+        return gradle.substring(start.range.first, end)
+    }
+
+    @Test fun twinReleaseNeverGetsTheOwnersPackageOrKey() {
+        val gradle = gradleText()
+        // the property excludes -PownerDebug, and fails the build when both are given
+        assertTrue(gradle.contains("val twinRelease = prop(\"twinRelease\")"))
+        assertTrue(Regex("if\\s*\\(\\s*ownerDebug\\s*&&\\s*twinRelease\\s*\\)\\s*\\{\\s*throw GradleException").containsMatchIn(gradle))
+        // the default identity stays the owner's package; the suffix is added only inside the twinRelease condition of the release type
+        assertTrue(gradle.contains("applicationId = ownerPackage"))
+        val release = buildTypeBlock(gradle, "release")
+        assertTrue(Regex("if\\s*\\(\\s*twinRelease\\s*\\)\\s*\\{\\s*applicationIdSuffix = \"\\.debug\"").containsMatchIn(release))
+        val withoutTwinBranch = release.replace(Regex("if\\s*\\(\\s*twinRelease\\s*\\)\\s*\\{[^}]*\\}"), "")
+        assertFalse("the suffix must not be unconditional in the release type", withoutTwinBranch.contains("applicationIdSuffix"))
+        // identity fields: twin scheme, optimised and not debuggable, no test hooks, never the private key
+        assertTrue(release.contains("twin-release"))
+        assertTrue(release.contains("isDebuggable = false"))
+        assertTrue(release.contains("buildConfigField(\"boolean\", \"TEST_HOOKS\", \"false\")"))
+        assertTrue(release.contains("buildConfigField(\"boolean\", \"IS_TWIN\", if (twinRelease) \"true\" else \"false\")"))
+        assertTrue(release.contains("signingConfig = if (twinRelease || ownerKey == null) signingConfigs.getByName(\"sideload\")"))
+        assertTrue(gradle.contains("val ownerKey: OwnerKey? = if (twinRelease) null else resolveOwnerKey()"))
+        assertTrue(gradle.contains("val ownerSigningKind = if (twinRelease) \"committed\""))
+        // the twin's version scheme applies to it
+        assertTrue(gradle.contains("(variant.buildType == \"release\" && twinRelease)"))
+        // the debug type still adds the suffix unless -PownerDebug
+        assertTrue(Regex("if\\s*\\(\\s*!ownerDebug\\s*\\)\\s*\\{\\s*applicationIdSuffix = \"\\.debug\"").containsMatchIn(buildTypeBlock(gradle, "debug")))
     }
 
     @Test fun theBuildIdsScriptAgreesWithGradle() {

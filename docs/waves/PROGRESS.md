@@ -409,3 +409,16 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   mathematics, the calendar, places and the weather model with its guard, the fire feed, Pêt's
   brain, Home's suggestions). Sonnet per area, Opus review each, one compile and test run in the
   worktree, then a merge into the work branch.
+- **16:05, a fourth build exists: `twin-release`** (for experiment S2). The optimised build (R8, not
+  debuggable, no test hooks) with the twin's package name, label and version scheme, always signed
+  with the committed key: `tools\local-build.ps1 -TwinRelease` (Gradle `-PtwinRelease=true`). It
+  installs only as an update over the installed twin (the script refuses any other package, a
+  missing twin, or a version code that is not higher) and then compiles the app on the phone.
+  One Opus check: nothing to fix; the owner's package is no more reachable than before and the
+  three other variants are unchanged. All four build; 808 unit tests, 0 unexpected failures.
+  Not installed yet. To run S2: with the phone connected, `tools\local-build.ps1 -TwinRelease
+  -Install`, then try in the twin: Hermes start (practice model), the neural voice, backup and
+  restore, the icon switch, and read logcat for `NoSuchMethodError`, `ClassNotFoundException` or a
+  native abort. The robot's guarded twin steps refuse this build (it has no debug links), so S2 is
+  driven by plain taps through the focus-checked input function. Afterwards a debug twin can be put
+  back with `tools\local-build.ps1 -Install` (the script picks a higher version code).

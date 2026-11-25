@@ -18,10 +18,13 @@ fun prop(name: String): String? = providers.gradleProperty(name).orNull?.trim()?
 val gitCommit = prop("gitCommit") ?: gitOutput("rev-parse", "--short=12", "HEAD").ifEmpty { "unknown" }
 
 // ---- Build identity (Wave 0 contract, sections 1.2 and 3.1) ----------------------------------------------------
-// Three variants:
-//   owner       : the release type. Package dev.pocketagent.app, R8 and resource shrinking, not debuggable.
-//   twin        : the debug type. Package dev.pocketagent.app.debug, label "Agiri Test", marked icons, test hooks.
-//   owner-debug : the debug type built with -PownerDebug=true. Package dev.pocketagent.app, no twin overlays, test hooks.
+// Four variants:
+//   owner        : the release type. Package dev.pocketagent.app, R8 and resource shrinking, not debuggable.
+//   twin         : the debug type. Package dev.pocketagent.app.debug, label "Agiri Test", marked icons, test hooks.
+//   owner-debug  : the debug type built with -PownerDebug=true. Package dev.pocketagent.app, no twin overlays, test hooks.
+//   twin-release : the release type built with -PtwinRelease=true (experiment S2). The twin's identity (package suffix .debug, twin
+//                  overlays, twin version scheme, committed key) with the optimised build: R8, not debuggable, no test hooks. It can
+//                  update an installed twin without a new Play Protect dialog and can never be installed over the owner's package.
 // Gradle inputs (all optional):
 //   -PciRun=<int> (alias -PbuildNumber)  the CI run number the build belongs to (default 0)
 //   -PlocalSeq=<0..99>                   0 = a CI build, 1..99 = a local build on top of that run
@@ -30,12 +33,17 @@ val gitCommit = prop("gitCommit") ?: gitOutput("rev-parse", "--short=12", "HEAD"
 //   -Pshrink=true|false                  R8 and resource shrinking of the release type (default true)
 //   -PownerDebug=true                    the debug type with the owner's package (see above)
 //   -PownerSigning=<path>                a properties file with the owner's private key (see resolveOwnerKey)
+//   -PtwinRelease=true                   the release type with the twin's identity (see above); excludes -PownerDebug
 val ciRun = (prop("ciRun") ?: prop("buildNumber"))?.toIntOrNull()?.coerceAtLeast(0) ?: 0
 val localSeq = (prop("localSeq")?.toIntOrNull() ?: 0).coerceIn(0, 99)
 val ownerDebug = prop("ownerDebug")?.lowercase() == "true"
+val twinRelease = prop("twinRelease")?.lowercase() == "true"
+if (ownerDebug && twinRelease) {
+    throw GradleException("AGIRI: -PownerDebug and -PtwinRelease exclude each other (one is the owner's package, the other the twin's).")
+}
 val shrink = prop("shrink")?.lowercase() != "false"
 val ownerPackage = "dev.pocketagent.app"
-// Version scheme: owner and owner-debug (10000+run)*100+seq; twin run*100+seq (never below 1).
+// Version scheme: owner and owner-debug (10000+run)*100+seq; twin and twin-release run*100+seq (never below 1).
 // A local build (seq 1..99) can never pass the next CI run, so a CI build is never a downgrade.
 val ownerVersionCode = (10000 + ciRun) * 100 + localSeq
 val twinVersionCode = maxOf(ciRun * 100 + localSeq, 1)
@@ -95,7 +103,8 @@ fun resolveOwnerKey(): OwnerKey? {
     return OwnerKey(ks, storePw!!, alias!!, keyPw!!)
 }
 
-val ownerKey: OwnerKey? = resolveOwnerKey()
+// The twin-release build never looks for the owner's private key: it is signed with the committed key, whatever the environment holds.
+val ownerKey: OwnerKey? = if (twinRelease) null else resolveOwnerKey()
 if (ownerKeyProblem != null) {
     val problem: String = ownerKeyProblem!!
     // Lazy failure: whatever route leads to packaging or signing the release type stops here, never a silent fallback.
@@ -109,8 +118,10 @@ if (signingKindProp != null && signingKindProp != "private" && signingKindProp !
     throw GradleException("AGIRI: -PsigningKind must be private or committed, got: $signingKindProp")
 }
 // BuildConfig must tell the truth: a key found here signs the build; otherwise CI may say it signs afterwards.
-val ownerSigningKind = if (ownerKey != null) "private" else (signingKindProp ?: "committed")
-if (releaseRequested) {
+val ownerSigningKind = if (twinRelease) "committed" else if (ownerKey != null) "private" else (signingKindProp ?: "committed")
+if (twinRelease) {
+    logger.lifecycle("AGIRI: twin-release build (optimised, twin package) signed with the committed test key")
+} else if (releaseRequested) {
     logger.lifecycle(if (ownerKey != null) "AGIRI: owner build signed with the private key"
         else "AGIRI: owner build signed with the committed test key" + (if (ownerSigningKind == "private") " (CI signs it with the private key afterwards)" else ""))
 }
@@ -248,19 +259,26 @@ android {
         }
         // release = the owner's build: optimised (R8 and resource shrinking, switch -Pshrink=false), not debuggable.
         // Class and method names stay readable (-dontobfuscate in proguard-rules.pro) so crash traces in app.log make sense.
+        // With -PtwinRelease=true the same type takes the twin's identity (variant "twin-release"): package suffix .debug, twin
+        // overlays and version scheme, always the committed key (ownerKey is null then), IS_TWIN true (it has the twin's package and holds
+        // only test data), TEST_HOOKS false (not debuggable: it is tried as the owner will run it, so no debug links, no stretched language).
         release {
-            signingConfig = if (ownerKey != null) signingConfigs.getByName("owner") else signingConfigs.getByName("sideload")
+            signingConfig = if (twinRelease || ownerKey == null) signingConfigs.getByName("sideload") else signingConfigs.getByName("owner")
             isMinifyEnabled = shrink
             isShrinkResources = shrink
             isDebuggable = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            if (twinRelease) {
+                applicationIdSuffix = ".debug"
+                versionNameSuffix = "-test"
+            }
             buildConfigField("boolean", "TEST_HOOKS", "false")
-            buildConfigField("boolean", "IS_TWIN", "false")
-            buildConfigField("String", "APP_VARIANT", "\"owner\"")
+            buildConfigField("boolean", "IS_TWIN", if (twinRelease) "true" else "false")
+            buildConfigField("String", "APP_VARIANT", if (twinRelease) "\"twin-release\"" else "\"owner\"")
             buildConfigField("String", "SIGNING_KIND", "\"$ownerSigningKind\"")
-            buildConfigField("String", "DEEP_LINK_SCHEME", "\"agiri\"")
-            manifestPlaceholders["deepLinkScheme"] = "agiri"
-            manifestPlaceholders["appVariant"] = "owner"
+            buildConfigField("String", "DEEP_LINK_SCHEME", if (twinRelease) "\"agiri-test\"" else "\"agiri\"")
+            manifestPlaceholders["deepLinkScheme"] = if (twinRelease) "agiri-test" else "agiri"
+            manifestPlaceholders["appVariant"] = if (twinRelease) "twin-release" else "owner"
         }
     }
 
@@ -270,6 +288,10 @@ android {
     // app/src/debug/res/values-en-rXZ/ is the stretched test language (TEXT's) and stays for both debug variants.
     if (!ownerDebug) {
         sourceSets.getByName("debug").res.srcDir("src/twin/res")
+    }
+    // The twin-release build (-PtwinRelease=true) carries the same overlays on the release source set.
+    if (twinRelease) {
+        sourceSets.getByName("release").res.srcDir("src/twin/res")
     }
 
     packaging {
@@ -315,8 +337,8 @@ androidComponents {
         }
         variant.sources.assets?.addGeneratedSourceDirectory(prep, PrepareRuntimeTask::assetsOut)
         variant.sources.jniLibs?.addGeneratedSourceDirectory(prep, PrepareRuntimeTask::jniOut)
-        // Only the twin has its own version scheme (run*100+seq); every other variant keeps the owner scheme set in defaultConfig.
-        if (variant.buildType == "debug" && !ownerDebug) {
+        // Only the twin and twin-release have their own version scheme (run*100+seq); every other variant keeps the owner scheme set in defaultConfig.
+        if ((variant.buildType == "debug" && !ownerDebug) || (variant.buildType == "release" && twinRelease)) {
             variant.outputs.forEach { output -> output.versionCode.set(twinVersionCode) }
         }
     }

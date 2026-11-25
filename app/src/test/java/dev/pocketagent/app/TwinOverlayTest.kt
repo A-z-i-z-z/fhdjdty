@@ -105,4 +105,13 @@ class TwinOverlayTest {
         assertFalse(File(appDir, "src/debug/res/xml/shortcuts.xml").exists())
         assertFalse(File(appDir, "src/debug/res/drawable/twin_badge.xml").exists())
     }
+
+    @Test fun theOptimisedTwinGetsTheOverlayOnTheReleaseSourceSetOnlyWithTwinRelease() {
+        Assume.assumeTrue("app directory not reachable", appDir != null)
+        val gradle = File(appDir, "build.gradle.kts").readText()
+        assertTrue(Regex("if\\s*\\(\\s*twinRelease\\s*\\)\\s*\\{[^}]*sourceSets\\.getByName\\(\"release\"\\)\\.res\\.srcDir\\(\"src/twin/res\"\\)").containsMatchIn(gradle))
+        // nothing else attaches the overlay to the release source set: the owner build keeps its own label and icons
+        assertEquals(1, Regex("getByName\\(\"release\"\\)\\.res\\.srcDir").findAll(gradle).count())
+        assertFalse(File(appDir, "src/release").exists())
+    }
 }
