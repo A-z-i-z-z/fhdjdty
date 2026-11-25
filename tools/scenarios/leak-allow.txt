@@ -14,3 +14,18 @@ config\.yaml
 ^google/
 ^gemini-
 ^practice-model
+# Added by the Wave 0 phone proof (first run on the real phone): text that is a name, a number or a command's own output, not an interface string.
+# Language names stay in their own language ("T?rk?e" in a dump of this PC's console is Türkçe).
+^English$
+^T.rk.e$
+^Fran.ais$
+# Voice names with their model code, the voice model's name
+\([FM][0-9]\)$
+^Supertonic
+# Dates and times formatted by the system
+^[A-Z][a-z]{2} [0-9]{1,2}(, [0-9]{4} [0-9:]{4,5})?$
+^[0-9]{1,2} [A-Z][a-z]{2}$
+# The terminal screen shows what the guest prints
+^\$ hermes
+^hermes (--help|status)$
+^(Install directory|Install method|Python|OpenAI SDK):? 

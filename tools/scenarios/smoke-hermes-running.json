@@ -5,6 +5,7 @@
   "safe": true,
   "timeoutSec": 260,
   "steps": [
+    {"op": "link", "debug": {"route": "home"}},
     {"op": "tap", "any": [{"tag": "tab.settings"}, {"desc": "Settings"}]},
     {"op": "tap", "any": [{"tag": "settings.section.runtime"}, {"text": "Runtime"}]},
     {"op": "wait", "state": "Running", "timeout": 180},

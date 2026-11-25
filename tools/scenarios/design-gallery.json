@@ -7,6 +7,7 @@
   "steps": [
     {"op": "link", "debug": {"route": "gallery"}},
     {"op": "wait", "tag": "gallery", "timeout": 10},
+    {"op": "swipe", "dir": "up", "times": 2},
     {"op": "tap", "tag": "gallery.sheet"},
     {"op": "wait", "tag": "sheet", "timeout": 8},
     {"op": "shot", "name": "sheet"},
@@ -22,5 +23,8 @@
     {"op": "wait", "tag": "petnote", "timeout": 8},
     {"op": "shot", "name": "note"},
     {"op": "noCrash"}
+  ],
+  "cleanup": [
+    {"op": "link", "debug": {"route": "home"}}
   ]
 }

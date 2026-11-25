@@ -883,11 +883,23 @@ function Get-PaNodeId($Node) {
 # Interactive nodes of the app without a spoken label. $Pkg is the app's package; $W,$H the screen.
 function Get-PaLabelFindings($Dump, [string]$Pkg, [int]$W, [int]$H) {
     $out = @()
+    # A row that is scrolled half under the top bar or the tab bar shows only a sliver in the dump and its labelled children are cut away:
+    # a node whose vertical extent crosses the lower edge of the top bar or the upper edge of the tab bar is skipped (found on the real phone, Wave 0 proof).
+    $topBand = 0; $navTop = $H
+    foreach ($n in $Dump.Nodes) {
+        if ($n.Package -ne $Pkg) { continue }
+        if ($n.Tag -eq 'top.back' -or $n.Tag -eq 'top.title') { if ($n.B -gt $topBand) { $topBand = $n.B } }
+        elseif ($n.Tag -eq 'nav.bar') { if ($n.T -lt $navTop) { $navTop = $n.T } }
+    }
     foreach ($n in $Dump.Nodes) {
         if ($n.Package -ne $Pkg) { continue }
         if (-not ($n.Clickable -or $n.Checkable -or $n.LongClickable)) { continue }
         if (($n.R - $n.L) -le 4 -or ($n.B - $n.T) -le 4) { continue }
         if ($n.R -le 0 -or $n.B -le 0 -or $n.L -ge $W -or $n.T -ge $H) { continue }
+        if ($topBand -gt 0 -and $n.T -lt $topBand -and $n.B -gt $topBand + 2) { continue }
+        if ($navTop -lt $H -and $n.T -lt $navTop -and $n.B -gt $navTop + 2) { continue }
+        # the same for a chip of a sideways scroller that peeks in at the left or right edge of the screen: a narrow sliver whose label is off screen
+        if (($n.R - $n.L) -lt 100 -and ($n.R -ge $W - 1 -or $n.L -le 1)) { continue }
         if ((Get-PaSpokenLabel $n 4) -eq '') { $out += [pscustomobject]@{ Id = (Get-PaNodeId $n); Text = '' } }
     }
     return $out
@@ -1805,7 +1817,11 @@ function Invoke-PaStep($Step, [int]$Depth = 0) {
             'expectNot' { Invoke-PaOpExpect $step $true }
             'shot' { Save-PaShot ([string](Get-PaProp $step 'name' 'shot')) | Out-Null }
             'kill' { Invoke-PaOpKill }
-            'forceStop' { Invoke-PaOpForceStop }
+            'forceStop' {
+                # a force-stop cancels the app's alarms (AGENTS.md): never on a package that is not the twin; the scenario goes on from where the app is
+                if ($script:Pa.Package -eq $PaTwinPackage) { Invoke-PaOpForceStop }
+                else { Write-Host ("  note: forceStop skipped on {0} (it would cancel the owner's alarms)" -f $script:Pa.Package) }
+            }
             'notification' { Invoke-PaOpNotification $step }
             'noCrash' { Invoke-PaOpNoCrash }
             'key' { Send-PaKey ([string](Get-PaProp $step 'key' '')) }

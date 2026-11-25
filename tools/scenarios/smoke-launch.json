@@ -7,6 +7,7 @@
   "steps": [
     {"op": "forceStop"},
     {"op": "link", "intent": {"action": "android.intent.action.MAIN"}},
+    {"op": "link", "debug": {"route": "home"}},
     {"op": "wait", "timeout": 15, "any": [{"tag": "tab.home"}, {"desc": "Home"}]},
     {"op": "expect", "any": [{"tag": "tab.home"}, {"desc": "Home"}]},
     {"op": "expect", "any": [{"tag": "tab.chats"}, {"desc": "Chats"}]},

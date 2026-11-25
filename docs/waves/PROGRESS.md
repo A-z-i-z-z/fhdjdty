@@ -361,3 +361,28 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   one round of fixes), as for Wave 0.
 - **15:10, the handoff section above was written early**, because the usage limit may stop the work
   before the planned time. It is kept current from here on.
+- **15:30, step 0.j part 3, the robot half is done** (the practice half is running). On the owner's
+  package with `-Owner`:
+  - The focus guard and the debug-link token work on the real phone.
+  - Safe scenarios: first run 5 of 8 passed; the three failures were the scenarios' own (the gallery
+    scenario left the app on the gallery route; the stretched-language sweep counted the owner's own
+    data, language names and dates as "plain English left"). Fixed in the scenario files and the
+    allow list; after that `sweep-labels` passes and the smoke scenarios start from Home. The
+    stretched and mirrored sweep still reports the owner's own texts as leaks, which only a twin
+    with practice data can avoid (reports: `dist/phone-test/0.2.8-local1/`, montages:
+    `dist/proof/w0/montage/`).
+  - **App defects found:** (1) the Pêt picture on the About screen is clickable (the five-tap secret)
+    and has no spoken label; (2) the About row shows the app's name from the stretched test language
+    ("[ÅgîrîÅî]") in an otherwise English interface, also after a cold start: a debug-build resource
+    (`values-en`/`values-en-rXZ`) wins where it must not. Neither touches data; both are debug-build
+    or accessibility matters; they are fixed with the practice half's findings.
+  - Numbers after (debug build against debug build): cold start 931 ms from a dead process (before:
+    1,108 ms); Home scroll and Home idle taken twice (`dist/perf/w0-owner-debug/`, `-run2/`); the
+    table goes into `docs/perf/w0.md` when the practice half has added the streaming numbers.
+  - A second cold start of the new build over its own new state: Hermes Running 10 s later, no
+    warning or error lines, no crash.
+  - "After" pictures of the five tabs: `dist/proof/w0/after/`.
+  - The tool fixes are committed (`tools/phone-lib.ps1`: half-hidden rows are no longer reported as
+    unlabelled; three scenario files; the leak allow list).
+- **15:30, the first text of `docs/waves/w1a-contract.md` exists and is committed as a draft**; two
+  Opus reviewers are reading it. It is not final until the log says "the Wave 1a contract is reviewed".
