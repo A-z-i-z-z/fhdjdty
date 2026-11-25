@@ -216,19 +216,24 @@ Target device: Galaxy S24 Ultra, One UI 9 / Android 17 (SDK 37), arm64, 4 KB pag
   found thirty problems (four serious, all in how the agent's phone powers were guarded). The second
   edition was reviewed by two strong-model reviewers (facts and safety; product and consistency):
   sixty findings, eight of them serious, the most consequential checked in the Hermes source and all
-  worked in, without a second review round. Not committed (the owner did not ask for a commit).
+  worked in, without a second review round.
+
+- **The plan is being executed (from 2026-11-25).** The owner gave the go-ahead through their watcher
+  session: execute the plan wave by wave, the lead only conducting (Sonnet writes, Opus reviews, Haiku
+  does the simplest work), the plan's own recommendation taken for every decision of section 13 while
+  the owner sleeps. **`docs/waves/PROGRESS.md` is the running record: what is done, what was checked
+  on the phone, which commit, what is next, what waits for the owner.** Read it before anything else;
+  it is more current than this section. The plan and the design language are committed (`0e6d1b8`) and
+  are never edited or shortened.
 
 Next steps, in order:
-1. Wait for the owner's go-ahead and their answers to section 13 of `docs/phase4-plan.md` (the order of
-   the waves, the optimised build and the test twin, whether a wave may ship without its extras, a
-   spending cap at the provider for the twin's credential, the first ten languages, the contact address
-   the weather service needs, the 1.0 date). Do not start building before that.
-2. Then Wave 0: run experiments S1 to S7 on the phone (section 8 of the plan), write
-   `docs/waves/w0-contract.md` in the style of `docs/phase3-plan.md`, build, review once, prove, ship.
-   Wave 0 also pays the old debt: everything listed above as "not tried on the phone" becomes a scripted
-   scenario on the practice model (editing `SOUL.md`, `/loop`, the approval card and the rest).
+1. Continue from the first unfinished step in `docs/waves/PROGRESS.md` (Wave 0 at the time of writing:
+   experiments S1 to S7 on the phone, then `docs/waves/w0-contract.md`, build, review once, prove, ship).
+2. Rules that hold for the whole run: never uninstall `dev.pocketagent.app` and never install over it
+   anything signed with another key; experiments and tests run on a twin with its own package name;
+   $0 spend; real-model turns only on `google/gemini-4-hydrogen` at low effort.
 3. Leftovers that need a person or a real device state and stay manual: the live camera shutter, spoken
-   dictation, a rootfs update over an existing install with user data.
+   dictation, a new provider with a real key.
 
 ## Repo map
 
