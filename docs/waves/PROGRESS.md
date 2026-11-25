@@ -33,7 +33,7 @@ section, then the log below from the bottom up.
 | Thing | State |
 |---|---|
 | Branch `ccr-bb6d7bcc-9eojyu` | Everything is committed. The last pushed commit that CI built green is `d52bf49` (run 16). Later commits are records, tool fixes found on the phone, and the Wave 1 drafts |
-| The owner's phone | `dev.pocketagent.app` is Wave 0 as an **owner-debug** build (debuggable, committed key, version code 1000801, the same Linux image as before). The twin is **not** installed (Play Protect; needs the owner's tap). `/data/local/tmp/exp-s5` (1.2 GB) is a leftover harness that may be deleted |
+| The owner's phone | `dev.pocketagent.app` is Wave 0 as an **owner-debug** build (debuggable, committed key, version code 1000801, the same Linux image as before). **The twin `dev.pocketagent.app.debug` is installed since 15:43 UTC (the owner tapped "Install anyway"); it has not been started yet.** `/data/local/tmp/exp-s5` (1.2 GB) is a leftover harness that may be deleted |
 | The way back | `dist/rollback/agiri-rollback-1000899.apk` (the pre-wave code; install with `adb install -r`; no data is lost). Safety copies of the owner's data: `dist/owner-backup/*.tar` (no credentials). Both are on the owner's PC only (`dist/` is git-ignored) |
 | Wave 0 on the phone | Proven: install over real data, start, Hermes Running, data unchanged, Home looks the same. In progress or still to do: see "What is left of Wave 0" |
 | Wave 1a | Drafts and the lead's decisions in `docs/waves/w1/`; the contract `docs/waves/w1a-contract.md` when it exists. Not built |
@@ -48,7 +48,7 @@ section, then the log below from the bottom up.
    the script insists on it).
 2. Write `docs/perf/w0.md` from `dist/perf/build32/` (before) and `dist/perf/w0-owner-debug/` (after).
 3. Update `README.md` and `docs/APP_OVERVIEW.md` for Wave 0 (not done yet), then commit and push.
-4. **When the owner has tapped "Install anyway" once for the twin:** `tools\local-build.ps1 -Start`
+4. **The owner has tapped "Install anyway" for the twin (15:43 UTC), so this is now open:** `tools\local-build.ps1 -Start`
    (the twin), then experiments S2 and S4 (build `-Release`, install it over the *twin's* package is
    not possible, so S2 is tried as the plan says: an optimised build under a throwaway package; ask
    the owner for the tap again), S6 with a throwaway package, S7 (memory), then the twin-only robot
@@ -118,7 +118,7 @@ Decisions that belong to later waves are assumed when their wave starts and are 
 
 | What | Why it waits | How the work goes on without it |
 |---|---|---|
-| **One tap on "Install anyway" ("Yine de yükleyin") when the test twin is installed for the first time.** Command, from the repository root, once Wave 0's build tools exist: `powershell -NoProfile -ExecutionPolicy Bypass -File tools\local-build.ps1 -Start` (it installs `dev.pocketagent.app.debug`, "Agirî Test"; the phone then shows Play Protect's "unsafe app blocked" dialog; open its details and tap "Install anyway") | Google Play Protect blocks the first install of any new package that targets API 28. Only the owner may override a security warning on their phone; no agent taps it, changes Play Protect, or uses a flag that skips verification | The wave is proven on the owner's own package with a debug build signed with the same key (`owner-debug`, exactly the kind of build that was on the phone before), after a read-only copy of the app's data to `dist/owner-backup/`; only non-destructive checks run there. Everything that wipes, seeds, restores or replaces the Linux image, and experiments S2, S4, S6 and S7, wait for the twin |
+| ~~One tap on "Install anyway" for the test twin~~ | **Done 2026-11-25, 15:43 UTC:** the owner tapped it; `dev.pocketagent.app.debug` ("Agirî Test") is installed next to the owner's app | Updates of the twin with the same key need no further tap. A *new* package name (a throwaway package for S6) would need one again |
 | A private signing key for the owner's build (plan 0.1, experiment S6) | The key must exist only on the owner's PC and as a CI secret, and installing a differently signed build over the owner's app is forbidden in this run | The owner's build keeps the committed key. S6 is tried only under a throwaway package name. The build scripts are written so that the key becomes a one-step change later |
 | A test credential imported into the test twin (plan section 6, "What the owner does") | The twin never sees the owner's credentials, and secrets are never typed by an agent | Everything is proven on the practice model (zero tokens). The few real-model checks are done in the owner's app after a wave has shipped to it, on Hydrogen at low effort |
 | A spending cap at the provider (decision 20) | An account setting at the provider | The app's own daily budget; test turns stay few |
@@ -386,3 +386,13 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
     unlabelled; three scenario files; the leak allow list).
 - **15:30, the first text of `docs/waves/w1a-contract.md` exists and is committed as a draft**; two
   Opus reviewers are reading it. It is not final until the log says "the Wave 1a contract is reviewed".
+- **15:43, the test twin is installed.** The owner was at the phone and said so through the watcher
+  session. `tools\local-build.ps1 -Install` built the twin (version code 801, `0.2.8-local1-test`)
+  and started the install; Play Protect's dialog came up; the owner tapped "Install anyway" 14
+  seconds later; `adb` reported Success. Both packages are on the phone; the owner's app is
+  unchanged (version code 1000801, same update time). The twin was not started, because the practice
+  half of the proof was still using the screen. Phone: yes.
+  - What this opens: the twin's first start (unpacking, practice model, no credentials), the
+    twin-only robot scenarios, S7, and S2/S4. **S2 needs no second tap:** an optimised build with the
+    twin's package name installs over the twin as an update (plan for it: a Gradle switch that gives
+    the release build type the twin's suffix; version code above the twin's).
