@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cfg_priv_title">Confidentialité</string>
+    <string name="cfg_priv_web_title">Recherches web</string>
+    <string name="cfg_priv_web_sub">Quand l\'agent cherche sur le web ou lit une page, les mots de la recherche ou l\'adresse de la page sont envoyés à des services publics gratuits (Exa, Parallel, Firecrawl et Keenable). Aucun nom ni compte n\'est transmis. Désactivé, l\'agent n\'a plus de recherche web.</string>
+</resources>

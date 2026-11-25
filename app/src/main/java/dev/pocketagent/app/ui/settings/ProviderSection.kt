@@ -13,7 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import dev.pocketagent.app.ui.text.t
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -65,106 +65,106 @@ internal fun ProviderSection(vm: MainViewModel) {
 
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         // The intro names Gemini: only the Google modes show it (the other providers have their own prov_hint_* text below).
-        if (vm.authMode.google) Muted(stringResource(R.string.ctl_provider_intro))
+        if (vm.authMode.google) Muted(t(R.string.ctl_provider_intro))
         // Provider first: Google (all three Gemini routes, unchanged) stays first, then the other providers.
-        CText(stringResource(R.string.prov_pick), size = 14.sp, weight = FontWeight.SemiBold)
+        CText(t(R.string.prov_pick), size = 14.sp, weight = FontWeight.SemiBold)
         ChipRow {
-            PocketChip(stringResource(R.string.prov_google), selected = vm.authMode.google, onClick = { if (!vm.authMode.google) vm.selectMode(vm.lastGoogleMode) })
-            PocketChip(stringResource(R.string.prov_openrouter), selected = vm.authMode == AuthMode.OPENROUTER, onClick = { vm.selectMode(AuthMode.OPENROUTER) })
-            PocketChip(stringResource(R.string.prov_anthropic), selected = vm.authMode == AuthMode.ANTHROPIC, onClick = { vm.selectMode(AuthMode.ANTHROPIC) })
-            PocketChip(stringResource(R.string.prov_openai), selected = vm.authMode == AuthMode.OPENAI, onClick = { vm.selectMode(AuthMode.OPENAI) })
-            PocketChip(stringResource(R.string.prov_custom), selected = vm.authMode == AuthMode.CUSTOM, onClick = { vm.selectMode(AuthMode.CUSTOM) })
+            PocketChip(t(R.string.prov_google), selected = vm.authMode.google, onClick = { if (!vm.authMode.google) vm.selectMode(vm.lastGoogleMode) })
+            PocketChip(t(R.string.prov_openrouter), selected = vm.authMode == AuthMode.OPENROUTER, onClick = { vm.selectMode(AuthMode.OPENROUTER) })
+            PocketChip(t(R.string.prov_anthropic), selected = vm.authMode == AuthMode.ANTHROPIC, onClick = { vm.selectMode(AuthMode.ANTHROPIC) })
+            PocketChip(t(R.string.prov_openai), selected = vm.authMode == AuthMode.OPENAI, onClick = { vm.selectMode(AuthMode.OPENAI) })
+            PocketChip(t(R.string.prov_custom), selected = vm.authMode == AuthMode.CUSTOM, onClick = { vm.selectMode(AuthMode.CUSTOM) })
         }
-        Muted(stringResource(R.string.prov_keys_note), size = 12.sp)
+        Muted(t(R.string.prov_keys_note), size = 12.sp)
 
         if (vm.authMode.google) {
-            CText(stringResource(R.string.setup_mode), size = 14.sp, weight = FontWeight.SemiBold)
-            ChoiceRow(vm.authMode == AuthMode.API_KEY, stringResource(R.string.mode_api_key), { vm.selectMode(AuthMode.API_KEY) })
-            ChoiceRow(vm.authMode == AuthMode.SERVICE_ACCOUNT, stringResource(R.string.mode_sa), { vm.selectMode(AuthMode.SERVICE_ACCOUNT) })
-            ChoiceRow(vm.authMode == AuthMode.USER_CREDENTIALS, stringResource(R.string.mode_user), { vm.selectMode(AuthMode.USER_CREDENTIALS) })
+            CText(t(R.string.setup_mode), size = 14.sp, weight = FontWeight.SemiBold)
+            ChoiceRow(vm.authMode == AuthMode.API_KEY, t(R.string.mode_api_key), { vm.selectMode(AuthMode.API_KEY) })
+            ChoiceRow(vm.authMode == AuthMode.SERVICE_ACCOUNT, t(R.string.mode_sa), { vm.selectMode(AuthMode.SERVICE_ACCOUNT) })
+            ChoiceRow(vm.authMode == AuthMode.USER_CREDENTIALS, t(R.string.mode_user), { vm.selectMode(AuthMode.USER_CREDENTIALS) })
         }
 
         when (vm.authMode) {
             AuthMode.API_KEY -> {
                 ChipRow {
-                    PocketChip(stringResource(R.string.endpoint_studio), selected = vm.endpoint == ApiEndpoint.STUDIO, onClick = { vm.selectEndpoint(ApiEndpoint.STUDIO) })
-                    PocketChip(stringResource(R.string.endpoint_express), selected = vm.endpoint == ApiEndpoint.VERTEX_EXPRESS, onClick = { vm.selectEndpoint(ApiEndpoint.VERTEX_EXPRESS) })
+                    PocketChip(t(R.string.endpoint_studio), selected = vm.endpoint == ApiEndpoint.STUDIO, onClick = { vm.selectEndpoint(ApiEndpoint.STUDIO) })
+                    PocketChip(t(R.string.endpoint_express), selected = vm.endpoint == ApiEndpoint.VERTEX_EXPRESS, onClick = { vm.selectEndpoint(ApiEndpoint.VERTEX_EXPRESS) })
                 }
-                Muted(stringResource(if (vm.endpoint == ApiEndpoint.STUDIO) R.string.endpoint_studio_hint else R.string.endpoint_express_hint), size = 12.sp)
+                Muted(t(if (vm.endpoint == ApiEndpoint.STUDIO) R.string.endpoint_studio_hint else R.string.endpoint_express_hint), size = 12.sp)
                 PocketTextField(
                     vm.apiKeyInput, { vm.apiKeyInput = it }, Modifier.fillMaxWidth(),
-                    label = stringResource(if (vm.hasStoredApiKey) R.string.field_api_key_stored else R.string.field_api_key),
+                    label = t(if (vm.hasStoredApiKey) R.string.field_api_key_stored else R.string.field_api_key),
                     singleLine = true, password = true,
                 )
-                if (vm.hasStoredApiKey) PixelButton(stringResource(R.string.btn_remove_key), onClick = { vm.clearApiKey() }, kind = ButtonKind.GHOST, icon = PixelIcon.TRASH)
+                if (vm.hasStoredApiKey) PixelButton(t(R.string.btn_remove_key), onClick = { vm.clearApiKey() }, kind = ButtonKind.GHOST, icon = PixelIcon.TRASH)
             }
             AuthMode.SERVICE_ACCOUNT, AuthMode.USER_CREDENTIALS -> {
-                Muted(stringResource(if (vm.authMode == AuthMode.SERVICE_ACCOUNT) R.string.sa_hint else R.string.user_hint), size = 12.sp)
+                Muted(t(if (vm.authMode == AuthMode.SERVICE_ACCOUNT) R.string.sa_hint else R.string.user_hint), size = 12.sp)
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     PixelButton(
-                        stringResource(R.string.btn_import_file),
+                        t(R.string.btn_import_file),
                         onClick = { picker.launch(arrayOf("application/json", "text/plain", "application/octet-stream", "*/*")) },
                         kind = ButtonKind.SECONDARY, icon = PixelIcon.PLUS,
                     )
-                    PixelButton(stringResource(R.string.btn_paste_json), onClick = { showPaste = true }, kind = ButtonKind.SECONDARY, icon = PixelIcon.COPY)
+                    PixelButton(t(R.string.btn_paste_json), onClick = { showPaste = true }, kind = ButtonKind.SECONDARY, icon = PixelIcon.COPY)
                 }
                 val have = if (vm.authMode == AuthMode.SERVICE_ACCOUNT) vm.hasServiceAccount else vm.hasUserCredentials
-                Muted(if (have) stringResource(R.string.cred_imported, vm.saSummary) else stringResource(R.string.cred_none))
+                Muted(if (have) t(R.string.cred_imported, vm.saSummary) else t(R.string.cred_none))
                 if (have) PixelButton(
-                    stringResource(R.string.btn_remove_cred),
+                    t(R.string.btn_remove_cred),
                     onClick = { if (vm.authMode == AuthMode.SERVICE_ACCOUNT) vm.removeServiceAccount() else vm.removeUserCredentials() },
                     kind = ButtonKind.GHOST, icon = PixelIcon.TRASH,
                 )
             }
             AuthMode.OPENROUTER, AuthMode.ANTHROPIC, AuthMode.OPENAI, AuthMode.CUSTOM -> {
-                Muted(stringResource(providerHint(vm.authMode)), size = 12.sp)
+                Muted(t(providerHint(vm.authMode)), size = 12.sp)
                 if (vm.authMode == AuthMode.CUSTOM) {
                     PocketTextField(
                         vm.customBaseUrl, { vm.customBaseUrl = it }, Modifier.fillMaxWidth(),
-                        label = stringResource(R.string.prov_field_base_url), placeholder = stringResource(R.string.prov_base_url_placeholder),
+                        label = t(R.string.prov_field_base_url), placeholder = t(R.string.prov_base_url_placeholder),
                         singleLine = true, monospace = true,
                     )
                     if (vm.customBaseUrl.trim().startsWith("http://", ignoreCase = true) && ProviderConfig.normalizeBaseUrl(vm.customBaseUrl) != null) {
-                        Muted(stringResource(R.string.prov_http_note), size = 12.sp)
+                        Muted(t(R.string.prov_http_note), size = 12.sp)
                     }
                 }
                 // The key is never shown again after saving: "stored" + remove, exactly like the Gemini key.
                 PocketTextField(
                     vm.apiKeyInput, { vm.apiKeyInput = it }, Modifier.fillMaxWidth(),
-                    label = stringResource(if (vm.hasStoredApiKey) R.string.field_api_key_stored else providerKeyLabel(vm.authMode)),
+                    label = t(if (vm.hasStoredApiKey) R.string.field_api_key_stored else providerKeyLabel(vm.authMode)),
                     singleLine = true, password = true,
                 )
-                if (vm.hasStoredApiKey) PixelButton(stringResource(R.string.btn_remove_key), onClick = { vm.clearApiKey() }, kind = ButtonKind.GHOST, icon = PixelIcon.TRASH)
+                if (vm.hasStoredApiKey) PixelButton(t(R.string.btn_remove_key), onClick = { vm.clearApiKey() }, kind = ButtonKind.GHOST, icon = PixelIcon.TRASH)
             }
         }
 
-        PocketTextField(vm.model, { vm.model = it }, Modifier.fillMaxWidth(), label = stringResource(R.string.field_model), singleLine = true, monospace = true)
+        PocketTextField(vm.model, { vm.model = it }, Modifier.fillMaxWidth(), label = t(R.string.field_model), singleLine = true, monospace = true)
         val suggestions = ProviderConfig.suggestions(vm.authMode, vm.endpoint)
         if (suggestions.isNotEmpty()) ChipRow {
             suggestions.forEach { id ->
                 PocketChip(id, selected = vm.model == id, onClick = { vm.model = id })
             }
         }
-        CText(stringResource(R.string.field_effort), size = 14.sp, weight = FontWeight.SemiBold)
+        CText(t(R.string.field_effort), size = 14.sp, weight = FontWeight.SemiBold)
         ChipRow {
             EFFORT_CHIPS.forEach { (value, label) ->
-                PocketChip(stringResource(label), selected = vm.reasoningEffort == value, onClick = { vm.reasoningEffort = value })
+                PocketChip(t(label), selected = vm.reasoningEffort == value, onClick = { vm.reasoningEffort = value })
             }
         }
-        Muted(stringResource(R.string.effort_hint), size = 12.sp)
+        Muted(t(R.string.effort_hint), size = 12.sp)
 
         val showRegionProject = vm.authMode.google && (vm.authMode != AuthMode.API_KEY || vm.endpoint == ApiEndpoint.VERTEX_EXPRESS)
         if (showRegionProject) {
-            PocketTextField(vm.region, { vm.region = it }, Modifier.fillMaxWidth(), label = stringResource(R.string.field_region), singleLine = true)
+            PocketTextField(vm.region, { vm.region = it }, Modifier.fillMaxWidth(), label = t(R.string.field_region), singleLine = true)
             PocketTextField(
                 vm.projectId, { vm.projectId = it }, Modifier.fillMaxWidth(), singleLine = true,
-                label = stringResource(if (vm.authMode == AuthMode.USER_CREDENTIALS) R.string.field_project_required else R.string.field_project),
+                label = t(if (vm.authMode == AuthMode.USER_CREDENTIALS) R.string.field_project_required else R.string.field_project),
             )
         }
 
         val problems = vm.problems()
         problems.forEach { p ->
-            ErrorText(stringResource(when (p) {
+            ErrorText(t(when (p) {
                 ProviderConfig.Problem.NO_API_KEY -> if (vm.authMode.google) R.string.problem_no_key else R.string.prov_problem_no_key
                 ProviderConfig.Problem.NO_PROJECT_FOR_USER_CREDENTIALS -> R.string.problem_no_project
                 ProviderConfig.Problem.EMPTY_MODEL -> R.string.problem_no_model
@@ -178,13 +178,13 @@ internal fun ProviderSection(vm: MainViewModel) {
             }))
         }
         val needCredFile = (vm.authMode == AuthMode.SERVICE_ACCOUNT && !vm.hasServiceAccount) || (vm.authMode == AuthMode.USER_CREDENTIALS && !vm.hasUserCredentials)
-        if (needCredFile) ErrorText(stringResource(R.string.problem_no_credentials))
+        if (needCredFile) ErrorText(t(R.string.problem_no_credentials))
 
         PixelButton(
-            stringResource(R.string.btn_save_apply), onClick = { vm.saveSettings() },
+            t(R.string.btn_save_apply), onClick = { vm.saveSettings() },
             modifier = Modifier.fillMaxWidth(), icon = PixelIcon.CHECK, enabled = problems.isEmpty(),
         )
-        vm.settingsMessage?.let { Muted(stringResource(if (it == "restarting") R.string.settings_restarting else R.string.settings_saved)) }
+        vm.settingsMessage?.let { Muted(t(if (it == "restarting") R.string.settings_restarting else R.string.settings_saved)) }
     }
     if (showPaste) PasteDialog(vm) { showPaste = false }
 }
@@ -198,15 +198,15 @@ internal fun ProviderSection(vm: MainViewModel) {
 private fun PasteDialog(vm: MainViewModel, onClose: () -> Unit) {
     var reveal by remember { mutableStateOf(false) }
     PocketDialog(
-        title = stringResource(R.string.paste_title),
+        title = t(R.string.paste_title),
         onDismiss = { vm.pasteText = ""; onClose() },
         confirm = {
-            PixelButton(stringResource(R.string.btn_import), enabled = vm.pasteText.isNotBlank(), onClick = { vm.importPasted(); onClose() })
+            PixelButton(t(R.string.btn_import), enabled = vm.pasteText.isNotBlank(), onClick = { vm.importPasted(); onClose() })
         },
-        dismiss = { PixelButton(stringResource(R.string.cancel), onClick = { vm.pasteText = ""; onClose() }, kind = ButtonKind.GHOST) },
+        dismiss = { PixelButton(t(R.string.cancel), onClick = { vm.pasteText = ""; onClose() }, kind = ButtonKind.GHOST) },
     ) {
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Muted(stringResource(R.string.paste_hint))
+            Muted(t(R.string.paste_hint))
             OutlinedTextField(
                 value = vm.pasteText, onValueChange = { vm.pasteText = it },
                 minLines = 6, maxLines = 10, modifier = Modifier.fillMaxWidth(),
@@ -214,7 +214,7 @@ private fun PasteDialog(vm: MainViewModel, onClose: () -> Unit) {
                 visualTransformation = if (reveal) VisualTransformation.None else PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password, autoCorrectEnabled = false),
             )
-            PocketSwitchRow(stringResource(R.string.paste_reveal), reveal, { reveal = it })
+            PocketSwitchRow(t(R.string.paste_reveal), reveal, { reveal = it })
         }
     }
 }

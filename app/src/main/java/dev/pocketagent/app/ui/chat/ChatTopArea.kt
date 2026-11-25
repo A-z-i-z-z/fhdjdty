@@ -8,7 +8,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.pocketagent.app.R
 import dev.pocketagent.app.data.ChatEngine
@@ -21,8 +20,11 @@ import dev.pocketagent.app.ui.components.PixelIconButton
 import dev.pocketagent.app.ui.components.PixelIconView
 import dev.pocketagent.app.ui.components.PocketTopBar
 import dev.pocketagent.app.ui.nav.SharedKeys
+import dev.pocketagent.app.ui.nav.navSharedBounds
 import dev.pocketagent.app.ui.nav.navSharedElement
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.Texts
 
 /**
  * Everything above the message list: the top bar, the find bar, the group participant bar, the mode banner and the
@@ -50,10 +52,10 @@ internal fun ChatTopArea(state: ChatScreenState, conv: Conversation, shape: Chat
     // Wake-on-send: the message is shown and the engine is lighting the fire before it delivers it.
     val waking = statusMap[convId] == ChatEngine.STATUS_WAKING
     val subtitle = when {
-        waking -> stringResource(R.string.ui_chat_waking)
+        waking -> t(R.string.ui_chat_waking)
         generating && !statusMap[convId].isNullOrBlank() -> statusMap[convId].orEmpty()
-        generating && speakingBot != null -> stringResource(R.string.ui_chat_typing_who, speakingBot.name)
-        generating -> stringResource(R.string.ui_chat_typing)
+        generating && speakingBot != null -> t(R.string.ui_chat_typing_who, speakingBot.name)
+        generating -> t(R.string.ui_chat_typing)
         isGroup -> memberBots.joinToString(", ") { it.name }
         else -> memberBots.firstOrNull()?.tagline.orEmpty()
     }.takeIf { it.isNotBlank() }
@@ -74,7 +76,7 @@ internal fun ChatTopArea(state: ChatScreenState, conv: Conversation, shape: Chat
                         PixelIcon.SEARCH,
                         onClick = { if (state.searching) state.closeSearch() else state.openSearch("") },
                         modifier = Modifier.testTag("chat.find"),
-                        contentDescription = stringResource(R.string.ui_chat_find),
+                        contentDescription = t(R.string.ui_chat_find),
                         tint = if (search.active) c.accent else c.text,
                     )
                 }
@@ -82,16 +84,17 @@ internal fun ChatTopArea(state: ChatScreenState, conv: Conversation, shape: Chat
                     PixelIcon.SLIDERS,
                     onClick = { state.showControls = true },
                     modifier = Modifier.testTag("chat.controls"),
-                    contentDescription = stringResource(R.string.ui_ctrl_title),
+                    contentDescription = t(R.string.ui_ctrl_title),
                     tint = if (hasOverrides) c.accent else c.text,
                 )
                 PixelIconButton(
                     PixelIcon.MORE,
                     onClick = { state.menu = true },
                     modifier = Modifier.testTag("chat.menu"),
-                    contentDescription = stringResource(R.string.ui_chat_more),
+                    contentDescription = t(R.string.ui_chat_more),
                 )
             },
+            titleModifier = Modifier.navSharedBounds(SharedKeys.chatTitle(convId)),
         )
         if (search.active) {
             ChatSearchBar(
@@ -119,7 +122,7 @@ internal fun ChatTopArea(state: ChatScreenState, conv: Conversation, shape: Chat
         }
         ActiveModeBanner(conv.mode) {
             repo.setMode(convId, ChatMode.NORMAL)
-            engine.addLocalNote(convId, state.context.getString(R.string.ui_mode_off_note))
+            engine.addLocalNote(convId, Texts.get(state.context, R.string.ui_mode_off_note))
         }
         ChatOverridesBanner(
             modelOverride = conv.modelOverride,

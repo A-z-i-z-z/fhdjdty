@@ -20,6 +20,7 @@ import dev.pocketagent.app.diag.Diag
 import dev.pocketagent.app.ui.theme.AppearanceStore
 import dev.pocketagent.app.util.AppLog
 import java.util.Locale
+import dev.pocketagent.app.ui.text.Texts
 
 /** A context whose resources follow the language chosen inside the app (Settings > Language), not only the system's. */
 internal fun Context.withAppLanguage(): Context = try {
@@ -64,16 +65,16 @@ class ReplyNotifier(private val context: Context) {
             val l = appContext.withAppLanguage()
             val nm = appContext.getSystemService(NotificationManager::class.java) ?: return
             nm.createNotificationChannel(
-                NotificationChannel(CHANNEL_REPLIES, l.getString(R.string.prs_channel_replies), NotificationManager.IMPORTANCE_DEFAULT)
-                    .apply { description = l.getString(R.string.prs_channel_replies_desc) }
+                NotificationChannel(CHANNEL_REPLIES, Texts.get(l, R.string.prs_channel_replies), NotificationManager.IMPORTANCE_DEFAULT)
+                    .apply { description = Texts.get(l, R.string.prs_channel_replies_desc) }
             )
             nm.createNotificationChannel(
-                NotificationChannel(CHANNEL_APPROVALS, l.getString(R.string.prs_channel_approvals), NotificationManager.IMPORTANCE_HIGH)
-                    .apply { description = l.getString(R.string.prs_channel_approvals_desc) }
+                NotificationChannel(CHANNEL_APPROVALS, Texts.get(l, R.string.prs_channel_approvals), NotificationManager.IMPORTANCE_HIGH)
+                    .apply { description = Texts.get(l, R.string.prs_channel_approvals_desc) }
             )
             nm.createNotificationChannel(
-                NotificationChannel(CHANNEL_ROUTINES, l.getString(R.string.prs_channel_routines), NotificationManager.IMPORTANCE_DEFAULT)
-                    .apply { description = l.getString(R.string.prs_channel_routines_desc) }
+                NotificationChannel(CHANNEL_ROUTINES, Texts.get(l, R.string.prs_channel_routines), NotificationManager.IMPORTANCE_DEFAULT)
+                    .apply { description = Texts.get(l, R.string.prs_channel_routines_desc) }
             )
         } catch (e: Exception) {
             AppLog.w("Notify", "could not create the notification channels", e)
@@ -82,7 +83,7 @@ class ReplyNotifier(private val context: Context) {
 
     /** The notification title of a conversation: the bot's name (group chats: "bot · chat title"), with a localized fallback. */
     fun displayTitle(botName: String?, convTitle: String, isGroup: Boolean): String =
-        PresenceLogic.titleFor(botName, convTitle, isGroup, appContext.withAppLanguage().getString(R.string.prs_untitled_chat))
+        PresenceLogic.titleFor(botName, convTitle, isGroup, Texts.get(appContext.withAppLanguage(), R.string.prs_untitled_chat))
 
     /** Removes everything this class posted for [convId]: called when the chat is opened. */
     fun cancelFor(convId: String) {
@@ -191,12 +192,12 @@ class ReplyNotifier(private val context: Context) {
             .setStyle(NotificationCompat.BigTextStyle().bigText(safeText))
             .setContentIntent(AppLinks.chatPendingIntent(appContext, convId))
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-            .setPublicVersion(publicVersion(channel, l, l.getString(R.string.prs_public_reply)))
+            .setPublicVersion(publicVersion(channel, l, Texts.get(l, R.string.prs_public_reply)))
             // A second answer of a group chat updates the notification without ringing again.
             .setOnlyAlertOnce(isShowing(convId, ID_REPLY))
             .addAction(replyAction(l, convId))
             .addAction(
-                NotificationCompat.Action.Builder(0, l.getString(R.string.prs_action_mark_read), actionIntent(NotificationActionReceiver.ACTION_MARK_READ, convId, "", false))
+                NotificationCompat.Action.Builder(0, Texts.get(l, R.string.prs_action_mark_read), actionIntent(NotificationActionReceiver.ACTION_MARK_READ, convId, "", false))
                     .setSemanticAction(NotificationCompat.Action.SEMANTIC_ACTION_MARK_AS_READ)
                     .setShowsUserInterface(false)
                     .build()
@@ -211,10 +212,10 @@ class ReplyNotifier(private val context: Context) {
         val channel = if (routine) CHANNEL_ROUTINES else CHANNEL_REPLIES
         val b = base(channel)
             .setContentTitle(title)
-            .setContentText(l.getString(R.string.prs_failed_text))
+            .setContentText(Texts.get(l, R.string.prs_failed_text))
             .setContentIntent(AppLinks.chatPendingIntent(appContext, convId))
             .setCategory(NotificationCompat.CATEGORY_STATUS)
-            .setPublicVersion(publicVersion(channel, l, l.getString(R.string.prs_public_failed)))
+            .setPublicVersion(publicVersion(channel, l, Texts.get(l, R.string.prs_public_failed)))
             .setSilent(true)
         // Its own id: in a group chat an earlier bot's reply (with its preview and Reply action) must stay in the shade.
         post(convId, ID_FAILED, b.build())
@@ -226,10 +227,10 @@ class ReplyNotifier(private val context: Context) {
         val l = appContext.withAppLanguage()
         val b = base(CHANNEL_REPLIES)
             .setContentTitle(title)
-            .setContentText(l.getString(R.string.prs_send_failed_text))
+            .setContentText(Texts.get(l, R.string.prs_send_failed_text))
             .setContentIntent(AppLinks.chatPendingIntent(appContext, convId))
             .setCategory(NotificationCompat.CATEGORY_ERROR)
-            .setPublicVersion(publicVersion(CHANNEL_REPLIES, l, l.getString(R.string.prs_public_failed)))
+            .setPublicVersion(publicVersion(CHANNEL_REPLIES, l, Texts.get(l, R.string.prs_public_failed)))
         post(convId, ID_NOTICE, b.build())
     }
 
@@ -249,18 +250,18 @@ class ReplyNotifier(private val context: Context) {
         val l = appContext.withAppLanguage()
         val text = Diag.redactor.redact(command).take(MAX_APPROVAL_CHARS)
         val b = base(CHANNEL_APPROVALS)
-            .setContentTitle(l.getString(R.string.prs_approval_title, botName))
+            .setContentTitle(Texts.get(l, R.string.prs_approval_title, botName))
             .setContentText(text)
             .setStyle(NotificationCompat.BigTextStyle().bigText(text))
             .setContentIntent(AppLinks.chatPendingIntent(appContext, convId))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-            .setPublicVersion(publicVersion(CHANNEL_APPROVALS, l, l.getString(R.string.prs_public_approval)))
+            .setPublicVersion(publicVersion(CHANNEL_APPROVALS, l, Texts.get(l, R.string.prs_public_approval)))
         if (allowChoice != null) {
-            b.addAction(approvalAction(l.getString(R.string.prs_action_allow), convId, allowChoice, runId, requestId))
+            b.addAction(approvalAction(Texts.get(l, R.string.prs_action_allow), convId, allowChoice, runId, requestId))
         }
         if (denyChoice != null) {
-            b.addAction(approvalAction(l.getString(R.string.prs_action_deny), convId, denyChoice, runId, requestId))
+            b.addAction(approvalAction(Texts.get(l, R.string.prs_action_deny), convId, denyChoice, runId, requestId))
         }
         post(convId, ID_APPROVAL, b.build())
     }
@@ -277,7 +278,7 @@ class ReplyNotifier(private val context: Context) {
     /** A routine did not run or failed. Opens the app (its routines list is one tap away). */
     fun postRoutineFailure(routineName: String, reason: String) {
         val l = appContext.withAppLanguage()
-        val name = routineName.trim().take(MAX_ROUTINE_NAME_CHARS).ifEmpty { l.getString(R.string.prs_routine_unnamed) }
+        val name = routineName.trim().take(MAX_ROUTINE_NAME_CHARS).ifEmpty { Texts.get(l, R.string.prs_routine_unnamed) }
         val text = Diag.redactor.redact(reason).trim().take(MAX_REASON_CHARS)
         val open = PendingIntent.getActivity(
             appContext, REQUEST_OPEN_ROUTINES,
@@ -287,12 +288,12 @@ class ReplyNotifier(private val context: Context) {
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
         )
         val b = base(CHANNEL_ROUTINES)
-            .setContentTitle(l.getString(R.string.prs_routine_failed_title, name))
+            .setContentTitle(Texts.get(l, R.string.prs_routine_failed_title, name))
             .setContentText(text)
             .setStyle(NotificationCompat.BigTextStyle().bigText(text))
             .setContentIntent(open)
             .setCategory(NotificationCompat.CATEGORY_STATUS)
-            .setPublicVersion(publicVersion(CHANNEL_ROUTINES, l, l.getString(R.string.prs_public_failed)))
+            .setPublicVersion(publicVersion(CHANNEL_ROUTINES, l, Texts.get(l, R.string.prs_public_failed)))
         post("routine:$name", ID_ROUTINE_FAILED, b.build())
     }
 
@@ -313,8 +314,8 @@ class ReplyNotifier(private val context: Context) {
             )
             val n = NotificationCompat.Builder(appContext, CHANNEL_REPLIES)
                 .setSmallIcon(R.drawable.ic_notification)
-                .setContentTitle(l.getString(R.string.app_name))
-                .setContentText(l.getString(R.string.ctl_bak_restored_notif))
+                .setContentTitle(Texts.get(l, R.string.app_name))
+                .setContentText(Texts.get(l, R.string.ctl_bak_restored_notif))
                 .setContentIntent(open)
                 .setAutoCancel(true)
                 .setCategory(NotificationCompat.CATEGORY_STATUS)
@@ -353,9 +354,9 @@ class ReplyNotifier(private val context: Context) {
         val id = NotificationGroups.summaryId(group) ?: return
         val l = appContext.withAppLanguage()
         val (channel, label) = when (group) {
-            NotificationGroups.GROUP_APPROVALS -> CHANNEL_APPROVALS to l.getString(R.string.prs_channel_approvals)
-            NotificationGroups.GROUP_ROUTINES -> CHANNEL_ROUTINES to l.getString(R.string.prs_channel_routines)
-            else -> CHANNEL_REPLIES to l.getString(R.string.prs_channel_replies)
+            NotificationGroups.GROUP_APPROVALS -> CHANNEL_APPROVALS to Texts.get(l, R.string.prs_channel_approvals)
+            NotificationGroups.GROUP_ROUTINES -> CHANNEL_ROUTINES to Texts.get(l, R.string.prs_channel_routines)
+            else -> CHANNEL_REPLIES to Texts.get(l, R.string.prs_channel_replies)
         }
         val open = PendingIntent.getActivity(
             appContext, REQUEST_OPEN_APP, Intent(appContext, dev.pocketagent.app.MainActivity::class.java),
@@ -363,7 +364,7 @@ class ReplyNotifier(private val context: Context) {
         )
         val n = NotificationCompat.Builder(appContext, channel)
             .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(l.getString(R.string.app_name))
+            .setContentTitle(Texts.get(l, R.string.app_name))
             .setContentText(label)
             .setContentIntent(open)
             .setGroup(group)
@@ -389,15 +390,15 @@ class ReplyNotifier(private val context: Context) {
     private fun publicVersion(channel: String, l: Context, text: String): Notification =
         NotificationCompat.Builder(appContext, channel)
             .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(l.getString(R.string.app_name))
+            .setContentTitle(Texts.get(l, R.string.app_name))
             .setContentText(text)
             .build()
 
     private fun replyAction(l: Context, convId: String): NotificationCompat.Action {
         val input = RemoteInput.Builder(NotificationActionReceiver.KEY_REPLY)
-            .setLabel(l.getString(R.string.prs_reply_label))
+            .setLabel(Texts.get(l, R.string.prs_reply_label))
             .build()
-        return NotificationCompat.Action.Builder(0, l.getString(R.string.prs_action_reply), actionIntent(NotificationActionReceiver.ACTION_REPLY, convId, "", true))
+        return NotificationCompat.Action.Builder(0, Texts.get(l, R.string.prs_action_reply), actionIntent(NotificationActionReceiver.ACTION_REPLY, convId, "", true))
             .addRemoteInput(input)
             .setAllowGeneratedReplies(true)
             .setSemanticAction(NotificationCompat.Action.SEMANTIC_ACTION_REPLY)

@@ -5,12 +5,9 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.widget.Toast
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,17 +25,12 @@ import androidx.compose.foundation.layout.mandatorySystemGestures
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.union
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,7 +41,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -62,6 +53,8 @@ import dev.pocketagent.app.data.Conversation
 import dev.pocketagent.app.ui.components.ButtonKind
 import dev.pocketagent.app.ui.components.PixelButton
 import dev.pocketagent.app.ui.components.PixelIcon
+import dev.pocketagent.app.ui.components.PetNoteKind
+import dev.pocketagent.app.ui.components.PetNotes
 import dev.pocketagent.app.ui.components.PixelIconView
 import dev.pocketagent.app.ui.components.PocketDialog
 import dev.pocketagent.app.ui.components.PocketTextField
@@ -69,10 +62,14 @@ import dev.pocketagent.app.ui.pixel.Avatar
 import dev.pocketagent.app.ui.pixel.avatarIdOf
 import dev.pocketagent.app.ui.theme.AnimLevel
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.theme.Loop
+import dev.pocketagent.app.ui.theme.motion
 import java.text.DateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.Texts
 
 // Small pieces shared by the chat list, the chat screen and the home screen (agent CHAT).
 
@@ -131,7 +128,7 @@ internal fun titleOf(conv: Conversation, botsById: Map<String, Bot>, untitled: S
 
 @Composable
 internal fun conversationTitle(conv: Conversation, botsById: Map<String, Bot>): String =
-    titleOf(conv, botsById, stringResource(R.string.ui_chats_untitled))
+    titleOf(conv, botsById, t(R.string.ui_chats_untitled))
 
 /** The latest 1:1 conversation with [botId], or a new one. */
 internal fun ChatRepository.openOneToOne(botId: String): Conversation =
@@ -197,10 +194,10 @@ internal fun relativeTime(ms: Long): String {
     val now = System.currentTimeMillis()
     val diff = now - ms
     return when {
-        diff < 60_000L -> stringResource(R.string.ui_time_now)
-        diff < 3_600_000L -> stringResource(R.string.ui_time_min, (diff / 60_000L).toInt())
+        diff < 60_000L -> t(R.string.ui_time_now)
+        diff < 3_600_000L -> t(R.string.ui_time_min, (diff / 60_000L).toInt())
         sameDay(ms, now) -> clockText(ms)
-        sameDay(ms, now - DAY_MS) -> stringResource(R.string.ui_time_yesterday)
+        sameDay(ms, now - DAY_MS) -> t(R.string.ui_time_yesterday)
         else -> DateFormat.getDateInstance(DateFormat.SHORT, locale).format(Date(ms))
     }
 }
@@ -211,8 +208,8 @@ internal fun dayLabel(ms: Long): String {
     val locale = currentLocale()
     val now = System.currentTimeMillis()
     return when {
-        sameDay(ms, now) -> stringResource(R.string.ui_chat_today)
-        sameDay(ms, now - DAY_MS) -> stringResource(R.string.ui_chat_yesterday)
+        sameDay(ms, now) -> t(R.string.ui_chat_today)
+        sameDay(ms, now - DAY_MS) -> t(R.string.ui_chat_yesterday)
         else -> DateFormat.getDateInstance(DateFormat.MEDIUM, locale).format(Date(ms))
     }
 }
@@ -227,8 +224,8 @@ internal fun dayTimeLabel(ms: Long): String {
     val clock = clockText(ms)
     return when {
         sameDay(ms, now) -> clock
-        sameDay(ms, now + DAY_MS) -> stringResource(R.string.ui_time_day_at, stringResource(R.string.ui_time_tomorrow), clock)
-        else -> stringResource(R.string.ui_time_day_at, DateFormat.getDateInstance(DateFormat.SHORT, locale).format(Date(ms)), clock)
+        sameDay(ms, now + DAY_MS) -> t(R.string.ui_time_day_at, t(R.string.ui_time_tomorrow), clock)
+        else -> t(R.string.ui_time_day_at, DateFormat.getDateInstance(DateFormat.SHORT, locale).format(Date(ms)), clock)
     }
 }
 
@@ -238,7 +235,7 @@ internal fun copyToClipboard(ctx: Context, text: String) {
     val cm = ctx.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     cm.setPrimaryClip(ClipData.newPlainText("Agirî", text))
     // Android 13+ shows its own confirmation.
-    if (Build.VERSION.SDK_INT < 33) Toast.makeText(ctx, ctx.getString(R.string.ui_chat_copied), Toast.LENGTH_SHORT).show()
+    if (Build.VERSION.SDK_INT < 33) PetNotes.show(Texts.get(ctx, R.string.ui_chat_copied), PetNoteKind.SUCCESS)
 }
 
 internal fun shareText(ctx: Context, text: String) {
@@ -257,10 +254,11 @@ internal fun shareText(ctx: Context, text: String) {
 internal fun GeneratingEmber(modifier: Modifier = Modifier, size: Dp = 16.dp) {
     val c = Pocket.colors
     val anim = Pocket.anim
+    val motion = Pocket.motion
     val t = rememberInfiniteTransition(label = "generating")
     val a = t.animateFloat(
         initialValue = 0.3f, targetValue = 1f,
-        animationSpec = infiniteRepeatable(tween(700), RepeatMode.Reverse), label = "alpha",
+        animationSpec = motion.loop<Float>(Loop.EMBER, RepeatMode.Reverse), label = "alpha",
     )
     PixelIconView(
         PixelIcon.SPARK,
@@ -271,77 +269,22 @@ internal fun GeneratingEmber(modifier: Modifier = Modifier, size: Dp = 16.dp) {
 
 // ---- sheets and dialogs -----------------------------------------------------------------------------------------
 
-internal class SheetAction(val icon: PixelIcon, val label: String, val danger: Boolean = false, val onClick: () -> Unit)
-
-/** A bottom sheet with a list of actions: easy to reach with one hand. */
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-internal fun ActionSheet(title: String?, actions: List<SheetAction>, onDismiss: () -> Unit) {
-    val c = Pocket.colors
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-        containerColor = c.surface,
-        contentColor = c.text,
-        shape = RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp),
-        dragHandle = { BottomSheetDefaults.DragHandle(color = c.textMuted) },
-    ) {
-        Column(Modifier.fillMaxWidth().windowInsetsPadding(bottomSafeInsets()).padding(bottom = 12.dp)) {
-            if (!title.isNullOrBlank()) {
-                Text(
-                    title, color = c.textMuted, fontSize = 13.sp, maxLines = 1,
-                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 6.dp),
-                )
-            }
-            actions.forEach { a ->
-                val tint = if (a.danger) c.error else c.text
-                Row(
-                    Modifier.fillMaxWidth().heightIn(min = 52.dp)
-                        .clickable(role = Role.Button) { onDismiss(); a.onClick() }
-                        .padding(horizontal = 20.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    PixelIconView(a.icon, tint = tint, size = 22.dp)
-                    Spacer(Modifier.width(16.dp))
-                    Text(a.label, color = tint, fontSize = 16.sp)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-internal fun ConfirmDialog(
-    title: String, body: String, confirmLabel: String, onConfirm: () -> Unit, onDismiss: () -> Unit,
-    danger: Boolean = true,
-) {
-    PocketDialog(
-        title = title, onDismiss = onDismiss,
-        confirm = {
-            PixelButton(confirmLabel, onClick = { onConfirm(); onDismiss() }, kind = if (danger) ButtonKind.DANGER else ButtonKind.PRIMARY)
-        },
-        dismiss = { PixelButton(stringResource(R.string.ui_dlg_cancel), onClick = onDismiss, kind = ButtonKind.GHOST) },
-    ) {
-        Text(body, color = Pocket.colors.text, fontSize = 15.sp)
-    }
-}
-
 @Composable
 internal fun RenameDialog(initial: String, onSave: (String) -> Unit, onDismiss: () -> Unit) {
     var text by remember { mutableStateOf(initial) }
     PocketDialog(
-        title = stringResource(R.string.ui_dlg_rename_title), onDismiss = onDismiss,
+        title = t(R.string.ui_dlg_rename_title), onDismiss = onDismiss,
         confirm = {
             PixelButton(
-                stringResource(R.string.ui_dlg_save),
+                t(R.string.ui_dlg_save),
                 onClick = { onSave(text.trim()); onDismiss() }, enabled = text.isNotBlank(),
             )
         },
-        dismiss = { PixelButton(stringResource(R.string.ui_dlg_cancel), onClick = onDismiss, kind = ButtonKind.GHOST) },
+        dismiss = { PixelButton(t(R.string.ui_dlg_cancel), onClick = onDismiss, kind = ButtonKind.GHOST) },
     ) {
         PocketTextField(
             value = text, onValueChange = { text = it }, modifier = Modifier.fillMaxWidth(),
-            label = stringResource(R.string.ui_dlg_rename_field), singleLine = true,
+            label = t(R.string.ui_dlg_rename_field), singleLine = true,
         )
     }
 }

@@ -35,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -50,6 +49,7 @@ import dev.pocketagent.app.data.BotVoiceStyle
 import dev.pocketagent.app.runtime.ProviderConfig
 import dev.pocketagent.app.ui.LocalNavigator
 import dev.pocketagent.app.ui.components.ButtonKind
+import dev.pocketagent.app.ui.components.ConfirmDialog
 import dev.pocketagent.app.ui.components.PixelButton
 import dev.pocketagent.app.ui.components.PixelIcon
 import dev.pocketagent.app.ui.components.PixelIconButton
@@ -58,21 +58,28 @@ import dev.pocketagent.app.ui.components.PocketChip
 import dev.pocketagent.app.ui.components.PocketTextField
 import dev.pocketagent.app.ui.components.PocketTopBar
 import dev.pocketagent.app.ui.components.SectionHeader
+import dev.pocketagent.app.ui.nav.SharedKeys
+import dev.pocketagent.app.ui.nav.navSharedBounds
+import dev.pocketagent.app.ui.nav.navSharedElement
 import dev.pocketagent.app.ui.pixel.Avatar
 import dev.pocketagent.app.ui.pixel.AvatarId
 import dev.pocketagent.app.ui.pixel.avatarIdOf
 import dev.pocketagent.app.ui.settings.CText
 import dev.pocketagent.app.ui.settings.CtlCard
 import dev.pocketagent.app.ui.settings.ChipRow
-import dev.pocketagent.app.ui.settings.ConfirmDialog
 import dev.pocketagent.app.ui.settings.EFFORT_CHIPS
 import dev.pocketagent.app.ui.settings.Muted
 import dev.pocketagent.app.ui.settings.toast
 import dev.pocketagent.app.ui.theme.AppearanceStore
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.theme.Space
 import dev.pocketagent.app.voice.SUPERTONIC_VOICES
 import dev.pocketagent.app.voice.VoiceOverride
 import kotlin.math.roundToInt
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.tn
+import dev.pocketagent.app.ui.text.Texts
+import dev.pocketagent.app.ui.text.EnumLabels
 
 /** 16 hand-picked colours (ARGB). The first three are the colours of the Kurdish flag. */
 private val SWATCHES = listOf(
@@ -106,8 +113,8 @@ fun BotEditorScreen(botId: String?) {
     if (!loaded) {
         val nav = LocalNavigator.current
         Column(Modifier.fillMaxSize().background(Pocket.colors.bg)) {
-            PocketTopBar(title = stringResource(R.string.ctl_bot_edit_title), onBack = { nav.back() })
-            Muted(stringResource(R.string.ctl_loading), Modifier.padding(16.dp))
+            PocketTopBar(title = t(R.string.ctl_bot_edit_title), onBack = { nav.back() })
+            Muted(t(R.string.ctl_loading), Modifier.padding(Space.l))
         }
         return
     }
@@ -158,8 +165,8 @@ private fun BotEditorContent(botId: String?) {
     val color = colorArgb.toColor()
     val isHermes = existing?.id == BotPresets.HERMES_ID
     val missing = botId != null && existing == null
-    val savedMsg = stringResource(R.string.ctl_bot_saved)
-    val duplicatedMsg = stringResource(R.string.ctl_bot_duplicated)
+    val savedMsg = t(R.string.ctl_bot_saved)
+    val duplicatedMsg = t(R.string.ctl_bot_duplicated)
 
     fun leave() { if (dirty) showDiscard = true else nav.back() }
     BackHandler(enabled = dirty) { showDiscard = true }
@@ -178,42 +185,49 @@ private fun BotEditorContent(botId: String?) {
 
     Column(Modifier.fillMaxSize().background(c.bg).imePadding()) {
         PocketTopBar(
-            title = stringResource(if (existing == null) R.string.ctl_bot_new_title else R.string.ctl_bot_edit_title),
-            subtitle = if (dirty) stringResource(R.string.ctl_unsaved) else null,
+            title = t(if (existing == null) R.string.ctl_bot_new_title else R.string.ctl_bot_edit_title),
+            subtitle = if (dirty) t(R.string.ctl_unsaved) else null,
             onBack = { leave() },
             actions = {
                 PixelIconButton(
                     PixelIcon.CHECK, onClick = { repo.saveBot(build()); toast(ctx, savedMsg); nav.back() },
-                    contentDescription = stringResource(R.string.ctl_save), tint = if (name.isNotBlank() && dirty) c.accent else c.textMuted,
+                    contentDescription = t(R.string.ctl_save), tint = if (name.isNotBlank() && dirty) c.accent else c.textMuted,
                     enabled = name.isNotBlank() && dirty,
                 )
             },
         )
         if (missing) {
-            Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                CText(stringResource(R.string.ctl_bot_missing))
-                PixelButton(stringResource(R.string.ctl_back), onClick = { nav.back() }, kind = ButtonKind.SECONDARY)
+            Column(Modifier.fillMaxSize().padding(Space.l), verticalArrangement = Arrangement.spacedBy(Space.m)) {
+                CText(t(R.string.ctl_bot_missing))
+                PixelButton(t(R.string.ctl_back), onClick = { nav.back() }, kind = ButtonKind.SECONDARY)
             }
         } else Column(
-            Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(12.dp),
+            Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(Space.m),
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
             // ---- live preview ----
-            PixelPanel(Modifier.fillMaxWidth(), color = c.bgDeep) {
+            PixelPanel(
+                Modifier.fillMaxWidth().then(if (existing != null) Modifier.navSharedBounds(SharedKeys.botCard(existing.id)) else Modifier),
+                color = c.bgDeep,
+            ) {
                 Column(Modifier.fillMaxWidth().padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                        Avatar(avatarId, color, size = 64.dp, animated = true)
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Space.m)) {
+                        Avatar(
+                            avatarId, color,
+                            if (existing != null) Modifier.navSharedElement(SharedKeys.botAvatar(existing.id)) else Modifier,
+                            size = 64.dp, animated = true,
+                        )
                         Column(Modifier.weight(1f)) {
-                            CText(name.ifBlank { stringResource(R.string.ctl_bot_name_placeholder) }, size = 20.sp, weight = FontWeight.Bold,
+                            CText(name.ifBlank { t(R.string.ctl_bot_name_placeholder) }, size = 20.sp, weight = FontWeight.Bold,
                                 color = if (name.isBlank()) c.textMuted else c.text, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                            Muted(tagline.ifBlank { stringResource(R.string.ctl_bot_tagline_placeholder) }, size = 13.sp)
+                            Muted(tagline.ifBlank { t(R.string.ctl_bot_tagline_placeholder) }, size = 13.sp)
                         }
                     }
-                    Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Row(verticalAlignment = Alignment.Bottom, horizontalArrangement = Arrangement.spacedBy(Space.s)) {
                         Avatar(avatarId, color, size = 28.dp)
                         PixelPanel(Modifier.weight(1f), color = c.botBubble) {
                             CText(
-                                stringResource(R.string.ctl_bot_preview_hi, name.ifBlank { stringResource(R.string.ctl_bot_name_placeholder) }) +
+                                t(R.string.ctl_bot_preview_hi, name.ifBlank { t(R.string.ctl_bot_name_placeholder) }) +
                                     if (tagline.isNotBlank()) " " + tagline else "",
                                 color = c.onBotBubble, size = 14.sp, modifier = Modifier.padding(10.dp),
                             )
@@ -223,57 +237,57 @@ private fun BotEditorContent(botId: String?) {
             }
 
             // ---- identity ----
-            SectionHeader(stringResource(R.string.ctl_bot_section_identity))
-            PocketTextField(name, { name = it.take(40) }, Modifier.fillMaxWidth(), label = stringResource(R.string.ctl_bot_name), singleLine = true)
-            PocketTextField(tagline, { tagline = it.take(80) }, Modifier.fillMaxWidth(), label = stringResource(R.string.ctl_bot_tagline),
-                placeholder = stringResource(R.string.ctl_bot_tagline_hint), singleLine = true)
+            SectionHeader(t(R.string.ctl_bot_section_identity))
+            PocketTextField(name, { name = it.take(40) }, Modifier.fillMaxWidth(), label = t(R.string.ctl_bot_name), singleLine = true)
+            PocketTextField(tagline, { tagline = it.take(80) }, Modifier.fillMaxWidth(), label = t(R.string.ctl_bot_tagline),
+                placeholder = t(R.string.ctl_bot_tagline_hint), singleLine = true)
 
             CtlCard {
-                CText(stringResource(R.string.ctl_bot_avatar), size = 14.sp, weight = FontWeight.SemiBold)
+                CText(t(R.string.ctl_bot_avatar), size = 14.sp, weight = FontWeight.SemiBold)
                 AvatarGrid(color, avatarId) { avatar = it.name }
             }
             CtlCard {
-                CText(stringResource(R.string.ctl_bot_color), size = 14.sp, weight = FontWeight.SemiBold)
+                CText(t(R.string.ctl_bot_color), size = 14.sp, weight = FontWeight.SemiBold)
                 ColorPicker(colorArgb) { colorArgb = it }
             }
 
             // ---- personality ----
-            SectionHeader(stringResource(R.string.ctl_bot_section_personality))
-            Muted(stringResource(R.string.ctl_bot_prompt_help))
+            SectionHeader(t(R.string.ctl_bot_section_personality))
+            Muted(t(R.string.ctl_bot_prompt_help))
             ChipRow {
                 INSERTS.forEach { (label, text) ->
-                    PocketChip(stringResource(label), selected = prompt.contains(text), onClick = {
+                    PocketChip(t(label), selected = prompt.contains(text), onClick = {
                         prompt = if (prompt.contains(text)) prompt.replace(text, "").replace("\n\n\n", "\n\n").trim()
                         else (prompt.trimEnd() + (if (prompt.isBlank()) "" else "\n") + text)
                     }, icon = PixelIcon.SPARK)
                 }
             }
-            PocketTextField(prompt, { prompt = it }, Modifier.fillMaxWidth(), label = stringResource(R.string.ctl_bot_prompt),
-                placeholder = stringResource(R.string.ctl_bot_prompt_hint), minLines = 8, monospace = mono)
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Muted(stringResource(R.string.ctl_bot_chars, prompt.length), Modifier.weight(1f), size = 12.sp)
-                PocketChip(stringResource(R.string.ctl_bot_mono), selected = mono, onClick = { mono = !mono })
+            PocketTextField(prompt, { prompt = it }, Modifier.fillMaxWidth(), label = t(R.string.ctl_bot_prompt),
+                placeholder = t(R.string.ctl_bot_prompt_hint), minLines = 8, monospace = mono)
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Space.s)) {
+                Muted(tn(R.plurals.ctl_bot_chars, prompt.length, prompt.length), Modifier.weight(1f), size = 12.sp)
+                PocketChip(t(R.string.ctl_bot_mono), selected = mono, onClick = { mono = !mono })
             }
 
             // ---- voice & delivery mood ----
-            SectionHeader(stringResource(R.string.ctl_bot_section_voice))
-            Muted(stringResource(R.string.ctl_bot_voice_help))
+            SectionHeader(t(R.string.ctl_bot_section_voice))
+            Muted(t(R.string.ctl_bot_voice_help))
             CtlCard {
-                CText(stringResource(R.string.ctl_bot_voice_female), size = 12.5.sp, weight = FontWeight.SemiBold, color = c.textMuted)
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    PocketChip(stringResource(R.string.effort_default), selected = voiceSid == -1, onClick = { voiceSid = -1 })
+                CText(t(R.string.ctl_bot_voice_female), size = 12.5.sp, weight = FontWeight.SemiBold, color = c.textMuted)
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(Space.s), verticalArrangement = Arrangement.spacedBy(Space.s)) {
+                    PocketChip(t(R.string.effort_default), selected = voiceSid == -1, onClick = { voiceSid = -1 })
                     SUPERTONIC_VOICES.filter { it.sid in 0..4 }.forEach { v ->
                         PocketChip(v.label, selected = voiceSid == v.sid, onClick = { voiceSid = v.sid })
                     }
                 }
-                CText(stringResource(R.string.ctl_bot_voice_male), size = 12.5.sp, weight = FontWeight.SemiBold, color = c.textMuted, modifier = Modifier.padding(top = 4.dp))
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                CText(t(R.string.ctl_bot_voice_male), size = 12.5.sp, weight = FontWeight.SemiBold, color = c.textMuted, modifier = Modifier.padding(top = Space.xs))
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(Space.s), verticalArrangement = Arrangement.spacedBy(Space.s)) {
                     SUPERTONIC_VOICES.filter { it.sid in 5..9 }.forEach { v ->
                         PocketChip(v.label, selected = voiceSid == v.sid, onClick = { voiceSid = v.sid })
                     }
                 }
-                CText(stringResource(R.string.ctl_bot_voice_mood), size = 13.sp, weight = FontWeight.SemiBold, modifier = Modifier.padding(top = 6.dp))
-                FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                CText(t(R.string.ctl_bot_voice_mood), size = 13.sp, weight = FontWeight.SemiBold, modifier = Modifier.padding(top = 6.dp))
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(Space.s), verticalArrangement = Arrangement.spacedBy(Space.s)) {
                     val moods = listOf(
                         BotVoiceStyle.DEFAULT to R.string.ctl_bot_mood_default,
                         BotVoiceStyle.HAPPY to R.string.ctl_bot_mood_happy,
@@ -283,12 +297,12 @@ private fun BotEditorContent(botId: String?) {
                         BotVoiceStyle.STORYTELLER to R.string.ctl_bot_mood_storyteller,
                     )
                     moods.forEach { (st, lbl) ->
-                        PocketChip(stringResource(lbl), selected = voiceStyle == st, onClick = { voiceStyleName = st.name })
+                        PocketChip(t(lbl), selected = voiceStyle == st, onClick = { voiceStyleName = st.name })
                     }
                 }
-                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 4.dp)) {
-                    CText(stringResource(R.string.ctl_voice_speed), size = 13.sp, weight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
-                    Muted(if (voiceSpeed <= 0f) stringResource(R.string.effort_default) else "${"%.2f".format(voiceSpeed)}×")
+                Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = Space.xs)) {
+                    CText(t(R.string.ctl_voice_speed), size = 13.sp, weight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
+                    Muted(if (voiceSpeed <= 0f) t(R.string.effort_default) else "${"%.2f".format(voiceSpeed)}×")
                 }
                 Slider(
                     value = if (voiceSpeed <= 0f) 1.0f else voiceSpeed,
@@ -297,10 +311,10 @@ private fun BotEditorContent(botId: String?) {
                     steps = 9,
                     colors = SliderDefaults.colors(thumbColor = c.accent, activeTrackColor = c.accent, inactiveTrackColor = c.outline),
                 )
-                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(Space.s)) {
                     val previewing = speakingId == "bot-sample"
                     PixelButton(
-                        stringResource(
+                        t(
                             when {
                                 previewing && synthesizing -> R.string.ctl_voice_synth
                                 previewing -> R.string.btn_stop
@@ -317,7 +331,7 @@ private fun BotEditorContent(botId: String?) {
                     )
                     if (voiceSpeed > 0f) {
                         PixelButton(
-                            stringResource(R.string.ui_ctrl_reset),
+                            t(R.string.ui_ctrl_reset),
                             onClick = { voiceSpeed = 0f },
                             kind = ButtonKind.GHOST,
                         )
@@ -326,69 +340,69 @@ private fun BotEditorContent(botId: String?) {
             }
 
             // ---- model ----
-            SectionHeader(stringResource(R.string.ctl_bot_section_model))
-            Muted(stringResource(R.string.ctl_bot_model_help))
-            PocketTextField(model, { model = it }, Modifier.fillMaxWidth(), label = stringResource(R.string.ctl_bot_model),
-                placeholder = stringResource(R.string.ctl_bot_model_default), singleLine = true, monospace = true)
+            SectionHeader(t(R.string.ctl_bot_section_model))
+            Muted(t(R.string.ctl_bot_model_help))
+            PocketTextField(model, { model = it }, Modifier.fillMaxWidth(), label = t(R.string.ctl_bot_model),
+                placeholder = t(R.string.ctl_bot_model_default), singleLine = true, monospace = true)
             // The chips follow the SAVED provider (what the engine sends with), not an unsaved choice in the Settings form.
             val suggestions = remember { app.runtime.settings.let { ProviderConfig.suggestions(it.authMode, it.endpoint) } }
             ChipRow {
-                PocketChip(stringResource(R.string.effort_default), selected = model.isBlank(), onClick = { model = "" })
+                PocketChip(t(R.string.effort_default), selected = model.isBlank(), onClick = { model = "" })
                 suggestions.forEach { id -> PocketChip(id, selected = model == id, onClick = { model = id }) }
             }
-            CText(stringResource(R.string.ctl_bot_effort), size = 14.sp, weight = FontWeight.SemiBold)
+            CText(t(R.string.ctl_bot_effort), size = 14.sp, weight = FontWeight.SemiBold)
             ChipRow {
-                EFFORT_CHIPS.forEach { (value, label) -> PocketChip(stringResource(label), selected = effort == value, onClick = { effort = value }) }
+                EFFORT_CHIPS.forEach { (value, label) -> PocketChip(t(label), selected = effort == value, onClick = { effort = value }) }
             }
-            Muted(stringResource(R.string.ctl_bot_effort_help), size = 12.sp)
+            Muted(t(R.string.ctl_bot_effort_help), size = 12.sp)
 
             // ---- actions ----
             PixelButton(
-                stringResource(R.string.ctl_save), onClick = { repo.saveBot(build()); toast(ctx, savedMsg); nav.back() },
+                t(R.string.ctl_save), onClick = { repo.saveBot(build()); toast(ctx, savedMsg); nav.back() },
                 modifier = Modifier.fillMaxWidth(), icon = PixelIcon.CHECK, enabled = name.isNotBlank() && dirty,
             )
-            if (name.isBlank()) Muted(stringResource(R.string.ctl_bot_name_required), size = 12.sp)
+            if (name.isBlank()) Muted(t(R.string.ctl_bot_name_required), size = 12.sp)
             if (existing != null) {
                 PixelButton(
-                    stringResource(R.string.ctl_bot_duplicate),
+                    t(R.string.ctl_bot_duplicate),
                     onClick = {
-                        val copy = build().copy(id = repo.newId(), name = name.trim() + " " + ctx.getString(R.string.ctl_bot_copy_suffix), builtIn = false, createdAt = System.currentTimeMillis())
+                        val copy = build().copy(id = repo.newId(), name = name.trim() + " " + Texts.get(ctx, R.string.ctl_bot_copy_suffix), builtIn = false, createdAt = System.currentTimeMillis())
                         repo.saveBot(copy); toast(ctx, duplicatedMsg); nav.back()
                     },
                     modifier = Modifier.fillMaxWidth(), icon = PixelIcon.COPY, kind = ButtonKind.SECONDARY,
                 )
                 if (!isHermes) {
-                    Muted(stringResource(R.string.ctl_bot_export_help), size = 12.sp)
-                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Muted(t(R.string.ctl_bot_export_help), size = 12.sp)
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(Space.s)) {
                         PixelButton(
-                            stringResource(R.string.ctl_bots_export_file), onClick = { exporter.saveToFile(listOf(build())) },
+                            t(R.string.ctl_bots_export_file), onClick = { exporter.saveToFile(listOf(build())) },
                             modifier = Modifier.weight(1f), icon = PixelIcon.UPLOAD, kind = ButtonKind.SECONDARY, enabled = name.isNotBlank(),
                         )
                         PixelButton(
-                            stringResource(R.string.ctl_bots_export_share), onClick = { exporter.share(listOf(build())) },
+                            t(R.string.ctl_bots_export_share), onClick = { exporter.share(listOf(build())) },
                             modifier = Modifier.weight(1f), icon = PixelIcon.SHARE, kind = ButtonKind.SECONDARY, enabled = name.isNotBlank(),
                         )
                     }
                 }
                 if (!isHermes) {
                     PixelButton(
-                        stringResource(R.string.ctl_bot_delete), onClick = { showDelete = true },
+                        t(R.string.ctl_bot_delete), onClick = { showDelete = true },
                         modifier = Modifier.fillMaxWidth(), icon = PixelIcon.TRASH, kind = ButtonKind.DANGER,
                     )
-                } else Muted(stringResource(R.string.ctl_bot_hermes_note), size = 12.sp)
+                } else Muted(t(R.string.ctl_bot_hermes_note), size = 12.sp)
             }
             Box(Modifier.size(24.dp))
         }
     }
 
     if (showDiscard) ConfirmDialog(
-        title = stringResource(R.string.ctl_discard_title), text = stringResource(R.string.ctl_discard_body),
-        confirmLabel = stringResource(R.string.ctl_discard), danger = true,
+        title = t(R.string.ctl_discard_title), body = t(R.string.ctl_discard_body),
+        confirmLabel = t(R.string.ctl_discard), danger = true,
         onConfirm = { showDiscard = false; nav.back() }, onDismiss = { showDiscard = false },
     )
     if (showDelete && existing != null) ConfirmDialog(
-        title = stringResource(R.string.ctl_bot_delete_title, existing.name), text = stringResource(R.string.ctl_bot_delete_body),
-        confirmLabel = stringResource(R.string.ctl_bot_delete), danger = true,
+        title = t(R.string.ctl_bot_delete_title, existing.name), body = t(R.string.ctl_bot_delete_body),
+        confirmLabel = t(R.string.ctl_bot_delete), danger = true,
         onConfirm = { showDelete = false; repo.deleteBot(existing.id); nav.back() }, onDismiss = { showDelete = false },
     )
 }
@@ -397,16 +411,17 @@ private fun BotEditorContent(botId: String?) {
 @Composable
 private fun AvatarGrid(color: Color, selected: AvatarId, onPick: (AvatarId) -> Unit) {
     val c = Pocket.colors
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    Column(verticalArrangement = Arrangement.spacedBy(Space.s)) {
         AvatarId.entries.chunked(4).forEach { row ->
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(Space.s)) {
                 row.forEach { id ->
                     val on = id == selected
+                    val avatarLabel = EnumLabels.avatar(id.name)?.let { t(it) } ?: id.name
                     Box(
                         Modifier.weight(1f).height(60.dp).background(if (on) c.accentSoft else c.surfaceHigh)
                             .border(if (on) 3.dp else 1.dp, if (on) c.accent else c.outline)
-                            .clickable(onClickLabel = id.name.lowercase().replaceFirstChar { it.uppercase() }) { onPick(id) }
-                            .semantics { contentDescription = id.name.lowercase().replaceFirstChar { it.uppercase() } },
+                            .clickable(onClickLabel = avatarLabel) { onPick(id) }
+                            .semantics { contentDescription = avatarLabel },
                         contentAlignment = Alignment.Center,
                     ) { Avatar(id, color, size = 44.dp) }
                 }
@@ -419,12 +434,12 @@ private fun AvatarGrid(color: Color, selected: AvatarId, onPick: (AvatarId) -> U
 @Composable
 private fun ColorPicker(current: Long, onPick: (Long) -> Unit) {
     val c = Pocket.colors
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    Column(verticalArrangement = Arrangement.spacedBy(Space.s)) {
         SWATCHES.chunked(8).forEach { row ->
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                 row.forEach { argb ->
                     val on = argb == current
-                    val desc = stringResource(R.string.ctl_bot_color_n, SWATCHES.indexOf(argb) + 1)
+                    val desc = t(R.string.ctl_bot_color_n, SWATCHES.indexOf(argb) + 1)
                     Box(
                         Modifier.weight(1f).height(40.dp).background(Color(argb))
                             .border(if (on) 3.dp else 1.dp, if (on) c.text else c.outline)
@@ -435,7 +450,7 @@ private fun ColorPicker(current: Long, onPick: (Long) -> Unit) {
             }
         }
         val hsv = remember(current) { FloatArray(3).also { android.graphics.Color.colorToHSV(Color(current).toArgb(), it) } }
-        Muted(stringResource(R.string.ctl_bot_hue), size = 12.sp)
+        Muted(t(R.string.ctl_bot_hue), size = 12.sp)
         Slider(
             value = hsv[0], onValueChange = { h -> onPick(Color.hsv(h.coerceIn(0f, 359.9f), 0.65f, 0.92f).toArgbLong()) },
             valueRange = 0f..360f,

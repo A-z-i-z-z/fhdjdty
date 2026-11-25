@@ -22,6 +22,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
+import dev.pocketagent.app.ui.text.Texts
 
 /**
  * Foreground service with a persistent notification while the runtime is extracting, starting or
@@ -42,10 +43,10 @@ class AgentService : Service() {
         super.onCreate()
         val nm = getSystemService(NotificationManager::class.java)
         nm.createNotificationChannel(
-            NotificationChannel(CHANNEL, localized().getString(R.string.notif_channel), NotificationManager.IMPORTANCE_LOW)
+            NotificationChannel(CHANNEL, Texts.get(localized(), R.string.notif_channel), NotificationManager.IMPORTANCE_LOW)
         )
-        startForeground(NOTIF_ID, build(localized().getString(R.string.notif_starting)))
-        lastText = localized().getString(R.string.notif_starting)
+        startForeground(NOTIF_ID, build(Texts.get(localized(), R.string.notif_starting)))
+        lastText = Texts.get(localized(), R.string.notif_starting)
         val app = PocketApp.from(this)
         val rt = app.runtime
         job = scope.launch {
@@ -63,10 +64,10 @@ class AgentService : Service() {
                 val l = localized()
                 val text = when (s) {
                     is RuntimeState.Running ->
-                        if (answering > 0) l.resources.getQuantityString(R.plurals.prs_notif_running_answering, answering, answering)
-                        else l.getString(R.string.notif_running)
-                    is RuntimeState.Extracting -> l.getString(R.string.notif_extracting, (s.fraction * 100).toInt())
-                    else -> l.getString(R.string.notif_starting)
+                        if (answering > 0) Texts.getQuantity(l, R.plurals.prs_notif_running_answering, answering, answering)
+                        else Texts.get(l, R.string.notif_running)
+                    is RuntimeState.Extracting -> Texts.get(l, R.string.notif_extracting, (s.fraction * 100).toInt())
+                    else -> Texts.get(l, R.string.notif_starting)
                 }
                 if (!inForeground) { inForeground = true; lastText = text; startForeground(NOTIF_ID, build(text)) } // restarted while still alive
                 else if (text != lastText) { lastText = text; nm.notify(NOTIF_ID, build(text)) } // only when the text changed
@@ -79,7 +80,7 @@ class AgentService : Service() {
         // Every startForegroundService() call must be answered with startForeground(), including when this
         // instance is already running (it may have left the foreground since). The collector below ends it
         // again if nothing needs it.
-        startForeground(NOTIF_ID, build(lastText ?: localized().getString(R.string.notif_starting)))
+        startForeground(NOTIF_ID, build(lastText ?: Texts.get(localized(), R.string.notif_starting)))
         inForeground = true
         if (intent?.action == ACTION_STOP) {
             val app = PocketApp.from(this)
@@ -108,7 +109,7 @@ class AgentService : Service() {
         )
         return NotificationCompat.Builder(this, CHANNEL)
             .setSmallIcon(R.drawable.ic_notification)
-            .setContentTitle(getString(R.string.app_name))
+            .setContentTitle(Texts.get(this, R.string.app_name))
             .setContentText(text)
             .setContentIntent(open)
             .setOngoing(true)
@@ -117,7 +118,7 @@ class AgentService : Service() {
             .setOnlyAlertOnce(true)
             .setShowWhen(false)
             .setCategory(NotificationCompat.CATEGORY_SERVICE)
-            .addAction(0, localized().getString(R.string.action_stop), stop)
+            .addAction(0, Texts.get(localized(), R.string.action_stop), stop)
             .build()
     }
 

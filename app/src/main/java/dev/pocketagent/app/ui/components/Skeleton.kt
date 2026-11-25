@@ -14,7 +14,6 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
@@ -28,6 +27,7 @@ import dev.pocketagent.app.ui.theme.Pocket
 import dev.pocketagent.app.ui.theme.designUnitPx
 import dev.pocketagent.app.ui.theme.motion
 import dev.pocketagent.app.ui.theme.snapToDesignPx
+import dev.pocketagent.app.ui.text.t
 
 private const val BAND_STEPS = 12
 
@@ -40,7 +40,7 @@ private const val BAND_STEPS = 12
 fun Skeleton(modifier: Modifier = Modifier, height: Dp = 16.dp, corner: Int = Corner.chip) {
     val c = Pocket.colors
     val motion = Pocket.motion
-    val description = stringResource(R.string.ctl_loading)
+    val description = t(R.string.ctl_loading)
     val phase: State<Float>? = if (motion.level == AnimLevel.FULL) {
         rememberInfiniteTransition(label = "skeleton").animateFloat(
             initialValue = 0f, targetValue = 1f, label = "shimmer",

@@ -17,6 +17,8 @@ import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import java.io.File
 import java.lang.reflect.Proxy
+import dev.pocketagent.app.text.TestTexts
+import org.junit.Before
 
 /**
  * Constructs the real [RuntimeManager] exactly like PocketApp.onCreate does, against a fake Context. Regression test for the
@@ -28,6 +30,7 @@ import java.lang.reflect.Proxy
  * the stamp files below use that value.
  */
 class RuntimeManagerInitTest {
+    @Before fun installTexts() { TestTexts.installEnglish() }
     @get:Rule val tmp = TemporaryFolder()
 
     private fun fakeContext(files: File): Context {

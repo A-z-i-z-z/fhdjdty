@@ -4,10 +4,7 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.snap
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,7 +26,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -45,6 +41,11 @@ import dev.pocketagent.app.ui.components.PixelPanel
 import dev.pocketagent.app.ui.components.PixelText
 import dev.pocketagent.app.ui.theme.AnimLevel
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.theme.Loop
+import dev.pocketagent.app.ui.theme.PixelType
+import dev.pocketagent.app.ui.theme.Space
+import dev.pocketagent.app.ui.theme.motion
+import dev.pocketagent.app.ui.text.t
 
 // Small building blocks of the home screen (agent CHAT).
 
@@ -52,7 +53,7 @@ import dev.pocketagent.app.ui.theme.Pocket
 @Composable
 internal fun PixelHeading(text: String, modifier: Modifier = Modifier) {
     val c = Pocket.colors
-    if (Pocket.appearance.pixelFontTitles) PixelText(text, modifier, color = c.text, pixel = 3.dp)
+    if (Pocket.appearance.pixelFontTitles) PixelText(text, modifier, color = c.text, pixel = PixelType.big)
     else Text(text, modifier, color = c.text, fontSize = 24.sp, fontWeight = FontWeight.Bold, maxLines = 1, overflow = TextOverflow.Ellipsis)
 }
 
@@ -64,10 +65,11 @@ internal fun PixelHeading(text: String, modifier: Modifier = Modifier) {
 internal fun PixelProgressBar(fraction: Float?, modifier: Modifier = Modifier) {
     val c = Pocket.colors
     val anim = Pocket.anim
+    val motion = Pocket.motion
     val target = (fraction ?: 0f).coerceIn(0f, 1f)
-    val smooth by animateFloatAsState(target, if (anim == AnimLevel.OFF) snap<Float>() else tween<Float>(400), label = "progress")
+    val smooth by animateFloatAsState(target, motion.scene<Float>(), label = "progress")
     val t = rememberInfiniteTransition(label = "indeterminate")
-    val slide = t.animateFloat(0f, 1f, infiniteRepeatable(tween(1100, easing = LinearEasing), RepeatMode.Reverse), label = "slide")
+    val slide = t.animateFloat(0f, 1f, motion.loop<Float>(Loop.SLIDE, RepeatMode.Reverse, LinearEasing), label = "slide")
     Canvas(modifier.fillMaxWidth().height(12.dp).background(c.bgDeep).border(2.dp, c.outline)) {
         val step = 4.dp.toPx()
         if (fraction != null) {
@@ -87,7 +89,7 @@ internal fun PixelProgressBar(fraction: Float?, modifier: Modifier = Modifier) {
 @Composable
 internal fun BotCard(bot: Bot, onClick: () -> Unit, modifier: Modifier = Modifier) {
     val c = Pocket.colors
-    val label = stringResource(R.string.ui_home_chat_with, bot.name)
+    val label = t(R.string.ui_home_chat_with, bot.name)
     PixelPanel(modifier.width(96.dp).heightIn(min = 112.dp).clickable(onClickLabel = label, role = Role.Button, onClick = onClick), color = c.surface) {
         Column(Modifier.fillMaxWidth().padding(horizontal = 6.dp, vertical = 10.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             BotAvatar(bot, 48.dp)
@@ -108,7 +110,7 @@ internal fun NewBotCard(onClick: () -> Unit, modifier: Modifier = Modifier) {
             Box(Modifier.height(48.dp), contentAlignment = Alignment.Center) { PixelIconView(PixelIcon.PLUS, tint = c.accent, size = 28.dp) }
             Spacer(Modifier.height(6.dp))
             Text(
-                stringResource(R.string.ui_home_new_bot), color = c.accent, fontSize = 13.sp, fontWeight = FontWeight.Medium,
+                t(R.string.ui_home_new_bot), color = c.accent, fontSize = 13.sp, fontWeight = FontWeight.Medium,
                 maxLines = 1, overflow = TextOverflow.Ellipsis, textAlign = TextAlign.Center,
             )
         }
@@ -132,7 +134,7 @@ internal fun HomeTile(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             PixelIconView(icon, tint = c.accent, size = 26.dp)
-            Spacer(Modifier.width(12.dp))
+            Spacer(Modifier.width(Space.m))
             Column {
                 Text(label, color = c.text, fontSize = 14.sp, fontWeight = FontWeight.Medium, maxLines = 2, overflow = TextOverflow.Ellipsis)
                 if (subtitle != null) {

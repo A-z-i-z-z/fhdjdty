@@ -18,26 +18,31 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.pocketagent.app.PocketApp
 import dev.pocketagent.app.R
 import dev.pocketagent.app.data.Bot
 import dev.pocketagent.app.data.BotShare
+import dev.pocketagent.app.ui.RobotTags
 import dev.pocketagent.app.ui.components.ButtonKind
 import dev.pocketagent.app.ui.components.PixelButton
+import dev.pocketagent.app.ui.components.PetNoteKind
 import dev.pocketagent.app.ui.components.PixelIcon
 import dev.pocketagent.app.ui.components.PocketDialog
 import dev.pocketagent.app.ui.components.SectionHeader
 import dev.pocketagent.app.ui.settings.CText
-import dev.pocketagent.app.ui.settings.ConfirmDialog
+import dev.pocketagent.app.ui.components.ConfirmDialog
 import dev.pocketagent.app.ui.settings.Muted
 import dev.pocketagent.app.ui.settings.toast
 import dev.pocketagent.app.util.FileUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.tn
+import dev.pocketagent.app.ui.text.Texts
 
 /** Largest bot file the import reads (50 bots with the longest allowed prompt are about 1 MB). */
 private const val MAX_IMPORT_BYTES = 3_000_000
@@ -88,7 +93,7 @@ private fun botImportProblemRes(p: BotImportProblem): Int? = when (p) {
 /** The reason text of a failed import in the app language; unknown reasons fall back to the original message. */
 private fun importReasonText(ctx: Context, message: String?): String {
     val res = botImportProblemRes(botImportProblem(message))
-    return if (res != null) ctx.getString(res) else (message ?: "")
+    return if (res != null) Texts.get(ctx, res) else (message ?: "")
 }
 
 /** A file name such as `kawa.agiri-bots.json` (one bot) or `my-bots.agiri-bots.json`. */
@@ -103,9 +108,9 @@ internal fun botFileName(bots: List<Bot>): String {
 internal fun rememberBotExporter(): BotExporter {
     val ctx = LocalContext.current
     var pending by remember { mutableStateOf<String?>(null) }
-    val savedMsg = stringResource(R.string.ctl_bots_exported)
-    val failedMsg = stringResource(R.string.ctl_bots_export_failed)
-    val tooBigMsg = stringResource(R.string.ctl_bots_export_too_big)
+    val savedMsg = t(R.string.ctl_bots_exported)
+    val failedMsg = t(R.string.ctl_bots_export_failed)
+    val tooBigMsg = t(R.string.ctl_bots_export_too_big)
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
         val text = pending
         pending = null
@@ -113,7 +118,7 @@ internal fun rememberBotExporter(): BotExporter {
             try {
                 ctx.contentResolver.openOutputStream(uri, "wt")?.use { it.write(text.toByteArray(Charsets.UTF_8)) }
                 toast(ctx, savedMsg)
-            } catch (_: Exception) { toast(ctx, failedMsg) }
+            } catch (_: Exception) { toast(ctx, failedMsg, PetNoteKind.ERROR) }
         }
     }
     return remember(launcher) {
@@ -123,11 +128,11 @@ internal fun rememberBotExporter(): BotExporter {
                 val text = if (bots.isEmpty()) "" else BotShare.encode(bots)
                 when {
                     text.isEmpty() -> Unit
-                    text.length > MAX_SHARE_CHARS -> toast(ctx, tooBigMsg)
+                    text.length > MAX_SHARE_CHARS -> toast(ctx, tooBigMsg, PetNoteKind.ERROR)
                     else -> try {
                         val send = Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_SUBJECT, botFileName(bots)).putExtra(Intent.EXTRA_TEXT, text)
                         ctx.startActivity(Intent.createChooser(send, null).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-                    } catch (_: Exception) { toast(ctx, failedMsg) }
+                    } catch (_: Exception) { toast(ctx, failedMsg, PetNoteKind.ERROR) }
                 }
             },
         )
@@ -148,16 +153,16 @@ internal fun BotShareSection() {
     val scope = rememberCoroutineScope()
     var incoming by remember { mutableStateOf<List<Bot>?>(null) }
     var error by remember { mutableStateOf<String?>(null) }
-    val emptyClip = stringResource(R.string.ctl_bots_import_empty)
+    val emptyClip = t(R.string.ctl_bots_import_empty)
 
     fun parse(text: String) {
         try {
             val list = BotShare.decode(text)
-            if (list.isEmpty()) error = ctx.getString(R.string.ctl_bots_import_failed, ctx.getString(R.string.ctl_bots_import_none)) else incoming = list
+            if (list.isEmpty()) error = Texts.get(ctx, R.string.ctl_bots_import_failed, Texts.get(ctx, R.string.ctl_bots_import_none)) else incoming = list
         } catch (e: IllegalArgumentException) {
-            error = ctx.getString(R.string.ctl_bots_import_failed, importReasonText(ctx, e.message))
+            error = Texts.get(ctx, R.string.ctl_bots_import_failed, importReasonText(ctx, e.message))
         } catch (e: Exception) {
-            error = ctx.getString(R.string.ctl_bots_import_failed, e.message ?: e.javaClass.simpleName)
+            error = Texts.get(ctx, R.string.ctl_bots_import_failed, e.message ?: e.javaClass.simpleName)
         }
     }
 
@@ -169,34 +174,34 @@ internal fun BotShareSection() {
                     ctx.contentResolver.openInputStream(uri)?.use { String(FileUtil.readLimited(it, MAX_IMPORT_BYTES + 1), Charsets.UTF_8) }
                 } catch (_: Exception) { null }
             }
-            if (text == null) error = ctx.getString(R.string.ctl_bots_import_failed, "?")
-            else if (text.length > MAX_IMPORT_BYTES) error = ctx.getString(R.string.ctl_bots_import_failed, ctx.getString(R.string.ctl_bots_import_too_large))
+            if (text == null) error = Texts.get(ctx, R.string.ctl_bots_import_failed, "?")
+            else if (text.length > MAX_IMPORT_BYTES) error = Texts.get(ctx, R.string.ctl_bots_import_failed, Texts.get(ctx, R.string.ctl_bots_import_too_large))
             else parse(text)
         }
     }
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        SectionHeader(stringResource(R.string.ctl_bots_share_title))
-        Muted(stringResource(R.string.ctl_bots_share_help))
+        SectionHeader(t(R.string.ctl_bots_share_title))
+        Muted(t(R.string.ctl_bots_share_help))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             PixelButton(
-                stringResource(R.string.ctl_bots_export_file), onClick = { exporter.saveToFile(mine) },
-                modifier = Modifier.weight(1f), icon = PixelIcon.UPLOAD, kind = ButtonKind.SECONDARY, enabled = mine.isNotEmpty(),
+                t(R.string.ctl_bots_export_file), onClick = { exporter.saveToFile(mine) },
+                modifier = Modifier.weight(1f).testTag(RobotTags.BOTS_EXPORT), icon = PixelIcon.UPLOAD, kind = ButtonKind.SECONDARY, enabled = mine.isNotEmpty(),
             )
             PixelButton(
-                stringResource(R.string.ctl_bots_export_share), onClick = { exporter.share(mine) },
+                t(R.string.ctl_bots_export_share), onClick = { exporter.share(mine) },
                 modifier = Modifier.weight(1f), icon = PixelIcon.SHARE, kind = ButtonKind.SECONDARY, enabled = mine.isNotEmpty(),
             )
         }
-        if (mine.isEmpty()) Muted(stringResource(R.string.ctl_bots_export_none), size = 12.sp)
+        if (mine.isEmpty()) Muted(t(R.string.ctl_bots_export_none), size = 12.sp)
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             PixelButton(
-                stringResource(R.string.ctl_bots_import_file),
+                t(R.string.ctl_bots_import_file),
                 onClick = { picker.launch(arrayOf("application/json", "text/plain", "application/octet-stream", "*/*")) },
-                modifier = Modifier.weight(1f), icon = PixelIcon.DOWNLOAD, kind = ButtonKind.SECONDARY,
+                modifier = Modifier.weight(1f).testTag(RobotTags.BOTS_IMPORT), icon = PixelIcon.DOWNLOAD, kind = ButtonKind.SECONDARY,
             )
             PixelButton(
-                stringResource(R.string.ctl_bots_import_clip),
+                t(R.string.ctl_bots_import_clip),
                 onClick = {
                     val text = clipboardText(ctx)
                     if (text.isNullOrBlank()) error = emptyClip else parse(text)
@@ -209,22 +214,22 @@ internal fun BotShareSection() {
     incoming?.let { list ->
         val names = list.take(8).joinToString("\n") { "• " + it.name } + if (list.size > 8) "\n…" else ""
         ConfirmDialog(
-            title = stringResource(R.string.ctl_bots_import_title, list.size),
-            text = stringResource(R.string.ctl_bots_import_body, names),
-            confirmLabel = stringResource(R.string.ctl_bots_import_confirm),
+            title = tn(R.plurals.ctl_bots_import_title, list.size, list.size),
+            body = t(R.string.ctl_bots_import_body, names),
+            confirmLabel = t(R.string.ctl_bots_import_confirm),
             onConfirm = {
                 val now = System.currentTimeMillis()
                 list.forEach { repo.saveBot(it.copy(id = repo.newId(), builtIn = false, createdAt = now)) }
                 incoming = null
-                toast(ctx, ctx.getString(R.string.ctl_bots_imported, list.size))
+                toast(ctx, Texts.getQuantity(ctx, R.plurals.ctl_bots_imported, list.size, list.size))
             },
             onDismiss = { incoming = null },
         )
     }
     error?.let { msg ->
         PocketDialog(
-            title = stringResource(R.string.ctl_bots_import_error_title), onDismiss = { error = null },
-            confirm = { PixelButton(stringResource(R.string.ok), onClick = { error = null }) },
+            title = t(R.string.ctl_bots_import_error_title), onDismiss = { error = null },
+            confirm = { PixelButton(t(R.string.ok), onClick = { error = null }) },
         ) { CText(msg) }
     }
 }

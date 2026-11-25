@@ -21,7 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,7 +32,9 @@ import dev.pocketagent.app.hermes.HermesDoc
 import dev.pocketagent.app.runtime.RuntimeState
 import dev.pocketagent.app.ui.LocalNavigator
 import dev.pocketagent.app.ui.Route
+import dev.pocketagent.app.ui.RobotTags
 import dev.pocketagent.app.ui.components.ButtonKind
+import dev.pocketagent.app.ui.components.ConfirmDialog
 import dev.pocketagent.app.ui.components.PixelButton
 import dev.pocketagent.app.ui.components.PixelIcon
 import dev.pocketagent.app.ui.components.PixelPanel
@@ -42,7 +44,6 @@ import dev.pocketagent.app.ui.pixel.Mascot
 import dev.pocketagent.app.ui.pixel.MascotMood
 import dev.pocketagent.app.ui.settings.CText
 import dev.pocketagent.app.ui.settings.ChipRow
-import dev.pocketagent.app.ui.settings.ConfirmDialog
 import dev.pocketagent.app.ui.settings.Muted
 import dev.pocketagent.app.ui.settings.StatusDot
 import dev.pocketagent.app.ui.settings.isInstalled
@@ -50,6 +51,7 @@ import dev.pocketagent.app.ui.settings.mainVm
 import dev.pocketagent.app.ui.settings.runtimeColor
 import dev.pocketagent.app.ui.settings.runtimeLabel
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.text.t
 
 private const val HERMES_VERSION = "0.23.3"
 
@@ -89,7 +91,7 @@ fun HermesScreen() {
     val restart: () -> Unit = { vm.restart() }
 
     Column(Modifier.fillMaxSize().background(c.bg)) {
-        PocketTopBar(title = stringResource(R.string.ctl_hermes_title), subtitle = stringResource(R.string.ctl_hermes_subtitle))
+        PocketTopBar(title = t(R.string.ctl_hermes_title), subtitle = t(R.string.ctl_hermes_subtitle))
 
         // ---- status ----
         PixelPanel(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 6.dp)) {
@@ -107,7 +109,7 @@ fun HermesScreen() {
                         )
                     }
                     Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                        CText(stringResource(R.string.ctl_hermes_name, HERMES_VERSION), size = 16.sp, weight = FontWeight.Bold)
+                        CText(t(R.string.ctl_hermes_name, HERMES_VERSION), size = 16.sp, weight = FontWeight.Bold)
                         val (label, detail) = runtimeLabel(state)
                         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                             StatusDot(runtimeColor(state))
@@ -118,13 +120,13 @@ fun HermesScreen() {
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
                     PixelButton(
-                        stringResource(R.string.ctl_open_terminal), onClick = { nav.go(Route.Terminal) },
+                        t(R.string.ctl_open_terminal), onClick = { nav.go(Route.Terminal) },
                         modifier = Modifier.weight(1f), icon = PixelIcon.TERMINAL,
                     )
                     when {
-                        state == RuntimeState.Running -> PixelButton(stringResource(R.string.btn_restart), onClick = restart, kind = ButtonKind.SECONDARY, icon = PixelIcon.REFRESH)
+                        state == RuntimeState.Running -> PixelButton(t(R.string.btn_restart), onClick = restart, kind = ButtonKind.SECONDARY, icon = PixelIcon.REFRESH)
                         state is RuntimeState.NotInstalled || state is RuntimeState.Stopped || state is RuntimeState.Error ->
-                            PixelButton(stringResource(if (state is RuntimeState.NotInstalled) R.string.btn_install_start else R.string.btn_start), onClick = { vm.start() }, kind = ButtonKind.SECONDARY, icon = PixelIcon.PLAY)
+                            PixelButton(t(if (state is RuntimeState.NotInstalled) R.string.btn_install_start else R.string.btn_start), onClick = { vm.start() }, kind = ButtonKind.SECONDARY, icon = PixelIcon.PLAY)
                         else -> Box(Modifier)
                     }
                 }
@@ -134,24 +136,24 @@ fun HermesScreen() {
         // ---- tab row ----
         val dirtyOf = mapOf(HermesTab.SOUL to soul.dirty, HermesTab.MEMORY to memory.dirty, HermesTab.USER to user.dirty, HermesTab.SKILLS to hvm.anySkillDirty)
         ChipRow(Modifier.padding(horizontal = 12.dp, vertical = 4.dp)) {
-            HermesTab.entries.forEach { t ->
-                val label = stringResource(t.label) + if (dirtyOf[t] == true) " •" else ""
-                PocketChip(label, selected = tab == t.ordinal, onClick = { tab = t.ordinal }, icon = t.icon)
+            HermesTab.entries.forEach { ht ->
+                val label = t(ht.label) + if (dirtyOf[ht] == true) " •" else ""
+                PocketChip(label, selected = tab == ht.ordinal, onClick = { tab = ht.ordinal }, modifier = Modifier.testTag(hermesTabTag(ht)), icon = ht.icon)
             }
         }
 
         Box(Modifier.weight(1f).fillMaxWidth()) {
             when (HermesTab.entries[tab.coerceIn(0, HermesTab.entries.size - 1)]) {
                 HermesTab.SOUL -> DocEditor(
-                    soul, info = infoOf(home, HermesDoc.SOUL, soul.original), explain = stringResource(R.string.ctl_soul_explain),
+                    soul, info = infoOf(home, HermesDoc.SOUL, soul.original), explain = t(R.string.ctl_soul_explain),
                     installed = installed, running = running, onRestart = restart,
                 )
                 HermesTab.MEMORY -> DocEditor(
-                    memory, info = infoOf(home, HermesDoc.MEMORY, memory.original), explain = stringResource(R.string.ctl_memory_explain),
+                    memory, info = infoOf(home, HermesDoc.MEMORY, memory.original), explain = t(R.string.ctl_memory_explain),
                     installed = installed, running = running, onRestart = restart, budget = MEMORY_BUDGET, entries = true,
                 )
                 HermesTab.USER -> DocEditor(
-                    user, info = infoOf(home, HermesDoc.USER, user.original), explain = stringResource(R.string.ctl_user_explain),
+                    user, info = infoOf(home, HermesDoc.USER, user.original), explain = t(R.string.ctl_user_explain),
                     installed = installed, running = running, onRestart = restart, budget = USER_BUDGET, entries = true,
                 )
                 HermesTab.SKILLS -> SkillsTab(hvm, installed, running, restart)
@@ -162,8 +164,8 @@ fun HermesScreen() {
     }
 
     if (confirmLeave) ConfirmDialog(
-        title = stringResource(R.string.ctl_discard_title), text = stringResource(R.string.ctl_discard_body),
-        confirmLabel = stringResource(R.string.ctl_discard), danger = true,
+        title = t(R.string.ctl_discard_title), body = t(R.string.ctl_discard_body),
+        confirmLabel = t(R.string.ctl_discard), danger = true,
         onConfirm = { confirmLeave = false; hvm.discardAll(); if (!nav.back()) nav.tab(Route.Home) }, onDismiss = { confirmLeave = false },
     )
 }
@@ -172,3 +174,12 @@ fun HermesScreen() {
 @Composable
 private fun infoOf(home: dev.pocketagent.app.hermes.HermesHome, doc: HermesDoc, version: String): String =
     remember(doc, version) { runCatching { home.docInfo(doc) }.getOrDefault("") }
+
+private fun hermesTabTag(tab: HermesTab): String = when (tab) {
+    HermesTab.SOUL -> RobotTags.HERMES_TAB_SOUL
+    HermesTab.MEMORY -> RobotTags.HERMES_TAB_MEMORY
+    HermesTab.USER -> RobotTags.HERMES_TAB_USER
+    HermesTab.SKILLS -> RobotTags.HERMES_TAB_SKILLS
+    HermesTab.CONFIG -> RobotTags.HERMES_TAB_CONFIG
+    HermesTab.LOGS -> RobotTags.HERMES_TAB_LOGS
+}

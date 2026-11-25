@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cfg_diag_exporting">Export…</string>
+    <string name="cfg_diag_export_failed">Impossible d\'exporter les journaux. Réessayez.</string>
+    <string name="cfg_diag_share_subject">Journaux d\'Agirî</string>
+
+    <string name="cfg_diag_exits_title">Dernier arrêt de l\'app</string>
+    <string name="cfg_diag_exits_none">Aucune trace pour l\'instant.</string>
+    <string name="cfg_diag_exits_old_android">Android 11 ou plus récent est nécessaire.</string>
+
+    <string name="cfg_exit_crash">L\'app a planté</string>
+    <string name="cfg_exit_native">L\'app a planté dans le code natif</string>
+    <string name="cfg_exit_anr">L\'app ne répondait plus</string>
+    <string name="cfg_exit_start">L\'app n\'a pas pu démarrer</string>
+    <string name="cfg_exit_memory">Android a repris la mémoire</string>
+    <string name="cfg_exit_killed">Android a arrêté l\'app</string>
+    <string name="cfg_exit_user">Vous avez fermé l\'app</string>
+    <string name="cfg_exit_updated">L\'app a été mise à jour</string>
+    <string name="cfg_exit_self">L\'app s\'est fermée d\'elle-même</string>
+    <string name="cfg_exit_other">L\'app s\'est arrêtée pour une autre raison</string>
+
+    <string name="cfg_diag_guest_title">Code lancé par Hermes</string>
+    <string name="cfg_diag_guest_none">Rien dans les dossiers hooks et plugins.</string>
+    <plurals name="cfg_diag_guest_found">
+        <item quantity="one">%1$d élément des dossiers hooks et plugins n\'a pas été écrit par l\'app.</item>
+        <item quantity="other">%1$d éléments des dossiers hooks et plugins n\'ont pas été écrits par l\'app.</item>
+    </plurals>
+    <string name="cfg_guest_kind_hook">Hook</string>
+    <string name="cfg_guest_kind_plugin">Plugin</string>
+
+    <string name="cfg_crash_title">Agirî s\'est arrêtée</string>
+    <string name="cfg_crash_body">%2$s : %1$s. Un rapport peut être copié pour la personne qui corrige les problèmes. Il ne contient ni clés ni mots de passe.</string>
+    <string name="cfg_crash_copy">Copier</string>
+    <string name="cfg_crash_not_now">Plus tard</string>
+    <string name="cfg_crash_copied">Rapport copié</string>
+    <string name="cfg_crash_copy_failed">Impossible de copier le rapport. Réessayez.</string>
+</resources>

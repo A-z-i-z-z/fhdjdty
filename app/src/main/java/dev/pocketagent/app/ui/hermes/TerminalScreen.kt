@@ -31,16 +31,17 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.pocketagent.app.PocketApp
 import dev.pocketagent.app.R
 import dev.pocketagent.app.hermes.TermKind
 import dev.pocketagent.app.ui.LocalNavigator
+import dev.pocketagent.app.ui.RobotTags
 import dev.pocketagent.app.ui.Route
 import dev.pocketagent.app.ui.components.ButtonKind
 import dev.pocketagent.app.ui.components.PixelButton
@@ -56,6 +57,7 @@ import dev.pocketagent.app.ui.settings.isInstalled
 import dev.pocketagent.app.ui.settings.mainVm
 import dev.pocketagent.app.ui.settings.toast
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.text.t
 
 private val QUICK_COMMANDS = listOf(
     "hermes --help", "hermes status", "hermes doctor", "hermes skills list", "hermes memory --help",
@@ -87,8 +89,8 @@ fun TerminalScreen() {
     var input by rememberSaveable { mutableStateOf("") }
     var histPos by remember { mutableIntStateOf(-1) }   // -1 = the line being typed, 0 = newest command
     val listState = rememberLazyListState()
-    val copied = stringResource(R.string.ctl_copied)
-    val colorsDesc = stringResource(R.string.ctl_term_colors_desc)
+    val copied = t(R.string.ctl_copied)
+    val colorsDesc = t(R.string.ctl_term_colors_desc)
 
     // A new list object arrives on every change, also when the 5000-line cap keeps the size constant.
     LaunchedEffect(lines.size, System.identityHashCode(lines), lines.lastOrNull()?.text?.length) {
@@ -109,16 +111,16 @@ fun TerminalScreen() {
 
     Column(Modifier.fillMaxSize().background(c.bg).imePadding()) {
         PocketTopBar(
-            title = stringResource(R.string.ctl_terminal_title), subtitle = stringResource(R.string.ctl_terminal_subtitle),
+            title = t(R.string.ctl_terminal_title), subtitle = t(R.string.ctl_terminal_subtitle),
             onBack = { if (!nav.back()) nav.go(Route.Hermes) },
             actions = {
                 PixelIconButton(
                     PixelIcon.COPY, onClick = {
                         copyText(ctx, "Agirî terminal", lines.joinToString("\n") { if (it.kind == TermKind.CMD) "$ " + it.text.removePrefix("$ ") else it.text }); toast(ctx, copied)
                     },
-                    contentDescription = stringResource(R.string.ctl_copy), enabled = lines.isNotEmpty(),
+                    contentDescription = t(R.string.ctl_copy), enabled = lines.isNotEmpty(),
                 )
-                PixelIconButton(PixelIcon.TRASH, onClick = { term.clear() }, contentDescription = stringResource(R.string.ctl_term_clear), enabled = lines.isNotEmpty() && !running)
+                PixelIconButton(PixelIcon.TRASH, onClick = { term.clear() }, contentDescription = t(R.string.ctl_term_clear), enabled = lines.isNotEmpty() && !running)
             },
         )
 
@@ -127,15 +129,15 @@ fun TerminalScreen() {
             if (lines.isEmpty()) {
                 Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                     CText(
-                        stringResource(if (installed) R.string.ctl_term_welcome else R.string.ctl_term_not_installed),
+                        t(if (installed) R.string.ctl_term_welcome else R.string.ctl_term_not_installed),
                         color = CONSOLE_MUTED, size = 13.sp, mono = true,
                     )
                     if (!installed) {
-                        PixelButton(stringResource(R.string.ctl_term_go_runtime), onClick = { nav.go(Route.Settings("runtime")) }, kind = ButtonKind.SECONDARY)
+                        PixelButton(t(R.string.ctl_term_go_runtime), onClick = { nav.go(Route.Settings("runtime")) }, kind = ButtonKind.SECONDARY)
                     }
                 }
             } else {
-                LazyColumn(Modifier.fillMaxSize(), state = listState, contentPadding = PaddingValues(10.dp)) {
+                LazyColumn(Modifier.fillMaxSize().testTag(RobotTags.TERMINAL_OUTPUT), state = listState, contentPadding = PaddingValues(10.dp)) {
                     items(lines.size) { i ->
                         val l = lines[i]
                         val (prefix, color) = when (l.kind) {
@@ -162,7 +164,7 @@ fun TerminalScreen() {
         Column(Modifier.background(c.surface).padding(top = 6.dp)) {
             ChipRow(Modifier.padding(horizontal = 10.dp)) {
                 PocketChip(
-                    stringResource(R.string.ctl_term_colors), selected = colorsOn, onClick = { term.setColors(!colorsOn) },
+                    t(R.string.ctl_term_colors), selected = colorsOn, onClick = { term.setColors(!colorsOn) },
                     modifier = Modifier.semantics { contentDescription = colorsDesc },
                 )
                 QUICK_COMMANDS.forEach { cmd ->
@@ -170,7 +172,7 @@ fun TerminalScreen() {
                 }
             }
             CText(
-                stringResource(R.string.ctl_term_hint), color = c.textMuted, size = 11.sp,
+                t(R.string.ctl_term_hint), color = c.textMuted, size = 11.sp,
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
             )
             // ---- input ----
@@ -181,17 +183,17 @@ fun TerminalScreen() {
                     },
                 ) {
                     PocketTextField(
-                        input, { input = it; histPos = -1 }, Modifier.fillMaxWidth(),
-                        placeholder = stringResource(R.string.ctl_term_placeholder), singleLine = true, monospace = true,
+                        input, { input = it; histPos = -1 }, Modifier.fillMaxWidth().testTag(RobotTags.TERMINAL_INPUT),
+                        placeholder = t(R.string.ctl_term_placeholder), singleLine = true, monospace = true,
                     )
                 }
-                PixelIconButton(PixelIcon.UP, onClick = { browseHistory(true) }, contentDescription = stringResource(R.string.ctl_term_prev), enabled = term.history.isNotEmpty())
-                PixelIconButton(PixelIcon.DOWN, onClick = { browseHistory(false) }, contentDescription = stringResource(R.string.ctl_term_next), enabled = histPos >= 0)
+                PixelIconButton(PixelIcon.UP, onClick = { browseHistory(true) }, contentDescription = t(R.string.ctl_term_prev), enabled = term.history.isNotEmpty())
+                PixelIconButton(PixelIcon.DOWN, onClick = { browseHistory(false) }, contentDescription = t(R.string.ctl_term_next), enabled = histPos >= 0)
                 if (running) {
-                    PixelIconButton(PixelIcon.STOP, onClick = { term.cancel() }, contentDescription = stringResource(R.string.ctl_term_cancel), tint = c.error)
+                    PixelIconButton(PixelIcon.STOP, onClick = { term.cancel() }, contentDescription = t(R.string.ctl_term_cancel), tint = c.error)
                 } else {
                     PixelIconButton(
-                        PixelIcon.PLAY, onClick = { submit(input) }, contentDescription = stringResource(R.string.ctl_term_run),
+                        PixelIcon.PLAY, onClick = { submit(input) }, modifier = Modifier.testTag(RobotTags.TERMINAL_RUN), contentDescription = t(R.string.ctl_term_run),
                         tint = if (installed && input.isNotBlank()) c.accent else c.textMuted, enabled = installed && input.isNotBlank(),
                     )
                 }

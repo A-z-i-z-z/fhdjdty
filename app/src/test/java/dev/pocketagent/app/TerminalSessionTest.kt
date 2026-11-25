@@ -18,8 +18,11 @@ import org.junit.rules.TemporaryFolder
 import java.io.File
 import java.util.concurrent.CopyOnWriteArrayList
 import java.util.concurrent.atomic.AtomicBoolean
+import dev.pocketagent.app.text.TestTexts
+import org.junit.Before
 
 class TerminalSessionTest {
+    @Before fun installTexts() { TestTexts.installEnglish() }
     @get:Rule val tmp = TemporaryFolder()
 
     // ---- ANSI stripping ----------------------------------------------------------------------------------------------------

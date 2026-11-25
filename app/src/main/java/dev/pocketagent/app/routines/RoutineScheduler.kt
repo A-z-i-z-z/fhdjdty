@@ -33,6 +33,7 @@ import kotlinx.coroutines.withTimeoutOrNull
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
+import dev.pocketagent.app.ui.text.Texts
 
 /**
  * Runs the [Routine]s. One exact alarm (`RTC_WAKEUP`, allowed while idle) is kept for the earliest next run; when it rings,
@@ -218,26 +219,26 @@ class RoutineScheduler(private val app: PocketApp) {
         // Count the run first: whatever happens next, this slot is used up and the alarm moves on.
         store.save(r0.copy(lastRunAt = now, lastStatus = "", enabled = if (onceDone) false else r0.enabled))
         val r = store.get(r0.id) ?: return null
-        if (r.prompt.isBlank()) { fail(r, app.getString(R.string.rtn_fail_empty)); return null }
+        if (r.prompt.isBlank()) { fail(r, Texts.get(app, R.string.rtn_fail_empty)); return null }
 
         val loaded = withTimeoutOrNull(CHAT_LOAD_MS) { app.chat.loaded.first { it } }
-        if (loaded == null) { fail(r, app.getString(R.string.rtn_fail_chats)); return null }
+        if (loaded == null) { fail(r, Texts.get(app, R.string.rtn_fail_chats)); return null }
 
         if (app.usage.budget.value.mode == BudgetMode.BLOCK && app.usage.overBudget()) {
             setStatus(r.id, Routine.STATUS_SKIPPED)
-            notifyFailure(r, app.getString(R.string.rtn_fail_budget))
+            notifyFailure(r, Texts.get(app, R.string.rtn_fail_budget))
             return null
         }
 
         val convId = ensureConversation(r)
         val rt = app.runtime
         if (rt.state.value != RuntimeState.Running) {
-            if (!rt.isRootfsValid()) { fail(r, app.getString(R.string.rtn_fail_not_installed)); return null }
+            if (!rt.isRootfsValid()) { fail(r, Texts.get(app, R.string.rtn_fail_not_installed)); return null }
             wokeHermes = true
             if (!app.presencePrefs.settings.value.wakeOnSend) {
                 // The engine will not wake Hermes on its own; do it here.
                 val up = withContext(Dispatchers.IO) { RuntimeAwait.awaitRunning(rt, START_TIMEOUT_MS) { false } }
-                if (!up) { fail(r, app.getString(R.string.rtn_fail_start)); return null }
+                if (!up) { fail(r, Texts.get(app, R.string.rtn_fail_start)); return null }
             }
         }
 
@@ -252,7 +253,7 @@ class RoutineScheduler(private val app: PocketApp) {
             if (convId in app.engine.busy.value) {
                 setStatus(r.id, Routine.STATUS_SKIPPED)   // the previous run of this routine is still answering
             } else {
-                fail(r, app.getString(R.string.rtn_fail_send))
+                fail(r, Texts.get(app, R.string.rtn_fail_send))
             }
             return null
         }
@@ -266,7 +267,7 @@ class RoutineScheduler(private val app: PocketApp) {
         val bot = chat.bot(r.botId) ?: chat.bot(BotPresets.HERMES_ID)
         val botIds = listOf(bot?.id ?: BotPresets.HERMES_ID)
         val existing = if (r.convId.isNotEmpty()) chat.conversation(r.convId) else null
-        val conv = existing ?: chat.createConversation(botIds, r.name.ifBlank { app.getString(R.string.rtn_default_chat_title) })
+        val conv = existing ?: chat.createConversation(botIds, r.name.ifBlank { Texts.get(app, R.string.rtn_default_chat_title) })
         if (existing != null && existing.botIds != botIds) chat.setConversationBots(existing.id, botIds)
         if (conv.routineId != r.id) chat.setRoutine(conv.id, r.id)
         chat.setOverrides(conv.id, r.model, r.effort)
@@ -289,7 +290,7 @@ class RoutineScheduler(private val app: PocketApp) {
         setStatus(a.routineId, if (failed) Routine.STATUS_FAILED else Routine.STATUS_OK)
         if (failed && !a.failedSeen.get()) {
             val r = app.routines.get(a.routineId)
-            if (r != null) notifyFailure(r, lastError?.text ?: app.getString(R.string.rtn_fail_no_answer))
+            if (r != null) notifyFailure(r, lastError?.text ?: Texts.get(app, R.string.rtn_fail_no_answer))
         }
     }
 
@@ -313,7 +314,7 @@ class RoutineScheduler(private val app: PocketApp) {
 
     private fun notifyFailure(r: Routine, reason: String) {
         try {
-            val name = r.name.ifBlank { app.getString(R.string.rtn_default_chat_title) }
+            val name = r.name.ifBlank { Texts.get(app, R.string.rtn_default_chat_title) }
             app.presence.notifier.postRoutineFailure(name, Diag.redactor.redact(reason).take(200))
         } catch (e: Throwable) {
             AppLog.w("Routines", "could not post the failure notification", e)

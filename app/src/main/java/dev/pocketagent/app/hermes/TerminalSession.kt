@@ -15,6 +15,8 @@ import kotlinx.coroutines.launch
 import org.json.JSONArray
 import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
+import dev.pocketagent.app.R
+import dev.pocketagent.app.ui.text.Texts
 
 enum class TermKind { CMD, OUT, ERR, INFO }
 
@@ -229,7 +231,7 @@ class TerminalSession internal constructor(
         val cmd = command.trim('\n', '\r', ' ', '\t')
         if (cmd.isEmpty()) return
         synchronized(lock) {
-            if (_running.value) { appendNow(listOf(TermLine("A command is still running. Wait for it or cancel it first.", TermKind.INFO))); return }
+            if (_running.value) { appendNow(listOf(TermLine(Texts.text(R.string.eng_term_busy), TermKind.INFO))); return }
             _running.value = true
         }
         remember(cmd)
@@ -239,7 +241,7 @@ class TerminalSession internal constructor(
         job = scope.launch {
             try {
                 if (!isInstalled()) {
-                    append(TermLine("The Hermes runtime is not installed yet. Start Hermes once from the home screen so it can set itself up, then try again.", TermKind.INFO))
+                    append(TermLine(Texts.text(R.string.eng_term_not_installed), TermKind.INFO))
                     return@launch
                 }
                 // One parser per stream (each is used by a single reader thread) so a colour started on one line carries to the next.
@@ -247,12 +249,12 @@ class TerminalSession internal constructor(
                 val errParser = AnsiParser()
                 val code = exec.run(guestCommand(cmd, _colors.value), { text, isErr -> append(styledLine(if (isErr) errParser else outParser, text, isErr)) }, cancel)
                 when {
-                    cancel.get() -> append(TermLine("[cancelled]", TermKind.INFO))
-                    code != 0 -> append(TermLine("[exit code $code]", TermKind.INFO))
+                    cancel.get() -> append(TermLine(Texts.text(R.string.eng_term_cancelled), TermKind.INFO))
+                    code != 0 -> append(TermLine(Texts.text(R.string.eng_term_exit_code, code), TermKind.INFO))
                 }
             } catch (e: Throwable) {
                 AppLog.e("Terminal", "command failed to run", e)
-                append(TermLine(Diag.redactor.redact("Could not run the command: ${e.javaClass.simpleName}: ${e.message}"), TermKind.INFO))
+                append(TermLine(Diag.redactor.redact(Texts.text(R.string.eng_term_run_failed, "${e.javaClass.simpleName}: ${e.message}")), TermKind.INFO))
             } finally {
                 flushNow()
                 _running.value = false

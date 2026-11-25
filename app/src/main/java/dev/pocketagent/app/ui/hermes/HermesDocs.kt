@@ -21,12 +21,14 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.pocketagent.app.R
 import dev.pocketagent.app.hermes.MemoryFormat
+import dev.pocketagent.app.ui.RobotTags
 import dev.pocketagent.app.ui.components.ButtonKind
+import dev.pocketagent.app.ui.components.ConfirmDialog
 import dev.pocketagent.app.ui.components.PixelButton
 import dev.pocketagent.app.ui.components.PixelIcon
 import dev.pocketagent.app.ui.components.PixelIconButton
@@ -37,7 +39,6 @@ import dev.pocketagent.app.ui.components.PocketTextField
 import dev.pocketagent.app.ui.settings.CText
 import dev.pocketagent.app.ui.settings.ChipRow
 import dev.pocketagent.app.ui.settings.CtlCard
-import dev.pocketagent.app.ui.settings.ConfirmDialog
 import dev.pocketagent.app.ui.settings.ErrorText
 import dev.pocketagent.app.ui.settings.Muted
 import dev.pocketagent.app.ui.theme.Pocket
@@ -45,6 +46,8 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.tn
 
 /** Hermes's memory files hold entries separated by a fixed delimiter; the format facts live in ENGINE's [MemoryFormat]. */
 internal const val MEMORY_BUDGET = MemoryFormat.MEMORY_LIMIT
@@ -129,64 +132,64 @@ internal fun DocEditor(
     Column(modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Muted(explain)
         if (info.isNotBlank()) CText(info, color = c.textMuted, size = 11.sp, mono = true)
-        if (!installed) Muted(stringResource(R.string.ctl_doc_not_installed), size = 13.sp)
-        if (state.loading && !state.loaded) Muted(stringResource(R.string.ctl_loading))
-        state.error?.let { ErrorText(stringResource(R.string.ctl_doc_error, it)) }
-        if (state.loaded && !state.exists && !state.dirty) Muted(stringResource(R.string.ctl_doc_missing), size = 13.sp)
+        if (!installed) Muted(t(R.string.ctl_doc_not_installed), size = 13.sp)
+        if (state.loading && !state.loaded) Muted(t(R.string.ctl_loading))
+        state.error?.let { ErrorText(t(R.string.ctl_doc_error, it)) }
+        if (state.loaded && !state.exists && !state.dirty) Muted(t(R.string.ctl_doc_missing), size = 13.sp)
 
         if (budget != null) BudgetMeter(joinEntries(parseEntries(state.text)).length, budget)
 
         // ---- status + mode ----
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             when {
-                state.dirty -> CText(stringResource(R.string.ctl_unsaved), color = c.warning, size = 13.sp, modifier = Modifier.weight(1f))
-                state.justSaved -> CText(stringResource(R.string.ctl_saved), color = c.success, size = 13.sp, modifier = Modifier.weight(1f))
+                state.dirty -> CText(t(R.string.ctl_unsaved), color = c.warning, size = 13.sp, modifier = Modifier.weight(1f))
+                state.justSaved -> CText(t(R.string.ctl_saved), color = c.success, size = 13.sp, modifier = Modifier.weight(1f))
                 else -> Box(Modifier.weight(1f))
             }
             if (entries) {
-                PocketChip(stringResource(R.string.ctl_mode_entries), selected = !rawMode, onClick = { rawMode = false })
-                PocketChip(stringResource(R.string.ctl_mode_raw), selected = rawMode, onClick = { rawMode = true })
+                PocketChip(t(R.string.ctl_mode_entries), selected = !rawMode, onClick = { rawMode = false })
+                PocketChip(t(R.string.ctl_mode_raw), selected = rawMode, onClick = { rawMode = true })
             }
         }
 
         // ---- body ----
         if (!entries || rawMode) {
             PocketTextField(
-                state.text, { state.text = it; state.justSaved = false }, Modifier.fillMaxWidth(),
-                minLines = 12, monospace = true, placeholder = stringResource(R.string.ctl_doc_placeholder),
+                state.text, { state.text = it; state.justSaved = false }, Modifier.fillMaxWidth().testTag(RobotTags.HERMES_DOC_EDITOR),
+                minLines = 12, monospace = true, placeholder = t(R.string.ctl_doc_placeholder),
             )
-            Muted(stringResource(R.string.ctl_chars, state.text.length), size = 12.sp)
+            Muted(tn(R.plurals.ctl_chars, state.text.length, state.text.length), size = 12.sp)
         } else {
             val list = parseEntries(state.text)
-            if (list.isEmpty()) Muted(stringResource(R.string.ctl_entries_empty), size = 13.sp)
+            if (list.isEmpty()) Muted(t(R.string.ctl_entries_empty), size = 13.sp)
             list.forEachIndexed { i, entry ->
                 PixelPanel(Modifier.fillMaxWidth()) {
                     Row(Modifier.fillMaxWidth().padding(start = 12.dp, top = 8.dp, bottom = 8.dp, end = 2.dp), verticalAlignment = Alignment.CenterVertically) {
                         CText(entry, size = 14.sp, modifier = Modifier.weight(1f).padding(end = 4.dp))
                         Column {
-                            PixelIconButton(PixelIcon.EDIT, onClick = { editing = i; editText = entry }, contentDescription = stringResource(R.string.ctl_entry_edit))
+                            PixelIconButton(PixelIcon.EDIT, onClick = { editing = i; editText = entry }, contentDescription = t(R.string.ctl_entry_edit))
                             PixelIconButton(PixelIcon.TRASH, onClick = {
                                 state.text = joinEntries(list.filterIndexed { j, _ -> j != i }); state.justSaved = false
-                            }, contentDescription = stringResource(R.string.ctl_entry_delete), tint = c.error)
+                            }, contentDescription = t(R.string.ctl_entry_delete), tint = c.error)
                         }
                     }
                 }
             }
-            PixelButton(stringResource(R.string.ctl_entry_add), onClick = { editing = -1; editText = "" }, icon = PixelIcon.PLUS, kind = ButtonKind.SECONDARY)
+            PixelButton(t(R.string.ctl_entry_add), onClick = { editing = -1; editText = "" }, icon = PixelIcon.PLUS, kind = ButtonKind.SECONDARY)
         }
 
         // ---- actions ----
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp), verticalAlignment = Alignment.CenterVertically) {
-            PixelButton(stringResource(R.string.ctl_revert), onClick = { state.revert() }, kind = ButtonKind.GHOST, enabled = state.dirty)
-            PixelButton(stringResource(R.string.ctl_save), onClick = { confirmSave = true }, icon = PixelIcon.CHECK, enabled = state.dirty && installed)
+            PixelButton(t(R.string.ctl_revert), onClick = { state.revert() }, kind = ButtonKind.GHOST, enabled = state.dirty)
+            PixelButton(t(R.string.ctl_save), onClick = { confirmSave = true }, modifier = Modifier.testTag(RobotTags.HERMES_DOC_SAVE), icon = PixelIcon.CHECK, enabled = state.dirty && installed)
         }
         if (state.justSaved && restartNeeded) {
             CtlCard(color = c.accentSoft, border = c.accent) {
                 if (running) {
-                    CText(stringResource(R.string.ctl_restart_to_apply_body), size = 14.sp)
-                    PixelButton(stringResource(R.string.ctl_restart_to_apply), onClick = onRestart, icon = PixelIcon.REFRESH)
+                    CText(t(R.string.ctl_restart_to_apply_body), size = 14.sp)
+                    PixelButton(t(R.string.ctl_restart_to_apply), onClick = onRestart, icon = PixelIcon.REFRESH)
                 } else {
-                    CText(stringResource(R.string.ctl_applies_next_start), size = 14.sp)
+                    CText(t(R.string.ctl_applies_next_start), size = 14.sp)
                 }
             }
         }
@@ -194,25 +197,25 @@ internal fun DocEditor(
     }
 
     if (confirmSave) ConfirmDialog(
-        title = stringResource(R.string.ctl_save_confirm_title), text = stringResource(R.string.ctl_save_confirm_body),
-        confirmLabel = stringResource(R.string.ctl_save),
+        title = t(R.string.ctl_save_confirm_title), body = t(R.string.ctl_save_confirm_body),
+        confirmLabel = t(R.string.ctl_save),
         onConfirm = { confirmSave = false; scope.launch { state.save() } }, onDismiss = { confirmSave = false },
     )
     if (state.conflict) PocketDialog(
-        title = stringResource(R.string.ctl_conflict_title), onDismiss = { state.conflict = false },
-        confirm = { PixelButton(stringResource(R.string.ctl_conflict_overwrite), kind = ButtonKind.DANGER, onClick = { scope.launch { state.save(force = true) } }) },
-        dismiss = { PixelButton(stringResource(R.string.cancel), onClick = { state.conflict = false }, kind = ButtonKind.GHOST) },
+        title = t(R.string.ctl_conflict_title), onDismiss = { state.conflict = false },
+        confirm = { PixelButton(t(R.string.ctl_conflict_overwrite), kind = ButtonKind.DANGER, onClick = { scope.launch { state.save(force = true) } }) },
+        dismiss = { PixelButton(t(R.string.cancel), onClick = { state.conflict = false }, kind = ButtonKind.GHOST) },
     ) {
-        CText(stringResource(R.string.ctl_conflict_body))
-        PixelButton(stringResource(R.string.ctl_conflict_reload), kind = ButtonKind.SECONDARY, icon = PixelIcon.REFRESH,
+        CText(t(R.string.ctl_conflict_body))
+        PixelButton(t(R.string.ctl_conflict_reload), kind = ButtonKind.SECONDARY, icon = PixelIcon.REFRESH,
             onClick = { state.conflict = false; scope.launch { state.reload() } })
     }
     editing?.let { idx ->
         PocketDialog(
-            title = stringResource(if (idx < 0) R.string.ctl_entry_add else R.string.ctl_entry_edit),
+            title = t(if (idx < 0) R.string.ctl_entry_add else R.string.ctl_entry_edit),
             onDismiss = { editing = null },
             confirm = {
-                PixelButton(stringResource(R.string.ctl_ok_apply), enabled = editText.isNotBlank(), onClick = {
+                PixelButton(t(R.string.ctl_ok_apply), enabled = editText.isNotBlank(), onClick = {
                     val list = parseEntries(state.text).toMutableList()
                     val cleaned = editText.replace("§", "").trim()
                     if (idx < 0) list.add(cleaned) else if (idx < list.size) list[idx] = cleaned
@@ -220,7 +223,7 @@ internal fun DocEditor(
                     editing = null
                 })
             },
-            dismiss = { PixelButton(stringResource(R.string.cancel), onClick = { editing = null }, kind = ButtonKind.GHOST) },
+            dismiss = { PixelButton(t(R.string.cancel), onClick = { editing = null }, kind = ButtonKind.GHOST) },
         ) {
             PocketTextField(editText, { editText = it }, Modifier.fillMaxWidth(), minLines = 4, maxLines = 10)
         }
@@ -241,7 +244,7 @@ internal fun BudgetMeter(used: Int, budget: Int) {
         Box(Modifier.fillMaxWidth().height(10.dp).background(c.surfaceHigh).border(1.dp, c.outline)) {
             Box(Modifier.fillMaxHeight().fillMaxWidth(fraction).background(color))
         }
-        CText(stringResource(R.string.ctl_budget, used, budget), color = if (used > budget) c.error else c.textMuted, size = 12.sp)
-        if (used > budget) ErrorText(stringResource(R.string.ctl_budget_over))
+        CText(t(R.string.ctl_budget, used, budget), color = if (used > budget) c.error else c.textMuted, size = 12.sp)
+        if (used > budget) ErrorText(t(R.string.ctl_budget_over))
     }
 }

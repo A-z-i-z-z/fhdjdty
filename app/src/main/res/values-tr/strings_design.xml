@@ -2,4 +2,6 @@
 <resources>
     <string name="design_back">Geri</string>
     <string name="design_typing">Düşünüyor</string>
+    <string name="design_note_dismiss">Kapat</string>
+    <string name="design_ember_active">Çalışıyor</string>
 </resources>

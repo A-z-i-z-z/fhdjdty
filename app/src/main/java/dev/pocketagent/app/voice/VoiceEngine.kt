@@ -27,6 +27,8 @@ import java.io.File
 import java.util.Locale
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
+import dev.pocketagent.app.R
+import dev.pocketagent.app.ui.text.Texts
 
 /** Per-bot voice character & delivery mood overrides. */
 data class VoiceOverride(
@@ -456,7 +458,7 @@ class VoiceEngine(
                         if (speakSeq.get() == u.seq) {
                             _synthesizing.value = false
                             if (_speakingId.value == u.id) _speakingId.value = null
-                            _lastError.value = "System TTS error ($errorCode)"
+                            _lastError.value = Texts.get(context, R.string.eng_tts_error, errorCode)
                         }
                     }
                 })
@@ -466,7 +468,7 @@ class VoiceEngine(
                     if (speakSeq.get() == u.seq) {
                         _synthesizing.value = false
                         if (_speakingId.value == u.id) _speakingId.value = null
-                        _lastError.value = "System TTS unavailable"
+                        _lastError.value = Texts.get(context, R.string.eng_tts_unavailable)
                     }
                 }
             }
@@ -515,7 +517,7 @@ class VoiceEngine(
             } else if (nextToSpeak != null && speakSeq.get() == nextToSpeak.seq) {
                 _synthesizing.value = false
                 if (_speakingId.value == nextToSpeak.id) _speakingId.value = null
-                _lastError.value = "System TTS init failed ($status)"
+                _lastError.value = Texts.get(context, R.string.eng_tts_init_failed, status)
             }
         }
     }

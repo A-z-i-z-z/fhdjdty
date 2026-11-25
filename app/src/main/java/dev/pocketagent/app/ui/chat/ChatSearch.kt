@@ -21,7 +21,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
@@ -32,6 +31,7 @@ import dev.pocketagent.app.R
 import dev.pocketagent.app.ui.components.PixelIcon
 import dev.pocketagent.app.ui.components.PixelIconButton
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.text.t
 
 // "Find in chat" (agent CHAT): the slim search bar under the chat's top bar. The matching itself is in ChatLogic.kt, the scrolling
 // and the accent outline of the current match are in ChatScreen.
@@ -54,7 +54,7 @@ internal fun ChatSearchBar(
     val c = Pocket.colors
     val focus = remember { FocusRequester() }
     LaunchedEffect(Unit) { runCatching { focus.requestFocus() } }
-    val hint = stringResource(R.string.ui_find_hint)
+    val hint = t(R.string.ui_find_hint)
     Row(
         modifier.fillMaxWidth().background(c.surface).padding(start = 12.dp, end = 2.dp, top = 4.dp, bottom = 4.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -79,8 +79,8 @@ internal fun ChatSearchBar(
         Spacer(Modifier.width(6.dp))
         val countText = when {
             query.isBlank() -> ""
-            matchCount == 0 -> stringResource(R.string.ui_find_none)
-            else -> stringResource(R.string.ui_find_count, position + 1, matchCount)
+            matchCount == 0 -> t(R.string.ui_find_none)
+            else -> t(R.string.ui_find_count, position + 1, matchCount)
         }
         if (countText.isNotEmpty()) {
             Text(
@@ -91,13 +91,13 @@ internal fun ChatSearchBar(
             )
         }
         PixelIconButton(
-            PixelIcon.UP, onClick = onPrev, contentDescription = stringResource(R.string.ui_find_prev),
+            PixelIcon.UP, onClick = onPrev, contentDescription = t(R.string.ui_find_prev),
             tint = if (matchCount > 0) c.text else c.outline, enabled = matchCount > 0,
         )
         PixelIconButton(
-            PixelIcon.DOWN, onClick = onNext, contentDescription = stringResource(R.string.ui_find_next),
+            PixelIcon.DOWN, onClick = onNext, contentDescription = t(R.string.ui_find_next),
             tint = if (matchCount > 0) c.text else c.outline, enabled = matchCount > 0,
         )
-        PixelIconButton(PixelIcon.CLOSE, onClick = onClose, contentDescription = stringResource(R.string.ui_find_close))
+        PixelIconButton(PixelIcon.CLOSE, onClick = onClose, contentDescription = t(R.string.ui_find_close))
     }
 }

@@ -18,6 +18,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+import dev.pocketagent.app.ui.text.Texts
 
 /**
  * The Quick Settings tile for the fire. Active = Hermes is running, unavailable while the runtime is unpacking or
@@ -77,9 +78,9 @@ class FireTileService : TileService() {
         }
         tile.state = tileState
         val l = withAppLanguage() // follow the language picked inside the app, not only the system's
-        tile.label = l.getString(R.string.srf_tile_label)
+        tile.label = Texts.get(l, R.string.srf_tile_label)
         tile.icon = Icon.createWithResource(this, R.drawable.ic_tile_fire)
-        if (Build.VERSION.SDK_INT >= 29) tile.subtitle = l.getString(subtitle)
+        if (Build.VERSION.SDK_INT >= 29) tile.subtitle = Texts.get(l, subtitle)
         tile.updateTile()
     }
 

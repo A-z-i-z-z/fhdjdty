@@ -24,6 +24,8 @@ import java.net.ServerSocket
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
+import dev.pocketagent.app.R
+import dev.pocketagent.app.ui.text.Texts
 
 /** One launch of proot+Hermes. Exits of superseded runs must never be attributed to the current one. */
 class RunHandle(val generation: Int, val process: Process, val port: Int, val logOffset: Long) {
@@ -240,7 +242,7 @@ class RuntimeManager(
                         FileUtil.deleteOrThrow(paths.rootfsStaging); FileUtil.deleteOrThrow(paths.rootfs)
                         setState(RuntimeState.NotInstalled)
                     } catch (e: Exception) {
-                        setState(RuntimeState.Error("Could not delete the runtime: ${e.message}"))
+                        setState(RuntimeState.Error(Texts.get(context, R.string.eng_rt_delete_failed, "${e.message}")))
                     }
                 }
             } finally { endOp() }
@@ -341,7 +343,7 @@ class RuntimeManager(
 
     private fun ensureRootfs(): Boolean {
         if (rootfsInfo["stub_rootfs"] == "true") {
-            setState(RuntimeState.Error("This build contains no rootfs (stub build). Install the APK produced by CI."))
+            setState(RuntimeState.Error(Texts.get(context, R.string.eng_rt_stub_rootfs)))
             return false
         }
         // A stamp that exists but cannot be read must NOT lead to "delete the rootfs and extract again": that would silently throw
@@ -349,8 +351,7 @@ class RuntimeManager(
         val stampRead = readStamp()
         if (stampRead.error != null) {
             AppLog.e("Runtime", "start refused: rootfs stamp exists but cannot be read; rootfs left untouched", stampRead.error)
-            setState(RuntimeState.Error("Cannot read ${paths.rootfsStamp.name}: ${stampRead.error.javaClass.simpleName}: ${stampRead.error.message}. " +
-                "The runtime was NOT reinstalled, so nothing was deleted. Fix the file's permissions, or use Delete runtime files to reinstall from scratch."))
+            setState(RuntimeState.Error(Texts.get(context, R.string.eng_rt_stamp_unreadable, paths.rootfsStamp.name, "${stampRead.error.javaClass.simpleName}: ${stampRead.error.message}")))
             return false
         }
         if (isRootfsValid()) {
@@ -366,7 +367,7 @@ class RuntimeManager(
         val reclaimable = dirBytes(paths.rootfs) + dirBytes(paths.rootfsStaging)
         val free = if (freeNow == Long.MAX_VALUE) freeNow else freeNow + reclaimable
         if (need > 0 && free < need + need / 8) {
-            setState(RuntimeState.Error("Not enough free storage: need about ${FileUtil.formatBytes(need + need / 8)}, have ${FileUtil.formatBytes(freeNow)} free plus ${FileUtil.formatBytes(reclaimable)} reclaimable from the old runtime"))
+            setState(RuntimeState.Error(Texts.get(context, R.string.eng_rt_no_space, FileUtil.formatBytes(need + need / 8), FileUtil.formatBytes(freeNow), FileUtil.formatBytes(reclaimable))))
             return false
         }
         val t0 = System.currentTimeMillis()
@@ -402,7 +403,7 @@ class RuntimeManager(
             AppLog.e("Extract", "failed", e)
             paths.rootfsStamp.delete() // nothing that could be mistaken for a complete rootfs
             FileUtil.deleteRecursivelyNoFollow(paths.rootfsStaging)
-            setState(RuntimeState.Error("Extraction failed: ${e.javaClass.simpleName}: ${e.message}"))
+            setState(RuntimeState.Error(Texts.get(context, R.string.eng_rt_extract_failed, "${e.javaClass.simpleName}: ${e.message}")))
             return false
         }
     }
@@ -443,9 +444,9 @@ class RuntimeManager(
         setState(RuntimeState.Starting("preparing"))
         killStaleGuests("before start")
         if (rootfsInfo["stub_rootfs"] == "true" || prootInfo["stub_proot"] == "true") {
-            setState(RuntimeState.Error("Stub build: no proot binary bundled.")); return false
+            setState(RuntimeState.Error(Texts.get(context, R.string.eng_rt_stub_proot))); return false
         }
-        if (!paths.prootBin.exists()) { setState(RuntimeState.Error("proot binary missing: ${paths.prootBin}")); return false }
+        if (!paths.prootBin.exists()) { setState(RuntimeState.Error(Texts.get(context, R.string.eng_rt_proot_missing, paths.prootBin))); return false }
         // An expired practice flag is turned off here, before the options are read: it must never survive into this launch.
         val guestPrefs = GuestPrefs.get(context)
         guestPrefs.enforceExpiry()
@@ -454,7 +455,7 @@ class RuntimeManager(
             // The practice model has no provider setup to validate; every other run is checked as before.
             val inputs = settings.providerInputs(secrets.geminiApiKey())
             val blocking = ProviderConfig.blocking(ProviderConfig.problems(inputs))
-            if (blocking.isNotEmpty()) { setState(RuntimeState.Error("Invalid configuration: $blocking (fix it under Setup)")); return false }
+            if (blocking.isNotEmpty()) { setState(RuntimeState.Error(Texts.get(context, R.string.eng_rt_bad_config, blocking))); return false }
         }
 
         paths.runtimeDir.mkdirs(); paths.state.mkdirs(); paths.logs.mkdirs()
@@ -531,7 +532,7 @@ class RuntimeManager(
             while (still()) {
                 val elapsed = (SystemClock.elapsedRealtime() - h.startElapsed) / 1000
                 if (elapsed > 1200) {
-                    if (still()) setState(RuntimeState.Error("Hermes did not become healthy within 20 minutes (process still alive; see runtime log). Press Stop, then Start."))
+                    if (still()) setState(RuntimeState.Error(Texts.get(context, R.string.eng_rt_not_healthy)))
                     return
                 }
                 val hr = api.health()
@@ -541,10 +542,10 @@ class RuntimeManager(
                     if (!apiVerified) {
                         when (verifyListener(h)) {
                             Verdict.OK -> { apiVerified = true; AppLog.i("Runtime", "listener on port ${h.port} verified as our Hermes") }
-                            Verdict.FOREIGN -> { if (still()) setState(RuntimeState.Error("Port ${h.port} is answered by a process that is not our Hermes (another app?). Press Start to retry on a new port.")); return }
+                            Verdict.FOREIGN -> { if (still()) setState(RuntimeState.Error(Texts.get(context, R.string.eng_rt_foreign_port, h.port))); return }
                             Verdict.NOT_YET -> {
                                 if (elapsed - apiUpSince > 90) {
-                                    if (still()) setState(RuntimeState.Error("The API on port ${h.port} answers /health, but our Hermes never announced that port in its own output within 90 s, so the API key was NOT sent (could be another app on the port, or Hermes logging differently). Press Start to retry."))
+                                    if (still()) setState(RuntimeState.Error(Texts.get(context, R.string.eng_rt_port_unannounced, h.port)))
                                     return
                                 }
                                 if (!still()) return
@@ -555,7 +556,7 @@ class RuntimeManager(
                     if (apiVerified) {
                         val m = api.models()
                         if (!still()) return
-                        if (m.code == 401) { setState(RuntimeState.Error("Hermes is up but rejected our API key (HTTP 401): ${m.body.take(200)}")); return }
+                        if (m.code == 401) { setState(RuntimeState.Error(Texts.get(context, R.string.eng_rt_key_rejected, m.body.take(200)))); return }
                         AppLog.i("Runtime", "health OK after ${elapsed}s; /v1/models -> ${m.code}")
                         setState(RuntimeState.Running)
                         return
@@ -622,7 +623,7 @@ class RuntimeManager(
         when {
             h.stopRequested.get() -> setState(RuntimeState.Stopped("stopped"))
             cur is RuntimeState.Starting || cur == RuntimeState.Running -> {
-                setState(RuntimeState.Error("Hermes exited unexpectedly: ${rec.describe()}" + (ExitRecord.hint(code)?.let { " - $it" } ?: "")))
+                setState(RuntimeState.Error(ExitRecord.hint(code)?.let { Texts.get(context, R.string.eng_rt_exited_hint, rec.describe(), it) } ?: Texts.get(context, R.string.eng_rt_exited, rec.describe())))
                 _unexpectedExits.value = _unexpectedExits.value + 1 // after the Error state is visible
             }
             else -> {}
@@ -798,9 +799,9 @@ class RuntimeManager(
     fun execInGuest(command: List<String>, onOutput: (String, Boolean) -> Unit, cancel: AtomicBoolean): Int {
         if (command.isEmpty()) return -1
         if (rootfsInfo["stub_rootfs"] == "true" || prootInfo["stub_proot"] == "true" || !paths.prootBin.exists()) {
-            onOutput("This build contains no proot or rootfs (stub build).", true); return -1
+            onOutput(Texts.get(context, R.string.eng_rt_term_stub), true); return -1
         }
-        if (!isRootfsValid()) { onOutput("The Hermes runtime is not installed yet.", true); return -1 }
+        if (!isRootfsValid()) { onOutput(Texts.get(context, R.string.eng_rt_term_not_installed), true); return -1 }
         beginOp()
         wakeLocks.acquire("terminal", 30 * 60_000L)
         try {
@@ -817,7 +818,7 @@ class RuntimeManager(
             pb.environment().clear(); pb.environment().putAll(env)
             pb.directory(paths.terminalState)
             val p = try { pb.start() } catch (e: Exception) {
-                onOutput("Could not start the shell: ${e.javaClass.simpleName}: ${e.message}", true); return -1
+                onOutput(Texts.get(context, R.string.eng_rt_term_shell_failed, "${e.javaClass.simpleName}: ${e.message}"), true); return -1
             }
             try { p.outputStream.close() } catch (_: Exception) { }
             fun pump(stream: java.io.InputStream, isErr: Boolean): Thread = Thread {

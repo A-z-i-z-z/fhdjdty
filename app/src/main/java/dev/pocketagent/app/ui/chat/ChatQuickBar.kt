@@ -17,20 +17,15 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -48,7 +43,11 @@ import dev.pocketagent.app.ui.components.PixelButton
 import dev.pocketagent.app.ui.components.PixelIcon
 import dev.pocketagent.app.ui.components.PixelIconView
 import dev.pocketagent.app.ui.components.PocketChip
+import dev.pocketagent.app.ui.components.PocketSheet
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.theme.Space
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.appLocale
 
 /**
  * Slim participant bar shown directly under the top bar in group chats:
@@ -69,7 +68,7 @@ internal fun GroupParticipantBar(
             .background(c.surface)
             .horizontalScroll(rememberScrollState())
             .padding(horizontal = 10.dp, vertical = 6.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(Space.s),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         members.forEach { bot ->
@@ -80,7 +79,7 @@ internal fun GroupParticipantBar(
                     .background(if (speaking) c.accentSoft else c.surfaceHigh)
                     .border(if (speaking) 1.5.dp else 1.dp, if (speaking) c.fireMid else c.outline, RoundedCornerShape(16.dp))
                     .clickable(role = Role.Button) { onMentionBot(bot) }
-                    .padding(start = 4.dp, end = 10.dp, top = 3.dp, bottom = 3.dp),
+                    .padding(start = Space.xs, end = 10.dp, top = 3.dp, bottom = 3.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 BotAvatar(bot, 22.dp, animated = speaking)
@@ -93,7 +92,7 @@ internal fun GroupParticipantBar(
                     maxLines = 1,
                 )
                 if (speaking) {
-                    Spacer(Modifier.width(4.dp))
+                    Spacer(Modifier.width(Space.xs))
                     GeneratingEmber(size = 12.dp)
                 }
             }
@@ -106,11 +105,11 @@ internal fun GroupParticipantBar(
                 .clickable(role = Role.Button) { onEditMembers() }
                 .padding(horizontal = 10.dp, vertical = 5.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalArrangement = Arrangement.spacedBy(Space.xs),
         ) {
             PixelIconView(PixelIcon.GROUP, tint = c.textMuted, size = 14.dp)
             Text(
-                stringResource(if (groupMode == GroupMode.MENTION_ONLY) R.string.ui_group_bar_mention else R.string.ui_group_bar_all),
+                t(if (groupMode == GroupMode.MENTION_ONLY) R.string.ui_group_bar_mention else R.string.ui_group_bar_all),
                 color = c.textMuted, fontSize = 11.sp,
             )
         }
@@ -133,16 +132,16 @@ internal fun ChatOverridesBanner(
             .fillMaxWidth()
             .background(c.surfaceHigh)
             .clickable(role = Role.Button) { onOpenControls() }
-            .padding(horizontal = 12.dp, vertical = 5.dp),
+            .padding(horizontal = Space.m, vertical = 5.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(Space.s),
     ) {
         PixelIconView(PixelIcon.SLIDERS, tint = c.accent, size = 14.dp)
         val summary = buildList {
             if (modelOverride.isNotBlank()) add(modelOverride.substringAfterLast('/'))
             if (effortOverride.isNotBlank()) {
-                val efLabel = effortLabelRes(effortOverride)?.let { stringResource(it) } ?: effortOverride
-                add("${stringResource(R.string.ui_ctrl_effort_short)}: $efLabel")
+                val efLabel = effortLabelRes(effortOverride)?.let { t(it) } ?: effortOverride
+                add("${t(R.string.ui_ctrl_effort_short)}: $efLabel")
             }
         }.joinToString(" · ")
         Text(
@@ -155,13 +154,13 @@ internal fun ChatOverridesBanner(
             modifier = Modifier.weight(1f),
         )
         Text(
-            stringResource(R.string.ui_ctrl_reset),
+            t(R.string.ui_ctrl_reset),
             color = c.accent,
             fontSize = 11.5.sp,
             fontWeight = FontWeight.SemiBold,
             modifier = Modifier
                 .clickable(role = Role.Button) { onClear() }
-                .padding(horizontal = 6.dp, vertical = 2.dp),
+                .padding(horizontal = 6.dp, vertical = Space.xxs),
         )
     }
 }
@@ -184,30 +183,23 @@ internal fun ChatControlsSheet(
     usage: ChatUsageTotals = ChatUsageTotals(0, 0L, 0L),
 ) {
     val c = Pocket.colors
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-        containerColor = c.surface,
-        contentColor = c.text,
-        dragHandle = { BottomSheetDefaults.DragHandle(color = c.outline) },
-    ) {
+    PocketSheet(onDismiss = onDismiss) {
         Column(
             Modifier
                 .fillMaxWidth()
                 .heightIn(max = 560.dp)
                 .verticalScroll(rememberScrollState())
-                .windowInsetsPadding(bottomSafeInsets())
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+                .padding(horizontal = Space.gutter, vertical = Space.s),
+            verticalArrangement = Arrangement.spacedBy(Space.m),
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Space.s)) {
                 PixelIconView(PixelIcon.SLIDERS, tint = c.accent, size = 20.dp)
-                Text(stringResource(R.string.ui_ctrl_title), color = c.text, fontSize = 17.sp, fontWeight = FontWeight.Bold)
+                Text(t(R.string.ui_ctrl_title), color = c.text, fontSize = 17.sp, fontWeight = FontWeight.Bold)
             }
 
             // ---- Operating Mode ----
-            Text(stringResource(R.string.ui_ctrl_mode), color = c.textMuted, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(t(R.string.ui_ctrl_mode), color = c.textMuted, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(Space.s), verticalArrangement = Arrangement.spacedBy(Space.s)) {
                 val modes = listOf(
                     ChatMode.NORMAL to R.string.ui_ctrl_mode_normal,
                     ChatMode.PLAN to R.string.ui_mode_banner_plan,
@@ -217,7 +209,7 @@ internal fun ChatControlsSheet(
                 )
                 modes.forEach { (m, labelRes) ->
                     PocketChip(
-                        stringResource(labelRes),
+                        t(labelRes),
                         selected = conv.mode == m,
                         onClick = { onSelectMode(m) },
                         icon = if (m == ChatMode.NORMAL) null else PixelIcon.BOLT,
@@ -226,10 +218,10 @@ internal fun ChatControlsSheet(
             }
 
             // ---- Per-chat Model ----
-            Text(stringResource(R.string.ui_ctrl_model), color = c.textMuted, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(t(R.string.ui_ctrl_model), color = c.textMuted, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(Space.s), verticalArrangement = Arrangement.spacedBy(Space.s)) {
                 PocketChip(
-                    stringResource(R.string.effort_default),
+                    t(R.string.effort_default),
                     selected = conv.modelOverride.isBlank(),
                     onClick = { onSelectOverrides("", conv.effortOverride) },
                 )
@@ -244,15 +236,15 @@ internal fun ChatControlsSheet(
             }
 
             // ---- Per-chat Thinking Effort ----
-            Text(stringResource(R.string.ui_ctrl_effort), color = c.textMuted, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
-            FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(t(R.string.ui_ctrl_effort), color = c.textMuted, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+            FlowRow(horizontalArrangement = Arrangement.spacedBy(Space.s), verticalArrangement = Arrangement.spacedBy(Space.s)) {
                 PocketChip(
-                    stringResource(R.string.effort_default),
+                    t(R.string.effort_default),
                     selected = conv.effortOverride.isBlank(),
                     onClick = { onSelectOverrides(conv.modelOverride, "") },
                 )
                 ProviderConfig.REASONING_EFFORTS.forEach { ef ->
-                    val label = effortLabelRes(ef)?.let { stringResource(it) } ?: ef.replaceFirstChar { it.uppercase() }
+                    val label = effortLabelRes(ef)?.let { t(it) } ?: ef.replaceFirstChar { it.titlecase(appLocale()) }
                     PocketChip(
                         label,
                         selected = conv.effortOverride == ef,
@@ -263,11 +255,11 @@ internal fun ChatControlsSheet(
 
             if (!usage.isEmpty) {
                 val locale = currentLocale()
-                Text(stringResource(R.string.ui_usage_title), color = c.textMuted, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
-                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(t(R.string.ui_usage_title), color = c.textMuted, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Space.s)) {
                     PixelIconView(PixelIcon.CHART, tint = c.accent, size = 18.dp)
                     Text(
-                        stringResource(
+                        t(
                             R.string.ui_usage_totals, usage.replies,
                             compactTokens(usage.tokensIn, locale), compactTokens(usage.tokensOut, locale),
                         ),
@@ -279,21 +271,21 @@ internal fun ChatControlsSheet(
             Hairline()
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 PixelButton(
-                    stringResource(R.string.ui_ctrl_skills),
+                    t(R.string.ui_ctrl_skills),
                     onClick = { onDismiss(); onOpenSkills() },
                     modifier = Modifier.weight(1f),
                     icon = PixelIcon.SKILL,
                     kind = ButtonKind.SECONDARY,
                 )
                 PixelButton(
-                    stringResource(R.string.ui_ctrl_fork),
+                    t(R.string.ui_ctrl_fork),
                     onClick = { onDismiss(); onForkChat() },
                     modifier = Modifier.weight(1f),
                     icon = PixelIcon.FORK,
                     kind = ButtonKind.SECONDARY,
                 )
             }
-            Spacer(Modifier.height(8.dp))
+            Spacer(Modifier.height(Space.s))
         }
     }
 }

@@ -9,12 +9,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import dev.pocketagent.app.PocketApp
 import dev.pocketagent.app.R
 import dev.pocketagent.app.ui.components.PocketSwitchRow
 import dev.pocketagent.app.ui.settings.SubHeading
 import dev.pocketagent.app.ui.theme.Space
+import dev.pocketagent.app.ui.text.t
 
 /**
  * Settings > Behaviour, last block: what leaves the phone when the agent looks something up on the web. One switch,
@@ -31,15 +31,15 @@ fun WebLookupsRow() {
     val prefs = app.guestPrefs
     val on by prefs.webKeyless.collectAsState()
     Column(verticalArrangement = Arrangement.spacedBy(Space.s)) {
-        SubHeading(stringResource(R.string.cfg_priv_title))
+        SubHeading(t(R.string.cfg_priv_title))
         PocketSwitchRow(
-            title = stringResource(R.string.cfg_priv_web_title),
+            title = t(R.string.cfg_priv_web_title),
             checked = on,
             onCheckedChange = { v ->
                 prefs.setWebKeyless(v)
                 app.runtime.onGuestOptionsChanged(false)
             },
-            subtitle = stringResource(R.string.cfg_priv_web_sub),
+            subtitle = t(R.string.cfg_priv_web_sub),
             modifier = Modifier.testTag("privacy.webLookups"),
         )
     }

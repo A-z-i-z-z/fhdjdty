@@ -31,8 +31,11 @@ import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import java.io.File
 import java.util.concurrent.CopyOnWriteArrayList
+import dev.pocketagent.app.text.TestTexts
+import org.junit.Before
 
 class ChatEngineTest {
+    @Before fun installTexts() { TestTexts.installEnglish() }
     @get:Rule val tmp = TemporaryFolder()
 
     /** Scripted transport: [script] gets the request and returns the events to emit plus how the stream ends. */

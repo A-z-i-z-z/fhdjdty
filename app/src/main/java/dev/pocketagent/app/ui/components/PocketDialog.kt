@@ -49,7 +49,7 @@ import dev.pocketagent.app.ui.theme.motion
 
 /**
  * Modal dialog drawn as a pixel panel: title in the pixel font, scrollable [content], and a button row
- * ([dismiss] then [confirm], usually PixelButtons) right-aligned at the bottom. Tapping outside or
+ * ([dismiss] then [confirm], usually PixelButtons) end-aligned at the bottom. Tapping outside or
  * pressing back calls [onDismiss]. Up to 420 dp wide; resizes with the keyboard. Pattern 5: a dither scrim
  * fills in behind it (in four steps over Dur.FAST, the platform dim is switched off) and the panel pops in;
  * there is no exit animation. Tags: dialog, dialog.title.

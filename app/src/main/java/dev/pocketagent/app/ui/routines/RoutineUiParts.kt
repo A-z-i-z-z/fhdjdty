@@ -1,7 +1,6 @@
 package dev.pocketagent.app.ui.routines
 
 import android.content.Context
-import android.widget.Toast
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -29,6 +27,8 @@ import dev.pocketagent.app.R
 import dev.pocketagent.app.routines.Routine
 import dev.pocketagent.app.routines.RoutineKind
 import dev.pocketagent.app.routines.RoutineSchedule
+import dev.pocketagent.app.ui.components.PetNoteKind
+import dev.pocketagent.app.ui.components.PetNotes
 import dev.pocketagent.app.ui.components.PixelPanel
 import dev.pocketagent.app.ui.theme.Pocket
 import java.time.DayOfWeek
@@ -39,6 +39,7 @@ import java.time.format.FormatStyle
 import java.time.format.TextStyle
 import java.time.temporal.ChronoUnit
 import java.util.Locale
+import dev.pocketagent.app.ui.text.t
 
 // Small shared pieces of the routine screens (agent ROUTINES): text styles, the one-tap templates, and the
 // formatting of schedules and times in the language the app currently shows.
@@ -116,8 +117,9 @@ internal fun RChipRow(modifier: Modifier = Modifier, content: @Composable RowSco
     )
 }
 
-internal fun showToast(ctx: Context, message: String) {
-    try { Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show() } catch (_: Exception) { }
+@Suppress("UNUSED_PARAMETER")
+internal fun showToast(ctx: Context, message: String, kind: PetNoteKind = PetNoteKind.INFO) {
+    PetNotes.show(message, kind)
 }
 
 // ---- formatting --------------------------------------------------------------------------------------------------------
@@ -142,10 +144,10 @@ internal fun dayName(day: Int, style: TextStyle = TextStyle.SHORT): String =
 internal fun intervalText(minutes: Int): String {
     val m = RoutineSchedule.clampInterval(minutes)
     return when {
-        m % 1440 == 0 -> stringResource(R.string.rtn_unit_d, m / 1440)
-        m % 60 == 0 -> stringResource(R.string.rtn_unit_h, m / 60)
-        m > 60 -> stringResource(R.string.rtn_unit_hm, m / 60, m % 60)
-        else -> stringResource(R.string.rtn_unit_min, m)
+        m % 1440 == 0 -> t(R.string.rtn_unit_d, m / 1440)
+        m % 60 == 0 -> t(R.string.rtn_unit_h, m / 60)
+        m > 60 -> t(R.string.rtn_unit_hm, m / 60, m % 60)
+        else -> t(R.string.rtn_unit_min, m)
     }
 }
 
@@ -155,10 +157,10 @@ internal fun daysText(mask: Int): String {
     val m = mask and RoutineSchedule.ALL_DAYS
     val dayNames = RoutineSchedule.daysOf(m).map { dayName(it) }
     return when (m) {
-        RoutineSchedule.ALL_DAYS -> stringResource(R.string.rtn_every_day)
-        RoutineSchedule.WEEKDAYS -> stringResource(R.string.rtn_weekdays)
-        RoutineSchedule.WEEKEND -> stringResource(R.string.rtn_weekend)
-        0 -> stringResource(R.string.rtn_no_day)
+        RoutineSchedule.ALL_DAYS -> t(R.string.rtn_every_day)
+        RoutineSchedule.WEEKDAYS -> t(R.string.rtn_weekdays)
+        RoutineSchedule.WEEKEND -> t(R.string.rtn_weekend)
+        0 -> t(R.string.rtn_no_day)
         else -> dayNames.joinToString(", ")
     }
 }
@@ -168,12 +170,12 @@ internal fun daysText(mask: Int): String {
 internal fun scheduleText(r: Routine): String {
     val locale = currentLocale()
     return when (r.kind) {
-        RoutineKind.DAILY -> stringResource(R.string.rtn_sched_daily, daysText(r.days), clockText(r.hour, r.minute))
-        RoutineKind.INTERVAL -> stringResource(R.string.rtn_sched_interval, intervalText(r.intervalMinutes))
+        RoutineKind.DAILY -> t(R.string.rtn_sched_daily, daysText(r.days), clockText(r.hour, r.minute))
+        RoutineKind.INTERVAL -> t(R.string.rtn_sched_interval, intervalText(r.intervalMinutes))
         RoutineKind.ONCE -> {
             val dt = Instant.ofEpochMilli(r.onceAt).atZone(ZoneId.systemDefault())
             val text = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.SHORT).withLocale(locale).format(dt)
-            stringResource(R.string.rtn_sched_once, text)
+            t(R.string.rtn_sched_once, text)
         }
     }
 }
@@ -188,10 +190,10 @@ internal fun whenText(millis: Long, nowMillis: Long): String {
     val today = Instant.ofEpochMilli(nowMillis).atZone(zone).toLocalDate()
     val diff = ChronoUnit.DAYS.between(today, dt.toLocalDate())
     return when {
-        diff == 0L -> stringResource(R.string.rtn_when_today, time)
-        diff == 1L -> stringResource(R.string.rtn_when_tomorrow, time)
-        diff in 2L..6L -> stringResource(R.string.rtn_when_day, dayName(dt.dayOfWeek.value - 1), time)
-        diff == -1L -> stringResource(R.string.rtn_when_yesterday, time)
+        diff == 0L -> t(R.string.rtn_when_today, time)
+        diff == 1L -> t(R.string.rtn_when_tomorrow, time)
+        diff in 2L..6L -> t(R.string.rtn_when_day, dayName(dt.dayOfWeek.value - 1), time)
+        diff == -1L -> t(R.string.rtn_when_yesterday, time)
         else -> DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.SHORT).withLocale(locale).format(dt)
     }
 }

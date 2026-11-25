@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cfg_priv_title">Gizlilik</string>
+    <string name="cfg_priv_web_title">Web aramaları</string>
+    <string name="cfg_priv_web_sub">Ajan web\'de arama yaptığında ya da bir sayfa okuduğunda, arama sözcükleri veya sayfa adresi ücretsiz herkese açık hizmetlere (Exa, Parallel, Firecrawl ve Keenable) gider. Ad ya da hesap bilgisi gönderilmez. Kapatırsan ajan web\'de arama yapamaz.</string>
+</resources>

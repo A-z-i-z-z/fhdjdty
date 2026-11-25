@@ -14,8 +14,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import java.io.File
+import dev.pocketagent.app.text.TestTexts
+import org.junit.Before
 
 class HermesHomeTest {
+    @Before fun installTexts() { TestTexts.installEnglish() }
     @get:Rule val tmp = TemporaryFolder()
 
     private fun home(): Pair<HermesHome, File> {

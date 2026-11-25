@@ -12,6 +12,8 @@ import dev.pocketagent.app.voice.SoundCue
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import dev.pocketagent.app.ui.text.Texts
+import dev.pocketagent.app.ui.settings.themeNameRes
 
 /**
  * Runs one parsed slash command of the chat input (moved from the old chat screen without a change of behaviour). An
@@ -33,14 +35,14 @@ internal fun ChatScreenState.executeSlash(parsed: SlashCommands.ParsedSlash) {
                 val sent = engine.send(convId, arg, mentionTargets, pendingAttachments).accepted()
                 if (sent) { pendingAttachments = emptyList(); spark++; stick = true } else toastNotSent()
             } else {
-                val modeLabel = ctx.getString(
+                val modeLabel = Texts.get(ctx,
                     when (targetMode) {
                         ChatMode.PLAN -> R.string.ui_mode_banner_plan
                         ChatMode.GOAL -> R.string.ui_mode_banner_goal
                         else -> R.string.ui_mode_banner_ultracode
                     },
                 )
-                engine.addLocalNote(convId, ctx.getString(R.string.ui_mode_on_note, modeLabel))
+                engine.addLocalNote(convId, Texts.get(ctx, R.string.ui_mode_on_note, modeLabel))
             }
         }
         "loop" -> {
@@ -50,16 +52,16 @@ internal fun ChatScreenState.executeSlash(parsed: SlashCommands.ParsedSlash) {
                 val sent = engine.runLoop(convId, body, passes, pendingAttachments, mentionTargets).accepted()
                 if (sent) { pendingAttachments = emptyList(); spark++; stick = true } else toastNotSent()
             } else {
-                engine.addLocalNote(convId, ctx.getString(R.string.ui_mode_on_note, ctx.getString(R.string.ui_mode_banner_loop)))
+                engine.addLocalNote(convId, Texts.get(ctx, R.string.ui_mode_on_note, Texts.get(ctx, R.string.ui_mode_banner_loop)))
             }
         }
         "normal" -> {
             repo.setMode(convId, ChatMode.NORMAL)
-            engine.addLocalNote(convId, ctx.getString(R.string.ui_mode_off_note))
+            engine.addLocalNote(convId, Texts.get(ctx, R.string.ui_mode_off_note))
         }
         "forge" -> {
             if (arg.isBlank()) {
-                engine.addLocalNote(convId, ctx.getString(R.string.ui_cmd_forge_usage))
+                engine.addLocalNote(convId, Texts.get(ctx, R.string.ui_cmd_forge_usage))
             } else {
                 val sent = engine.send(convId, "/forge $arg", mentionTargets, pendingAttachments).accepted()
                 if (sent) { pendingAttachments = emptyList(); spark++; stick = true } else toastNotSent()
@@ -70,7 +72,7 @@ internal fun ChatScreenState.executeSlash(parsed: SlashCommands.ParsedSlash) {
         }
         "remember" -> {
             if (arg.isBlank()) {
-                engine.addLocalNote(convId, ctx.getString(R.string.ui_cmd_remember_usage))
+                engine.addLocalNote(convId, Texts.get(ctx, R.string.ui_cmd_remember_usage))
             } else {
                 scope.launch {
                     val cleaned = arg.replace("§", "").trim()
@@ -87,9 +89,9 @@ internal fun ChatScreenState.executeSlash(parsed: SlashCommands.ParsedSlash) {
                         }
                     }
                     val note = if (result.first) {
-                        ctx.getString(R.string.ui_cmd_remember_saved, result.second, MemoryFormat.USER_LIMIT)
+                        Texts.get(ctx, R.string.ui_cmd_remember_saved, result.second, MemoryFormat.USER_LIMIT)
                     } else {
-                        ctx.getString(R.string.ui_cmd_remember_full, result.second, MemoryFormat.USER_LIMIT)
+                        Texts.get(ctx, R.string.ui_cmd_remember_full, result.second, MemoryFormat.USER_LIMIT)
                     }
                     engine.addLocalNote(convId, note)
                 }
@@ -103,13 +105,13 @@ internal fun ChatScreenState.executeSlash(parsed: SlashCommands.ParsedSlash) {
                     val memEntries = MemoryFormat.entries(memRaw)
                     val usrEntries = MemoryFormat.entries(usrRaw)
                     if (memEntries.isEmpty() && usrEntries.isEmpty()) {
-                        ctx.getString(R.string.ui_cmd_memory_empty)
+                        Texts.get(ctx, R.string.ui_cmd_memory_empty)
                     } else {
                         buildString {
-                            appendLine(ctx.getString(R.string.ui_cmd_memory_header))
-                            appendLine("MEMORY.md (${MemoryFormat.usedChars(memEntries)}/${MemoryFormat.MEMORY_LIMIT}):")
+                            appendLine(Texts.get(ctx, R.string.ui_cmd_memory_header))
+                            appendLine(Texts.get(ctx, R.string.eng_memory_md_used, MemoryFormat.usedChars(memEntries), MemoryFormat.MEMORY_LIMIT))
                             memEntries.takeLast(5).forEach { appendLine("  • ${it.take(120)}") }
-                            appendLine("USER.md (${MemoryFormat.usedChars(usrEntries)}/${MemoryFormat.USER_LIMIT}):")
+                            appendLine(Texts.get(ctx, R.string.eng_user_md_used, MemoryFormat.usedChars(usrEntries), MemoryFormat.USER_LIMIT))
                             usrEntries.takeLast(5).forEach { appendLine("  • ${it.take(120)}") }
                         }.trim()
                     }
@@ -121,10 +123,10 @@ internal fun ChatScreenState.executeSlash(parsed: SlashCommands.ParsedSlash) {
             val pick = ThemeId.entries.firstOrNull { it.name.equals(arg.trim(), ignoreCase = true) }
             if (pick == null) {
                 val names = ThemeId.entries.joinToString(", ") { it.name.lowercase() }
-                engine.addLocalNote(convId, ctx.getString(R.string.ui_cmd_theme_usage, names))
+                engine.addLocalNote(convId, Texts.get(ctx, R.string.ui_cmd_theme_usage, names))
             } else {
                 AppearanceStore.get(ctx).update { it.copy(theme = pick) }
-                engine.addLocalNote(convId, ctx.getString(R.string.ui_cmd_theme_switched, pick.name.lowercase().replaceFirstChar { ch -> ch.uppercase() }))
+                engine.addLocalNote(convId, Texts.get(ctx, R.string.ui_cmd_theme_switched, Texts.get(ctx, themeNameRes(pick))))
             }
         }
         "export" -> exportMenu = true
@@ -132,7 +134,7 @@ internal fun ChatScreenState.executeSlash(parsed: SlashCommands.ParsedSlash) {
         "clear" -> confirmClear = true
         "help" -> {
             val note = buildString {
-                appendLine(ctx.getString(R.string.ui_cmd_help_header))
+                appendLine(Texts.get(ctx, R.string.ui_cmd_help_header))
                 SlashCommands.visible.forEach { def -> appendLine("• ${def.usage}") }
             }.trim()
             engine.addLocalNote(convId, note)
@@ -140,9 +142,9 @@ internal fun ChatScreenState.executeSlash(parsed: SlashCommands.ParsedSlash) {
         "pet" -> {
             val idx = kotlin.random.Random.nextInt(3)
             val note = when (idx) {
-                0 -> ctx.getString(R.string.ui_cmd_pet_quip1, repo.bots.value.size)
-                1 -> ctx.getString(R.string.ui_cmd_pet_quip2)
-                else -> ctx.getString(R.string.ui_cmd_pet_quip3, messagesNow().size)
+                0 -> Texts.get(ctx, R.string.ui_cmd_pet_quip1, repo.bots.value.size)
+                1 -> Texts.get(ctx, R.string.ui_cmd_pet_quip2)
+                else -> Texts.get(ctx, R.string.ui_cmd_pet_quip3, messagesNow().size)
             }
             engine.addLocalNote(convId, note)
         }
@@ -150,22 +152,22 @@ internal fun ChatScreenState.executeSlash(parsed: SlashCommands.ParsedSlash) {
             haptics.play(HapticCue.HOLD)
             app.sounds.play(SoundCue.FORGE)
             celebrateTrigger++
-            engine.addLocalNote(convId, ctx.getString(R.string.ui_cmd_newroz_msg))
+            engine.addLocalNote(convId, Texts.get(ctx, R.string.ui_cmd_newroz_msg))
         }
         "agir", "fire" -> {
             haptics.play(HapticCue.HOLD)
             app.sounds.play(SoundCue.FORGE)
             celebrateTrigger++
-            engine.addLocalNote(convId, ctx.getString(R.string.ui_cmd_agir_msg))
+            engine.addLocalNote(convId, Texts.get(ctx, R.string.ui_cmd_agir_msg))
         }
         "roll" -> {
             val spec = arg.lowercase()
             val note = if (spec == "coin") {
-                ctx.getString(if (kotlin.random.Random.nextBoolean()) R.string.ui_cmd_roll_coin_heads else R.string.ui_cmd_roll_coin_tails)
+                Texts.get(ctx, if (kotlin.random.Random.nextBoolean()) R.string.ui_cmd_roll_coin_heads else R.string.ui_cmd_roll_coin_tails)
             } else {
                 val sides = spec.removePrefix("d").toIntOrNull()?.coerceIn(2, 1000) ?: 20
                 val rolled = kotlin.random.Random.nextInt(1, sides + 1)
-                ctx.getString(R.string.ui_cmd_roll_dice, sides, rolled)
+                Texts.get(ctx, R.string.ui_cmd_roll_dice, sides, rolled)
             }
             engine.addLocalNote(convId, note)
         }

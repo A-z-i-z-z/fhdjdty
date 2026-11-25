@@ -21,7 +21,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
@@ -42,6 +41,11 @@ import dev.pocketagent.app.ui.theme.Pocket
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import dev.pocketagent.app.ui.components.ConfirmDialog
+import androidx.compose.ui.platform.testTag
+import dev.pocketagent.app.ui.RobotTags
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.tn
 
 private const val CHART_DAYS = 14
 private const val MAX_BUDGET_DIGITS = 12
@@ -71,26 +75,26 @@ internal fun UsageSection() {
     val models = remember(days) { UsageMath.byModel(days) }
 
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Muted(stringResource(R.string.ctl_usage_intro))
+        Muted(t(R.string.ctl_usage_intro))
 
         if (days.isEmpty()) {
-            Muted(stringResource(R.string.ctl_usage_no_data))
+            Muted(t(R.string.ctl_usage_no_data))
         } else {
             // ---- totals ----
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                TotalsCard(stringResource(R.string.ctl_usage_today), todayTotals, locale, Modifier.weight(1f))
-                TotalsCard(stringResource(R.string.ctl_usage_week), weekTotals, locale, Modifier.weight(1f))
-                TotalsCard(stringResource(R.string.ctl_usage_all), allTotals, locale, Modifier.weight(1f))
+                TotalsCard(t(R.string.ctl_usage_today), todayTotals, locale, Modifier.weight(1f).testTag(RobotTags.USAGE_TODAY))
+                TotalsCard(t(R.string.ctl_usage_week), weekTotals, locale, Modifier.weight(1f))
+                TotalsCard(t(R.string.ctl_usage_all), allTotals, locale, Modifier.weight(1f))
             }
 
             // ---- chart ----
-            SubHeading(stringResource(R.string.ctl_usage_chart_title))
+            SubHeading(t(R.string.ctl_usage_chart_title))
             val peak = series.maxOf { it.totals.total }.coerceAtLeast(1L)
             val dayFmt = remember(locale) { DateTimeFormatter.ofPattern("d MMM", locale) }
             Row(Modifier.fillMaxWidth().height(110.dp), horizontalArrangement = Arrangement.spacedBy(3.dp), verticalAlignment = Alignment.Bottom) {
                 series.forEachIndexed { i, d ->
-                    val t = d.totals
-                    val desc = stringResource(R.string.ctl_usage_bar_desc, d.day.format(dayFmt), UsageMath.compact(t.tokensIn, locale), UsageMath.compact(t.tokensOut, locale), t.turns)
+                    val dayTotals = d.totals
+                    val desc = t(R.string.ctl_usage_bar_desc, d.day.format(dayFmt), UsageMath.compact(dayTotals.tokensIn, locale), UsageMath.compact(dayTotals.tokensOut, locale), dayTotals.turns)
                     val isSel = selected == i
                     Box(
                         Modifier.weight(1f).fillMaxHeight()
@@ -98,13 +102,13 @@ internal fun UsageSection() {
                             .semantics { contentDescription = desc; role = Role.Button },
                         contentAlignment = Alignment.BottomCenter,
                     ) {
-                        if (t.total <= 0L) {
+                        if (dayTotals.total <= 0L) {
                             Box(Modifier.fillMaxWidth().height(2.dp).background(if (isSel) c.accent else c.outline))
                         } else {
-                            val frac = (t.total.toFloat() / peak.toFloat()).coerceIn(0.04f, 1f)
+                            val frac = (dayTotals.total.toFloat() / peak.toFloat()).coerceIn(0.04f, 1f)
                             Column(Modifier.fillMaxWidth().fillMaxHeight(frac).then(if (isSel) Modifier.border(2.dp, c.text) else Modifier)) {
-                                if (t.tokensIn > 0L) Box(Modifier.weight(t.tokensIn.toFloat().coerceAtLeast(1f)).fillMaxWidth().background(c.accent))
-                                if (t.tokensOut > 0L) Box(Modifier.weight(t.tokensOut.toFloat().coerceAtLeast(1f)).fillMaxWidth().background(c.fireHigh))
+                                if (dayTotals.tokensIn > 0L) Box(Modifier.weight(dayTotals.tokensIn.toFloat().coerceAtLeast(1f)).fillMaxWidth().background(c.accent))
+                                if (dayTotals.tokensOut > 0L) Box(Modifier.weight(dayTotals.tokensOut.toFloat().coerceAtLeast(1f)).fillMaxWidth().background(c.fireHigh))
                             }
                         }
                     }
@@ -112,36 +116,36 @@ internal fun UsageSection() {
             }
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Muted(series.first().day.format(dayFmt), size = 11.sp)
-                Muted(stringResource(R.string.ctl_usage_peak, UsageMath.compact(peak, locale)), size = 11.sp)
+                Muted(t(R.string.ctl_usage_peak, UsageMath.compact(peak, locale)), size = 11.sp)
                 Muted(series.last().day.format(dayFmt), size = 11.sp)
             }
             Row(horizontalArrangement = Arrangement.spacedBy(14.dp), verticalAlignment = Alignment.CenterVertically) {
-                LegendDot(c.accent, stringResource(R.string.ctl_usage_legend_in))
-                LegendDot(c.fireHigh, stringResource(R.string.ctl_usage_legend_out))
+                LegendDot(c.accent, t(R.string.ctl_usage_legend_in))
+                LegendDot(c.fireHigh, t(R.string.ctl_usage_legend_out))
             }
             selected?.let { i ->
                 series.getOrNull(i)?.let { d ->
                     CText(
                         d.day.format(DateTimeFormatter.ofLocalizedDate(java.time.format.FormatStyle.MEDIUM).withLocale(locale)) + ": " +
-                            stringResource(R.string.ctl_usage_in_out, UsageMath.compact(d.totals.tokensIn, locale), UsageMath.compact(d.totals.tokensOut, locale)) +
-                            " · " + stringResource(R.string.ctl_usage_turns, d.totals.turns),
+                            t(R.string.ctl_usage_in_out, UsageMath.compact(d.totals.tokensIn, locale), UsageMath.compact(d.totals.tokensOut, locale)) +
+                            " · " + tn(R.plurals.ctl_usage_turns, d.totals.turns, d.totals.turns),
                         size = 13.sp, color = c.accent,
                     )
                 }
             }
 
             // ---- per model ----
-            SubHeading(stringResource(R.string.ctl_usage_models))
+            SubHeading(t(R.string.ctl_usage_models))
             CtlCard {
                 models.forEach { m ->
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         CText(
-                            m.model.ifBlank { stringResource(R.string.ctl_usage_model_default) },
+                            m.model.ifBlank { t(R.string.ctl_usage_model_default) },
                             Modifier.weight(1f), size = 12.sp, mono = m.model.isNotBlank(), maxLines = 2, overflow = TextOverflow.Ellipsis,
                         )
                         Column(horizontalAlignment = Alignment.End) {
-                            CText(stringResource(R.string.ctl_usage_in_out, UsageMath.compact(m.totals.tokensIn, locale), UsageMath.compact(m.totals.tokensOut, locale)), size = 12.sp, weight = FontWeight.SemiBold)
-                            Muted(stringResource(R.string.ctl_usage_turns, m.totals.turns), size = 11.sp)
+                            CText(t(R.string.ctl_usage_in_out, UsageMath.compact(m.totals.tokensIn, locale), UsageMath.compact(m.totals.tokensOut, locale)), size = 12.sp, weight = FontWeight.SemiBold)
+                            Muted(tn(R.plurals.ctl_usage_turns, m.totals.turns, m.totals.turns), size = 11.sp)
                         }
                     }
                 }
@@ -149,8 +153,8 @@ internal fun UsageSection() {
         }
 
         // ---- budget ----
-        SubHeading(stringResource(R.string.ctl_usage_budget_title))
-        Muted(stringResource(R.string.ctl_usage_budget_help), size = 12.sp)
+        SubHeading(t(R.string.ctl_usage_budget_title))
+        Muted(t(R.string.ctl_usage_budget_help), size = 12.sp)
         var limitText by remember(budget.dailyTokens) { mutableStateOf(if (budget.dailyTokens > 0L) budget.dailyTokens.toString() else "") }
         PocketTextField(
             limitText,
@@ -159,7 +163,7 @@ internal fun UsageSection() {
                 limitText = digits
                 store.setBudget(budget.copy(dailyTokens = digits.toLongOrNull() ?: 0L))
             },
-            Modifier.fillMaxWidth(), label = stringResource(R.string.ctl_usage_budget_field), singleLine = true, monospace = true,
+            Modifier.fillMaxWidth().testTag(RobotTags.USAGE_BUDGET_LIMIT), label = t(R.string.ctl_usage_budget_field), singleLine = true, monospace = true,
         )
         ChipRow {
             BUDGET_PRESETS.forEach { v ->
@@ -167,12 +171,12 @@ internal fun UsageSection() {
             }
         }
         ChipRow {
-            PocketChip(stringResource(R.string.ctl_usage_mode_off), selected = budget.mode == BudgetMode.OFF, onClick = { store.setBudget(budget.copy(mode = BudgetMode.OFF)) })
-            PocketChip(stringResource(R.string.ctl_usage_mode_warn), selected = budget.mode == BudgetMode.WARN, onClick = { store.setBudget(budget.copy(mode = BudgetMode.WARN)) })
-            PocketChip(stringResource(R.string.ctl_usage_mode_block), selected = budget.mode == BudgetMode.BLOCK, onClick = { store.setBudget(budget.copy(mode = BudgetMode.BLOCK)) })
+            PocketChip(t(R.string.ctl_usage_mode_off), selected = budget.mode == BudgetMode.OFF, onClick = { store.setBudget(budget.copy(mode = BudgetMode.OFF)) })
+            PocketChip(t(R.string.ctl_usage_mode_warn), selected = budget.mode == BudgetMode.WARN, onClick = { store.setBudget(budget.copy(mode = BudgetMode.WARN)) }, modifier = Modifier.testTag(RobotTags.USAGE_BUDGET_WARN))
+            PocketChip(t(R.string.ctl_usage_mode_block), selected = budget.mode == BudgetMode.BLOCK, onClick = { store.setBudget(budget.copy(mode = BudgetMode.BLOCK)) }, modifier = Modifier.testTag(RobotTags.USAGE_BUDGET_BLOCK))
         }
         if (budget.mode != BudgetMode.OFF && budget.dailyTokens <= 0L) {
-            CText(stringResource(R.string.ctl_usage_budget_need_limit), color = c.warning, size = 12.sp)
+            CText(t(R.string.ctl_usage_budget_need_limit), color = c.warning, size = 12.sp)
         }
         if (budget.dailyTokens > 0L) {
             val used = todayTotals.total
@@ -182,33 +186,33 @@ internal fun UsageSection() {
                 if (over) c.error else if (used > budget.dailyTokens * 0.85) c.warning else c.success,
             )
             CText(
-                stringResource(R.string.ctl_usage_budget_today, UsageMath.compact(used, locale), UsageMath.compact(budget.dailyTokens, locale)),
+                t(R.string.ctl_usage_budget_today, UsageMath.compact(used, locale), UsageMath.compact(budget.dailyTokens, locale)),
                 size = 12.sp, color = if (over) c.error else c.textMuted,
             )
-            if (over) CText(stringResource(R.string.ctl_usage_budget_over), size = 12.sp, color = c.error)
+            if (over) CText(t(R.string.ctl_usage_budget_over), size = 12.sp, color = c.error)
         }
 
         PixelButton(
-            stringResource(R.string.ctl_usage_clear), onClick = { confirmClear = true },
+            t(R.string.ctl_usage_clear), onClick = { confirmClear = true },
             kind = ButtonKind.DANGER, icon = PixelIcon.TRASH, enabled = days.isNotEmpty(),
         )
     }
 
     if (confirmClear) ConfirmDialog(
-        title = stringResource(R.string.ctl_usage_clear_title), text = stringResource(R.string.ctl_usage_clear_body),
-        confirmLabel = stringResource(R.string.ctl_usage_clear_confirm), danger = true,
+        title = t(R.string.ctl_usage_clear_title), body = t(R.string.ctl_usage_clear_body),
+        confirmLabel = t(R.string.ctl_usage_clear_confirm), danger = true,
         onConfirm = { confirmClear = false; selected = null; store.clear() }, onDismiss = { confirmClear = false },
     )
 }
 
 @Composable
-private fun TotalsCard(title: String, t: UsageTotals, locale: Locale, modifier: Modifier = Modifier) {
+private fun TotalsCard(title: String, totals: UsageTotals, locale: Locale, modifier: Modifier = Modifier) {
     val c = Pocket.colors
     CtlCard(modifier, color = c.bgDeep) {
         Muted(title, size = 11.sp)
-        CText(UsageMath.compact(t.total, locale), size = 20.sp, weight = FontWeight.Bold, color = c.accent)
-        Muted(stringResource(R.string.ctl_usage_in_out, UsageMath.compact(t.tokensIn, locale), UsageMath.compact(t.tokensOut, locale)), size = 11.sp)
-        Muted(stringResource(R.string.ctl_usage_turns, t.turns), size = 11.sp)
+        CText(UsageMath.compact(totals.total, locale), size = 20.sp, weight = FontWeight.Bold, color = c.accent)
+        Muted(t(R.string.ctl_usage_in_out, UsageMath.compact(totals.tokensIn, locale), UsageMath.compact(totals.tokensOut, locale)), size = 11.sp)
+        Muted(tn(R.plurals.ctl_usage_turns, totals.turns, totals.turns), size = 11.sp)
     }
 }
 

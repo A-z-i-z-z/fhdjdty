@@ -42,7 +42,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role as SemRole
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.onLongClick
@@ -75,6 +74,7 @@ import dev.pocketagent.app.ui.theme.rememberHaptics
 import dev.pocketagent.app.voice.SoundCue
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import dev.pocketagent.app.ui.text.t
 
 // The pieces of one chat message (agent CHAT). MessageRow takes only stable inputs so that, while a reply
 // streams, only the streaming row recomposes.
@@ -106,7 +106,7 @@ internal fun MessageRow(
     convBotIds: List<String>,
     modifier: Modifier = Modifier,
 ) {
-    val label = stringResource(R.string.ui_chat_message_cd)
+    val label = t(R.string.ui_chat_message_cd)
     val press = { actions.onLongPress(msg) }
     val accent = Pocket.colors.accent
     val grouping = layout.grouping
@@ -180,17 +180,17 @@ private fun Meta(msg: Message, modifier: Modifier = Modifier, showStar: Boolean 
     val c = Pocket.colors
     val time = clockText(msg.createdAt)
     val dur = msg.durationMs?.let {
-        if (msg.role == Role.BOT && it >= 1000) " · " + stringResource(R.string.ui_chat_sec, (it / 1000).toInt()) else ""
+        if (msg.role == Role.BOT && it >= 1000) " · " + t(R.string.ui_chat_sec, (it / 1000).toInt()) else ""
     } ?: ""
     val usage = if (msg.role == Role.BOT && (msg.tokensIn > 0L || msg.tokensOut > 0L)) {
         val locale = currentLocale()
-        " · " + stringResource(R.string.ui_usage_meta, compactTokens(msg.tokensIn, locale), compactTokens(msg.tokensOut, locale))
+        " · " + t(R.string.ui_usage_meta, compactTokens(msg.tokensIn, locale), compactTokens(msg.tokensOut, locale))
     } else ""
     Row(modifier.padding(top = 2.dp, start = 4.dp, end = 4.dp), verticalAlignment = Alignment.CenterVertically) {
         Text(time + dur + usage, color = c.textMuted, fontSize = 10.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f, fill = false))
         if (msg.starred && showStar) {
             Spacer(Modifier.width(4.dp))
-            PixelIconView(PixelIcon.STAR, tint = c.accent, size = 12.dp, contentDescription = stringResource(R.string.ui_star_cd))
+            PixelIconView(PixelIcon.STAR, tint = c.accent, size = 12.dp, contentDescription = t(R.string.ui_star_cd))
         }
     }
 }
@@ -273,7 +273,7 @@ private fun BotMessage(
         Column(Modifier.widthIn(max = maxBubbleWidth() - AVATAR)) {
             if (showHeader && showName) {
                 Text(
-                    bot?.name ?: stringResource(R.string.ui_chat_deleted_bot),
+                    bot?.name ?: t(R.string.ui_chat_deleted_bot),
                     color = lerp(botColor(bot), c.text, 0.35f), fontSize = 12.sp, fontWeight = FontWeight.SemiBold,
                     maxLines = 1, overflow = TextOverflow.Ellipsis,
                     modifier = Modifier.padding(start = 4.dp, bottom = 2.dp),
@@ -289,7 +289,7 @@ private fun BotMessage(
                         msg.text.isBlank() && msg.streaming && msg.reasoning.isBlank() -> TypingIndicator()
                         msg.text.isBlank() && msg.streaming -> Unit
                         msg.text.isBlank() -> Text(
-                            stringResource(R.string.ui_chat_empty_reply), color = c.textMuted, fontSize = 14.sp, fontStyle = FontStyle.Italic,
+                            t(R.string.ui_chat_empty_reply), color = c.textMuted, fontSize = 14.sp, fontStyle = FontStyle.Italic,
                         )
                         else -> StreamingMarkdown(
                             text = msg.text, streaming = msg.streaming, createdAtMs = msg.createdAt,
@@ -354,26 +354,26 @@ private fun BotQuickActions(
         InlineActionIcon(
             icon = if (isSpeaking) PixelIcon.STOP else PixelIcon.VOLUME,
             tint = if (isSpeaking) c.accent else c.textMuted,
-            cd = stringResource(if (isSpeaking) R.string.ui_act_stop_speak else R.string.ui_act_speak),
+            cd = t(if (isSpeaking) R.string.ui_act_stop_speak else R.string.ui_act_speak),
             onClick = onSpeak,
         )
         InlineActionIcon(
             icon = if (copied) PixelIcon.CHECK else PixelIcon.COPY,
             tint = if (copied) c.success else c.textMuted,
-            cd = stringResource(R.string.ui_act_copy),
+            cd = t(R.string.ui_act_copy),
             onClick = { onCopy(); copied = true },
         )
         InlineActionIcon(
             icon = PixelIcon.FORK,
             tint = c.textMuted,
-            cd = stringResource(R.string.ui_act_fork),
+            cd = t(R.string.ui_act_fork),
             onClick = onFork,
         )
         if (canRegenerate) {
             InlineActionIcon(
                 icon = PixelIcon.REFRESH,
                 tint = c.textMuted,
-                cd = stringResource(R.string.ui_act_regen),
+                cd = t(R.string.ui_act_regen),
                 onClick = onRegenerate,
             )
         }
@@ -411,7 +411,7 @@ private fun ReasoningBlock(msg: Message) {
             if (live) GeneratingEmber(size = 14.dp) else PixelIconView(PixelIcon.SPARK, tint = c.textMuted, size = 14.dp)
             Spacer(Modifier.width(6.dp))
             Text(
-                stringResource(if (live) R.string.ui_chat_thinking else R.string.ui_chat_thought),
+                t(if (live) R.string.ui_chat_thinking else R.string.ui_chat_thought),
                 color = c.textMuted, fontSize = 12.sp, fontStyle = FontStyle.Italic,
             )
             Spacer(Modifier.width(4.dp))
@@ -455,7 +455,7 @@ private fun ToolCard(
     val failed = isToolFailed(msg)
     val isMemory = msg.toolName?.contains("memory", ignoreCase = true) == true
     val preview = msg.text.lineSequence().firstOrNull { it.isNotBlank() }.orEmpty().trim()
-    val openLabel = stringResource(R.string.stm_tool_card_open)
+    val openLabel = t(R.string.stm_tool_card_open)
     Row(Modifier.fillMaxWidth().padding(start = AVATAR + 8.dp)) {
         PixelPanel(
             Modifier.widthIn(max = maxBubbleWidth()).testTag("chat.msg.tool").longPressAction(label, onLongPress),
@@ -471,8 +471,8 @@ private fun ToolCard(
                     PixelIconView(if (isMemory) PixelIcon.MEMORY else PixelIcon.TOOL, tint = if (isMemory) c.accent else c.onToolBubble, size = 18.dp)
                     Spacer(Modifier.width(8.dp))
                     Text(
-                        if (isMemory && !running && !failed) stringResource(R.string.ui_chat_memory_updated)
-                        else msg.toolName ?: stringResource(R.string.ui_chat_tool_cd),
+                        if (isMemory && !running && !failed) t(R.string.ui_chat_memory_updated)
+                        else msg.toolName ?: t(R.string.ui_chat_tool_cd),
                         color = c.onToolBubble, fontSize = 13.sp, fontWeight = FontWeight.Bold, fontFamily = FontFamily.Monospace,
                         maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f, fill = false),
                     )
@@ -480,13 +480,13 @@ private fun ToolCard(
                     if (running) {
                         GeneratingEmber(size = 14.dp)
                         Spacer(Modifier.width(4.dp))
-                        Text(stringResource(R.string.ui_chat_tool_running), color = c.onToolBubble.copy(alpha = 0.7f), fontSize = 11.sp)
+                        Text(t(R.string.ui_chat_tool_running), color = c.onToolBubble.copy(alpha = 0.7f), fontSize = 11.sp)
                     } else if (failed) {
-                        Text(stringResource(R.string.ui_chat_tool_stopped), color = c.error, fontSize = 11.sp)
+                        Text(t(R.string.ui_chat_tool_stopped), color = c.error, fontSize = 11.sp)
                     } else {
                         PixelIconView(PixelIcon.CHECK, tint = c.success, size = 14.dp)
                         Spacer(Modifier.width(4.dp))
-                        Text(stringResource(R.string.ui_chat_tool_done), color = c.onToolBubble.copy(alpha = 0.7f), fontSize = 11.sp)
+                        Text(t(R.string.ui_chat_tool_done), color = c.onToolBubble.copy(alpha = 0.7f), fontSize = 11.sp)
                     }
                     Spacer(Modifier.width(6.dp))
                     PixelIconView(PixelIcon.MORE, tint = c.onToolBubble.copy(alpha = 0.7f), size = 12.dp)
@@ -500,7 +500,7 @@ private fun ToolCard(
                 if (isMemory && !running && !failed) {
                     Spacer(Modifier.height(6.dp))
                     PocketChip(
-                        stringResource(R.string.ui_chat_memory_open), false, onOpenMemory,
+                        t(R.string.ui_chat_memory_open), false, onOpenMemory,
                         modifier = Modifier.testTag("chat.memory.open"), icon = PixelIcon.MEMORY,
                     )
                 }
@@ -533,8 +533,8 @@ private fun ErrorCard(
         }
         Spacer(Modifier.height(8.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            if (canRetry) PocketChip(stringResource(R.string.ui_chat_retry), false, onRetry, icon = PixelIcon.REFRESH)
-            PocketChip(stringResource(R.string.ui_act_copy), false, { onCopy(msg.text) }, icon = PixelIcon.COPY)
+            if (canRetry) PocketChip(t(R.string.ui_chat_retry), false, onRetry, icon = PixelIcon.REFRESH)
+            PocketChip(t(R.string.ui_act_copy), false, { onCopy(msg.text) }, icon = PixelIcon.COPY)
         }
     }
 }

@@ -30,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -52,6 +51,7 @@ import dev.pocketagent.app.ui.Route
 import dev.pocketagent.app.ui.components.ButtonKind
 import dev.pocketagent.app.ui.components.PixelButton
 import dev.pocketagent.app.ui.components.PixelIcon
+import dev.pocketagent.app.ui.components.ConfirmDialog
 import dev.pocketagent.app.ui.components.PixelIconButton
 import dev.pocketagent.app.ui.components.PocketChip
 import dev.pocketagent.app.ui.components.PocketDialog
@@ -66,6 +66,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.util.Locale
+import dev.pocketagent.app.ui.text.t
 
 /** Everything the editor lets you change; compared with the values it started with to know whether anything is unsaved. */
 private data class EditorFields(
@@ -147,8 +148,8 @@ fun RoutineEditorScreen(routineId: String?) {
     val valid = name.isNotBlank() && prompt.isNotBlank() && !noDays && !onceInPast
     val canSave = valid && (dirty || existing == null)
 
-    val savedMsg = stringResource(R.string.rtn_saved)
-    val startedMsg = stringResource(R.string.rtn_started)
+    val savedMsg = t(R.string.rtn_saved)
+    val startedMsg = t(R.string.rtn_started)
 
     fun build(): Routine {
         val base = live ?: existing ?: Routine(id = app.routines.newId(), name = "", prompt = "")
@@ -171,60 +172,60 @@ fun RoutineEditorScreen(routineId: String?) {
 
     Column(Modifier.fillMaxSize().background(c.bg).imePadding()) {
         PocketTopBar(
-            title = stringResource(if (existing == null) R.string.rtn_new_title else R.string.rtn_edit_title),
-            subtitle = if (dirty) stringResource(R.string.rtn_unsaved) else null,
+            title = t(if (existing == null) R.string.rtn_new_title else R.string.rtn_edit_title),
+            subtitle = if (dirty) t(R.string.rtn_unsaved) else null,
             onBack = { leave() },
             actions = {
                 PixelIconButton(
                     PixelIcon.CHECK, onClick = { save() },
-                    contentDescription = stringResource(R.string.rtn_save), tint = if (canSave) c.accent else c.textMuted,
+                    contentDescription = t(R.string.rtn_save), tint = if (canSave) c.accent else c.textMuted,
                     enabled = canSave,
                 )
             },
         )
         if (missing) {
             Column(Modifier.fillMaxSize().padding(16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                RText(stringResource(R.string.rtn_missing))
-                PixelButton(stringResource(R.string.rtn_back), onClick = { nav.back() }, kind = ButtonKind.SECONDARY)
+                RText(t(R.string.rtn_missing))
+                PixelButton(t(R.string.rtn_back), onClick = { nav.back() }, kind = ButtonKind.SECONDARY)
             }
         } else Column(
             Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(12.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp),
         ) {
             // ---- what ----
-            SectionHeader(stringResource(R.string.rtn_section_what))
+            SectionHeader(t(R.string.rtn_section_what))
             PocketTextField(
                 name, { name = it.take(60) }, Modifier.fillMaxWidth(),
-                label = stringResource(R.string.rtn_name), placeholder = stringResource(R.string.rtn_name_hint), singleLine = true,
+                label = t(R.string.rtn_name), placeholder = t(R.string.rtn_name_hint), singleLine = true,
             )
             PocketTextField(
                 prompt, { prompt = it.take(4000) }, Modifier.fillMaxWidth(),
-                label = stringResource(R.string.rtn_prompt), placeholder = stringResource(R.string.rtn_prompt_hint), minLines = 5,
+                label = t(R.string.rtn_prompt), placeholder = t(R.string.rtn_prompt_hint), minLines = 5,
             )
-            RMuted(stringResource(R.string.rtn_prompt_help), size = 12.sp)
+            RMuted(t(R.string.rtn_prompt_help), size = 12.sp)
 
-            SectionHeader(stringResource(R.string.rtn_section_bot))
+            SectionHeader(t(R.string.rtn_section_bot))
             Row(Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 bots.forEach { b -> BotChoice(b, selected = b.id == botId, onClick = { botId = b.id }) }
             }
 
             // ---- when ----
-            SectionHeader(stringResource(R.string.rtn_section_when))
+            SectionHeader(t(R.string.rtn_section_when))
             RChipRow {
-                PocketChip(stringResource(R.string.rtn_kind_daily), selected = kind == RoutineKind.DAILY, onClick = { kindName = RoutineKind.DAILY.name }, icon = PixelIcon.CLOCK)
-                PocketChip(stringResource(R.string.rtn_kind_interval), selected = kind == RoutineKind.INTERVAL, onClick = { kindName = RoutineKind.INTERVAL.name }, icon = PixelIcon.REFRESH)
-                PocketChip(stringResource(R.string.rtn_kind_once), selected = kind == RoutineKind.ONCE, onClick = { kindName = RoutineKind.ONCE.name }, icon = PixelIcon.BELL)
+                PocketChip(t(R.string.rtn_kind_daily), selected = kind == RoutineKind.DAILY, onClick = { kindName = RoutineKind.DAILY.name }, icon = PixelIcon.CLOCK)
+                PocketChip(t(R.string.rtn_kind_interval), selected = kind == RoutineKind.INTERVAL, onClick = { kindName = RoutineKind.INTERVAL.name }, icon = PixelIcon.REFRESH)
+                PocketChip(t(R.string.rtn_kind_once), selected = kind == RoutineKind.ONCE, onClick = { kindName = RoutineKind.ONCE.name }, icon = PixelIcon.BELL)
             }
             RCard {
                 when (kind) {
                     RoutineKind.DAILY -> {
-                        RText(stringResource(R.string.rtn_time), size = 13.sp, weight = FontWeight.SemiBold, color = c.textMuted)
+                        RText(t(R.string.rtn_time), size = 13.sp, weight = FontWeight.SemiBold, color = c.textMuted)
                         TimeStepper(hour, minute, onHour = { hour = it }, onMinute = { minute = it })
-                        RText(stringResource(R.string.rtn_days), size = 13.sp, weight = FontWeight.SemiBold, color = c.textMuted)
+                        RText(t(R.string.rtn_days), size = 13.sp, weight = FontWeight.SemiBold, color = c.textMuted)
                         RChipRow {
-                            PocketChip(stringResource(R.string.rtn_every_day), selected = days == RoutineSchedule.ALL_DAYS, onClick = { days = RoutineSchedule.ALL_DAYS })
-                            PocketChip(stringResource(R.string.rtn_weekdays), selected = days == RoutineSchedule.WEEKDAYS, onClick = { days = RoutineSchedule.WEEKDAYS })
-                            PocketChip(stringResource(R.string.rtn_weekend), selected = days == RoutineSchedule.WEEKEND, onClick = { days = RoutineSchedule.WEEKEND })
+                            PocketChip(t(R.string.rtn_every_day), selected = days == RoutineSchedule.ALL_DAYS, onClick = { days = RoutineSchedule.ALL_DAYS })
+                            PocketChip(t(R.string.rtn_weekdays), selected = days == RoutineSchedule.WEEKDAYS, onClick = { days = RoutineSchedule.WEEKDAYS })
+                            PocketChip(t(R.string.rtn_weekend), selected = days == RoutineSchedule.WEEKEND, onClick = { days = RoutineSchedule.WEEKEND })
                         }
                         RChipRow {
                             for (d in 0..6) {
@@ -233,27 +234,27 @@ fun RoutineEditorScreen(routineId: String?) {
                         }
                     }
                     RoutineKind.INTERVAL -> {
-                        RText(stringResource(R.string.rtn_every), size = 13.sp, weight = FontWeight.SemiBold, color = c.textMuted)
+                        RText(t(R.string.rtn_every), size = 13.sp, weight = FontWeight.SemiBold, color = c.textMuted)
                         val choices = (INTERVAL_PRESETS + interval).distinct().sorted()
                         RChipRow {
                             choices.forEach { m -> PocketChip(intervalText(m), selected = interval == m, onClick = { interval = m }) }
                         }
-                        RMuted(stringResource(R.string.rtn_interval_help), size = 12.sp)
+                        RMuted(t(R.string.rtn_interval_help), size = 12.sp)
                     }
                     RoutineKind.ONCE -> {
-                        RText(stringResource(R.string.rtn_date), size = 13.sp, weight = FontWeight.SemiBold, color = c.textMuted)
+                        RText(t(R.string.rtn_date), size = 13.sp, weight = FontWeight.SemiBold, color = c.textMuted)
                         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                            PixelIconButton(PixelIcon.DOWN, onClick = { onceDay -= 1 }, contentDescription = stringResource(R.string.rtn_prev_day))
+                            PixelIconButton(PixelIcon.DOWN, onClick = { onceDay -= 1 }, contentDescription = t(R.string.rtn_prev_day))
                             RText(longDateText(onceDay), Modifier.weight(1f), size = 15.sp, weight = FontWeight.SemiBold, align = TextAlign.Center)
-                            PixelIconButton(PixelIcon.UP, onClick = { onceDay += 1 }, contentDescription = stringResource(R.string.rtn_next_day))
+                            PixelIconButton(PixelIcon.UP, onClick = { onceDay += 1 }, contentDescription = t(R.string.rtn_next_day))
                         }
                         val today = LocalDate.now(zone).toEpochDay()
                         RChipRow {
-                            PocketChip(stringResource(R.string.rtn_today), selected = onceDay == today, onClick = { onceDay = today })
-                            PocketChip(stringResource(R.string.rtn_tomorrow), selected = onceDay == today + 1, onClick = { onceDay = today + 1 })
-                            PocketChip(stringResource(R.string.rtn_in_a_week), selected = onceDay == today + 7, onClick = { onceDay = today + 7 })
+                            PocketChip(t(R.string.rtn_today), selected = onceDay == today, onClick = { onceDay = today })
+                            PocketChip(t(R.string.rtn_tomorrow), selected = onceDay == today + 1, onClick = { onceDay = today + 1 })
+                            PocketChip(t(R.string.rtn_in_a_week), selected = onceDay == today + 7, onClick = { onceDay = today + 7 })
                         }
-                        RText(stringResource(R.string.rtn_time), size = 13.sp, weight = FontWeight.SemiBold, color = c.textMuted)
+                        RText(t(R.string.rtn_time), size = 13.sp, weight = FontWeight.SemiBold, color = c.textMuted)
                         TimeStepper(hour, minute, onHour = { hour = it }, onMinute = { minute = it })
                     }
                 }
@@ -264,59 +265,59 @@ fun RoutineEditorScreen(routineId: String?) {
             )
             val nextAt = RoutineSchedule.nextRun(preview, nowMs)
             when {
-                noDays -> RText(stringResource(R.string.rtn_need_day), color = c.error, size = 13.sp)
-                onceInPast -> RText(stringResource(R.string.rtn_once_past), color = c.error, size = 13.sp)
-                nextAt != null && enabled -> RText(stringResource(R.string.rtn_first_run, whenText(nextAt, nowMs)), color = c.accent, size = 13.sp)
+                noDays -> RText(t(R.string.rtn_need_day), color = c.error, size = 13.sp)
+                onceInPast -> RText(t(R.string.rtn_once_past), color = c.error, size = 13.sp)
+                nextAt != null && enabled -> RText(t(R.string.rtn_first_run, whenText(nextAt, nowMs)), color = c.accent, size = 13.sp)
             }
             PocketSwitchRow(
-                title = stringResource(R.string.rtn_active), checked = enabled, onCheckedChange = { enabled = it },
-                subtitle = stringResource(R.string.rtn_active_help),
+                title = t(R.string.rtn_active), checked = enabled, onCheckedChange = { enabled = it },
+                subtitle = t(R.string.rtn_active_help),
             )
 
             // ---- model ----
-            SectionHeader(stringResource(R.string.rtn_section_model))
-            RMuted(stringResource(R.string.rtn_model_help))
+            SectionHeader(t(R.string.rtn_section_model))
+            RMuted(t(R.string.rtn_model_help))
             PocketTextField(
-                model, { model = it }, Modifier.fillMaxWidth(), label = stringResource(R.string.rtn_model),
-                placeholder = stringResource(R.string.rtn_model_default), singleLine = true, monospace = true,
+                model, { model = it }, Modifier.fillMaxWidth(), label = t(R.string.rtn_model),
+                placeholder = t(R.string.rtn_model_default), singleLine = true, monospace = true,
             )
             val suggestions = remember(vm.authMode, vm.endpoint) { ProviderConfig.suggestions(vm.authMode, vm.endpoint) }
             RChipRow {
-                PocketChip(stringResource(R.string.effort_default), selected = model.isBlank(), onClick = { model = "" })
+                PocketChip(t(R.string.effort_default), selected = model.isBlank(), onClick = { model = "" })
                 suggestions.forEach { id -> PocketChip(id.substringAfterLast('/'), selected = model == id, onClick = { model = id }) }
             }
-            RText(stringResource(R.string.rtn_effort), size = 14.sp, weight = FontWeight.SemiBold)
+            RText(t(R.string.rtn_effort), size = 14.sp, weight = FontWeight.SemiBold)
             RChipRow {
                 EFFORT_CHOICES.forEach { (value, label) ->
-                    PocketChip(stringResource(label), selected = effort == value, onClick = { effort = value })
+                    PocketChip(t(label), selected = effort == value, onClick = { effort = value })
                 }
             }
 
             // ---- actions ----
             PixelButton(
-                stringResource(R.string.rtn_save), onClick = { save() }, modifier = Modifier.fillMaxWidth(),
+                t(R.string.rtn_save), onClick = { save() }, modifier = Modifier.fillMaxWidth(),
                 icon = PixelIcon.CHECK, enabled = canSave,
             )
-            if (name.isBlank()) RMuted(stringResource(R.string.rtn_need_name), size = 12.sp)
-            else if (prompt.isBlank()) RMuted(stringResource(R.string.rtn_need_prompt), size = 12.sp)
+            if (name.isBlank()) RMuted(t(R.string.rtn_need_name), size = 12.sp)
+            else if (prompt.isBlank()) RMuted(t(R.string.rtn_need_prompt), size = 12.sp)
             val liveConv = live?.convId.orEmpty()
             if (existing != null) {
                 val running = liveConv.isNotEmpty() && liveConv in busy
                 PixelButton(
-                    stringResource(R.string.rtn_run_now),
+                    t(R.string.rtn_run_now),
                     onClick = { app.routineScheduler.runNow(existing.id); showToast(ctx, startedMsg) },
                     modifier = Modifier.fillMaxWidth(), icon = PixelIcon.PLAY, kind = ButtonKind.SECONDARY,
                     enabled = !dirty && !running,
                 )
-                if (dirty) RMuted(stringResource(R.string.rtn_save_first), size = 12.sp)
+                if (dirty) RMuted(t(R.string.rtn_save_first), size = 12.sp)
                 if (liveConv.isNotEmpty() && app.chat.conversation(liveConv) != null) {
                     PixelButton(
-                        stringResource(R.string.rtn_open_chat), onClick = { nav.go(Route.Chat(liveConv)) },
+                        t(R.string.rtn_open_chat), onClick = { nav.go(Route.Chat(liveConv)) },
                         modifier = Modifier.fillMaxWidth(), icon = PixelIcon.CHATS, kind = ButtonKind.GHOST,
                     )
                 }
                 PixelButton(
-                    stringResource(R.string.rtn_delete), onClick = { showDelete = true },
+                    t(R.string.rtn_delete), onClick = { showDelete = true },
                     modifier = Modifier.fillMaxWidth(), icon = PixelIcon.TRASH, kind = ButtonKind.DANGER,
                 )
             }
@@ -325,14 +326,14 @@ fun RoutineEditorScreen(routineId: String?) {
     }
 
     if (showDiscard) ConfirmDialog(
-        title = stringResource(R.string.rtn_discard_title), text = stringResource(R.string.rtn_discard_body),
-        confirmLabel = stringResource(R.string.rtn_discard), danger = true,
+        title = t(R.string.rtn_discard_title), body = t(R.string.rtn_discard_body),
+        confirmLabel = t(R.string.rtn_discard), danger = true,
         onConfirm = { showDiscard = false; nav.back() }, onDismiss = { showDiscard = false },
     )
     if (showDelete && existing != null) ConfirmDialog(
-        title = stringResource(R.string.rtn_delete_title, existing.name.ifBlank { stringResource(R.string.rtn_unnamed) }),
-        text = stringResource(R.string.rtn_delete_body),
-        confirmLabel = stringResource(R.string.rtn_delete), danger = true,
+        title = t(R.string.rtn_delete_title, existing.name.ifBlank { t(R.string.rtn_unnamed) }),
+        body = t(R.string.rtn_delete_body),
+        confirmLabel = t(R.string.rtn_delete), danger = true,
         onConfirm = {
             showDelete = false
             app.routineScheduler.deleteRoutine(existing.id)
@@ -379,13 +380,13 @@ private fun TimeStepper(hour: Int, minute: Int, onHour: (Int) -> Unit, onMinute:
             Stepper(
                 text = String.format(Locale.ROOT, "%02d", hour),
                 onUp = { onHour((hour + 1) % 24) }, onDown = { onHour((hour + 23) % 24) },
-                upDesc = stringResource(R.string.rtn_hour_up), downDesc = stringResource(R.string.rtn_hour_down),
+                upDesc = t(R.string.rtn_hour_up), downDesc = t(R.string.rtn_hour_down),
             )
             RText(":", size = 32.sp, weight = FontWeight.Bold, mono = true)
             Stepper(
                 text = String.format(Locale.ROOT, "%02d", minute),
                 onUp = { onMinute((minute + 1) % 60) }, onDown = { onMinute((minute + 59) % 60) },
-                upDesc = stringResource(R.string.rtn_minute_up), downDesc = stringResource(R.string.rtn_minute_down),
+                upDesc = t(R.string.rtn_minute_up), downDesc = t(R.string.rtn_minute_down),
             )
         }
         RChipRow(Modifier.fillMaxWidth()) {
@@ -403,19 +404,5 @@ private fun Stepper(text: String, onUp: () -> Unit, onDown: () -> Unit, upDesc: 
         PixelIconButton(PixelIcon.UP, onClick = onUp, contentDescription = upDesc)
         RText(text, size = 34.sp, weight = FontWeight.Bold, mono = true)
         PixelIconButton(PixelIcon.DOWN, onClick = onDown, contentDescription = downDesc)
-    }
-}
-
-@Composable
-private fun ConfirmDialog(
-    title: String, text: String, confirmLabel: String,
-    onConfirm: () -> Unit, onDismiss: () -> Unit, danger: Boolean = false,
-) {
-    PocketDialog(
-        title = title, onDismiss = onDismiss,
-        confirm = { PixelButton(confirmLabel, onClick = onConfirm, kind = if (danger) ButtonKind.DANGER else ButtonKind.PRIMARY) },
-        dismiss = { PixelButton(stringResource(R.string.cancel), onClick = onDismiss, kind = ButtonKind.GHOST) },
-    ) {
-        RText(text)
     }
 }

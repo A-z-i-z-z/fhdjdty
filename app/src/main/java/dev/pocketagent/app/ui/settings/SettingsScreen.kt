@@ -22,7 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
+import dev.pocketagent.app.ui.text.t
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -39,6 +39,8 @@ import dev.pocketagent.app.ui.components.PocketDialog
 import dev.pocketagent.app.ui.components.PocketTopBar
 import dev.pocketagent.app.ui.theme.AppearanceStore
 import dev.pocketagent.app.ui.theme.Pocket
+import androidx.compose.ui.platform.testTag
+import dev.pocketagent.app.ui.RobotTags
 
 private enum class Section(val key: String, val title: Int, val icon: PixelIcon) {
     PROVIDER("provider", R.string.ctl_set_provider, PixelIcon.KEY),
@@ -73,7 +75,7 @@ fun SettingsScreen(section: String?) {
 
     Column(Modifier.fillMaxSize().background(c.bg)) {
         PocketTopBar(
-            title = stringResource(R.string.ctl_settings_title),
+            title = t(R.string.ctl_settings_title),
             onBack = if (section != null) ({ nav.back(); Unit }) else null,
         )
         LazyColumn(
@@ -86,8 +88,8 @@ fun SettingsScreen(section: String?) {
                     PixelPanel(Modifier.fillMaxWidth(), border = if (isOpen) c.accent else c.outline) {
                         Column(Modifier.fillMaxWidth()) {
                             Row(
-                                Modifier.fillMaxWidth().heightIn(min = 56.dp)
-                                    .clickable(role = Role.Button, onClickLabel = stringResource(if (isOpen) R.string.ctl_collapse else R.string.ctl_expand)) {
+                                Modifier.fillMaxWidth().testTag(RobotTags.settingsSection(sec.key)).heightIn(min = 56.dp)
+                                    .clickable(role = Role.Button, onClickLabel = t(if (isOpen) R.string.ctl_collapse else R.string.ctl_expand)) {
                                         open = if (isOpen) null else sec.key
                                     }
                                     .padding(horizontal = 14.dp, vertical = 8.dp),
@@ -95,7 +97,7 @@ fun SettingsScreen(section: String?) {
                             ) {
                                 PixelIconView(sec.icon, tint = c.accent)
                                 Column(Modifier.weight(1f)) {
-                                    CText(stringResource(sec.title), size = 16.sp, weight = FontWeight.SemiBold)
+                                    CText(t(sec.title), size = 16.sp, weight = FontWeight.SemiBold)
                                     Muted(summaryOf(sec, vm, state), size = 12.sp)
                                 }
                                 PixelIconView(if (isOpen) PixelIcon.UP else PixelIcon.DOWN, tint = c.textMuted)
@@ -126,11 +128,11 @@ fun SettingsScreen(section: String?) {
     vm.importResult?.let { ImportResultDialog(it) { vm.dismissImportResult() } }
     vm.diagMessage?.let { m ->
         val text = if (m.startsWith("truncated:")) {
-            val p = m.split(":"); stringResource(R.string.diag_copied_truncated, p[2].toInt(), p[1].toInt())
-        } else stringResource(R.string.diag_copied, m.substringAfter(":").toInt())
+            val p = m.split(":"); t(R.string.diag_copied_truncated, p[2].toInt(), p[1].toInt())
+        } else t(R.string.diag_copied, m.substringAfter(":").toInt())
         PocketDialog(
-            title = stringResource(R.string.ctl_set_diagnostics), onDismiss = { vm.clearDiagMessage() },
-            confirm = { PixelButton(stringResource(R.string.ok), onClick = { vm.clearDiagMessage() }) },
+            title = t(R.string.ctl_set_diagnostics), onDismiss = { vm.clearDiagMessage() },
+            confirm = { PixelButton(t(R.string.ok), onClick = { vm.clearDiagMessage() }) },
         ) { CText(text) }
     }
 }
@@ -144,28 +146,28 @@ private fun summaryOf(sec: Section, vm: dev.pocketagent.app.MainViewModel, state
         Section.USAGE -> {
             val app = dev.pocketagent.app.PocketApp.from(ctx)
             val days = app.usage.days.collectAsState().value
-            if (days.isEmpty()) stringResource(R.string.ctl_usage_summary_none)
-            else stringResource(R.string.ctl_usage_summary_today, UsageMath.compact(UsageMath.forDay(days, java.time.LocalDate.now()).total, dev.pocketagent.app.ui.chat.currentLocale()))
+            if (days.isEmpty()) t(R.string.ctl_usage_summary_none)
+            else t(R.string.ctl_usage_summary_today, UsageMath.compact(UsageMath.forDay(days, java.time.LocalDate.now()).total, dev.pocketagent.app.ui.chat.currentLocale()))
         }
         Section.BEHAVIOUR -> {
             val s = dev.pocketagent.app.PocketApp.from(ctx).presencePrefs.settings.collectAsState().value
             val on = listOf(s.autoStart, s.wakeOnSend, s.notifyReplies, s.notifyApprovals, s.autoRestart).count { it }
-            stringResource(R.string.ctl_behaviour_summary, on, 5)
+            t(R.string.ctl_behaviour_summary, on, 5)
         }
-        Section.BACKUP -> stringResource(R.string.ctl_backup_summary)
+        Section.BACKUP -> t(R.string.ctl_backup_summary)
         Section.APPEARANCE -> {
             val ap = AppearanceStore.get(ctx).appearance.collectAsState().value
-            ap.theme.name.lowercase().replaceFirstChar { it.uppercase() }
+            themeName(ap.theme)
         }
         Section.VOICE -> {
             val app = dev.pocketagent.app.PocketApp.from(ctx)
             val vs = app.voicePrefs.settings.collectAsState().value
             val installed = app.ttsModels.state.collectAsState().value is dev.pocketagent.app.voice.TtsModelState.Installed
-            val ttsLabel = if (installed && vs.ttsEngine != dev.pocketagent.app.voice.TtsEngineMode.SYSTEM) "Supertonic 3" else stringResource(R.string.ctl_voice_engine_system)
+            val ttsLabel = if (installed && vs.ttsEngine != dev.pocketagent.app.voice.TtsEngineMode.SYSTEM) "Supertonic 3" else t(R.string.ctl_voice_engine_system)
             val sfxLabel = when (vs.soundPack) {
-                dev.pocketagent.app.voice.SoundPack.HEARTH -> stringResource(R.string.ctl_sfx_hearth)
-                dev.pocketagent.app.voice.SoundPack.STUDIO -> stringResource(R.string.ctl_sfx_studio)
-                dev.pocketagent.app.voice.SoundPack.OFF -> stringResource(R.string.ctl_sfx_off)
+                dev.pocketagent.app.voice.SoundPack.HEARTH -> t(R.string.ctl_sfx_hearth)
+                dev.pocketagent.app.voice.SoundPack.STUDIO -> t(R.string.ctl_sfx_studio)
+                dev.pocketagent.app.voice.SoundPack.OFF -> t(R.string.ctl_sfx_off)
             }
             "$ttsLabel · $sfxLabel"
         }
@@ -174,8 +176,8 @@ private fun summaryOf(sec: Section, vm: dev.pocketagent.app.MainViewModel, state
             languageName(ap.language)
         }
         Section.RUNTIME -> runtimeLabel(state).first
-        Section.DIAGNOSTICS -> stringResource(R.string.ctl_diag_summary)
-        Section.ABOUT -> stringResource(R.string.build_info, dev.pocketagent.app.BuildConfig.VERSION_NAME, dev.pocketagent.app.BuildConfig.GIT_COMMIT)
+        Section.DIAGNOSTICS -> t(R.string.ctl_diag_summary)
+        Section.ABOUT -> t(R.string.build_info, dev.pocketagent.app.BuildConfig.VERSION_NAME, dev.pocketagent.app.BuildConfig.GIT_COMMIT)
     }
 }
 
@@ -184,29 +186,29 @@ internal fun languageName(code: String): String = when (code) {
     "en" -> "English"
     "tr" -> "Türkçe"
     "fr" -> "Français"
-    else -> stringResource(R.string.ctl_lang_system)
+    else -> t(R.string.ctl_lang_system)
 }
 
 @Composable
 internal fun ImportResultDialog(r: dev.pocketagent.app.ImportResult, onClose: () -> Unit) {
     val body = when (r) {
         is dev.pocketagent.app.ImportResult.ServiceAccount ->
-            stringResource(R.string.import_ok_sa, r.projectId, r.maskedEmail) + if (r.repaired) "\n" + stringResource(R.string.import_repaired) else ""
+            t(R.string.import_ok_sa, r.projectId, r.maskedEmail) + if (r.repaired) "\n" + t(R.string.import_repaired) else ""
         is dev.pocketagent.app.ImportResult.UserCredentials ->
-            stringResource(R.string.import_ok_user, r.masked) + if (r.repaired) "\n" + stringResource(R.string.import_repaired) else ""
+            t(R.string.import_ok_user, r.masked) + if (r.repaired) "\n" + t(R.string.import_repaired) else ""
         is dev.pocketagent.app.ImportResult.Failure -> when (r.code) {
-            dev.pocketagent.app.runtime.SaParse.Code.EMPTY -> stringResource(R.string.import_err_empty)
-            dev.pocketagent.app.runtime.SaParse.Code.NOT_JSON -> stringResource(R.string.import_err_not_json, r.detail)
-            dev.pocketagent.app.runtime.SaParse.Code.NOT_OBJECT -> stringResource(R.string.import_err_not_object)
-            dev.pocketagent.app.runtime.SaParse.Code.WRONG_TYPE -> stringResource(R.string.import_err_type, r.detail)
-            dev.pocketagent.app.runtime.SaParse.Code.MISSING_FIELDS -> stringResource(R.string.import_err_missing, r.detail)
-            dev.pocketagent.app.runtime.SaParse.Code.BAD_PRIVATE_KEY -> stringResource(R.string.import_err_key)
-            null -> stringResource(R.string.import_err_unreadable)
+            dev.pocketagent.app.runtime.SaParse.Code.EMPTY -> t(R.string.import_err_empty)
+            dev.pocketagent.app.runtime.SaParse.Code.NOT_JSON -> t(R.string.import_err_not_json, r.detail)
+            dev.pocketagent.app.runtime.SaParse.Code.NOT_OBJECT -> t(R.string.import_err_not_object)
+            dev.pocketagent.app.runtime.SaParse.Code.WRONG_TYPE -> t(R.string.import_err_type, r.detail)
+            dev.pocketagent.app.runtime.SaParse.Code.MISSING_FIELDS -> t(R.string.import_err_missing, r.detail)
+            dev.pocketagent.app.runtime.SaParse.Code.BAD_PRIVATE_KEY -> t(R.string.import_err_key)
+            null -> t(R.string.import_err_unreadable)
         }
     }
     PocketDialog(
-        title = stringResource(if (r is dev.pocketagent.app.ImportResult.Failure) R.string.import_failed else R.string.import_done),
+        title = t(if (r is dev.pocketagent.app.ImportResult.Failure) R.string.import_failed else R.string.import_done),
         onDismiss = onClose,
-        confirm = { PixelButton(stringResource(R.string.ok), onClick = onClose, kind = ButtonKind.PRIMARY) },
+        confirm = { PixelButton(t(R.string.ok), onClick = onClose, kind = ButtonKind.PRIMARY) },
     ) { CText(body) }
 }

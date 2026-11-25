@@ -179,3 +179,15 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   (eleven batches, Haiku), TRANSLATE (Turkish and French for every new text). Then stage 5:
   compile, unit tests, the checks. If this run is interrupted here: the last commit is the stage-1
   checkpoint; `git status` shows how far the sweeps got; they can simply be run again.
+- **10:55, step 0.f done: stages 2 to 4 are finished, still not compiled.** Eighteen agent runs.
+  RESOLVE checked every request the areas made of each other and every row of the registry against
+  the code (one small fix was needed; the table is `docs/waves/w0/stage1-resolution.md`). SWEEP
+  replaced the toasts, the three private confirm dialogs and the sheets with the new components and
+  added the test tags. WORDS turned every direct text call into `t(` / `Texts.get` (no
+  `stringResource(` call is left under `app/src/main/java`) and moved the engine's English texts into
+  resources. TRANSLATE wrote Turkish and French for the 175 new keys and regenerated the stretched
+  test language. Reports: `docs/waves/w0/stages2-4-report.md`. Committed as a second checkpoint, not
+  pushed. Phone: no.
+- **10:55, step 0.g started: stage 5, INTEGRATE.** Three Sonnet agents one after another: compile the
+  twin and the owner-debug variant; unit tests and the first-run data; the optimised build, the lint,
+  the string checks and every tool's self-test. Nothing is installed on the phone in this step.

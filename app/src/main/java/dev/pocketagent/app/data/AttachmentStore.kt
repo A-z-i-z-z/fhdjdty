@@ -15,6 +15,8 @@ import dev.pocketagent.app.util.AppLog
 import java.io.File
 import java.io.FileOutputStream
 import java.util.UUID
+import dev.pocketagent.app.R
+import dev.pocketagent.app.ui.text.Texts
 
 /**
  * Imports photos and documents from Android content URIs into app-private storage (`files/chat/attachments/`),
@@ -47,7 +49,7 @@ class AttachmentStore(private val context: Context, private val paths: Paths) {
 
         val opts = BitmapFactory.Options().apply { inSampleSize = sample }
         var bmp = context.contentResolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it, null, opts) }
-            ?: throw IllegalStateException("Could not decode image")
+            ?: throw IllegalStateException(Texts.get(context, R.string.eng_attach_decode))
 
         val orientation = try {
             context.contentResolver.openInputStream(uri)?.use { stream ->
@@ -61,7 +63,7 @@ class AttachmentStore(private val context: Context, private val paths: Paths) {
         val outFile = File(appDir, "$id.jpg")
         FileOutputStream(outFile).use { fos ->
             if (!bmp.compress(Bitmap.CompressFormat.JPEG, JPEG_QUALITY, fos)) {
-                throw IllegalStateException("Could not encode JPEG")
+                throw IllegalStateException(Texts.get(context, R.string.eng_attach_encode))
             }
         }
         bmp.recycle()
@@ -97,12 +99,12 @@ class AttachmentStore(private val context: Context, private val paths: Paths) {
                     total += n
                     if (total > MAX_DOC_BYTES) {
                         outFile.delete()
-                        throw IllegalArgumentException("File is larger than ${MAX_DOC_BYTES / (1024 * 1024)} MiB")
+                        throw IllegalArgumentException(Texts.get(context, R.string.eng_attach_too_large, MAX_DOC_BYTES / (1024 * 1024)))
                     }
                     output.write(buf, 0, n)
                 }
             }
-        } ?: throw IllegalStateException("Could not open selected document")
+        } ?: throw IllegalStateException(Texts.get(context, R.string.eng_attach_open))
 
         val guestPath = mirrorToGuest(outFile, fileName)
         val excerpt = extractExcerpt(outFile, mime, safeName)

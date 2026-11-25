@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="stm_tool_card_open">Ouvrir toute la sortie</string>
+    <string name="stm_tool_sheet_fallback_title">Sortie de l\'outil</string>
+    <string name="stm_tool_sheet_live">Toujours en cours. La sortie se met à jour au fur et à mesure.</string>
+    <string name="stm_tool_sheet_copy">Copier la sortie</string>
+    <plurals name="stm_tool_sheet_truncated">
+        <item quantity="one">Seuls les %1$s premiers caractères sont affichés (%2$s au total).</item>
+        <item quantity="many">Seuls les %1$s premiers caractères sont affichés (%2$s au total).</item>
+        <item quantity="other">Seuls les %1$s premiers caractères sont affichés (%2$s au total).</item>
+    </plurals>
+</resources>

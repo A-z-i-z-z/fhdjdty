@@ -21,7 +21,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,6 +41,8 @@ import dev.pocketagent.app.voice.SupertonicModelStore
 import dev.pocketagent.app.voice.TtsEngineMode
 import dev.pocketagent.app.voice.TtsModelState
 import kotlin.math.roundToInt
+import dev.pocketagent.app.ui.components.ConfirmDialog
+import dev.pocketagent.app.ui.text.t
 
 /**
  * Settings > Voice & Sound:
@@ -67,7 +68,7 @@ internal fun VoiceSoundSection() {
 
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         // ---- Supertonic 3 INT8 Neural TTS card ----
-        CText(stringResource(R.string.ctl_voice_neural_title), size = 14.sp, weight = FontWeight.SemiBold)
+        CText(t(R.string.ctl_voice_neural_title), size = 14.sp, weight = FontWeight.SemiBold)
         CtlCard(color = c.bgDeep, border = if (modelState is TtsModelState.Installed) c.success else c.outline) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 PixelIconView(
@@ -77,14 +78,14 @@ internal fun VoiceSoundSection() {
                 )
                 Column(Modifier.weight(1f)) {
                     CText("Supertonic 3 INT8 (99M)", size = 14.sp, weight = FontWeight.Bold)
-                    Muted(stringResource(R.string.ctl_voice_neural_sub), size = 12.sp)
+                    Muted(t(R.string.ctl_voice_neural_sub), size = 12.sp)
                 }
             }
             when (val ms = modelState) {
                 TtsModelState.NotInstalled -> {
-                    Muted(stringResource(R.string.ctl_voice_not_installed, SupertonicModelStore.APPROX_TOTAL_MB), size = 12.sp)
+                    Muted(t(R.string.ctl_voice_not_installed, SupertonicModelStore.APPROX_TOTAL_MB), size = 12.sp)
                     PixelButton(
-                        stringResource(R.string.ctl_voice_download, SupertonicModelStore.APPROX_TOTAL_MB),
+                        t(R.string.ctl_voice_download, SupertonicModelStore.APPROX_TOTAL_MB),
                         onClick = { app.ttsModels.startDownload() },
                         modifier = Modifier.fillMaxWidth(),
                         icon = PixelIcon.DOWN,
@@ -94,7 +95,7 @@ internal fun VoiceSoundSection() {
                     val mbDone = ms.downloadedBytes / (1024f * 1024f)
                     val mbTotal = ms.totalBytes / (1024f * 1024f)
                     CText(
-                        stringResource(R.string.ctl_voice_downloading, ms.fileIndex, ms.fileCount, mbDone.roundToInt(), mbTotal.roundToInt()),
+                        t(R.string.ctl_voice_downloading, ms.fileIndex, ms.fileCount, mbDone.roundToInt(), mbTotal.roundToInt()),
                         size = 12.sp,
                         mono = true,
                     )
@@ -105,7 +106,7 @@ internal fun VoiceSoundSection() {
                         trackColor = c.surfaceHigh,
                     )
                     PixelButton(
-                        stringResource(R.string.cancel),
+                        t(R.string.cancel),
                         onClick = { app.ttsModels.cancelDownload() },
                         modifier = Modifier.fillMaxWidth(),
                         kind = ButtonKind.GHOST,
@@ -113,11 +114,11 @@ internal fun VoiceSoundSection() {
                 }
                 is TtsModelState.Installed -> {
                     val mb = (ms.totalBytes / (1024f * 1024f)).roundToInt()
-                    CText(stringResource(R.string.ctl_voice_installed, mb), color = c.success, size = 12.sp, weight = FontWeight.SemiBold)
+                    CText(t(R.string.ctl_voice_installed, mb), color = c.success, size = 12.sp, weight = FontWeight.SemiBold)
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                         val playingSample = speakingId == "sample"
                         PixelButton(
-                            stringResource(
+                            t(
                                 when {
                                     playingSample && synthesizing -> R.string.ctl_voice_synth
                                     playingSample -> R.string.btn_stop
@@ -132,7 +133,7 @@ internal fun VoiceSoundSection() {
                             icon = if (playingSample) PixelIcon.STOP else PixelIcon.PLAY,
                         )
                         PixelButton(
-                            stringResource(R.string.ui_act_delete),
+                            t(R.string.ui_act_delete),
                             onClick = { confirmDelete = true },
                             kind = ButtonKind.DANGER,
                             icon = PixelIcon.TRASH,
@@ -142,7 +143,7 @@ internal fun VoiceSoundSection() {
                 is TtsModelState.Error -> {
                     ErrorText(ms.message)
                     PixelButton(
-                        stringResource(R.string.ui_chat_retry),
+                        t(R.string.ui_chat_retry),
                         onClick = { app.ttsModels.startDownload() },
                         modifier = Modifier.fillMaxWidth(),
                         icon = PixelIcon.REFRESH,
@@ -152,15 +153,15 @@ internal fun VoiceSoundSection() {
         }
 
         // ---- TTS Engine preference ----
-        CText(stringResource(R.string.ctl_voice_engine), size = 14.sp, weight = FontWeight.SemiBold)
+        CText(t(R.string.ctl_voice_engine), size = 14.sp, weight = FontWeight.SemiBold)
         ChipRow {
             PocketChip(
-                stringResource(R.string.ctl_voice_engine_auto),
+                t(R.string.ctl_voice_engine_auto),
                 settings.ttsEngine == TtsEngineMode.AUTO,
                 { prefs.update { it.copy(ttsEngine = TtsEngineMode.AUTO) } },
             )
             PocketChip(
-                stringResource(R.string.ctl_voice_engine_system),
+                t(R.string.ctl_voice_engine_system),
                 settings.ttsEngine == TtsEngineMode.SYSTEM,
                 { prefs.update { it.copy(ttsEngine = TtsEngineMode.SYSTEM) } },
             )
@@ -168,7 +169,7 @@ internal fun VoiceSoundSection() {
         if (modelState !is TtsModelState.Installed || settings.ttsEngine == TtsEngineMode.SYSTEM) {
             val playingSample = speakingId == "sample"
             PixelButton(
-                stringResource(
+                t(
                     when {
                         playingSample && synthesizing -> R.string.ctl_voice_synth
                         playingSample -> R.string.btn_stop
@@ -187,7 +188,7 @@ internal fun VoiceSoundSection() {
         voiceError?.let { err -> ErrorText(err) }
 
         // ---- Supertonic 3 Speaker Voice ----
-        CText(stringResource(R.string.ctl_voice_speaker), size = 14.sp, weight = FontWeight.SemiBold)
+        CText(t(R.string.ctl_voice_speaker), size = 14.sp, weight = FontWeight.SemiBold)
         FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             SUPERTONIC_VOICES.forEach { v ->
                 PocketChip(
@@ -201,7 +202,7 @@ internal fun VoiceSoundSection() {
         // ---- Speech Speed ----
         var speed by remember(settings.speed) { mutableFloatStateOf(settings.speed) }
         Row(verticalAlignment = Alignment.CenterVertically) {
-            CText(stringResource(R.string.ctl_voice_speed), size = 14.sp, weight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
+            CText(t(R.string.ctl_voice_speed), size = 14.sp, weight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
             Muted("${"%.2f".format(speed)}×")
         }
         Slider(
@@ -217,38 +218,38 @@ internal fun VoiceSoundSection() {
         )
 
         // ---- Quality Steps ----
-        CText(stringResource(R.string.ctl_voice_quality), size = 14.sp, weight = FontWeight.SemiBold)
+        CText(t(R.string.ctl_voice_quality), size = 14.sp, weight = FontWeight.SemiBold)
         ChipRow {
-            PocketChip(stringResource(R.string.ctl_voice_q_fast), settings.qualitySteps <= 3, { prefs.update { it.copy(qualitySteps = 3) } })
-            PocketChip(stringResource(R.string.ctl_voice_q_balanced), settings.qualitySteps in 4..6, { prefs.update { it.copy(qualitySteps = 5) } })
-            PocketChip(stringResource(R.string.ctl_voice_q_high), settings.qualitySteps >= 7, { prefs.update { it.copy(qualitySteps = 8) } })
+            PocketChip(t(R.string.ctl_voice_q_fast), settings.qualitySteps <= 3, { prefs.update { it.copy(qualitySteps = 3) } })
+            PocketChip(t(R.string.ctl_voice_q_balanced), settings.qualitySteps in 4..6, { prefs.update { it.copy(qualitySteps = 5) } })
+            PocketChip(t(R.string.ctl_voice_q_high), settings.qualitySteps >= 7, { prefs.update { it.copy(qualitySteps = 8) } })
         }
 
         PocketSwitchRow(
-            stringResource(R.string.ctl_voice_autospeak),
+            t(R.string.ctl_voice_autospeak),
             settings.autoSpeak,
             { on -> prefs.update { it.copy(autoSpeak = on) } },
-            subtitle = stringResource(R.string.ctl_voice_autospeak_sub),
+            subtitle = t(R.string.ctl_voice_autospeak_sub),
         )
 
         // ---- Sound Effects Library ----
-        CText(stringResource(R.string.ctl_sfx_title), size = 14.sp, weight = FontWeight.SemiBold, modifier = Modifier.padding(top = 6.dp))
-        Muted(stringResource(R.string.ctl_sfx_sub), size = 12.sp)
+        CText(t(R.string.ctl_sfx_title), size = 14.sp, weight = FontWeight.SemiBold, modifier = Modifier.padding(top = 6.dp))
+        Muted(t(R.string.ctl_sfx_sub), size = 12.sp)
         ChipRow {
             PocketChip(
-                stringResource(R.string.ctl_sfx_hearth),
+                t(R.string.ctl_sfx_hearth),
                 settings.soundPack == SoundPack.HEARTH,
                 { prefs.update { it.copy(soundPack = SoundPack.HEARTH) }; app.sounds.play(SoundCue.COMPLETE, SoundPack.HEARTH) },
                 icon = PixelIcon.HEARTH,
             )
             PocketChip(
-                stringResource(R.string.ctl_sfx_studio),
+                t(R.string.ctl_sfx_studio),
                 settings.soundPack == SoundPack.STUDIO,
                 { prefs.update { it.copy(soundPack = SoundPack.STUDIO) }; app.sounds.play(SoundCue.COMPLETE, SoundPack.STUDIO) },
                 icon = PixelIcon.MUSIC,
             )
             PocketChip(
-                stringResource(R.string.ctl_sfx_off),
+                t(R.string.ctl_sfx_off),
                 settings.soundPack == SoundPack.OFF,
                 { prefs.update { it.copy(soundPack = SoundPack.OFF) } },
                 icon = PixelIcon.MUTE,
@@ -258,7 +259,7 @@ internal fun VoiceSoundSection() {
         if (settings.soundPack != SoundPack.OFF) {
             var vol by remember(settings.soundVolume) { mutableFloatStateOf(settings.soundVolume) }
             Row(verticalAlignment = Alignment.CenterVertically) {
-                CText(stringResource(R.string.ctl_sfx_volume), size = 14.sp, weight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
+                CText(t(R.string.ctl_sfx_volume), size = 14.sp, weight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
                 Muted("${(vol * 100).roundToInt()}%")
             }
             Slider(
@@ -274,18 +275,18 @@ internal fun VoiceSoundSection() {
                 colors = SliderDefaults.colors(thumbColor = c.accent, activeTrackColor = c.accent, inactiveTrackColor = c.outline),
             )
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                PocketChip(stringResource(R.string.ctl_sfx_preview_done), false, { app.sounds.play(SoundCue.COMPLETE) }, icon = PixelIcon.CHECK)
-                PocketChip(stringResource(R.string.ctl_sfx_preview_forge), false, { app.sounds.play(SoundCue.FORGE) }, icon = PixelIcon.FORGE)
-                PocketChip(stringResource(R.string.ctl_sfx_preview_spark), false, { app.sounds.play(SoundCue.SPARK) }, icon = PixelIcon.SPARK)
+                PocketChip(t(R.string.ctl_sfx_preview_done), false, { app.sounds.play(SoundCue.COMPLETE) }, icon = PixelIcon.CHECK)
+                PocketChip(t(R.string.ctl_sfx_preview_forge), false, { app.sounds.play(SoundCue.FORGE) }, icon = PixelIcon.FORGE)
+                PocketChip(t(R.string.ctl_sfx_preview_spark), false, { app.sounds.play(SoundCue.SPARK) }, icon = PixelIcon.SPARK)
             }
         }
     }
 
     if (confirmDelete) {
         ConfirmDialog(
-            title = stringResource(R.string.ctl_voice_delete_title),
-            text = stringResource(R.string.ctl_voice_delete_body),
-            confirmLabel = stringResource(R.string.ui_dlg_delete_confirm),
+            title = t(R.string.ctl_voice_delete_title),
+            body = t(R.string.ctl_voice_delete_body),
+            confirmLabel = t(R.string.ui_dlg_delete_confirm),
             danger = true,
             onConfirm = {
                 confirmDelete = false

@@ -14,16 +14,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -51,10 +46,13 @@ import dev.pocketagent.app.ui.components.PixelIconButton
 import dev.pocketagent.app.ui.components.PixelIconView
 import dev.pocketagent.app.ui.components.PixelPanel
 import dev.pocketagent.app.ui.components.PocketChip
+import dev.pocketagent.app.ui.components.PocketSheet
 import dev.pocketagent.app.ui.components.PocketTextField
+import dev.pocketagent.app.ui.theme.Corner
 import dev.pocketagent.app.ui.theme.Pocket
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import dev.pocketagent.app.ui.text.t
 
 /**
  * Visual, searchable Skill Picker bottom sheet backed by `HermesHome.listSkills()`.
@@ -105,18 +103,11 @@ internal fun SkillPickerSheet(
         }
     }
 
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-        containerColor = c.surface,
-        contentColor = c.text,
-        dragHandle = { BottomSheetDefaults.DragHandle(color = c.outline) },
-    ) {
+    PocketSheet(onDismiss = onDismiss) {
         Column(
             Modifier
                 .fillMaxWidth()
                 .heightIn(min = 280.dp, max = 580.dp)
-                .windowInsetsPadding(bottomSafeInsets())
                 .padding(horizontal = 16.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
@@ -124,11 +115,11 @@ internal fun SkillPickerSheet(
                 PixelIconView(PixelIcon.SKILL, tint = c.accent, size = 20.dp)
                 Spacer(Modifier.width(8.dp))
                 Text(
-                    stringResource(R.string.ui_skills_picker_title, filtered.size),
+                    t(R.string.ui_skills_picker_title, filtered.size),
                     color = c.text, fontSize = 17.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f),
                 )
                 Text(
-                    stringResource(R.string.ui_skills_picker_manage),
+                    t(R.string.ui_skills_picker_manage),
                     color = c.accent, fontSize = 13.sp, fontWeight = FontWeight.SemiBold,
                     modifier = Modifier.clickable(role = Role.Button) { onDismiss(); onOpenInspector() }.padding(6.dp),
                 )
@@ -137,10 +128,10 @@ internal fun SkillPickerSheet(
             Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                 PocketTextField(
                     value = query, onValueChange = { query = it }, modifier = Modifier.weight(1f),
-                    placeholder = stringResource(R.string.ui_skills_picker_search), singleLine = true,
+                    placeholder = t(R.string.ui_skills_picker_search), singleLine = true,
                 )
                 if (query.isNotEmpty()) {
-                    PixelIconButton(PixelIcon.CLOSE, onClick = { query = "" }, contentDescription = stringResource(R.string.ui_dlg_close))
+                    PixelIconButton(PixelIcon.CLOSE, onClick = { query = "" }, contentDescription = t(R.string.ui_dlg_close))
                 }
             }
 
@@ -149,7 +140,7 @@ internal fun SkillPickerSheet(
                     Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
-                    PocketChip(stringResource(R.string.ui_filter_all), selectedCat.isEmpty(), { selectedCat = "" })
+                    PocketChip(t(R.string.ui_filter_all), selectedCat.isEmpty(), { selectedCat = "" })
                     categories.forEach { cat ->
                         PocketChip(cat, selectedCat == cat, { selectedCat = if (selectedCat == cat) "" else cat })
                     }
@@ -158,10 +149,10 @@ internal fun SkillPickerSheet(
 
             when {
                 !loaded -> Box(Modifier.fillMaxWidth().padding(24.dp), contentAlignment = Alignment.Center) {
-                    Text(stringResource(R.string.ui_skills_picker_loading), color = c.textMuted, fontSize = 14.sp)
+                    Text(t(R.string.ui_skills_picker_loading), color = c.textMuted, fontSize = 14.sp)
                 }
                 filtered.isEmpty() -> Box(Modifier.fillMaxWidth().padding(24.dp), contentAlignment = Alignment.Center) {
-                    Text(stringResource(R.string.ui_cmd_skills_none), color = c.textMuted, fontSize = 14.sp)
+                    Text(t(R.string.ui_cmd_skills_none), color = c.textMuted, fontSize = 14.sp)
                 }
                 else -> LazyColumn(
                     Modifier.weight(1f, fill = false).fillMaxWidth(),
@@ -169,7 +160,7 @@ internal fun SkillPickerSheet(
                 ) {
                     items(filtered, key = { it.path }) { skill ->
                         val expanded = expandedPath == skill.path
-                        PixelPanel(Modifier.fillMaxWidth(), color = c.bgDeep, border = if (expanded) c.accent else c.outline, corner = 1) {
+                        PixelPanel(Modifier.fillMaxWidth(), color = c.bgDeep, border = if (expanded) c.accent else c.outline, corner = Corner.chip) {
                             Column(
                                 Modifier.fillMaxWidth().clickable(role = Role.Button) {
                                     expandedPath = if (expanded) null else skill.path
@@ -206,7 +197,7 @@ internal fun SkillPickerSheet(
                                 }
                                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                                     PixelButton(
-                                        stringResource(R.string.ui_skills_picker_use),
+                                        t(R.string.ui_skills_picker_use),
                                         onClick = { onUseSkill(skill); onDismiss() },
                                         icon = PixelIcon.PLAY,
                                         kind = ButtonKind.PRIMARY,

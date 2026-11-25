@@ -12,8 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.pluralStringResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import dev.pocketagent.app.R
@@ -23,6 +21,8 @@ import dev.pocketagent.app.ui.components.PixelPanel
 import dev.pocketagent.app.ui.theme.Pocket
 import dev.pocketagent.app.ui.theme.Space
 import kotlinx.coroutines.delay
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.tn
 
 /** How often the minutes left are read again. */
 private const val MINUTES_REFRESH_MS = 30_000L
@@ -47,9 +47,9 @@ fun PracticeBanner(modifier: Modifier = Modifier) {
     val c = Pocket.colors
     PixelPanel(modifier.padding(horizontal = Space.l).testTag(RobotTags.PRACTICE_BANNER), color = c.surface, border = c.warning) {
         Column(Modifier.fillMaxWidth().padding(horizontal = Space.m, vertical = Space.xs), verticalArrangement = Arrangement.spacedBy(Space.xxs)) {
-            CText(stringResource(R.string.rbt_practice_on), color = c.text, size = 12.sp, weight = FontWeight.SemiBold)
+            CText(t(R.string.rbt_practice_on), color = c.text, size = 12.sp, weight = FontWeight.SemiBold)
             minutesLeft?.let { left ->
-                CText(pluralStringResource(R.plurals.rbt_practice_left, left, left), color = c.textMuted, size = 11.sp)
+                CText(tn(R.plurals.rbt_practice_left, left, left), color = c.textMuted, size = 11.sp)
             }
         }
     }

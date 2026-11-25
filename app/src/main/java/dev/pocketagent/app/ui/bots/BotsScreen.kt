@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,7 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -34,6 +35,7 @@ import dev.pocketagent.app.R
 import dev.pocketagent.app.data.Bot
 import dev.pocketagent.app.data.BotPresets
 import dev.pocketagent.app.ui.LocalNavigator
+import dev.pocketagent.app.ui.RobotTags
 import dev.pocketagent.app.ui.Route
 import dev.pocketagent.app.ui.components.ButtonKind
 import dev.pocketagent.app.ui.components.EmptyState
@@ -44,12 +46,17 @@ import dev.pocketagent.app.ui.components.PixelIconView
 import dev.pocketagent.app.ui.components.PixelPanel
 import dev.pocketagent.app.ui.components.PocketTopBar
 import dev.pocketagent.app.ui.components.SectionHeader
+import dev.pocketagent.app.ui.nav.SharedKeys
+import dev.pocketagent.app.ui.nav.navSharedBounds
+import dev.pocketagent.app.ui.nav.navSharedElement
 import dev.pocketagent.app.ui.pixel.Avatar
 import dev.pocketagent.app.ui.pixel.avatarIdOf
 import dev.pocketagent.app.ui.settings.CText
 import dev.pocketagent.app.ui.settings.Muted
 import dev.pocketagent.app.ui.settings.toast
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.tn
 
 /** The "Bots" tab: every bot with its colour, quick chat, templates and multi-select for group chats. */
 @Composable
@@ -61,24 +68,24 @@ fun BotsScreen() {
     var selecting by remember { mutableStateOf(false) }
     var selected by remember { mutableStateOf(listOf<String>()) }
     val c = Pocket.colors
-    val addedMsg = stringResource(R.string.ctl_bots_template_added)
+    val addedMsg = t(R.string.ctl_bots_template_added)
 
     // Forget selected bots that were deleted in the meantime.
     val picked = selected.filter { id -> bots.any { it.id == id } }
 
     Column(Modifier.fillMaxSize().background(c.bg)) {
         PocketTopBar(
-            title = stringResource(R.string.ctl_bots_title),
-            subtitle = stringResource(R.string.ctl_bots_count, bots.size),
+            title = t(R.string.ctl_bots_title),
+            subtitle = tn(R.plurals.ctl_bots_count, bots.size, bots.size),
             actions = {
                 PixelIconButton(
                     PixelIcon.GROUP, onClick = { selecting = !selecting; selected = emptyList() },
-                    contentDescription = stringResource(if (selecting) R.string.ctl_bots_select_off else R.string.ctl_bots_select_on),
+                    contentDescription = t(if (selecting) R.string.ctl_bots_select_off else R.string.ctl_bots_select_on),
                     tint = if (selecting) c.accent else c.text,
                 )
                 PixelIconButton(
                     PixelIcon.PLUS, onClick = { nav.go(Route.BotEditor(null)) },
-                    contentDescription = stringResource(R.string.ctl_bots_new),
+                    contentDescription = t(R.string.ctl_bots_new),
                 )
             },
         )
@@ -86,14 +93,14 @@ fun BotsScreen() {
             Modifier.weight(1f).fillMaxWidth(),
             contentPadding = PaddingValues(start = 12.dp, top = 12.dp, end = 12.dp, bottom = 40.dp), verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
-            item { Muted(stringResource(R.string.ctl_bots_intro)) }
+            item { Muted(t(R.string.ctl_bots_intro)) }
             if (selecting) {
                 item {
                     PixelPanel(Modifier.fillMaxWidth(), color = c.accentSoft, border = c.accent) {
                         Column(Modifier.fillMaxWidth().padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                            CText(stringResource(R.string.ctl_bots_select_hint), size = 14.sp)
+                            CText(t(R.string.ctl_bots_select_hint), size = 14.sp)
                             PixelButton(
-                                stringResource(R.string.ctl_bots_start_group, picked.size),
+                                t(R.string.ctl_bots_start_group, picked.size),
                                 onClick = {
                                     val conv = repo.createConversation(picked)
                                     selecting = false; selected = emptyList()
@@ -108,12 +115,12 @@ fun BotsScreen() {
             if (bots.isEmpty()) {
                 item {
                     EmptyState(
-                        stringResource(R.string.ctl_bots_empty_title), stringResource(R.string.ctl_bots_empty_body),
-                        action = { PixelButton(stringResource(R.string.ctl_bots_new), onClick = { nav.go(Route.BotEditor(null)) }, icon = PixelIcon.PLUS) },
+                        t(R.string.ctl_bots_empty_title), t(R.string.ctl_bots_empty_body),
+                        action = { PixelButton(t(R.string.ctl_bots_new), onClick = { nav.go(Route.BotEditor(null)) }, icon = PixelIcon.PLUS) },
                     )
                 }
             }
-            items(bots, key = { it.id }) { bot ->
+            itemsIndexed(bots, key = { _, b -> b.id }) { i, bot ->
                 BotCard(
                     bot, selecting = selecting, checked = bot.id in picked,
                     onOpen = {
@@ -124,15 +131,16 @@ fun BotsScreen() {
                         val conv = repo.createConversation(listOf(bot.id))
                         nav.go(Route.Chat(conv.id))
                     },
+                    modifier = Modifier.testTag(RobotTags.botsRow(i)),
                 )
             }
             item { BotShareSection() }
-            item { SectionHeader(stringResource(R.string.ctl_bots_templates)) }
-            item { Muted(stringResource(R.string.ctl_bots_templates_hint)) }
+            item { SectionHeader(t(R.string.ctl_bots_templates)) }
+            item { Muted(t(R.string.ctl_bots_templates_hint)) }
             items(BotPresets.templates.size, key = { "template-$it" }) { i ->
-                val t = BotPresets.templates[i]
-                TemplateRow(t) {
-                    repo.saveBot(t.copy(id = repo.newId(), builtIn = false, createdAt = System.currentTimeMillis()))
+                val tpl = BotPresets.templates[i]
+                TemplateRow(tpl) {
+                    repo.saveBot(tpl.copy(id = repo.newId(), builtIn = false, createdAt = System.currentTimeMillis()))
                     toast(ctx, addedMsg)
                 }
             }
@@ -141,10 +149,10 @@ fun BotsScreen() {
 }
 
 @Composable
-private fun BotCard(bot: Bot, selecting: Boolean, checked: Boolean, onOpen: () -> Unit, onChat: () -> Unit) {
+private fun BotCard(bot: Bot, selecting: Boolean, checked: Boolean, onOpen: () -> Unit, onChat: () -> Unit, modifier: Modifier = Modifier) {
     val c = Pocket.colors
-    val chatLabel = stringResource(R.string.ctl_bots_chat_with, bot.name)
-    Box(Modifier.fillMaxWidth().clickable(onClickLabel = stringResource(R.string.ctl_bots_open), onClick = onOpen)) {
+    val chatLabel = t(R.string.ctl_bots_chat_with, bot.name)
+    Box(modifier.fillMaxWidth().navSharedBounds(SharedKeys.botCard(bot.id)).clickable(onClickLabel = t(R.string.ctl_bots_open), onClick = onOpen)) {
         PixelPanel(
             Modifier.fillMaxWidth(),
             color = if (checked) c.accentSoft else c.surface,
@@ -154,7 +162,7 @@ private fun BotCard(bot: Bot, selecting: Boolean, checked: Boolean, onOpen: () -
                 Modifier.fillMaxWidth().padding(start = 12.dp, top = 10.dp, bottom = 10.dp, end = 6.dp),
                 verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp),
             ) {
-                Avatar(avatarIdOf(bot.avatar), Color(bot.color), size = 48.dp)
+                Avatar(avatarIdOf(bot.avatar), Color(bot.color), Modifier.navSharedElement(SharedKeys.botAvatar(bot.id)), size = 48.dp)
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                     CText(bot.name.ifBlank { "?" }, size = 16.sp, weight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
                     if (bot.tagline.isNotBlank()) Muted(bot.tagline, size = 13.sp)
@@ -190,7 +198,7 @@ private fun TemplateRow(template: Bot, onAdd: () -> Unit) {
                 CText(template.name, size = 15.sp, weight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Muted(template.tagline, size = 12.sp)
             }
-            PixelButton(stringResource(R.string.ctl_bots_add), onClick = onAdd, icon = PixelIcon.PLUS, kind = ButtonKind.SECONDARY)
+            PixelButton(t(R.string.ctl_bots_add), onClick = onAdd, icon = PixelIcon.PLUS, kind = ButtonKind.SECONDARY)
         }
     }
 }

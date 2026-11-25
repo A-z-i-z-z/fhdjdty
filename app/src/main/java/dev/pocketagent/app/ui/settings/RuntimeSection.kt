@@ -20,7 +20,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,6 +44,7 @@ import dev.pocketagent.app.ui.pixel.MascotMood
 import dev.pocketagent.app.ui.theme.Pocket
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
+import dev.pocketagent.app.ui.text.t
 
 /** Runtime: status, start/stop/restart, battery hint, seccomp switch, self-test, delete runtime files. */
 @Composable
@@ -71,44 +71,44 @@ internal fun RuntimeSection(vm: MainViewModel) {
 
         val canStart = state is RuntimeState.NotInstalled || state is RuntimeState.Stopped || state is RuntimeState.Error
         PixelButton(
-            stringResource(if (state is RuntimeState.NotInstalled) R.string.btn_install_start else R.string.btn_start),
+            t(if (state is RuntimeState.NotInstalled) R.string.btn_install_start else R.string.btn_start),
             onClick = { vm.start() }, modifier = Modifier.fillMaxWidth().testTag(RobotTags.RUNTIME_START), icon = PixelIcon.PLAY, enabled = canStart,
         )
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             PixelButton(
-                stringResource(R.string.btn_stop), onClick = { vm.stop() }, modifier = Modifier.weight(1f).testTag(RobotTags.RUNTIME_STOP),
+                t(R.string.btn_stop), onClick = { vm.stop() }, modifier = Modifier.weight(1f).testTag(RobotTags.RUNTIME_STOP),
                 icon = PixelIcon.STOP, kind = ButtonKind.SECONDARY, enabled = state.isBusyOrRunning || state is RuntimeState.Error,
             )
             PixelButton(
-                stringResource(R.string.btn_restart), onClick = { vm.restart() }, modifier = Modifier.weight(1f).testTag(RobotTags.RUNTIME_RESTART),
+                t(R.string.btn_restart), onClick = { vm.restart() }, modifier = Modifier.weight(1f).testTag(RobotTags.RUNTIME_RESTART),
                 icon = PixelIcon.REFRESH, kind = ButtonKind.SECONDARY, enabled = state == RuntimeState.Running,
             )
         }
 
         if (state is RuntimeState.Starting && (state as RuntimeState.Starting).step.startsWith(RuntimeManager.STILL_STARTING)) {
-            ErrorText(stringResource(R.string.slow_start_hint))
+            ErrorText(t(R.string.slow_start_hint))
         }
         if (selfTestActive) {
-            ErrorText(stringResource(R.string.selftest_running_hint))
+            ErrorText(t(R.string.selftest_running_hint))
             LinearProgressIndicator(modifier = Modifier.fillMaxWidth(), color = c.accent, trackColor = c.surfaceHigh)
         } else if (state is RuntimeState.Error) {
-            Muted(stringResource(R.string.error_hint))
+            Muted(t(R.string.error_hint))
         }
 
         if (!vm.ignoringBattery) {
-            Muted(stringResource(R.string.battery_hint))
-            PixelButton(stringResource(R.string.btn_battery), onClick = { ctx.startActivity(vm.batteryOptimizationIntent()) }, kind = ButtonKind.SECONDARY)
+            Muted(t(R.string.battery_hint))
+            PixelButton(t(R.string.btn_battery), onClick = { ctx.startActivity(vm.batteryOptimizationIntent()) }, kind = ButtonKind.SECONDARY)
         }
 
         // ---- advanced ----
-        SectionLabel(stringResource(R.string.ctl_rt_advanced))
+        SectionLabel(t(R.string.ctl_rt_advanced))
         PocketSwitchRow(
-            stringResource(R.string.debug_no_seccomp), vm.noSeccomp, { vm.updateNoSeccomp(it) },
-            subtitle = stringResource(R.string.debug_no_seccomp_hint),
+            t(R.string.debug_no_seccomp), vm.noSeccomp, { vm.updateNoSeccomp(it) },
+            subtitle = t(R.string.debug_no_seccomp_hint),
         )
         PracticeSwitch(state)
         PixelButton(
-            stringResource(R.string.btn_selftest), onClick = { vm.runSelfTest() },
+            t(R.string.btn_selftest), onClick = { vm.runSelfTest() },
             kind = ButtonKind.SECONDARY, icon = PixelIcon.BUG, enabled = !selfTestActive,
         )
         if (selfTestText.isNotEmpty()) {
@@ -117,15 +117,15 @@ internal fun RuntimeSection(vm: MainViewModel) {
             }
         }
         PixelButton(
-            stringResource(R.string.btn_reset_runtime), onClick = { confirmReset = true },
+            t(R.string.btn_reset_runtime), onClick = { confirmReset = true },
             kind = ButtonKind.DANGER, icon = PixelIcon.TRASH,
         )
-        Muted(stringResource(R.string.ctl_rt_reset_hint), size = 12.sp)
+        Muted(t(R.string.ctl_rt_reset_hint), size = 12.sp)
     }
 
     if (confirmReset) ConfirmDialog(
-        title = stringResource(R.string.btn_reset_runtime), body = stringResource(R.string.ctl_rt_reset_body),
-        confirmLabel = stringResource(R.string.ctl_rt_reset_confirm), danger = true,
+        title = t(R.string.btn_reset_runtime), body = t(R.string.ctl_rt_reset_body),
+        confirmLabel = t(R.string.ctl_rt_reset_confirm), danger = true,
         onConfirm = { confirmReset = false; vm.resetRuntime() }, onDismiss = { confirmReset = false },
     )
 }
@@ -141,22 +141,22 @@ private fun PracticeSwitch(state: RuntimeState) {
     val on by prefs.practiceModel.collectAsState()
     var changed by remember { mutableStateOf(false) }
     PocketSwitchRow(
-        stringResource(R.string.rbt_practice_title), on,
+        t(R.string.rbt_practice_title), on,
         { v ->
             prefs.setPracticeModel(v)
             PocketApp.from(ctx).runtime.onGuestOptionsChanged(true)
             changed = true
         },
-        subtitle = stringResource(R.string.rbt_practice_sub),
+        subtitle = t(R.string.rbt_practice_sub),
         modifier = Modifier.testTag(RobotTags.RUNTIME_PRACTICE),
     )
     if (changed && (state == RuntimeState.Running || state is RuntimeState.Starting)) {
-        Muted(stringResource(R.string.rbt_practice_restart), size = 12.sp)
+        Muted(t(R.string.rbt_practice_restart), size = 12.sp)
     }
     if (on) {
         // On the owner's own app the words that write into real data (MEMORY, FORGE) or hold memory (BALLAST) are not advertised.
         val words = if (BuildConfig.IS_TWIN) PracticeModel.KEYWORDS else PracticeModel.KEYWORDS - setOf("MEMORY", "FORGE", "BALLAST")
-        Muted(stringResource(R.string.rbt_practice_words, words.joinToString(", ")), size = 12.sp)
+        Muted(t(R.string.rbt_practice_words, words.joinToString(", ")), size = 12.sp)
     }
 }
 
@@ -174,15 +174,15 @@ internal fun DiagnosticsSection(vm: MainViewModel) {
     var exporting by remember { mutableStateOf(false) }
     var exportFailed by remember { mutableStateOf(false) }
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        Muted(stringResource(R.string.ctl_diag_explain))
-        if (selfTestActive) ErrorText(stringResource(R.string.selftest_running_hint))
-        PixelButton(stringResource(R.string.btn_copy_diag), onClick = { vm.copyDiagnostics() }, modifier = Modifier.fillMaxWidth(), icon = PixelIcon.COPY)
+        Muted(t(R.string.ctl_diag_explain))
+        if (selfTestActive) ErrorText(t(R.string.selftest_running_hint))
+        PixelButton(t(R.string.btn_copy_diag), onClick = { vm.copyDiagnostics() }, modifier = Modifier.fillMaxWidth(), icon = PixelIcon.COPY)
         PixelButton(
-            stringResource(R.string.btn_share_diag), onClick = { vm.shareDiagnosticsIntent()?.let { ctx.startActivity(it) } },
+            t(R.string.btn_share_diag), onClick = { vm.shareDiagnosticsIntent()?.let { ctx.startActivity(it) } },
             modifier = Modifier.fillMaxWidth(), icon = PixelIcon.SHARE, kind = ButtonKind.SECONDARY,
         )
         PixelButton(
-            stringResource(if (exporting) R.string.cfg_diag_exporting else R.string.rbt_export_logs),
+            t(if (exporting) R.string.cfg_diag_exporting else R.string.rbt_export_logs),
             onClick = {
                 if (!exporting) {
                     exporting = true
@@ -199,8 +199,8 @@ internal fun DiagnosticsSection(vm: MainViewModel) {
             modifier = Modifier.fillMaxWidth().testTag(RobotTags.DIAG_EXPORT_LOGS), icon = PixelIcon.ARCHIVE, kind = ButtonKind.SECONDARY,
             enabled = !exporting,
         )
-        Muted(stringResource(R.string.rbt_export_logs_hint), size = 12.sp)
-        if (exportFailed) ErrorText(stringResource(R.string.cfg_diag_export_failed))
+        Muted(t(R.string.rbt_export_logs_hint), size = 12.sp)
+        if (exportFailed) ErrorText(t(R.string.cfg_diag_export_failed))
         DiagnosticsExtras()
     }
 }
@@ -220,8 +220,8 @@ internal fun AboutSection() {
                 modifier = Modifier.clickable { petTaps++ },
             )
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                CText(stringResource(R.string.app_name), size = 20.sp, weight = FontWeight.Bold)
-                Muted(stringResource(R.string.build_info, BuildConfig.VERSION_NAME, BuildConfig.GIT_COMMIT))
+                CText(t(R.string.app_name), size = 20.sp, weight = FontWeight.Bold)
+                Muted(t(R.string.build_info, BuildConfig.VERSION_NAME, BuildConfig.GIT_COMMIT))
             }
         }
         if (petTaps >= 5) {
@@ -230,16 +230,16 @@ internal fun AboutSection() {
             val upMs = app.runtime.processUptimeMillis()
             val upStr = if (upMs <= 0L) "0s" else "${upMs / 60_000}m ${(upMs / 1000) % 60}s"
             CtlCard(color = c.bgDeep, border = c.accent) {
-                CText(stringResource(R.string.ctl_about_secret_title), color = c.accent, size = 12.sp, weight = FontWeight.Bold)
-                CText(stringResource(R.string.ctl_about_secret_body, botsCount.size, convsCount.size, upStr), size = 13.sp, mono = true)
+                CText(t(R.string.ctl_about_secret_title), color = c.accent, size = 12.sp, weight = FontWeight.Bold)
+                CText(t(R.string.ctl_about_secret_body, botsCount.size, convsCount.size, upStr), size = 13.sp, mono = true)
             }
         }
-        CText(stringResource(R.string.ctl_about_what), size = 14.sp)
-        SectionLabel(stringResource(R.string.ctl_about_hermes_title))
-        CText(stringResource(R.string.ctl_about_hermes), size = 14.sp)
-        SectionLabel(stringResource(R.string.ctl_about_pet_title))
-        CText(stringResource(R.string.ctl_about_pet), size = 14.sp)
-        SectionLabel(stringResource(R.string.ctl_about_licences_title))
-        Muted(stringResource(R.string.ctl_about_licences))
+        CText(t(R.string.ctl_about_what), size = 14.sp)
+        SectionLabel(t(R.string.ctl_about_hermes_title))
+        CText(t(R.string.ctl_about_hermes), size = 14.sp)
+        SectionLabel(t(R.string.ctl_about_pet_title))
+        CText(t(R.string.ctl_about_pet), size = 14.sp)
+        SectionLabel(t(R.string.ctl_about_licences_title))
+        Muted(t(R.string.ctl_about_licences))
     }
 }

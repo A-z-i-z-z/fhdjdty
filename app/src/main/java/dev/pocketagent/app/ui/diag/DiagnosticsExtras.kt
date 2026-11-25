@@ -20,8 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.pluralStringResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -51,6 +49,8 @@ import kotlinx.coroutines.withContext
 import java.text.DateFormat
 import java.util.Date
 import java.util.Locale
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.tn
 
 // Kind of screen: parts of the Dashboard-kind section Settings > Diagnostics (cards) and a dialog over any screen.
 // Five states (design language 8.16): see the table of docs/waves/w0/CONFIG.md 3.9.
@@ -108,15 +108,15 @@ private fun ExitReasonsCard() {
             ExitReasons.read(ctx, 12).filter { it.processName == ctx.packageName }.take(5)
         }
     }
-    ExtrasCard("diag.exitReasons", stringResource(R.string.cfg_diag_exits_title)) {
+    ExtrasCard("diag.exitReasons", t(R.string.cfg_diag_exits_title)) {
         val list = exits
         when {
-            oldAndroid -> Muted(stringResource(R.string.cfg_diag_exits_old_android))
-            list == null -> Muted(stringResource(R.string.ctl_loading))
-            list.isEmpty() -> Muted(stringResource(R.string.cfg_diag_exits_none))
+            oldAndroid -> Muted(t(R.string.cfg_diag_exits_old_android))
+            list == null -> Muted(t(R.string.ctl_loading))
+            list.isEmpty() -> Muted(t(R.string.cfg_diag_exits_none))
             else -> list.forEach { e ->
                 Column(verticalArrangement = Arrangement.spacedBy(Space.xxs)) {
-                    CText(stringResource(exitSentenceRes(ExitReasons.kind(e.reason))), size = 14.sp)
+                    CText(t(exitSentenceRes(ExitReasons.kind(e.reason))), size = 14.sp)
                     Muted(formatExitTime(e.timestamp, locale), size = 12.sp)
                 }
             }
@@ -131,16 +131,16 @@ private fun GuestCodeCard() {
     // The scan runs at every Hermes start: reading again when the state changes keeps the card current.
     val state by rt.state.collectAsState()
     val entries = remember(state) { rt.guestCodeReport }
-    ExtrasCard("diag.guestCode", stringResource(R.string.cfg_diag_guest_title)) {
+    ExtrasCard("diag.guestCode", t(R.string.cfg_diag_guest_title)) {
         if (entries.isEmpty()) {
-            Muted(stringResource(R.string.cfg_diag_guest_none))
+            Muted(t(R.string.cfg_diag_guest_none))
         } else {
-            CText(pluralStringResource(R.plurals.cfg_diag_guest_found, entries.size, entries.size), size = 13.sp)
+            CText(tn(R.plurals.cfg_diag_guest_found, entries.size, entries.size), size = 13.sp)
             entries.forEach { e ->
                 Row(horizontalArrangement = Arrangement.spacedBy(Space.s), verticalAlignment = Alignment.CenterVertically) {
                     val kindLabel = when (e.kind) {
-                        GuestCodeKind.HOOK -> stringResource(R.string.cfg_guest_kind_hook)
-                        GuestCodeKind.PLUGIN -> stringResource(R.string.cfg_guest_kind_plugin)
+                        GuestCodeKind.HOOK -> t(R.string.cfg_guest_kind_hook)
+                        GuestCodeKind.PLUGIN -> t(R.string.cfg_guest_kind_plugin)
                     }
                     CText(kindLabel, color = Pocket.colors.textMuted, size = 12.sp, weight = FontWeight.Bold)
                     CText(e.path, size = 13.sp, mono = true)
@@ -169,15 +169,15 @@ private fun CrashOfferDialog(offer: CrashOffer, reports: CrashReports) {
     var copying by remember { mutableStateOf(false) }
     var failed by remember { mutableStateOf(false) }
     val newest = offer.crashes.first()
-    val sentence = stringResource(exitSentenceRes(ExitReasons.kind(newest.reason)))
+    val sentence = t(exitSentenceRes(ExitReasons.kind(newest.reason)))
     val whenText = formatExitTime(newest.timestamp, locale)
-    val copiedText = stringResource(R.string.cfg_crash_copied)
+    val copiedText = t(R.string.cfg_crash_copied)
     PocketDialog(
-        title = stringResource(R.string.cfg_crash_title),
+        title = t(R.string.cfg_crash_title),
         onDismiss = { reports.dismiss() },
         confirm = {
             PixelButton(
-                stringResource(R.string.cfg_crash_copy),
+                t(R.string.cfg_crash_copy),
                 onClick = {
                     if (!copying) {
                         copying = true
@@ -206,7 +206,7 @@ private fun CrashOfferDialog(offer: CrashOffer, reports: CrashReports) {
         },
         dismiss = {
             PixelButton(
-                stringResource(R.string.cfg_crash_not_now),
+                t(R.string.cfg_crash_not_now),
                 onClick = { reports.dismiss() },
                 modifier = Modifier.testTag("crash.dismiss"),
                 kind = ButtonKind.GHOST,
@@ -214,8 +214,8 @@ private fun CrashOfferDialog(offer: CrashOffer, reports: CrashReports) {
         },
     ) {
         Column(Modifier.fillMaxWidth().testTag("crash.offer"), verticalArrangement = Arrangement.spacedBy(Space.s)) {
-            CText(stringResource(R.string.cfg_crash_body, sentence, whenText))
-            if (failed) ErrorText(stringResource(R.string.cfg_crash_copy_failed))
+            CText(t(R.string.cfg_crash_body, sentence, whenText))
+            if (failed) ErrorText(t(R.string.cfg_crash_copy_failed))
         }
     }
 }

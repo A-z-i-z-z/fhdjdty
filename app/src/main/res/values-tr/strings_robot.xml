@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rbt_practice_title">Deneme modeli (token yok)</string>
+    <string name="rbt_practice_sub">Hermes, gerçek bir model yerine yerleşik bir senaryodan yanıt verir. Hiçbir sağlayıcıya bir şey gönderilmez, hiçbir şey harcanmaz. Kendi kurulumun olduğu gibi kalır ve bu kapanınca geri gelir.</string>
+    <string name="rbt_practice_restart">Hermes bunu uygulamak için yeniden başlıyor.</string>
+    <string name="rbt_practice_on">Deneme modeli açık: yanıtlar senaryodan.</string>
+    <string name="rbt_practice_words">Bir sohbete yazılacak sihirli sözcükler: %1$s</string>
+    <plurals name="rbt_practice_left">
+        <item quantity="one">%1$d dakika kaldı</item>
+        <item quantity="other">%1$d dakika kaldı</item>
+    </plurals>
+
+    <string name="rbt_export_logs">Kayıtları aktar</string>
+    <string name="rbt_export_logs_hint">Uygulama kaydı, çalışma ortamı kaydı ve son başlatma satırı tek zip içinde; gizli bilgiler çıkarılmış olarak.</string>
+</resources>

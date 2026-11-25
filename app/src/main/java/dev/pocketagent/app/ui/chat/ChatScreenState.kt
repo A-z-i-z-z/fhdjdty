@@ -54,6 +54,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import dev.pocketagent.app.ui.text.Texts
 
 // The state of one open chat (Wave 0, STREAM). Everything the old ChatBody kept in local variables lives here, so the four
 // composables of the screen (top area, message list, input area, dialogs) can each read only what they draw and a
@@ -294,7 +295,7 @@ internal class ChatScreenState(
 
     /** The engine refuses a message it cannot deliver (Hermes asleep and no wake-on-send, or nothing installed): never silently. */
     fun toastNotSent() {
-        say(context.getString(R.string.ui_send_not_accepted), PetNoteKind.ERROR)
+        say(Texts.get(context, R.string.ui_send_not_accepted), PetNoteKind.ERROR)
     }
 
     fun doSend() {
@@ -342,11 +343,11 @@ internal class ChatScreenState(
 
     fun doFork(upToId: String?) {
         scope.launch {
-            val suffix = context.getString(R.string.ui_fork_suffix)
+            val suffix = Texts.get(context, R.string.ui_fork_suffix)
             val forked = withContext(Dispatchers.IO) { repo.forkConversation(convId, upToId, suffix) }
             if (forked != null) {
                 app.sounds.play(SoundCue.TAP)
-                say(context.getString(R.string.ui_fork_created), PetNoteKind.SUCCESS)
+                say(Texts.get(context, R.string.ui_fork_created), PetNoteKind.SUCCESS)
                 nav.go(Route.Chat(forked.id))
             }
         }
@@ -358,7 +359,7 @@ internal class ChatScreenState(
                 val att = withContext(Dispatchers.IO) { loader() }
                 pendingAttachments = pendingAttachments + att
             } catch (e: Exception) {
-                say(context.getString(R.string.ui_attach_failed, e.message ?: e.javaClass.simpleName), PetNoteKind.ERROR)
+                say(Texts.get(context, R.string.ui_attach_failed, e.message ?: e.javaClass.simpleName), PetNoteKind.ERROR)
             }
         }
     }

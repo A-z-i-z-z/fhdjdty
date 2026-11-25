@@ -31,12 +31,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -65,6 +62,20 @@ import dev.pocketagent.app.ui.theme.Pocket
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.ui.platform.testTag
+import dev.pocketagent.app.ui.RobotTags
+import dev.pocketagent.app.ui.components.ActionSheet
+import dev.pocketagent.app.ui.components.ConfirmDialog
+import dev.pocketagent.app.ui.components.SheetAction
+import dev.pocketagent.app.ui.nav.SharedKeys
+import dev.pocketagent.app.ui.nav.navSharedBounds
+import dev.pocketagent.app.ui.nav.navSharedElement
+import dev.pocketagent.app.ui.theme.HapticCue
+import dev.pocketagent.app.ui.theme.Space
+import dev.pocketagent.app.ui.theme.rememberHaptics
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.tn
 
 /** The "Chats" tab: search, pinned chats, all chats, and a button to start a new chat or group. */
 @Composable
@@ -79,7 +90,7 @@ fun ChatListScreen() {
     val drafts by app.drafts.drafts.collectAsState()
     val c = Pocket.colors
     val botsById = remember(bots) { bots.associateBy { it.id } }
-    val untitled = stringResource(R.string.ui_chats_untitled)
+    val untitled = t(R.string.ui_chats_untitled)
 
     var query by rememberSaveable { mutableStateOf("") }
     var filter by rememberSaveable { mutableStateOf("ALL") }
@@ -121,53 +132,53 @@ fun ChatListScreen() {
     Box(Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize()) {
             PocketTopBar(
-                title = stringResource(R.string.ui_chats_title),
+                title = t(R.string.ui_chats_title),
                 actions = {
                     PixelIconButton(
                         PixelIcon.STAR, onClick = { nav.go(Route.Starred) },
-                        contentDescription = stringResource(R.string.ui_starred_title),
+                        contentDescription = t(R.string.ui_starred_title),
                     )
                 },
             )
-            Row(Modifier.fillMaxWidth().padding(start = 12.dp, end = 4.dp, top = 4.dp, bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.fillMaxWidth().padding(start = Space.m, end = Space.xs, top = Space.xs, bottom = Space.xs), verticalAlignment = Alignment.CenterVertically) {
                 PocketTextField(
                     value = query, onValueChange = { query = it }, modifier = Modifier.weight(1f),
-                    placeholder = stringResource(R.string.ui_chats_search), singleLine = true,
+                    placeholder = t(R.string.ui_chats_search), singleLine = true,
                 )
                 if (query.isNotEmpty()) {
-                    PixelIconButton(PixelIcon.CLOSE, onClick = { query = "" }, contentDescription = stringResource(R.string.ui_dlg_close))
-                } else Spacer(Modifier.width(8.dp))
+                    PixelIconButton(PixelIcon.CLOSE, onClick = { query = "" }, contentDescription = t(R.string.ui_dlg_close))
+                } else Spacer(Modifier.width(Space.s))
             }
             if (convs.isNotEmpty()) {
                 Row(
-                    Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = 12.dp, vertical = 4.dp),
+                    Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = Space.m, vertical = Space.xs),
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
-                    PocketChip(stringResource(R.string.ui_filter_all), filter == "ALL", { filter = "ALL" })
-                    PocketChip(stringResource(R.string.ui_filter_unread), filter == "UNREAD", { filter = "UNREAD" }, icon = PixelIcon.BELL)
-                    PocketChip(stringResource(R.string.ui_filter_pinned), filter == "PINNED", { filter = "PINNED" }, icon = PixelIcon.PIN)
-                    PocketChip(stringResource(R.string.ui_filter_groups), filter == "GROUPS", { filter = "GROUPS" }, icon = PixelIcon.GROUP)
-                    PocketChip(stringResource(R.string.ui_filter_direct), filter == "DIRECT", { filter = "DIRECT" }, icon = PixelIcon.USER)
-                    PocketChip(stringResource(R.string.ui_filter_modes), filter == "MODES", { filter = "MODES" }, icon = PixelIcon.BOLT)
+                    PocketChip(t(R.string.ui_filter_all), filter == "ALL", { filter = "ALL" })
+                    PocketChip(t(R.string.ui_filter_unread), filter == "UNREAD", { filter = "UNREAD" }, icon = PixelIcon.BELL)
+                    PocketChip(t(R.string.ui_filter_pinned), filter == "PINNED", { filter = "PINNED" }, icon = PixelIcon.PIN)
+                    PocketChip(t(R.string.ui_filter_groups), filter == "GROUPS", { filter = "GROUPS" }, icon = PixelIcon.GROUP)
+                    PocketChip(t(R.string.ui_filter_direct), filter == "DIRECT", { filter = "DIRECT" }, icon = PixelIcon.USER)
+                    PocketChip(t(R.string.ui_filter_modes), filter == "MODES", { filter = "MODES" }, icon = PixelIcon.BOLT)
                 }
             }
             when {
                 convs.isEmpty() -> Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
                     EmptyState(
-                        stringResource(R.string.ui_chats_empty_title), stringResource(R.string.ui_chats_empty_body),
-                        action = { PixelButton(stringResource(R.string.ui_chats_new), onClick = { showNew = true }, icon = PixelIcon.PLUS) },
+                        t(R.string.ui_chats_empty_title), t(R.string.ui_chats_empty_body),
+                        action = { PixelButton(t(R.string.ui_chats_new), onClick = { showNew = true }, modifier = Modifier.testTag(RobotTags.CHATS_NEW), icon = PixelIcon.PLUS) },
                     )
                 }
                 q.isEmpty() && matchingConvs.isEmpty() -> Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
                     Text(
-                        stringResource(R.string.ui_filter_empty), color = c.textMuted, fontSize = 15.sp,
-                        modifier = Modifier.padding(24.dp),
+                        t(R.string.ui_filter_empty), color = c.textMuted, fontSize = 15.sp,
+                        modifier = Modifier.padding(Space.xl),
                     )
                 }
                 q.isNotEmpty() && matchingConvs.isEmpty() && hits.isEmpty() -> Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.TopCenter) {
                     Text(
-                        stringResource(R.string.ui_chats_no_results, q), color = c.textMuted, fontSize = 15.sp,
-                        modifier = Modifier.padding(24.dp),
+                        t(R.string.ui_chats_no_results, q), color = c.textMuted, fontSize = 15.sp,
+                        modifier = Modifier.padding(Space.xl),
                     )
                 }
                 else -> LazyColumn(Modifier.weight(1f).fillMaxWidth(), contentPadding = PaddingValues(bottom = 88.dp)) {
@@ -175,24 +186,24 @@ fun ChatListScreen() {
                         val pinned = matchingConvs.filter { it.pinned }
                         val rest = matchingConvs.filter { !it.pinned }
                         if (pinned.isNotEmpty()) {
-                            item(key = "h-pinned") { ListLabel(stringResource(R.string.ui_chats_pinned)) }
-                            items(pinned, key = { it.id }) { cv ->
-                                ConversationRow(cv, botsById, cv.id in busy, { openChat(cv) }, { longPress(cv) }, draft = drafts[cv.id].orEmpty())
+                            item(key = "h-pinned") { ListLabel(t(R.string.ui_chats_pinned)) }
+                            itemsIndexed(pinned, key = { _, cv -> cv.id }) { i, cv ->
+                                ConversationRow(cv, botsById, cv.id in busy, { openChat(cv) }, { longPress(cv) }, modifier = Modifier.testTag(RobotTags.chatsRow(i)), draft = drafts[cv.id].orEmpty())
                             }
-                            if (rest.isNotEmpty()) item(key = "h-all") { ListLabel(stringResource(R.string.ui_chats_all)) }
+                            if (rest.isNotEmpty()) item(key = "h-all") { ListLabel(t(R.string.ui_chats_all)) }
                         }
-                        items(rest, key = { it.id }) { cv ->
-                            ConversationRow(cv, botsById, cv.id in busy, { openChat(cv) }, { longPress(cv) }, draft = drafts[cv.id].orEmpty())
+                        itemsIndexed(rest, key = { _, cv -> cv.id }) { i, cv ->
+                            ConversationRow(cv, botsById, cv.id in busy, { openChat(cv) }, { longPress(cv) }, modifier = Modifier.testTag(RobotTags.chatsRow(pinned.size + i)), draft = drafts[cv.id].orEmpty())
                         }
                     } else {
                         if (matchingConvs.isNotEmpty()) {
-                            item(key = "h-convs") { ListLabel(stringResource(R.string.ui_chats_found_convs)) }
-                            items(matchingConvs, key = { "c-" + it.id }) { cv ->
-                                ConversationRow(cv, botsById, cv.id in busy, { openChat(cv) }, { longPress(cv) }, draft = drafts[cv.id].orEmpty())
+                            item(key = "h-convs") { ListLabel(t(R.string.ui_chats_found_convs)) }
+                            itemsIndexed(matchingConvs, key = { _, cv -> "c-" + cv.id }) { i, cv ->
+                                ConversationRow(cv, botsById, cv.id in busy, { openChat(cv) }, { longPress(cv) }, modifier = Modifier.testTag(RobotTags.chatsRow(i)), draft = drafts[cv.id].orEmpty())
                             }
                         }
                         if (hits.isNotEmpty()) {
-                            item(key = "h-msgs") { ListLabel(stringResource(R.string.ui_chats_matches)) }
+                            item(key = "h-msgs") { ListLabel(t(R.string.ui_chats_matches)) }
                             items(hits, key = { (cv, m) -> "m-" + cv.id + "-" + m.id }) { (cv, m) ->
                                 HitRow(cv, m, q, botsById, untitled) {
                                     ChatScrollTarget.set(cv.id, m.id)
@@ -206,8 +217,8 @@ fun ChatListScreen() {
         }
         if (convs.isNotEmpty()) {
             PixelButton(
-                stringResource(R.string.ui_chats_new), onClick = { showNew = true },
-                modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp), icon = PixelIcon.PLUS,
+                t(R.string.ui_chats_new), onClick = { showNew = true },
+                modifier = Modifier.align(Alignment.BottomEnd).padding(Space.l).testTag(RobotTags.CHATS_NEW), icon = PixelIcon.PLUS,
             )
         }
     }
@@ -218,13 +229,13 @@ fun ChatListScreen() {
     menuFor?.let { cv ->
         val name = titleOf(cv, botsById, untitled)
         val acts = listOf(
-            SheetAction(PixelIcon.PIN, stringResource(if (cv.pinned) R.string.ui_act_unpin else R.string.ui_act_pin)) { repo.setPinned(cv.id, !cv.pinned) },
+            SheetAction(PixelIcon.PIN, t(if (cv.pinned) R.string.ui_act_unpin else R.string.ui_act_pin)) { repo.setPinned(cv.id, !cv.pinned) },
             SheetAction(
                 if (cv.unread > 0) PixelIcon.CHECK else PixelIcon.BELL,
-                stringResource(if (cv.unread > 0) R.string.ui_act_mark_read else R.string.ui_act_mark_unread),
+                t(if (cv.unread > 0) R.string.ui_act_mark_read else R.string.ui_act_mark_unread),
             ) { if (cv.unread > 0) repo.markRead(cv.id) else repo.markUnread(cv.id) },
-            SheetAction(PixelIcon.EDIT, stringResource(R.string.ui_act_rename)) { renameFor = cv },
-            SheetAction(PixelIcon.TRASH, stringResource(R.string.ui_act_delete), danger = true) { deleteFor = cv },
+            SheetAction(PixelIcon.EDIT, t(R.string.ui_act_rename)) { renameFor = cv },
+            SheetAction(PixelIcon.TRASH, t(R.string.ui_act_delete), danger = true) { deleteFor = cv },
         )
         ActionSheet(name, acts) { menuFor = null }
     }
@@ -237,8 +248,9 @@ fun ChatListScreen() {
     deleteFor?.let { cv ->
         val name = titleOf(cv, botsById, untitled)
         ConfirmDialog(
-            title = stringResource(R.string.ui_dlg_delete_title), body = stringResource(R.string.ui_dlg_delete_body, name),
-            confirmLabel = stringResource(R.string.ui_dlg_delete_confirm),
+            title = t(R.string.ui_dlg_delete_title), body = t(R.string.ui_dlg_delete_body, name),
+            confirmLabel = t(R.string.ui_dlg_delete_confirm),
+            closeOnConfirm = true, danger = true,
             onConfirm = {
                 if (cv.id in busy) app.engine.stop(cv.id)
                 repo.deleteConversation(cv.id)
@@ -262,66 +274,67 @@ internal fun ConversationRow(
     draft: String = "",
 ) {
     val c = Pocket.colors
-    val haptic = LocalHapticFeedback.current
+    val haptics = rememberHaptics()
     val members = conv.botIds.map { botsById[it] }
-    val untitled = stringResource(R.string.ui_chats_untitled)
+    val untitled = t(R.string.ui_chats_untitled)
     val title = titleOf(conv, botsById, untitled)
     val preview = remember(conv.lastPreview) { markdownToPlain(conv.lastPreview) }
     val unread = conv.unread
     val hasDraft = draft.isNotBlank() && !generating
-    val draftText = if (hasDraft) stringResource(R.string.ui_chats_draft, draft.replace('\n', ' ').trim().take(80)) else ""
+    val draftText = if (hasDraft) t(R.string.ui_chats_draft, draft.replace('\n', ' ').trim().take(80)) else ""
     Row(
         modifier.fillMaxWidth().heightIn(min = 68.dp)
             .combinedClickable(
                 onClick = onClick,
-                onLongClick = onLongClick?.let { l -> { haptic.performHapticFeedback(HapticFeedbackType.LongPress); l() } },
+                onLongClick = onLongClick?.let { l -> { haptics.play(HapticCue.HOLD); l() } },
             )
-            .padding(horizontal = 16.dp, vertical = 10.dp),
+            .padding(horizontal = Space.gutter, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        AvatarStack(members, 48.dp)
+        AvatarStack(members, 48.dp, modifier = Modifier.navSharedElement(SharedKeys.chatAvatar(conv.id)))
         Spacer(Modifier.width(14.dp))
         Column(Modifier.weight(1f)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 if (conv.pinned) {
                     PixelIconView(PixelIcon.PIN, tint = c.accent, size = 14.dp)
-                    Spacer(Modifier.width(4.dp))
+                    Spacer(Modifier.width(Space.xs))
                 }
                 if (conv.routineId.isNotBlank()) {
                     PixelIconView(
                         PixelIcon.CLOCK, tint = c.accent, size = 14.dp,
-                        contentDescription = stringResource(R.string.ui_chats_routine_cd),
+                        contentDescription = t(R.string.ui_chats_routine_cd),
                     )
-                    Spacer(Modifier.width(4.dp))
+                    Spacer(Modifier.width(Space.xs))
                 }
                 Text(
                     title, color = c.text, fontSize = 16.sp,
                     fontWeight = if (unread > 0) FontWeight.ExtraBold else FontWeight.SemiBold,
-                    maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f),
+                    maxLines = 1, overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f).navSharedBounds(SharedKeys.chatTitle(conv.id)),
                 )
-                Spacer(Modifier.width(8.dp))
+                Spacer(Modifier.width(Space.s))
                 Text(
                     relativeTime(conv.updatedAt), color = if (unread > 0) c.accent else c.textMuted, fontSize = 12.sp,
                     fontWeight = if (unread > 0) FontWeight.SemiBold else FontWeight.Normal,
                 )
             }
-            Spacer(Modifier.height(2.dp))
+            Spacer(Modifier.height(Space.xxs))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     when {
-                        generating -> stringResource(R.string.ui_chats_generating) + "…"
+                        generating -> t(R.string.ui_chats_generating) + "…"
                         hasDraft -> draftText
-                        else -> preview.ifBlank { stringResource(R.string.ui_chats_empty_preview) }
+                        else -> preview.ifBlank { t(R.string.ui_chats_empty_preview) }
                     },
                     color = if (generating || hasDraft) c.accent else if (unread > 0) c.text else c.textMuted, fontSize = 14.sp,
                     maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f),
                 )
                 if (generating) {
-                    Spacer(Modifier.width(8.dp))
+                    Spacer(Modifier.width(Space.s))
                     GeneratingEmber(size = 16.dp)
                 }
                 if (unread > 0) {
-                    Spacer(Modifier.width(8.dp))
+                    Spacer(Modifier.width(Space.s))
                     UnreadBadge(unread)
                 }
             }
@@ -333,7 +346,7 @@ internal fun ConversationRow(
 @Composable
 internal fun UnreadBadge(count: Int, modifier: Modifier = Modifier) {
     val c = Pocket.colors
-    val cd = stringResource(R.string.ui_unread_cd, count)
+    val cd = tn(R.plurals.ui_unread_cd, count, count)
     Box(
         modifier.defaultMinSize(minWidth = 20.dp, minHeight = 20.dp)
             .background(c.accent)
@@ -355,16 +368,16 @@ private fun HitRow(conv: Conversation, msg: Message, q: String, botsById: Map<St
     val snippet = remember(msg.text, q, c.accent) { highlight(msg.text, q, c.accent) }
     Row(
         Modifier.fillMaxWidth().heightIn(min = 60.dp)
-            .combinedClickableCompat(onClick).padding(horizontal = 16.dp, vertical = 8.dp),
+            .combinedClickableCompat(onClick).padding(horizontal = Space.gutter, vertical = Space.s),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         AvatarStack(members, 40.dp)
-        Spacer(Modifier.width(12.dp))
+        Spacer(Modifier.width(Space.m))
         Column(Modifier.weight(1f)) {
             Text(titleOf(conv, botsById, untitled), color = c.text, fontSize = 14.sp, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
             Text(snippet, color = c.textMuted, fontSize = 13.sp, maxLines = 2, overflow = TextOverflow.Ellipsis)
         }
-        Spacer(Modifier.width(8.dp))
+        Spacer(Modifier.width(Space.s))
         Text(relativeTime(msg.createdAt), color = c.textMuted, fontSize = 12.sp)
     }
 }

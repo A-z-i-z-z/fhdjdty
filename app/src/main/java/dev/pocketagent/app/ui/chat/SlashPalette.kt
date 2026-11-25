@@ -28,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -37,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
-import androidx.compose.animation.core.tween
 import dev.pocketagent.app.R
 import dev.pocketagent.app.data.ChatMode
 import dev.pocketagent.app.data.SlashCommands
@@ -49,6 +47,10 @@ import dev.pocketagent.app.ui.components.PixelIconView
 import dev.pocketagent.app.ui.components.PocketChip
 import dev.pocketagent.app.ui.theme.AnimLevel
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.theme.Flourish
+import dev.pocketagent.app.ui.theme.Space
+import dev.pocketagent.app.ui.theme.motion
+import dev.pocketagent.app.ui.text.t
 
 @Composable
 internal fun SlashCommandPalette(
@@ -60,7 +62,7 @@ internal fun SlashCommandPalette(
         Column(
             Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .padding(horizontal = Space.s, vertical = Space.xs)
                 .background(c.bgDeep)
                 .border(2.dp, c.outline)
                 .heightIn(max = 220.dp)
@@ -71,7 +73,7 @@ internal fun SlashCommandPalette(
                     Modifier
                         .fillMaxWidth()
                         .clickable(role = Role.Button) { onPick(cmd) }
-                        .padding(horizontal = 12.dp, vertical = 8.dp),
+                        .padding(horizontal = Space.m, vertical = Space.s),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
@@ -83,19 +85,19 @@ internal fun SlashCommandPalette(
                             maxLines = 1, overflow = TextOverflow.Ellipsis,
                         )
                         Text(
-                            stringResource(slashDescRes(cmd.name)), color = c.textMuted,
+                            t(slashDescRes(cmd.name)), color = c.textMuted,
                             fontSize = 12.sp, maxLines = 1, overflow = TextOverflow.Ellipsis,
                         )
                     }
                     val isMode = cmd.category == SlashCategory.MODE
                     Text(
-                        stringResource(if (isMode) R.string.ui_slash_mode_badge else R.string.ui_slash_action_badge),
+                        t(if (isMode) R.string.ui_slash_mode_badge else R.string.ui_slash_action_badge),
                         color = if (isMode) c.onAccent else c.text,
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .background(if (isMode) c.accent else c.surfaceHigh)
-                            .padding(horizontal = 6.dp, vertical = 2.dp),
+                            .padding(horizontal = 6.dp, vertical = Space.xxs),
                     )
                 }
             }
@@ -108,10 +110,10 @@ internal fun ActiveModeBanner(mode: ChatMode, onClear: () -> Unit) {
     if (mode == ChatMode.NORMAL) return
     val c = Pocket.colors
     val label = when (mode) {
-        ChatMode.PLAN -> stringResource(R.string.ui_mode_banner_plan)
-        ChatMode.GOAL -> stringResource(R.string.ui_mode_banner_goal)
-        ChatMode.ULTRACODE -> stringResource(R.string.ui_mode_banner_ultracode)
-        ChatMode.LOOP -> stringResource(R.string.ui_mode_banner_loop)
+        ChatMode.PLAN -> t(R.string.ui_mode_banner_plan)
+        ChatMode.GOAL -> t(R.string.ui_mode_banner_goal)
+        ChatMode.ULTRACODE -> t(R.string.ui_mode_banner_ultracode)
+        ChatMode.LOOP -> t(R.string.ui_mode_banner_loop)
         ChatMode.NORMAL -> ""
     }
     val icon = when (mode) {
@@ -126,15 +128,15 @@ internal fun ActiveModeBanner(mode: ChatMode, onClear: () -> Unit) {
             .fillMaxWidth()
             .background(c.accentSoft.copy(alpha = 0.16f))
             .border(1.dp, c.accent)
-            .padding(start = 12.dp, end = 4.dp, top = 2.dp, bottom = 2.dp),
+            .padding(start = Space.m, end = Space.xs, top = Space.xxs, bottom = Space.xxs),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         PixelIconView(icon, tint = c.accent, size = 16.dp)
-        Spacer(Modifier.width(8.dp))
+        Spacer(Modifier.width(Space.s))
         Text(label, color = c.text, fontSize = 12.sp, fontWeight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
         PixelIconButton(
             PixelIcon.CLOSE, onClick = onClear,
-            contentDescription = stringResource(R.string.ui_mode_exit_cd), tint = c.textMuted,
+            contentDescription = t(R.string.ui_mode_exit_cd), tint = c.textMuted,
         )
     }
 }
@@ -142,8 +144,8 @@ internal fun ActiveModeBanner(mode: ChatMode, onClear: () -> Unit) {
 @Composable
 internal fun EmptyChatQuickActions(onPick: (String) -> Unit) {
     Row(
-        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(top = 12.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+        Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(top = Space.m),
+        horizontalArrangement = Arrangement.spacedBy(Space.s, Alignment.CenterHorizontally),
     ) {
         PocketChip("/plan", false, { onPick("/plan ") }, icon = PixelIcon.SCROLL)
         PocketChip("/ultracode", false, { onPick("/ultracode ") }, icon = PixelIcon.TERMINAL)
@@ -156,10 +158,11 @@ internal fun EmptyChatQuickActions(onPick: (String) -> Unit) {
 @Composable
 internal fun NewrozCelebrationOverlay(trigger: Int) {
     if (trigger <= 0 || Pocket.anim == AnimLevel.OFF) return
+    val motion = Pocket.motion
     val progress = remember(trigger) { Animatable(0f) }
     LaunchedEffect(trigger) {
         progress.snapTo(0f)
-        progress.animateTo(1f, tween(2400, easing = LinearEasing))
+        progress.animateTo(1f, motion.custom<Float>(Flourish.SHOWER, LinearEasing))
     }
     if (progress.value >= 1f) return
     val palette = remember {

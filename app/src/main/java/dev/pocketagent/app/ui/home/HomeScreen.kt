@@ -1,9 +1,7 @@
 package dev.pocketagent.app.ui.home
 
-import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
@@ -41,10 +39,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalHapticFeedback
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -84,6 +80,18 @@ import dev.pocketagent.app.voice.SoundCue
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Calendar
+import dev.pocketagent.app.runtime.RuntimeManager
+import dev.pocketagent.app.ui.RobotTags
+import dev.pocketagent.app.ui.components.PetNoteKind
+import dev.pocketagent.app.ui.components.PetNotes
+import dev.pocketagent.app.ui.theme.Flourish
+import dev.pocketagent.app.ui.theme.HapticCue
+import dev.pocketagent.app.ui.theme.Space
+import dev.pocketagent.app.ui.theme.motion
+import dev.pocketagent.app.ui.theme.rememberHaptics
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.tn
+import dev.pocketagent.app.ui.text.Texts
 
 /** The home tab: a living hearth scene that mirrors the runtime, the main action, quick chat, bots and recents. */
 @Composable
@@ -93,8 +101,9 @@ fun HomeScreen() {
     val app = remember { PocketApp.from(ctx) }
     val repo = app.chat
     val vm: MainViewModel = viewModel()
-    val haptic = LocalHapticFeedback.current
+    val haptics = rememberHaptics()
     val c = Pocket.colors
+    val motion = Pocket.motion
 
     val state by vm.state.collectAsState()
     val s: RuntimeState = state
@@ -151,12 +160,12 @@ fun HomeScreen() {
     LazyColumn(
         Modifier.fillMaxSize(),
         state = listState,
-        contentPadding = PaddingValues(bottom = 24.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(bottom = Space.xl),
+        verticalArrangement = Arrangement.spacedBy(Space.l),
     ) {
         // ---- the scene: tap the mascot for a little joy (7 quick taps = Newroz overdrive) ----
         item(key = "scene") {
-            val cd = stringResource(R.string.ui_home_mascot_cd)
+            val cd = t(R.string.ui_home_mascot_cd)
             val quips = remember { listOf(R.string.ui_home_quip_1, R.string.ui_home_quip_2, R.string.ui_home_quip_3, R.string.ui_home_quip_4) }
             Box(
                 Modifier.fillMaxWidth()
@@ -171,17 +180,17 @@ fun HomeScreen() {
                             celebration = true
                             tapMood = MascotMood.HAPPY
                             quipRes = R.string.ui_home_quip_overdrive
-                            haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                            haptics.play(HapticCue.HOLD)
                             app.sounds.play(SoundCue.FORGE)
                         } else {
-                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            haptics.play(HapticCue.STOKE)
                             app.sounds.play(SoundCue.SPARK)
                             tapMood = if (taps % 2 == 0) MascotMood.WAVING else MascotMood.HAPPY
                             quipRes = quips[(taps - 1) % quips.size]
                         }
                         scope.launch {
                             stoke.snapTo(1.2f)
-                            stoke.animateTo(0f, tween(1200))
+                            stoke.animateTo(0f, motion.custom<Float>(Flourish.STOKE))
                         }
                     },
             ) {
@@ -195,9 +204,9 @@ fun HomeScreen() {
                 )
                 androidx.compose.animation.AnimatedVisibility(
                     visible = quipRes != null,
-                    enter = fadeIn(tween(150)),
-                    exit = fadeOut(tween(250)),
-                    modifier = Modifier.align(Alignment.TopStart).statusBarsPadding().padding(12.dp),
+                    enter = fadeIn(motion.fast()),
+                    exit = fadeOut(motion.base()),
+                    modifier = Modifier.align(Alignment.TopStart).statusBarsPadding().padding(Space.m),
                 ) {
                     quipRes?.let { resId ->
                         Box(
@@ -205,7 +214,7 @@ fun HomeScreen() {
                                 .border(2.dp, if (celebration) c.fireHigh else c.outline)
                                 .padding(horizontal = 10.dp, vertical = 6.dp),
                         ) {
-                            Text(stringResource(resId), color = c.text, fontSize = 12.sp, fontWeight = FontWeight.Medium)
+                            Text(t(resId), color = c.text, fontSize = 12.sp, fontWeight = FontWeight.Medium)
                         }
                     }
                 }
@@ -214,9 +223,9 @@ fun HomeScreen() {
 
         // ---- greeting and status ----
         item(key = "status") {
-            Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Column(Modifier.padding(horizontal = Space.gutter), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 PixelHeading(greeting())
-                Text(stringResource(R.string.ui_home_tagline), color = c.textMuted, fontSize = 14.sp)
+                Text(t(R.string.ui_home_tagline), color = c.textMuted, fontSize = 14.sp)
                 StatusCard(s, onStart = { vm.start() }, onStop = { vm.stop() }, onDetails = { nav.go(Route.Settings("runtime")) })
             }
         }
@@ -224,16 +233,16 @@ fun HomeScreen() {
         // ---- setup prompt ----
         if (setupIncomplete) {
             item(key = "setup") {
-                PixelPanel(Modifier.padding(horizontal = 16.dp).fillMaxWidth(), color = c.surface, border = c.warning) {
-                    Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                PixelPanel(Modifier.padding(horizontal = Space.gutter).fillMaxWidth(), color = c.surface, border = c.warning) {
+                    Column(Modifier.fillMaxWidth().padding(Space.l), verticalArrangement = Arrangement.spacedBy(Space.s)) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             PixelIconView(PixelIcon.KEY, tint = c.warning, size = 22.dp)
                             Spacer(Modifier.width(10.dp))
-                            Text(stringResource(R.string.ui_home_setup_title), color = c.text, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+                            Text(t(R.string.ui_home_setup_title), color = c.text, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
                         }
-                        Text(stringResource(R.string.ui_home_setup_body), color = c.textMuted, fontSize = 14.sp)
+                        Text(t(R.string.ui_home_setup_body), color = c.textMuted, fontSize = 14.sp)
                         PixelButton(
-                            stringResource(R.string.ui_home_setup_btn), onClick = { nav.go(Route.Settings("provider")) },
+                            t(R.string.ui_home_setup_btn), onClick = { nav.go(Route.Settings("provider")) },
                             modifier = Modifier.fillMaxWidth(), icon = PixelIcon.GEAR,
                         )
                     }
@@ -243,25 +252,25 @@ fun HomeScreen() {
 
         // ---- talk to Hermes ----
         item(key = "talk") {
-            Column(Modifier.padding(horizontal = 16.dp)) {
-                SectionHeader(stringResource(R.string.ui_home_talk_title))
+            Column(Modifier.padding(horizontal = Space.gutter)) {
+                SectionHeader(t(R.string.ui_home_talk_title))
                 Spacer(Modifier.height(6.dp))
                 if (canChat) {
                     Row(verticalAlignment = Alignment.Bottom) {
                         PocketTextField(
                             value = quick, onValueChange = { quick = it }, modifier = Modifier.weight(1f),
-                            placeholder = stringResource(
+                            placeholder = t(
                                 if (s == RuntimeState.Running) R.string.ui_home_talk_hint else R.string.ui_home_talk_hint_wake,
                             ),
                             minLines = 1, maxLines = 4,
                         )
-                        Spacer(Modifier.width(4.dp))
+                        Spacer(Modifier.width(Space.xs))
                         PixelIconButton(
-                            PixelIcon.SEND, contentDescription = stringResource(R.string.ui_home_send),
+                            PixelIcon.SEND, contentDescription = t(R.string.ui_home_send),
                             onClick = {
                                 val text = quick.trim()
                                 if (text.isNotEmpty()) {
-                                    haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                                    haptics.play(HapticCue.TICK)
                                     // A busy chat would ignore the message: talk in a fresh 1:1 chat instead.
                                     var conv = repo.openOneToOne(BotPresets.HERMES_ID)
                                     if (conv.id in busy) conv = repo.createConversation(listOf(BotPresets.HERMES_ID))
@@ -271,7 +280,7 @@ fun HomeScreen() {
                                         quick = ""
                                         nav.go(Route.Chat(conv.id))
                                     } else {
-                                        Toast.makeText(ctx, R.string.ui_send_not_accepted, Toast.LENGTH_SHORT).show()
+                                        PetNotes.show(Texts.get(ctx, R.string.ui_send_not_accepted), PetNoteKind.ERROR)
                                     }
                                 }
                             },
@@ -281,7 +290,7 @@ fun HomeScreen() {
                 } else {
                     PixelPanel(Modifier.fillMaxWidth(), color = c.bgDeep) {
                         Text(
-                            stringResource(R.string.ui_home_talk_hint_off), color = c.textMuted, fontSize = 15.sp,
+                            t(R.string.ui_home_talk_hint_off), color = c.textMuted, fontSize = 15.sp,
                             modifier = Modifier.fillMaxWidth().padding(14.dp),
                         )
                     }
@@ -292,9 +301,9 @@ fun HomeScreen() {
         // ---- bots ----
         item(key = "bots") {
             Column {
-                SectionHeader(stringResource(R.string.ui_home_bots), Modifier.padding(horizontal = 16.dp))
+                SectionHeader(t(R.string.ui_home_bots), Modifier.padding(horizontal = Space.gutter))
                 Spacer(Modifier.height(6.dp))
-                LazyRow(Modifier.fillMaxWidth(), contentPadding = PaddingValues(horizontal = 16.dp, vertical = 4.dp), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                LazyRow(Modifier.fillMaxWidth(), contentPadding = PaddingValues(horizontal = Space.gutter, vertical = Space.xs), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     items(bots, key = { it.id }) { bot -> BotCard(bot, onClick = { startChat(bot.id) }) }
                     item(key = "new-bot") { NewBotCard(onClick = { nav.go(Route.BotEditor(null)) }) }
                 }
@@ -303,33 +312,33 @@ fun HomeScreen() {
 
         item(key = "group") {
             PixelButton(
-                stringResource(R.string.ui_home_group_btn), onClick = { showNew = true },
-                modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth(), icon = PixelIcon.GROUP, kind = ButtonKind.SECONDARY,
+                t(R.string.ui_home_group_btn), onClick = { showNew = true },
+                modifier = Modifier.padding(horizontal = Space.gutter).fillMaxWidth(), icon = PixelIcon.GROUP, kind = ButtonKind.SECONDARY,
             )
         }
 
         // ---- recent conversations ----
         item(key = "recent") {
             Column {
-                Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-                    SectionHeader(stringResource(R.string.ui_home_recent), Modifier.weight(1f))
+                Row(Modifier.fillMaxWidth().padding(horizontal = Space.gutter), verticalAlignment = Alignment.CenterVertically) {
+                    SectionHeader(t(R.string.ui_home_recent), Modifier.weight(1f))
                     if (unreadTotal > 0) {
                         Text(
-                            stringResource(R.string.ui_home_unread, unreadTotal), color = c.accent, fontSize = 13.sp, fontWeight = FontWeight.SemiBold,
-                            modifier = Modifier.clickable(role = Role.Button) { nav.tab(Route.Chats) }.padding(8.dp),
+                            tn(R.plurals.ui_home_unread, unreadTotal, unreadTotal), color = c.accent, fontSize = 13.sp, fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.clickable(role = Role.Button) { nav.tab(Route.Chats) }.padding(Space.s),
                         )
                     }
                     if (convs.size > 4) {
                         Text(
-                            stringResource(R.string.ui_home_see_all), color = c.accent, fontSize = 14.sp, fontWeight = FontWeight.Medium,
-                            modifier = Modifier.clickable(role = Role.Button) { nav.tab(Route.Chats) }.padding(8.dp),
+                            t(R.string.ui_home_see_all), color = c.accent, fontSize = 14.sp, fontWeight = FontWeight.Medium,
+                            modifier = Modifier.clickable(role = Role.Button) { nav.tab(Route.Chats) }.padding(Space.s),
                         )
                     }
                 }
                 if (convs.isEmpty()) {
                     Text(
-                        stringResource(R.string.ui_home_no_chats), color = c.textMuted, fontSize = 14.sp,
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        t(R.string.ui_home_no_chats), color = c.textMuted, fontSize = 14.sp,
+                        modifier = Modifier.padding(horizontal = Space.gutter, vertical = Space.s),
                     )
                 } else {
                     convs.take(4).forEach { cv ->
@@ -341,26 +350,26 @@ fun HomeScreen() {
 
         // ---- inspector, terminal, routines, saved messages, today's usage ----
         item(key = "tiles") {
-            Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            Column(Modifier.padding(horizontal = Space.gutter), verticalArrangement = Arrangement.spacedBy(Space.m)) {
                 // IntrinsicSize.Min: the two tiles of a row are equally tall (HomeTile fills the height).
-                Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    HomeTile(PixelIcon.SCROLL, stringResource(R.string.ui_home_tile_hermes), { nav.go(Route.Hermes) }, Modifier.weight(1f))
-                    HomeTile(PixelIcon.TERMINAL, stringResource(R.string.ui_home_tile_terminal), { nav.go(Route.Terminal) }, Modifier.weight(1f))
+                Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(Space.m)) {
+                    HomeTile(PixelIcon.SCROLL, t(R.string.ui_home_tile_hermes), { nav.go(Route.Hermes) }, Modifier.weight(1f))
+                    HomeTile(PixelIcon.TERMINAL, t(R.string.ui_home_tile_terminal), { nav.go(Route.Terminal) }, Modifier.weight(1f))
                 }
-                Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(Space.m)) {
                     HomeTile(
-                        PixelIcon.CLOCK, stringResource(R.string.ui_home_tile_routines), { nav.go(Route.Routines) }, Modifier.weight(1f),
-                        subtitle = nextRun?.let { stringResource(R.string.ui_home_routines_next, dayTimeLabel(it)) }
-                            ?: stringResource(R.string.ui_home_routines_none),
+                        PixelIcon.CLOCK, t(R.string.ui_home_tile_routines), { nav.go(Route.Routines) }, Modifier.weight(1f),
+                        subtitle = nextRun?.let { t(R.string.ui_home_routines_next, dayTimeLabel(it)) }
+                            ?: t(R.string.ui_home_routines_none),
                     )
-                    HomeTile(PixelIcon.STAR, stringResource(R.string.ui_home_tile_saved), { nav.go(Route.Starred) }, Modifier.weight(1f))
+                    HomeTile(PixelIcon.STAR, t(R.string.ui_home_tile_saved), { nav.go(Route.Starred) }, Modifier.weight(1f))
                 }
                 if (todayTokens > 0L) {
                     Text(
-                        stringResource(R.string.ui_home_usage_today, compactTokens(todayTokens, dev.pocketagent.app.ui.chat.currentLocale())),
+                        t(R.string.ui_home_usage_today, compactTokens(todayTokens, dev.pocketagent.app.ui.chat.currentLocale())),
                         color = c.textMuted, fontSize = 13.sp,
                         modifier = Modifier.fillMaxWidth().clickable(role = Role.Button) { nav.go(Route.Settings("usage")) }
-                            .padding(vertical = 8.dp),
+                            .padding(vertical = Space.s),
                     )
                 }
             }
@@ -378,7 +387,7 @@ fun HomeScreen() {
 @Composable
 private fun greeting(): String {
     val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-    return stringResource(
+    return t(
         when (hour) {
             in 5..11 -> R.string.ui_home_greet_morning
             in 12..17 -> R.string.ui_home_greet_afternoon
@@ -394,19 +403,19 @@ private fun StatusCard(s: RuntimeState, onStart: () -> Unit, onStop: () -> Unit,
     val c = Pocket.colors
     val busyNow = s is RuntimeState.Extracting || s is RuntimeState.Starting
     val title = when (s) {
-        RuntimeState.NotInstalled -> stringResource(R.string.ui_home_status_notinstalled)
-        is RuntimeState.Extracting -> stringResource(R.string.ui_home_status_extracting, (s.fraction.coerceIn(0f, 1f) * 100).toInt())
+        RuntimeState.NotInstalled -> t(R.string.ui_home_status_notinstalled)
+        is RuntimeState.Extracting -> t(R.string.ui_home_status_extracting, (s.fraction.coerceIn(0f, 1f) * 100).toInt())
         is RuntimeState.Starting ->
-            stringResource(if (s.step.startsWith("still starting")) R.string.ui_home_status_slow else R.string.ui_home_status_starting)
-        RuntimeState.Running -> stringResource(R.string.ui_home_status_running)
-        is RuntimeState.Stopped -> stringResource(R.string.ui_home_status_stopped)
-        is RuntimeState.Error -> stringResource(R.string.ui_home_status_error)
+            t(if (s.step.startsWith(RuntimeManager.STILL_STARTING)) R.string.ui_home_status_slow else R.string.ui_home_status_starting)
+        RuntimeState.Running -> t(R.string.ui_home_status_running)
+        is RuntimeState.Stopped -> t(R.string.ui_home_status_stopped)
+        is RuntimeState.Error -> t(R.string.ui_home_status_error)
     }
     val firstStart = s == RuntimeState.NotInstalled || s is RuntimeState.Extracting
     PixelPanel(Modifier.fillMaxWidth(), color = c.surface) {
-        Column(Modifier.fillMaxWidth().padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            Text(title, color = c.text, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
-            if (firstStart) Text(stringResource(R.string.ui_home_hint_first), color = c.textMuted, fontSize = 13.sp)
+        Column(Modifier.fillMaxWidth().padding(Space.l), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Text(title, modifier = Modifier.testTag(RobotTags.HOME_STATE), color = c.text, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
+            if (firstStart) Text(t(R.string.ui_home_hint_first), color = c.textMuted, fontSize = 13.sp)
             if (s is RuntimeState.Error && s.reason.isNotBlank()) {
                 Text(
                     s.reason, color = c.textMuted, fontSize = 12.sp, fontFamily = FontFamily.Monospace,
@@ -420,21 +429,21 @@ private fun StatusCard(s: RuntimeState, onStart: () -> Unit, onStop: () -> Unit,
             }
             when {
                 busyNow -> PixelButton(
-                    stringResource(R.string.ui_home_btn_cancel), onClick = onStop,
+                    t(R.string.ui_home_btn_cancel), onClick = onStop,
                     modifier = Modifier.fillMaxWidth(), kind = ButtonKind.GHOST,
                 )
                 s == RuntimeState.Running -> PixelButton(
-                    stringResource(R.string.ui_home_btn_stop), onClick = onStop,
+                    t(R.string.ui_home_btn_stop), onClick = onStop,
                     modifier = Modifier.fillMaxWidth(), icon = PixelIcon.STOP, kind = ButtonKind.SECONDARY,
                 )
                 else -> {
                     PixelButton(
-                        stringResource(R.string.ui_home_btn_start), onClick = onStart,
-                        modifier = Modifier.fillMaxWidth(), icon = PixelIcon.PLAY,
+                        t(R.string.ui_home_btn_start), onClick = onStart,
+                        modifier = Modifier.fillMaxWidth().testTag(RobotTags.HOME_START), icon = PixelIcon.PLAY,
                     )
                     if (s is RuntimeState.Error) {
                         PixelButton(
-                            stringResource(R.string.ui_home_btn_details), onClick = onDetails,
+                            t(R.string.ui_home_btn_details), onClick = onDetails,
                             modifier = Modifier.fillMaxWidth(), icon = PixelIcon.INFO, kind = ButtonKind.GHOST,
                         )
                     }

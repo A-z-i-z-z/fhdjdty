@@ -17,7 +17,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.LifecycleResumeEffect
@@ -29,6 +28,7 @@ import dev.pocketagent.app.ui.Route
 import dev.pocketagent.app.ui.components.PocketTopBar
 import dev.pocketagent.app.ui.theme.Pocket
 import kotlinx.coroutines.delay
+import dev.pocketagent.app.ui.text.t
 
 /**
  * One conversation: message list (bottom-anchored, sticks to the newest message only while you are at the
@@ -59,7 +59,7 @@ fun ChatScreen(convId: String) {
             PocketTopBar(title = "", onBack = { if (!nav.back()) nav.tab(Route.Chats) })
             if (loaded) {
                 Text(
-                    stringResource(R.string.ui_chat_not_found), color = Pocket.colors.textMuted, fontSize = 15.sp,
+                    t(R.string.ui_chat_not_found), color = Pocket.colors.textMuted, fontSize = 15.sp,
                     modifier = Modifier.padding(24.dp),
                 )
             }

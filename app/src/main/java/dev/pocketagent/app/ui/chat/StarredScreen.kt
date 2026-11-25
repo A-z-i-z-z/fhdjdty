@@ -25,7 +25,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role as SemRole
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -47,6 +46,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import dev.pocketagent.app.ui.text.t
 
 /** "Saved messages": every starred message of every chat, newest first. Tap opens the chat at that message. */
 @Composable
@@ -58,9 +58,9 @@ fun StarredScreen() {
     val scope = rememberCoroutineScope()
     val bots by repo.bots.collectAsState()
     val botsById = remember(bots) { bots.associateBy { it.id } }
-    val untitled = stringResource(R.string.ui_chats_untitled)
-    val you = stringResource(R.string.ui_starred_you)
-    val deletedBot = stringResource(R.string.ui_chat_deleted_bot)
+    val untitled = t(R.string.ui_chats_untitled)
+    val you = t(R.string.ui_starred_you)
+    val deletedBot = t(R.string.ui_chat_deleted_bot)
 
     // Blocking disk reads: off the main thread. Unstarring removes the row at once; the repository is updated in the background.
     val loaded by produceState<List<Pair<Conversation, Message>>?>(null) {
@@ -70,11 +70,11 @@ fun StarredScreen() {
     val shown = loaded?.filter { (_, m) -> m.id !in removed }
 
     Column(Modifier.fillMaxSize()) {
-        PocketTopBar(title = stringResource(R.string.ui_starred_title), onBack = { if (!nav.back()) nav.tab(Route.Chats) })
+        PocketTopBar(title = t(R.string.ui_starred_title), onBack = { if (!nav.back()) nav.tab(Route.Chats) })
         when {
             shown == null -> Box(Modifier.weight(1f).fillMaxWidth())
             shown.isEmpty() -> Box(Modifier.weight(1f).fillMaxWidth(), contentAlignment = Alignment.Center) {
-                EmptyState(stringResource(R.string.ui_starred_empty_title), stringResource(R.string.ui_starred_empty_body))
+                EmptyState(t(R.string.ui_starred_empty_title), t(R.string.ui_starred_empty_body))
             }
             else -> LazyColumn(Modifier.weight(1f).fillMaxWidth()) {
                 items(shown, key = { (cv, m) -> cv.id + ":" + m.id }) { (cv, m) ->
@@ -130,12 +130,12 @@ private fun StarredRow(
             }
             Text(speaker, color = c.accent, fontSize = 12.sp, fontWeight = FontWeight.Medium, maxLines = 1, overflow = TextOverflow.Ellipsis)
             Text(
-                preview.ifBlank { stringResource(R.string.ui_chat_empty_reply) },
+                preview.ifBlank { t(R.string.ui_chat_empty_reply) },
                 color = c.textMuted, fontSize = 14.sp, maxLines = 3, overflow = TextOverflow.Ellipsis,
             )
         }
         PixelIconButton(
-            PixelIcon.STAR, onClick = onUnstar, contentDescription = stringResource(R.string.ui_act_unstar), tint = c.accent,
+            PixelIcon.STAR, onClick = onUnstar, contentDescription = t(R.string.ui_act_unstar), tint = c.accent,
         )
     }
 }

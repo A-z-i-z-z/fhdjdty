@@ -24,6 +24,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
+import dev.pocketagent.app.R
+import dev.pocketagent.app.ui.text.Texts
 
 /** Events emitted by [ChatEngine] for sound cues, auto-speak, and live UI feedback. */
 sealed interface EngineEvent {
@@ -208,7 +210,7 @@ class ChatEngine internal constructor(
             val summary = Transcript.messageSummary(clean, attachments)
             if (conv.title.isBlank() && summary.isNotBlank()) repo.renameConversation(convId, Transcript.autoTitle(summary))
             val targets = Transcript.selectBots(conv, convBots(conv), clean, onlyBotIds)
-            if (targets.isEmpty()) { addIssue(convId, Role.ERROR, null, "This chat has no bots (they were deleted). Add a bot to the chat first."); return@startRun }
+            if (targets.isEmpty()) { addIssue(convId, Role.ERROR, null, Texts.text(R.string.eng_no_bots)); return@startRun }
             runTurn(it, convId, targets.map { b -> b.id })
         }
     }
@@ -230,13 +232,13 @@ class ChatEngine internal constructor(
             val summary = Transcript.messageSummary(clean, attachments)
             if (conv.title.isBlank() && summary.isNotBlank()) repo.renameConversation(convId, Transcript.autoTitle(summary))
             val targets = Transcript.selectBots(conv, convBots(conv), clean, onlyBotIds)
-            if (targets.isEmpty()) { addIssue(convId, Role.ERROR, null, "This chat has no bots (they were deleted). Add a bot to the chat first."); return@startRun }
+            if (targets.isEmpty()) { addIssue(convId, Role.ERROR, null, Texts.text(R.string.eng_no_bots)); return@startRun }
             val ids = targets.map { it.id }
-            addIssue(convId, Role.NOTE, null, "Loop mode: pass 1/$totalPasses")
+            addIssue(convId, Role.NOTE, null, Texts.text(R.string.eng_loop_pass, 1, totalPasses))
             if (!runTurn(run, convId, ids)) return@startRun
             for (pass in 2..totalPasses) {
                 if (run.stop) break
-                addIssue(convId, Role.NOTE, null, "Loop mode: pass $pass/$totalPasses — refining…")
+                addIssue(convId, Role.NOTE, null, Texts.text(R.string.eng_loop_refine, pass, totalPasses))
                 val refinePrompt =
                     "Critically review your previous response in this conversation (pass $pass of $totalPasses). " +
                         "Fix any gaps, unclear reasoning, or missing edge cases and present an improved, tighter final version."
@@ -260,7 +262,7 @@ class ChatEngine internal constructor(
             val bots = convBots(conv)
             val targets = if (conv.isGroup && involved.isNotEmpty() && bots.any { it.id in involved }) bots.filter { it.id in involved }
             else Transcript.selectBots(conv, bots, user.text)
-            if (targets.isEmpty()) { addIssue(convId, Role.ERROR, null, "This chat has no bots (they were deleted). Add a bot to the chat first."); return@startRun }
+            if (targets.isEmpty()) { addIssue(convId, Role.ERROR, null, Texts.text(R.string.eng_no_bots)); return@startRun }
             runTurn(run, convId, targets.map { it.id })
         }
     }
@@ -280,7 +282,7 @@ class ChatEngine internal constructor(
             // The title follows the first message unless the user renamed the conversation.
             if (isFirst && (conv.title.isBlank() || conv.title == oldAuto)) repo.renameConversation(convId, Transcript.autoTitle(clean))
             val targets = Transcript.selectBots(conv, convBots(conv), clean)
-            if (targets.isEmpty()) { addIssue(convId, Role.ERROR, null, "This chat has no bots (they were deleted). Add a bot to the chat first."); return@startRun }
+            if (targets.isEmpty()) { addIssue(convId, Role.ERROR, null, Texts.text(R.string.eng_no_bots)); return@startRun }
             runTurn(run, convId, targets.map { it.id })
         }
     }
@@ -303,7 +305,7 @@ class ChatEngine internal constructor(
                 AppLog.w("Chat", "approval answer failed: ${r.describe().take(200)}")
                 // The card must not vanish silently: put it back (unless the turn has moved on) and say what happened.
                 if (runs.containsKey(convId)) _approvals.update { if (it.containsKey(convId)) it else it + (convId to p) }
-                try { addIssue(convId, Role.ERROR, p.botId, Diag.redactor.redact("Could not send your answer to Hermes: ${r.describe()}")) } catch (_: Throwable) { }
+                try { addIssue(convId, Role.ERROR, p.botId, Diag.redactor.redact(Texts.text(R.string.eng_approval_send_failed, r.describe()))) } catch (_: Throwable) { }
             }
         }
     }
@@ -321,7 +323,7 @@ class ChatEngine internal constructor(
                 body(run)
             } catch (e: Throwable) {
                 AppLog.e("Chat", "generation failed", e)
-                try { addIssue(convId, Role.ERROR, null, Diag.redactor.redact("Internal error: ${e.javaClass.simpleName}: ${e.message}")) } catch (_: Throwable) { }
+                try { addIssue(convId, Role.ERROR, null, Diag.redactor.redact(Texts.text(R.string.eng_internal_error, "${e.javaClass.simpleName}: ${e.message}"))) } catch (_: Throwable) { }
             } finally {
                 try { repo.refreshPreview(convId); repo.flush() } catch (e: Throwable) { AppLog.e("Chat", "final flush failed", e) }
                 _speaking.update { it - convId }; _status.update { it - convId }; _approvals.update { it - convId }
@@ -374,7 +376,7 @@ class ChatEngine internal constructor(
     private fun ensureReady(run: Run, convId: String, botId: String): Boolean {
         if (isReady()) return true
         if (!canWake()) {
-            addIssue(convId, Role.ERROR, botId, "Hermes is not running. Start it from the home screen, wait until it says Running, then try again.")
+            addIssue(convId, Role.ERROR, botId, Texts.text(R.string.eng_hermes_not_running))
             return false
         }
         _status.update { it + (convId to STATUS_WAKING) }
@@ -388,7 +390,7 @@ class ChatEngine internal constructor(
         }
         if (run.stop) return false
         if (!up || !isReady()) {
-            addIssue(convId, Role.ERROR, botId, "Hermes could not start. Open the home screen to see why.")
+            addIssue(convId, Role.ERROR, botId, Texts.text(R.string.eng_hermes_start_failed))
             _events.tryEmit(EngineEvent.TurnFailed(convId))
             return false
         }
@@ -399,14 +401,13 @@ class ChatEngine internal constructor(
     private fun generate(run: Run, convId: String, botId: String, ephemeralUserTurn: String? = null): Boolean {
         val conv = repo.conversation(convId) ?: return false
         val bot = repo.bot(botId)
-        if (bot == null) { addIssue(convId, Role.ERROR, null, "Bot not found (it was deleted)."); return false }
+        if (bot == null) { addIssue(convId, Role.ERROR, null, Texts.text(R.string.eng_bot_not_found)); return false }
         if (run.stop) return false
         // The daily budget first: a blocked turn must not even light the fire.
         usage?.let { u ->
             if (u.budget.value.mode == BudgetMode.BLOCK && u.overBudget()) {
                 val limit = u.budget.value.dailyTokens
-                addIssue(convId, Role.ERROR, bot.id, "The daily token budget ($limit tokens) is reached, so this message was not sent to the model. " +
-                    "Raise or turn off the limit under Settings > Usage, or try again tomorrow.")
+                addIssue(convId, Role.ERROR, bot.id, Texts.text(R.string.eng_budget_blocked, limit))
                 _events.tryEmit(EngineEvent.TurnFailed(convId))
                 return false
             }
@@ -422,8 +423,7 @@ class ChatEngine internal constructor(
         val modelFits = ModelIds.fits(providerName, chosenModel)
         val effectiveModel = if (modelFits) chosenModel else ""
         if (!modelFits && warnedForeignModels.add("$providerName|$chosenModel")) {
-            addIssue(convId, Role.NOTE, bot.id, "The model \"${chosenModel.trim()}\" set for this chat or bot belongs to another provider, " +
-                "so the default model of the current provider is used instead. Change it in the chat controls or the bot editor.")
+            addIssue(convId, Role.NOTE, bot.id, Texts.text(R.string.eng_model_foreign, chosenModel.trim()))
         }
         val hasModel = effectiveModel.isNotBlank()
         var built = Transcript.build(conv, bot, repo.bots.value, history, imageLoader)
@@ -631,8 +631,7 @@ class ChatEngine internal constructor(
                     _approvals.update { it + (convId to PendingApproval(convId, botId, ev.runId, ev.requestId, cmd, desc, ev.choices)) }
                     _events.tryEmit(EngineEvent.ApprovalRequested(convId))
                     closeBubble()
-                    addIssue(convId, Role.NOTE, botId, "Hermes asks permission before it runs this and is waiting for an answer:\n" +
-                        (if (cmd.isNotBlank()) cmd else desc) + (if (cmd.isNotBlank() && desc.isNotBlank()) "\n($desc)" else ""))
+                    addIssue(convId, Role.NOTE, botId, Texts.text(R.string.eng_approval_pending, (if (cmd.isNotBlank()) cmd else desc) + (if (cmd.isNotBlank() && desc.isNotBlank()) "\n($desc)" else "")))
                 }
                 is ChatEvent.StreamError -> {
                     clearTransient(); closeBubble(); hadError = true
@@ -641,10 +640,10 @@ class ChatEngine internal constructor(
                 is ChatEvent.Finish -> {
                     when {
                         ev.reason == "stop" -> {}
-                        ev.reason == "length" -> { closeBubble(); addIssue(convId, Role.NOTE, botId, "The answer was cut off (length limit reached).") }
+                        ev.reason == "length" -> { closeBubble(); addIssue(convId, Role.NOTE, botId, Texts.text(R.string.eng_cut_off)) }
                         !hadError -> {
                             closeBubble(); hadError = true
-                            addIssue(convId, Role.ERROR, botId, "The run ended abnormally: finish_reason=${ev.reason}" + (ev.errorCode?.let { " error_code=$it" } ?: ""))
+                            addIssue(convId, Role.ERROR, botId, (ev.errorCode?.let { Texts.text(R.string.eng_run_abnormal_code, ev.reason, it) } ?: Texts.text(R.string.eng_run_abnormal, ev.reason)))
                         }
                     }
                 }
@@ -667,8 +666,7 @@ class ChatEngine internal constructor(
             if (b.mode == BudgetMode.WARN && b.dailyTokens > 0L && before < b.dailyTokens && u.todayTotal() >= b.dailyTokens) {
                 val day = UsageStore.dayOf(System.currentTimeMillis())
                 if (warnedDay.getAndSet(day) != day) {
-                    addIssue(convId, Role.NOTE, null, "Daily token budget reached: ${b.dailyTokens} tokens used today. " +
-                        "Hermes keeps answering; change the limit under Settings > Usage.")
+                    addIssue(convId, Role.NOTE, null, Texts.text(R.string.eng_budget_warn, b.dailyTokens))
                 }
             }
         }
@@ -693,7 +691,7 @@ class ChatEngine internal constructor(
             recordUsage()
             when (outcome) {
                 ChatOutcome.Completed -> {
-                    if (!produced && !hadError) addIssue(convId, Role.NOTE, botId, "The bot returned an empty reply.")
+                    if (!produced && !hadError) addIssue(convId, Role.NOTE, botId, Texts.text(R.string.eng_empty_reply))
                     if (!hadError) {
                         val cid = lastClosedId
                         if (cid != null) {

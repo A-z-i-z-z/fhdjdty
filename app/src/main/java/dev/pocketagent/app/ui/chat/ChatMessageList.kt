@@ -29,7 +29,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -50,6 +49,7 @@ import dev.pocketagent.app.voice.voiceOverride
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import dev.pocketagent.app.data.Role as MsgRole
+import dev.pocketagent.app.ui.text.t
 
 /** The default of Modifier.animateItem's placement: today's behaviour for rows that move because something was inserted. */
 private val DefaultPlacement: FiniteAnimationSpec<IntOffset> =
@@ -144,7 +144,7 @@ internal fun ChatMessageList(state: ChatScreenState, conv: Conversation, search:
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 EmptyState(
-                    stringResource(R.string.ui_chat_empty_title), stringResource(R.string.ui_chat_empty_body),
+                    t(R.string.ui_chat_empty_title), t(R.string.ui_chat_empty_body),
                 )
                 EmptyChatQuickActions { cmd ->
                     if (cmd.endsWith(" ")) state.input = cmd
@@ -196,7 +196,7 @@ internal fun ChatMessageList(state: ChatScreenState, conv: Conversation, search:
             }
         }
         NewrozCelebrationOverlay(state.celebrateTrigger)
-        val jumpLabel = stringResource(R.string.ui_chat_jump)
+        val jumpLabel = t(R.string.ui_chat_jump)
         androidx.compose.animation.AnimatedVisibility(
             visible = !state.stick, modifier = Modifier.align(Alignment.BottomEnd).padding(16.dp),
             enter = fadeIn() + scaleIn(), exit = fadeOut() + scaleOut(),

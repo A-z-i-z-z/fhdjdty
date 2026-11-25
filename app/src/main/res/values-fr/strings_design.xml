@@ -2,4 +2,6 @@
 <resources>
     <string name="design_back">Retour</string>
     <string name="design_typing">Réfléchit</string>
+    <string name="design_note_dismiss">Fermer</string>
+    <string name="design_ember_active">En cours</string>
 </resources>

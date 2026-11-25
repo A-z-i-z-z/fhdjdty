@@ -28,7 +28,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -39,7 +39,10 @@ import dev.pocketagent.app.hermes.HermesHome
 import dev.pocketagent.app.hermes.LogKind
 import dev.pocketagent.app.hermes.SkillInfo
 import dev.pocketagent.app.hermes.SkillTemplate
+import dev.pocketagent.app.ui.RobotTags
 import dev.pocketagent.app.ui.components.ButtonKind
+import dev.pocketagent.app.ui.components.ConfirmDialog
+import dev.pocketagent.app.ui.components.PetNoteKind
 import dev.pocketagent.app.ui.components.PixelButton
 import dev.pocketagent.app.ui.components.PixelIconButton
 import dev.pocketagent.app.ui.components.PixelIcon
@@ -50,7 +53,6 @@ import dev.pocketagent.app.ui.components.PocketTextField
 import dev.pocketagent.app.ui.components.SectionHeader
 import dev.pocketagent.app.ui.settings.CText
 import dev.pocketagent.app.ui.settings.ChipRow
-import dev.pocketagent.app.ui.settings.ConfirmDialog
 import dev.pocketagent.app.ui.settings.ErrorText
 import dev.pocketagent.app.ui.settings.Muted
 import dev.pocketagent.app.ui.settings.copyText
@@ -60,6 +62,8 @@ import dev.pocketagent.app.ui.theme.Pocket
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.Texts
 
 // ---- Skills --------------------------------------------------------------------------------------------------
 
@@ -75,10 +79,10 @@ internal fun SkillsTab(hvm: HermesEditorsViewModel, installed: Boolean, running:
     var showNew by remember { mutableStateOf(false) }
     var newError by remember { mutableStateOf<String?>(null) }
     var confirmDelete by remember { mutableStateOf<SkillInfo?>(null) }
-    val createdMsg = stringResource(R.string.ctl_skill_created)
-    val deletedMsg = stringResource(R.string.ctl_skill_deleted)
-    val badNameMsg = stringResource(R.string.ctl_skill_name_bad)
-    val existsMsg = stringResource(R.string.ctl_skill_exists)
+    val createdMsg = t(R.string.ctl_skill_created)
+    val deletedMsg = t(R.string.ctl_skill_deleted)
+    val badNameMsg = t(R.string.ctl_skill_name_bad)
+    val existsMsg = t(R.string.ctl_skill_exists)
 
     LaunchedEffect(installed, reload) {
         skills = null; failed = false
@@ -99,7 +103,7 @@ internal fun SkillsTab(hvm: HermesEditorsViewModel, installed: Boolean, running:
                     try { created = home.createSkill(category, name, description) }
                     catch (e: IllegalArgumentException) { error = badNameMsg }
                     catch (e: java.io.IOException) { error = existsMsg }
-                    catch (e: Exception) { error = ctx.getString(R.string.ctl_skill_create_failed, e.message ?: e.javaClass.simpleName) }
+                    catch (e: Exception) { error = Texts.get(ctx, R.string.ctl_skill_create_failed, e.message ?: e.javaClass.simpleName) }
                 }
                 val info = created
                 if (info != null) { showNew = false; reload++; hvm.openSkill = info; toast(ctx, createdMsg) } else newError = error
@@ -108,8 +112,8 @@ internal fun SkillsTab(hvm: HermesEditorsViewModel, installed: Boolean, running:
     )
     confirmDelete?.let { s ->
         ConfirmDialog(
-            title = stringResource(R.string.ctl_skill_delete_title, s.name), text = stringResource(R.string.ctl_skill_delete_body),
-            confirmLabel = stringResource(R.string.ctl_skill_delete), danger = true,
+            title = t(R.string.ctl_skill_delete_title, s.name), body = t(R.string.ctl_skill_delete_body),
+            confirmLabel = t(R.string.ctl_skill_delete), danger = true,
             onConfirm = {
                 confirmDelete = null
                 scope.launch {
@@ -117,7 +121,7 @@ internal fun SkillsTab(hvm: HermesEditorsViewModel, installed: Boolean, running:
                         try { home.deleteSkill(s.path); null } catch (e: Exception) { e.message ?: e.javaClass.simpleName }
                     }
                     if (err == null) { hvm.forgetSkill(s.path); reload++; toast(ctx, deletedMsg) }
-                    else toast(ctx, ctx.getString(R.string.ctl_skill_delete_failed, err))
+                    else toast(ctx, Texts.get(ctx, R.string.ctl_skill_delete_failed, err), PetNoteKind.ERROR)
                 }
             },
             onDismiss = { confirmDelete = null },
@@ -130,15 +134,16 @@ internal fun SkillsTab(hvm: HermesEditorsViewModel, installed: Boolean, running:
         LaunchedEffect(state) { if (!state.loaded) state.reload() }
         Column(Modifier.fillMaxSize()) {
             Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                PixelButton(stringResource(R.string.ctl_skills_back), onClick = { hvm.openSkill = null }, icon = PixelIcon.BACK, kind = ButtonKind.GHOST)
+                PixelButton(t(R.string.ctl_skills_back), onClick = { hvm.openSkill = null }, icon = PixelIcon.BACK, kind = ButtonKind.GHOST)
                 CText(current.name, weight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
                 PixelIconButton(
                     PixelIcon.TRASH, onClick = { confirmDelete = current },
-                    contentDescription = stringResource(R.string.ctl_skill_delete), tint = Pocket.colors.error,
+                    modifier = Modifier.testTag(RobotTags.HERMES_SKILL_DELETE),
+                    contentDescription = t(R.string.ctl_skill_delete), tint = Pocket.colors.error,
                 )
             }
             DocEditor(
-                state, info = current.path, explain = current.description.ifBlank { stringResource(R.string.ctl_skill_explain) },
+                state, info = current.path, explain = current.description.ifBlank { t(R.string.ctl_skill_explain) },
                 installed = installed, running = running, onRestart = onRestart, modifier = Modifier.weight(1f),
             )
         }
@@ -148,29 +153,29 @@ internal fun SkillsTab(hvm: HermesEditorsViewModel, installed: Boolean, running:
     val all = skills
     Column(Modifier.fillMaxSize()) {
         Column(Modifier.padding(horizontal = 12.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Muted(stringResource(R.string.ctl_skills_explain))
+            Muted(t(R.string.ctl_skills_explain))
             PixelButton(
-                stringResource(R.string.ctl_skill_new), onClick = { newError = null; showNew = true },
-                icon = PixelIcon.PLUS, kind = ButtonKind.SECONDARY, enabled = installed,
+                t(R.string.ctl_skill_new), onClick = { newError = null; showNew = true },
+                modifier = Modifier.testTag(RobotTags.HERMES_SKILL_NEW), icon = PixelIcon.PLUS, kind = ButtonKind.SECONDARY, enabled = installed,
             )
-            PocketTextField(query, { query = it }, Modifier.fillMaxWidth(), placeholder = stringResource(R.string.ctl_skills_search), singleLine = true)
+            PocketTextField(query, { query = it }, Modifier.fillMaxWidth(), placeholder = t(R.string.ctl_skills_search), singleLine = true)
         }
         when {
-            all == null -> Muted(stringResource(R.string.ctl_loading), Modifier.padding(12.dp))
-            failed -> CText(stringResource(R.string.ctl_skills_failed), color = Pocket.colors.error, size = 13.sp, modifier = Modifier.padding(12.dp))
-            all.isEmpty() -> Muted(stringResource(if (installed) R.string.ctl_skills_empty else R.string.ctl_doc_not_installed), Modifier.padding(12.dp))
+            all == null -> Muted(t(R.string.ctl_loading), Modifier.padding(12.dp))
+            failed -> CText(t(R.string.ctl_skills_failed), color = Pocket.colors.error, size = 13.sp, modifier = Modifier.padding(12.dp))
+            all.isEmpty() -> Muted(t(if (installed) R.string.ctl_skills_empty else R.string.ctl_doc_not_installed), Modifier.padding(12.dp))
             else -> {
                 val q = query.trim().lowercase()
                 val shown = if (q.isEmpty()) all else all.filter {
                     it.name.lowercase().contains(q) || it.description.lowercase().contains(q) || it.category.lowercase().contains(q)
                 }
                 val groups = shown.groupBy { it.category.ifBlank { "general" } }.toSortedMap()
-                if (shown.isEmpty()) Muted(stringResource(R.string.ctl_skills_no_match), Modifier.padding(12.dp))
+                if (shown.isEmpty()) Muted(t(R.string.ctl_skills_no_match), Modifier.padding(12.dp))
                 LazyColumn(Modifier.weight(1f), contentPadding = PaddingValues(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     groups.forEach { (category, list) ->
                         item(key = "h-$category") { SectionHeader("$category (${list.size})") }
                         items(list, key = { it.path }) { skill ->
-                            PixelPanel(Modifier.fillMaxWidth().clickable(onClickLabel = stringResource(R.string.ctl_skills_open)) { hvm.openSkill = skill }) {
+                            PixelPanel(Modifier.fillMaxWidth().testTag(RobotTags.hermesSkillRow(skill.name)).clickable(onClickLabel = t(R.string.ctl_skills_open)) { hvm.openSkill = skill }) {
                                 Column(Modifier.fillMaxWidth().padding(12.dp), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                                     CText(skill.name + if (hvm.skillDirty(skill.path)) " •" else "", size = 15.sp, weight = FontWeight.SemiBold)
                                     if (skill.description.isNotBlank()) Muted(skill.description, size = 13.sp)
@@ -193,18 +198,18 @@ private fun NewSkillDialog(error: String?, onDismiss: () -> Unit, onCreate: (cat
     val nameOk = SkillTemplate.isValidName(name.trim())
     val catOk = category.isBlank() || SkillTemplate.isValidName(category.trim())
     PocketDialog(
-        title = stringResource(R.string.ctl_skill_new_title), onDismiss = onDismiss,
+        title = t(R.string.ctl_skill_new_title), onDismiss = onDismiss,
         confirm = {
-            PixelButton(stringResource(R.string.ctl_skill_create), enabled = nameOk && catOk, onClick = { onCreate(category.trim(), name.trim(), description.trim()) })
+            PixelButton(t(R.string.ctl_skill_create), enabled = nameOk && catOk, onClick = { onCreate(category.trim(), name.trim(), description.trim()) }, modifier = Modifier.testTag(RobotTags.HERMES_SKILL_CREATE))
         },
-        dismiss = { PixelButton(stringResource(R.string.cancel), onClick = onDismiss, kind = ButtonKind.GHOST) },
+        dismiss = { PixelButton(t(R.string.cancel), onClick = onDismiss, kind = ButtonKind.GHOST) },
     ) {
-        Muted(stringResource(R.string.ctl_skill_new_help))
-        PocketTextField(name, { name = it.take(SkillTemplate.MAX_NAME) }, Modifier.fillMaxWidth(), label = stringResource(R.string.ctl_skill_f_name), singleLine = true, monospace = true)
-        if (name.isNotEmpty() && !nameOk) ErrorText(stringResource(R.string.ctl_skill_name_bad))
-        PocketTextField(description, { description = it.take(SkillTemplate.MAX_DESCRIPTION) }, Modifier.fillMaxWidth(), label = stringResource(R.string.ctl_skill_f_desc), minLines = 2, maxLines = 4)
-        PocketTextField(category, { category = it.take(SkillTemplate.MAX_NAME) }, Modifier.fillMaxWidth(), label = stringResource(R.string.ctl_skill_f_category), singleLine = true, monospace = true)
-        if (!catOk) ErrorText(stringResource(R.string.ctl_skill_name_bad))
+        Muted(t(R.string.ctl_skill_new_help))
+        PocketTextField(name, { name = it.take(SkillTemplate.MAX_NAME) }, Modifier.fillMaxWidth().testTag(RobotTags.HERMES_SKILL_NAME), label = t(R.string.ctl_skill_f_name), singleLine = true, monospace = true)
+        if (name.isNotEmpty() && !nameOk) ErrorText(t(R.string.ctl_skill_name_bad))
+        PocketTextField(description, { description = it.take(SkillTemplate.MAX_DESCRIPTION) }, Modifier.fillMaxWidth(), label = t(R.string.ctl_skill_f_desc), minLines = 2, maxLines = 4)
+        PocketTextField(category, { category = it.take(SkillTemplate.MAX_NAME) }, Modifier.fillMaxWidth(), label = t(R.string.ctl_skill_f_category), singleLine = true, monospace = true)
+        if (!catOk) ErrorText(t(R.string.ctl_skill_name_bad))
         if (error != null) ErrorText(error)
     }
 }
@@ -216,20 +221,20 @@ internal fun ConfigTab(home: HermesHome, installed: Boolean, onOpenProvider: () 
     val ctx = LocalContext.current
     val state = remember { DocState({ home.read(HermesDoc.CONFIG) }, { }) }
     LaunchedEffect(installed) { state.reload() }
-    val copied = stringResource(R.string.ctl_copied)
+    val copied = t(R.string.ctl_copied)
     val c = Pocket.colors
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        Muted(stringResource(R.string.ctl_config_explain))
+        Muted(t(R.string.ctl_config_explain))
         val info = remember(state.original) { runCatching { home.docInfo(HermesDoc.CONFIG) }.getOrDefault("") }
         CText(info, color = c.textMuted, size = 11.sp, mono = true)
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            PixelButton(stringResource(R.string.ctl_config_open_provider), onClick = onOpenProvider, icon = PixelIcon.GEAR, kind = ButtonKind.SECONDARY)
-            PixelButton(stringResource(R.string.ctl_copy), onClick = { copyText(ctx, "config.yaml", state.text); toast(ctx, copied) }, icon = PixelIcon.COPY, kind = ButtonKind.GHOST, enabled = state.text.isNotEmpty())
+            PixelButton(t(R.string.ctl_config_open_provider), onClick = onOpenProvider, icon = PixelIcon.GEAR, kind = ButtonKind.SECONDARY)
+            PixelButton(t(R.string.ctl_copy), onClick = { copyText(ctx, "config.yaml", state.text); toast(ctx, copied) }, icon = PixelIcon.COPY, kind = ButtonKind.GHOST, enabled = state.text.isNotEmpty())
         }
         when {
-            state.loading && !state.loaded -> Muted(stringResource(R.string.ctl_loading))
-            state.error != null -> CText(stringResource(R.string.ctl_doc_error, state.error ?: ""), color = c.error, size = 13.sp)
-            !state.exists -> Muted(stringResource(if (installed) R.string.ctl_doc_missing else R.string.ctl_doc_not_installed))
+            state.loading && !state.loaded -> Muted(t(R.string.ctl_loading))
+            state.error != null -> CText(t(R.string.ctl_doc_error, state.error ?: ""), color = c.error, size = 13.sp)
+            !state.exists -> Muted(t(if (installed) R.string.ctl_doc_missing else R.string.ctl_doc_not_installed))
             else -> PixelPanel(Modifier.fillMaxWidth(), color = c.codeBg) {
                 SelectionContainer {
                     CText(state.text, color = c.text, size = 12.sp, mono = true, modifier = Modifier.fillMaxWidth().padding(12.dp))
@@ -260,27 +265,27 @@ internal fun LogsTab(home: HermesHome) {
     val lines = remember(text) { if (text.isEmpty()) emptyList() else text.lines().takeLast(1500) }
     val listState = rememberLazyListState()
     LaunchedEffect(lines.size, kind) { if (lines.isNotEmpty()) listState.scrollToItem(lines.lastIndex) }
-    val copied = stringResource(R.string.ctl_copied)
+    val copied = t(R.string.ctl_copied)
 
     Column(Modifier.fillMaxSize().padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         ChipRow {
-            PocketChip(stringResource(R.string.ctl_log_app), selected = kind == LogKind.APP.name, onClick = { kind = LogKind.APP.name })
-            PocketChip(stringResource(R.string.ctl_log_runtime), selected = kind == LogKind.RUNTIME.name, onClick = { kind = LogKind.RUNTIME.name })
-            PocketChip(stringResource(R.string.ctl_log_api), selected = kind == LogKind.API.name, onClick = { kind = LogKind.API.name })
+            PocketChip(t(R.string.ctl_log_app), selected = kind == LogKind.APP.name, onClick = { kind = LogKind.APP.name })
+            PocketChip(t(R.string.ctl_log_runtime), selected = kind == LogKind.RUNTIME.name, onClick = { kind = LogKind.RUNTIME.name })
+            PocketChip(t(R.string.ctl_log_api), selected = kind == LogKind.API.name, onClick = { kind = LogKind.API.name })
         }
-        Muted(stringResource(when (kind) {
+        Muted(t(when (kind) {
             LogKind.RUNTIME.name -> R.string.ctl_log_runtime_help
             LogKind.API.name -> R.string.ctl_log_api_help
             else -> R.string.ctl_log_app_help
         }), size = 12.sp)
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            PixelButton(stringResource(R.string.ctl_refresh), onClick = { reload++ }, icon = PixelIcon.REFRESH, kind = ButtonKind.SECONDARY)
-            PixelButton(stringResource(R.string.ctl_copy), onClick = { copyText(ctx, "PocketAgent log", text); toast(ctx, copied) }, icon = PixelIcon.COPY, kind = ButtonKind.GHOST, enabled = text.isNotEmpty())
-            PixelButton(stringResource(R.string.ctl_share), onClick = { shareText(ctx, "PocketAgent log", text) }, icon = PixelIcon.SHARE, kind = ButtonKind.GHOST, enabled = text.isNotEmpty())
+            PixelButton(t(R.string.ctl_refresh), onClick = { reload++ }, icon = PixelIcon.REFRESH, kind = ButtonKind.SECONDARY)
+            PixelButton(t(R.string.ctl_copy), onClick = { copyText(ctx, "PocketAgent log", text); toast(ctx, copied) }, icon = PixelIcon.COPY, kind = ButtonKind.GHOST, enabled = text.isNotEmpty())
+            PixelButton(t(R.string.ctl_share), onClick = { shareText(ctx, "PocketAgent log", text) }, icon = PixelIcon.SHARE, kind = ButtonKind.GHOST, enabled = text.isNotEmpty())
         }
         Box(Modifier.weight(1f).fillMaxWidth().background(c.codeBg)) {
             if (lines.isEmpty()) {
-                Muted(stringResource(if (loading) R.string.ctl_loading else R.string.ctl_log_empty), Modifier.padding(12.dp))
+                Muted(t(if (loading) R.string.ctl_loading else R.string.ctl_log_empty), Modifier.padding(12.dp))
             } else {
                 LazyColumn(Modifier.fillMaxSize(), state = listState, contentPadding = PaddingValues(8.dp)) {
                     items(lines.size) { i ->

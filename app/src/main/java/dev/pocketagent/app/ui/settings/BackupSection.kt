@@ -17,7 +17,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import dev.pocketagent.app.PocketApp
@@ -37,6 +36,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.DateFormat
 import java.util.Date
+import dev.pocketagent.app.ui.components.ConfirmDialog
+import androidx.compose.ui.platform.testTag
+import dev.pocketagent.app.ui.RobotTags
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.Texts
 
 /** What the section is doing: nothing, working (with the text to show), or a result line. */
 private sealed interface BackupUi {
@@ -63,7 +67,7 @@ internal fun BackupSection() {
     var includeHermes by remember { mutableStateOf(true) }
     var ui by remember { mutableStateOf<BackupUi>(BackupUi.Idle) }
 
-    val busyMsg = stringResource(R.string.ctl_bak_busy)
+    val busyMsg = t(R.string.ctl_bak_busy)
 
     fun sizeText(bytes: Long) = FileUtil.formatBytes(bytes)
 
@@ -85,11 +89,11 @@ internal fun BackupSection() {
                         throw t
                     }
                 }
-                BackupUi.Done(ctx.getString(R.string.ctl_bak_done, s.conversations, s.bots, s.routines, s.files, sizeText(s.bytes)))
+                BackupUi.Done(Texts.get(ctx, R.string.ctl_bak_done, s.conversations, s.bots, s.routines, s.files, sizeText(s.bytes)))
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                BackupUi.Failed(ctx.getString(R.string.ctl_bak_failed, backupErrorText(ctx, e)))
+                BackupUi.Failed(Texts.get(ctx, R.string.ctl_bak_failed, backupErrorText(ctx, e)))
             }
         }
     }
@@ -108,13 +112,13 @@ internal fun BackupSection() {
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                BackupUi.Failed(ctx.getString(R.string.ctl_bak_restore_failed, backupErrorText(ctx, e)))
+                BackupUi.Failed(Texts.get(ctx, R.string.ctl_bak_restore_failed, backupErrorText(ctx, e)))
             }
         }
     }
 
     fun startRestore(uri: Uri) {
-        if (app.engine.busy.value.isNotEmpty()) { ui = BackupUi.Failed(ctx.getString(R.string.ctl_bak_restore_failed, busyMsg)); return }
+        if (app.engine.busy.value.isNotEmpty()) { ui = BackupUi.Failed(Texts.get(ctx, R.string.ctl_bak_restore_failed, busyMsg)); return }
         ui = BackupUi.Working(R.string.ctl_bak_restoring)
         scope.launch {
             ui = try {
@@ -132,9 +136,9 @@ internal fun BackupSection() {
             } catch (e: CancellationException) {
                 throw e
             } catch (e: BackupException) {
-                BackupUi.Failed(ctx.getString(R.string.ctl_bak_restore_failed, backupErrorText(ctx, e)), e.restartNeeded)
+                BackupUi.Failed(Texts.get(ctx, R.string.ctl_bak_restore_failed, backupErrorText(ctx, e)), e.restartNeeded)
             } catch (e: Exception) {
-                BackupUi.Failed(ctx.getString(R.string.ctl_bak_restore_failed, backupErrorText(ctx, e)))
+                BackupUi.Failed(Texts.get(ctx, R.string.ctl_bak_restore_failed, backupErrorText(ctx, e)))
             }
         }
     }
@@ -142,50 +146,50 @@ internal fun BackupSection() {
     val working = ui is BackupUi.Working || ui is BackupUi.Restarting
 
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        Muted(stringResource(R.string.ctl_bak_intro))
+        Muted(t(R.string.ctl_bak_intro))
         CtlCard(color = c.bgDeep) {
-            SubHeading(stringResource(R.string.ctl_bak_inside_title))
-            CText(stringResource(R.string.ctl_bak_inside), size = 13.sp)
-            CText(stringResource(R.string.ctl_bak_never), size = 13.sp, color = c.success)
+            SubHeading(t(R.string.ctl_bak_inside_title))
+            CText(t(R.string.ctl_bak_inside), size = 13.sp)
+            CText(t(R.string.ctl_bak_never), size = 13.sp, color = c.success)
         }
 
         // ---- create ----
-        SubHeading(stringResource(R.string.ctl_bak_create_title))
+        SubHeading(t(R.string.ctl_bak_create_title))
         PocketSwitchRow(
-            stringResource(R.string.ctl_bak_opt_attach), includeAttachments, { includeAttachments = it },
-            subtitle = stringResource(R.string.ctl_bak_opt_attach_sub),
+            t(R.string.ctl_bak_opt_attach), includeAttachments, { includeAttachments = it },
+            subtitle = t(R.string.ctl_bak_opt_attach_sub),
         )
         PocketSwitchRow(
-            stringResource(R.string.ctl_bak_opt_hermes), includeHermes, { includeHermes = it },
-            subtitle = stringResource(R.string.ctl_bak_opt_hermes_sub),
+            t(R.string.ctl_bak_opt_hermes), includeHermes, { includeHermes = it },
+            subtitle = t(R.string.ctl_bak_opt_hermes_sub),
         )
         PixelButton(
-            stringResource(R.string.ctl_bak_create),
+            t(R.string.ctl_bak_create),
             onClick = { createLauncher.launch(defaultFileName()) },
-            modifier = Modifier.fillMaxWidth(), icon = PixelIcon.DOWNLOAD, enabled = !working,
+            modifier = Modifier.fillMaxWidth().testTag(RobotTags.BACKUP_SAVE), icon = PixelIcon.DOWNLOAD, enabled = !working,
         )
 
         // ---- restore ----
-        SubHeading(stringResource(R.string.ctl_bak_restore_title))
-        Muted(stringResource(R.string.ctl_bak_restore_help), size = 12.sp)
+        SubHeading(t(R.string.ctl_bak_restore_title))
+        Muted(t(R.string.ctl_bak_restore_help), size = 12.sp)
         PixelButton(
-            stringResource(R.string.ctl_bak_restore),
+            t(R.string.ctl_bak_restore),
             onClick = { openLauncher.launch(arrayOf("application/zip", "application/x-zip-compressed", "application/octet-stream")) },
-            modifier = Modifier.fillMaxWidth(), icon = PixelIcon.UPLOAD, kind = ButtonKind.SECONDARY, enabled = !working,
+            modifier = Modifier.fillMaxWidth().testTag(RobotTags.BACKUP_RESTORE), icon = PixelIcon.UPLOAD, kind = ButtonKind.SECONDARY, enabled = !working,
         )
 
         // ---- state ----
         when (val u = ui) {
             is BackupUi.Working -> {
-                CText(stringResource(u.labelRes), size = 13.sp)
+                CText(t(u.labelRes), size = 13.sp)
                 LinearProgressIndicator(modifier = Modifier.fillMaxWidth(), color = c.accent, trackColor = c.surfaceHigh)
             }
-            is BackupUi.Done -> CText(u.text, size = 13.sp, color = c.success)
+            is BackupUi.Done -> CText(u.text, Modifier.testTag(RobotTags.BACKUP_RESULT), size = 13.sp, color = c.success)
             is BackupUi.Failed -> {
-                ErrorText(u.text)
-                if (u.restartNeeded) PixelButton(stringResource(R.string.ctl_bak_restart_now), onClick = { app.backup.restartApp() }, icon = PixelIcon.REFRESH)
+                ErrorText(u.text, Modifier.testTag(RobotTags.BACKUP_RESULT))
+                if (u.restartNeeded) PixelButton(t(R.string.ctl_bak_restart_now), onClick = { app.backup.restartApp() }, icon = PixelIcon.REFRESH)
             }
-            BackupUi.Restarting -> CText(stringResource(R.string.ctl_bak_restoring), size = 13.sp)
+            BackupUi.Restarting -> CText(t(R.string.ctl_bak_restoring), size = 13.sp)
             BackupUi.Idle, is BackupUi.Confirm -> Unit
         }
     }
@@ -195,11 +199,11 @@ internal fun BackupSection() {
         val locale = dev.pocketagent.app.ui.chat.currentLocale()
         val made = if (s.createdAt > 0L) DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, locale).format(Date(s.createdAt)) else "?"
         ConfirmDialog(
-            title = stringResource(R.string.ctl_bak_restore_confirm_title),
-            text = stringResource(
+            title = t(R.string.ctl_bak_restore_confirm_title),
+            body = t(
                 R.string.ctl_bak_restore_confirm_body, made, s.appVersion.ifBlank { "?" }, s.conversations, s.bots, s.routines, s.files, sizeText(s.bytes),
             ),
-            confirmLabel = stringResource(R.string.ctl_bak_restore_confirm),
+            confirmLabel = t(R.string.ctl_bak_restore_confirm),
             danger = true,
             onConfirm = { ui = BackupUi.Idle; startRestore(u.uri) },
             onDismiss = { ui = BackupUi.Idle },
@@ -226,7 +230,7 @@ internal fun backupErrorText(ctx: Context, e: Throwable): String {
         BackupReason.HALFWAY -> R.string.ctl_bak_err_halfway
         BackupReason.OTHER -> null
     }
-    return if (res != null) ctx.getString(res) else (e.message ?: "")
+    return if (res != null) Texts.get(ctx, res) else (e.message ?: "")
 }
 
 /** Removes a document that was created for a backup that then failed (or empties it when the provider cannot delete). Never throws. */

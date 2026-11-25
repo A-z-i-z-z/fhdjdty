@@ -33,6 +33,7 @@ import dev.pocketagent.app.ui.Route
 import dev.pocketagent.app.ui.components.PetNoteKind
 import dev.pocketagent.app.ui.theme.AppearanceStore
 import dev.pocketagent.app.voice.SoundCue
+import dev.pocketagent.app.ui.text.Texts
 
 /**
  * The bottom of the chat: the approval card (when the agent asks), the input bar, and voice input with its launchers. It
@@ -87,7 +88,7 @@ internal fun ChatInputArea(state: ChatScreenState, conv: Conversation) {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
             putExtra(RecognizerIntent.EXTRA_LANGUAGE, sttLocaleTag)
-            putExtra(RecognizerIntent.EXTRA_PROMPT, ctx.getString(R.string.ui_voice_prompt))
+            putExtra(RecognizerIntent.EXTRA_PROMPT, Texts.get(ctx, R.string.ui_voice_prompt))
         }
         try {
             app.sounds.play(SoundCue.MIC)
@@ -95,7 +96,7 @@ internal fun ChatInputArea(state: ChatScreenState, conv: Conversation) {
             sttIntentLauncher.launch(intent)
         } catch (_: Exception) {
             state.listening = false
-            state.say(ctx.getString(R.string.ui_voice_unavailable), PetNoteKind.ERROR)
+            state.say(Texts.get(ctx, R.string.ui_voice_unavailable), PetNoteKind.ERROR)
         }
     }
     val startInlineVoice: () -> Unit = {

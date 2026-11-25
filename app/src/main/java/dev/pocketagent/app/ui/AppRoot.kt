@@ -61,7 +61,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -119,6 +118,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.Texts
 
 /**
  * The root of the UI: applies the saved appearance and in-app language, owns the navigator, the animated
@@ -286,7 +287,7 @@ private fun AppShell() {
                                         }
                                     }
                                 } catch (e: Exception) {
-                                    PetNotes.show(ctx.getString(R.string.ui_attach_failed, e.message ?: "share"), PetNoteKind.ERROR)
+                                    PetNotes.show(Texts.get(ctx, R.string.ui_attach_failed, e.message ?: "share"), PetNoteKind.ERROR)
                                     null
                                 }
                             } else null
@@ -353,12 +354,12 @@ private fun IncomingShareDialog(
     val convs by app.chat.conversations.collectAsState()
     val bots by app.chat.bots.collectAsState()
     val botsById = remember(bots) { bots.associateBy { it.id } }
-    val untitled = stringResource(R.string.ui_chats_untitled)
+    val untitled = t(R.string.ui_chats_untitled)
     val c = Pocket.colors
     PocketDialog(
-        title = stringResource(R.string.ui_share_target_title),
+        title = t(R.string.ui_share_target_title),
         onDismiss = onDismiss,
-        dismiss = { PixelButton(stringResource(R.string.ui_dlg_cancel), onClick = onDismiss, kind = ButtonKind.GHOST) },
+        dismiss = { PixelButton(t(R.string.ui_dlg_cancel), onClick = onDismiss, kind = ButtonKind.GHOST) },
     ) {
         Column(Modifier.testTag(NavTags.SHARE_DIALOG)) {
             if (!share.text.isNullOrBlank()) {
@@ -369,7 +370,7 @@ private fun IncomingShareDialog(
                 )
             }
             PixelButton(
-                stringResource(R.string.ui_share_new_chat),
+                t(R.string.ui_share_new_chat),
                 onClick = {
                     val fresh = app.chat.createConversation(listOf(BotPresets.HERMES_ID))
                     onPickConv(fresh.id)
@@ -451,7 +452,7 @@ private fun PocketBottomBar(route: Route, nav: Navigator, onHeight: (Dp) -> Unit
 private fun BottomTab(tab: TabSpec, selected: Boolean, modifier: Modifier, onClick: () -> Unit) {
     val c = Pocket.colors
     val motion = Pocket.motion
-    val label = stringResource(tab.label)
+    val label = t(tab.label)
     val emberWidth by animateDpAsState(
         targetValue = if (selected) 16.dp else 0.dp,
         animationSpec = if (motion.level == AnimLevel.OFF) snap<Dp>() else motion.fast<Dp>(),

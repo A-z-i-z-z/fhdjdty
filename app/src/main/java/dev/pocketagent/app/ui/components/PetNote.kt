@@ -23,7 +23,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.liveRegion
@@ -42,6 +41,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import dev.pocketagent.app.ui.text.t
 
 // Pêt's note: the one small message at the bottom of the screen that replaces the platform toast. Any code
 // calls PetNotes.show; one PetNoteHost (placed once by the shell) draws it.
@@ -262,7 +262,7 @@ fun PetNoteHost(modifier: Modifier = Modifier) {
             PetNotes.tick()
         }
     }
-    val dismissLabel = stringResource(R.string.design_note_dismiss)
+    val dismissLabel = t(R.string.design_note_dismiss)
     Box(modifier) {
         val n = shown
         if (n != null) {

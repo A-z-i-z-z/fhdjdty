@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rbt_practice_title">Modèle d\'essai (sans jetons)</string>
+    <string name="rbt_practice_sub">Hermes répond à partir d\'un script intégré au lieu d\'un vrai modèle. Rien n\'est envoyé à un fournisseur et rien n\'est dépensé. Votre propre configuration reste telle quelle et revient quand ceci est désactivé.</string>
+    <string name="rbt_practice_restart">Hermes redémarre pour appliquer ce réglage.</string>
+    <string name="rbt_practice_on">Modèle d\'essai actif : réponses scriptées.</string>
+    <string name="rbt_practice_words">Mots magiques à écrire dans une discussion : %1$s</string>
+    <plurals name="rbt_practice_left">
+        <item quantity="one">%1$d minute restante</item>
+        <item quantity="other">%1$d minutes restantes</item>
+    </plurals>
+
+    <string name="rbt_export_logs">Exporter</string>
+    <string name="rbt_export_logs_hint">Un seul zip avec le journal de l\'app, celui de l\'environnement et la dernière ligne de lancement, secrets retirés.</string>
+</resources>

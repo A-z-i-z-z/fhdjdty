@@ -16,14 +16,10 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
@@ -34,7 +30,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -54,9 +50,13 @@ import dev.pocketagent.app.ui.components.PixelIconView
 import dev.pocketagent.app.ui.components.PixelPanel
 import dev.pocketagent.app.ui.components.PocketChip
 import dev.pocketagent.app.ui.components.PocketDialog
+import dev.pocketagent.app.ui.components.PocketSheet
+import dev.pocketagent.app.ui.RobotTags
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.theme.Space
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import dev.pocketagent.app.ui.text.t
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -66,23 +66,11 @@ internal fun AttachSheet(
     onDocument: () -> Unit,
     onDismiss: () -> Unit,
 ) {
-    val c = Pocket.colors
-    ModalBottomSheet(
-        onDismissRequest = onDismiss,
-        sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true),
-        containerColor = c.surface,
-        contentColor = c.text,
-        shape = RoundedCornerShape(topStart = 6.dp, topEnd = 6.dp),
-        dragHandle = { BottomSheetDefaults.DragHandle(color = c.textMuted) },
-    ) {
-        Column(Modifier.fillMaxWidth().windowInsetsPadding(bottomSafeInsets()).padding(bottom = 14.dp)) {
-            Text(
-                stringResource(R.string.ui_attach_title), color = c.textMuted, fontSize = 13.sp,
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 6.dp),
-            )
-            AttachRow(PixelIcon.CAMERA, stringResource(R.string.ui_attach_camera)) { onDismiss(); onCamera() }
-            AttachRow(PixelIcon.IMAGE, stringResource(R.string.ui_attach_gallery)) { onDismiss(); onGallery() }
-            AttachRow(PixelIcon.FILE, stringResource(R.string.ui_attach_doc)) { onDismiss(); onDocument() }
+    PocketSheet(onDismiss = onDismiss, title = t(R.string.ui_attach_title)) {
+        Column(Modifier.fillMaxWidth().padding(bottom = 14.dp)) {
+            AttachRow(PixelIcon.CAMERA, t(R.string.ui_attach_camera)) { onDismiss(); onCamera() }
+            AttachRow(PixelIcon.IMAGE, t(R.string.ui_attach_gallery)) { onDismiss(); onGallery() }
+            AttachRow(PixelIcon.FILE, t(R.string.ui_attach_doc)) { onDismiss(); onDocument() }
         }
     }
 }
@@ -95,7 +83,7 @@ private fun AttachRow(icon: PixelIcon, label: String, onClick: () -> Unit) {
         verticalAlignment = Alignment.CenterVertically,
     ) {
         PixelIconView(icon, tint = c.accent, size = 22.dp)
-        Spacer(Modifier.width(16.dp))
+        Spacer(Modifier.width(Space.l))
         Text(label, color = c.text, fontSize = 16.sp)
     }
 }
@@ -105,11 +93,11 @@ internal fun PendingAttachmentsStrip(items: List<Attachment>, onRemove: (String)
     val c = Pocket.colors
     Row(
         Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = 10.dp, vertical = 6.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(Space.s),
     ) {
         items.forEach { att ->
             Box(
-                Modifier.background(c.surfaceHigh).border(1.dp, c.outline).padding(4.dp),
+                Modifier.background(c.surfaceHigh).border(1.dp, c.outline).padding(Space.xs),
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     if (att.kind == AttachmentKind.IMAGE) {
@@ -132,7 +120,7 @@ internal fun PendingAttachmentsStrip(items: List<Attachment>, onRemove: (String)
                     }
                     PixelIconButton(
                         PixelIcon.CLOSE, onClick = { onRemove(att.id) },
-                        contentDescription = stringResource(R.string.ui_attach_remove), tint = c.textMuted,
+                        contentDescription = t(R.string.ui_attach_remove), tint = c.textMuted,
                     )
                 }
             }
@@ -176,9 +164,9 @@ private fun DocumentBadge(att: Attachment, icon: PixelIcon) {
             .clip(RoundedCornerShape(4.dp))
             .background(c.bgDeep.copy(alpha = 0.65f))
             .border(1.dp, c.outline, RoundedCornerShape(4.dp))
-            .padding(horizontal = 8.dp, vertical = 6.dp),
+            .padding(horizontal = Space.s, vertical = 6.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(Space.s),
     ) {
         PixelIconView(icon, tint = c.accentSoft, size = 18.dp)
         Column(Modifier.weight(1f)) {
@@ -195,9 +183,9 @@ internal fun ImagePreviewDialog(attachment: Attachment, onDismiss: () -> Unit) {
     PocketDialog(
         title = attachment.name,
         onDismiss = onDismiss,
-        confirm = { PixelButton(stringResource(R.string.ui_dlg_close), onClick = onDismiss) },
+        confirm = { PixelButton(t(R.string.ui_dlg_close), onClick = onDismiss) },
     ) {
-        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(verticalArrangement = Arrangement.spacedBy(Space.s)) {
             if (bmp != null) {
                 Image(
                     bitmap = bmp, contentDescription = attachment.name,
@@ -224,7 +212,7 @@ internal fun ForgedBotCard(
 ) {
     val c = Pocket.colors
     PixelPanel(Modifier.padding(top = 6.dp).fillMaxWidth(), color = c.surfaceHigh, border = c.accent) {
-        Column(Modifier.fillMaxWidth().padding(10.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Column(Modifier.fillMaxWidth().padding(10.dp), verticalArrangement = Arrangement.spacedBy(Space.s)) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 BotAvatar(bot, 42.dp, animated = true)
                 Column(Modifier.weight(1f)) {
@@ -235,7 +223,7 @@ internal fun ForgedBotCard(
                             verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(3.dp),
                         ) {
                             PixelIconView(PixelIcon.FORGE, tint = c.onAccent, size = 10.dp)
-                            Text(stringResource(R.string.ui_forged_badge), color = c.onAccent, fontSize = 9.sp, fontWeight = FontWeight.Bold)
+                            Text(t(R.string.ui_forged_badge), color = c.onAccent, fontSize = 9.sp, fontWeight = FontWeight.Bold)
                         }
                     }
                     if (bot.tagline.isNotBlank()) {
@@ -243,12 +231,12 @@ internal fun ForgedBotCard(
                     }
                 }
             }
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                PocketChip(stringResource(R.string.ui_forged_chat), false, onChatNow, icon = PixelIcon.CHATS)
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(Space.s)) {
+                PocketChip(t(R.string.ui_forged_chat), false, onChatNow, modifier = Modifier.testTag(RobotTags.CHAT_FORGED_CHAT), icon = PixelIcon.CHATS)
                 if (isGroupChat && !inCurrentChat) {
-                    PocketChip(stringResource(R.string.ui_forged_add), false, onAddToChat, icon = PixelIcon.PLUS)
+                    PocketChip(t(R.string.ui_forged_add), false, onAddToChat, icon = PixelIcon.PLUS)
                 }
-                PocketChip(stringResource(R.string.ui_forged_edit), false, onEdit, icon = PixelIcon.EDIT)
+                PocketChip(t(R.string.ui_forged_edit), false, onEdit, icon = PixelIcon.EDIT)
             }
         }
     }

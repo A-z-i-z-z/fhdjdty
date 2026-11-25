@@ -4,10 +4,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import dev.pocketagent.app.R
 import dev.pocketagent.app.ui.theme.Pocket
 import dev.pocketagent.app.ui.theme.Type
+import dev.pocketagent.app.ui.text.t
 
 /**
  * The one confirm dialog of the app. [danger] makes the confirm button red. [onConfirm] is called on the
@@ -26,7 +26,7 @@ fun ConfirmDialog(
     closeOnConfirm: Boolean = false,
     dismissLabel: String? = null,
 ) {
-    val cancel = dismissLabel ?: stringResource(R.string.cancel)
+    val cancel = dismissLabel ?: t(R.string.cancel)
     PocketDialog(
         title = title,
         onDismiss = onDismiss,

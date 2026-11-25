@@ -7,6 +7,8 @@ import dev.pocketagent.app.runtime.Paths
 import dev.pocketagent.app.util.FileUtil
 import java.io.File
 import java.io.RandomAccessFile
+import dev.pocketagent.app.R
+import dev.pocketagent.app.ui.text.Texts
 
 /** The files of HERMES_HOME the app lets the user read and edit. CONFIG is read-only: the app regenerates it on every start. */
 enum class HermesDoc { SOUL, MEMORY, USER, CONFIG }
@@ -60,7 +62,7 @@ class HermesHome internal constructor(
     /** Path inside the guest plus size, e.g. "/root/.hermes/SOUL.md (1.2 KiB)" or "/root/.hermes/memories/USER.md (not created yet)". */
     fun docInfo(doc: HermesDoc): String {
         val f = file(doc)
-        return guestPath(doc) + if (f.isFile) " (${formatSize(f.length())})" else " (not created yet)"
+        return guestPath(doc) + if (f.isFile) " (${formatSize(f.length())})" else " " + Texts.text(R.string.eng_doc_not_created)
     }
 
     // ---- skills ---------------------------------------------------------------------------------------------------
@@ -294,7 +296,7 @@ object SkillTemplate {
     fun render(name: String, description: String): String {
         val desc = description.trim().ifEmpty { "Use when ... (say in one sentence when Hermes should use this skill)." }
         val quoted = "\"" + desc.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", " ") + "\""
-        val title = name.split('-', '_').filter { it.isNotEmpty() }.joinToString(" ").replaceFirstChar { it.uppercase() }
+        val title = name.split('-', '_').filter { it.isNotEmpty() }.joinToString(" ").replaceFirstChar { it.titlecase(Texts.currentLocale()) }
         return """---
 name: $name
 description: $quoted

@@ -4,7 +4,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
+import dev.pocketagent.app.ui.text.t
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -40,6 +39,8 @@ import dev.pocketagent.app.ui.components.ButtonKind
 import dev.pocketagent.app.ui.components.PixelButton
 import dev.pocketagent.app.ui.components.PixelIcon
 import dev.pocketagent.app.ui.components.PixelIconView
+import dev.pocketagent.app.ui.components.PetNoteKind
+import dev.pocketagent.app.ui.components.PetNotes
 import dev.pocketagent.app.ui.components.PixelPanel
 import dev.pocketagent.app.ui.components.PocketDialog
 import dev.pocketagent.app.ui.theme.Pocket
@@ -146,29 +147,15 @@ internal fun StatusDot(color: Color, modifier: Modifier = Modifier) {
     Box(modifier.size(10.dp).background(color))
 }
 
-@Composable
-internal fun ConfirmDialog(
-    title: String, text: String, confirmLabel: String,
-    onConfirm: () -> Unit, onDismiss: () -> Unit, danger: Boolean = false,
-) {
-    PocketDialog(
-        title = title, onDismiss = onDismiss,
-        confirm = { PixelButton(confirmLabel, onClick = onConfirm, kind = if (danger) ButtonKind.DANGER else ButtonKind.PRIMARY) },
-        dismiss = { PixelButton(stringResource(R.string.cancel), onClick = onDismiss, kind = ButtonKind.GHOST) },
-    ) {
-        CText(text)
-    }
-}
-
 /** Runtime state as (label, detail). */
 @Composable
 internal fun runtimeLabel(state: RuntimeState): Pair<String, String> = when (state) {
-    RuntimeState.NotInstalled -> stringResource(R.string.state_not_installed) to ""
-    is RuntimeState.Extracting -> stringResource(R.string.state_extracting, (state.fraction * 100).toInt()) to state.detail
-    is RuntimeState.Starting -> stringResource(R.string.state_starting) to state.step
-    RuntimeState.Running -> stringResource(R.string.state_running) to ""
-    is RuntimeState.Stopped -> stringResource(R.string.state_stopped) to state.reason
-    is RuntimeState.Error -> stringResource(R.string.state_error) to state.reason
+    RuntimeState.NotInstalled -> t(R.string.state_not_installed) to ""
+    is RuntimeState.Extracting -> t(R.string.state_extracting, (state.fraction * 100).toInt()) to state.detail
+    is RuntimeState.Starting -> t(R.string.state_starting) to state.step
+    RuntimeState.Running -> t(R.string.state_running) to ""
+    is RuntimeState.Stopped -> t(R.string.state_stopped) to state.reason
+    is RuntimeState.Error -> t(R.string.state_error) to state.reason
 }
 
 @Composable
@@ -201,6 +188,7 @@ internal fun shareText(ctx: Context, subject: String, text: String) {
     }
 }
 
-internal fun toast(ctx: Context, message: String) {
-    try { Toast.makeText(ctx, message, Toast.LENGTH_SHORT).show() } catch (_: Exception) {}
+@Suppress("UNUSED_PARAMETER")
+internal fun toast(ctx: Context, message: String, kind: PetNoteKind = PetNoteKind.INFO) {
+    PetNotes.show(message, kind)
 }

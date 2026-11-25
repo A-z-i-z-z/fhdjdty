@@ -27,7 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
+import dev.pocketagent.app.ui.text.t
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -52,6 +52,8 @@ import dev.pocketagent.app.ui.theme.ThemeId
 import dev.pocketagent.app.ui.theme.paletteFor
 import dev.pocketagent.app.voice.SoundCue
 import kotlin.math.roundToInt
+import dev.pocketagent.app.ui.theme.Space
+import dev.pocketagent.app.ui.theme.Corner
 
 /** Theme cards with a live mini preview, accent swatches, dark mode, text size, animations, mascot, bubbles, fonts. */
 @Composable
@@ -63,9 +65,9 @@ internal fun AppearanceSection() {
     val dark = when (ap.darkMode) { DarkMode.DARK -> true; DarkMode.LIGHT -> false; DarkMode.SYSTEM -> systemDark }
     val c = Pocket.colors
 
-    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    Column(verticalArrangement = Arrangement.spacedBy(Space.m)) {
         // ---- themes ----
-        CText(stringResource(R.string.ctl_ap_theme), size = 14.sp, weight = FontWeight.SemiBold)
+        CText(t(R.string.ctl_ap_theme), size = 14.sp, weight = FontWeight.SemiBold)
         ThemeId.entries.chunked(2).forEach { pair ->
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 pair.forEach { id ->
@@ -76,16 +78,16 @@ internal fun AppearanceSection() {
         }
 
         // ---- accent ----
-        CText(stringResource(R.string.ctl_ap_accent), size = 14.sp, weight = FontWeight.SemiBold)
+        CText(t(R.string.ctl_ap_accent), size = 14.sp, weight = FontWeight.SemiBold)
         AccentId.entries.chunked(4).forEach { row ->
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(Space.s)) {
                 row.forEach { a ->
                     val swatch = paletteFor(ap.theme, dark, a).accent
                     val on = ap.accent == a
-                    val label = stringResource(accentLabel(a))
+                    val label = t(accentLabel(a))
                     Column(
-                        Modifier.weight(1f).selectable(selected = on, role = Role.RadioButton) { store.update { it.copy(accent = a) } }.padding(vertical = 4.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp),
+                        Modifier.weight(1f).selectable(selected = on, role = Role.RadioButton) { store.update { it.copy(accent = a) } }.padding(vertical = Space.xs),
+                        horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(Space.xs),
                     ) {
                         Box(
                             Modifier.size(44.dp).background(swatch).border(if (on) 3.dp else 1.dp, if (on) c.text else c.outline),
@@ -98,17 +100,17 @@ internal fun AppearanceSection() {
         }
 
         // ---- dark mode ----
-        CText(stringResource(R.string.ctl_ap_dark), size = 14.sp, weight = FontWeight.SemiBold)
+        CText(t(R.string.ctl_ap_dark), size = 14.sp, weight = FontWeight.SemiBold)
         ChipRow {
-            PocketChip(stringResource(R.string.ctl_ap_dark_system), ap.darkMode == DarkMode.SYSTEM, { store.update { it.copy(darkMode = DarkMode.SYSTEM) } })
-            PocketChip(stringResource(R.string.ctl_ap_dark_dark), ap.darkMode == DarkMode.DARK, { store.update { it.copy(darkMode = DarkMode.DARK) } })
-            PocketChip(stringResource(R.string.ctl_ap_dark_light), ap.darkMode == DarkMode.LIGHT, { store.update { it.copy(darkMode = DarkMode.LIGHT) } })
+            PocketChip(t(R.string.ctl_ap_dark_system), ap.darkMode == DarkMode.SYSTEM, { store.update { it.copy(darkMode = DarkMode.SYSTEM) } })
+            PocketChip(t(R.string.ctl_ap_dark_dark), ap.darkMode == DarkMode.DARK, { store.update { it.copy(darkMode = DarkMode.DARK) } })
+            PocketChip(t(R.string.ctl_ap_dark_light), ap.darkMode == DarkMode.LIGHT, { store.update { it.copy(darkMode = DarkMode.LIGHT) } })
         }
 
         // ---- text size ----
         var scale by remember(ap.textScale) { mutableFloatStateOf(ap.textScale) }
         Row(verticalAlignment = Alignment.CenterVertically) {
-            CText(stringResource(R.string.ctl_ap_text_size), size = 14.sp, weight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
+            CText(t(R.string.ctl_ap_text_size), size = 14.sp, weight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
             Muted("${(scale * 100).roundToInt()}%")
         }
         Slider(
@@ -118,34 +120,34 @@ internal fun AppearanceSection() {
             colors = SliderDefaults.colors(thumbColor = c.accent, activeTrackColor = c.accent, inactiveTrackColor = c.outline),
         )
         PixelPanel(Modifier.fillMaxWidth(), color = c.bgDeep) {
-            CText(stringResource(R.string.ctl_ap_sample), size = 15.sp, modifier = Modifier.padding(12.dp))
+            CText(t(R.string.ctl_ap_sample), size = 15.sp, modifier = Modifier.padding(Space.m))
         }
 
         // ---- animations ----
-        CText(stringResource(R.string.ctl_ap_anim), size = 14.sp, weight = FontWeight.SemiBold)
+        CText(t(R.string.ctl_ap_anim), size = 14.sp, weight = FontWeight.SemiBold)
         ChipRow {
-            PocketChip(stringResource(R.string.ctl_ap_anim_full), ap.animations == AnimLevel.FULL, { store.update { it.copy(animations = AnimLevel.FULL) } })
-            PocketChip(stringResource(R.string.ctl_ap_anim_reduced), ap.animations == AnimLevel.REDUCED, { store.update { it.copy(animations = AnimLevel.REDUCED) } })
-            PocketChip(stringResource(R.string.ctl_ap_anim_off), ap.animations == AnimLevel.OFF, { store.update { it.copy(animations = AnimLevel.OFF) } })
+            PocketChip(t(R.string.ctl_ap_anim_full), ap.animations == AnimLevel.FULL, { store.update { it.copy(animations = AnimLevel.FULL) } })
+            PocketChip(t(R.string.ctl_ap_anim_reduced), ap.animations == AnimLevel.REDUCED, { store.update { it.copy(animations = AnimLevel.REDUCED) } })
+            PocketChip(t(R.string.ctl_ap_anim_off), ap.animations == AnimLevel.OFF, { store.update { it.copy(animations = AnimLevel.OFF) } })
         }
 
         // ---- bubbles ----
-        CText(stringResource(R.string.ctl_ap_bubbles), size = 14.sp, weight = FontWeight.SemiBold)
+        CText(t(R.string.ctl_ap_bubbles), size = 14.sp, weight = FontWeight.SemiBold)
         ChipRow {
-            PocketChip(stringResource(R.string.ctl_ap_bubble_pixel), ap.bubbleStyle == BubbleStyle.PIXEL, { store.update { it.copy(bubbleStyle = BubbleStyle.PIXEL) } })
-            PocketChip(stringResource(R.string.ctl_ap_bubble_soft), ap.bubbleStyle == BubbleStyle.SOFT, { store.update { it.copy(bubbleStyle = BubbleStyle.SOFT) } })
+            PocketChip(t(R.string.ctl_ap_bubble_pixel), ap.bubbleStyle == BubbleStyle.PIXEL, { store.update { it.copy(bubbleStyle = BubbleStyle.PIXEL) } })
+            PocketChip(t(R.string.ctl_ap_bubble_soft), ap.bubbleStyle == BubbleStyle.SOFT, { store.update { it.copy(bubbleStyle = BubbleStyle.SOFT) } })
         }
 
-        PocketSwitchRow(stringResource(R.string.ctl_ap_mascot), ap.showMascot, { v -> store.update { it.copy(showMascot = v) } }, subtitle = stringResource(R.string.ctl_ap_mascot_sub))
-        PocketSwitchRow(stringResource(R.string.ctl_ap_pixel_font), ap.pixelFontTitles, { v -> store.update { it.copy(pixelFontTitles = v) } }, subtitle = stringResource(R.string.ctl_ap_pixel_font_sub))
+        PocketSwitchRow(t(R.string.ctl_ap_mascot), ap.showMascot, { v -> store.update { it.copy(showMascot = v) } }, subtitle = t(R.string.ctl_ap_mascot_sub))
+        PocketSwitchRow(t(R.string.ctl_ap_pixel_font), ap.pixelFontTitles, { v -> store.update { it.copy(pixelFontTitles = v) } }, subtitle = t(R.string.ctl_ap_pixel_font_sub))
 
         // ---- customizable app launcher icon ----
         var activeIcon by remember { mutableStateOf(AppIconManager.current(ctx)) }
-        val switchedMsg = stringResource(R.string.ctl_icon_switched)
-        CText(stringResource(R.string.ctl_ap_icon), size = 14.sp, weight = FontWeight.SemiBold, modifier = Modifier.padding(top = 4.dp))
-        Muted(stringResource(R.string.ctl_ap_icon_sub), size = 12.sp)
+        val switchedMsg = t(R.string.ctl_icon_switched)
+        CText(t(R.string.ctl_ap_icon), size = 14.sp, weight = FontWeight.SemiBold, modifier = Modifier.padding(top = Space.xs))
+        Muted(t(R.string.ctl_ap_icon_sub), size = 12.sp)
         AppIconStyle.entries.chunked(3).forEach { row ->
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(Space.s)) {
                 row.forEach { style ->
                     val on = activeIcon == style
                     PixelPanel(
@@ -160,10 +162,10 @@ internal fun AppearanceSection() {
                             },
                         color = if (on) c.surfaceHigh else c.bgDeep,
                         border = if (on) c.accent else c.outline,
-                        corner = 1,
+                        corner = Corner.chip,
                     ) {
                         Column(
-                            Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 4.dp),
+                            Modifier.fillMaxWidth().padding(vertical = Space.s, horizontal = Space.xs),
                             horizontalAlignment = Alignment.CenterHorizontally,
                             verticalArrangement = Arrangement.spacedBy(6.dp),
                         ) {
@@ -178,7 +180,7 @@ internal fun AppearanceSection() {
                                 PixelImage(style.fgSprite, Modifier.size(44.dp))
                             }
                             CText(
-                                stringResource(iconLabel(style)),
+                                t(iconLabel(style)),
                                 size = 11.5.sp,
                                 weight = if (on) FontWeight.Bold else FontWeight.Medium,
                                 color = if (on) c.accent else c.text,
@@ -212,14 +214,17 @@ private fun accentLabel(a: AccentId): Int = when (a) {
     AccentId.SNOW -> R.string.ctl_accent_snow
 }
 
-private fun themeName(id: ThemeId): String = when (id) {
-    ThemeId.NEWROZ -> "Newroz"
-    ThemeId.ZAGROS -> "Zagros"
-    ThemeId.SEMENDER -> "Semender"
-    ThemeId.NERGIZ -> "Nergiz"
-    ThemeId.KAWA -> "Kawa"
-    ThemeId.ROJ -> "Roj"
+internal fun themeNameRes(id: ThemeId): Int = when (id) {
+    ThemeId.NEWROZ -> R.string.eng_theme_newroz
+    ThemeId.ZAGROS -> R.string.eng_theme_zagros
+    ThemeId.SEMENDER -> R.string.eng_theme_semender
+    ThemeId.NERGIZ -> R.string.eng_theme_nergiz
+    ThemeId.KAWA -> R.string.eng_theme_kawa
+    ThemeId.ROJ -> R.string.eng_theme_roj
 }
+
+@Composable
+internal fun themeName(id: ThemeId): String = t(themeNameRes(id))
 
 private fun themeDesc(id: ThemeId): Int = when (id) {
     ThemeId.NEWROZ -> R.string.ctl_theme_newroz
@@ -240,13 +245,13 @@ private fun ThemeCard(id: ThemeId, dark: Boolean, accent: AccentId, selected: Bo
         modifier.selectable(selected = selected, role = Role.RadioButton, onClick = onClick),
         color = p.surface, border = if (selected) c.accent else c.outline,
     ) {
-        Column(Modifier.fillMaxWidth().padding(8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            Column(Modifier.fillMaxWidth().background(p.bg).padding(6.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Column(Modifier.fillMaxWidth().padding(Space.s), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            Column(Modifier.fillMaxWidth().background(p.bg).padding(6.dp), verticalArrangement = Arrangement.spacedBy(Space.xs)) {
                 Box(Modifier.width(58.dp).height(16.dp).background(p.botBubble), contentAlignment = Alignment.CenterStart) {
-                    CText("Hi!", color = p.onBotBubble, size = 8.sp, modifier = Modifier.padding(horizontal = 4.dp))
+                    CText(t(R.string.eng_preview_hi), color = p.onBotBubble, size = 8.sp, modifier = Modifier.padding(horizontal = Space.xs))
                 }
                 Box(Modifier.align(Alignment.End).width(44.dp).height(16.dp).background(p.userBubble), contentAlignment = Alignment.CenterStart) {
-                    CText("Hello", color = p.onUserBubble, size = 8.sp, modifier = Modifier.padding(horizontal = 4.dp))
+                    CText(t(R.string.eng_preview_hello), color = p.onUserBubble, size = 8.sp, modifier = Modifier.padding(horizontal = Space.xs))
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
                     Box(Modifier.size(8.dp).background(p.fireLow)); Box(Modifier.size(8.dp).background(p.fireMid))
@@ -256,7 +261,7 @@ private fun ThemeCard(id: ThemeId, dark: Boolean, accent: AccentId, selected: Bo
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Column(Modifier.weight(1f)) {
                     CText(name, color = p.text, size = 14.sp, weight = FontWeight.SemiBold)
-                    CText(stringResource(themeDesc(id)), color = p.textMuted, size = 11.sp)
+                    CText(t(themeDesc(id)), color = p.textMuted, size = 11.sp)
                 }
                 if (selected) PixelIconView(PixelIcon.CHECK, tint = c.accent, size = 20.dp)
             }
@@ -270,9 +275,9 @@ internal fun LanguageSection() {
     val ctx = LocalContext.current
     val store = remember { AppearanceStore.get(ctx) }
     val ap by store.appearance.collectAsState()
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Muted(stringResource(R.string.ctl_lang_intro))
-        ChoiceRow(ap.language == "", stringResource(R.string.ctl_lang_system), { store.update { it.copy(language = "") } }, subtitle = stringResource(R.string.ctl_lang_system_sub))
+    Column(verticalArrangement = Arrangement.spacedBy(Space.s)) {
+        Muted(t(R.string.ctl_lang_intro))
+        ChoiceRow(ap.language == "", t(R.string.ctl_lang_system), { store.update { it.copy(language = "") } }, subtitle = t(R.string.ctl_lang_system_sub))
         ChoiceRow(ap.language == "en", "English", { store.update { it.copy(language = "en") } })
         ChoiceRow(ap.language == "tr", "Türkçe", { store.update { it.copy(language = "tr") } })
         ChoiceRow(ap.language == "fr", "Français", { store.update { it.copy(language = "fr") } })

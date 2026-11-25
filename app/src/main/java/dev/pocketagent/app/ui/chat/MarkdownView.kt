@@ -33,7 +33,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.platform.UriHandler
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.LinkAnnotation
@@ -55,6 +54,7 @@ import dev.pocketagent.app.ui.components.PixelIcon
 import dev.pocketagent.app.ui.components.PixelIconView
 import dev.pocketagent.app.ui.theme.Pocket
 import kotlinx.coroutines.delay
+import dev.pocketagent.app.ui.text.t
 
 /**
  * Renders chat Markdown: headings, bold/italic/strike, inline code, fenced code (copy button, horizontal scroll),
@@ -215,7 +215,7 @@ private fun CodeBlock(block: MdBlock.Code, onRunCode: ((lang: String, code: Stri
                 modifier = Modifier.weight(1f), maxLines = 1,
             )
             if (runnable && onRunCode != null) {
-                val runLabel = stringResource(R.string.ui_chat_code_run)
+                val runLabel = t(R.string.ui_chat_code_run)
                 Row(
                     Modifier
                         .clickable(onClickLabel = runLabel, role = Role.Button) { onRunCode(block.lang, block.code) }
@@ -227,7 +227,7 @@ private fun CodeBlock(block: MdBlock.Code, onRunCode: ((lang: String, code: Stri
                     Text(runLabel, color = c.accent, fontSize = 11.sp, fontWeight = FontWeight.SemiBold)
                 }
             }
-            val label = stringResource(R.string.ui_chat_code_copy)
+            val label = t(R.string.ui_chat_code_copy)
             Box(
                 Modifier.size(38.dp).clickable(onClickLabel = label, role = Role.Button) {
                     copyToClipboard(ctx, block.code)

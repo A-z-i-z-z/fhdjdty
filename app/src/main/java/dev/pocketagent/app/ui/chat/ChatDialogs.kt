@@ -27,7 +27,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
@@ -60,6 +59,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import dev.pocketagent.app.data.Role as MsgRole
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.Texts
 
 /**
  * Every menu, sheet and dialog of a chat. The launchers for the attach and export pickers sit at the top, always composed
@@ -108,13 +109,13 @@ internal fun ChatDialogs(state: ChatScreenState, conv: Conversation, shape: Chat
 
     // ---- export to a file ----
     val exportLabels = ExportLabels(
-        you = stringResource(R.string.ui_export_you),
-        tool = stringResource(R.string.ui_export_tool),
-        error = stringResource(R.string.ui_export_error),
-        bot = stringResource(R.string.ui_export_bot),
+        you = t(R.string.ui_export_you),
+        tool = t(R.string.ui_export_tool),
+        error = t(R.string.ui_export_error),
+        bot = t(R.string.ui_export_bot),
     )
-    val exportNoStream = stringResource(R.string.ui_export_no_stream)
-    val exportEmpty = stringResource(R.string.ui_export_empty)
+    val exportNoStream = t(R.string.ui_export_no_stream)
+    val exportEmpty = t(R.string.ui_export_empty)
     val buildExport: () -> String = {
         exportMarkdown(title, state.messagesNow(), exportLabels) { m -> botsById[m.botId]?.name ?: exportLabels.bot }
     }
@@ -145,9 +146,9 @@ internal fun ChatDialogs(state: ChatScreenState, conv: Conversation, shape: Chat
                     }
                 }
                 if (failure == null) {
-                    state.say(ctx.getString(R.string.ui_export_saved), PetNoteKind.SUCCESS)
+                    state.say(Texts.get(ctx, R.string.ui_export_saved), PetNoteKind.SUCCESS)
                 } else {
-                    state.say(ctx.getString(R.string.ui_export_failed, failure), PetNoteKind.ERROR)
+                    state.say(Texts.get(ctx, R.string.ui_export_failed, failure), PetNoteKind.ERROR)
                 }
             }
         }
@@ -156,19 +157,19 @@ internal fun ChatDialogs(state: ChatScreenState, conv: Conversation, shape: Chat
     // ---- menus and dialogs ----
     if (state.menu) {
         val acts = ArrayList<SheetAction>()
-        acts += SheetAction(PixelIcon.SLIDERS, stringResource(R.string.ui_ctrl_title)) { state.showControls = true }
-        if (shape.count > 0) acts += SheetAction(PixelIcon.SEARCH, stringResource(R.string.ui_chat_find)) { state.openSearch("") }
-        acts += SheetAction(PixelIcon.SKILL, stringResource(R.string.ui_ctrl_skills)) { state.skillPickerQuery = "" }
-        if (shape.count > 0) acts += SheetAction(PixelIcon.FORK, stringResource(R.string.ui_ctrl_fork)) { state.doFork(null) }
-        if (shape.count > 0) acts += SheetAction(PixelIcon.SHARE, stringResource(R.string.ui_act_export)) { state.exportMenu = true }
-        acts += SheetAction(PixelIcon.EDIT, stringResource(R.string.ui_act_rename)) { state.rename = true }
-        acts += SheetAction(PixelIcon.PIN, stringResource(if (conv.pinned) R.string.ui_act_unpin else R.string.ui_act_pin)) {
+        acts += SheetAction(PixelIcon.SLIDERS, t(R.string.ui_ctrl_title)) { state.showControls = true }
+        if (shape.count > 0) acts += SheetAction(PixelIcon.SEARCH, t(R.string.ui_chat_find)) { state.openSearch("") }
+        acts += SheetAction(PixelIcon.SKILL, t(R.string.ui_ctrl_skills)) { state.skillPickerQuery = "" }
+        if (shape.count > 0) acts += SheetAction(PixelIcon.FORK, t(R.string.ui_ctrl_fork)) { state.doFork(null) }
+        if (shape.count > 0) acts += SheetAction(PixelIcon.SHARE, t(R.string.ui_act_export)) { state.exportMenu = true }
+        acts += SheetAction(PixelIcon.EDIT, t(R.string.ui_act_rename)) { state.rename = true }
+        acts += SheetAction(PixelIcon.PIN, t(if (conv.pinned) R.string.ui_act_unpin else R.string.ui_act_pin)) {
             repo.setPinned(convId, !conv.pinned)
         }
-        if (conv.isGroup) acts += SheetAction(PixelIcon.GROUP, stringResource(R.string.ui_act_members)) { state.showMembers = true }
-        acts += SheetAction(PixelIcon.SCROLL, stringResource(R.string.ui_act_inspector)) { nav.go(Route.Hermes) }
-        acts += SheetAction(PixelIcon.REFRESH, stringResource(R.string.ui_act_clear), danger = true) { state.confirmClear = true }
-        acts += SheetAction(PixelIcon.TRASH, stringResource(R.string.ui_act_delete), danger = true) { state.confirmDelete = true }
+        if (conv.isGroup) acts += SheetAction(PixelIcon.GROUP, t(R.string.ui_act_members)) { state.showMembers = true }
+        acts += SheetAction(PixelIcon.SCROLL, t(R.string.ui_act_inspector)) { nav.go(Route.Hermes) }
+        acts += SheetAction(PixelIcon.REFRESH, t(R.string.ui_act_clear), danger = true) { state.confirmClear = true }
+        acts += SheetAction(PixelIcon.TRASH, t(R.string.ui_act_delete), danger = true) { state.confirmDelete = true }
         ActionSheet(title, acts) { state.menu = false }
     }
 
@@ -178,13 +179,13 @@ internal fun ChatDialogs(state: ChatScreenState, conv: Conversation, shape: Chat
             val isSp = app.voice.speakingId.value == m.id
             acts += SheetAction(
                 if (isSp) PixelIcon.STOP else PixelIcon.VOLUME,
-                stringResource(if (isSp) R.string.ui_act_stop_speak else R.string.ui_act_speak),
+                t(if (isSp) R.string.ui_act_stop_speak else R.string.ui_act_speak),
             ) {
                 val b = m.botId?.let { botsById[it] } ?: if (m.role == MsgRole.BOT) memberBots.firstOrNull() else null
                 app.voice.toggleSpeak(m.id, m.text, ap.language, b.voiceOverride())
             }
         }
-        acts += SheetAction(PixelIcon.COPY, stringResource(R.string.ui_act_copy)) {
+        acts += SheetAction(PixelIcon.COPY, t(R.string.ui_act_copy)) {
             copyToClipboard(ctx, m.text)
             app.sounds.play(SoundCue.TAP)
         }
@@ -192,33 +193,33 @@ internal fun ChatDialogs(state: ChatScreenState, conv: Conversation, shape: Chat
             val starredNow = state.messagesNow().firstOrNull { it.id == m.id }?.starred ?: m.starred
             acts += SheetAction(
                 if (starredNow) PixelIcon.STAR else PixelIcon.STAR_OFF,
-                stringResource(if (starredNow) R.string.ui_act_unstar else R.string.ui_act_star),
+                t(if (starredNow) R.string.ui_act_unstar else R.string.ui_act_star),
             ) { repo.setStarred(convId, m.id, !starredNow) }
         }
-        acts += SheetAction(PixelIcon.FORK, stringResource(R.string.ui_act_fork)) { state.doFork(m.id) }
-        acts += SheetAction(PixelIcon.SCROLL, stringResource(R.string.ui_act_select)) { state.selectFor = m }
-        acts += SheetAction(PixelIcon.SHARE, stringResource(R.string.ui_act_share)) { shareText(ctx, m.text) }
+        acts += SheetAction(PixelIcon.FORK, t(R.string.ui_act_fork)) { state.doFork(m.id) }
+        acts += SheetAction(PixelIcon.SCROLL, t(R.string.ui_act_select)) { state.selectFor = m }
+        acts += SheetAction(PixelIcon.SHARE, t(R.string.ui_act_share)) { shareText(ctx, m.text) }
         if (m.role == MsgRole.USER && !generating) {
-            acts += SheetAction(PixelIcon.EDIT, stringResource(R.string.ui_act_edit)) {
+            acts += SheetAction(PixelIcon.EDIT, t(R.string.ui_act_edit)) {
                 // Park the half-typed draft; cancel or a finished edit gives it back.
                 if (state.editing == null) state.preEditDraft = state.input
                 state.editing = m; state.input = m.text
             }
         }
         if (m.role == MsgRole.BOT && m.id == shape.lastBotId && shape.lastBotIsLast && !generating) {
-            acts += SheetAction(PixelIcon.REFRESH, stringResource(R.string.ui_act_regen)) { engine.regenerateLast(convId) }
+            acts += SheetAction(PixelIcon.REFRESH, t(R.string.ui_act_regen)) { engine.regenerateLast(convId) }
         }
-        acts += SheetAction(PixelIcon.TRASH, stringResource(R.string.ui_act_delete), danger = true) { repo.deleteMessage(convId, m.id) }
+        acts += SheetAction(PixelIcon.TRASH, t(R.string.ui_act_delete), danger = true) { repo.deleteMessage(convId, m.id) }
         ActionSheet(null, acts) { state.actionsFor = null }
     }
 
     if (state.exportMenu) {
-        val failedLabel = stringResource(R.string.ui_export_failed, "")
+        val failedLabel = t(R.string.ui_export_failed, "")
         ActionSheet(
-            stringResource(R.string.ui_export_title),
+            t(R.string.ui_export_title),
             listOf(
-                SheetAction(PixelIcon.SHARE, stringResource(R.string.ui_act_share)) { shareText(ctx, buildExport()) },
-                SheetAction(PixelIcon.DOWNLOAD, stringResource(R.string.ui_export_save)) {
+                SheetAction(PixelIcon.SHARE, t(R.string.ui_act_share)) { shareText(ctx, buildExport()) },
+                SheetAction(PixelIcon.DOWNLOAD, t(R.string.ui_export_save)) {
                     try {
                         exportLauncher.launch(exportFileName(title))
                     } catch (e: Exception) {
@@ -231,8 +232,8 @@ internal fun ChatDialogs(state: ChatScreenState, conv: Conversation, shape: Chat
 
     state.selectFor?.let { m ->
         PocketDialog(
-            title = stringResource(R.string.ui_chat_select_title), onDismiss = { state.selectFor = null },
-            confirm = { PixelButton(stringResource(R.string.ui_dlg_close), onClick = { state.selectFor = null }) },
+            title = t(R.string.ui_chat_select_title), onDismiss = { state.selectFor = null },
+            confirm = { PixelButton(t(R.string.ui_dlg_close), onClick = { state.selectFor = null }) },
         ) {
             Box(Modifier.heightIn(max = 360.dp).verticalScroll(rememberScrollState())) {
                 SelectionContainer { Text(m.text, color = c.text, fontSize = 15.sp, lineHeight = 22.sp) }
@@ -249,8 +250,8 @@ internal fun ChatDialogs(state: ChatScreenState, conv: Conversation, shape: Chat
 
     if (state.confirmDelete) {
         ConfirmDialog(
-            title = stringResource(R.string.ui_dlg_delete_title), body = stringResource(R.string.ui_dlg_delete_body, title),
-            confirmLabel = stringResource(R.string.ui_dlg_delete_confirm),
+            title = t(R.string.ui_dlg_delete_title), body = t(R.string.ui_dlg_delete_body, title),
+            confirmLabel = t(R.string.ui_dlg_delete_confirm),
             onConfirm = { if (generating) engine.stop(convId); repo.deleteConversation(convId) },
             onDismiss = { state.confirmDelete = false },
             danger = true,
@@ -259,8 +260,8 @@ internal fun ChatDialogs(state: ChatScreenState, conv: Conversation, shape: Chat
     }
     if (state.confirmClear) {
         ConfirmDialog(
-            title = stringResource(R.string.ui_dlg_clear_title), body = stringResource(R.string.ui_dlg_clear_body),
-            confirmLabel = stringResource(R.string.ui_dlg_clear_confirm),
+            title = t(R.string.ui_dlg_clear_title), body = t(R.string.ui_dlg_clear_body),
+            confirmLabel = t(R.string.ui_dlg_clear_confirm),
             onConfirm = { if (generating) engine.stop(convId); repo.clearConversation(convId) },
             onDismiss = { state.confirmClear = false },
             danger = true,
@@ -278,7 +279,7 @@ internal fun ChatDialogs(state: ChatScreenState, conv: Conversation, shape: Chat
                     state.pendingCameraFile = file
                     cameraLauncher.launch(uri)
                 } catch (e: Exception) {
-                    state.say(ctx.getString(R.string.ui_attach_failed, e.message ?: "camera"), PetNoteKind.ERROR)
+                    state.say(Texts.get(ctx, R.string.ui_attach_failed, e.message ?: "camera"), PetNoteKind.ERROR)
                 }
             },
             onGallery = { galleryLauncher.launch("image/*") },
@@ -311,7 +312,7 @@ internal fun ChatDialogs(state: ChatScreenState, conv: Conversation, shape: Chat
         SkillPickerSheet(
             initialQuery = initialQ,
             onUseSkill = { skill ->
-                val prompt = ctx.getString(R.string.ui_skills_picker_prompt, skill.name)
+                val prompt = Texts.get(ctx, R.string.ui_skills_picker_prompt, skill.name)
                 state.input = if (state.input.isBlank()) prompt else "${state.input}\n$prompt"
                 app.sounds.play(SoundCue.TAP)
             },
@@ -324,11 +325,11 @@ internal fun ChatDialogs(state: ChatScreenState, conv: Conversation, shape: Chat
     }
     state.pendingTerminalCmd?.let { cmd ->
         PocketDialog(
-            title = stringResource(R.string.ui_run_term_title),
+            title = t(R.string.ui_run_term_title),
             onDismiss = { state.pendingTerminalCmd = null },
             confirm = {
                 PixelButton(
-                    stringResource(R.string.ui_chat_code_run),
+                    t(R.string.ui_chat_code_run),
                     onClick = {
                         state.pendingTerminalCmd = null
                         app.sounds.play(SoundCue.TAP)
@@ -339,10 +340,10 @@ internal fun ChatDialogs(state: ChatScreenState, conv: Conversation, shape: Chat
                 )
             },
             dismiss = {
-                PixelButton(stringResource(R.string.ui_dlg_cancel), onClick = { state.pendingTerminalCmd = null }, kind = ButtonKind.GHOST)
+                PixelButton(t(R.string.ui_dlg_cancel), onClick = { state.pendingTerminalCmd = null }, kind = ButtonKind.GHOST)
             },
         ) {
-            Text(stringResource(R.string.ui_run_term_body), color = c.textMuted, fontSize = 13.sp, modifier = Modifier.padding(bottom = 8.dp))
+            Text(t(R.string.ui_run_term_body), color = c.textMuted, fontSize = 13.sp, modifier = Modifier.padding(bottom = 8.dp))
             Box(
                 Modifier.fillMaxWidth().background(c.codeBg).border(1.dp, c.outline).heightIn(max = 180.dp)
                     .verticalScroll(rememberScrollState()).padding(8.dp),
@@ -361,17 +362,17 @@ private fun MembersDialog(conv: Conversation, onDismiss: () -> Unit) {
     val bots by repo.bots.collectAsState()
     val c = Pocket.colors
     PocketDialog(
-        title = stringResource(R.string.ui_chat_members_title), onDismiss = onDismiss,
-        confirm = { PixelButton(stringResource(R.string.ui_dlg_close), onClick = onDismiss) },
+        title = t(R.string.ui_chat_members_title), onDismiss = onDismiss,
+        confirm = { PixelButton(t(R.string.ui_dlg_close), onClick = onDismiss) },
     ) {
-        Text(stringResource(R.string.ui_chat_mode_title), color = c.textMuted, fontSize = 12.sp, modifier = Modifier.padding(bottom = 4.dp))
+        Text(t(R.string.ui_chat_mode_title), color = c.textMuted, fontSize = 12.sp, modifier = Modifier.padding(bottom = 4.dp))
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             PocketChip(
-                stringResource(R.string.ui_new_mode_all), conv.groupMode == GroupMode.ALL_IN_TURN,
+                t(R.string.ui_new_mode_all), conv.groupMode == GroupMode.ALL_IN_TURN,
                 { repo.setGroupMode(conv.id, GroupMode.ALL_IN_TURN) }, Modifier.weight(1f),
             )
             PocketChip(
-                stringResource(R.string.ui_new_mode_mention), conv.groupMode == GroupMode.MENTION_ONLY,
+                t(R.string.ui_new_mode_mention), conv.groupMode == GroupMode.MENTION_ONLY,
                 { repo.setGroupMode(conv.id, GroupMode.MENTION_ONLY) }, Modifier.weight(1f),
             )
         }

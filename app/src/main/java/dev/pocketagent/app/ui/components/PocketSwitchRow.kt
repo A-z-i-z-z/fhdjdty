@@ -34,7 +34,7 @@ import kotlin.math.max
 import kotlin.math.roundToInt
 
 /**
- * Full-width settings row: title (+ optional subtitle) on the left, a pixel toggle on the right.
+ * Full-width settings row: title (+ optional subtitle) on the start side, a pixel toggle on the end side.
  * The whole row is the touch target (min 56 dp) and announces itself as a switch. [modifier] goes first, so a
  * caller can tag or size the row.
  */

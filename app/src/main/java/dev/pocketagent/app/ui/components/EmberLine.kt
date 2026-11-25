@@ -14,7 +14,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import dev.pocketagent.app.R
@@ -24,6 +23,7 @@ import dev.pocketagent.app.ui.theme.Pocket
 import dev.pocketagent.app.ui.theme.designUnitPx
 import dev.pocketagent.app.ui.theme.motion
 import kotlin.math.min
+import dev.pocketagent.app.ui.text.t
 
 /** Number of flicker pictures per [Loop.EMBER_LINE]: a little under six a second. */
 private const val EMBER_STEPS = 7
@@ -49,7 +49,7 @@ fun EmberLine(active: Boolean, modifier: Modifier = Modifier) {
     val dens = LocalDensity.current
     val unit = designUnitPx(dens.density)
     val lineHeight = with(dens) { (2 * unit).toDp() }
-    val description = stringResource(R.string.design_ember_active)
+    val description = t(R.string.design_ember_active)
     val phase: State<Float>? = if (active && motion.loops) {
         rememberInfiniteTransition(label = "emberLine").animateFloat(
             initialValue = 0f, targetValue = 1f, label = "flicker",

@@ -14,7 +14,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
+import dev.pocketagent.app.ui.text.t
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.Lifecycle
@@ -28,6 +28,8 @@ import dev.pocketagent.app.ui.components.PocketChip
 import dev.pocketagent.app.ui.components.PocketSwitchRow
 import dev.pocketagent.app.ui.diag.WebLookupsRow
 import dev.pocketagent.app.ui.theme.Pocket
+import androidx.compose.ui.platform.testTag
+import dev.pocketagent.app.ui.RobotTags
 
 /** The idle-stop choices in minutes (0 = never); a stored value that is not listed gets its own chip. */
 private val IDLE_CHOICES = listOf(0, 15, 30, 60, 120)
@@ -53,61 +55,61 @@ internal fun BehaviourSection(vm: dev.pocketagent.app.MainViewModel) {
     }
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Muted(stringResource(R.string.ctl_beh_intro))
+        Muted(t(R.string.ctl_beh_intro))
 
-        SubHeading(stringResource(R.string.ctl_beh_group_wake))
+        SubHeading(t(R.string.ctl_beh_group_wake))
         PocketSwitchRow(
-            stringResource(R.string.ctl_beh_auto_start), s.autoStart, { v -> prefs.update { it.copy(autoStart = v) } },
-            subtitle = stringResource(R.string.ctl_beh_auto_start_sub),
+            t(R.string.ctl_beh_auto_start), s.autoStart, { v -> prefs.update { it.copy(autoStart = v) } },
+            subtitle = t(R.string.ctl_beh_auto_start_sub),
         )
         PocketSwitchRow(
-            stringResource(R.string.ctl_beh_wake_send), s.wakeOnSend, { v -> prefs.update { it.copy(wakeOnSend = v) } },
-            subtitle = stringResource(R.string.ctl_beh_wake_send_sub),
+            t(R.string.ctl_beh_wake_send), s.wakeOnSend, { v -> prefs.update { it.copy(wakeOnSend = v) } },
+            subtitle = t(R.string.ctl_beh_wake_send_sub),
         )
         PocketSwitchRow(
-            stringResource(R.string.ctl_beh_auto_restart), s.autoRestart, { v -> prefs.update { it.copy(autoRestart = v) } },
-            subtitle = stringResource(R.string.ctl_beh_auto_restart_sub),
+            t(R.string.ctl_beh_auto_restart), s.autoRestart, { v -> prefs.update { it.copy(autoRestart = v) } },
+            subtitle = t(R.string.ctl_beh_auto_restart_sub),
         )
 
-        SubHeading(stringResource(R.string.ctl_beh_idle_title))
-        Muted(stringResource(R.string.ctl_beh_idle_sub), size = 12.sp)
+        SubHeading(t(R.string.ctl_beh_idle_title))
+        Muted(t(R.string.ctl_beh_idle_sub), size = 12.sp)
         val choices = if (s.idleStopMinutes in IDLE_CHOICES) IDLE_CHOICES else (IDLE_CHOICES + s.idleStopMinutes).sorted()
-        ChipRow {
+        ChipRow(Modifier.testTag(RobotTags.BEHAVIOUR_IDLE_MINUTES)) {
             choices.forEach { m ->
                 PocketChip(
-                    if (m == 0) stringResource(R.string.ctl_beh_idle_never) else stringResource(R.string.ctl_beh_idle_min, m),
+                    if (m == 0) t(R.string.ctl_beh_idle_never) else t(R.string.ctl_beh_idle_min, m),
                     selected = s.idleStopMinutes == m, onClick = { prefs.update { it.copy(idleStopMinutes = m) } },
                 )
             }
         }
 
-        SubHeading(stringResource(R.string.ctl_beh_notif_title))
+        SubHeading(t(R.string.ctl_beh_notif_title))
         PocketSwitchRow(
-            stringResource(R.string.ctl_beh_notify_replies), s.notifyReplies, { v -> prefs.update { it.copy(notifyReplies = v) } },
-            subtitle = stringResource(R.string.ctl_beh_notify_replies_sub),
+            t(R.string.ctl_beh_notify_replies), s.notifyReplies, { v -> prefs.update { it.copy(notifyReplies = v) } },
+            subtitle = t(R.string.ctl_beh_notify_replies_sub),
         )
         PocketSwitchRow(
-            stringResource(R.string.ctl_beh_notify_approvals), s.notifyApprovals, { v -> prefs.update { it.copy(notifyApprovals = v) } },
-            subtitle = stringResource(R.string.ctl_beh_notify_approvals_sub),
+            t(R.string.ctl_beh_notify_approvals), s.notifyApprovals, { v -> prefs.update { it.copy(notifyApprovals = v) } },
+            subtitle = t(R.string.ctl_beh_notify_approvals_sub),
         )
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             StatusDot(if (notificationsOn) c.success else c.warning)
             CText(
-                stringResource(if (notificationsOn) R.string.ctl_beh_notif_on else R.string.ctl_beh_notif_off),
+                t(if (notificationsOn) R.string.ctl_beh_notif_on else R.string.ctl_beh_notif_off),
                 size = 13.sp, color = if (notificationsOn) c.text else c.warning, modifier = Modifier.weight(1f),
             )
         }
         PixelButton(
-            stringResource(R.string.ctl_beh_notif_open), onClick = { openNotificationSettings(ctx) },
+            t(R.string.ctl_beh_notif_open), onClick = { openNotificationSettings(ctx) },
             kind = if (notificationsOn) ButtonKind.GHOST else ButtonKind.SECONDARY, icon = PixelIcon.BELL,
         )
 
-        SubHeading(stringResource(R.string.ctl_beh_battery_title))
+        SubHeading(t(R.string.ctl_beh_battery_title))
         if (vm.ignoringBattery) {
-            Muted(stringResource(R.string.ctl_beh_battery_ok), size = 13.sp)
+            Muted(t(R.string.ctl_beh_battery_ok), size = 13.sp)
         } else {
-            Muted(stringResource(R.string.battery_hint))
-            PixelButton(stringResource(R.string.btn_battery), onClick = { ctx.startActivity(vm.batteryOptimizationIntent()) }, kind = ButtonKind.SECONDARY)
+            Muted(t(R.string.battery_hint))
+            PixelButton(t(R.string.btn_battery), onClick = { ctx.startActivity(vm.batteryOptimizationIntent()) }, kind = ButtonKind.SECONDARY)
         }
 
         WebLookupsRow()

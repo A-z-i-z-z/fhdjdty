@@ -26,7 +26,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -53,7 +52,9 @@ import dev.pocketagent.app.ui.components.SectionHeader
 import dev.pocketagent.app.ui.pixel.Avatar
 import dev.pocketagent.app.ui.pixel.avatarIdOf
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.theme.Space
 import kotlinx.coroutines.delay
+import dev.pocketagent.app.ui.text.t
 
 /**
  * The list of routines: schedule, next run, last result, an on/off switch, "run now" and a shortcut to the routine's own
@@ -79,40 +80,40 @@ fun RoutinesScreen() {
         }
     }
 
-    val startedMsg = stringResource(R.string.rtn_started)
+    val startedMsg = t(R.string.rtn_started)
     val nextRuns = routines.associate { it.id to RoutineSchedule.nextRun(it, now) }
     val soonest = routines.filter { nextRuns[it.id] != null }.minByOrNull { nextRuns[it.id]!! }
     val subtitle = soonest?.let { s ->
-        stringResource(R.string.rtn_next_subtitle, whenText(nextRuns[s.id]!!, now), s.name.ifBlank { stringResource(R.string.rtn_unnamed) })
+        t(R.string.rtn_next_subtitle, whenText(nextRuns[s.id]!!, now), s.name.ifBlank { t(R.string.rtn_unnamed) })
     }
 
     fun leave() { if (!nav.back()) nav.tab(Route.Home) }
 
     Column(Modifier.fillMaxSize().background(c.bg)) {
         PocketTopBar(
-            title = stringResource(R.string.rtn_title),
+            title = t(R.string.rtn_title),
             subtitle = subtitle,
             onBack = { leave() },
             actions = {
                 PixelIconButton(
                     PixelIcon.PLUS, onClick = { nav.go(Route.RoutineEditor(null)) },
-                    contentDescription = stringResource(R.string.rtn_add),
+                    contentDescription = t(R.string.rtn_add),
                 )
             },
         )
         Column(
-            Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(12.dp),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            Modifier.weight(1f).fillMaxWidth().verticalScroll(rememberScrollState()).padding(Space.m),
+            verticalArrangement = Arrangement.spacedBy(Space.m),
         ) {
             if (!notificationsOn) {
                 RCard(color = c.surfaceHigh, border = c.warning) {
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                         PixelIconView(PixelIcon.BELL, tint = c.warning, size = 24.dp)
-                        RText(stringResource(R.string.rtn_notif_off_title), weight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
+                        RText(t(R.string.rtn_notif_off_title), weight = FontWeight.SemiBold, modifier = Modifier.weight(1f))
                     }
-                    RMuted(stringResource(R.string.rtn_notif_off_body))
+                    RMuted(t(R.string.rtn_notif_off_body))
                     PixelButton(
-                        stringResource(R.string.rtn_notif_off_button),
+                        t(R.string.rtn_notif_off_button),
                         onClick = {
                             try {
                                 ctx.startActivity(
@@ -129,8 +130,8 @@ fun RoutinesScreen() {
 
             if (routines.isEmpty()) {
                 EmptyState(
-                    title = stringResource(R.string.rtn_empty_title),
-                    body = stringResource(R.string.rtn_empty_body),
+                    title = t(R.string.rtn_empty_title),
+                    body = t(R.string.rtn_empty_body),
                 )
             } else {
                 routines.forEach { r ->
@@ -153,14 +154,14 @@ fun RoutinesScreen() {
                 }
             }
 
-            SectionHeader(stringResource(R.string.rtn_ideas))
-            ROUTINE_TEMPLATES.forEach { t ->
-                val name = stringResource(t.nameRes)
-                val prompt = stringResource(t.promptRes)
-                val sample = Routine(id = "", name = name, prompt = prompt, kind = t.kind, hour = t.hour, minute = t.minute,
-                    days = t.days, intervalMinutes = t.intervalMinutes)
+            SectionHeader(t(R.string.rtn_ideas))
+            ROUTINE_TEMPLATES.forEach { tpl ->
+                val name = t(tpl.nameRes)
+                val prompt = t(tpl.promptRes)
+                val sample = Routine(id = "", name = name, prompt = prompt, kind = tpl.kind, hour = tpl.hour, minute = tpl.minute,
+                    days = tpl.days, intervalMinutes = tpl.intervalMinutes)
                 TemplateCard(
-                    title = name, description = stringResource(t.descRes), schedule = scheduleText(sample),
+                    title = name, description = t(tpl.descRes), schedule = scheduleText(sample),
                     onClick = {
                         val r = sample.copy(id = app.routines.newId(), createdAt = System.currentTimeMillis())
                         app.routines.save(r)
@@ -192,16 +193,16 @@ private fun RoutineCard(
         Column(Modifier.fillMaxWidth()) {
             Row(
                 Modifier.fillMaxWidth()
-                    .clickable(role = Role.Button, onClickLabel = stringResource(R.string.rtn_edit), onClick = onOpen)
+                    .clickable(role = Role.Button, onClickLabel = t(R.string.rtn_edit), onClick = onOpen)
                     .padding(start = 14.dp, end = 14.dp, top = 14.dp, bottom = 6.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalArrangement = Arrangement.spacedBy(Space.m),
             ) {
                 if (bot != null) Avatar(avatarIdOf(bot.avatar), Color(bot.color), size = 40.dp)
                 else PixelIconView(PixelIcon.CLOCK, tint = c.accent, size = 36.dp)
-                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(Space.xxs)) {
                     RText(
-                        r.name.ifBlank { stringResource(R.string.rtn_unnamed) }, size = 16.sp, weight = FontWeight.Bold,
+                        r.name.ifBlank { t(R.string.rtn_unnamed) }, size = 16.sp, weight = FontWeight.Bold,
                         color = if (r.enabled) c.text else c.textMuted, maxLines = 1, overflow = TextOverflow.Ellipsis,
                     )
                     RMuted(scheduleText(r), size = 12.5.sp)
@@ -210,45 +211,45 @@ private fun RoutineCard(
             }
             Column(Modifier.fillMaxWidth().padding(horizontal = 14.dp), verticalArrangement = Arrangement.spacedBy(3.dp)) {
                 val nextLine = when {
-                    running -> stringResource(R.string.rtn_running_now)
+                    running -> t(R.string.rtn_running_now)
                     // A one-time routine that ran (or whose time passed and was skipped) is switched off by the scheduler: "Done".
                     !r.enabled && r.kind == RoutineKind.ONCE && r.onceAt > 0L &&
                         (r.lastRunAt >= r.onceAt || (r.lastStatus == Routine.STATUS_SKIPPED && r.armedAt >= r.onceAt)) ->
-                        stringResource(R.string.rtn_done)
-                    !r.enabled -> stringResource(R.string.rtn_paused)
-                    next != null -> stringResource(R.string.rtn_next, whenText(next, now))
-                    r.kind == RoutineKind.ONCE && r.lastRunAt > 0L -> stringResource(R.string.rtn_done)
-                    else -> stringResource(R.string.rtn_nothing_scheduled)
+                        t(R.string.rtn_done)
+                    !r.enabled -> t(R.string.rtn_paused)
+                    next != null -> t(R.string.rtn_next, whenText(next, now))
+                    r.kind == RoutineKind.ONCE && r.lastRunAt > 0L -> t(R.string.rtn_done)
+                    else -> t(R.string.rtn_nothing_scheduled)
                 }
                 RText(nextLine, size = 13.sp, color = if (running) c.accent else c.text, weight = if (running) FontWeight.SemiBold else null)
                 if (r.lastRunAt > 0L) {
                     val (label, color) = when (r.lastStatus) {
-                        Routine.STATUS_OK -> stringResource(R.string.rtn_status_ok) to c.success
-                        Routine.STATUS_FAILED -> stringResource(R.string.rtn_status_failed) to c.error
-                        Routine.STATUS_SKIPPED -> stringResource(R.string.rtn_status_skipped) to c.warning
-                        else -> stringResource(R.string.rtn_status_sent) to c.textMuted
+                        Routine.STATUS_OK -> t(R.string.rtn_status_ok) to c.success
+                        Routine.STATUS_FAILED -> t(R.string.rtn_status_failed) to c.error
+                        Routine.STATUS_SKIPPED -> t(R.string.rtn_status_skipped) to c.warning
+                        else -> t(R.string.rtn_status_sent) to c.textMuted
                     }
                     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                         Box(Modifier.size(8.dp).background(color))
-                        RMuted(stringResource(R.string.rtn_last_run, whenText(r.lastRunAt, now), label), size = 12.sp)
+                        RMuted(t(R.string.rtn_last_run, whenText(r.lastRunAt, now), label), size = 12.sp)
                     }
                 }
             }
             PocketSwitchRow(
-                title = stringResource(R.string.rtn_active),
+                title = t(R.string.rtn_active),
                 checked = r.enabled,
                 onCheckedChange = onToggle,
             )
             Row(
                 Modifier.fillMaxWidth().padding(start = 14.dp, end = 14.dp, bottom = 14.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(Space.s),
             ) {
                 PixelButton(
-                    stringResource(R.string.rtn_run_now), onClick = onRun, modifier = Modifier.weight(1f),
+                    t(R.string.rtn_run_now), onClick = onRun, modifier = Modifier.weight(1f),
                     icon = PixelIcon.PLAY, kind = ButtonKind.SECONDARY, enabled = !running,
                 )
                 PixelButton(
-                    stringResource(R.string.rtn_open_chat), onClick = onOpenChat, modifier = Modifier.weight(1f),
+                    t(R.string.rtn_open_chat), onClick = onOpenChat, modifier = Modifier.weight(1f),
                     icon = PixelIcon.CHATS, kind = ButtonKind.GHOST, enabled = hasChat,
                 )
             }
@@ -260,12 +261,12 @@ private fun RoutineCard(
 private fun TemplateCard(title: String, description: String, schedule: String, onClick: () -> Unit) {
     val c = Pocket.colors
     PixelPanel(
-        Modifier.fillMaxWidth().clickable(role = Role.Button, onClickLabel = stringResource(R.string.rtn_tpl_use), onClick = onClick),
+        Modifier.fillMaxWidth().clickable(role = Role.Button, onClickLabel = t(R.string.rtn_tpl_use), onClick = onClick),
         color = c.surface,
     ) {
-        Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        Row(Modifier.fillMaxWidth().padding(14.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(Space.m)) {
             PixelIconView(PixelIcon.CLOCK, tint = c.fireMid, size = 36.dp)
-            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(Space.xxs)) {
                 RText(title, size = 15.sp, weight = FontWeight.SemiBold)
                 RMuted(description, size = 12.5.sp)
                 RText(schedule, size = 12.sp, color = c.accent)

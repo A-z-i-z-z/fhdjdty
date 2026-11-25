@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cfg_diag_exporting">Aktarılıyor…</string>
+    <string name="cfg_diag_export_failed">Kayıtlar dışa aktarılamadı. Yeniden dene.</string>
+    <string name="cfg_diag_share_subject">Agirî kayıtları</string>
+
+    <string name="cfg_diag_exits_title">Uygulama en son neden durdu</string>
+    <string name="cfg_diag_exits_none">Henüz kayıt yok.</string>
+    <string name="cfg_diag_exits_old_android">Bunu okumak için Android 11 veya üstü gerekir.</string>
+
+    <string name="cfg_exit_crash">Uygulama çöktü</string>
+    <string name="cfg_exit_native">Uygulama yerel kodda çöktü</string>
+    <string name="cfg_exit_anr">Uygulama yanıt vermedi</string>
+    <string name="cfg_exit_start">Uygulama açılamadı</string>
+    <string name="cfg_exit_memory">Android belleği geri aldı</string>
+    <string name="cfg_exit_killed">Android uygulamayı durdurdu</string>
+    <string name="cfg_exit_user">Uygulamayı sen kapattın</string>
+    <string name="cfg_exit_updated">Uygulama güncellendi</string>
+    <string name="cfg_exit_self">Uygulama kendini kapattı</string>
+    <string name="cfg_exit_other">Uygulama başka bir nedenle durdu</string>
+
+    <string name="cfg_diag_guest_title">Hermes\'in çalıştırdığı kod</string>
+    <string name="cfg_diag_guest_none">Hooks ve plugins klasörlerinde bir şey bulunmadı.</string>
+    <plurals name="cfg_diag_guest_found">
+        <item quantity="one">Hooks ve plugins klasörlerindeki %1$d öğeyi uygulama yazmadı.</item>
+        <item quantity="other">Hooks ve plugins klasörlerindeki %1$d öğeyi uygulama yazmadı.</item>
+    </plurals>
+    <string name="cfg_guest_kind_hook">Hook</string>
+    <string name="cfg_guest_kind_plugin">Eklenti</string>
+
+    <string name="cfg_crash_title">Agirî beklenmedik şekilde durdu</string>
+    <string name="cfg_crash_body">%2$s: %1$s. Sorunları düzelten kişi için bir rapor kopyalanabilir. Anahtar ya da parola içermez.</string>
+    <string name="cfg_crash_copy">Raporu kopyala</string>
+    <string name="cfg_crash_not_now">Şimdi değil</string>
+    <string name="cfg_crash_copied">Rapor kopyalandı</string>
+    <string name="cfg_crash_copy_failed">Rapor kopyalanamadı. Yeniden dene.</string>
+</resources>

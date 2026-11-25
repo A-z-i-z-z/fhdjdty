@@ -2,8 +2,6 @@ package dev.pocketagent.app.ui.chat
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -55,6 +52,11 @@ import dev.pocketagent.app.ui.theme.AnimLevel
 import dev.pocketagent.app.ui.theme.Pocket
 import kotlin.math.cos
 import kotlin.math.sin
+import androidx.compose.ui.platform.testTag
+import dev.pocketagent.app.ui.RobotTags
+import dev.pocketagent.app.ui.theme.Space
+import dev.pocketagent.app.ui.theme.motion
+import dev.pocketagent.app.ui.text.t
 
 // The input area of a chat (agent CHAT): text field, send / stop, @mentions, the "fire is out" card.
 
@@ -93,12 +95,13 @@ internal fun mentionedBotIds(text: String, members: List<Bot>): List<String> = T
 @Composable
 internal fun SparkBurst(trigger: Int, modifier: Modifier = Modifier) {
     val c = Pocket.colors
+    val motion = Pocket.motion
     val on = Pocket.anim == AnimLevel.FULL
     val progress = remember { Animatable(1f) }
     LaunchedEffect(trigger) {
         if (on && trigger > 0) {
             progress.snapTo(0f)
-            progress.animateTo(1f, tween(520, easing = LinearOutSlowInEasing))
+            progress.animateTo(1f, motion.scene<Float>())
         }
     }
     val colors = remember(c) { listOf(c.fireHigh, c.fireMid, c.ember) }
@@ -165,15 +168,15 @@ internal fun ChatInputBar(
             val suggestions = if (query != null) mentionSuggestions(query, members) else emptyList()
             AnimatedVisibility(suggestions.isNotEmpty()) {
                 Row(
-                    Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = 8.dp, vertical = 6.dp),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()).padding(horizontal = Space.s, vertical = 6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(Space.s),
                 ) {
                     suggestions.forEach { bot ->
-                        val label = stringResource(R.string.ui_chat_mention_cd, bot.name)
+                        val label = t(R.string.ui_chat_mention_cd, bot.name)
                         Row(
                             Modifier.clip(RoundedCornerShape(16.dp)).background(c.surfaceHigh)
                                 .clickable(onClickLabel = label, role = Role.Button) { onTextChange(applyMention(text, bot)) }
-                                .padding(start = 4.dp, end = 12.dp, top = 4.dp, bottom = 4.dp),
+                                .padding(start = Space.xs, end = Space.m, top = Space.xs, bottom = Space.xs),
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
                             BotAvatar(bot, 24.dp)
@@ -184,30 +187,31 @@ internal fun ChatInputBar(
                 }
             }
             AnimatedVisibility(editing) {
-                Row(Modifier.fillMaxWidth().padding(start = 12.dp, end = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                Row(Modifier.fillMaxWidth().padding(start = Space.m, end = Space.xs), verticalAlignment = Alignment.CenterVertically) {
                     PixelIconView(PixelIcon.EDIT, tint = c.accent, size = 18.dp)
-                    Spacer(Modifier.width(8.dp))
-                    Text(stringResource(R.string.ui_chat_editing), color = c.accent, fontSize = 13.sp, modifier = Modifier.weight(1f))
-                    PixelIconButton(PixelIcon.CLOSE, onClick = onCancelEdit, contentDescription = stringResource(R.string.ui_chat_edit_cancel))
+                    Spacer(Modifier.width(Space.s))
+                    Text(t(R.string.ui_chat_editing), color = c.accent, fontSize = 13.sp, modifier = Modifier.weight(1f))
+                    PixelIconButton(PixelIcon.CLOSE, onClick = onCancelEdit, contentDescription = t(R.string.ui_chat_edit_cancel))
                 }
             }
             AnimatedVisibility(attachments.isNotEmpty() && !editing) {
                 PendingAttachmentsStrip(attachments, onRemoveAttachment)
             }
-            Row(Modifier.fillMaxWidth().padding(horizontal = 8.dp, vertical = 8.dp), verticalAlignment = Alignment.Bottom) {
+            Row(Modifier.fillMaxWidth().padding(horizontal = Space.s, vertical = Space.s), verticalAlignment = Alignment.Bottom) {
                 if (!editing) {
                     PixelIconButton(
                         PixelIcon.CLIP,
                         onClick = onAttachClick,
-                        contentDescription = stringResource(R.string.ui_attach_cd),
+                        modifier = Modifier.testTag(RobotTags.CHAT_ATTACH),
+                        contentDescription = t(R.string.ui_attach_cd),
                         tint = if (!busy) c.textMuted else c.outline,
                         enabled = !busy,
                     )
-                    Spacer(Modifier.width(2.dp))
+                    Spacer(Modifier.width(Space.xxs))
                 }
                 PocketTextField(
-                    value = text, onValueChange = onTextChange, modifier = Modifier.weight(1f),
-                    placeholder = stringResource(
+                    value = text, onValueChange = onTextChange, modifier = Modifier.weight(1f).testTag(RobotTags.CHAT_INPUT),
+                    placeholder = t(
                         when {
                             isGroup && mentionOnly -> R.string.ui_chat_input_hint_mention
                             isGroup -> R.string.ui_chat_input_hint_group
@@ -216,22 +220,23 @@ internal fun ChatInputBar(
                     ),
                     minLines = 1, maxLines = 6,
                 )
-                Spacer(Modifier.width(2.dp))
+                Spacer(Modifier.width(Space.xxs))
                 if (!busy && !editing) {
                     PixelIconButton(
                         if (listening) PixelIcon.WAVE else PixelIcon.MIC,
                         onClick = onMicClick,
-                        contentDescription = stringResource(if (listening) R.string.ui_voice_listening else R.string.ui_voice_mic_cd),
+                        modifier = Modifier.testTag(RobotTags.CHAT_MIC),
+                        contentDescription = t(if (listening) R.string.ui_voice_listening else R.string.ui_voice_mic_cd),
                         tint = if (listening) c.fireMid else c.textMuted,
                     )
                 }
                 Box(contentAlignment = Alignment.Center) {
                     if (busy) {
-                        PixelIconButton(PixelIcon.STOP, onClick = onStop, contentDescription = stringResource(R.string.ui_chat_stop), tint = c.error)
+                        PixelIconButton(PixelIcon.STOP, onClick = onStop, modifier = Modifier.testTag(RobotTags.CHAT_STOP), contentDescription = t(R.string.ui_chat_stop), tint = c.error)
                     } else {
                         val ready = text.isNotBlank() || attachments.isNotEmpty()
                         PixelIconButton(
-                            PixelIcon.SEND, onClick = onSend, contentDescription = stringResource(R.string.ui_chat_send),
+                            PixelIcon.SEND, onClick = onSend, modifier = Modifier.testTag(RobotTags.CHAT_SEND), contentDescription = t(R.string.ui_chat_send),
                             tint = if (ready) c.accent else c.textMuted, enabled = ready,
                         )
                     }
@@ -248,12 +253,12 @@ private fun WakingBanner(visible: Boolean) {
     val c = Pocket.colors
     AnimatedVisibility(visible) {
         Row(
-            Modifier.fillMaxWidth().background(c.accentSoft.copy(alpha = 0.16f)).padding(horizontal = 12.dp, vertical = 6.dp),
+            Modifier.fillMaxWidth().background(c.accentSoft.copy(alpha = 0.16f)).padding(horizontal = Space.m, vertical = 6.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             GeneratingEmber(size = 16.dp)
-            Spacer(Modifier.width(8.dp))
-            Text(stringResource(R.string.ui_chat_waking_banner), color = c.text, fontSize = 12.sp, modifier = Modifier.weight(1f))
+            Spacer(Modifier.width(Space.s))
+            Text(t(R.string.ui_chat_waking_banner), color = c.text, fontSize = 12.sp, modifier = Modifier.weight(1f))
         }
     }
 }
@@ -262,18 +267,18 @@ private fun WakingBanner(visible: Boolean) {
 private fun UnavailableCard(runtime: RuntimeState, onStart: () -> Unit, onOpenSetup: () -> Unit) {
     val c = Pocket.colors
     val waking = runtime is RuntimeState.Extracting || runtime is RuntimeState.Starting
-    Column(Modifier.fillMaxWidth().padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+    Column(Modifier.fillMaxWidth().padding(Space.m), verticalArrangement = Arrangement.spacedBy(Space.s)) {
         when {
-            waking -> Text(stringResource(R.string.ui_chat_starting), color = c.text, fontSize = 15.sp)
+            waking -> Text(t(R.string.ui_chat_starting), color = c.text, fontSize = 15.sp)
             runtime == RuntimeState.Running -> {
-                Text(stringResource(R.string.ui_chat_setup_body), color = c.text, fontSize = 15.sp)
-                PixelButton(stringResource(R.string.ui_chat_setup_btn), onClick = onOpenSetup, modifier = Modifier.fillMaxWidth(), icon = PixelIcon.GEAR)
+                Text(t(R.string.ui_chat_setup_body), color = c.text, fontSize = 15.sp)
+                PixelButton(t(R.string.ui_chat_setup_btn), onClick = onOpenSetup, modifier = Modifier.fillMaxWidth(), icon = PixelIcon.GEAR)
             }
             else -> {
-                Text(stringResource(R.string.ui_chat_off_title), color = c.text, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
-                Text(stringResource(R.string.ui_chat_off_body), color = c.textMuted, fontSize = 14.sp)
+                Text(t(R.string.ui_chat_off_title), color = c.text, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                Text(t(R.string.ui_chat_off_body), color = c.textMuted, fontSize = 14.sp)
                 PixelButton(
-                    stringResource(R.string.ui_home_btn_start), onClick = onStart, modifier = Modifier.fillMaxWidth(),
+                    t(R.string.ui_home_btn_start), onClick = onStart, modifier = Modifier.fillMaxWidth(),
                     icon = PixelIcon.PLAY, kind = ButtonKind.PRIMARY,
                 )
             }
@@ -288,18 +293,18 @@ private fun UnavailableCard(runtime: RuntimeState, onStart: () -> Unit, onOpenSe
 internal fun ApprovalCard(approval: PendingApproval, botName: String?, onChoice: (String) -> Unit) {
     val c = Pocket.colors
     Column(
-        Modifier.fillMaxWidth().background(c.surface).border(2.dp, c.warning).padding(12.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        Modifier.fillMaxWidth().background(c.surface).border(2.dp, c.warning).padding(Space.m),
+        verticalArrangement = Arrangement.spacedBy(Space.s),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             PixelIconView(PixelIcon.KEY, tint = c.warning, size = 20.dp)
-            Spacer(Modifier.width(8.dp))
-            Text(stringResource(R.string.ui_chat_appr_title), color = c.text, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+            Spacer(Modifier.width(Space.s))
+            Text(t(R.string.ui_chat_appr_title), color = c.text, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
         }
-        if (!botName.isNullOrBlank()) Text(stringResource(R.string.ui_chat_appr_who, botName), color = c.textMuted, fontSize = 13.sp)
+        if (!botName.isNullOrBlank()) Text(t(R.string.ui_chat_appr_who, botName), color = c.textMuted, fontSize = 13.sp)
         if (approval.description.isNotBlank()) Text(approval.description, color = c.text, fontSize = 14.sp)
         if (approval.command.isNotBlank()) {
-            Box(Modifier.fillMaxWidth().clip(RoundedCornerShape(4.dp)).background(c.codeBg).padding(8.dp)) {
+            Box(Modifier.fillMaxWidth().clip(RoundedCornerShape(4.dp)).background(c.codeBg).padding(Space.s)) {
                 Text(
                     approval.command, color = c.text, fontSize = 12.sp, fontFamily = FontFamily.Monospace, lineHeight = 16.sp,
                     maxLines = 6, overflow = TextOverflow.Ellipsis,
@@ -308,10 +313,10 @@ internal fun ApprovalCard(approval: PendingApproval, botName: String?, onChoice:
         }
         val choices = approval.choices.ifEmpty { listOf("once", "deny") }
         choices.chunked(2).forEach { row ->
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(Space.s)) {
                 row.forEach { ch ->
                     PixelButton(
-                        approvalLabel(ch), onClick = { onChoice(ch) }, modifier = Modifier.weight(1f),
+                        approvalLabel(ch), onClick = { onChoice(ch) }, modifier = Modifier.weight(1f).testTag("chat.approval.$ch"),
                         kind = when (ch) { "deny" -> ButtonKind.DANGER; "once" -> ButtonKind.PRIMARY; else -> ButtonKind.SECONDARY },
                     )
                 }
@@ -323,9 +328,9 @@ internal fun ApprovalCard(approval: PendingApproval, botName: String?, onChoice:
 
 @Composable
 private fun approvalLabel(choice: String): String = when (choice) {
-    "once" -> stringResource(R.string.ui_chat_appr_once)
-    "session" -> stringResource(R.string.ui_chat_appr_session)
-    "always" -> stringResource(R.string.ui_chat_appr_always)
-    "deny" -> stringResource(R.string.ui_chat_appr_deny)
+    "once" -> t(R.string.ui_chat_appr_once)
+    "session" -> t(R.string.ui_chat_appr_session)
+    "always" -> t(R.string.ui_chat_appr_always)
+    "deny" -> t(R.string.ui_chat_appr_deny)
     else -> choice
 }

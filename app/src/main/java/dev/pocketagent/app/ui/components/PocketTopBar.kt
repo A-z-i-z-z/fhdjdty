@@ -21,7 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -30,13 +29,14 @@ import androidx.compose.ui.unit.dp
 import dev.pocketagent.app.R
 import dev.pocketagent.app.ui.theme.Pocket
 import dev.pocketagent.app.ui.theme.Space
+import dev.pocketagent.app.ui.text.t
 
 /**
  * Screen header: status-bar inset, optional back button, optional leading slot (e.g. an Avatar), title
  * (pixel font when Appearance.pixelFontTitles is on, one line, stepping down in size before it is ever
- * cut), optional subtitle, and action buttons on the right. Sits on bgDeep with a 2 dp border line
- * underneath. With [ember] a thin line of fire burns on that border line (the assistant is working). Tags:
- * top.back, top.title.
+ * cut), optional subtitle, and action buttons on the end side. Sits on bgDeep with a 2 dp border line
+ * underneath. With [ember] a thin line of fire burns on that border line (the assistant is working). [titleModifier]
+ * goes on the title text itself (a shared-bounds key, for instance). Tags: top.back, top.title.
  */
 @Composable
 fun PocketTopBar(
@@ -46,6 +46,7 @@ fun PocketTopBar(
     leading: (@Composable () -> Unit)? = null,
     actions: @Composable RowScope.() -> Unit = {},
     ember: Boolean = false,
+    titleModifier: Modifier = Modifier,
 ) {
     val c = Pocket.colors
     val pixelTitle = Pocket.appearance.pixelFontTitles
@@ -66,7 +67,7 @@ fun PocketTopBar(
                 PixelIconButton(
                     PixelIcon.BACK, onBack,
                     modifier = Modifier.testTag("top.back"),
-                    contentDescription = stringResource(R.string.design_back),
+                    contentDescription = t(R.string.design_back),
                 )
             } else {
                 Spacer(Modifier.width(Space.m))
@@ -85,12 +86,12 @@ fun PocketTopBar(
             ) {
                 if (pixelTitle) {
                     PixelTitle(
-                        text = title, color = c.text,
+                        text = title, modifier = titleModifier, color = c.text,
                         shadow = if (c.isDark) Color(0x99000000) else null,
                     )
                 } else {
                     Text(
-                        text = title, color = c.text, maxLines = 1, overflow = TextOverflow.Ellipsis,
+                        text = title, modifier = titleModifier, color = c.text, maxLines = 1, overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.SemiBold),
                     )
                 }

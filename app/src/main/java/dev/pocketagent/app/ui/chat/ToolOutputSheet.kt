@@ -17,8 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.pluralStringResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.sp
 import dev.pocketagent.app.R
@@ -33,6 +31,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import java.text.NumberFormat
+import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.ui.text.tn
 
 /** True while a TOOL message is still running (its card and the sheet show the same status). */
 internal fun isToolRunning(msg: Message): Boolean = msg.streaming || msg.toolStatus.orEmpty().lowercase() == "running"
@@ -61,11 +61,11 @@ internal fun ToolOutputSheet(messageId: String, messages: StateFlow<List<Message
     val c = Pocket.colors
     val running = isToolRunning(msg)
     val failed = isToolFailed(msg)
-    val title = msg.toolName ?: stringResource(R.string.stm_tool_sheet_fallback_title)
+    val title = msg.toolName ?: t(R.string.stm_tool_sheet_fallback_title)
     val chunks = remember(msg.text) { ToolOutputChunks.split(msg.text) }
     val total = msg.text.length
     val truncated = total > ToolOutputChunks.MAX_CHARS
-    val statusText = stringResource(
+    val statusText = t(
         when {
             running -> R.string.ui_chat_tool_running
             failed -> R.string.ui_chat_tool_stopped
@@ -81,13 +81,13 @@ internal fun ToolOutputSheet(messageId: String, messages: StateFlow<List<Message
             Text(statusText, color = if (failed) c.error else c.textMuted, fontSize = 12.sp)
             if (running) {
                 Text(
-                    stringResource(R.string.stm_tool_sheet_live), color = c.textMuted, fontSize = 12.sp,
+                    t(R.string.stm_tool_sheet_live), color = c.textMuted, fontSize = 12.sp,
                     modifier = Modifier.padding(top = Space.xxs),
                 )
             }
             if (chunks.isEmpty()) {
                 Text(
-                    stringResource(R.string.ui_chat_no_output), color = c.textMuted, fontSize = 13.sp,
+                    t(R.string.ui_chat_no_output), color = c.textMuted, fontSize = 13.sp,
                     modifier = Modifier.padding(top = Space.m),
                 )
             } else {
@@ -106,7 +106,7 @@ internal fun ToolOutputSheet(messageId: String, messages: StateFlow<List<Message
             }
             if (truncated) {
                 Text(
-                    pluralStringResource(
+                    tn(
                         R.plurals.stm_tool_sheet_truncated, ToolOutputChunks.MAX_CHARS,
                         numbers.format(ToolOutputChunks.MAX_CHARS), numbers.format(total),
                     ),
@@ -118,13 +118,13 @@ internal fun ToolOutputSheet(messageId: String, messages: StateFlow<List<Message
                 horizontalArrangement = Arrangement.spacedBy(Space.s),
             ) {
                 PixelButton(
-                    stringResource(R.string.stm_tool_sheet_copy),
+                    t(R.string.stm_tool_sheet_copy),
                     onClick = { copyToClipboard(ctx, msg.text) },
                     modifier = Modifier.testTag("chat.tool.copy"),
                     icon = PixelIcon.COPY,
                 )
                 PixelButton(
-                    stringResource(R.string.ui_dlg_close),
+                    t(R.string.ui_dlg_close),
                     onClick = { sheet.close() },
                     modifier = Modifier.testTag("chat.tool.close"),
                     kind = ButtonKind.GHOST,

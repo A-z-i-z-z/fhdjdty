@@ -11,7 +11,6 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
@@ -24,6 +23,7 @@ import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.roundToInt
 import kotlin.math.sin
+import dev.pocketagent.app.ui.text.t
 
 /**
  * Three small embers that hop one after another (in whole-pixel steps). Reduced animation hops once
@@ -34,7 +34,7 @@ fun TypingIndicator(modifier: Modifier = Modifier, color: Color = Pocket.colors.
     val motion = Pocket.motion
     val hot = Pocket.colors.fireHigh
     val cool = Pocket.colors.fireLow
-    val description = stringResource(R.string.design_typing)
+    val description = t(R.string.design_typing)
     val phase: State<Float>? = if (motion.loops) {
         rememberInfiniteTransition(label = "typing").animateFloat(
             initialValue = 0f, targetValue = 1f, label = "hop",

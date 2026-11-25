@@ -52,7 +52,6 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
@@ -71,6 +70,7 @@ import dev.pocketagent.app.ui.theme.designUnitPx
 import dev.pocketagent.app.ui.theme.motion
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
+import dev.pocketagent.app.ui.text.t
 
 // The one bottom sheet of the app (pattern 4): it rises with the glide spring, follows the finger by its grabber
 // and title, flings away by velocity, and sits over a dither scrim. Its own window, so it also covers the bars.
@@ -172,7 +172,7 @@ fun PocketSheet(
     val cut = with(density) { (Corner.sheet * unitPx).toDp() }
     val grabberWidth = with(density) { (12 * unitPx).toDp() }
     val grabberHeight = with(density) { (2 * unitPx).toDp() }
-    val closeLabel = stringResource(R.string.ui_dlg_close)
+    val closeLabel = t(R.string.ui_dlg_close)
 
     val dragState = rememberDraggableState { delta ->
         if (!closing) translatePx = (translatePx + delta).coerceAtLeast(0f)
