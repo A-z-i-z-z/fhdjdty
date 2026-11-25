@@ -6,7 +6,8 @@ has not, and what is deliberately missing. It does not say how to work on the co
 `AGENTS.md` (handoff notes, build loop, hard-won facts). The API contracts are in
 `docs/phase1-contract.md` and `docs/phase3-plan.md`.
 
-Last updated: 2026-11-24, describing version 0.1.31 (Phase 3).
+Last updated: 2026-11-25. The screen-by-screen parts describe version 0.1.31 (Phase 3); Wave 0 (version 0.2)
+changed the foundations underneath and is described in "What Wave 0 added" below, which wins where the two differ.
 
 ## In one paragraph
 
@@ -63,8 +64,8 @@ installed and no server of ours is involved.
   talks to Hermes's OpenAI-compatible HTTP API on loopback, on a random port, with a per-install key.
   Hermes's `.env` and `config.yaml` are regenerated from the app's settings at every start. User state
   inside the guest (soul, memory, skills, sessions) survives a rootfs replacement.
-- **App:** Kotlin + Jetpack Compose, one activity, a small hand-written navigator, about 26,000 lines in
-  `app/src/main`, 35 unit-test files (about 400 tests). Data is plain JSON files written atomically under
+- **App:** Kotlin + Jetpack Compose, one activity, a small hand-written navigator (since Wave 0 with ids and kept state per screen),
+  about 26,000 lines in `app/src/main` before Wave 0, 804 unit tests after it. Data is plain JSON files written atomically under
   the app's private `files/chat/` (bots, conversations, one file of messages per conversation, routines,
   usage, drafts); preferences are SharedPreferences.
 - **Chat engine:** the app keeps the transcript itself and sends the whole history each turn; every bot is
@@ -190,6 +191,89 @@ skill; terminal colours; editing `SOUL.md` end to end; the camera shutter; spoke
 a Linux (rootfs) update over an existing installation with user data; restoring a backup on a
 different phone.
 
+## What Wave 0 added (2026-11-25)
+
+Wave 0, "Foundation", is the first of the fourteen waves of `docs/phase4-plan.md`. It adds almost nothing a
+user sees at first glance (the screens look like build 32 apart from motion); it adds the ground the later
+waves stand on. It is built and committed (`d52bf49` and later, version 0.2, CI run 16 green) and its phone
+proof is done, but **the owner's app is back on the pre-wave code** because the proof found two severe defects.
+The details and every agent report are in `docs/waves/w0-contract.md` (ownership, rulings) and `docs/waves/w0/`.
+
+### What exists now
+
+- **Three builds instead of one.** The owner's optimised build (R8, not debuggable, `dev.pocketagent.app`); a
+  test twin "Agirî Test" with its own package (`dev.pocketagent.app.debug`), icons, shortcuts and data, where
+  every experiment and destructive test runs; and owner-debug (the owner's package, debuggable), the interim
+  build while the twin could not be installed. Version codes come from the CI run number, not from local builds.
+  All are signed with the committed key until the owner makes a private one.
+- **The practice model.** A scripted stand-in for the language model that runs inside the Linux (one file,
+  `rootfs/smoke/mock_llm.py`, shared with CI). Switch in Settings > Runtime; a banner says it is on; zero
+  tokens; it never touches the owner's provider setup or credentials; on any build but the twin it ends after
+  two hours. Keywords in a message script its behaviour (run a tool, ask for approval, a long answer, a
+  thought, a failure, memory, forge).
+- **A phone robot and smoothness numbers.** `tools/phone-test.ps1` runs scenario files (JSON) and
+  `tools/phone-perf.ps1` measures frames and cold start. Every tap and key first checks which window has the
+  focus. Destructive steps run on the twin only. Debug builds accept links (action
+  `dev.pocketagent.app.DEBUG`) that jump to a screen and set the clock, language, mirrored layout or test data,
+  guarded by a token only `run-as` can read. Two ratchet checks (`tools/lint-ui.ps1`, `tools/strings-check.ps1`)
+  only ever allow the counts to go down.
+- **Interface foundations.** Design tokens, motion that follows the system's animation setting and battery
+  saver, haptics, and components v2: one bottom sheet, one confirmation dialog, Pêt notes instead of Android
+  toasts (on Android 13 and later the system's own "Copied" message still shows), swipe rows, loading
+  skeletons. A new navigator keeps each screen's state while it is on the stack and animates shared elements
+  (the avatar from list to chat). The back swipe cannot drive the animation on this phone, so the transition
+  plays after the gesture.
+- **The stage.** The home scene is now drawn by code free of Android classes (`ui/pixel/stage/`), pixel for
+  pixel the same picture as before (a test proves it). It paints into an array on the CPU, then into a bitmap.
+- **Streaming and the chat screen.** Streamed text is smoothed and its Markdown parsed incrementally; the chat
+  screen was split into a state holder and four parts; tool output opens in a sheet.
+- **Safety stop-gaps in the generated Hermes configuration.** The toolset for the app's API is an explicit
+  list without the browser tools, Hermes's own scheduler, picture generation, text-to-speech and the
+  connections set; no model call to title chats; no lazy installs; a switch for keyless web lookups; a listing
+  of foreign code in `hooks/` and `plugins/`.
+- **Diagnostics.** Exit reasons, an offer to send a crash report, and Export logs.
+- **One function for every text** (`t()`, `tn()`, `Texts.get()`); the engine's own texts are resources; Turkish
+  and French for every key; a stretched test language and right-to-left by debug link, in debug builds.
+
+### What is proven on the phone
+
+On the owner's phone as owner-debug, 2026-11-25 (`docs/waves/w0/phone-proof.md`): install over the old build
+with the owner's data unchanged; Hermes Running again 10 s after a cold start; the focus guard and the debug
+links; all 8 safe robot scenarios pass except the stretched and mirrored sweep, which fails only on text that
+cannot be translated; the practice model through the interface (banner, scripted answers, tool step, thought,
+failure, find, star, fork, regenerate, stop); one real turn on the cheapest model (6 s, no thought leak);
+navigation, shared element and back transition. Smoothness: not better than before, debug against debug
+(Home idle about 11.0 ms per frame against 9.7 ms, Home scroll worse in the tail), on a phone about 9 degrees
+warmer, so a regression is neither proven nor excluded; cold start 931 ms against 1,108 ms; streaming a long
+answer 21 % of frames within 8.3 ms, worst 44 ms (`docs/perf/w0.md`).
+
+### Not proven
+
+The optimised build on a phone (experiment S2, then S4 and S7); the test twin has been installed but not yet
+used for a proof; the approval notification and the choices Allow once, this session and Always; a
+back-to-back smoothness repeat on a cool phone; streaming before the wave; neural voice, backup and restore and
+the icon switch on the optimised build.
+
+### Known defects (fixes in progress, none proven yet)
+
+1. Every bottom sheet (new chat, chat controls, tool output, message menus) stays invisible at the phone's
+   normal animation speed and its invisible scrim eats input until Back. (Severe.)
+2. An approval card cannot be answered: Hermes's session authority wants `execution_generation` in the answer
+   and the app does not send it (HTTP 400); the chat then stays blocked for minutes. (Severe.)
+3. Dialogs and sheets show Turkish in an English interface (the phone's system language leaks in).
+4. The stretched test language's app name leaks into the normal About row of debug builds.
+5. A failed turn is shown as the raw stream chunk.
+6. The About mascot and the sheet scrim have no spoken label; the tool-output sheet shows the command but not
+   its output; practice tokens appear to count in the owner's usage totals.
+7. In a mirrored layout numbers, paths and the terminal are reordered (a list for the language wave).
+
+### Cut on purpose, and deviations
+
+Cut because nothing uses it yet: the baseline profile, the ember arc between tabs, language packs from a
+file, the twin-only robot scenarios and perf scenarios P2 and P3, the memory phases. Deviations from the plan:
+no private signing key yet; the Linux image is unchanged; the platform's formatters for dates, numbers and
+money wait for Wave 1; capitals made in code stay until Wave 1.
+
 ## What does not exist (on purpose or not yet)
 
 - No Google Play build, no iOS, no tablet layout, no landscape design.
@@ -199,8 +283,8 @@ different phone.
 - No home-screen widget. No in-app update check (updates are APKs from the GitHub releases page).
 - No first-run wizard: a new user sees the home screen with a "one more step" card that leads to the
   provider settings.
-- No Kurdish (Kurmanji / Sorani) interface, although the whole identity is Kurdish; no right-to-left
-  language has been tried.
+- No Kurdish (Kurmanji / Sorani) interface, although the whole identity is Kurdish; right-to-left layout has been
+  looked at only through the debug link (Wave 0), and showed bugs (see below).
 - Chat rendering: no images or files produced by a bot shown inline, no LaTeX, no diagrams. No
   multi-select or archive or folders in the chat list.
 - Hermes features with no interface in the app: Hermes's own scheduler (cron), toolset on/off switches,
@@ -211,12 +295,13 @@ different phone.
   conversation mode, no wake word.
 - No on-device language model: the model is always remote.
 - Accessibility has had care (roles, descriptions) but no audit with a screen reader.
-- Automated tests cover logic only; there are no UI tests, and the phone checks are done by hand
-  through adb.
+- Automated tests cover logic only; there are no UI tests. Since Wave 0 a phone robot drives the app
+  through adb (see below), but most checks are still read by a person or an agent.
 - No lasting place for the agent's own files: what it writes outside Hermes's state folders (for
   example in `/root`) is deleted when an update replaces the Linux image.
-- The build the owner runs is a debug build; no optimised build exists, and smoothness has never been
-  measured.
+- The build the owner runs is still a debug build; an optimised build exists since Wave 0 but has not been
+  tried on a phone, and smoothness has only been measured on debug builds (see below, and
+  `docs/perf/w0.md`).
 
 A plan that answers this list, and goes far beyond it, was written on 2026-11-24 and is **not built**:
 `docs/phase4-plan.md` (second edition, with the findings of two independent reviews worked in on
@@ -230,10 +315,12 @@ its core and its extras) with `docs/design-language.md` (how it should look, mov
 |---|---|
 | Handoff notes, build and test loop, hard-won facts | `AGENTS.md` |
 | User-facing readme | `README.md` |
-| Contracts between the parts of the app | `docs/phase1-contract.md`, `docs/phase3-plan.md` |
+| Contracts between the parts of the app | `docs/phase1-contract.md`, `docs/phase3-plan.md`, `docs/waves/w0-contract.md` |
 | The plan for the road to 1.0 (not built) and the design language | `docs/phase4-plan.md`, `docs/design-language.md` |
 | App source | `app/src/main/java/dev/pocketagent/app/` (`runtime`, `service`, `api`, `data`, `routines`, `hermes`, `voice`, `diag`, `ui/*`) |
 | Pixel art sources | `app/src/main/assets/pixel/*.pxl` |
 | Strings (en / tr / fr) | `app/src/main/res/values*/strings*.xml` |
 | The Linux guest and the launcher | `rootfs/`, `proot/`, `runtime/pocketagent-proot.sh` |
 | CI | `.github/workflows/build.yml` |
+| Progress of the road to 1.0, the Wave 0 proof, smoothness numbers | `docs/waves/PROGRESS.md`, `docs/waves/w0/phone-proof.md`, `docs/perf/w0.md` |
+| Phone robot and checks | `tools/phone-test.ps1`, `tools/phone-perf.ps1`, `tools/scenarios/` |

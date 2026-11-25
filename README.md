@@ -36,7 +36,7 @@ newt keeping the Newroz hearth burning.
 | `rootfs/build-rootfs.sh`, `rootfs/install-hermes.sh` | Builds the Debian trixie rootfs with Hermes preinstalled (arm64, amd64) |
 | `rootfs/smoke/` | Smoke test (boots Hermes under proot, checks the API), mock LLM, golden provider config fixtures |
 | `proot/build-proot.sh` | Builds static proot + loader from source with the NDK |
-| `tools/` | Windows local build/test runner (`local-build.ps1`), pixel previewer, vector icon generator |
+| `tools/` | Windows local build/test runner (`local-build.ps1`), phone test robot and smoothness numbers (`phone-test.ps1`, `phone-perf.ps1`), text and UI checks, pixel previewer, vector icon generator |
 | `.github/workflows/build.yml` | CI: unit tests, proot, rootfs, smoke test, APK, prerelease |
 
 ## How it works
@@ -68,8 +68,23 @@ sudo rootfs/build-rootfs.sh --arch arm64 --out out/rootfs     # on an arm64 Linu
 ```
 
 Without those two properties a stub APK is built (starts UI without rootfs); handy for pure UI work.
-On Windows, `tools/local-build.ps1 -Test` runs unit tests and `tools/local-build.ps1 -Start` builds and installs fast
-against cached runtime parts in `dist/runtime-parts/`.
+On Windows, `tools\local-build.ps1` builds and installs fast against cached runtime parts in `dist/runtime-parts/`
+(`-FetchParts` refreshes them from a release). Switches: none builds the test twin; `-OwnerDebug` builds the owner's
+package as a debug build; `-Release` the owner's optimised build; `-TwinRelease` the optimised twin; `-Install` and
+`-Start` install and launch on a connected phone (over the owner's package only after its safety checks pass);
+`-Test` runs the unit tests (a few symlink tests fail on Windows without Developer Mode and are reported as
+expected); `-CheckSigning`, `-ListDevices`, `-BuildNumber N`. Details are in `AGENTS.md`, "Faster iteration".
+
+### The three builds (since Wave 0)
+
+| Build | Package | What it is |
+|---|---|---|
+| Owner's build (`-Release`) | `dev.pocketagent.app` | Optimised (R8), not debuggable. The one meant for daily use. |
+| Test twin (default, "Agirî Test") | `dev.pocketagent.app.debug` | A debug build with its own package, icons and data. Experiments and destructive tests run here, never on the owner's install. |
+| Owner-debug (`-OwnerDebug`) | `dev.pocketagent.app` | The owner's package as a debug build: the interim build while the twin could not be installed. |
+
+All three are signed with the committed key for now (see below). The first install of the twin is stopped by
+Play Protect until the owner taps "Install anyway" once.
 
 ## Signing key (sideload test builds only)
 
@@ -86,6 +101,18 @@ on a phone. It must never be used for anything else, and no other credential of 
 4. Optionally open **Settings > Voice & Sound** to download the offline Supertonic 3 INT8 voice model (~139 MB),
    and **Settings > Appearance** to pick your theme, accent, and launcher icon style.
 5. If a start fails, open **Settings > Diagnostics > Copy diagnostics** (secrets are redacted automatically).
+   **Export logs** in the same place saves the logs to a file.
+6. To try the app without spending any tokens, switch on the **practice model** in **Settings > Runtime**: replies
+   are scripted by a small stand-in that runs inside the Linux, and a banner says so. It never touches your provider
+   setup or credentials. On any build except the test twin it switches itself off after two hours.
+
+**Do not install the CI release over an existing install yet.** Wave 0 (version 0.2) changed the build, the
+version numbering and much of the interface. Its phone proof found defects (bottom sheets that stay invisible at the
+phone's normal animation speed, an approval card that cannot be answered, a few untranslated dialogs; see
+`docs/waves/w0/phone-proof.md`), and they are being fixed. Until the optimised build has been tried on the test twin
+and the fixes are proven there, the owner's install stays on the earlier build, and nothing that is signed with
+another key or carries another Linux image may be installed over it. Smoothness numbers so far are from debug builds
+only (`docs/perf/w0.md`).
 
 ## Security notes
 

@@ -494,3 +494,16 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   compile and `-Test` in that worktree, for B the scripts' `--check` and `--selftest`).
   The owner's clarification of 16:20: the session may end earlier or later than 16:00 Quebec time;
   the work goes on at full pace until it really stops. Phone: no.
+- **16:15 UTC, documents of Wave 0 written** (one Sonnet agent; no build, no phone):
+  `docs/perf/w0.md` (the smoothness numbers before and after from `dist/perf/`, what they do and do
+  not show, three hypotheses for the scene's cost with file and line: the whole stage repainted on
+  the main thread each tick, a new bitmap uploaded each tick, the clock waking at every vsync),
+  `README.md` (the three builds, the practice model, Export logs, the warning not to install the CI
+  release over an existing install yet) and `docs/APP_OVERVIEW.md` (a section "What Wave 0 added").
+  Phone: no. (The clock times of the three entries above are a few minutes fast.)
+- **The owner's answers, through the watcher session (16:12 UTC):** (1) yes to the two downloads
+  (HYG star catalogue, Natural Earth populated places; into `dist/`, data only, never committed or
+  run, credit in `NOTICE`); (2) **from 18:00 UTC (13:00 Quebec) the phone is gone for about one to
+  two hours** and the owner is away from the PC: all phone work must be at a safe point before
+  then (nothing half-installed, the owner's app working), and nothing may assume the phone is back
+  until the owner says so.
