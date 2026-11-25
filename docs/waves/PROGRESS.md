@@ -606,3 +606,11 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
     workflow script and at the end of `fix-report.md`. Only after that does Wave 0 go back onto the
     owner's app (`tools\local-build.ps1 -OwnerDebug -BuildNumber 16 -Install`, version code above
     1000899, after a fresh copy into `dist/owner-backup/`). Phone: no.
+- **20:30 UTC, slice A of Wave 1a is merged into the work branch** (merge commit `9fb25f1` on top
+  of the defect fixes `2a1ee46`). The merged tree: the twin compiles, **1409 unit tests, 0
+  unexpected failures** (879 of the fixed Wave 0 plus 530 of slice A). The slice's code is pure
+  logic that nothing calls yet, so the app on a phone behaves exactly as the fixed Wave 0. The
+  worktree `dist/wt-w1` (branch `w1a`) goes on with slice C on top of the same slice A; when slice
+  C is committed there, merge the work branch into it first (it does not have the defect fixes).
+  To know: `tools\local-build.ps1 -Test` copies the tree to ONE folder (`%TEMP%\agiri-test-copy`)
+  whatever checkout it runs from: never run it from two checkouts at the same time. Phone: no.
