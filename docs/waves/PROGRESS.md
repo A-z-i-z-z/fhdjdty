@@ -621,3 +621,22 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   `local-build.ps1 -Test`. Sonnet writes, Opus checks safety and truth, then self-tests, compile
   and unit tests. Uncommitted changes in the main tree under `tools/` and a few `ui/` files belong
   to it until its entry below says it is finished. Phone: no.
+- **20:45 UTC, Wave 1a slice B, first half, is finished** (local branch `w1a-art` in the worktree
+  `dist/wt-w1b`, commit `874eb32`; not merged, not pushed). Scripts: `tools/art/stars.py`,
+  `tools/places/make_places.py`, `tools/art/make_sounds.py`, `tools/art/pet_clips.py`, new builders
+  in `tools/art/craft_art.py` (each written by Sonnet, read by Opus: 28 findings, repaired).
+  Generated: `mascot_anim.pxl` (15 sprites, 87 frames), `scene_seasons.pxl` (6), `scene_props.pxl`
+  (5), `illustrations.pxl` (11), six WAV cues from noise and tones (250 KB together). The four old
+  art files are byte for byte unchanged. **Every sprite was judged on contact sheets by an Opus
+  reviewer who did not draw it** (`docs/waves/w1/look/review-ART-PET.txt`, `review-ART-WORLD.txt`),
+  12 were repaired and looked at again; **cut:** `pet_stretch` (read as a second "happy"),
+  `prop_roj` (a fixed sun contradicts the real sky), `tile_routines` (a candle does not say
+  "scheduled prompts"); the authors themselves left out `pet_dance`, `pet_warm`, `pet_poke`. The
+  code falls back for each. Report: `docs/waves/w1/slice-b-report.md` (on that branch). To do when
+  merging: slice A's stand-in `ui/pixel/PetArt.kt` and `PetAnim.kt` still name `pet_stretch`.
+- **20:45 UTC, slice B, second half, was started** (workflow `w1a-slice-b2-data`, same worktree):
+  the star table (`assets/sky/stars.bin`) and the city list (`assets/places/zones.tsv`,
+  `cities.tsv`) are derived from the two downloaded files; the last two sprites with a FIX line
+  (`pet_carry`, `empty_stool`) are repaired; an Opus reviewer ports the Kotlin readers to a
+  throwaway script and parses the tables with it, compares stars and cities with the sources, and
+  checks the licence wording for `NOTICE`. Phone: no.
