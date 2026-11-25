@@ -518,3 +518,18 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   one on GitHub and is what the plan needs. **Still to do with them** (contract 7.1 steps 1 and 2, in
   the worktree `dist/wt-w1b`, once slice B's scripts are reviewed): `stars.py --hyg ...` and
   `make_places.py --cities ...`, then their `--verify` / `--check`. Phone: no.
+- **19:45 UTC, after a stop by the usage limit (about 17:00 to 19:40 UTC).** The three workflows
+  picked themselves up at 19:40. **The phone is away** (the owner took it at 18:00 UTC and has not
+  said they are back): nothing touches the phone until the watcher session says so. Because of
+  that the defect-fix workflow was stopped and started again from its record with a changed order:
+  fixes, integration (compile, unit tests, checks), **then the Opus review of the whole diff and
+  its repairs, and the proof on the twin only later**, as a separate step when the phone is back
+  (the script keeps the prover's full instructions:
+  `...\workflows\scripts\w0-defect-fixes-wf_b8a19eb4-35a.js` in this session's folder; a successor
+  without that file writes the proof from the item list in `docs/waves/w0/phone-proof.md` and the
+  handoff section above). State of the fixes at this moment: area MISC is written, reviewed and
+  repaired; SHEET and ENGINE are partly written (uncommitted files in the main tree, among them
+  `ui/components/SheetSlide.kt`, `PocketWindow.kt`, `ui/text/AppLocale.kt`,
+  `api/ApprovalContract.kt`, `api/ErrorText.kt`) and are being finished. Slice A of Wave 1a is at
+  its integration (compile and tests in `dist/wt-w1`); slice B is in its script reviews
+  (`dist/wt-w1b`). Phone: no.
