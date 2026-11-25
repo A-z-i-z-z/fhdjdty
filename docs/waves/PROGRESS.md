@@ -10,22 +10,25 @@ for the wave named under "Where we are". Continue from the first step that is no
 
 ## Where we are
 
-*(Rewritten whenever the state changes. Last rewrite: 2026-11-25, 16:10 UTC.)*
+*(Rewritten whenever the state changes. Last rewrite: 2026-11-25, about 20:35 UTC. The log at the
+end of this file is newer than this section if its last entry has a later time.)*
 
-- **The owner's app is back on the pre-wave code** (`dev.pocketagent.app`, version code 1000899,
-  the rollback build; rolled back at 16:02 UTC). Reason: the proof on the phone found two severe
-  defects in Wave 0 (every bottom sheet stays invisible at the phone's normal animation speed; an
-  approval card cannot be answered). The owner's data is byte for byte unchanged through the install
-  and the rollback. **Wave 0 goes back onto the owner's app only after the defects are fixed and the
-  fixes are proven on the twin.**
-- **The test twin is installed** (`dev.pocketagent.app.debug`, since 15:43 UTC; the owner tapped
-  "Install anyway"). From now on everything is tried there first.
-- **Wave 0, Foundation:** built, reviewed, green in CI (run 16). Its phone proof is done
-  (`docs/waves/w0/phone-proof.md`): most of it passed; the defects it found are being fixed (see the
-  last log entries for how far that is).
-- **Wave 1a:** the contract is reviewed (`docs/waves/w1a-contract.md`); slice A (pure logic and
-  tests) is being built in the worktree `dist/wt-w1` (local branch `w1a`). Nothing of Wave 1 is in
-  the work branch's code yet.
+- **Wave 0, Foundation:** built, reviewed, green in CI (run 16), proven once on the phone, defects
+  found (`docs/waves/w0/phone-proof.md`), **fixed, reviewed twice and unit-tested**
+  (`docs/waves/w0/fix-report.md`, commit `2a1ee46`). **The proof of the fixes on the test twin is
+  running or just finished: the last log entries say which, and its report is
+  `docs/waves/w0/fix-proof.md`.**
+- **The owner's app** (`dev.pocketagent.app`) is on the pre-wave rollback build (version code
+  1000899) unless a log entry below says that the fixed Wave 0 was installed over it. The owner has
+  said yes to that install once the proof on the twin passes.
+- **Wave 1a:** the contract is reviewed (`docs/waves/w1a-contract.md`). Slice A (pure logic, 530
+  unit tests) is **merged into the work branch**. Slice B (art, sounds, data scripts) and slice C
+  (renderer layers, hosts, stores) exist only on **local branches in worktrees on the owner's PC**
+  (see the table). Slices D and E are not started. Nothing of Wave 1 is visible in the app yet.
+- **Wave 1b:** the split into areas and eight area drafts are in `docs/waves/w1b/` (unreviewed);
+  there is no contract yet.
+- **The subscription is ending.** The owner's order (20:30 UTC): Wave 0 onto the owner's app first,
+  no new large work, agents spent sparingly, the handoff always complete and pushed.
 
 ## Handoff: if you are taking over
 
@@ -36,45 +39,50 @@ section, then the log below from the bottom up.
 
 | Thing | State |
 |---|---|
-| Branch `ccr-bb6d7bcc-9eojyu` | Everything is committed. The last pushed commit that CI built green is `d52bf49` (run 16). Later commits are records, tool fixes found on the phone, and the Wave 1 drafts |
-| The owner's phone | `dev.pocketagent.app` is the **rollback build** (pre-wave code `41e8d4d`, debuggable, committed key, version code 1000899, the same Linux image as always). `dev.pocketagent.app.debug` is the **test twin** (Wave 0 debug build, version code 801, never started yet unless the log says so). `/data/local/tmp/exp-s5` (1.2 GB) is a leftover harness that may be deleted |
-| The way back | `dist/rollback/agiri-rollback-1000899.apk` (the pre-wave code; install with `adb install -r`; no data is lost). Safety copies of the owner's data: `dist/owner-backup/*.tar` (no credentials). Both are on the owner's PC only (`dist/` is git-ignored) |
-| Wave 0 on the phone | Proven on the owner's data and then rolled back: install, start, Hermes Running, data unchanged, looks the same, the practice model through the interface, one real turn, navigation. Defects found: `docs/waves/w0/phone-proof.md`. To put Wave 0 back on the owner's app after the fixes: the version code must be above 1000899, so build with `tools\local-build.ps1 -OwnerDebug -BuildNumber 16 -Install` (gives 10016xx); take a fresh copy into `dist/owner-backup/` first |
-| Wave 1a | Drafts and the lead's decisions in `docs/waves/w1/`; the contract `docs/waves/w1a-contract.md` when it exists. Not built |
+| Branch `ccr-bb6d7bcc-9eojyu` (pushed) | Wave 0 with its fixes (`2a1ee46`), slice A of Wave 1a merged (`9fb25f1`): the twin compiles, 1409 unit tests, 0 unexpected failures. Later commits are records. CI builds every push (prerelease `phase0-N`); **do not install a CI APK over an existing install** (optimised build untried, another Linux image) |
+| The owner's phone | `dev.pocketagent.app`: see "Where we are" and the last log entries (rollback build 1000899, or the fixed Wave 0 as owner-debug with a version code 10016xx). `dev.pocketagent.app.debug` is the **test twin** (Wave 0 debug build; everything is tried there first). `/data/local/tmp/exp-s5` (1.2 GB) is a leftover harness that may be deleted |
+| The way back | `dist/rollback/agiri-rollback-1000899.apk` installs only over a LOWER version code, so it cannot be installed over a 10016xx build without an uninstall (which is forbidden: it would delete the owner's data). The way back from a bad Wave 0 build is therefore **forward**: fix, raise the version, install. Safety copies of the owner's data: `dist/owner-backup/*.tar` (no credentials; on the owner's PC only, `dist/` is git-ignored) |
+| Worktree `dist/wt-w1`, local branch `w1a` | Slice A committed (`e9dc0bf`, merged). **Slice C** on top of it: see the log for whether it is committed and whether it was compiled. It does not contain the Wave 0 fixes: merge the work branch into `w1a` before building further there |
+| Worktree `dist/wt-w1b`, local branch `w1a-art` | **Slice B**, first half committed (`874eb32`): scripts, generated art and sounds, contact sheets, look reviews. Second half (the star table, the city list, two repaired sprites): see the log. The downloaded inputs are in `dist/wt-w1b/dist/data-w1a/` (never committed) |
+| Local branches are NOT pushed | `w1a` and `w1a-art` live only on the owner's PC. Slice A is safe in the work branch. To make B and C safe for someone who works elsewhere, merge them into the work branch (B is new files plus `tools/art/craft_art.py` and its README; C changes existing files and must compile first) |
 
 **What is left of Wave 0** (in this order)
 
-1. **Fix the defects of the phone proof** (`docs/waves/w0/phone-proof.md`, both "Defects of the app"
-   lists): the two severe ones first (sheets invisible at normal animation speed; the approval
-   answer refused with HTTP 400 because `execution_generation` is not sent), then dialogs that show
-   Turkish in an English interface, the stretched test language leaking into the normal interface
-   (`app_name`), a failed turn shown as raw JSON, the unlabelled controls, practice tokens counted in
-   the owner's usage. Sonnet fixes, Opus looks, rebuild, unit tests.
-2. **Prove the fixes on the twin** (first start of the twin, practice model on; sheets at animation
-   scale 1; the approval card with Deny and Allow once; dialogs' language). The twin has no
-   credentials and needs none.
-3. **S2 on the twin:** `tools\local-build.ps1 -TwinRelease -Install` (the optimised build over the
-   twin), then Hermes start, the neural voice, backup and restore, the icon switch; then S4 (compile
-   filter) and the smoothness numbers of the optimised build; S7 (memory). Put the debug twin back
-   afterwards (`tools\local-build.ps1 -Install`).
-4. **Smoothness:** the debug numbers after the wave were not better than before (Home idle about
-   1.4 ms per frame slower, though on a warmer phone). Measure the twin's optimised build, and if the
-   scene is still over budget, find out why before Wave 1 adds to it (the stage draws into a
-   framebuffer on the CPU).
-5. Put Wave 0 back on the owner's app (see the table above), write `docs/perf/w0.md`, update
-   `README.md` and `docs/APP_OVERVIEW.md`, commit, push.
-6. The twin-only robot scenarios (not written yet: contract 11.10) and the old-debt items of plan
-   0.4; S6 needs a throwaway package (one more tap by the owner) and the owner's own key.
+1. The proof of the fixes on the twin (`docs/waves/w0/fix-proof.md`; the item list is at the end of
+   `docs/waves/w0/fix-report.md`). If the log does not say it passed, run it: `tools\local-build.ps1
+   -Install` (the twin), practice model on (Settings > Runtime), system animation scales at 1, then
+   the four sheets, the dialogs' language, the four approval answers and Stop, a FAIL turn, the
+   About name, Usage not moving.
+2. Install the fixed Wave 0 on the owner's app: a fresh copy into `dist/owner-backup/` (the script
+   insists), then `tools\local-build.ps1 -OwnerDebug -BuildNumber 16 -Install`; check the start,
+   Hermes Running with the saved credentials, the checksums of the owner's files before and after
+   (the method is in the log entries of the first install and of the rollback), a second cold start.
+3. The twin-only experiments: S2 (`tools\local-build.ps1 -TwinRelease -Install`: the optimised
+   build with the twin's package; Hermes on practice, approval, icon switch, backup, the neural
+   voice under R8), S4 (compile filter, cold start), S7 (memory), then the debug twin back
+   (`tools\local-build.ps1 -Install`). Only after S2 may the owner's app become the optimised build.
+4. Smoothness: the debug numbers after the wave were not better than before (`docs/perf/w0.md`).
+   Measure the optimised twin against the debug twin back to back; if the scene is over budget,
+   find out why before Wave 1 adds to it (three hypotheses with file and line are in that file).
+5. The twin-only robot scenarios for the fixes (five `tools/scenarios/w0fix-*` files, the
+   `dialog.confirm` tags on three OK buttons, a per-checkout folder for `-Test`): a workflow for
+   them was started and stopped before it changed anything; its task text is in the log entry.
+6. Not handled by the fixes (listed in `fix-report.md`): right-to-left details, the debug gallery,
+   the old-debt items of plan 0.4; S6 needs a throwaway package (one more tap by the owner) and the
+   owner's own signing key.
 
 **What is next after that**
 
-- Wave 1a: build from `docs/waves/w1a-contract.md` in the order at the end of
-  `docs/waves/w1/LEAD-DECISIONS.md`, the same way Wave 0 was built (the scripts of every workflow
-  that was run are described in the log entries; the pattern is: stage 1 in parallel, each area
-  followed by its own Opus review and one round of fixes; then the mechanical stages; INTEGRATE;
-  a final review by lens; fixes; the phone).
-- Then Wave 1b (tab bar and Library, splash with experiment S8, "What's new", the Welcome, the ten
-  languages), then Wave 2, in the plan's order.
+- **Wave 1a**, by `docs/waves/w1a-contract.md` section 11 (the slices): finish and merge slice B
+  (then delete slice A's stand-in `ui/pixel/PetArt.kt` in favour of the real one, and take
+  `pet_stretch`, `prop_roj`, `tile_routines` out of what the Kotlin side expects); finish, review
+  and merge slice C (a whole-slice review for speed and lifecycle was planned and not run); slice D
+  (Home 2.0, the Appearance screens, the debug-link extras); slice E (translation review,
+  INTEGRATE's own edits such as `NOTICE` and CI lines, the stills and the two taste gates for the
+  owner, the final review, the phone). The workflow pattern of every slice is in the log.
+- **Wave 1b:** write the contract from `docs/waves/w1b/` (SPLIT and eight drafts), have it reviewed,
+  then build in slices.
+- Then Wave 2 and on, in the plan's order.
 
 **Rules that must not be broken** (they come from the owner)
 
