@@ -614,3 +614,10 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   C is committed there, merge the work branch into it first (it does not have the defect fixes).
   To know: `tools\local-build.ps1 -Test` copies the tree to ONE folder (`%TEMP%\agiri-test-copy`)
   whatever checkout it runs from: never run it from two checkouts at the same time. Phone: no.
+- **20:35 UTC, the twin-only robot scenarios for the proof of the fixes are being written**
+  (workflow `w0-twin-scenarios`, main tree, no phone): five scenario files `tools/scenarios/w0fix-*`
+  (sheets at animation scale 1; language inside dialogs; the four approval answers and Stop; errors
+  and usage; a regression walk), the missing `dialog.confirm` tags, and a per-checkout folder for
+  `local-build.ps1 -Test`. Sonnet writes, Opus checks safety and truth, then self-tests, compile
+  and unit tests. Uncommitted changes in the main tree under `tools/` and a few `ui/` files belong
+  to it until its entry below says it is finished. Phone: no.
