@@ -10,12 +10,77 @@ for the wave named under "Where we are". Continue from the first step that is no
 
 ## Where we are
 
-- **Wave:** 0, Foundation (plan section 7.0).
-- **Step in progress:** the contract `docs/waves/w0-contract.md` is being merged from the nine area
-  drafts in `docs/waves/w0/` and reviewed once by Opus. Experiment S1+S3 is still running.
-- **Next:** the build, in the five stages listed at the end of `docs/waves/w0/LEAD-DECISIONS.md`.
-- **The one thing the owner must do for the plan's test twin:** see the first row of "Waiting for the
-  owner".
+*(Rewritten whenever the state changes. Last rewrite: 2026-11-25, 15:10 UTC.)*
+
+- **Wave 0, Foundation: built, reviewed, green in CI (run 16, `phase0-16`), and installed over the
+  owner's own app as an owner-debug build (version code 1000801). It starts, Hermes runs, the
+  owner's data is byte for byte unchanged.** Its proof on the phone is in progress (step 0.j,
+  part 3): look at the last log entries. What can only be proven on the test twin waits for the
+  owner (see "Waiting for the owner", first row).
+- **Wave 1a (the scene and the real sky, the fire, Pêt, Home 2.0): the eight area drafts are written
+  (`docs/waves/w1/`), the contract `docs/waves/w1a-contract.md` is being merged and reviewed.** No
+  code of Wave 1 exists yet.
+- The subscription's usage limit has stopped the work twice for about two hours each time; the
+  workflows resume by themselves.
+
+## Handoff: if you are taking over
+
+Read `AGENTS.md` first (its "Current status" has what Wave 0 added and how to build), then this
+section, then the log below from the bottom up.
+
+**The state of things**
+
+| Thing | State |
+|---|---|
+| Branch `ccr-bb6d7bcc-9eojyu` | Everything is committed. The last pushed commit that CI built green is `d52bf49` (run 16). Later commits are records, tool fixes found on the phone, and the Wave 1 drafts |
+| The owner's phone | `dev.pocketagent.app` is Wave 0 as an **owner-debug** build (debuggable, committed key, version code 1000801, the same Linux image as before). The twin is **not** installed (Play Protect; needs the owner's tap). `/data/local/tmp/exp-s5` (1.2 GB) is a leftover harness that may be deleted |
+| The way back | `dist/rollback/agiri-rollback-1000899.apk` (the pre-wave code; install with `adb install -r`; no data is lost). Safety copies of the owner's data: `dist/owner-backup/*.tar` (no credentials). Both are on the owner's PC only (`dist/` is git-ignored) |
+| Wave 0 on the phone | Proven: install over real data, start, Hermes Running, data unchanged, Home looks the same. In progress or still to do: see "What is left of Wave 0" |
+| Wave 1a | Drafts and the lead's decisions in `docs/waves/w1/`; the contract `docs/waves/w1a-contract.md` when it exists. Not built |
+
+**What is left of Wave 0** (in this order)
+
+1. Finish step 0.j part 3 (the log says how far it got): the robot's safe scenarios with `-Owner`,
+   the "after" numbers, the practice model through the app's interface, navigation, one real turn.
+   Whatever it finds in the *app* is fixed by a Sonnet agent, looked at by Opus, rebuilt
+   (`tools\local-build.ps1 -OwnerDebug`, then `-Test`), and installed again with
+   `tools\local-build.ps1 -OwnerDebug -Install` (take a fresh copy into `dist/owner-backup/` first:
+   the script insists on it).
+2. Write `docs/perf/w0.md` from `dist/perf/build32/` (before) and `dist/perf/w0-owner-debug/` (after).
+3. Update `README.md` and `docs/APP_OVERVIEW.md` for Wave 0 (not done yet), then commit and push.
+4. **When the owner has tapped "Install anyway" once for the twin:** `tools\local-build.ps1 -Start`
+   (the twin), then experiments S2 and S4 (build `-Release`, install it over the *twin's* package is
+   not possible, so S2 is tried as the plan says: an optimised build under a throwaway package; ask
+   the owner for the tap again), S6 with a throwaway package, S7 (memory), then the twin-only robot
+   scenarios (they are not written yet: contract 11.10) and the fourteen old-debt items of plan 0.4.
+   Only after S2 has passed may the owner's app become the optimised build
+   (`tools\local-build.ps1 -Release -Install -AcknowledgeS2`).
+5. The private signing key (S6) is the owner's to make; until then everything is signed with the
+   committed key.
+
+**What is next after that**
+
+- Wave 1a: build from `docs/waves/w1a-contract.md` in the order at the end of
+  `docs/waves/w1/LEAD-DECISIONS.md`, the same way Wave 0 was built (the scripts of every workflow
+  that was run are described in the log entries; the pattern is: stage 1 in parallel, each area
+  followed by its own Opus review and one round of fixes; then the mechanical stages; INTEGRATE;
+  a final review by lens; fixes; the phone).
+- Then Wave 1b (tab bar and Library, splash with experiment S8, "What's new", the Welcome, the ten
+  languages), then Wave 2, in the plan's order.
+
+**Rules that must not be broken** (they come from the owner)
+
+- Never uninstall `dev.pocketagent.app`, never `pm clear` it, never install over it anything signed
+  with another key or carrying another Linux image. Use `tools\local-build.ps1`, which checks.
+- Never tap "Install anyway" on the Play Protect dialog and never change Play Protect: the owner does.
+- Every tap or key sent to the phone goes through `tools/phone-lib.ps1` (it checks the focused
+  window first). An agent's blind taps opened another app once (see "Things the owner should know").
+- $0. Real-model turns only on `google/gemini-4-hydrogen` at low effort, and few. Everything else on
+  the practice model.
+- No secrets, account names, project ids, e-mail addresses or device serials in the repository.
+- `docs/phase4-plan.md` and `docs/design-language.md` are never edited or shortened.
+- Code is written by the mid-size model, reviewed by the strong model before it lands, the simplest
+  work goes to the small model; the lead conducts and keeps this file current.
 
 ## The owner's orders for this run (given 2026-11-25, through the watcher session)
 
@@ -286,3 +351,13 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   the service needs a contact address that only the owner can choose (no request can leave the
   phone while it is empty); no new permission; an existing installation keeps the day it knows
   today. Wave 1b (tab bar, Library, splash, Welcome, ten languages) follows after 1a.
+- **15:00, the Wave 1a drafts are done** (one survey, eight drafts; the run was paused about two
+  hours by the usage limit). They are in `docs/waves/w1/` with the lead's decisions
+  (`LEAD-DECISIONS.md`). Found by the survey and worth knowing: Home is one list with a 280 dp scene;
+  `AppClock` is not read by any production code yet; the engine has no "tool started" event;
+  `NOTICE` has no entry for the sounds or the speech model (to be added in Wave 1a); the Home label
+  calls Pêt a salamander while the rest of the app says newt.
+- **15:05, step 1a.b started: merging the Wave 1a contract** (one Sonnet merger, two Opus reviewers,
+  one round of fixes), as for Wave 0.
+- **15:10, the handoff section above was written early**, because the usage limit may stop the work
+  before the planned time. It is kept current from here on.
