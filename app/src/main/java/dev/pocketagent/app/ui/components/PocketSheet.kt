@@ -115,6 +115,7 @@ private class SheetScopeImpl(
     override fun close(then: () -> Unit) = onClose(then)
 }
 
+@Composable
 private fun bottomSafeInsets(): WindowInsets =
     WindowInsets.navigationBars.union(WindowInsets.mandatorySystemGestures.only(WindowInsetsSides.Bottom))
 

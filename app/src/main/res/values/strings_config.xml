@@ -38,7 +38,7 @@
     <string name="cfg_exit_other">The app stopped for another reason</string>
 
     <!-- Code that Hermes runs from its folders (card in Settings > Diagnostics) -->
-    <!-- t: Title of the card that lists hooks and plugins the app did not write; Hermes is a product name, keep it; one line, about 35 characters | kind: title -->
+    <!-- t: Title of the card that lists hooks and plugins the app did not write; Hermes is a product name, keep it; one line, about 35 characters | kind: body -->
     <string name="cfg_diag_guest_title">Code Hermes runs from its folders</string>
     <!-- t: Empty card: the hooks and plugins folders hold nothing the app did not write; up to 2 lines | kind: body -->
     <string name="cfg_diag_guest_none">Nothing found in the hooks and plugins folders.</string>

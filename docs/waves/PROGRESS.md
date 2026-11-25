@@ -191,3 +191,29 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
 - **10:55, step 0.g started: stage 5, INTEGRATE.** Three Sonnet agents one after another: compile the
   twin and the owner-debug variant; unit tests and the first-run data; the optimised build, the lint,
   the string checks and every tool's self-test. Nothing is installed on the phone in this step.
+- **11:00, step 0.h started alongside 0.g: the final review.** Five Opus reviewers read the whole
+  wave (`git diff 4b7ed57 HEAD`), each with one lens: the start path and the owner's data;
+  navigation and every way into the app; the chat; the new components, the sweeps and the texts; the
+  tools that touch the phone, the build and CI. They only read. Their findings are applied by one
+  round of Sonnet fixes once INTEGRATE has left the tree green; then the build goes to the phone.
+- **11:10, step 0.g done: the wave compiles and its unit tests pass.** The first compile of thirty
+  agents' work had four errors (an import in the Gradle script, one missing `@Composable`, one wrong
+  import, nothing else). Twin `dev.pocketagent.app.debug` (version code 801) and owner-debug
+  `dev.pocketagent.app` (1000801) both build; the optimised R8 build compiles too and needed no extra
+  keep rule (its app part without the Linux image is 13.0 MB against 27.8 MB for the debug build).
+  793 unit tests in both variants, 0 unexpected failures (the four known Windows symlink tests
+  fail as always). The pixel-font golden file was made from the pre-wave code and the new font
+  matches it; the new scene renderer equals the old one pixel for pixel in the parity test. Lint
+  baseline, strings baseline and size budget are written. `mock_llm.py --selftest`, the launcher
+  test and every tool's self-test pass. Not checked here: anything that needs Linux `pwsh`, `zip` or
+  the real smoke job (CI will say). Report: `docs/waves/w0/integrate-report.md`. Phone: no.
+- **11:10, step 0.h done: the final review.** No blocker and nothing against installing over the
+  owner's app tonight. Nine findings (four major): Pêt's notes can stop showing after the app was
+  used as a share target (two activities, one flag); the robot never checks which window has the
+  focus before it injects input; the robot's free-form adb step and its install step can be pointed
+  at the owner's package. Minor: a very long text is split at a space that comes back as a newline;
+  the debug link can be sent by any app on an owner-debug build; the practice banner covers the top
+  bar; a skill heading gets a Turkish capital İ; twin and owner-debug share one build folder.
+  Full text with everything the reviewers checked and found right: `docs/waves/w0/final-review.md`.
+- **11:15, step 0.i started: the findings are fixed** (two Sonnet agents: app, tools), the fixes are
+  looked at once by Opus, then everything is built and tested again.

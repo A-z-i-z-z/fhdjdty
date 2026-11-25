@@ -514,6 +514,8 @@ function Get-AdbBase([string]$adb) {
 
 # $true when exactly one phone (or the -Serial one) is connected. Never exits the script.
 function Test-AdbReady {
+    # AGIRI_NO_ADB=1: never ask the phone anything (agents that must not touch it; the build then assumes local build number 1).
+    if ($env:AGIRI_NO_ADB -eq '1') { return $false }
     $c = Get-Command adb -ErrorAction SilentlyContinue
     $adb = $null
     if ($c) { $adb = $c.Source } else {

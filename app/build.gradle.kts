@@ -1,4 +1,5 @@
 import java.nio.file.Files
+import java.util.Properties
 import java.nio.file.StandardCopyOption
 
 plugins {
@@ -58,7 +59,7 @@ val releaseRequested = gradle.startParameter.taskNames.any { raw ->
 var ownerKeyProblem: String? = null
 
 fun resolveOwnerKey(): OwnerKey? {
-    val fileProps = java.util.Properties()
+    val fileProps = Properties()
     val explicit = prop("ownerSigning")
     val propsFile = if (explicit != null) File(explicit)
         else File(File(System.getProperty("user.home"), ".agiri"), "owner-signing.properties")

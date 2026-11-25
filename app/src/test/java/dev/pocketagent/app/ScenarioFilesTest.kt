@@ -308,11 +308,11 @@ class ScenarioFilesTest {
         val text = lib.readText(Charsets.UTF_8)
         val m = Regex("PaOps\\s*=\\s*@\\(([^)]*)\\)").find(text)
         assertTrue("PaOps list not found in phone-lib.ps1", m != null)
-        val words = Regex("'([A-Za-z]+)'").findAll(m!!.groupValues[1]).map { it.groupValues[1] }.toSet()
+        val words = Regex("'([A-Za-z0-9]+)'").findAll(m!!.groupValues[1]).map { it.groupValues[1] }.toSet()
         assertEquals("tools/phone-lib.ps1 and ScenarioFilesTest must list the same ops", vocabulary, words)
         val twin = Regex("PaTwinOps\\s*=\\s*@\\(([^)]*)\\)").find(text)
         assertTrue("PaTwinOps list not found", twin != null)
-        val twinWords = Regex("'([A-Za-z]+)'").findAll(twin!!.groupValues[1]).map { it.groupValues[1] }.toSet()
+        val twinWords = Regex("'([A-Za-z0-9]+)'").findAll(twin!!.groupValues[1]).map { it.groupValues[1] }.toSet()
         assertTrue("every twin-only op is in the vocabulary", vocabulary.containsAll(twinWords))
         for (op in listOf("wipe", "pref", "seed", "killGuest", "restore", "install", "adb", "pick")) assertTrue("$op is twin only", op in twinWords)
     }
