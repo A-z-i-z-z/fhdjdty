@@ -5,7 +5,7 @@ touching anything. **Keep it current:** at the end of a working session update "
 and add to "Hard-won facts" whenever something cost real time to find out. `README.md` is the
 user-facing description; this file is the working memory.
 
-Last updated: 2026-11-25 (Wave 0 built)
+Last updated: 2026-11-25 (Wave 0 built, proven, its defects fixed; Wave 1a slice A merged)
 
 ## What this is
 
@@ -278,8 +278,28 @@ Target device: Galaxy S24 Ultra, One UI 9 / Android 17 (SDK 37), arm64, 4 KB pag
     language packs from a file, the twin-only robot scenarios and perf P2/P3, the memory phases.
     **Deviations from the plan:** no private key yet; the Linux image is unchanged; the platform's
     formatters for dates, numbers and money wait for Wave 1; capitals made in code stay until Wave 1.
-  - **What is proven on the phone, and what is not, is in `docs/waves/PROGRESS.md`** (the twin
-    cannot be installed until the owner taps "Install anyway" once; see there).
+  - **What is proven on the phone, and what is not, is in `docs/waves/PROGRESS.md`.** The test twin
+    is installed (the owner tapped "Install anyway" once, 2026-11-25).
+
+- **Wave 0 on the phone, its defects and their fixes (2026-11-25, later the same day).** Wave 0 was
+  installed over the owner's app as owner-debug and proven (`docs/waves/w0/phone-proof.md`): data
+  unchanged, Hermes Running, the practice model, one real turn. The proof found two severe defects
+  (every bottom sheet invisible at the normal animation speed; approval answers refused by Hermes)
+  and smaller ones, so the owner's app was rolled back to the pre-wave build (version code 1000899).
+  The fixes are in commit `2a1ee46` (`docs/waves/w0/fix-report.md`; 879 unit tests): `PocketSheet`
+  rewritten on `SheetSlide`, every dialog through `PocketWindow` (the app's language inside dialog
+  windows), approvals by Hermes's real contract (`api/ApprovalContract.kt`), Stop that stops the run
+  at Hermes, readable errors (`api/ErrorText.kt`), practice turns kept out of the usage totals, no
+  stretched test text in plain English. **Whether the fixes are proven on the twin and whether Wave 0
+  is back on the owner's app: read the last entries of `docs/waves/PROGRESS.md`.**
+
+- **Wave 1a is partly built (2026-11-25).** Contract: `docs/waves/w1a-contract.md` (its section 11
+  cuts the build into slices A to E). Slice A (pure logic and 530 unit tests: sky model, calendar,
+  places and weather model, fire feed, Pêt's brain, Home logic) is merged into the work branch;
+  nothing calls it yet. Slice B (art, sounds, data scripts, the star table and city list) and slice
+  C (renderer layers, hosts, stores) are on local branches in the worktrees `dist/wt-w1b` and
+  `dist/wt-w1` on the owner's PC, not pushed: their exact state is in `docs/waves/PROGRESS.md`.
+  Wave 1b has a split and eight unreviewed drafts in `docs/waves/w1b/`, no contract.
 
 Next steps, in order:
 1. Continue from the first unfinished step in `docs/waves/PROGRESS.md`.
@@ -617,6 +637,26 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
   its own activity and be shown elsewhere as a picture); a camera viewfinder inside the app would need
   the `CAMERA` permission, which would break today's permission-free `TakePicture`.
 
+- **A Compose `Dialog` is its own window and loses the app's language** (seen 2026-11-25): its
+  `AndroidComposeView` provides `LocalContext`, `LocalConfiguration`, layout direction and density
+  again from the dialog's own context, so an in-app language override stops at the window edge and
+  `stringResource` shows the phone's language. Every dialog and sheet goes through
+  `ui/components/PocketWindow.kt`, which captures those locals outside and provides them inside.
+- **Test animations at the phone's normal scale, not only at 0.** The robot ran with the animation
+  scales at 0, where every motion snaps, and so hid that `PocketSheet` never became visible at
+  scale 1 (a sheet that starts hidden and waits for an animation is invisible when that animation
+  does not run; its scrim still eats every touch).
+- **Hermes's approval answer needs three exact keys** in session-authority mode (always on in this
+  image): `request_id`, `execution_generation` (an integer that comes with the `approval.request`
+  event, also in `GET /v1/runs/{id}`) and `choice` (`once`, `session`, `always`, `deny`); anything
+  else is HTTP 400, a stale generation 409. Closing the stream does not stop a run that waits for an
+  approval (it waits up to `approvals.timeout`, 300 s, and blocks the chat's next message): call
+  `POST /v1/runs/{id}/stop`. Hermes sends a tool's command and state on this API, never its output.
+- **Android picks a resource folder by language and ignores the region:** `values-en-rXZ` is a
+  candidate for every English request, and a key that exists there but not in `values-en` leaks
+  into plain English. The generated folders must always hold the same keys (a test enforces it).
+- **`tools\local-build.ps1 -Test` copies the tree to one folder** (`%TEMP%\agiri-test-copy`)
+  whatever checkout it runs from: never run it from two checkouts (worktrees) at the same time.
 - **Play Protect blocks the first install of a new package that targets API 28** (seen 2026-11-25,
   One UI 9): `adb install` of `dev.pocketagent.app.debug` ends in
   `INSTALL_FAILED_VERIFICATION_FAILURE` and the phone shows "unsafe app blocked ... built for an older
