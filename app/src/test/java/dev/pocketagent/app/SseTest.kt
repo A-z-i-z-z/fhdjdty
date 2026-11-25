@@ -58,6 +58,40 @@ data: [DONE]
         assertEquals("admission_conflict", (ev.single() as ChatEvent.StreamError).message)
     }
 
+    @Test fun usageOnTheFinalChunkComesBeforeTheFinish() {
+        val ev = decodeAll(
+            "data: {\"choices\":[{\"index\":0,\"delta\":{},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":1200,\"completion_tokens\":340,\"total_tokens\":1540}}\n\n",
+        )
+        assertEquals(listOf(ChatEvent.Usage(1200, 340, 1540), ChatEvent.Finish("stop", null)), ev)
+    }
+
+    @Test fun zeroUsageIsNotReported() {
+        val ev = decodeAll(
+            "data: {\"choices\":[{\"index\":0,\"delta\":{},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":0,\"completion_tokens\":0,\"total_tokens\":0}}\n\n",
+        )
+        assertEquals(listOf<ChatEvent>(ChatEvent.Finish("stop", null)), ev)
+    }
+
+    @Test fun usageWithoutATotalIsSummedAndAUsageOnlyChunkIsStillReported() {
+        val ev = decodeAll("data: {\"choices\":[],\"usage\":{\"prompt_tokens\":10,\"completion_tokens\":5}}\n\n")
+        assertEquals(listOf<ChatEvent>(ChatEvent.Usage(10, 5, 15)), ev)
+    }
+
+    @Test fun usageOnAFailedTurnComesAfterTheErrorAndBeforeTheFinish() {
+        val ev = decodeAll(
+            "data: {\"error\":{\"message\":\"boom\"},\"choices\":[{\"index\":0,\"delta\":{},\"finish_reason\":\"error\"}],\"usage\":{\"prompt_tokens\":7,\"completion_tokens\":0,\"total_tokens\":7}}\n\n",
+        )
+        assertEquals(3, ev.size)
+        assertTrue(ev[0] is ChatEvent.StreamError)
+        assertEquals(ChatEvent.Usage(7, 0, 7), ev[1])
+        assertTrue(ev[2] is ChatEvent.Finish)
+    }
+
+    @Test fun aNonObjectUsageIsIgnored() {
+        assertTrue(decodeAll("data: {\"choices\":[],\"usage\":null}\n\n").isEmpty())
+        assertTrue(decodeAll("data: {\"choices\":[],\"usage\":5}\n\n").isEmpty())
+    }
+
     @Test fun multiLineDataIsJoined() {
         val p = SseParser()
         p.feed("data: a"); p.feed("data: b")

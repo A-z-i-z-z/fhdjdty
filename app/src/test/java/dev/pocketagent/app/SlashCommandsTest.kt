@@ -51,4 +51,15 @@ class SlashCommandsTest {
         assertTrue(SlashCommands.modeDirective(ChatMode.ULTRACODE).contains("ULTRACODE"))
         assertTrue(SlashCommands.modeDirective(ChatMode.LOOP).contains("LOOP"))
     }
+
+    @Test fun findCommandSearchesInsideTheChat() {
+        val p = SlashCommands.parse("/find  hearth fire ")!!
+        assertEquals("find", p.name)
+        assertEquals("hearth fire", p.arg)
+        assertEquals(listOf("find"), SlashCommands.suggestions("/fi").map { it.name })
+        assertTrue(SlashCommands.suggestions("/f").any { it.name == "forge" })
+        assertTrue(SlashCommands.suggestions("/f").any { it.name == "find" })
+        assertFalse(SlashCommands.suggestions("/f").any { it.name == "fire" })
+        assertEquals("find", SlashCommands.parse("/find")?.name)
+    }
 }

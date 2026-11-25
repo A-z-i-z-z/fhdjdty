@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- text-selection menu -->
+    <string name="srf_ask_agiri">Agirî\'ye sor</string>
+
+    <!-- launcher shortcuts (long-press the app icon) -->
+    <string name="srf_sc_new_chat_short">Yeni sohbet</string>
+    <string name="srf_sc_new_chat_long">Yeni bir sohbet başlat</string>
+    <string name="srf_sc_routines_short">Rutinler</string>
+    <string name="srf_sc_routines_long">Rutinleri aç</string>
+    <string name="srf_sc_terminal_short">Terminal</string>
+    <string name="srf_sc_terminal_long">Hermes terminalini aç</string>
+
+    <!-- Quick Settings tile -->
+    <string name="srf_tile_label">Agirî ateşi</string>
+    <string name="srf_tile_on">Hermes uyanık</string>
+    <string name="srf_tile_off">Hermes uykuda</string>
+    <string name="srf_tile_wait">Lütfen bekleyin…</string>
+</resources>

@@ -42,16 +42,19 @@ import dev.pocketagent.app.ui.theme.Pocket
 
 private enum class Section(val key: String, val title: Int, val icon: PixelIcon) {
     PROVIDER("provider", R.string.ctl_set_provider, PixelIcon.KEY),
+    USAGE("usage", R.string.ctl_set_usage, PixelIcon.CHART),
+    BEHAVIOUR("behaviour", R.string.ctl_set_behaviour, PixelIcon.BELL),
     APPEARANCE("appearance", R.string.ctl_set_appearance, PixelIcon.PALETTE),
     VOICE("voice", R.string.ctl_set_voice, PixelIcon.VOLUME),
     LANGUAGE("language", R.string.ctl_set_language, PixelIcon.GLOBE),
+    BACKUP("backup", R.string.ctl_set_backup, PixelIcon.ARCHIVE),
     RUNTIME("runtime", R.string.ctl_set_runtime, PixelIcon.PLAY),
     DIAGNOSTICS("diagnostics", R.string.ctl_set_diagnostics, PixelIcon.BUG),
     ABOUT("about", R.string.ctl_set_about, PixelIcon.INFO),
 }
 
 /**
- * Settings as a list of sections; one is open at a time. [section] ("provider", "appearance", "language",
+ * Settings as a list of sections; one is open at a time. [section] ("provider", "usage", "behaviour", "appearance", "language", "backup",
  * "runtime", "diagnostics", "about") opens and scrolls to that section.
  */
 @Composable
@@ -101,6 +104,9 @@ fun SettingsScreen(section: String?) {
                                 Column(Modifier.fillMaxWidth().padding(start = 14.dp, end = 14.dp, bottom = 14.dp)) {
                                     when (sec) {
                                         Section.PROVIDER -> ProviderSection(vm)
+                                        Section.USAGE -> UsageSection()
+                                        Section.BEHAVIOUR -> BehaviourSection(vm)
+                                        Section.BACKUP -> BackupSection()
                                         Section.APPEARANCE -> AppearanceSection()
                                         Section.VOICE -> VoiceSoundSection()
                                         Section.LANGUAGE -> LanguageSection()
@@ -135,6 +141,18 @@ private fun summaryOf(sec: Section, vm: dev.pocketagent.app.MainViewModel, state
     val ctx = LocalContext.current
     return when (sec) {
         Section.PROVIDER -> vm.model
+        Section.USAGE -> {
+            val app = dev.pocketagent.app.PocketApp.from(ctx)
+            val days = app.usage.days.collectAsState().value
+            if (days.isEmpty()) stringResource(R.string.ctl_usage_summary_none)
+            else stringResource(R.string.ctl_usage_summary_today, UsageMath.compact(UsageMath.forDay(days, java.time.LocalDate.now()).total, dev.pocketagent.app.ui.chat.currentLocale()))
+        }
+        Section.BEHAVIOUR -> {
+            val s = dev.pocketagent.app.PocketApp.from(ctx).presencePrefs.settings.collectAsState().value
+            val on = listOf(s.autoStart, s.wakeOnSend, s.notifyReplies, s.notifyApprovals, s.autoRestart).count { it }
+            stringResource(R.string.ctl_behaviour_summary, on, 5)
+        }
+        Section.BACKUP -> stringResource(R.string.ctl_backup_summary)
         Section.APPEARANCE -> {
             val ap = AppearanceStore.get(ctx).appearance.collectAsState().value
             ap.theme.name.lowercase().replaceFirstChar { it.uppercase() }

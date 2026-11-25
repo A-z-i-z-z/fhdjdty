@@ -1,5 +1,6 @@
 package dev.pocketagent.app.ui.home
 
+import android.widget.Toast
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
@@ -12,6 +13,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -24,6 +26,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -61,6 +64,9 @@ import dev.pocketagent.app.ui.Route
 import dev.pocketagent.app.ui.chat.ConversationRow
 import dev.pocketagent.app.ui.chat.NewChatSheet
 import dev.pocketagent.app.ui.chat.accepted
+import dev.pocketagent.app.ui.chat.compactTokens
+import dev.pocketagent.app.ui.chat.dayTimeLabel
+import dev.pocketagent.app.ui.chat.inputAvailable
 import dev.pocketagent.app.ui.chat.openOneToOne
 import dev.pocketagent.app.ui.components.ButtonKind
 import dev.pocketagent.app.ui.components.PixelButton
@@ -96,6 +102,12 @@ fun HomeScreen() {
     val convs by repo.conversations.collectAsState()
     val busy by app.engine.busy.collectAsState()
     val botsById = remember(bots) { bots.associateBy { it.id } }
+    val presenceSettings by app.presencePrefs.settings.collectAsState()
+    val nextRun by app.routineScheduler.nextRunAt.collectAsState()
+    val usageDays by app.usage.days.collectAsState()
+    // todayTotal() reads the store's own "today"; the days list changing is what makes it worth asking again.
+    val todayTokens = remember(usageDays) { app.usage.todayTotal() }
+    val unreadTotal = remember(convs) { convs.sumOf { it.unread } }
 
     var quick by rememberSaveable { mutableStateOf("") }
     var showNew by remember { mutableStateOf(false) }
@@ -112,7 +124,10 @@ fun HomeScreen() {
     LaunchedEffect(celebration) { if (celebration) { delay(4200); celebration = false } }
 
     val setupIncomplete = vm.savedConfigIncomplete()
-    val canChat = s == RuntimeState.Running && !setupIncomplete
+    // The quick-talk field is usable while Hermes sleeps when wake-on-send may light the fire for the sender.
+    // Same rule as the engine's canWake: wake-on-send needs an unpacked rootfs (a failed extraction leaves an Error without one).
+    val runtimeInstalled = remember(s) { app.runtime.isRootfsValid() }
+    val canChat = inputAvailable(s, setupIncomplete, presenceSettings.wakeOnSend, runtimeInstalled)
 
     val hearth = when (s) {
         RuntimeState.NotInstalled, is RuntimeState.Stopped -> HearthState.COLD
@@ -131,8 +146,11 @@ fun HomeScreen() {
         nav.go(Route.Chat(conv.id))
     }
 
+    val listState = rememberLazyListState()
+    Box(Modifier.fillMaxSize()) {
     LazyColumn(
         Modifier.fillMaxSize(),
+        state = listState,
         contentPadding = PaddingValues(bottom = 24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
@@ -232,7 +250,10 @@ fun HomeScreen() {
                     Row(verticalAlignment = Alignment.Bottom) {
                         PocketTextField(
                             value = quick, onValueChange = { quick = it }, modifier = Modifier.weight(1f),
-                            placeholder = stringResource(R.string.ui_home_talk_hint), minLines = 1, maxLines = 4,
+                            placeholder = stringResource(
+                                if (s == RuntimeState.Running) R.string.ui_home_talk_hint else R.string.ui_home_talk_hint_wake,
+                            ),
+                            minLines = 1, maxLines = 4,
                         )
                         Spacer(Modifier.width(4.dp))
                         PixelIconButton(
@@ -249,6 +270,8 @@ fun HomeScreen() {
                                         app.sounds.play(SoundCue.SEND)
                                         quick = ""
                                         nav.go(Route.Chat(conv.id))
+                                    } else {
+                                        Toast.makeText(ctx, R.string.ui_send_not_accepted, Toast.LENGTH_SHORT).show()
                                     }
                                 }
                             },
@@ -290,6 +313,12 @@ fun HomeScreen() {
             Column {
                 Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp), verticalAlignment = Alignment.CenterVertically) {
                     SectionHeader(stringResource(R.string.ui_home_recent), Modifier.weight(1f))
+                    if (unreadTotal > 0) {
+                        Text(
+                            stringResource(R.string.ui_home_unread, unreadTotal), color = c.accent, fontSize = 13.sp, fontWeight = FontWeight.SemiBold,
+                            modifier = Modifier.clickable(role = Role.Button) { nav.tab(Route.Chats) }.padding(8.dp),
+                        )
+                    }
                     if (convs.size > 4) {
                         Text(
                             stringResource(R.string.ui_home_see_all), color = c.accent, fontSize = 14.sp, fontWeight = FontWeight.Medium,
@@ -310,13 +339,35 @@ fun HomeScreen() {
             }
         }
 
-        // ---- inspector and terminal ----
+        // ---- inspector, terminal, routines, saved messages, today's usage ----
         item(key = "tiles") {
-            Row(Modifier.padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                HomeTile(PixelIcon.SCROLL, stringResource(R.string.ui_home_tile_hermes), { nav.go(Route.Hermes) }, Modifier.weight(1f))
-                HomeTile(PixelIcon.TERMINAL, stringResource(R.string.ui_home_tile_terminal), { nav.go(Route.Terminal) }, Modifier.weight(1f))
+            Column(Modifier.padding(horizontal = 16.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                // IntrinsicSize.Min: the two tiles of a row are equally tall (HomeTile fills the height).
+                Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    HomeTile(PixelIcon.SCROLL, stringResource(R.string.ui_home_tile_hermes), { nav.go(Route.Hermes) }, Modifier.weight(1f))
+                    HomeTile(PixelIcon.TERMINAL, stringResource(R.string.ui_home_tile_terminal), { nav.go(Route.Terminal) }, Modifier.weight(1f))
+                }
+                Row(Modifier.height(IntrinsicSize.Min), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    HomeTile(
+                        PixelIcon.CLOCK, stringResource(R.string.ui_home_tile_routines), { nav.go(Route.Routines) }, Modifier.weight(1f),
+                        subtitle = nextRun?.let { stringResource(R.string.ui_home_routines_next, dayTimeLabel(it)) }
+                            ?: stringResource(R.string.ui_home_routines_none),
+                    )
+                    HomeTile(PixelIcon.STAR, stringResource(R.string.ui_home_tile_saved), { nav.go(Route.Starred) }, Modifier.weight(1f))
+                }
+                if (todayTokens > 0L) {
+                    Text(
+                        stringResource(R.string.ui_home_usage_today, compactTokens(todayTokens, dev.pocketagent.app.ui.chat.currentLocale())),
+                        color = c.textMuted, fontSize = 13.sp,
+                        modifier = Modifier.fillMaxWidth().clickable(role = Role.Button) { nav.go(Route.Settings("usage")) }
+                            .padding(vertical = 8.dp),
+                    )
+                }
             }
         }
+    }
+    // Over the list, under nothing else: keeps scrolled content from running into the clock and icons.
+    HomeStatusScrim(listState)
     }
 
     if (showNew) {

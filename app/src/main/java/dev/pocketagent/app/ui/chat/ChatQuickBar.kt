@@ -180,6 +180,8 @@ internal fun ChatControlsSheet(
     onOpenSkills: () -> Unit,
     onForkChat: () -> Unit,
     onDismiss: () -> Unit,
+    /** Turns and tokens of this chat; the section is hidden while there are none. */
+    usage: ChatUsageTotals = ChatUsageTotals(0, 0L, 0L),
 ) {
     val c = Pocket.colors
     ModalBottomSheet(
@@ -255,6 +257,21 @@ internal fun ChatControlsSheet(
                         label,
                         selected = conv.effortOverride == ef,
                         onClick = { onSelectOverrides(conv.modelOverride, ef) },
+                    )
+                }
+            }
+
+            if (!usage.isEmpty) {
+                val locale = currentLocale()
+                Text(stringResource(R.string.ui_usage_title), color = c.textMuted, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    PixelIconView(PixelIcon.CHART, tint = c.accent, size = 18.dp)
+                    Text(
+                        stringResource(
+                            R.string.ui_usage_totals, usage.replies,
+                            compactTokens(usage.tokensIn, locale), compactTokens(usage.tokensOut, locale),
+                        ),
+                        color = c.text, fontSize = 14.sp,
                     )
                 }
             }

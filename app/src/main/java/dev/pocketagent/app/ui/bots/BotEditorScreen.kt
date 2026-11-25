@@ -67,7 +67,6 @@ import dev.pocketagent.app.ui.settings.ChipRow
 import dev.pocketagent.app.ui.settings.ConfirmDialog
 import dev.pocketagent.app.ui.settings.EFFORT_CHIPS
 import dev.pocketagent.app.ui.settings.Muted
-import dev.pocketagent.app.ui.settings.mainVm
 import dev.pocketagent.app.ui.settings.toast
 import dev.pocketagent.app.ui.theme.AppearanceStore
 import dev.pocketagent.app.ui.theme.Pocket
@@ -122,8 +121,8 @@ private fun BotEditorContent(botId: String?) {
     val nav = LocalNavigator.current
     val app = remember { PocketApp.from(ctx) }
     val repo = app.chat
-    val vm = mainVm()
     val c = Pocket.colors
+    val exporter = rememberBotExporter()
     val ap by AppearanceStore.get(ctx).appearance.collectAsState()
     val speakingId by app.voice.speakingId.collectAsState()
     val synthesizing by app.voice.synthesizing.collectAsState()
@@ -331,7 +330,8 @@ private fun BotEditorContent(botId: String?) {
             Muted(stringResource(R.string.ctl_bot_model_help))
             PocketTextField(model, { model = it }, Modifier.fillMaxWidth(), label = stringResource(R.string.ctl_bot_model),
                 placeholder = stringResource(R.string.ctl_bot_model_default), singleLine = true, monospace = true)
-            val suggestions = remember(vm.authMode, vm.endpoint) { ProviderConfig.suggestions(vm.authMode, vm.endpoint) }
+            // The chips follow the SAVED provider (what the engine sends with), not an unsaved choice in the Settings form.
+            val suggestions = remember { app.runtime.settings.let { ProviderConfig.suggestions(it.authMode, it.endpoint) } }
             ChipRow {
                 PocketChip(stringResource(R.string.effort_default), selected = model.isBlank(), onClick = { model = "" })
                 suggestions.forEach { id -> PocketChip(id, selected = model == id, onClick = { model = id }) }
@@ -357,6 +357,19 @@ private fun BotEditorContent(botId: String?) {
                     },
                     modifier = Modifier.fillMaxWidth(), icon = PixelIcon.COPY, kind = ButtonKind.SECONDARY,
                 )
+                if (!isHermes) {
+                    Muted(stringResource(R.string.ctl_bot_export_help), size = 12.sp)
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        PixelButton(
+                            stringResource(R.string.ctl_bots_export_file), onClick = { exporter.saveToFile(listOf(build())) },
+                            modifier = Modifier.weight(1f), icon = PixelIcon.UPLOAD, kind = ButtonKind.SECONDARY, enabled = name.isNotBlank(),
+                        )
+                        PixelButton(
+                            stringResource(R.string.ctl_bots_export_share), onClick = { exporter.share(listOf(build())) },
+                            modifier = Modifier.weight(1f), icon = PixelIcon.SHARE, kind = ButtonKind.SECONDARY, enabled = name.isNotBlank(),
+                        )
+                    }
+                }
                 if (!isHermes) {
                     PixelButton(
                         stringResource(R.string.ctl_bot_delete), onClick = { showDelete = true },

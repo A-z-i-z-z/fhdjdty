@@ -267,4 +267,156 @@
     <string name="ctl_bot_mood_calm">Calme</string>
     <string name="ctl_bot_mood_storyteller">Conteur</string>
     <string name="ctl_bot_voice_test">Écouter la voix du bot</string>
+
+    <!-- phase 3: settings sections -->
+    <string name="ctl_set_usage">Utilisation et budget</string>
+    <string name="ctl_set_behaviour">Comportement</string>
+    <string name="ctl_set_backup">Sauvegarde et restauration</string>
+    <string name="ctl_usage_summary_none">Aucune utilisation enregistrée</string>
+    <string name="ctl_usage_summary_today">%1$s tokens aujourd\'hui</string>
+    <string name="ctl_behaviour_summary">%1$d options activées sur %2$d</string>
+    <string name="ctl_backup_summary">Tout enregistrer dans un seul fichier</string>
+
+    <!-- phase 3: usage -->
+    <string name="ctl_usage_intro">Le nombre de tokens utilisés par tes discussions. Les chiffres sont ceux que le modèle indique pour chaque réponse, gardés uniquement sur ce téléphone.</string>
+    <string name="ctl_usage_no_data">Rien d\'enregistré pour l\'instant. Envoie un message et les chiffres apparaissent ici.</string>
+    <string name="ctl_usage_today">Aujourd\'hui</string>
+    <string name="ctl_usage_week">7 derniers jours</string>
+    <string name="ctl_usage_all">Total</string>
+    <string name="ctl_usage_chart_title">14 derniers jours (tokens par jour)</string>
+    <string name="ctl_usage_bar_desc">%1$s : %2$s envoyés, %3$s reçus, %4$d réponses</string>
+    <string name="ctl_usage_peak">Pic %1$s</string>
+    <string name="ctl_usage_legend_in">Envoyés (ce que tu envoies)</string>
+    <string name="ctl_usage_legend_out">Reçus (ce que tu reçois)</string>
+    <string name="ctl_usage_in_out">%1$s envoyés · %2$s reçus</string>
+    <string name="ctl_usage_turns">%1$d réponses</string>
+    <string name="ctl_usage_models">Par modèle</string>
+    <string name="ctl_usage_model_default">Par défaut de Hermes</string>
+    <string name="ctl_usage_budget_title">Budget quotidien</string>
+    <string name="ctl_usage_budget_help">Une limite de tokens par jour (envoyés plus reçus, toutes les discussions ensemble). Avertir ajoute une note la première fois que tu la dépasses. Bloquer arrête les nouvelles réponses jusqu\'à demain.</string>
+    <string name="ctl_usage_budget_field">Tokens par jour (vide = sans limite)</string>
+    <string name="ctl_usage_mode_off">Désactivé</string>
+    <string name="ctl_usage_mode_warn">Avertir</string>
+    <string name="ctl_usage_mode_block">Bloquer</string>
+    <string name="ctl_usage_budget_need_limit">Saisis un nombre supérieur à 0 pour que le budget fonctionne.</string>
+    <string name="ctl_usage_budget_today">Aujourd\'hui : %1$s sur %2$s</string>
+    <string name="ctl_usage_budget_over">Le budget d\'aujourd\'hui est atteint.</string>
+    <string name="ctl_usage_clear">Effacer les statistiques</string>
+    <string name="ctl_usage_clear_title">Effacer les statistiques ?</string>
+    <string name="ctl_usage_clear_body">Cela supprime les chiffres d\'utilisation gardés par l\'app. Tes discussions, et les nombres de tokens qui y figurent, restent tels quels. Impossible à annuler.</string>
+    <string name="ctl_usage_clear_confirm">Effacer</string>
+
+    <!-- phase 3: behaviour -->
+    <string name="ctl_beh_intro">Choisis à quel point l\'agent est présent sur ton téléphone.</string>
+    <string name="ctl_beh_group_wake">RÉVEIL</string>
+    <string name="ctl_beh_auto_start">Allumer le feu quand j\'ouvre l\'app</string>
+    <string name="ctl_beh_auto_start_sub">Hermes démarre tout seul à l\'ouverture de l\'app, s\'il est configuré et que tu ne l\'as pas arrêté.</string>
+    <string name="ctl_beh_wake_send">Réveiller à l\'envoi</string>
+    <string name="ctl_beh_wake_send_sub">Si Hermes dort, envoyer un message le démarre et remet le message.</string>
+    <string name="ctl_beh_auto_restart">Redémarrer après un plantage</string>
+    <string name="ctl_beh_auto_restart_sub">Si Hermes s\'arrête de façon inattendue, le relancer une fois tout seul.</string>
+    <string name="ctl_beh_idle_title">Se reposer quand c\'est calme</string>
+    <string name="ctl_beh_idle_sub">Arrêter Hermes après ce temps sans activité quand l\'app est en arrière-plan. Économise la batterie.</string>
+    <string name="ctl_beh_idle_never">Jamais</string>
+    <string name="ctl_beh_idle_min">%1$d min</string>
+    <string name="ctl_beh_notif_title">NOTIFICATIONS</string>
+    <string name="ctl_beh_notify_replies">Me prévenir des réponses</string>
+    <string name="ctl_beh_notify_replies_sub">Une notification quand une réponse arrive pendant que tu es ailleurs. Tu peux répondre depuis celle-ci.</string>
+    <string name="ctl_beh_notify_approvals">Me prévenir des validations</string>
+    <string name="ctl_beh_notify_approvals_sub">Me demander dans une notification avant que Hermes lance une commande risquée.</string>
+    <string name="ctl_beh_notif_on">Les notifications sont autorisées pour Agirî.</string>
+    <string name="ctl_beh_notif_off">Les notifications sont bloquées pour Agirî : rien ne peut te parvenir en dehors de l\'app.</string>
+    <string name="ctl_beh_notif_open">Réglages des notifications</string>
+    <string name="ctl_beh_battery_title">BATTERIE</string>
+    <string name="ctl_beh_battery_ok">L\'optimisation de la batterie est désactivée pour Agirî : Android le laisse travailler en arrière-plan.</string>
+
+    <!-- phase 3: backup -->
+    <string name="ctl_bak_intro">Enregistre tes discussions, bots, routines, chiffres d\'utilisation et réglages dans un seul fichier, et remets-les sur ce téléphone ou sur un autre.</string>
+    <string name="ctl_bak_inside_title">CE QU\'IL Y A DEDANS</string>
+    <string name="ctl_bak_inside">Discussions et messages, bots, routines, chiffres d\'utilisation, brouillons, réglages d\'apparence, de voix et de comportement. En option : les pièces jointes, et l\'âme, la mémoire et les compétences de Hermes.</string>
+    <string name="ctl_bak_never">Jamais inclus : clés API, comptes de service et identifiants de connexion. Après une restauration sur un autre téléphone, saisis-les de nouveau dans Fournisseur et modèle.</string>
+    <string name="ctl_bak_create_title">FAIRE UNE SAUVEGARDE</string>
+    <string name="ctl_bak_opt_attach">Inclure les pièces jointes</string>
+    <string name="ctl_bak_opt_attach_sub">Photos et documents que tu as envoyés. Le fichier devient plus gros.</string>
+    <string name="ctl_bak_opt_hermes">Inclure les fichiers de Hermes</string>
+    <string name="ctl_bak_opt_hermes_sub">SOUL.md, mémoire et compétences.</string>
+    <string name="ctl_bak_create">Créer la sauvegarde</string>
+    <string name="ctl_bak_creating">Création de la sauvegarde…</string>
+    <string name="ctl_bak_done">Sauvegarde enregistrée : %1$d discussions, %2$d bots, %3$d routines, %4$d fichiers (%5$s).</string>
+    <string name="ctl_bak_failed">La sauvegarde a échoué : %1$s</string>
+    <string name="ctl_bak_restore_title">RESTAURER</string>
+    <string name="ctl_bak_restore_help">Choisis un fichier de sauvegarde fait par Agirî. Tu vois ce qu\'il contient et tu confirmes avant tout changement.</string>
+    <string name="ctl_bak_restore">Restaurer une sauvegarde</string>
+    <string name="ctl_bak_reading">Lecture de la sauvegarde…</string>
+    <string name="ctl_bak_restoring">Restauration en cours… l\'app redémarre dans un instant.</string>
+    <string name="ctl_bak_busy">Une discussion est en train de répondre. Attends qu\'elle finisse, puis réessaie.</string>
+    <string name="ctl_bak_restore_failed">La restauration a échoué : %1$s</string>
+    <string name="ctl_bak_restart_now">Redémarrer l\'app</string>
+    <string name="ctl_bak_restored_notif">Restauration terminée. Touche pour ouvrir Agirî.</string>
+    <string name="ctl_bak_restore_confirm_title">Restaurer cette sauvegarde ?</string>
+    <string name="ctl_bak_restore_confirm_body">Faite le %1$s avec Agirî %2$s.\n%3$d discussions, %4$d bots, %5$d routines, %6$d fichiers (%7$s).\n\nCela REMPLACE les discussions, bots, routines et chiffres d\'utilisation de ce téléphone par ceux du fichier. Une copie de sécurité des données actuelles est gardée d\'abord. Hermes est arrêté et l\'app redémarre à la fin.</string>
+    <string name="ctl_bak_restore_confirm">Remplacer et redémarrer</string>
+    <string name="ctl_bak_err_not_backup">Ce fichier n\'est pas une sauvegarde d\'Agirî.</string>
+    <string name="ctl_bak_err_newer">Cette sauvegarde a été faite avec une version plus récente d\'Agirî. Mets d\'abord l\'app à jour.</string>
+    <string name="ctl_bak_err_too_large">L\'ensemble est plus gros que ce qu\'une sauvegarde peut contenir (2 Gio).</string>
+    <string name="ctl_bak_err_too_many">Il y a trop de fichiers pour une seule sauvegarde.</string>
+    <string name="ctl_bak_err_unsafe">Cette sauvegarde est inutilisable : elle contient un élément dangereux ou inconnu.</string>
+    <string name="ctl_bak_err_damaged">La sauvegarde est abîmée : un fichier de réglages qu\'elle contient est illisible.</string>
+    <string name="ctl_bak_err_read">Le fichier choisi est illisible.</string>
+    <string name="ctl_bak_err_write">Impossible d\'écrire à l\'emplacement choisi.</string>
+    <string name="ctl_bak_err_terminal">Une commande du terminal est en cours. Attends qu\'elle finisse, puis réessaie.</string>
+    <string name="ctl_bak_err_unpack">Le fichier de sauvegarde n\'a pas pu être lu ou décompressé. Si le téléphone est presque plein, libère de la place et réessaie.</string>
+    <string name="ctl_bak_err_safety">Impossible d\'enregistrer d\'abord une copie de sécurité de tes données actuelles, donc rien n\'a été modifié.</string>
+    <string name="ctl_bak_err_halfway">La restauration s\'est arrêtée en cours de route. Redémarre l\'app. Une copie de tes données précédentes est gardée dans l\'app sous backup/pre-restore.zip.</string>
+    <string name="ctl_bots_err_empty">le fichier est vide</string>
+    <string name="ctl_bots_err_json">ce n\'est pas un fichier de bots (JSON invalide)</string>
+    <string name="ctl_bots_err_not_bots">ce n\'est pas un fichier de bots d\'Agirî</string>
+    <string name="ctl_bots_err_newer">ce fichier a été fait avec une version plus récente de l\'app</string>
+    <string name="ctl_bots_err_many">le fichier contient plus de 50 bots</string>
+    <string name="ctl_bots_err_field">un nom, une accroche ou un texte d\'instructions du fichier est trop long, ou un bot n\'a pas de nom</string>
+    <string name="ctl_bots_err_malformed">le fichier n\'est pas une liste de bots valide</string>
+
+    <!-- phase 3: sharing bots -->
+    <string name="ctl_bots_share_title">Partager des bots</string>
+    <string name="ctl_bots_share_help">Exporte tes propres bots dans un fichier, ou partage-les en texte, et importe-les sur un autre téléphone. Les bots importés sont ajoutés comme copies.</string>
+    <string name="ctl_bots_export_file">Enregistrer en fichier</string>
+    <string name="ctl_bots_export_share">Partager</string>
+    <string name="ctl_bots_import_file">Importer un fichier</string>
+    <string name="ctl_bots_import_clip">Importer du presse-papiers</string>
+    <string name="ctl_bots_export_none">Tu n\'as pas encore de bots à toi à exporter.</string>
+    <string name="ctl_bots_exported">Bots enregistrés</string>
+    <string name="ctl_bots_export_failed">Impossible d\'exporter les bots.</string>
+    <string name="ctl_bots_export_too_big">Il y a trop de texte à partager. Enregistre plutôt un fichier.</string>
+    <string name="ctl_bots_import_title">Importer %1$d bots ?</string>
+    <string name="ctl_bots_import_body">Ces bots seront ajoutés comme copies :\n%1$s\n\nLis leur texte de personnalité avant de discuter : c\'est lui qui guide l\'agent.</string>
+    <string name="ctl_bots_import_confirm">Importer</string>
+    <string name="ctl_bots_imported">%1$d bots importés</string>
+    <string name="ctl_bots_import_failed">Import impossible : %1$s</string>
+    <string name="ctl_bots_import_empty">Le presse-papiers est vide.</string>
+    <string name="ctl_bots_import_none">le fichier ne contient aucun bot</string>
+    <string name="ctl_bots_import_too_large">le fichier est beaucoup trop gros</string>
+    <string name="ctl_bots_import_error_title">Import</string>
+    <string name="ctl_bot_export_help">Exporte ce bot dans un fichier ou partage-le en texte.</string>
+
+    <!-- phase 3: skills -->
+    <string name="ctl_skill_new">Nouvelle compétence</string>
+    <string name="ctl_skill_new_title">Créer une compétence</string>
+    <string name="ctl_skill_new_help">Une compétence est une note de procédure que Hermes ouvre quand une tâche en a besoin. Elle part d\'un modèle que tu modifies ensuite.</string>
+    <string name="ctl_skill_f_name">Nom (par exemple ma-recette)</string>
+    <string name="ctl_skill_f_desc">Quand Hermes doit-il l\'utiliser ? (une phrase)</string>
+    <string name="ctl_skill_f_category">Dossier de catégorie (facultatif)</string>
+    <string name="ctl_skill_name_bad">Utilise uniquement des minuscules, des chiffres, - et _, 64 caractères au plus, en commençant par une lettre ou un chiffre.</string>
+    <string name="ctl_skill_exists">Une compétence de ce nom existe déjà, ou la catégorie est elle-même une compétence.</string>
+    <string name="ctl_skill_created">Compétence créée</string>
+    <string name="ctl_skill_create">Créer</string>
+    <string name="ctl_skill_create_failed">Impossible de créer la compétence : %1$s</string>
+    <string name="ctl_skill_delete">Supprimer la compétence</string>
+    <string name="ctl_skill_delete_title">Supprimer %1$s ?</string>
+    <string name="ctl_skill_delete_body">Tout le dossier de cette compétence est retiré de Hermes. Une compétence livrée avec Hermes peut revenir après une mise à jour. Impossible à annuler.</string>
+    <string name="ctl_skill_deleted">Compétence supprimée</string>
+    <string name="ctl_skill_delete_failed">Impossible de supprimer la compétence : %1$s</string>
+
+    <!-- phase 3: terminal colours -->
+    <string name="ctl_term_colors">Couleurs</string>
+    <string name="ctl_term_colors_desc">Afficher les couleurs dans la sortie des commandes</string>
 </resources>

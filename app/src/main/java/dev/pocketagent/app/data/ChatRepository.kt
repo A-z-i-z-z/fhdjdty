@@ -48,6 +48,14 @@ class ChatRepository internal constructor(
     /** True once bots.json and conversations.json have been read (the lists above are empty until then). */
     val loaded: StateFlow<Boolean> = _loaded
 
+    /**
+     * Meaningful once [loaded] is true: true only when conversations.json was read without error (or did not exist yet).
+     * False when it was corrupt, unreadable (I/O error) or loading threw: the conversation list is then empty for this run
+     * without that being the truth, so nothing may be deleted because "its chat is gone" (e.g. drafts).
+     */
+    @Volatile var indexIntact: Boolean = false
+        private set
+
     private class Slot { val flow = MutableStateFlow<List<Message>>(emptyList()); @Volatile var loaded = false }
     private val slots = HashMap<String, Slot>()          // guarded by lock
 
@@ -56,6 +64,9 @@ class ChatRepository internal constructor(
     private val dirtyMessages = LinkedHashSet<String>()  // guarded by lock
     private val deletedMessageFiles = LinkedHashSet<String>() // guarded by lock
     private var pending: Job? = null                      // guarded by lock
+    /** Set by [suspendWrites]: nothing is written to disk any more (a restore is about to replace the files). */
+    @Volatile private var writesSuspended = false
+    @Volatile private var active: String? = null
     /** Files that exist but could not be read (I/O error): never written over, so a transient error cannot wipe real data. */
     private val protectedFiles: MutableSet<String> = java.util.concurrent.ConcurrentHashMap.newKeySet()
     private fun isProtected(f: File) = f.absolutePath in protectedFiles
@@ -99,6 +110,8 @@ class ChatRepository internal constructor(
                 _conversations.value = sortConvs(convs + earlyConvs)
             }
             if (firstRun) dirtyBots.set(true)
+            // Only a conversation list that was really read (or really absent) may be used to judge what else is stale.
+            indexIntact = convsRead != null || !convsFile.exists()
             if (dirtyBots.get() || dirtyConvs.get()) schedule()
         } catch (e: Throwable) {
             AppLog.e("Chat", "loading the chat index failed", e)
@@ -191,6 +204,68 @@ class ChatRepository internal constructor(
         it.copy(modelOverride = model.trim(), effortOverride = effort.trim())
     }
     fun setConversationBots(id: String, botIds: List<String>) = updateConversation(id, touch = false) { it.copy(botIds = botIds.distinct()) }
+    /** Marks [convId] as belonging to the routine [routineId] ("" = an ordinary chat again). */
+    fun setRoutine(convId: String, routineId: String) = updateConversation(convId, touch = false) { it.copy(routineId = routineId) }
+
+    // ---- unread and the chat on screen ------------------------------------------------------------------------
+
+    /** The chat that is on screen right now (null = none, also while the app is in the background). */
+    val activeConversation: String? get() = active
+
+    /** Sets the chat that is on screen ([convId] null = none) and clears that chat's unread count. */
+    fun setActiveConversation(convId: String?) {
+        active = convId
+        if (convId != null) markRead(convId)
+    }
+
+    fun markRead(convId: String) = updateConversation(convId, touch = false) { if (it.unread == 0) it else it.copy(unread = 0) }
+
+    /** unread = max(1, unread). */
+    fun markUnread(convId: String) = updateConversation(convId, touch = false) { if (it.unread >= 1) it else it.copy(unread = 1) }
+
+    /** +1 unless [convId] is the chat on screen. The engine calls this for every finished BOT turn. */
+    fun bumpUnread(convId: String) {
+        if (convId == active) return
+        updateConversation(convId, touch = false) { it.copy(unread = it.unread + 1) }
+    }
+
+    /**
+     * Stars or unstars a message; the star never bumps the conversation's `updatedAt`. Safe to call on the main thread:
+     * when the conversation's messages are not in memory yet, the file is read and the change applied on the repository's
+     * background scope (so the change may show up a moment later).
+     */
+    fun setStarred(convId: String, messageId: String, starred: Boolean) {
+        val change = { m: Message -> if (m.starred == starred) m else m.copy(starred = starred) }
+        if (slot(convId).loaded) updateMessage(convId, messageId, change)
+        else scope.launch { updateMessage(convId, messageId, change) }
+    }
+
+    /**
+     * Starred messages of all conversations, newest first, at most 300. Reads message files that are not in memory without
+     * keeping them. Blocking disk reads: call off the main thread.
+     */
+    fun starredMessages(): List<Pair<Conversation, Message>> {
+        val out = ArrayList<Pair<Conversation, Message>>()
+        for (c in _conversations.value) {
+            val s = synchronized(lock) { slots[c.id] }
+            val msgs = if (s != null && s.loaded) s.flow.value
+            else readList(messageFile(c.id), "messages") { ChatJson.decodeMessages(it, c.id) } ?: emptyList()
+            for (m in msgs) if (m.starred) out += c to m
+        }
+        return out.sortedByDescending { it.second.createdAt }.take(300)
+    }
+
+    /**
+     * After this call nothing is written to disk any more and pending writes are dropped (used right before a restore).
+     * Blocking: it also waits for a write that is already running, so call it off the main thread.
+     */
+    fun suspendWrites() {
+        writesSuspended = true
+        synchronized(lock) { pending?.cancel(); pending = null }
+        // Waits for a flush that already passed its flag check; every later flush sees the flag inside ioLock and returns.
+        // Taken after (not inside) `lock`: flush() takes `lock` while holding ioLock.
+        synchronized(ioLock) { }
+    }
 
     /**
      * Branches a new conversation containing every message from [convId] up to and including [upToMessageId]
@@ -210,7 +285,7 @@ class ChatRepository internal constructor(
         val forkedTitle = if (baseTitle.isBlank()) "" else if (cleanSuffix.isEmpty()) baseTitle.take(64) else {
             if (baseTitle.endsWith(cleanSuffix)) baseTitle.take(64) else "$baseTitle $cleanSuffix".take(64)
         }
-        val cloned = cut.map { m -> m.copy(id = newId(), convId = newConvId, streaming = false) }
+        val cloned = cut.map { m -> m.copy(id = newId(), convId = newConvId, streaming = false, starred = false) }
         val preview = cloned.lastOrNull {
             (it.role == Role.USER || it.role == Role.BOT) && (it.text.isNotBlank() || it.attachments.isNotEmpty())
         }?.let { Transcript.preview(Transcript.messageSummary(it.text, it.attachments)) } ?: ""
@@ -221,6 +296,8 @@ class ChatRepository internal constructor(
             updatedAt = now,
             pinned = false,
             lastPreview = preview,
+            unread = 0,
+            routineId = "",
         )
         synchronized(lock) {
             _conversations.value = sortConvs(_conversations.value + fork)
@@ -293,7 +370,10 @@ class ChatRepository internal constructor(
         schedule()
     }
 
-    /** Replaces message [id] with `change(old)`. No-op when it does not exist. Cheap enough to call a few times a second. */
+    /**
+     * Replaces message [id] with `change(old)`. No-op when it does not exist. Cheap enough to call a few times a second.
+     * Blocking when the conversation's messages are not in memory yet (reads the file): call off the main thread.
+     */
     fun updateMessage(convId: String, id: String, change: (Message) -> Message) {
         ensureLoaded(convId)
         synchronized(lock) {
@@ -381,6 +461,7 @@ class ChatRepository internal constructor(
     // ---- persistence ---------------------------------------------------------------------------------------------
 
     private fun schedule() {
+        if (writesSuspended) return
         synchronized(lock) {
             if (pending != null) return
             val streaming = dirtyMessages.any { id -> slots[id]?.flow?.value?.any { it.streaming } == true }
@@ -395,7 +476,9 @@ class ChatRepository internal constructor(
 
     /** Writes everything that changed since the last write, now. Blocking: call off the main thread. */
     fun flush() {
+        if (writesSuspended) return
         synchronized(ioLock) {
+            if (writesSuspended) return
             val snap = synchronized(lock) {
                 Snapshot(
                     bots = if (dirtyBots.getAndSet(false)) _bots.value else null,

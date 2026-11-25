@@ -267,4 +267,156 @@
     <string name="ctl_bot_mood_calm">Sakin</string>
     <string name="ctl_bot_mood_storyteller">Anlatıcı</string>
     <string name="ctl_bot_voice_test">Bot sesini dinle</string>
+
+    <!-- phase 3: settings sections -->
+    <string name="ctl_set_usage">Kullanım ve bütçe</string>
+    <string name="ctl_set_behaviour">Davranış</string>
+    <string name="ctl_set_backup">Yedekleme ve geri yükleme</string>
+    <string name="ctl_usage_summary_none">Henüz kullanım kaydı yok</string>
+    <string name="ctl_usage_summary_today">Bugün %1$s token</string>
+    <string name="ctl_behaviour_summary">%2$d anahtardan %1$d tanesi açık</string>
+    <string name="ctl_backup_summary">Her şeyi tek dosyaya kaydet</string>
+
+    <!-- phase 3: usage -->
+    <string name="ctl_usage_intro">Sohbetlerinin kaç token kullandığı. Sayılar, modelin her yanıt için bildirdiği değerlerdir ve yalnızca bu telefonda tutulur.</string>
+    <string name="ctl_usage_no_data">Henüz kayıt yok. Bir mesaj gönder, sayılar burada görünür.</string>
+    <string name="ctl_usage_today">Bugün</string>
+    <string name="ctl_usage_week">Son 7 gün</string>
+    <string name="ctl_usage_all">Tümü</string>
+    <string name="ctl_usage_chart_title">Son 14 gün (günlük token)</string>
+    <string name="ctl_usage_bar_desc">%1$s: %2$s giden, %3$s gelen, %4$d yanıt</string>
+    <string name="ctl_usage_peak">En yüksek %1$s</string>
+    <string name="ctl_usage_legend_in">Giden (senin gönderdiğin)</string>
+    <string name="ctl_usage_legend_out">Gelen (aldığın yanıt)</string>
+    <string name="ctl_usage_in_out">%1$s giden · %2$s gelen</string>
+    <string name="ctl_usage_turns">%1$d yanıt</string>
+    <string name="ctl_usage_models">Modele göre</string>
+    <string name="ctl_usage_model_default">Hermes varsayılanı</string>
+    <string name="ctl_usage_budget_title">Günlük bütçe</string>
+    <string name="ctl_usage_budget_help">Günlük token sınırı (giden artı gelen, tüm sohbetler birlikte). Uyar: sınırı ilk aştığında bir not ekler. Engelle: yarına kadar yeni yanıtları durdurur.</string>
+    <string name="ctl_usage_budget_field">Günlük token (boş = sınırsız)</string>
+    <string name="ctl_usage_mode_off">Kapalı</string>
+    <string name="ctl_usage_mode_warn">Uyar</string>
+    <string name="ctl_usage_mode_block">Engelle</string>
+    <string name="ctl_usage_budget_need_limit">Bütçenin çalışması için 0\'dan büyük bir sayı gir.</string>
+    <string name="ctl_usage_budget_today">Bugün: %1$s / %2$s</string>
+    <string name="ctl_usage_budget_over">Bugünkü bütçeye ulaşıldı.</string>
+    <string name="ctl_usage_clear">İstatistikleri temizle</string>
+    <string name="ctl_usage_clear_title">İstatistikler temizlensin mi?</string>
+    <string name="ctl_usage_clear_body">Uygulamanın tuttuğu kullanım sayıları silinir. Sohbetlerin ve içlerinde görünen token sayıları olduğu gibi kalır. Geri alınamaz.</string>
+    <string name="ctl_usage_clear_confirm">Temizle</string>
+
+    <!-- phase 3: behaviour -->
+    <string name="ctl_beh_intro">Ajanın telefonunda ne kadar hazır olacağını seç.</string>
+    <string name="ctl_beh_group_wake">UYANMA</string>
+    <string name="ctl_beh_auto_start">Uygulamayı açınca ateşi yak</string>
+    <string name="ctl_beh_auto_start_sub">Uygulama açılınca, kurulum tamamsa ve Hermes\'i sen durdurmadıysan Hermes kendiliğinden başlar.</string>
+    <string name="ctl_beh_wake_send">Gönderince uyandır</string>
+    <string name="ctl_beh_wake_send_sub">Hermes uykudaysa mesaj göndermek onu başlatır ve mesajı iletir.</string>
+    <string name="ctl_beh_auto_restart">Çökünce yeniden başlat</string>
+    <string name="ctl_beh_auto_restart_sub">Hermes beklenmedik şekilde durursa kendiliğinden bir kez daha başlatılır.</string>
+    <string name="ctl_beh_idle_title">Boştayken dinlen</string>
+    <string name="ctl_beh_idle_sub">Uygulama arka plandayken bu kadar süre hareket olmazsa Hermes durdurulur. Pil tasarrufu sağlar.</string>
+    <string name="ctl_beh_idle_never">Asla</string>
+    <string name="ctl_beh_idle_min">%1$d dk</string>
+    <string name="ctl_beh_notif_title">BİLDİRİMLER</string>
+    <string name="ctl_beh_notify_replies">Yanıtları bildir</string>
+    <string name="ctl_beh_notify_replies_sub">Başka yerdeyken bir yanıt gelirse bildirim gelir. Bildirimden yanıt verebilirsin.</string>
+    <string name="ctl_beh_notify_approvals">Onayları bildir</string>
+    <string name="ctl_beh_notify_approvals_sub">Hermes riskli bir komut çalıştırmadan önce bildirimle sana sorar.</string>
+    <string name="ctl_beh_notif_on">Agirî için bildirimlere izin verilmiş.</string>
+    <string name="ctl_beh_notif_off">Agirî için bildirimler kapalı, bu yüzden uygulama dışında sana hiçbir şey ulaşamaz.</string>
+    <string name="ctl_beh_notif_open">Bildirim ayarları</string>
+    <string name="ctl_beh_battery_title">PİL</string>
+    <string name="ctl_beh_battery_ok">Agirî için pil optimizasyonu kapalı, yani Android arka planda çalışmasına izin veriyor.</string>
+
+    <!-- phase 3: backup -->
+    <string name="ctl_bak_intro">Sohbetlerini, botlarını, rutinlerini, kullanım sayılarını ve ayarlarını tek dosyaya kaydet; bu telefona ya da başka bir telefona geri yükle.</string>
+    <string name="ctl_bak_inside_title">İÇİNDE NELER VAR</string>
+    <string name="ctl_bak_inside">Sohbetler ve mesajlar, botlar, rutinler, kullanım sayıları, taslaklar, görünüm, ses ve davranış ayarları. İsteğe bağlı: ekler ile Hermes\'in ruhu, belleği ve becerileri.</string>
+    <string name="ctl_bak_never">Asla eklenmez: API anahtarları, servis hesapları ve oturum bilgileri. Başka bir telefona yükledikten sonra bunları Sağlayıcı ve model bölümüne yeniden gir.</string>
+    <string name="ctl_bak_create_title">YEDEK AL</string>
+    <string name="ctl_bak_opt_attach">Ekleri dahil et</string>
+    <string name="ctl_bak_opt_attach_sub">Gönderdiğin fotoğraflar ve belgeler. Dosyayı büyütür.</string>
+    <string name="ctl_bak_opt_hermes">Hermes dosyalarını dahil et</string>
+    <string name="ctl_bak_opt_hermes_sub">SOUL.md, bellek ve beceriler.</string>
+    <string name="ctl_bak_create">Yedek oluştur</string>
+    <string name="ctl_bak_creating">Yedek oluşturuluyor…</string>
+    <string name="ctl_bak_done">Yedek kaydedildi: %1$d sohbet, %2$d bot, %3$d rutin, %4$d dosya (%5$s).</string>
+    <string name="ctl_bak_failed">Yedekleme başarısız: %1$s</string>
+    <string name="ctl_bak_restore_title">GERİ YÜKLE</string>
+    <string name="ctl_bak_restore_help">Agirî ile alınmış bir yedek dosyası seç. Bir şey değişmeden önce içindekileri görür ve onaylarsın.</string>
+    <string name="ctl_bak_restore">Yedekten geri yükle</string>
+    <string name="ctl_bak_reading">Yedek okunuyor…</string>
+    <string name="ctl_bak_restoring">Geri yükleniyor… uygulama birazdan yeniden açılacak.</string>
+    <string name="ctl_bak_busy">Şu anda bir sohbet yanıt veriyor. Bitmesini bekle, sonra tekrar dene.</string>
+    <string name="ctl_bak_restore_failed">Geri yükleme başarısız: %1$s</string>
+    <string name="ctl_bak_restart_now">Uygulamayı yeniden başlat</string>
+    <string name="ctl_bak_restored_notif">Geri yükleme bitti. Agirî\'yi açmak için dokun.</string>
+    <string name="ctl_bak_restore_confirm_title">Bu yedek geri yüklensin mi?</string>
+    <string name="ctl_bak_restore_confirm_body">%1$s tarihinde Agirî %2$s ile alındı.\n%3$d sohbet, %4$d bot, %5$d rutin, %6$d dosya (%7$s).\n\nBu işlem, bu telefondaki sohbetleri, botları, rutinleri ve kullanım sayılarını dosyadakilerle DEĞİŞTİRİR. Önce mevcut verinin bir güvenlik kopyası saklanır. Hermes durdurulur ve iş bitince uygulama yeniden başlar.</string>
+    <string name="ctl_bak_restore_confirm">Değiştir ve yeniden başlat</string>
+    <string name="ctl_bak_err_not_backup">Bu dosya bir Agirî yedeği değil.</string>
+    <string name="ctl_bak_err_newer">Bu yedek Agirî\'nin daha yeni bir sürümüyle alınmış. Önce uygulamayı güncelle.</string>
+    <string name="ctl_bak_err_too_large">Her şey birlikte bir yedeğin alabileceğinden büyük (2 GiB).</string>
+    <string name="ctl_bak_err_too_many">Tek bir yedek için çok fazla dosya var.</string>
+    <string name="ctl_bak_err_unsafe">Bu yedek kullanılamaz: güvenli olmayan ya da bilinmeyen bir öğe içeriyor.</string>
+    <string name="ctl_bak_err_damaged">Yedek bozuk: içindeki bir ayar dosyası okunamıyor.</string>
+    <string name="ctl_bak_err_read">Seçilen dosya okunamıyor.</string>
+    <string name="ctl_bak_err_write">Seçilen konuma yazılamıyor.</string>
+    <string name="ctl_bak_err_terminal">Bir terminal komutu çalışıyor. Bitmesini bekle, sonra tekrar dene.</string>
+    <string name="ctl_bak_err_unpack">Yedek dosyası okunamadı ya da açılamadı. Telefon neredeyse doluysa biraz yer aç ve tekrar dene.</string>
+    <string name="ctl_bak_err_safety">Önce mevcut verinin güvenlik kopyası kaydedilemedi, bu yüzden hiçbir şey değişmedi.</string>
+    <string name="ctl_bak_err_halfway">Geri yükleme yarıda kaldı. Uygulamayı yeniden başlat. Önceki verinin bir kopyası uygulamanın içinde backup/pre-restore.zip olarak saklanıyor.</string>
+    <string name="ctl_bots_err_empty">dosya boş</string>
+    <string name="ctl_bots_err_json">bu bir bot dosyası değil (geçerli JSON değil)</string>
+    <string name="ctl_bots_err_not_bots">bu bir Agirî bot dosyası değil</string>
+    <string name="ctl_bots_err_newer">bu dosya uygulamanın daha yeni bir sürümüyle hazırlanmış</string>
+    <string name="ctl_bots_err_many">dosyada 50\'den fazla bot var</string>
+    <string name="ctl_bots_err_field">dosyadaki bir ad, slogan ya da talimat metni çok uzun, ya da bir botun adı yok</string>
+    <string name="ctl_bots_err_malformed">dosya geçerli bir bot listesi değil</string>
+
+    <!-- phase 3: sharing bots -->
+    <string name="ctl_bots_share_title">Botları paylaş</string>
+    <string name="ctl_bots_share_help">Kendi botlarını dosyaya aktar ya da metin olarak paylaş, başka bir telefonda içe aktar. İçe aktarılan botlar kopya olarak eklenir.</string>
+    <string name="ctl_bots_export_file">Dosyaya kaydet</string>
+    <string name="ctl_bots_export_share">Paylaş</string>
+    <string name="ctl_bots_import_file">Dosyadan içe aktar</string>
+    <string name="ctl_bots_import_clip">Panodan içe aktar</string>
+    <string name="ctl_bots_export_none">Henüz dışa aktarılacak kendi botun yok.</string>
+    <string name="ctl_bots_exported">Botlar kaydedildi</string>
+    <string name="ctl_bots_export_failed">Botlar dışa aktarılamadı.</string>
+    <string name="ctl_bots_export_too_big">Paylaşmak için çok fazla metin var. Bunun yerine dosyaya kaydet.</string>
+    <string name="ctl_bots_import_title">%1$d bot içe aktarılsın mı?</string>
+    <string name="ctl_bots_import_body">Bu botlar kopya olarak eklenecek:\n%1$s\n\nSohbetten önce kişilik metinlerini oku: ajanı onlar yönlendirir.</string>
+    <string name="ctl_bots_import_confirm">İçe aktar</string>
+    <string name="ctl_bots_imported">%1$d bot içe aktarıldı</string>
+    <string name="ctl_bots_import_failed">İçe aktarılamadı: %1$s</string>
+    <string name="ctl_bots_import_empty">Pano boş.</string>
+    <string name="ctl_bots_import_none">dosyada bot yok</string>
+    <string name="ctl_bots_import_too_large">dosya çok büyük</string>
+    <string name="ctl_bots_import_error_title">İçe aktarma</string>
+    <string name="ctl_bot_export_help">Bu botu dosyaya aktar ya da metin olarak paylaş.</string>
+
+    <!-- phase 3: skills -->
+    <string name="ctl_skill_new">Yeni beceri</string>
+    <string name="ctl_skill_new_title">Beceri oluştur</string>
+    <string name="ctl_skill_new_help">Beceri, Hermes\'in bir iş gerektirdiğinde açtığı kısa bir yönerge notudur. Bir şablonla başlar, sonra sen düzenlersin.</string>
+    <string name="ctl_skill_f_name">Ad (örneğin yemek-tarifi)</string>
+    <string name="ctl_skill_f_desc">Hermes bunu ne zaman kullanmalı? (tek cümle)</string>
+    <string name="ctl_skill_f_category">Kategori klasörü (isteğe bağlı)</string>
+    <string name="ctl_skill_name_bad">Yalnızca küçük harf, rakam, - ve _ kullan; en çok 64 karakter, harf veya rakamla başlasın.</string>
+    <string name="ctl_skill_exists">Bu adda bir beceri zaten var ya da kategori başlı başına bir beceri.</string>
+    <string name="ctl_skill_created">Beceri oluşturuldu</string>
+    <string name="ctl_skill_create">Oluştur</string>
+    <string name="ctl_skill_create_failed">Beceri oluşturulamadı: %1$s</string>
+    <string name="ctl_skill_delete">Beceriyi sil</string>
+    <string name="ctl_skill_delete_title">%1$s silinsin mi?</string>
+    <string name="ctl_skill_delete_body">Bu becerinin tüm klasörü Hermes\'ten kaldırılır. Hermes ile gelen bir beceri güncellemeden sonra geri gelebilir. Geri alınamaz.</string>
+    <string name="ctl_skill_deleted">Beceri silindi</string>
+    <string name="ctl_skill_delete_failed">Beceri silinemedi: %1$s</string>
+
+    <!-- phase 3: terminal colours -->
+    <string name="ctl_term_colors">Renkler</string>
+    <string name="ctl_term_colors_desc">Komut çıktısında renkleri göster</string>
 </resources>

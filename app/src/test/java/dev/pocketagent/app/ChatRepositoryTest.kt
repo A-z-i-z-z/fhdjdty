@@ -234,10 +234,163 @@ class ChatRepositoryTest {
         assertEquals(BotPresets.dengbej.systemPrompt, open(dir).bot("dengbej")!!.systemPrompt)
     }
 
+    // ---- Phase 3: unread, stars, routine chats, restore support ---------------------------------------------------
+
+    @Test fun unreadCountsUpUnlessTheChatIsOnScreenAndNeverTouchesTheOrder() {
+        val r = open(File(tmp.root, "chat"))
+        val a = r.createConversation(listOf("hermes"), "a")
+        Thread.sleep(5)
+        val b = r.createConversation(listOf("hermes"), "b")
+        val updatedBefore = r.conversation(a.id)!!.updatedAt
+        r.bumpUnread(a.id); r.bumpUnread(a.id)
+        assertEquals(2, r.conversation(a.id)!!.unread)
+        assertEquals("unread never bumps updatedAt", updatedBefore, r.conversation(a.id)!!.updatedAt)
+        assertEquals("order unchanged", listOf(b.id, a.id), r.conversations.value.map { it.id })
+        r.setActiveConversation(a.id)
+        assertEquals(a.id, r.activeConversation)
+        assertEquals("opening clears", 0, r.conversation(a.id)!!.unread)
+        r.bumpUnread(a.id)
+        assertEquals("on screen: no bump", 0, r.conversation(a.id)!!.unread)
+        r.setActiveConversation(null)
+        assertNull(r.activeConversation)
+        r.markUnread(a.id)
+        assertEquals(1, r.conversation(a.id)!!.unread)
+        r.bumpUnread(a.id)
+        r.markUnread(a.id)
+        assertEquals("markUnread keeps a higher count", 2, r.conversation(a.id)!!.unread)
+        r.markRead(a.id)
+        assertEquals(0, r.conversation(a.id)!!.unread)
+        r.bumpUnread("nope")   // unknown chat: ignored
+    }
+
+    @Test fun unreadStarsAndRoutineSurviveARestartAndOldFilesLoadUnchanged() {
+        val dir = File(tmp.root, "chat")
+        val a = open(dir)
+        val c = a.createConversation(listOf("hermes"), "Plans")
+        a.addMessage(msg(c.id, "m1", Role.USER, "q"))
+        a.addMessage(msg(c.id, "m2", Role.BOT, "answer", "hermes").copy(tokensIn = 1200, tokensOut = 340, model = "google/x"))
+        a.setStarred(c.id, "m2", true)
+        a.bumpUnread(c.id)
+        a.setRoutine(c.id, "rt1")
+        a.flush()
+        val b = open(dir)
+        assertEquals(1, b.conversation(c.id)!!.unread)
+        assertEquals("rt1", b.conversation(c.id)!!.routineId)
+        val m2 = b.messagesSnapshot(c.id)[1]
+        assertTrue(m2.starred)
+        assertEquals(1200L, m2.tokensIn); assertEquals(340L, m2.tokensOut); assertEquals("google/x", m2.model)
+
+        // New fields are only written when they differ from the default, and a file without them loads with the defaults.
+        val plain = dev.pocketagent.app.data.ChatJson.msgToJson(msg(c.id, "m3", Role.USER, "hi")).toString()
+        assertFalse(plain.contains("tokensIn") || plain.contains("starred") || plain.contains("\"model\""))
+        val plainConv = dev.pocketagent.app.data.ChatJson.convToJson(dev.pocketagent.app.data.Conversation("x", "t", listOf("hermes"), 1, 1)).toString()
+        assertFalse(plainConv.contains("unread") || plainConv.contains("routineId"))
+        val old = dev.pocketagent.app.data.ChatJson.convFromJson(org.json.JSONObject("""{"id":"o","title":"Old","botIds":["hermes"],"createdAt":5}"""))!!
+        assertEquals(0, old.unread); assertEquals("", old.routineId)
+        val oldMsg = dev.pocketagent.app.data.ChatJson.msgFromJson(org.json.JSONObject("""{"id":"x","role":"BOT","text":"t","createdAt":1}"""), "c")!!
+        assertEquals(0L, oldMsg.tokensIn); assertEquals("", oldMsg.model); assertFalse(oldMsg.starred)
+    }
+
+    @Test fun starredMessagesListsAllChatsNewestFirstEvenWhenNotLoaded() {
+        val dir = File(tmp.root, "chat")
+        val a = open(dir)
+        val c1 = a.createConversation(listOf("hermes"), "one")
+        val c2 = a.createConversation(listOf("hermes"), "two")
+        a.addMessage(msg(c1.id, "a1", Role.BOT, "old star", "hermes", t = 100))
+        a.addMessage(msg(c2.id, "b1", Role.BOT, "new star", "hermes", t = 300))
+        a.addMessage(msg(c2.id, "b2", Role.BOT, "plain", "hermes", t = 400))
+        a.addMessage(msg(c1.id, "a2", Role.BOT, "mid star", "hermes", t = 200))
+        a.setStarred(c1.id, "a1", true); a.setStarred(c2.id, "b1", true); a.setStarred(c1.id, "a2", true)
+        a.flush()
+        for (r in listOf(a, open(dir))) {   // in memory and read from the files
+            val s = r.starredMessages()
+            assertEquals(listOf("b1", "a2", "a1"), s.map { it.second.id })
+            assertEquals(listOf(c2.id, c1.id, c1.id), s.map { it.first.id })
+        }
+        a.setStarred(c1.id, "a1", false)
+        assertEquals(listOf("b1", "a2"), a.starredMessages().map { it.second.id })
+    }
+
+    @Test fun starredMessagesAreCappedAt300() {
+        val r = open(File(tmp.root, "chat"))
+        val c = r.createConversation(listOf("hermes"))
+        for (i in 1..320) r.addMessage(msg(c.id, "m$i", Role.BOT, "t$i", "hermes", t = i.toLong()).copy(starred = true))
+        val s = r.starredMessages()
+        assertEquals(300, s.size)
+        assertEquals("m320", s.first().second.id)
+    }
+
+    @Test fun forkResetsUnreadRoutineAndStars() {
+        val r = open(File(tmp.root, "chat"))
+        val c = r.createConversation(listOf("hermes"), "Chat")
+        r.addMessage(msg(c.id, "m1", Role.BOT, "x", "hermes").copy(tokensIn = 5))
+        r.setStarred(c.id, "m1", true); r.bumpUnread(c.id); r.setRoutine(c.id, "rt")
+        val f = r.forkConversation(c.id)!!
+        assertEquals(0, f.unread); assertEquals("", f.routineId)
+        val m = r.messagesSnapshot(f.id).single()
+        assertFalse(m.starred)
+        assertEquals("history keeps its numbers", 5L, m.tokensIn)
+        assertTrue("the original keeps its flags", r.messagesSnapshot(c.id).single().starred && r.conversation(c.id)!!.unread == 1)
+    }
+
+    @Test fun nothingIsWrittenAfterSuspendWrites() {
+        val dir = File(tmp.root, "chat")
+        val r = open(dir)
+        val c = r.createConversation(listOf("hermes"), "Before")
+        r.flush()
+        val before = File(dir, "conversations.json").readText()
+        r.suspendWrites()
+        r.renameConversation(c.id, "After")
+        r.addMessage(msg(c.id, "m1", Role.USER, "hello"))
+        r.flush()
+        Thread.sleep(200)   // longer than the debounce
+        assertEquals(before, File(dir, "conversations.json").readText())
+        assertFalse(File(dir, "messages/${c.id}.json").exists())
+        assertEquals("still usable in memory", "After", r.conversation(c.id)!!.title)
+    }
+
     @Test fun currentPresetsAreNotTreatedAsLegacy() {
         for (t in BotPresets.templates) assertEquals(t, BotPresets.upgradeLegacy(t))
         // The personas that mention a language (all but the translator) really changed, so existing installs can be upgraded.
         for (id in listOf("rebel", "coder", "dengbej", "teacher", "critic", "planner"))
             assertTrue(id, dev.pocketagent.app.data.LegacyBotPrompts.byId.getValue(id).none { it.trim() == BotPresets.templates.first { t -> t.id == id }.systemPrompt.trim() })
+    }
+
+    @Test fun indexIntactIsTrueForAFreshOrValidIndexAndFalseForACorruptOne() {
+        val fresh = File(tmp.root, "fresh")
+        assertTrue(open(fresh).indexIntact)
+        val dir = File(tmp.root, "chat")
+        val a = open(dir); a.createConversation(listOf("hermes"), "x"); a.flush()
+        assertTrue(open(dir).indexIntact)
+        File(dir, "conversations.json").writeText("[1,2,")
+        val c = open(dir)
+        assertFalse("a corrupt chat list must not be taken as 'no chats exist'", c.indexIntact)
+        assertTrue(c.conversations.value.isEmpty())
+    }
+
+    @Test fun setStarredOnAChatThatIsNotInMemoryAppliesInTheBackground() {
+        val dir = File(tmp.root, "chat")
+        val a = open(dir)
+        val c = a.createConversation(listOf("hermes"), "one")
+        a.addMessage(msg(c.id, "m1", Role.BOT, "x", "hermes"))
+        a.setStarred(c.id, "m1", true)
+        a.flush()
+        val b = open(dir)            // cold start: the messages are not loaded
+        b.setStarred(c.id, "m1", false)   // must return without reading the file on this thread
+        waitFor { b.starredMessages().isEmpty() }
+        b.flush()
+        assertFalse(open(dir).messagesSnapshot(c.id).single().starred)
+    }
+
+    @Test fun suspendWritesReturnsAndStopsAllWrites() {
+        val dir = File(tmp.root, "chat")
+        val a = open(dir)
+        a.flush()
+        val before = File(dir, "conversations.json").takeIf { it.exists() }?.readText()
+        a.suspendWrites()
+        a.createConversation(listOf("hermes"), "late")
+        a.flush()
+        Thread.sleep(80)
+        assertEquals(before, File(dir, "conversations.json").takeIf { it.exists() }?.readText())
     }
 }

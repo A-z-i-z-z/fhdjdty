@@ -25,6 +25,7 @@ object SlashCommands {
         SlashCommandDef("skills", "/skills [query]", SlashCategory.ACTION),
         SlashCommandDef("remember", "/remember <fact>", SlashCategory.ACTION),
         SlashCommandDef("memory", "/memory", SlashCategory.ACTION),
+        SlashCommandDef("find", "/find <text>", SlashCategory.ACTION),
         SlashCommandDef("theme", "/theme <name>", SlashCategory.ACTION),
         SlashCommandDef("export", "/export", SlashCategory.ACTION),
         SlashCommandDef("clear", "/clear", SlashCategory.ACTION),

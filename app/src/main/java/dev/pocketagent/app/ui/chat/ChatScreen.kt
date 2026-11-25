@@ -6,10 +6,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.provider.DocumentsContract
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -64,11 +66,13 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.pocketagent.app.MainViewModel
 import dev.pocketagent.app.PocketApp
 import dev.pocketagent.app.R
 import dev.pocketagent.app.data.Attachment
+import dev.pocketagent.app.data.ChatEngine
 import dev.pocketagent.app.data.ChatMode
 import dev.pocketagent.app.data.Conversation
 import dev.pocketagent.app.data.GroupMode
@@ -96,6 +100,7 @@ import dev.pocketagent.app.voice.SoundCue
 import dev.pocketagent.app.voice.voiceOverride
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -163,6 +168,16 @@ private fun ChatBody(conv: Conversation) {
     val ap by AppearanceStore.get(ctx).appearance.collectAsState()
     val msgsFlow = remember(convId) { repo.messages(convId) }
     val msgs by msgsFlow.collectAsState()
+    val presenceSettings by app.presencePrefs.settings.collectAsState()
+
+    // The chat on screen counts as read and its notification goes away; leaving or pausing hands the "active" mark back.
+    LifecycleResumeEffect(convId) {
+        repo.setActiveConversation(convId)
+        app.presence.notifier.cancelFor(convId)
+        onPauseOrDispose {
+            if (repo.activeConversation == convId) repo.setActiveConversation(null)
+        }
+    }
 
     val botsById = remember(bots) { bots.associateBy { it.id } }
     val members = conv.botIds.map { botsById[it] }
@@ -171,7 +186,10 @@ private fun ChatBody(conv: Conversation) {
     val generating = convId in busySet
     val speakingBot = speaking[convId]?.let { botsById[it] }
     val title = conversationTitle(conv, botsById)
+    // Wake-on-send: the message is shown and the engine is lighting the fire before it delivers it.
+    val waking = statusMap[convId] == ChatEngine.STATUS_WAKING
     val subtitle = when {
+        waking -> stringResource(R.string.ui_chat_waking)
         generating && !statusMap[convId].isNullOrBlank() -> statusMap[convId].orEmpty()
         generating && speakingBot != null -> stringResource(R.string.ui_chat_typing_who, speakingBot.name)
         generating -> stringResource(R.string.ui_chat_typing)
@@ -180,9 +198,22 @@ private fun ChatBody(conv: Conversation) {
     }.takeIf { it.isNotBlank() }
 
     // ---- input state ----
-    var input by remember(convId) { mutableStateOf(ChatDrafts[convId]) }
-    DisposableEffect(convId) { onDispose { ChatDrafts[convId] = input } }
+    var input by remember(convId) { mutableStateOf(app.drafts[convId]) }
     var editing by remember(convId) { mutableStateOf<Message?>(null) }
+    // The draft that was in the input when "Edit" replaced it with the old message; restored when the edit ends.
+    var preEditDraft by remember(convId) { mutableStateOf("") }
+    // Whether the Hermes rootfs is unpacked: re-read only when the runtime state changes. Must match the engine's canWake.
+    val runtimeInstalled = remember(runtime) { app.runtime.isRootfsValid() }
+    // Drafts survive leaving the chat and the process: saved a moment after the last keystroke (never while editing a sent message).
+    LaunchedEffect(convId) {
+        snapshotFlow { if (editing == null) input else null }.collectLatest { text ->
+            if (text != null) {
+                delay(300)
+                app.drafts[convId] = text
+            }
+        }
+    }
+    DisposableEffect(convId) { onDispose { if (editing == null) app.drafts[convId] = input } }
     var spark by remember { mutableIntStateOf(0) }
     var pendingAttachments by remember(convId) { mutableStateOf<List<Attachment>>(emptyList()) }
     val shareInbox by ChatShareInbox.pending.collectAsState()
@@ -225,6 +256,16 @@ private fun ChatBody(conv: Conversation) {
     var confirmDelete by remember { mutableStateOf(false) }
     var confirmClear by remember { mutableStateOf(false) }
     var showMembers by remember { mutableStateOf(false) }
+
+    // ---- find in chat, export ----
+    var searching by remember(convId) { mutableStateOf(false) }
+    var searchQuery by remember(convId) { mutableStateOf("") }
+    var searchPos by remember(convId) { mutableIntStateOf(0) }
+    var flashId by remember(convId) { mutableStateOf<String?>(null) }
+    val openSearch: (String) -> Unit = { q -> searching = true; searchQuery = q; searchPos = Int.MAX_VALUE }
+    val closeSearch: () -> Unit = { searching = false; searchQuery = "" }
+    BackHandler(enabled = searching) { closeSearch() }
+    var exportMenu by remember { mutableStateOf(false) }
 
     // ---- voice input (STT: inline SpeechRecognizer + RecognizerIntent fallback) ----
     val sttLocaleTag = remember(ap.language) {
@@ -374,6 +415,51 @@ private fun ChatBody(conv: Conversation) {
         if (uri != null) attachImport { app.attachments.importDocument(uri) }
     }
 
+    // ---- export to a file ----
+    val exportLabels = ExportLabels(
+        you = stringResource(R.string.ui_export_you),
+        tool = stringResource(R.string.ui_export_tool),
+        error = stringResource(R.string.ui_export_error),
+        bot = stringResource(R.string.ui_export_bot),
+    )
+    val exportNoStream = stringResource(R.string.ui_export_no_stream)
+    val exportEmpty = stringResource(R.string.ui_export_empty)
+    val buildExport: () -> String = { exportMarkdown(title, msgs, exportLabels) { m -> botsById[m.botId]?.name ?: exportLabels.bot } }
+    // The text is NOT carried across the file picker (the process may die while it is open): it is rebuilt from the
+    // stored messages when the picker returns the Uri.
+    val exportLauncher = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("text/markdown")) { uri ->
+        if (uri != null) {
+            scope.launch {
+                val failure: String? = withContext(Dispatchers.IO) {
+                    try {
+                        val snapshot = repo.messagesSnapshot(convId)
+                        if (snapshot.isEmpty()) {
+                            // The picker already created the file: do not leave an empty one behind.
+                            runCatching { DocumentsContract.deleteDocument(ctx.contentResolver, uri) }
+                            return@withContext exportEmpty
+                        }
+                        val names = repo.bots.value.associateBy { it.id }
+                        val text = exportMarkdown(title, snapshot, exportLabels) { m -> names[m.botId]?.name ?: exportLabels.bot }
+                        val out = ctx.contentResolver.openOutputStream(uri, "wt")
+                        if (out == null) {
+                            runCatching { DocumentsContract.deleteDocument(ctx.contentResolver, uri) }
+                            return@withContext exportNoStream
+                        }
+                        out.use { it.write(text.toByteArray(Charsets.UTF_8)) }
+                        null
+                    } catch (e: Exception) {
+                        e.message ?: e.javaClass.simpleName
+                    }
+                }
+                Toast.makeText(
+                    ctx,
+                    if (failure == null) ctx.getString(R.string.ui_export_saved) else ctx.getString(R.string.ui_export_failed, failure),
+                    Toast.LENGTH_SHORT,
+                ).show()
+            }
+        }
+    }
+
     // ---- list ----
     val reversed = remember(msgs) { msgs.asReversed() }
     val listState = rememberLazyListState()
@@ -392,9 +478,52 @@ private fun ChatBody(conv: Conversation) {
     val newestKey = if (showPending) "pending" else reversed.firstOrNull()?.id
     LaunchedEffect(newestKey) { if (stick) listState.animateScrollToItem(0) }
 
+    // Find in chat: the matches (oldest first), the current one, and where the outline goes. Only the row whose outline changes recomposes.
+    val matchIds = remember(msgs, searching, searchQuery) { if (searching) findMatchingMessageIds(msgs, searchQuery) else emptyList() }
+    val matchPos = if (matchIds.isEmpty()) -1 else searchPos.coerceIn(0, matchIds.lastIndex)
+    val currentMatchId = if (searching) matchIds.getOrNull(matchPos) else null
+    val outlineId = if (searching) currentMatchId else flashId
+    LaunchedEffect(currentMatchId) {
+        val id = currentMatchId ?: return@LaunchedEffect
+        val idx = reversed.indexOfFirst { it.id == id }
+        if (idx >= 0) {
+            stick = false
+            listState.animateScrollToItem(idx + (if (showPending) 1 else 0), -(listState.layoutInfo.viewportSize.height / 3))
+        }
+    }
+
+    // A deep link to one message (saved messages, a search hit): scroll there once it is loaded, flash its outline for a moment.
+    val scrollTarget by ChatScrollTarget.pending.collectAsState()
+    val myTarget = scrollTarget?.takeIf { it.convId == convId }
+    val targetReady = myTarget != null && reversed.any { it.id == myTarget.messageId }
+    LaunchedEffect(myTarget, targetReady) {
+        val t = myTarget ?: return@LaunchedEffect
+        if (!targetReady) {
+            delay(5000L) // the messages may still be loading; give up after a while
+            ChatScrollTarget.consume(t)
+            return@LaunchedEffect
+        }
+        val idx = reversed.indexOfFirst { it.id == t.messageId }
+        if (idx >= 0) {
+            stick = false
+            flashId = t.messageId
+            scope.launch {
+                delay(2500L)
+                if (flashId == t.messageId) flashId = null
+            }
+            listState.scrollToItem(idx + (if (showPending) 1 else 0), -(listState.layoutInfo.viewportSize.height / 3))
+        }
+        ChatScrollTarget.consume(t)
+    }
+
     val lastBotId = msgs.lastOrNull { it.role == MsgRole.BOT }?.id
     val lastBotIsLast = msgs.lastOrNull { it.role != MsgRole.NOTE }?.role == MsgRole.BOT
     val lastId = msgs.lastOrNull()?.id
+
+    // The engine refuses a message it cannot deliver (Hermes asleep and no wake-on-send, or nothing installed): never silently.
+    val toastNotSent: () -> Unit = {
+        Toast.makeText(ctx, R.string.ui_send_not_accepted, Toast.LENGTH_SHORT).show()
+    }
 
     val executeSlash: (SlashCommands.ParsedSlash) -> Unit = { parsed ->
         val arg = parsed.arg
@@ -409,7 +538,7 @@ private fun ChatBody(conv: Conversation) {
                 repo.setMode(convId, targetMode)
                 if (arg.isNotBlank() || pendingAttachments.isNotEmpty()) {
                     val sent = engine.send(convId, arg, mentionTargets, pendingAttachments).accepted()
-                    if (sent) { pendingAttachments = emptyList(); spark++; stick = true }
+                    if (sent) { pendingAttachments = emptyList(); spark++; stick = true } else toastNotSent()
                 } else {
                     val modeLabel = ctx.getString(
                         when (targetMode) {
@@ -426,7 +555,7 @@ private fun ChatBody(conv: Conversation) {
                 val (passes, body) = SlashCommands.parseLoopArgs(arg)
                 if (body.isNotBlank() || pendingAttachments.isNotEmpty()) {
                     val sent = engine.runLoop(convId, body, passes, pendingAttachments, mentionTargets).accepted()
-                    if (sent) { pendingAttachments = emptyList(); spark++; stick = true }
+                    if (sent) { pendingAttachments = emptyList(); spark++; stick = true } else toastNotSent()
                 } else {
                     engine.addLocalNote(convId, ctx.getString(R.string.ui_mode_on_note, ctx.getString(R.string.ui_mode_banner_loop)))
                 }
@@ -440,7 +569,7 @@ private fun ChatBody(conv: Conversation) {
                     engine.addLocalNote(convId, ctx.getString(R.string.ui_cmd_forge_usage))
                 } else {
                     val sent = engine.send(convId, "/forge $arg", mentionTargets, pendingAttachments).accepted()
-                    if (sent) { pendingAttachments = emptyList(); spark++; stick = true }
+                    if (sent) { pendingAttachments = emptyList(); spark++; stick = true } else toastNotSent()
                 }
             }
             "skills" -> {
@@ -505,23 +634,8 @@ private fun ChatBody(conv: Conversation) {
                     engine.addLocalNote(convId, ctx.getString(R.string.ui_cmd_theme_switched, pick.name.lowercase().replaceFirstChar { ch -> ch.uppercase() }))
                 }
             }
-            "export" -> {
-                val md = buildString {
-                    appendLine("# $title")
-                    appendLine()
-                    msgs.forEach { m ->
-                        when (m.role) {
-                            MsgRole.USER -> appendLine("**You:** ${m.text}")
-                            MsgRole.BOT -> appendLine("**${botsById[m.botId]?.name ?: "Bot"}:** ${m.text}")
-                            MsgRole.TOOL -> appendLine("> Tool `${m.toolName ?: "tool"}`: ${m.text}")
-                            MsgRole.NOTE -> appendLine("_${m.text}_")
-                            MsgRole.ERROR -> appendLine("**Error:** ${m.text}")
-                        }
-                        appendLine()
-                    }
-                }.trim()
-                shareText(ctx, md)
-            }
+            "export" -> exportMenu = true
+            "find" -> openSearch(arg)
             "clear" -> confirmClear = true
             "help" -> {
                 val note = buildString {
@@ -578,8 +692,14 @@ private fun ChatBody(conv: Conversation) {
             if (t.isNotEmpty()) {
                 haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                 val ok = engine.editAndResend(convId, ed.id, t).accepted()
-                if (ok) { input = ""; editing = null; spark++; stick = true }
-                if (ok) scope.launch { listState.animateScrollToItem(0) }
+                if (ok) {
+                    // Back to the draft that was being typed before the edit began (the saver writes it again).
+                    input = preEditDraft; preEditDraft = ""
+                    editing = null; spark++; stick = true
+                    scope.launch { listState.animateScrollToItem(0) }
+                } else {
+                    toastNotSent()
+                }
             }
         } else {
             val slash = SlashCommands.parse(t)
@@ -600,6 +720,8 @@ private fun ChatBody(conv: Conversation) {
                     app.sounds.play(SoundCue.SEND)
                     input = ""; pendingAttachments = emptyList(); spark++; stick = true
                     scope.launch { listState.animateScrollToItem(0) }
+                } else {
+                    toastNotSent()
                 }
             }
         }
@@ -614,6 +736,14 @@ private fun ChatBody(conv: Conversation) {
             leading = { AvatarStack(members, 36.dp) },
             actions = {
                 if (conv.pinned) PixelIconView(PixelIcon.PIN, tint = c.accent, size = 18.dp)
+                if (msgs.isNotEmpty()) {
+                    PixelIconButton(
+                        PixelIcon.SEARCH,
+                        onClick = { if (searching) closeSearch() else openSearch("") },
+                        contentDescription = stringResource(R.string.ui_chat_find),
+                        tint = if (searching) c.accent else c.text,
+                    )
+                }
                 PixelIconButton(
                     PixelIcon.SLIDERS,
                     onClick = { showControls = true },
@@ -623,6 +753,17 @@ private fun ChatBody(conv: Conversation) {
                 PixelIconButton(PixelIcon.MORE, onClick = { menu = true }, contentDescription = stringResource(R.string.ui_chat_more))
             },
         )
+        if (searching) {
+            ChatSearchBar(
+                query = searchQuery,
+                onQueryChange = { searchQuery = it; searchPos = Int.MAX_VALUE },
+                matchCount = matchIds.size,
+                position = matchPos,
+                onPrev = { searchPos = cycleIndex(matchPos, matchIds.size, -1) },
+                onNext = { searchPos = cycleIndex(matchPos, matchIds.size, 1) },
+                onClose = closeSearch,
+            )
+        }
         if (isGroup) {
             GroupParticipantBar(
                 members = memberBots,
@@ -707,6 +848,7 @@ private fun ChatBody(conv: Conversation) {
                             repo.setConversationBots(convId, conv.botIds + botId)
                         },
                         onEditBot = { botId -> nav.go(Route.BotEditor(botId)) },
+                        highlighted = m.id == outlineId,
                     )
                 }
             }
@@ -730,7 +872,8 @@ private fun ChatBody(conv: Conversation) {
             text = input, onTextChange = { input = it },
             members = memberBots, isGroup = isGroup, mentionOnly = conv.groupMode == GroupMode.MENTION_ONLY,
             busy = generating, runtime = runtime, setupIncomplete = vm.savedConfigIncomplete(),
-            editing = editing != null, onCancelEdit = { editing = null; input = "" },
+            runtimeInstalled = runtimeInstalled,
+            editing = editing != null, onCancelEdit = { editing = null; input = preEditDraft; preEditDraft = "" },
             sparkTrigger = spark, onSend = doSend, onStop = { engine.stop(convId) },
             onStart = { vm.start() }, onOpenSetup = { nav.go(Route.Settings("provider")) },
             attachments = pendingAttachments,
@@ -747,6 +890,8 @@ private fun ChatBody(conv: Conversation) {
             },
             listening = listening,
             onMicClick = onMicTap,
+            wakeOnSend = presenceSettings.wakeOnSend,
+            waking = waking,
         )
     }
 
@@ -754,8 +899,10 @@ private fun ChatBody(conv: Conversation) {
     if (menu) {
         val acts = ArrayList<SheetAction>()
         acts += SheetAction(PixelIcon.SLIDERS, stringResource(R.string.ui_ctrl_title)) { showControls = true }
+        if (msgs.isNotEmpty()) acts += SheetAction(PixelIcon.SEARCH, stringResource(R.string.ui_chat_find)) { openSearch("") }
         acts += SheetAction(PixelIcon.SKILL, stringResource(R.string.ui_ctrl_skills)) { skillPickerQuery = "" }
         if (msgs.isNotEmpty()) acts += SheetAction(PixelIcon.FORK, stringResource(R.string.ui_ctrl_fork)) { doFork(null) }
+        if (msgs.isNotEmpty()) acts += SheetAction(PixelIcon.SHARE, stringResource(R.string.ui_act_export)) { exportMenu = true }
         acts += SheetAction(PixelIcon.EDIT, stringResource(R.string.ui_act_rename)) { rename = true }
         acts += SheetAction(PixelIcon.PIN, stringResource(if (conv.pinned) R.string.ui_act_unpin else R.string.ui_act_pin)) {
             repo.setPinned(convId, !conv.pinned)
@@ -783,17 +930,45 @@ private fun ChatBody(conv: Conversation) {
             copyToClipboard(ctx, m.text)
             app.sounds.play(SoundCue.TAP)
         }
+        if ((m.role == MsgRole.USER || m.role == MsgRole.BOT) && m.text.isNotBlank()) {
+            val starredNow = msgs.firstOrNull { it.id == m.id }?.starred ?: m.starred
+            acts += SheetAction(
+                if (starredNow) PixelIcon.STAR else PixelIcon.STAR_OFF,
+                stringResource(if (starredNow) R.string.ui_act_unstar else R.string.ui_act_star),
+            ) { repo.setStarred(convId, m.id, !starredNow) }
+        }
         acts += SheetAction(PixelIcon.FORK, stringResource(R.string.ui_act_fork)) { doFork(m.id) }
         acts += SheetAction(PixelIcon.SCROLL, stringResource(R.string.ui_act_select)) { selectFor = m }
         acts += SheetAction(PixelIcon.SHARE, stringResource(R.string.ui_act_share)) { shareText(ctx, m.text) }
         if (m.role == MsgRole.USER && !generating) {
-            acts += SheetAction(PixelIcon.EDIT, stringResource(R.string.ui_act_edit)) { editing = m; input = m.text }
+            acts += SheetAction(PixelIcon.EDIT, stringResource(R.string.ui_act_edit)) {
+                // Park the half-typed draft; cancel or a finished edit gives it back.
+                if (editing == null) preEditDraft = input
+                editing = m; input = m.text
+            }
         }
         if (m.role == MsgRole.BOT && m.id == lastBotId && lastBotIsLast && !generating) {
             acts += SheetAction(PixelIcon.REFRESH, stringResource(R.string.ui_act_regen)) { engine.regenerateLast(convId) }
         }
         acts += SheetAction(PixelIcon.TRASH, stringResource(R.string.ui_act_delete), danger = true) { repo.deleteMessage(convId, m.id) }
         ActionSheet(null, acts) { actionsFor = null }
+    }
+
+    if (exportMenu) {
+        val failedLabel = stringResource(R.string.ui_export_failed, "")
+        ActionSheet(
+            stringResource(R.string.ui_export_title),
+            listOf(
+                SheetAction(PixelIcon.SHARE, stringResource(R.string.ui_act_share)) { shareText(ctx, buildExport()) },
+                SheetAction(PixelIcon.DOWNLOAD, stringResource(R.string.ui_export_save)) {
+                    try {
+                        exportLauncher.launch(exportFileName(title))
+                    } catch (e: Exception) {
+                        Toast.makeText(ctx, failedLabel + (e.message ?: ""), Toast.LENGTH_SHORT).show()
+                    }
+                },
+            ),
+        ) { exportMenu = false }
     }
 
     selectFor?.let { m ->
@@ -862,6 +1037,7 @@ private fun ChatBody(conv: Conversation) {
             onOpenSkills = { skillPickerQuery = "" },
             onForkChat = { doFork(null) },
             onDismiss = { showControls = false },
+            usage = chatUsageTotals(msgs),
         )
     }
     skillPickerQuery?.let { initialQ ->

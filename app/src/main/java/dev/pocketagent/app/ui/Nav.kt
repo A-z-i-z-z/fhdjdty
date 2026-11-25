@@ -6,7 +6,7 @@ import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.listSaver
 import androidx.compose.runtime.staticCompositionLocalOf
 
-/** Every screen of the app. Tabs: Home, Chats, Bots, Hermes, Settings. */
+/** Every screen of the app. Tabs: Home, Chats, Bots, Hermes, Settings. Routines belong to Home, Starred to Chats. */
 sealed interface Route {
     data object Home : Route
     data object Chats : Route
@@ -16,6 +16,11 @@ sealed interface Route {
     data object Hermes : Route
     data object Terminal : Route
     data class Settings(val section: String? = null) : Route
+    data object Routines : Route
+    /** [routineId] null = a new routine. */
+    data class RoutineEditor(val routineId: String?) : Route
+    /** Saved (starred) messages of all chats. */
+    data object Starred : Route
 }
 
 /**
@@ -72,6 +77,9 @@ internal fun Route.encode(): String = when (this) {
     Route.Hermes -> "hermes"
     Route.Terminal -> "terminal"
     is Route.Settings -> if (section == null) "settings" else "settings:$section"
+    Route.Routines -> "routines"
+    is Route.RoutineEditor -> if (routineId == null) "routinenew" else "routine:$routineId"
+    Route.Starred -> "starred"
 }
 
 internal fun decodeRoute(s: String): Route? = when {
@@ -85,5 +93,9 @@ internal fun decodeRoute(s: String): Route? = when {
     s == "terminal" -> Route.Terminal
     s == "settings" -> Route.Settings(null)
     s.startsWith("settings:") -> Route.Settings(s.removePrefix("settings:"))
+    s == "routines" -> Route.Routines
+    s == "routinenew" -> Route.RoutineEditor(null)
+    s.startsWith("routine:") -> Route.RoutineEditor(s.removePrefix("routine:"))
+    s == "starred" -> Route.Starred
     else -> null
 }

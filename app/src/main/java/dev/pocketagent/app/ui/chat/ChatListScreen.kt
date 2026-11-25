@@ -1,6 +1,7 @@
 package dev.pocketagent.app.ui.chat
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -30,6 +32,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
@@ -72,6 +76,7 @@ fun ChatListScreen() {
     val convs by repo.conversations.collectAsState()
     val bots by repo.bots.collectAsState()
     val busy by app.engine.busy.collectAsState()
+    val drafts by app.drafts.drafts.collectAsState()
     val c = Pocket.colors
     val botsById = remember(bots) { bots.associateBy { it.id } }
     val untitled = stringResource(R.string.ui_chats_untitled)
@@ -98,6 +103,7 @@ fun ChatListScreen() {
             "PINNED" -> convs.filter { it.pinned }
             "GROUPS" -> convs.filter { it.isGroup }
             "DIRECT" -> convs.filter { !it.isGroup }
+            "UNREAD" -> convs.filter { it.unread > 0 }
             "MODES" -> convs.filter { it.mode != ChatMode.NORMAL || it.modelOverride.isNotBlank() || it.effortOverride.isNotBlank() }
             else -> convs
         }
@@ -114,7 +120,15 @@ fun ChatListScreen() {
 
     Box(Modifier.fillMaxSize()) {
         Column(Modifier.fillMaxSize()) {
-            PocketTopBar(title = stringResource(R.string.ui_chats_title))
+            PocketTopBar(
+                title = stringResource(R.string.ui_chats_title),
+                actions = {
+                    PixelIconButton(
+                        PixelIcon.STAR, onClick = { nav.go(Route.Starred) },
+                        contentDescription = stringResource(R.string.ui_starred_title),
+                    )
+                },
+            )
             Row(Modifier.fillMaxWidth().padding(start = 12.dp, end = 4.dp, top = 4.dp, bottom = 4.dp), verticalAlignment = Alignment.CenterVertically) {
                 PocketTextField(
                     value = query, onValueChange = { query = it }, modifier = Modifier.weight(1f),
@@ -130,6 +144,7 @@ fun ChatListScreen() {
                     horizontalArrangement = Arrangement.spacedBy(6.dp),
                 ) {
                     PocketChip(stringResource(R.string.ui_filter_all), filter == "ALL", { filter = "ALL" })
+                    PocketChip(stringResource(R.string.ui_filter_unread), filter == "UNREAD", { filter = "UNREAD" }, icon = PixelIcon.BELL)
                     PocketChip(stringResource(R.string.ui_filter_pinned), filter == "PINNED", { filter = "PINNED" }, icon = PixelIcon.PIN)
                     PocketChip(stringResource(R.string.ui_filter_groups), filter == "GROUPS", { filter = "GROUPS" }, icon = PixelIcon.GROUP)
                     PocketChip(stringResource(R.string.ui_filter_direct), filter == "DIRECT", { filter = "DIRECT" }, icon = PixelIcon.USER)
@@ -162,24 +177,27 @@ fun ChatListScreen() {
                         if (pinned.isNotEmpty()) {
                             item(key = "h-pinned") { ListLabel(stringResource(R.string.ui_chats_pinned)) }
                             items(pinned, key = { it.id }) { cv ->
-                                ConversationRow(cv, botsById, cv.id in busy, { openChat(cv) }, { longPress(cv) })
+                                ConversationRow(cv, botsById, cv.id in busy, { openChat(cv) }, { longPress(cv) }, draft = drafts[cv.id].orEmpty())
                             }
                             if (rest.isNotEmpty()) item(key = "h-all") { ListLabel(stringResource(R.string.ui_chats_all)) }
                         }
                         items(rest, key = { it.id }) { cv ->
-                            ConversationRow(cv, botsById, cv.id in busy, { openChat(cv) }, { longPress(cv) })
+                            ConversationRow(cv, botsById, cv.id in busy, { openChat(cv) }, { longPress(cv) }, draft = drafts[cv.id].orEmpty())
                         }
                     } else {
                         if (matchingConvs.isNotEmpty()) {
                             item(key = "h-convs") { ListLabel(stringResource(R.string.ui_chats_found_convs)) }
                             items(matchingConvs, key = { "c-" + it.id }) { cv ->
-                                ConversationRow(cv, botsById, cv.id in busy, { openChat(cv) }, { longPress(cv) })
+                                ConversationRow(cv, botsById, cv.id in busy, { openChat(cv) }, { longPress(cv) }, draft = drafts[cv.id].orEmpty())
                             }
                         }
                         if (hits.isNotEmpty()) {
                             item(key = "h-msgs") { ListLabel(stringResource(R.string.ui_chats_matches)) }
                             items(hits, key = { (cv, m) -> "m-" + cv.id + "-" + m.id }) { (cv, m) ->
-                                HitRow(cv, m, q, botsById, untitled) { openChat(cv) }
+                                HitRow(cv, m, q, botsById, untitled) {
+                                    ChatScrollTarget.set(cv.id, m.id)
+                                    openChat(cv)
+                                }
                             }
                         }
                     }
@@ -201,6 +219,10 @@ fun ChatListScreen() {
         val name = titleOf(cv, botsById, untitled)
         val acts = listOf(
             SheetAction(PixelIcon.PIN, stringResource(if (cv.pinned) R.string.ui_act_unpin else R.string.ui_act_pin)) { repo.setPinned(cv.id, !cv.pinned) },
+            SheetAction(
+                if (cv.unread > 0) PixelIcon.CHECK else PixelIcon.BELL,
+                stringResource(if (cv.unread > 0) R.string.ui_act_mark_read else R.string.ui_act_mark_unread),
+            ) { if (cv.unread > 0) repo.markRead(cv.id) else repo.markUnread(cv.id) },
             SheetAction(PixelIcon.EDIT, stringResource(R.string.ui_act_rename)) { renameFor = cv },
             SheetAction(PixelIcon.TRASH, stringResource(R.string.ui_act_delete), danger = true) { deleteFor = cv },
         )
@@ -236,6 +258,8 @@ internal fun ConversationRow(
     onClick: () -> Unit,
     onLongClick: (() -> Unit)?,
     modifier: Modifier = Modifier,
+    /** The unsent text of this chat ("" = none); shown in the accent colour instead of the preview. */
+    draft: String = "",
 ) {
     val c = Pocket.colors
     val haptic = LocalHapticFeedback.current
@@ -243,6 +267,9 @@ internal fun ConversationRow(
     val untitled = stringResource(R.string.ui_chats_untitled)
     val title = titleOf(conv, botsById, untitled)
     val preview = remember(conv.lastPreview) { markdownToPlain(conv.lastPreview) }
+    val unread = conv.unread
+    val hasDraft = draft.isNotBlank() && !generating
+    val draftText = if (hasDraft) stringResource(R.string.ui_chats_draft, draft.replace('\n', ' ').trim().take(80)) else ""
     Row(
         modifier.fillMaxWidth().heightIn(min = 68.dp)
             .combinedClickable(
@@ -260,27 +287,64 @@ internal fun ConversationRow(
                     PixelIconView(PixelIcon.PIN, tint = c.accent, size = 14.dp)
                     Spacer(Modifier.width(4.dp))
                 }
+                if (conv.routineId.isNotBlank()) {
+                    PixelIconView(
+                        PixelIcon.CLOCK, tint = c.accent, size = 14.dp,
+                        contentDescription = stringResource(R.string.ui_chats_routine_cd),
+                    )
+                    Spacer(Modifier.width(4.dp))
+                }
                 Text(
-                    title, color = c.text, fontSize = 16.sp, fontWeight = FontWeight.SemiBold,
+                    title, color = c.text, fontSize = 16.sp,
+                    fontWeight = if (unread > 0) FontWeight.ExtraBold else FontWeight.SemiBold,
                     maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f),
                 )
                 Spacer(Modifier.width(8.dp))
-                Text(relativeTime(conv.updatedAt), color = c.textMuted, fontSize = 12.sp)
+                Text(
+                    relativeTime(conv.updatedAt), color = if (unread > 0) c.accent else c.textMuted, fontSize = 12.sp,
+                    fontWeight = if (unread > 0) FontWeight.SemiBold else FontWeight.Normal,
+                )
             }
             Spacer(Modifier.height(2.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    if (generating) stringResource(R.string.ui_chats_generating) + "…"
-                    else preview.ifBlank { stringResource(R.string.ui_chats_empty_preview) },
-                    color = if (generating) c.accent else c.textMuted, fontSize = 14.sp,
+                    when {
+                        generating -> stringResource(R.string.ui_chats_generating) + "…"
+                        hasDraft -> draftText
+                        else -> preview.ifBlank { stringResource(R.string.ui_chats_empty_preview) }
+                    },
+                    color = if (generating || hasDraft) c.accent else if (unread > 0) c.text else c.textMuted, fontSize = 14.sp,
                     maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f),
                 )
                 if (generating) {
                     Spacer(Modifier.width(8.dp))
                     GeneratingEmber(size = 16.dp)
                 }
+                if (unread > 0) {
+                    Spacer(Modifier.width(8.dp))
+                    UnreadBadge(unread)
+                }
             }
         }
+    }
+}
+
+/** The ember badge with the number of unread replies of a chat. */
+@Composable
+internal fun UnreadBadge(count: Int, modifier: Modifier = Modifier) {
+    val c = Pocket.colors
+    val cd = stringResource(R.string.ui_unread_cd, count)
+    Box(
+        modifier.defaultMinSize(minWidth = 20.dp, minHeight = 20.dp)
+            .background(c.accent)
+            .semantics { contentDescription = cd }
+            .padding(horizontal = 6.dp, vertical = 1.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            if (count > 99) "99+" else count.toString(),
+            color = c.onAccent, fontSize = 11.sp, fontWeight = FontWeight.Bold, maxLines = 1,
+        )
     }
 }
 

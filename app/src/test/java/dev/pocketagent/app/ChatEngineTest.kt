@@ -6,15 +6,20 @@ import dev.pocketagent.app.api.ChatRequest
 import dev.pocketagent.app.api.HttpResult
 import dev.pocketagent.app.api.StreamHandle
 import dev.pocketagent.app.data.BotPresets
+import dev.pocketagent.app.data.BudgetMode
 import dev.pocketagent.app.data.ChatBackend
 import dev.pocketagent.app.data.ChatEngine
 import dev.pocketagent.app.data.ChatRepository
+import dev.pocketagent.app.data.EngineEvent
 import dev.pocketagent.app.data.GroupMode
 import dev.pocketagent.app.data.ModelIds
 import dev.pocketagent.app.data.Role
+import dev.pocketagent.app.data.UsageBudget
+import dev.pocketagent.app.data.UsageStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -109,6 +114,22 @@ class ChatEngineTest {
         assertEquals("vertex", j.getString("provider"))
         assertEquals("low", j.getJSONObject("model_options").getString("reasoning_effort"))
         assertTrue(j.getBoolean("stream"))
+    }
+
+    @Test fun anOverrideFromAnotherProviderIsNotSentAndExplainedOnce() {
+        val fake = Fake { _, _ -> ok(listOf(ChatEvent.Delta("ok"))) }
+        val (repo, engine, _) = setup(fake, provider = "anthropic")
+        repo.saveBot(BotPresets.coder.copy(model = "gemini-4-hydrogen"))
+        val c = repo.createConversation(listOf("coder"))
+        engine.send(c.id, "one"); idle(engine, c.id)
+        engine.send(c.id, "two"); idle(engine, c.id)
+        for (r in fake.requests) {
+            assertEquals("", r.model)
+            assertNull(r.provider)
+            assertFalse(r.toJson().has("provider"))
+        }
+        val notes = repo.messagesSnapshot(c.id).filter { it.role == dev.pocketagent.app.data.Role.NOTE && it.text.contains("another provider") }
+        assertEquals(1, notes.size)
     }
 
     @Test fun modelIdsFollowTheProvider() {
@@ -464,5 +485,265 @@ class ChatEngineTest {
         val bots = msgs.filter { it.role == Role.BOT }
         assertEquals(listOf("Three files."), bots.filter { it.text.isNotBlank() }.map { it.text })
         assertTrue(msgs.none { it.text.startsWith("**") })
+    }
+
+    // ---- Phase 3: usage, wake-on-send, unread, budget ------------------------------------------------------------
+
+    /** An engine with the Phase 3 hooks; [eng] lets an awaitReady lambda look at the engine it belongs to. */
+    private class Env(val repo: ChatRepository, val engine: ChatEngine, val usage: UsageStore, val events: CopyOnWriteArrayList<EngineEvent>)
+
+    private var eng: ChatEngine? = null
+
+    private fun env(
+        backend: ChatBackend,
+        ready: () -> Boolean = { true },
+        canWake: () -> Boolean = { false },
+        awaitReady: (() -> Boolean) -> Boolean = { ready() },
+    ): Env {
+        val repo = ChatRepository(File(tmp.root, "chat"), CoroutineScope(Dispatchers.IO), 20L)
+        runBlocking { repo.loaded.first { it } }
+        val usage = UsageStore(File(tmp.root, "usage.json"), CoroutineScope(Dispatchers.IO))
+        val engine = ChatEngine(
+            repo, backend, { _, _, _ -> HttpResult(200, "{}", 0) }, {}, {}, { "vertex" }, ready, CoroutineScope(Dispatchers.IO),
+            canWake = canWake, awaitReady = awaitReady, usage = usage,
+        )
+        eng = engine
+        val events = CopyOnWriteArrayList<EngineEvent>()
+        CoroutineScope(Dispatchers.Unconfined).launch { engine.events.collect { events += it } }
+        return Env(repo, engine, usage, events)
+    }
+
+    private fun waitFor(timeoutMs: Long = 5000, cond: () -> Boolean) {
+        val end = System.currentTimeMillis() + timeoutMs
+        while (!cond()) {
+            if (System.currentTimeMillis() > end) throw AssertionError("condition not met within ${timeoutMs}ms")
+            Thread.sleep(5)
+        }
+    }
+
+    @Test fun usageIsWrittenOnTheLastBotMessageAndRecordedInTheStore() {
+        val fake = Fake { _, _ -> ok(listOf(ChatEvent.Delta("Hi"), ChatEvent.Usage(1200, 340, 1540))) }
+        val e = env(fake)
+        val c = e.repo.createConversation(listOf("hermes"))
+        e.engine.send(c.id, "hello")
+        idle(e.engine, c.id)
+        val bot = e.repo.messagesSnapshot(c.id).single { it.role == Role.BOT }
+        assertEquals(1200L, bot.tokensIn)
+        assertEquals(340L, bot.tokensOut)
+        assertEquals("pure Hermes: no model id", "", bot.model)
+        val row = e.usage.days.value.single()
+        assertEquals(1, row.turns); assertEquals(1200L, row.tokensIn); assertEquals(340L, row.tokensOut); assertEquals("", row.model)
+        assertEquals(1540L, e.usage.todayTotal())
+        waitFor { e.events.any { it is EngineEvent.TurnCompleted } }
+        val done = e.events.filterIsInstance<EngineEvent.TurnCompleted>().single()
+        assertEquals(1200L, done.tokensIn); assertEquals(340L, done.tokensOut)
+        assertEquals(listOf(EngineEvent.TurnStarted(c.id, "hermes")), e.events.filterIsInstance<EngineEvent.TurnStarted>())
+    }
+
+    @Test fun theModelOfABotMessageAndTheStatisticsRowIsTheIdThatWasSent() {
+        val fake = Fake { _, _ -> ok(listOf(ChatEvent.Delta("ok"), ChatEvent.Usage(10, 5, 15))) }
+        val e = env(fake)
+        e.repo.saveBot(BotPresets.coder.copy(model = "gemini-4-neon"))
+        val c = e.repo.createConversation(listOf("coder"))
+        e.engine.send(c.id, "go")
+        idle(e.engine, c.id)
+        assertEquals("google/gemini-4-neon", e.repo.messagesSnapshot(c.id).single { it.role == Role.BOT }.model)
+        assertEquals("google/gemini-4-neon", e.usage.days.value.single().model)
+    }
+
+    @Test fun usageOfATurnWithoutTextIsOnlyRecordedInTheStore() {
+        val fake = Fake { _, _ ->
+            ok(listOf(ChatEvent.Tool("terminal", "ls", "running", "c1"), ChatEvent.Tool("terminal", "", "completed", "c1"), ChatEvent.Usage(100, 20, 120)))
+        }
+        val e = env(fake)
+        val c = e.repo.createConversation(listOf("hermes"))
+        e.engine.send(c.id, "list")
+        idle(e.engine, c.id)
+        assertTrue(e.repo.messagesSnapshot(c.id).all { it.tokensIn == 0L && it.tokensOut == 0L })
+        assertEquals(120L, e.usage.todayTotal())
+    }
+
+    @Test fun aGroupTurnRecordsOneRowPerBotAndTheTokensStayOnTheirOwnMessages() {
+        var n = 0
+        val fake = Fake { _, _ -> ok(listOf(ChatEvent.Delta("a"), ChatEvent.Usage(100L * (++n), 10, 0))) }
+        val e = env(fake)
+        val c = e.repo.createConversation(listOf("rebel", "coder"))
+        e.engine.send(c.id, "hi")
+        idle(e.engine, c.id)
+        val bots = e.repo.messagesSnapshot(c.id).filter { it.role == Role.BOT }
+        assertEquals(listOf(100L, 200L), bots.map { it.tokensIn })
+        assertEquals(2, e.usage.days.value.single().turns)
+        assertEquals(300L + 20L, e.usage.todayTotal())
+    }
+
+    @Test fun aFinishedBotTurnBumpsTheUnreadCountUnlessTheChatIsOnScreen() {
+        val fake = Fake { _, _ -> ok(listOf(ChatEvent.Delta("answer"))) }
+        val e = env(fake)
+        val c = e.repo.createConversation(listOf("hermes"))
+        e.engine.send(c.id, "one")
+        idle(e.engine, c.id)
+        assertEquals(1, e.repo.conversation(c.id)!!.unread)
+        e.repo.setActiveConversation(c.id)
+        assertEquals("opening the chat clears it", 0, e.repo.conversation(c.id)!!.unread)
+        e.engine.send(c.id, "two")
+        idle(e.engine, c.id)
+        assertEquals("on screen: no bump", 0, e.repo.conversation(c.id)!!.unread)
+        e.repo.setActiveConversation(null)
+        e.engine.send(c.id, "three")
+        idle(e.engine, c.id)
+        assertEquals(1, e.repo.conversation(c.id)!!.unread)
+    }
+
+    @Test fun aFailedTurnDoesNotBumpUnread() {
+        val fake = Fake { _, _ -> emptyList<ChatEvent>() to ChatOutcome.HttpError(500, "boom") }
+        val e = env(fake)
+        val c = e.repo.createConversation(listOf("hermes"))
+        e.engine.send(c.id, "x")
+        idle(e.engine, c.id)
+        assertEquals(0, e.repo.conversation(c.id)!!.unread)
+    }
+
+    @Test fun wakeOnSendAcceptsTheMessageStartsHermesAndThenDelivers() {
+        val ready = java.util.concurrent.atomic.AtomicBoolean(false)
+        val sawWaking = java.util.concurrent.atomic.AtomicBoolean(false)
+        val fake = Fake { _, _ -> ok(listOf(ChatEvent.Delta("good morning"))) }
+        val e = env(fake, ready = { ready.get() }, canWake = { true }, awaitReady = { _ ->
+            if (eng!!.status.value.values.contains(ChatEngine.STATUS_WAKING)) sawWaking.set(true)
+            assertTrue("nothing is sent before Hermes is up", fake.requests.isEmpty())
+            ready.set(true)
+            true
+        })
+        val c = e.repo.createConversation(listOf("hermes"))
+        assertTrue("accepted although Hermes is asleep", e.engine.send(c.id, "wake up"))
+        idle(e.engine, c.id)
+        assertTrue("the UI saw the waking status", sawWaking.get())
+        assertTrue("the status is gone afterwards", e.engine.status.value.isEmpty())
+        assertEquals(listOf(Role.USER, Role.BOT), e.repo.messagesSnapshot(c.id).map { it.role })
+        assertEquals(1, fake.requests.size)
+    }
+
+    @Test fun wakeOnSendThatFailsLeavesAnErrorAndSendsNothing() {
+        val fake = Fake { _, _ -> ok(listOf(ChatEvent.Delta("never"))) }
+        val e = env(fake, ready = { false }, canWake = { true }, awaitReady = { _ -> false })
+        val c = e.repo.createConversation(listOf("hermes"))
+        assertTrue(e.engine.send(c.id, "hello"))
+        idle(e.engine, c.id)
+        val msgs = e.repo.messagesSnapshot(c.id)
+        assertEquals(listOf(Role.USER, Role.ERROR), msgs.map { it.role })
+        assertTrue(msgs[1].text.contains("could not start"))
+        assertTrue(fake.requests.isEmpty())
+        assertTrue(e.engine.status.value.isEmpty())
+        waitFor { e.events.any { it is EngineEvent.TurnFailed } }
+    }
+
+    @Test fun stoppingWhileWaitingForHermesEndsTheRunQuietly() {
+        val entered = java.util.concurrent.CountDownLatch(1)
+        val fake = Fake { _, _ -> ok(listOf(ChatEvent.Delta("never"))) }
+        val e = env(fake, ready = { false }, canWake = { true }, awaitReady = { cancelled ->
+            entered.countDown()
+            while (!cancelled()) Thread.sleep(5)
+            false
+        })
+        val c = e.repo.createConversation(listOf("hermes"))
+        assertTrue(e.engine.send(c.id, "hello"))
+        assertTrue(entered.await(5, java.util.concurrent.TimeUnit.SECONDS))
+        assertEquals(ChatEngine.STATUS_WAKING, e.engine.status.value[c.id])
+        assertTrue(e.engine.isBusy(c.id))
+        e.engine.stop(c.id)
+        idle(e.engine, c.id)
+        assertEquals("no error for a stop the user asked for", listOf(Role.USER), e.repo.messagesSnapshot(c.id).map { it.role })
+        assertTrue(fake.requests.isEmpty())
+        assertFalse(e.engine.isBusy(c.id))
+    }
+
+    @Test fun withoutPermissionToWakeASleepingHermesIsStillRefused() {
+        val fake = Fake { _, _ -> ok(listOf(ChatEvent.Delta("never"))) }
+        val e = env(fake, ready = { false }, canWake = { false })
+        val c = e.repo.createConversation(listOf("hermes"))
+        assertFalse(e.engine.send(c.id, "hello"))
+        assertFalse(e.engine.runLoop(c.id, "hello"))
+        assertTrue(e.repo.messagesSnapshot(c.id).isEmpty())
+    }
+
+    @Test fun regenerateAndEditAreAcceptedWhileHermesCanBeWoken() {
+        val ready = java.util.concurrent.atomic.AtomicBoolean(true)
+        var n = 0
+        val fake = Fake { _, _ -> ok(listOf(ChatEvent.Delta("answer ${++n}"))) }
+        val e = env(fake, ready = { ready.get() }, canWake = { true }, awaitReady = { _ -> ready.set(true); true })
+        val c = e.repo.createConversation(listOf("hermes"))
+        e.engine.send(c.id, "question")
+        idle(e.engine, c.id)
+        ready.set(false)
+        assertTrue(e.engine.regenerateLast(c.id))
+        idle(e.engine, c.id)
+        ready.set(false)
+        assertTrue(e.engine.editAndResend(c.id, e.repo.messagesSnapshot(c.id).first().id, "question 2"))
+        idle(e.engine, c.id)
+        assertEquals(listOf("question 2", "answer 3"), e.repo.messagesSnapshot(c.id).map { it.text })
+    }
+
+    @Test fun aBlockedBudgetStopsTheTurnBeforeItIsSent() {
+        val fake = Fake { _, _ -> ok(listOf(ChatEvent.Delta("never"))) }
+        val e = env(fake)
+        e.usage.record("", 600, 500)
+        e.usage.setBudget(UsageBudget(1000, BudgetMode.BLOCK))
+        val c = e.repo.createConversation(listOf("hermes"))
+        assertTrue("accepted: the user message is shown", e.engine.send(c.id, "more please"))
+        idle(e.engine, c.id)
+        val msgs = e.repo.messagesSnapshot(c.id)
+        assertEquals(listOf(Role.USER, Role.ERROR), msgs.map { it.role })
+        assertTrue(msgs[1].text.contains("budget") && msgs[1].text.contains("Settings > Usage"))
+        assertTrue(fake.requests.isEmpty())
+        // Raising the limit lets the same chat go on.
+        e.usage.setBudget(UsageBudget(100_000, BudgetMode.BLOCK))
+        assertTrue(e.engine.regenerateLast(c.id))
+        idle(e.engine, c.id)
+        assertEquals(1, fake.requests.size)
+    }
+
+    @Test fun aBlockedBudgetDoesNotLightTheFire() {
+        val awaited = java.util.concurrent.atomic.AtomicBoolean(false)
+        val fake = Fake { _, _ -> ok(listOf(ChatEvent.Delta("never"))) }
+        val e = env(fake, ready = { false }, canWake = { true }, awaitReady = { _ -> awaited.set(true); true })
+        e.usage.record("", 2000, 0)
+        e.usage.setBudget(UsageBudget(1000, BudgetMode.BLOCK))
+        val c = e.repo.createConversation(listOf("hermes"))
+        e.engine.send(c.id, "hello")
+        idle(e.engine, c.id)
+        assertFalse(awaited.get())
+    }
+
+    @Test fun aWarnBudgetLeavesExactlyOneNoteWhenTheLimitIsCrossed() {
+        val fake = Fake { _, _ -> ok(listOf(ChatEvent.Delta("answer"), ChatEvent.Usage(400, 200, 600))) }
+        val e = env(fake)
+        e.usage.setBudget(UsageBudget(1000, BudgetMode.WARN))
+        val c = e.repo.createConversation(listOf("hermes"))
+        fun budgetNotes() = e.repo.messagesSnapshot(c.id).count { it.role == Role.NOTE && it.text.contains("budget") }
+        e.engine.send(c.id, "one"); idle(e.engine, c.id)
+        assertEquals("600 of 1000: no note yet", 0, budgetNotes())
+        e.engine.send(c.id, "two"); idle(e.engine, c.id)
+        assertEquals("1200 of 1000: crossed", 1, budgetNotes())
+        e.engine.send(c.id, "three"); idle(e.engine, c.id)
+        assertEquals("only once", 1, budgetNotes())
+        assertEquals("a WARN budget never blocks", 3, fake.requests.size)
+        assertTrue(e.usage.overBudget())
+    }
+
+    @Test fun lastActivityMovesWhenARunStartsAndEnds() {
+        val gate = java.util.concurrent.CountDownLatch(1)
+        val backend = ChatBackend { _, _, onEvent -> gate.await(5, java.util.concurrent.TimeUnit.SECONDS); onEvent(ChatEvent.Delta("x")); onEvent(ChatEvent.Done); ChatOutcome.Completed }
+        val e = env(backend)
+        val before = e.engine.lastActivityAt
+        Thread.sleep(20)
+        val c = e.repo.createConversation(listOf("hermes"))
+        e.engine.send(c.id, "hi")
+        assertTrue(e.engine.isBusy(c.id))
+        assertTrue(e.engine.lastActivityAt > before)
+        val started = e.engine.lastActivityAt
+        Thread.sleep(20)
+        gate.countDown()
+        idle(e.engine, c.id)
+        assertTrue(e.engine.lastActivityAt > started)
+        assertFalse(e.engine.isBusy(c.id))
     }
 }

@@ -5,7 +5,7 @@ touching anything. **Keep it current:** at the end of a working session update "
 and add to "Hard-won facts" whenever something cost real time to find out. `README.md` is the
 user-facing description; this file is the working memory.
 
-Last updated: 2026-11-23
+Last updated: 2026-11-24
 
 ## What this is
 
@@ -92,7 +92,7 @@ Target device: Galaxy S24 Ultra, One UI 9 / Android 17 (SDK 37), arm64, 4 KB pag
     zero crashes in `app.log`). Also completed all three small review follow-ups from the
     previous handoff.
 
-- **Agirî Masterpiece Release + full phone verification (2026-11-23, local build 22 / 0.1.22).**
+- **Agirî Masterpiece Release + full phone verification (2026-11-23, local builds 22–23 / 0.1.22–0.1.23, commits `c421cad` + `7523b1b`).**
   Confirmed official name **"Agirî"** (keeping `applicationId = "dev.pocketagent.app"`). Added,
   unit-tested (`172` tests, 0 unexpected failures), and verified live on the Galaxy S24 Ultra
   (Snapdragon 8 Gen 3, saved config kept on `google/gemini-4-hydrogen` at `low` effort):
@@ -155,12 +155,49 @@ Target device: Galaxy S24 Ultra, One UI 9 / Android 17 (SDK 37), arm64, 4 KB pag
       added System TTS preview button when Supertonic isn't installed, fixed Turkish typo in `ctl_sfx_sub`,
       and updated leftover `"PocketAgent diagnostics"` strings to `"Agirî diagnostics"`.
 
+- **Phase 3, "the always-on hearth" (2026-11-24, local builds 30–32 / 0.1.30–0.1.32).** The owner
+  asked for detailed plans to make the app far better, coded by Sonnet, verified by Opus, with Haiku as
+  the low-level worker. The plan and contract is `docs/phase3-plan.md` (read it: it is the map of the new
+  code and says why each thing exists); `docs/APP_OVERVIEW.md` describes the whole app for whoever plans
+  the next round. Eight Sonnet agents built it in parallel from the contract, an integration agent made
+  it compile, nine Opus reviewers plus a Haiku mechanical check produced 35 findings, each confirmed by a
+  second Opus pass and fixed, then a phone test found four more defects (fixed, reviewed once more).
+  About 410 unit tests, 0 unexpected failures. What it adds:
+  - **Presence:** auto-start when the app opens, wake-on-send (type while Hermes is asleep; the engine
+    lights the fire and delivers), reply / approval / failure notifications with inline reply and
+    mark-as-read, unread counts, one automatic restart after an unexpected exit, optional idle stop
+    (`service/Presence.kt`, `ReplyNotifier.kt`, `AppForeground.kt`, `runtime/PresencePrefs.kt`).
+  - **Routines:** scheduled prompts (daily / interval / once) through `AlarmManager`, running from a dead
+    process into their own chat (`routines/*`, `ui/routines/*`).
+  - **Usage:** tokens per reply, per chat, per day and model, a daily budget that warns or blocks
+    (`data/UsageStore.kt`, Settings > Usage).
+  - **Backup and restore** to one zip without credentials (`data/BackupManager.kt`), bot export / import
+    (`data/BotShare.kt`).
+  - **Providers:** OpenRouter, Anthropic, OpenAI and a custom OpenAI-compatible endpoint next to the
+    three Google modes (`runtime/ProviderConfig.kt`; the Google modes' generated files are unchanged).
+  - **Android surface:** launcher shortcuts, a Quick Settings tile, "Ask Agirî" in the text-selection
+    menu, deep links (`AppLinks.kt`, `service/FireTileService.kt`).
+  - **Chat:** find in chat, starred messages + Saved messages screen, drafts kept on disk, export to a
+    file, usage in the meta line; **Hermes screen:** create / delete skills, ANSI colours in the terminal.
+  - **Checked on the phone (Hydrogen, low effort):** auto-start (Running 11 s after opening), wake-on-send
+    from a stopped engine, reply notification as its own row and opening the chat from it, per-turn token
+    numbers and the usage screen, find in chat, star and draft surviving a force-stop, a routine firing
+    on the second with the process dead (start, answer, notification, Hermes stopped again), deleting a
+    routine removes its alarm, backup (no credential in the zip) and restore with the automatic restart,
+    shortcut links, PROCESS_TEXT, the tile in both directions, the Home status-bar scrim.
+  - **Not tried on the phone:** the new providers with a real key (none available; only config generation
+    is tested), approval card and approval notification, inline reply from a notification, budget
+    warn / block, idle stop, auto-restart after a crash, bot export / import, skill create / delete,
+    terminal colours, restoring on another phone.
+  - Nothing of Phase 3 is committed or pushed yet unless `git log` says otherwise: the owner decides.
+
 Next steps, in order:
-1. Not yet tried on the phone: editing `SOUL.md` end-to-end, live `TakePicture` camera shutter,
-   spoken STT speech-to-text transcription (microphone capture tested in silence), `/loop` multi-pass
-   mode, edit/regenerate/stop buttons in-flow, an approval card, and a rootfs update over an existing
-   install with user data.
-2. Monitor CI run on `ccr-bb6d7bcc-9eojyu` after this review-fixes push.
+1. If Phase 3 is still uncommitted: get the owner's go-ahead, commit, push, and watch the CI run (the
+   manifest, a new `:restart` process and four new provider modes are all new to CI's smoke test).
+2. Try on the phone what the list above says was not tried. Older leftovers: editing `SOUL.md`
+   end-to-end, the live camera shutter, spoken dictation, `/loop`, an approval card, a rootfs update over
+   an existing install with user data.
+3. Ideas not built are listed at the end of `docs/APP_OVERVIEW.md` ("What does not exist").
 
 ## Repo map
 
@@ -169,6 +206,9 @@ Next steps, in order:
 | `app/` | The Android app, Kotlin + Compose. `runtime/` = install, launch, config, secrets; `service/` = foreground service; `api/` = client for Hermes's OpenAI-compatible API; `diag/` = diagnostics and redaction; `data/` = bots, conversations, messages, chat engine (group chats); `hermes/` = SOUL/memory/skills/log files and the terminal; `ui/` = screens (see `docs/phase1-contract.md`). Unit tests in `app/src/test`. |
 | `app/src/main/assets/pixel/*.pxl` | All pixel art (mascot, fire, scene, avatars, icons, app icon) as text sprites. Format in `docs/phase1-contract.md`. Preview: `tools/pixel-preview.ps1 -File <pxl> -Out dist\pixel-preview`; launcher icon XML: `tools/pxl-to-vector.ps1`. |
 | `docs/phase1-contract.md` | The API contract between UI, art, design system and engine. |
+| `docs/phase3-plan.md` | Plan and contract of Phase 3 (presence, routines, usage, backup, providers, Android surface). |
+| `docs/APP_OVERVIEW.md` | What the app is and does, what is proven and what does not exist: the briefing for planning. |
+| `app/.../routines/`, `service/`, `AppLinks.kt`, `RestartActivity.kt` | Scheduled prompts; foreground service, notifications, presence, tile; deep links; the process restart after a restore. |
 | `runtime/pocketagent-proot.sh` | The ONE launcher that enters the rootfs. Shipped as an app asset and used unchanged by the CI smoke test. POSIX sh only (Android runs it with mksh). |
 | `runtime/test-launcher.sh` | Fast launcher test with a fake proot; runs anywhere (`sh runtime/test-launcher.sh [shells...]`). |
 | `rootfs/` | Builds the Debian trixie arm64 rootfs with Hermes preinstalled; `rootfs/smoke/` boots Hermes under proot against a mock LLM. |
@@ -252,7 +292,7 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
 
 - It needs JDK 21 (Android Studio's `jbr` is used) and the Android SDK with platform
   `android-37.2` and build-tools 36.0.0; both are installed on the owner's PC.
-- The checkout path `C:\Claude's_WorkSpace` contains an apostrophe: assembling works, but Gradle's
+- The checkout path `C:\Users\PC\Agent's Workspace\Claude\PocketAgent` contains an apostrophe (and a space): assembling works, but Gradle's
   test workers fail with `ClassNotFoundException` there, hence `-Test`. Four tests that create
   symlinks fail on Windows without Developer Mode; `-Test` reports them as expected (exit 2).
 - Reinstalling with an unchanged rootfs does not extract it again (`files/rootfs.stamp` holds the
@@ -345,6 +385,32 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
   scenes like `HearthScene` get clipped by an opaque colored slab in light themes. Keep system bars
   transparent and toggle `isAppearanceLightStatusBars` per route (`false` on `Route.Home`).
 
+- **Hermes reports token usage on every stream, per turn.** The final chunk (the one with
+  `finish_reason`) always carries `usage`; the counters belong to an agent object created per request,
+  so they are per turn, and prompt tokens add up over every model call of the turn. A plain "hello" turn
+  costs about 11,000 prompt tokens (Hermes's own prompt and tool definitions).
+- **`adb shell am force-stop` cancels the app's alarms** (Android does that on a force-stop). To test an
+  alarm against a dead process, press Home and use `adb shell am kill dev.pocketagent.app`.
+- **One UI bundles all of an app's notifications into one collapsed row** unless they have explicit
+  groups: a reply notification was hidden behind the ongoing "running" notification. Every notification
+  now has a group and an app-posted silent summary (`service/NotificationGroups.kt`). Cancelling a
+  summary cancels its children, including ones still queued.
+- **An app cannot restart itself by starting its own activity and then killing its process:** the new
+  activity lives in the dying process. `RestartActivity` runs in the `:restart` process (process-phoenix
+  pattern), and `PocketApp.onCreate` returns at once in that process. Activity starts from the
+  background are blocked silently on Android 10+ whatever the targetSdk.
+- **Git Bash rewrites `/data/...` and `/sdcard/...` arguments** into Windows paths: prefix adb commands
+  with `MSYS_NO_PATHCONV=1`.
+- **Phone testing without touching the screen:** `uiautomator dump` gives texts and bounds (a list item
+  scrolled under a top bar still reports its bounds, but a tap there hits the bar); shortcuts with
+  `adb shell am start -a dev.pocketagent.app.TERMINAL -n dev.pocketagent.app/.MainActivity`; the tile with
+  `cmd statusbar add-tile | click-tile | remove-tile dev.pocketagent.app/.service.FireTileService`
+  (a click is delivered when the panel next listens); notifications with
+  `dumpsys notification --noredact`; pending alarms with `dumpsys alarm`.
+- **Parallel agents on one tree work when the contract names every shared symbol** and each file has one
+  owner; `PocketApp.kt`, the manifest, `Nav.kt` and each strings file had exactly one. The first compile
+  of eight agents' work needed three small fixes.
+
 ## Phase 1 notes (the new app, 2026-11-23)
 
 - Navigation is a small hand-written back stack (`ui/Nav.kt`), tabs Home, Chats, Bots, Hermes,
@@ -366,6 +432,8 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
   logs); in-app language picker (English first, then Turkish and French); terminal screen with the
   full `hermes` CLI.
 - **Phase 2:** the chosen pixel-art identity, animations, themes, accent colours, personalisation.
+- **Phase 3 (built 2026-11-24):** the always-on hearth: presence, routines, usage, backup, more
+  providers, Android surface. See `docs/phase3-plan.md`.
 - Always: everything inside the APK, and keep the one-tap diagnostics copy.
 
 ## Open decisions with the owner

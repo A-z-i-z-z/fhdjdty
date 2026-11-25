@@ -65,6 +65,13 @@ data class Message(
     val reasoning: String = "",
     val attachments: List<Attachment> = emptyList(),
     val forgedBotIds: List<String> = emptyList(),
+    /** Tokens the whole turn read / wrote; set on the last BOT message of a turn that has text, 0 elsewhere. */
+    val tokensIn: Long = 0L,
+    val tokensOut: Long = 0L,
+    /** Model id this BOT message was generated with, as sent to Hermes; "" = Hermes's own default. */
+    val model: String = "",
+    /** Saved for later by the user (see the Saved messages screen). */
+    val starred: Boolean = false,
 )
 
 /** Group chats: every bot answers in order, or only the @mentioned ones (else the first bot). */
@@ -88,6 +95,10 @@ data class Conversation(
     val modelOverride: String = "",
     /** Per-chat thinking effort override ("" = use bot's effort or Hermes global default). */
     val effortOverride: String = "",
+    /** Replies the user has not seen yet (bumped per finished BOT turn while the chat is not on screen). */
+    val unread: Int = 0,
+    /** Id of the routine this chat belongs to; "" for an ordinary chat. */
+    val routineId: String = "",
 ) {
     val isGroup: Boolean get() = botIds.size > 1
 }

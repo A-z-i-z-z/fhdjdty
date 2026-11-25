@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- notification channels -->
+    <string name="prs_channel_replies">Replies</string>
+    <string name="prs_channel_replies_desc">Answers from your agents while you are in another app.</string>
+    <string name="prs_channel_approvals">Permission requests</string>
+    <string name="prs_channel_approvals_desc">Hermes asks before it runs a command that could change something.</string>
+    <string name="prs_channel_routines">Routines</string>
+    <string name="prs_channel_routines_desc">Results and problems of your scheduled routines.</string>
+
+    <!-- the ongoing runtime notification -->
+    <plurals name="prs_notif_running_answering">
+        <item quantity="one">Agent runtime is running · %1$d chat answering</item>
+        <item quantity="other">Agent runtime is running · %1$d chats answering</item>
+    </plurals>
+
+    <!-- reply notifications -->
+    <string name="prs_action_reply">Reply</string>
+    <string name="prs_action_mark_read">Mark as read</string>
+    <string name="prs_reply_label">Your reply</string>
+    <string name="prs_untitled_chat">Untitled chat</string>
+    <string name="prs_public_reply">New reply</string>
+    <string name="prs_public_failed">Something needs your attention</string>
+    <string name="prs_failed_text">Could not answer. Open the chat to see why.</string>
+    <string name="prs_send_failed_text">Your reply was not sent. Open the chat and try again.</string>
+
+    <!-- approval notifications -->
+    <string name="prs_approval_title">%1$s asks for permission</string>
+    <string name="prs_public_approval">Permission needed</string>
+    <string name="prs_action_allow">Allow once</string>
+    <string name="prs_action_deny">Deny</string>
+
+    <!-- routine problems -->
+    <string name="prs_routine_failed_title">Routine “%1$s” did not run</string>
+    <string name="prs_routine_unnamed">Unnamed routine</string>
+</resources>

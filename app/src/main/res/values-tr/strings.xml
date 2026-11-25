@@ -73,6 +73,30 @@
     <string name="settings_saved">Kaydedildi. Çalışma ortamı bir sonraki başlayışında geçerli olur.</string>
     <string name="settings_restarting">Kaydedildi. Uygulamak için çalışma ortamı yeniden başlatılıyor.</string>
 
+    <!-- providers (Phase 3) -->
+    <string name="prov_pick">Sağlayıcı</string>
+    <string name="prov_google">Google (Gemini)</string>
+    <string name="prov_openrouter">OpenRouter</string>
+    <string name="prov_anthropic">Anthropic</string>
+    <string name="prov_openai">OpenAI</string>
+    <string name="prov_custom">Özel uç nokta</string>
+    <string name="prov_keys_note">Her sağlayıcının anahtarı bu telefonda ayrı saklanır. Sağlayıcı değiştirmek diğerlerini silmez.</string>
+    <string name="prov_hint_openrouter">Tek anahtar yüzlerce modele ulaşır. Model kimlikleri üretici/model biçimindedir, örneğin google/gemini-3.8-flash. OpenRouter anahtarları sk-or- ile başlar.</string>
+    <string name="prov_hint_anthropic">Claude modelleri doğrudan Anthropic\'ten. Model kimlikleri sadedir, örneğin claude-sonnet-5.</string>
+    <string name="prov_hint_openai">OpenAI API\'si (api.openai.com). Model kimlikleri sadedir, örneğin gpt-5.4.</string>
+    <string name="prov_hint_custom">OpenAI sohbet API\'sini konuşan herhangi bir sunucu: barındırılan bir hizmet ya da kendi ağındaki Ollama, LM Studio veya vLLM. Belgelerinin verdiği temel adresi (çoğunlukla /v1 ile biter) ve sunduğu model kimliğini kullan.</string>
+    <string name="prov_field_key_openrouter">OpenRouter API anahtarı</string>
+    <string name="prov_field_key_anthropic">Anthropic API anahtarı</string>
+    <string name="prov_field_key_openai">OpenAI API anahtarı</string>
+    <string name="prov_field_key_custom">API anahtarı (sunucu istemiyorsa boş bırak)</string>
+    <string name="prov_field_base_url">Temel adres</string>
+    <string name="prov_base_url_placeholder">https://example.com/v1</string>
+    <string name="prov_problem_no_key">Bu sağlayıcı için bir API anahtarı gir.</string>
+    <string name="prov_problem_bad_key">OpenRouter anahtarları sk-or- ile başlar. Hermes bunu yok sayardı.</string>
+    <string name="prov_problem_no_url">Sunucunun temel adresini gir.</string>
+    <string name="prov_problem_bad_url">Bu adres kabul edilmiyor. https://... kullan; http:// yalnızca bu telefon veya kendi ağın için (localhost, 192.168.x.x, 10.x.x.x). Kullanıcı adı, parola veya sorgu olmaz.</string>
+    <string name="prov_http_note">Düz http: trafik şifrelenmez. Adres bu telefonda ya da kendi ağında olduğu için izin verilir.</string>
+
     <!-- paste dialog / import results -->
     <string name="paste_title">Kimlik bilgisi JSON\'unu yapıştır</string>
     <string name="paste_hint">Dosyanın tamamını yapıştır. Metin gizlenir, kontrol edilir, özel olarak saklanır ve sonra bu alandan silinir.</string>

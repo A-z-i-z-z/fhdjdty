@@ -17,7 +17,11 @@ class Settings(context: Context) {
 
     private fun modelKey(mode: AuthMode, endpoint: ApiEndpoint) = when (mode) {
         AuthMode.API_KEY -> if (endpoint == ApiEndpoint.STUDIO) "model_studio" else "model_express"
-        else -> "model_vertex"
+        AuthMode.SERVICE_ACCOUNT, AuthMode.USER_CREDENTIALS -> "model_vertex"
+        AuthMode.OPENROUTER -> "model_openrouter"
+        AuthMode.ANTHROPIC -> "model_anthropic"
+        AuthMode.OPENAI -> "model_openai"
+        AuthMode.CUSTOM -> "model_custom"
     }
 
     fun modelFor(mode: AuthMode, endpoint: ApiEndpoint): String =
@@ -61,8 +65,18 @@ class Settings(context: Context) {
         get() = (sp.getString("reasoning_effort", "") ?: "").takeIf { it in ProviderConfig.REASONING_EFFORTS } ?: ""
         set(v) = sp.edit().putString("reasoning_effort", v).apply()
 
-    fun providerInputs(geminiApiKey: String): ProviderInputs =
-        ProviderInputs(authMode, endpoint, model, region, projectId, geminiApiKey, reasoningEffort)
+    /**
+     * Base URL of the custom OpenAI-compatible provider, in its normalised form (the caller stores only what
+     * [ProviderConfig.normalizeBaseUrl] accepted, so an address with a user name, password or query is never kept).
+     * It is validated again every time config.yaml is written, and printed in diagnostics only after normalising.
+     */
+    var customBaseUrl: String
+        get() = sp.getString("custom_base_url", "") ?: ""
+        set(v) = sp.edit().putString("custom_base_url", v.trim()).apply()
+
+    /** [providerKey] is the typed key of the active non-Google provider (see [SecretStore.providerKey]); "" when there is none. */
+    fun providerInputs(geminiApiKey: String, providerKey: String = ""): ProviderInputs =
+        ProviderInputs(authMode, endpoint, model, region, projectId, geminiApiKey, reasoningEffort, providerKey, customBaseUrl)
 
     companion object {
         const val DEFAULT_REGION = "global"

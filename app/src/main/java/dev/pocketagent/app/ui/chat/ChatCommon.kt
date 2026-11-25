@@ -140,13 +140,6 @@ internal fun ChatRepository.openOneToOne(botId: String): Conversation =
 /** True unless an engine call reported `false` (ignored). Works whether the call returns Unit or Boolean. */
 internal fun Any?.accepted(): Boolean = this != false
 
-/** Drafts survive leaving a chat (kept in memory for the life of the process). */
-internal object ChatDrafts {
-    private val map = HashMap<String, String>()
-    operator fun get(convId: String): String = map[convId] ?: ""
-    operator fun set(convId: String, text: String) { if (text.isBlank()) map.remove(convId) else map[convId] = text }
-}
-
 /** Reactive inbox for Android ACTION_SEND payloads handed into a chat (works even if that chat is already open). */
 internal data class SharedChatPayload(
     val text: String? = null,
@@ -225,6 +218,19 @@ internal fun dayLabel(ms: Long): String {
 }
 
 internal fun sameCalendarDay(a: Long, b: Long): Boolean = sameDay(a, b)
+
+/** A moment in the near future: "08:00" today, "Tomorrow, 08:00", else "24.11.2026, 08:00". */
+@Composable
+internal fun dayTimeLabel(ms: Long): String {
+    val locale = currentLocale()
+    val now = System.currentTimeMillis()
+    val clock = clockText(ms)
+    return when {
+        sameDay(ms, now) -> clock
+        sameDay(ms, now + DAY_MS) -> stringResource(R.string.ui_time_day_at, stringResource(R.string.ui_time_tomorrow), clock)
+        else -> stringResource(R.string.ui_time_day_at, DateFormat.getDateInstance(DateFormat.SHORT, locale).format(Date(ms)), clock)
+    }
+}
 
 // ---- clipboard and sharing ------------------------------------------------------------------------------------
 

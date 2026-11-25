@@ -25,7 +25,12 @@ import java.util.concurrent.atomic.AtomicInteger
 
 /** Events emitted by [ChatEngine] for sound cues, auto-speak, and live UI feedback. */
 sealed interface EngineEvent {
-    data class TurnCompleted(val convId: String, val messageId: String, val botId: String, val text: String) : EngineEvent
+    /** A bot begins to answer (the request is about to go out). */
+    data class TurnStarted(val convId: String, val botId: String) : EngineEvent
+    data class TurnCompleted(
+        val convId: String, val messageId: String, val botId: String, val text: String,
+        val tokensIn: Long = 0L, val tokensOut: Long = 0L,
+    ) : EngineEvent
     data class ToolFinished(val convId: String, val toolName: String) : EngineEvent
     data class MemorySaved(val convId: String) : EngineEvent
     data class BotForged(val convId: String, val botIds: List<String>) : EngineEvent
@@ -46,13 +51,51 @@ data class PendingApproval(
 
 /** Provider-specific spelling of a model id: the `vertex` provider wants "google/<model>", the `gemini` provider the bare id. */
 internal object ModelIds {
+    private enum class Family { GOOGLE, CLAUDE, OPENAI, OTHER }
+
+    private fun family(model: String): Family {
+        val m = model.trim().lowercase()
+        val bare = m.substringAfterLast('/')
+        val vendor = if (m.contains('/')) m.substringBefore('/') else ""
+        return when {
+            vendor == "google" || bare.startsWith("gemini") || bare.startsWith("gemma") -> Family.GOOGLE
+            vendor == "anthropic" || bare.startsWith("claude") -> Family.CLAUDE
+            vendor == "openai" || bare.startsWith("gpt") || bare.startsWith("chatgpt") ||
+                Regex("o[0-9].*").matches(bare) -> Family.OPENAI
+            else -> Family.OTHER
+        }
+    }
+
     fun normalize(provider: String, model: String): String {
         val m = model.trim()
         if (m.isEmpty()) return ""
         return when (provider) {
             "vertex" -> if (m.contains('/')) m else "google/$m"
             "gemini" -> m.removePrefix("google/")
+            // OpenRouter wants vendor/model: a bare id saved while another provider was active gets its vendor.
+            "openrouter" -> if (m.contains('/')) m else when (family(m)) {
+                Family.GOOGLE -> "google/$m"
+                Family.CLAUDE -> "anthropic/$m"
+                Family.OPENAI -> "openai/$m"
+                Family.OTHER -> m
+            }
             else -> m
+        }
+    }
+
+    /**
+     * False when [model] clearly belongs to another provider's family (a Gemini id kept on a bot after the owner switched to
+     * Anthropic, a Claude id on the Gemini provider ...). Such an override is not sent: the provider would answer
+     * "model not found". Unknown ids and the `custom` endpoint (it can host anything) always fit.
+     */
+    fun fits(provider: String, model: String): Boolean {
+        if (model.isBlank()) return true
+        val f = family(model)
+        return when (provider) {
+            "gemini", "vertex" -> f != Family.CLAUDE && f != Family.OPENAI
+            "anthropic" -> f != Family.GOOGLE && f != Family.OPENAI
+            "openai-api" -> f != Family.GOOGLE && f != Family.CLAUDE
+            else -> true
         }
     }
 }
@@ -78,16 +121,25 @@ class ChatEngine internal constructor(
     private val isReady: () -> Boolean,
     private val scope: CoroutineScope,
     private val imageLoader: (Attachment) -> String? = { null },
+    /** True when a message sent while Hermes is asleep may light the fire (wake-on-send is on and the runtime is installed). */
+    private val canWake: () -> Boolean = { false },
+    /** Starts Hermes if needed and blocks until it is Running; false when it could not (or the run was stopped meanwhile). */
+    private val awaitReady: (cancelled: () -> Boolean) -> Boolean = { isReady() },
+    /** Token statistics and the daily budget; null in tests that do not care. */
+    private val usage: UsageStore? = null,
 ) {
     constructor(
         repo: ChatRepository, api: HermesApi, wakeLocks: WakeLocks,
         provider: () -> String, isReady: () -> Boolean,
         imageLoader: (Attachment) -> String? = { null },
+        canWake: () -> Boolean = { false },
+        awaitReady: (cancelled: () -> Boolean) -> Boolean = { isReady() },
+        usage: UsageStore? = null,
     ) : this(
         repo, ChatBackend { req, h, ev -> api.streamCompletion(req, h, ev) },
         { runId, choice, requestId -> api.resolveApproval(runId, choice, requestId) },
         { why -> wakeLocks.acquire(why, 30 * 60_000L) }, { why -> wakeLocks.release(why) },
-        provider, isReady, CoroutineScope(SupervisorJob() + Dispatchers.IO), imageLoader,
+        provider, isReady, CoroutineScope(SupervisorJob() + Dispatchers.IO), imageLoader, canWake, awaitReady, usage,
     )
 
     private val _busy = MutableStateFlow<Set<String>>(emptySet())
@@ -96,7 +148,10 @@ class ChatEngine internal constructor(
     private val _approvals = MutableStateFlow<Map<String, PendingApproval>>(emptyMap())
     private val _memoryUpdates = MutableStateFlow(0)
     private val memoryCounter = AtomicInteger(0)
-    private val _events = MutableSharedFlow<EngineEvent>(extraBufferCapacity = 32)
+    private val _events = MutableSharedFlow<EngineEvent>(extraBufferCapacity = 64)
+    @Volatile private var _lastActivityAt = System.currentTimeMillis()
+    /** The day (see [UsageStore.dayOf]) for which the "budget reached" note was already written. */
+    private val warnedDay = java.util.concurrent.atomic.AtomicReference<String?>(null)
 
     /** convIds generating now. */
     val busy: StateFlow<Set<String>> = _busy
@@ -116,13 +171,26 @@ class ChatEngine internal constructor(
         @Volatile var handle: StreamHandle? = null
     }
     private val runs = ConcurrentHashMap<String, Run>()
+    /** "provider|model" pairs already reported as "model of another provider" in this process (one NOTE each). */
+    private val warnedForeignModels: MutableSet<String> = ConcurrentHashMap.newKeySet()
+
+    /** True while [convId] is generating (the same fact as `convId in busy.value`, without reading a flow). */
+    fun isBusy(convId: String): Boolean = runs.containsKey(convId)
+
+    /** Wall clock of the last run start or end (the process start until the first run); the idle stop measures from here. */
+    val lastActivityAt: Long get() = _lastActivityAt
+
+    /** True when a request can be accepted now: Hermes is running, or sending may light the fire. */
+    private fun accepting(): Boolean = isReady() || canWake()
 
     // ---- public API ------------------------------------------------------------------------------------------
 
     /**
      * Adds the user's message and lets the right bot(s) answer. [onlyBotIds] (group chats) restricts who answers.
      * Returns true when accepted; false when ignored (empty text, the conversation is already generating, or Hermes is not
-     * running): nothing was added to the chat then, so the caller should keep the user's text.
+     * running and cannot be woken): nothing was added to the chat then, so the caller should keep the user's text.
+     * While Hermes is asleep and wake-on-send is allowed the message is accepted and shown, Hermes is started
+     * ([STATUS_WAKING] in [status]) and the answer follows once it is up.
      */
     fun send(
         convId: String,
@@ -131,7 +199,7 @@ class ChatEngine internal constructor(
         attachments: List<Attachment> = emptyList(),
     ): Boolean {
         val clean = text.trim()
-        if ((clean.isEmpty() && attachments.isEmpty()) || !isReady()) return false
+        if ((clean.isEmpty() && attachments.isEmpty()) || !accepting()) return false
         return startRun(convId) {
             val conv = repo.conversation(convId) ?: return@startRun
             repo.addMessage(newMessage(convId, Role.USER, null, clean, attachments = attachments))
@@ -152,7 +220,7 @@ class ChatEngine internal constructor(
         onlyBotIds: List<String> = emptyList(),
     ): Boolean {
         val clean = prompt.trim()
-        if ((clean.isEmpty() && attachments.isEmpty()) || !isReady()) return false
+        if ((clean.isEmpty() && attachments.isEmpty()) || !accepting()) return false
         val totalPasses = passes.coerceIn(2, 5)
         return startRun(convId) { run ->
             val conv = repo.conversation(convId) ?: return@startRun
@@ -177,7 +245,7 @@ class ChatEngine internal constructor(
 
     /** Drops everything after the last user message and answers it again (the same bots that answered, or the default ones). False when ignored (busy or Hermes not running). */
     fun regenerateLast(convId: String): Boolean {
-        if (!isReady()) return false
+        if (!accepting()) return false
         return startRun(convId) { run ->
             val msgs = repo.messagesSnapshot(convId)
             val idx = msgs.indexOfLast { it.role == Role.USER }
@@ -198,7 +266,7 @@ class ChatEngine internal constructor(
     /** Replaces the text of a user message, deletes everything after it and answers again. False when ignored (empty text, busy or Hermes not running). */
     fun editAndResend(convId: String, messageId: String, newText: String): Boolean {
         val clean = newText.trim()
-        if (clean.isEmpty() || !isReady()) return false
+        if (clean.isEmpty() || !accepting()) return false
         return startRun(convId) { run ->
             val msgs = repo.messagesSnapshot(convId)
             val target = msgs.firstOrNull { it.id == messageId && it.role == Role.USER } ?: return@startRun
@@ -244,6 +312,7 @@ class ChatEngine internal constructor(
         val run = Run()
         if (runs.putIfAbsent(convId, run) != null) { AppLog.w("Chat", "conversation $convId is already generating; request ignored"); return false }
         _busy.update { it + convId }
+        _lastActivityAt = System.currentTimeMillis()
         scope.launch {
             acquireWake("chat")
             try {
@@ -256,6 +325,7 @@ class ChatEngine internal constructor(
                 _speaking.update { it - convId }; _status.update { it - convId }; _approvals.update { it - convId }
                 runs.remove(convId)
                 _busy.update { it - convId }
+                _lastActivityAt = System.currentTimeMillis()
                 releaseWake("chat")
             }
         }
@@ -295,28 +365,73 @@ class ChatEngine internal constructor(
         repo.addMessage(newMessage(convId, role, botId, text.take(4000)))
     }
 
+    /**
+     * True when Hermes is up. When it is not and waking is allowed, starts it and waits ([STATUS_WAKING] shows meanwhile).
+     * False when the run was stopped (silently) or Hermes is not running and could not be started (an ERROR message says so).
+     */
+    private fun ensureReady(run: Run, convId: String, botId: String): Boolean {
+        if (isReady()) return true
+        if (!canWake()) {
+            addIssue(convId, Role.ERROR, botId, "Hermes is not running. Start it from the home screen, wait until it says Running, then try again.")
+            return false
+        }
+        _status.update { it + (convId to STATUS_WAKING) }
+        val up = try {
+            awaitReady { run.stop }
+        } catch (e: Throwable) {
+            AppLog.e("Chat", "waking Hermes failed", e)
+            false
+        } finally {
+            _status.update { if (it[convId] == STATUS_WAKING) it - convId else it }
+        }
+        if (run.stop) return false
+        if (!up || !isReady()) {
+            addIssue(convId, Role.ERROR, botId, "Hermes could not start. Open the home screen to see why.")
+            _events.tryEmit(EngineEvent.TurnFailed(convId))
+            return false
+        }
+        return true
+    }
+
     /** One bot's answer. Returns true when the stream completed cleanly (the next bot of a group may go on). */
     private fun generate(run: Run, convId: String, botId: String, ephemeralUserTurn: String? = null): Boolean {
         val conv = repo.conversation(convId) ?: return false
         val bot = repo.bot(botId)
         if (bot == null) { addIssue(convId, Role.ERROR, null, "Bot not found (it was deleted)."); return false }
-        if (!isReady()) {
-            addIssue(convId, Role.ERROR, bot.id, "Hermes is not running. Start it from the home screen, wait until it says Running, then try again.")
-            return false
+        if (run.stop) return false
+        // The daily budget first: a blocked turn must not even light the fire.
+        usage?.let { u ->
+            if (u.budget.value.mode == BudgetMode.BLOCK && u.overBudget()) {
+                val limit = u.budget.value.dailyTokens
+                addIssue(convId, Role.ERROR, bot.id, "The daily token budget ($limit tokens) is reached, so this message was not sent to the model. " +
+                    "Raise or turn off the limit under Settings > Usage, or try again tomorrow.")
+                _events.tryEmit(EngineEvent.TurnFailed(convId))
+                return false
+            }
         }
+        if (!ensureReady(run, convId, bot.id)) return false
         val history = repo.messagesSnapshot(convId)
         val providerName = provider()
         // Precedence: per-conversation override -> bot override -> Hermes global default
-        val effectiveModel = conv.modelOverride.ifBlank { bot.model }
+        val chosenModel = conv.modelOverride.ifBlank { bot.model }
         val effectiveEffort = conv.effortOverride.ifBlank { bot.effort }
+        // An override saved under another provider (e.g. a Gemini id after switching to Anthropic) would only make the
+        // provider answer "model not found": use Hermes's default instead and say so once.
+        val modelFits = ModelIds.fits(providerName, chosenModel)
+        val effectiveModel = if (modelFits) chosenModel else ""
+        if (!modelFits && warnedForeignModels.add("$providerName|$chosenModel")) {
+            addIssue(convId, Role.NOTE, bot.id, "The model \"${chosenModel.trim()}\" set for this chat or bot belongs to another provider, " +
+                "so the default model of the current provider is used instead. Change it in the chat controls or the bot editor.")
+        }
         val hasModel = effectiveModel.isNotBlank()
         var built = Transcript.build(conv, bot, repo.bots.value, history, imageLoader)
         if (!ephemeralUserTurn.isNullOrBlank()) {
             built = built + ChatMessage("user", ephemeralUserTurn)
         }
+        val modelId = if (hasModel) ModelIds.normalize(providerName, effectiveModel) else ""
         val req = ChatRequest(
             messages = built,
-            model = if (hasModel) ModelIds.normalize(providerName, effectiveModel) else "",
+            model = modelId,
             provider = if (hasModel) providerName else null,
             reasoningEffort = effectiveEffort.takeIf { it in EFFORTS },
         )
@@ -324,7 +439,8 @@ class ChatEngine internal constructor(
         run.handle = handle
         if (run.stop) handle.cancel()
         _speaking.update { it + (convId to bot.id) }
-        val turn = Turn(convId, bot.id)
+        _events.tryEmit(EngineEvent.TurnStarted(convId, bot.id))
+        val turn = Turn(convId, bot.id, modelId)
         val outcome = try {
             backend.stream(req, handle) { ev -> turn.onEvent(ev) }
         } finally {
@@ -334,8 +450,10 @@ class ChatEngine internal constructor(
     }
 
     /** The state of one bot's streamed answer. Called from one thread only (the generation thread). */
-    private inner class Turn(val convId: String, val botId: String) {
+    private inner class Turn(val convId: String, val botId: String, val modelId: String = "") {
         private val t0 = System.currentTimeMillis()
+        private var usageIn = 0L
+        private var usageOut = 0L
         private var bubbleId: String? = null
         private val text = StringBuilder()
         private val reasoning = StringBuilder()
@@ -351,7 +469,7 @@ class ChatEngine internal constructor(
 
         private fun ensureBubble() {
             if (bubbleId != null) return
-            val m = newMessage(convId, Role.BOT, botId, "", streaming = true)
+            val m = newMessage(convId, Role.BOT, botId, "", streaming = true).copy(model = modelId)
             repo.addMessage(m)
             bubbleId = m.id
             text.setLength(0); reasoning.setLength(0)
@@ -463,6 +581,7 @@ class ChatEngine internal constructor(
                         }
                     }
                 }
+                is ChatEvent.Usage -> { usageIn = ev.promptTokens; usageOut = ev.completionTokens }
                 is ChatEvent.Status -> _status.update { it + (convId to Diag.redactor.redact(ev.text).take(300)) }
                 is ChatEvent.Approval -> {
                     val cmd = Diag.redactor.redact(ev.command)
@@ -491,6 +610,27 @@ class ChatEngine internal constructor(
             }
         }
 
+        /**
+         * Writes the turn's token counts on the last BOT message that has text and adds them to the statistics; with the budget
+         * on WARN, the first turn of a day that crosses the limit also leaves one note in the chat.
+         */
+        private fun recordUsage() {
+            val tin = usageIn; val tout = usageOut
+            if (tin <= 0L && tout <= 0L) return
+            lastClosedId?.let { cid -> repo.updateMessage(convId, cid) { it.copy(tokensIn = tin, tokensOut = tout) } }
+            val u = usage ?: return
+            val before = u.todayTotal()
+            u.record(modelId, tin, tout)
+            val b = u.budget.value
+            if (b.mode == BudgetMode.WARN && b.dailyTokens > 0L && before < b.dailyTokens && u.todayTotal() >= b.dailyTokens) {
+                val day = UsageStore.dayOf(System.currentTimeMillis())
+                if (warnedDay.getAndSet(day) != day) {
+                    addIssue(convId, Role.NOTE, null, "Daily token budget reached: ${b.dailyTokens} tokens used today. " +
+                        "Hermes keeps answering; change the limit under Settings > Usage.")
+                }
+            }
+        }
+
         /** Closes the answer and records how the stream ended. Returns true when the round may go on. */
         fun finish(outcome: ChatOutcome): Boolean {
             _approvals.update { it - convId }
@@ -502,12 +642,16 @@ class ChatEngine internal constructor(
             closeBubble()
             val clean = outcome is ChatOutcome.Completed
             for ((_, mid) in tools) repo.updateMessage(convId, mid) { if (it.toolStatus == "running") it.copy(toolStatus = if (clean) "completed" else "interrupted") else it }
+            recordUsage()
             when (outcome) {
                 ChatOutcome.Completed -> {
                     if (!produced && !hadError) addIssue(convId, Role.NOTE, botId, "The bot returned an empty reply.")
                     if (!hadError) {
                         val cid = lastClosedId
-                        if (cid != null) _events.tryEmit(EngineEvent.TurnCompleted(convId, cid, botId, lastClosedText))
+                        if (cid != null) {
+                            repo.bumpUnread(convId)
+                            _events.tryEmit(EngineEvent.TurnCompleted(convId, cid, botId, lastClosedText, usageIn, usageOut))
+                        }
                     } else {
                         _events.tryEmit(EngineEvent.TurnFailed(convId))
                     }
@@ -527,6 +671,8 @@ class ChatEngine internal constructor(
     }
 
     companion object {
+        /** Value of [status] for a conversation while the engine waits for Hermes to start; the UI shows a localized text for it. */
+        const val STATUS_WAKING = "@waking"
         private const val PUSH_INTERVAL_MS = 60L
         private const val MAX_REASONING_CHARS = 30_000
         /** Values Hermes accepts as `model_options.reasoning_effort` that the app offers. */

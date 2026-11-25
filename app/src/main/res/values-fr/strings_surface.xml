@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- text-selection menu -->
+    <string name="srf_ask_agiri">Demander à Agirî</string>
+
+    <!-- launcher shortcuts (long-press the app icon) -->
+    <string name="srf_sc_new_chat_short">Discussion</string>
+    <string name="srf_sc_new_chat_long">Nouvelle discussion</string>
+    <string name="srf_sc_routines_short">Routines</string>
+    <string name="srf_sc_routines_long">Ouvrir les routines</string>
+    <string name="srf_sc_terminal_short">Terminal</string>
+    <string name="srf_sc_terminal_long">Ouvrir le terminal Hermes</string>
+
+    <!-- Quick Settings tile -->
+    <string name="srf_tile_label">Feu d\'Agirî</string>
+    <string name="srf_tile_on">Hermes est éveillé</string>
+    <string name="srf_tile_off">Hermes dort</string>
+    <string name="srf_tile_wait">Veuillez patienter…</string>
+</resources>

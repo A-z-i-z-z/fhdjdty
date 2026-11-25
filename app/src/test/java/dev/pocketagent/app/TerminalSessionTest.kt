@@ -1,5 +1,8 @@
 package dev.pocketagent.app
 
+import dev.pocketagent.app.hermes.AnsiLine
+import dev.pocketagent.app.hermes.AnsiParser
+import dev.pocketagent.app.hermes.AnsiSpan
 import dev.pocketagent.app.hermes.AnsiStrip
 import dev.pocketagent.app.hermes.TermKind
 import dev.pocketagent.app.hermes.TermLine
@@ -68,11 +71,89 @@ class TerminalSessionTest {
         assertEquals(listOf("bash", "-c", "echo hello"), seen.single())
         assertEquals(listOf(
             TermLine("$ echo hello", TermKind.CMD),
-            TermLine("hello", TermKind.OUT),
+            TermLine("hello", TermKind.OUT, listOf(AnsiSpan(0, 5, 2, false))),    // the green colour is kept as a span
             TermLine("oops", TermKind.ERR),
             TermLine("progress 100%", TermKind.OUT),
         ), s.lines.value)
         assertFalse(s.running.value)
+    }
+
+    // ---- ANSI colours ---------------------------------------------------------------------------------------------------
+
+    @Test fun sgrColoursAndBoldBecomeSpansAndEverythingElseIsStripped() {
+        val p = AnsiParser()
+        val l = p.parse("plain \u001B[1;31mERR\u001B[0m ok \u001B[2K\u001B[92mgreen\u001B[39m!")
+        assertEquals("plain ERR ok green!", l.text)
+        assertEquals(
+            listOf(AnsiSpan(6, 9, 1, true), AnsiSpan(13, 18, 10, false)),
+            l.spans,
+        )
+        assertEquals(AnsiLine("", emptyList()), p.parse(""))
+        assertEquals(AnsiLine("no colour", emptyList()), p.parse("no colour"))
+    }
+
+    @Test fun styleCarriesToTheNextLineUntilReset() {
+        val p = AnsiParser()
+        val a = p.parse("\u001B[34mblue starts")
+        val b = p.parse("still blue\u001B[0m done")
+        assertEquals(listOf(AnsiSpan(0, 11, 4, false)), a.spans)
+        assertEquals(listOf(AnsiSpan(0, 10, 4, false)), b.spans)
+        assertEquals("still blue done", b.text)
+        p.reset()
+        assertEquals(emptyList<AnsiSpan>(), p.parse("fresh").spans)
+    }
+
+    @Test fun extendedColoursMapToTheNearestOfSixteen() {
+        val p = AnsiParser()
+        assertEquals(listOf(AnsiSpan(0, 1, 9, false)), p.parse("\u001B[38;5;9mx").spans)          // index below 16: as is
+        assertEquals(listOf(AnsiSpan(0, 1, 9, false)), p.parse("\u001B[38;2;255;10;10my").spans)  // true colour: nearest = bright red
+        assertEquals(1, AnsiParser.from256(124))                                                   // dark red of the colour cube
+        assertEquals(-1, AnsiParser.from256(300))
+        assertEquals(0, AnsiParser.from256(232))                                                   // darkest grey
+        assertEquals(7, AnsiParser.from256(255))                                                   // lightest grey: nearest is the light grey
+        // A background colour and its arguments must not turn into foreground codes.
+        assertEquals(emptyList<AnsiSpan>(), AnsiParser().parse("\u001B[48;5;196mtext\u001B[0m").spans)
+        assertEquals("text", AnsiParser().parse("\u001B[48;2;1;2;3mtext").text)
+    }
+
+    @Test fun carriageReturnsDropTheColoursOfTheOverwrittenText() {
+        val l = AnsiParser().parse("\u001B[31m10%\r\u001B[32m100%")
+        assertEquals("100%", l.text)
+        assertEquals(listOf(AnsiSpan(0, 4, 2, false)), l.spans)
+    }
+
+    @Test fun commandsAreWrappedForColoursOnlyWhenAsked() {
+        assertEquals(listOf("bash", "-c", "ls"), TerminalSession.guestCommand("ls", false))
+        val c = TerminalSession.guestCommand("ls --color=auto", true)
+        assertEquals(listOf("env", "-u", "NO_COLOR"), c.take(3))
+        assertEquals(listOf("bash", "-c", "ls --color=auto"), c.takeLast(3))
+        assertTrue(c.contains("FORCE_COLOR=1"))
+        assertTrue(c.contains("TERM=xterm-256color"))
+    }
+
+    @Test fun theColourSwitchChangesWhatReachesTheGuest() {
+        val seen = CopyOnWriteArrayList<List<String>>()
+        val s = TerminalSession(
+            TerminalSession.GuestExec { c, _, _ -> seen += c; 0 }, { true }, File(tmp.root, "h2.json"), CoroutineScope(Dispatchers.IO), colorsDefault = true,
+        )
+        assertTrue(s.colors.value)
+        s.run("one"); waitFor { !s.running.value && s.lines.value.isNotEmpty() }
+        s.setColors(false)
+        s.run("two"); waitFor { !s.running.value && seen.size == 2 }
+        assertEquals("env", seen[0].first())
+        assertEquals(listOf("bash", "-c", "two"), seen[1])
+    }
+
+    @Test fun aRedactedLineLosesItsSpansButKeepsItsText() {
+        dev.pocketagent.app.diag.Diag.redactor.addSecret("k2", "SECRETCOLOURVALUE")
+        try {
+            val s = session { _, out, _ -> out("\u001B[31mtoken SECRETCOLOURVALUE here\u001B[0m", false); 0 }
+            s.run("x")
+            done(s)
+            val l = s.lines.value.last { it.kind == TermKind.OUT }
+            assertFalse(l.text.contains("SECRETCOLOURVALUE"))
+            assertTrue(l.spans.isEmpty())
+        } finally { dev.pocketagent.app.diag.Diag.redactor.clear() }
     }
 
     @Test fun nonZeroExitIsReported() {

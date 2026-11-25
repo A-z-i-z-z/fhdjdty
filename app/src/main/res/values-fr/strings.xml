@@ -73,6 +73,30 @@
     <string name="settings_saved">Enregistré. Prend effet au prochain démarrage de l\'environnement.</string>
     <string name="settings_restarting">Enregistré. Redémarrage de l\'environnement pour appliquer.</string>
 
+    <!-- providers (Phase 3) -->
+    <string name="prov_pick">Fournisseur</string>
+    <string name="prov_google">Google (Gemini)</string>
+    <string name="prov_openrouter">OpenRouter</string>
+    <string name="prov_anthropic">Anthropic</string>
+    <string name="prov_openai">OpenAI</string>
+    <string name="prov_custom">Point d\'accès personnalisé</string>
+    <string name="prov_keys_note">Chaque fournisseur garde sa propre clé sur ce téléphone. Changer de fournisseur ne supprime jamais les autres.</string>
+    <string name="prov_hint_openrouter">Une seule clé donne accès à des centaines de modèles. Les identifiants ressemblent à fournisseur/modèle, par exemple google/gemini-3.8-flash. Les clés OpenRouter commencent par sk-or-.</string>
+    <string name="prov_hint_anthropic">Les modèles Claude directement chez Anthropic. Les identifiants sont simples, par exemple claude-sonnet-5.</string>
+    <string name="prov_hint_openai">L\'API OpenAI (api.openai.com). Les identifiants sont simples, par exemple gpt-5.4.</string>
+    <string name="prov_hint_custom">Tout serveur qui parle l\'API de chat OpenAI : un service hébergé, ou Ollama, LM Studio ou vLLM sur votre propre réseau. Utilisez l\'URL de base indiquée dans sa documentation (souvent terminée par /v1) et l\'identifiant de modèle qu\'il sert.</string>
+    <string name="prov_field_key_openrouter">Clé API OpenRouter</string>
+    <string name="prov_field_key_anthropic">Clé API Anthropic</string>
+    <string name="prov_field_key_openai">Clé API OpenAI</string>
+    <string name="prov_field_key_custom">Clé API (laissez vide si le serveur n\'en demande pas)</string>
+    <string name="prov_field_base_url">URL de base</string>
+    <string name="prov_base_url_placeholder">https://example.com/v1</string>
+    <string name="prov_problem_no_key">Saisissez une clé API pour ce fournisseur.</string>
+    <string name="prov_problem_bad_key">Les clés OpenRouter commencent par sk-or-. Hermes ignorerait celle-ci.</string>
+    <string name="prov_problem_no_url">Saisissez l\'URL de base du serveur.</string>
+    <string name="prov_problem_bad_url">Cette adresse n\'est pas acceptée. Utilisez https://..., ou http:// uniquement pour ce téléphone ou votre propre réseau (localhost, 192.168.x.x, 10.x.x.x). Pas de nom d\'utilisateur, de mot de passe ni de requête.</string>
+    <string name="prov_http_note">http simple : le trafic n\'est pas chiffré. Autorisé uniquement parce que l\'adresse est sur ce téléphone ou sur votre propre réseau.</string>
+
     <!-- paste dialog / import results -->
     <string name="paste_title">Coller le JSON d\'identifiants</string>
     <string name="paste_hint">Collez le fichier entier. Le texte est masqué, vérifié, stocké en privé, puis effacé de ce champ.</string>

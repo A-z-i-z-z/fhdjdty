@@ -99,7 +99,6 @@ class HermesApi(
     private val apiKey: () -> String?,
 ) {
     private fun base() = "http://${Paths.API_HOST}:${port()}"
-    @Volatile private var legacyHandle = StreamHandle()
 
     fun health(): HttpResult = get("/health", auth = false, timeoutMs = 3000)
     fun models(): HttpResult = get("/v1/models", auth = true, timeoutMs = 5000)
@@ -152,19 +151,6 @@ class HermesApi(
         }
     }
 
-    /** Cancels the stream started with the legacy [streamChat]. Streams started with [streamCompletion] use their own [StreamHandle]. */
-    fun cancelChat() = legacyHandle.cancel()
-
-    /**
-     * Legacy single-chat call kept for MainViewModel: sends only the new user message plus `X-Hermes-Session-Id`, so
-     * Hermes rebuilds history from its own session store. Blocks until the stream ends; call from a background thread.
-     */
-    fun streamChat(userText: String, sessionId: String, model: String, onEvent: (ChatEvent) -> Unit): ChatOutcome {
-        val handle = StreamHandle().also { legacyHandle = it }
-        val req = ChatRequest(listOf(ChatMessage("user", userText)), model = model, sessionId = sessionId)
-        return streamCompletion(req, handle, onEvent)
-    }
-
     /**
      * POST /v1/chat/completions with stream=true. Blocks until the stream ends; call from a background thread. [handle]
      * cancels this stream (and only this one), so several conversations can stream at the same time.
@@ -213,6 +199,7 @@ class HermesApi(
                             is ChatEvent.Tool -> tools++
                             is ChatEvent.StreamError -> ApiLog.add("stream error event: ${trim(ce.raw)}")
                             is ChatEvent.Approval -> ApiLog.add("approval requested (run ${ce.runId}, choices ${ce.choices})")
+                            is ChatEvent.Usage -> ApiLog.add("usage: in=${ce.promptTokens} out=${ce.completionTokens} total=${ce.totalTokens}")
                             is ChatEvent.Done -> sawDone = true
                             else -> {}
                         }

@@ -56,6 +56,10 @@ class RuntimeManager(
     /** True while an operation (start/stop/extract) runs or a child process is alive. The service follows this. */
     val foregroundNeeded: StateFlow<Boolean> = _foreground
 
+    private val _unexpectedExits = MutableStateFlow(0)
+    /** +1 each time the child process ended without anybody asking for it (see watchExit); Presence restarts on a change. */
+    val unexpectedExits: StateFlow<Int> = _unexpectedExits
+
     private val historyLock = Any()
     private val history = ArrayList<StateEntry>()
     private val exits = ArrayList<ExitRecord>()
@@ -511,8 +515,10 @@ class RuntimeManager(
         val cur = _state.value
         when {
             h.stopRequested.get() -> setState(RuntimeState.Stopped("stopped"))
-            cur is RuntimeState.Starting || cur == RuntimeState.Running ->
+            cur is RuntimeState.Starting || cur == RuntimeState.Running -> {
                 setState(RuntimeState.Error("Hermes exited unexpectedly: ${rec.describe()}" + (ExitRecord.hint(code)?.let { " - $it" } ?: "")))
+                _unexpectedExits.value = _unexpectedExits.value + 1 // after the Error state is visible
+            }
             else -> {}
         }
         recomputeForeground()
@@ -601,12 +607,7 @@ class RuntimeManager(
     /** Hosts the configured mode must be able to reach (DNS + TLS), for the self-test probes. */
     private fun probeHosts(): List<String> {
         val s = settings
-        val region = s.region.trim().takeIf { Regex("^[a-z0-9-]+$").matches(it) } ?: "global"
-        val aiplatform = if (region == "global") "aiplatform.googleapis.com" else "$region-aiplatform.googleapis.com"
-        return when (s.authMode) {
-            AuthMode.API_KEY -> if (s.endpoint == ApiEndpoint.STUDIO) listOf("generativelanguage.googleapis.com") else listOf("aiplatform.googleapis.com")
-            AuthMode.SERVICE_ACCOUNT, AuthMode.USER_CREDENTIALS -> listOf(aiplatform, "oauth2.googleapis.com")
-        }
+        return ProviderConfig.probeHosts(s.authMode, s.endpoint, s.region, s.customBaseUrl)
     }
 
     /**

@@ -84,6 +84,21 @@ internal fun Muted(text: String, modifier: Modifier = Modifier, size: TextUnit =
 internal fun ErrorText(text: String, modifier: Modifier = Modifier) =
     CText(text, modifier, color = Pocket.colors.error, size = 13.sp)
 
+/** A small accent-coloured label above a group inside a settings section. */
+@Composable
+internal fun SubHeading(text: String, modifier: Modifier = Modifier) {
+    CText(text, modifier.padding(top = 6.dp), color = Pocket.colors.accent, size = 12.sp, weight = FontWeight.Bold)
+}
+
+/** A horizontal meter: [fraction] (0..1) of the bar is filled with [color]. */
+@Composable
+internal fun MeterBar(fraction: Float, color: Color, modifier: Modifier = Modifier) {
+    val c = Pocket.colors
+    Box(modifier.fillMaxWidth().heightIn(min = 10.dp, max = 10.dp).background(c.surfaceHigh)) {
+        Box(Modifier.fillMaxWidth(fraction.coerceIn(0f, 1f)).heightIn(min = 10.dp, max = 10.dp).background(color))
+    }
+}
+
 /** A bordered pixel panel with padded, evenly spaced content. */
 @Composable
 internal fun CtlCard(

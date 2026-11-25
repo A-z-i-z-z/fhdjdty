@@ -48,8 +48,15 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     var region by mutableStateOf(settings.region)
     var projectId by mutableStateOf(settings.projectId)
     var reasoningEffort by mutableStateOf(settings.reasoningEffort)   // "" = default (not written to config.yaml)
-    var apiKeyInput by mutableStateOf("")                 // never pre-filled; cleared after saving
-    var hasStoredApiKey by mutableStateOf(secrets.hasGeminiApiKey); private set
+    /** Base URL of the custom OpenAI-compatible provider (not a secret). */
+    var customBaseUrl by mutableStateOf(settings.customBaseUrl)
+    /** The key being typed for the CURRENT provider; never pre-filled, cleared after saving and whenever the provider changes. */
+    var apiKeyInput by mutableStateOf("")
+    private var storedKeyModes by mutableStateOf(computeStoredKeyModes())
+    /** True when a key is stored for the current provider ([authMode]). */
+    val hasStoredApiKey: Boolean get() = authMode in storedKeyModes
+    /** The Google mode that was last selected, so the "Google" provider chip returns to it. */
+    var lastGoogleMode by mutableStateOf(if (settings.authMode.google) settings.authMode else AuthMode.API_KEY); private set
     var hasServiceAccount by mutableStateOf(secrets.hasServiceAccount); private set
     var hasUserCredentials by mutableStateOf(secrets.hasUserCredentials); private set
     var saSummary by mutableStateOf(summary()); private set
@@ -57,34 +64,56 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     var pasteText by mutableStateOf("")                   // cleared right after every import attempt
     var settingsMessage by mutableStateOf<String?>(null); private set
 
+    private fun computeStoredKeyModes(): Set<AuthMode> =
+        AuthMode.values().filter { it.usesApiKey && secrets.hasProviderKey(it) }.toSet()
+
     private fun summary() = listOfNotNull(
         settings.saProjectId.takeIf { it.isNotEmpty() && secrets.hasServiceAccount }?.let { "SA project $it, ${settings.saMaskedEmail}" },
         settings.userCredMasked.takeIf { it.isNotEmpty() && secrets.hasUserCredentials },
     ).joinToString(" | ")
 
-    fun selectMode(m: AuthMode) { authMode = m; model = settings.modelFor(m, endpoint) }
+    fun selectMode(m: AuthMode) {
+        if (m != authMode) apiKeyInput = ""   // a key typed for one provider must never be saved under another
+        authMode = m; model = settings.modelFor(m, endpoint)
+        if (m.google) lastGoogleMode = m
+    }
     fun selectEndpoint(e: ApiEndpoint) { endpoint = e; model = settings.modelFor(authMode, e) }
 
     /** Pure function of in-memory state (called during composition: no file or binder access here). */
-    fun problems() = ProviderConfig.problems(ProviderInputs(
-        authMode, endpoint, model, region, projectId,
-        geminiApiKey = apiKeyInput.ifBlank { if (hasStoredApiKey) "stored" else "" },
-        reasoningEffort = reasoningEffort))
+    fun problems(): List<ProviderConfig.Problem> {
+        val typed = apiKeyInput.ifBlank { if (hasStoredApiKey) ProviderConfig.STORED_KEY_PLACEHOLDER else "" }
+        return ProviderConfig.problems(ProviderInputs(
+            authMode, endpoint, model, region, projectId,
+            geminiApiKey = if (authMode.google) typed else "",
+            reasoningEffort = reasoningEffort,
+            providerKey = if (authMode.google) "" else typed,
+            baseUrl = customBaseUrl))
+    }
 
     /** True when the saved configuration lacks credentials/valid fields, so chatting would fail. */
     fun savedConfigIncomplete(): Boolean = problemsOfSaved
 
-    private var problemsOfSaved by mutableStateOf(ProviderConfig.problems(settings.providerInputs(secrets.geminiApiKey())).isNotEmpty())
+    private var problemsOfSaved by mutableStateOf(ProviderConfig.savedProblems(settings, secrets).isNotEmpty())
 
     /** Persists the form. Returns the problems found (settings are still saved). Restarts a running gateway. */
     fun saveSettings(): List<ProviderConfig.Problem> {
         settings.authMode = authMode; settings.endpoint = endpoint
         settings.setModelFor(authMode, endpoint, model)
         settings.region = region; settings.projectId = projectId; settings.reasoningEffort = reasoningEffort
-        if (apiKeyInput.isNotBlank()) { secrets.setGeminiApiKey(apiKeyInput); apiKeyInput = ""; hasStoredApiKey = secrets.hasGeminiApiKey }
-        val probs = ProviderConfig.problems(settings.providerInputs(secrets.geminiApiKey()))
+        // Only a URL that passes validation is ever stored: a rejected one may carry a user name, a password or a key
+        // (https://user:pw@host, ?key=...), and it must not sit in the preferences or reach the diagnostics.
+        // An invalid entry keeps the previously saved value; an empty field, or a stored value that is no longer valid, clears it.
+        val validUrl = ProviderConfig.normalizeBaseUrl(customBaseUrl)
+        if (validUrl != null) settings.customBaseUrl = validUrl
+        else if (customBaseUrl.isBlank() || ProviderConfig.normalizeBaseUrl(settings.customBaseUrl) == null) settings.customBaseUrl = ""
+        // The typed key belongs to the provider that is selected now (selectMode clears it on every switch).
+        if (apiKeyInput.isNotBlank() && authMode.usesApiKey) {
+            secrets.setProviderKey(authMode, apiKeyInput); apiKeyInput = ""; storedKeyModes = computeStoredKeyModes()
+        }
+        val saved = ProviderConfig.savedInputs(settings, secrets)
+        val probs = ProviderConfig.savedProblems(settings, secrets)
         problemsOfSaved = probs.isNotEmpty()
-        AppLog.i("Setup", "settings saved: ${ProviderConfig.describe(settings.providerInputs(secrets.geminiApiKey()))} problems=$probs")
+        AppLog.i("Setup", "settings saved: ${ProviderConfig.describe(saved)} problems=$probs")
         if (state.value == RuntimeState.Running || state.value is RuntimeState.Starting) {
             AppLog.i("Setup", "runtime active: restarting to apply settings")
             restart()
@@ -93,9 +122,11 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
         return probs
     }
 
+    /** Removes the stored key of the CURRENT provider only; the keys of the other providers stay. */
     fun clearApiKey() {
-        secrets.setGeminiApiKey(""); hasStoredApiKey = false
-        problemsOfSaved = true
+        if (!authMode.usesApiKey) return
+        secrets.setProviderKey(authMode, ""); storedKeyModes = computeStoredKeyModes()
+        recomputeSavedProblems()
         // Do not leave the old key in the guest .env until the next start.
         viewModelScope.launch(Dispatchers.IO) { runtime.rewriteGuestConfigIfInstalled() }
     }
@@ -104,7 +135,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     /** Re-evaluates the SAVED configuration (what chat will use), e.g. after a credential import switched the saved mode. */
     private fun recomputeSavedProblems() {
-        problemsOfSaved = ProviderConfig.problems(settings.providerInputs(secrets.geminiApiKey())).isNotEmpty()
+        problemsOfSaved = ProviderConfig.savedProblems(settings, secrets).isNotEmpty()
     }
 
     // ---- credential import ---------------------------------------------------------------------------
@@ -129,12 +160,12 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
     private fun handleImport(text: String?) {
         val r = if (text == null) ImportResult.Failure(null, "unreadable") else when (val p = secrets.importCredentials(text)) {
             is SaParse.Ok -> {
-                hasServiceAccount = true; authMode = AuthMode.SERVICE_ACCOUNT; model = settings.modelFor(authMode, endpoint)
+                hasServiceAccount = true; apiKeyInput = ""; authMode = AuthMode.SERVICE_ACCOUNT; lastGoogleMode = authMode; model = settings.modelFor(authMode, endpoint)
                 settings.authMode = authMode
                 ImportResult.ServiceAccount(p.projectId, p.maskedEmail, p.repaired)
             }
             is SaParse.OkUser -> {
-                hasUserCredentials = true; authMode = AuthMode.USER_CREDENTIALS; model = settings.modelFor(authMode, endpoint)
+                hasUserCredentials = true; apiKeyInput = ""; authMode = AuthMode.USER_CREDENTIALS; lastGoogleMode = authMode; model = settings.modelFor(authMode, endpoint)
                 settings.authMode = authMode
                 ImportResult.UserCredentials(p.masked, p.repaired)
             }
@@ -149,7 +180,7 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
 
     // ---- runtime ------------------------------------------------------------------------------------------
     fun start() = runtime.start()
-    fun stop() = runtime.stop()
+    fun stop() { pa.presence.noteUserStop(); runtime.stop() }
     fun restart() = runtime.restart()
     fun resetRuntime() = runtime.resetRootfs()
     var noSeccomp by mutableStateOf(settings.noSeccomp); private set

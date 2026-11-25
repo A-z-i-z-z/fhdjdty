@@ -73,6 +73,30 @@
     <string name="settings_saved">Saved. Takes effect the next time the runtime starts.</string>
     <string name="settings_restarting">Saved. Restarting the runtime to apply.</string>
 
+    <!-- providers (Phase 3) -->
+    <string name="prov_pick">Provider</string>
+    <string name="prov_google">Google (Gemini)</string>
+    <string name="prov_openrouter">OpenRouter</string>
+    <string name="prov_anthropic">Anthropic</string>
+    <string name="prov_openai">OpenAI</string>
+    <string name="prov_custom">Custom endpoint</string>
+    <string name="prov_keys_note">Every provider keeps its own key on this phone. Switching provider never deletes the others.</string>
+    <string name="prov_hint_openrouter">One key reaches hundreds of models. Model ids look like vendor/model, for example google/gemini-3.8-flash. OpenRouter keys start with sk-or-.</string>
+    <string name="prov_hint_anthropic">Claude models straight from Anthropic. Model ids are plain, for example claude-sonnet-5.</string>
+    <string name="prov_hint_openai">The OpenAI API (api.openai.com). Model ids are plain, for example gpt-5.4.</string>
+    <string name="prov_hint_custom">Any server that speaks the OpenAI chat API: a hosted service, or Ollama, LM Studio or vLLM on your own network. Use the base URL its documentation gives (often ending in /v1) and the model id it serves.</string>
+    <string name="prov_field_key_openrouter">OpenRouter API key</string>
+    <string name="prov_field_key_anthropic">Anthropic API key</string>
+    <string name="prov_field_key_openai">OpenAI API key</string>
+    <string name="prov_field_key_custom">API key (leave empty if the server needs none)</string>
+    <string name="prov_field_base_url">Base URL</string>
+    <string name="prov_base_url_placeholder">https://example.com/v1</string>
+    <string name="prov_problem_no_key">Enter an API key for this provider.</string>
+    <string name="prov_problem_bad_key">OpenRouter keys start with sk-or-. Hermes would ignore this one.</string>
+    <string name="prov_problem_no_url">Enter the base URL of the server.</string>
+    <string name="prov_problem_bad_url">This address is not accepted. Use https://..., or http:// only for this phone or your own network (localhost, 192.168.x.x, 10.x.x.x). No user name, password or query.</string>
+    <string name="prov_http_note">Plain http: the traffic is not encrypted. Allowed only because the address is on this phone or your own network.</string>
+
     <!-- paste dialog / import results -->
     <string name="paste_title">Paste credentials JSON</string>
     <string name="paste_hint">Paste the whole file. The text is hidden, checked, stored privately and then cleared from this field.</string>

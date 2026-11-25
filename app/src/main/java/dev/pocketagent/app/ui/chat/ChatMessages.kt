@@ -126,25 +126,35 @@ internal fun MessageRow(
     onChatWithBot: (String) -> Unit = {},
     onAddBotToChat: (String) -> Unit = {},
     onEditBot: (String) -> Unit = {},
+    /** The current match of "find in chat", or a message just opened from the saved messages: drawn with an accent outline. */
+    highlighted: Boolean = false,
 ) {
     val label = stringResource(R.string.ui_chat_message_cd)
     val press = { onLongPress(msg) }
+    val accent = Pocket.colors.accent
     Column(modifier.fillMaxWidth().padding(top = if (showHeader) 8.dp else 0.dp)) {
         if (showDay) DayChip(msg.createdAt)
-        when (msg.role) {
-            Role.USER -> UserMessage(msg, isLastInRun, label, press, onOpenImage)
-            Role.BOT -> BotMessage(
-                msg, bot, showHeader, showName, isLastInRun, label, press,
-                botsById, convBotIds, isGroup,
-                canRegenerate, isSpeaking, onSpeak, onCopy, onFork, onRetry, onRunCode,
-                onChatWithBot, onAddBotToChat, onEditBot,
-            )
-            Role.TOOL -> ToolCard(msg, label, press, onOpenMemory)
-            Role.ERROR -> ErrorCard(msg, canRetry, label, press, onRetry, onCopy)
-            Role.NOTE -> Text(
-                msg.text, color = Pocket.colors.textMuted, fontSize = 12.sp, textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp, vertical = 4.dp),
-            )
+        // The wrapper is always there (only its modifier changes) so highlighting never resets the state of the row below.
+        Box(
+            Modifier.fillMaxWidth().then(
+                if (highlighted) Modifier.border(2.dp, accent, RoundedCornerShape(8.dp)).padding(2.dp) else Modifier,
+            ),
+        ) {
+            when (msg.role) {
+                Role.USER -> UserMessage(msg, isLastInRun, label, press, onOpenImage)
+                Role.BOT -> BotMessage(
+                    msg, bot, showHeader, showName, isLastInRun, label, press,
+                    botsById, convBotIds, isGroup,
+                    canRegenerate, isSpeaking, onSpeak, onCopy, onFork, onRetry, onRunCode,
+                    onChatWithBot, onAddBotToChat, onEditBot,
+                )
+                Role.TOOL -> ToolCard(msg, label, press, onOpenMemory)
+                Role.ERROR -> ErrorCard(msg, canRetry, label, press, onRetry, onCopy)
+                Role.NOTE -> Text(
+                    msg.text, color = Pocket.colors.textMuted, fontSize = 12.sp, textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp, vertical = 4.dp),
+                )
+            }
         }
     }
 }
@@ -186,13 +196,25 @@ private fun Bubble(
 @Composable
 private fun maxBubbleWidth() = (LocalConfiguration.current.screenWidthDp * 0.84f).dp
 
+/** Time, duration and tokens of a message, with a small star when it is saved. */
 @Composable
-private fun Meta(msg: Message) {
+private fun Meta(msg: Message, modifier: Modifier = Modifier, showStar: Boolean = true) {
+    val c = Pocket.colors
     val time = clockText(msg.createdAt)
     val dur = msg.durationMs?.let {
         if (msg.role == Role.BOT && it >= 1000) " · " + stringResource(R.string.ui_chat_sec, (it / 1000).toInt()) else ""
     } ?: ""
-    Text(time + dur, color = Pocket.colors.textMuted, fontSize = 10.sp, modifier = Modifier.padding(top = 2.dp, start = 4.dp, end = 4.dp))
+    val usage = if (msg.role == Role.BOT && (msg.tokensIn > 0L || msg.tokensOut > 0L)) {
+        val locale = currentLocale()
+        " · " + stringResource(R.string.ui_usage_meta, compactTokens(msg.tokensIn, locale), compactTokens(msg.tokensOut, locale))
+    } else ""
+    Row(modifier.padding(top = 2.dp, start = 4.dp, end = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+        Text(time + dur + usage, color = c.textMuted, fontSize = 10.sp, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f, fill = false))
+        if (msg.starred && showStar) {
+            Spacer(Modifier.width(4.dp))
+            PixelIconView(PixelIcon.STAR, tint = c.accent, size = 12.dp, contentDescription = stringResource(R.string.ui_star_cd))
+        }
+    }
 }
 
 // ---- user ---------------------------------------------------------------------------------------------------------
@@ -220,7 +242,7 @@ private fun UserMessage(
                 }
             }
         }
-        if (showTime) Meta(msg)
+        if (showTime || msg.starred) Meta(msg)
     }
 }
 
@@ -308,10 +330,11 @@ private fun BotMessage(
                     )
                 }
             }
+            val showMeta = showTime || msg.tokensIn > 0L || msg.tokensOut > 0L || msg.starred
             if (!msg.streaming && msg.text.isNotBlank()) {
                 BotQuickActions(
                     msg = msg,
-                    showTime = showTime,
+                    showTime = showMeta,
                     isSpeaking = isSpeaking,
                     canRegenerate = canRegenerate,
                     onSpeak = { onSpeak(msg) },
@@ -319,7 +342,7 @@ private fun BotMessage(
                     onFork = { onFork(msg) },
                     onRegenerate = onRegenerate,
                 )
-            } else if (showTime && !msg.streaming) {
+            } else if (showMeta && !msg.streaming) {
                 Meta(msg)
             }
         }
@@ -374,7 +397,7 @@ private fun BotQuickActions(
         }
         if (showTime) {
             Spacer(Modifier.width(4.dp))
-            Meta(msg)
+            Meta(msg, Modifier.weight(1f, fill = false))
         }
     }
 }

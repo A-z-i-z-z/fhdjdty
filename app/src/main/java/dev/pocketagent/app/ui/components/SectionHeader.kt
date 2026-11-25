@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
@@ -31,7 +32,9 @@ import kotlin.math.max
 @Composable
 fun SectionHeader(text: String, modifier: Modifier = Modifier) {
     val c = Pocket.colors
-    val label = remember(text) { text.uppercase(Locale.getDefault()) }
+    // The app language, not the phone's: "Settings" must not become "SETTİNGS" on a Turkish phone set to English.
+    val locale = LocalConfiguration.current.locales[0] ?: Locale.getDefault()
+    val label = remember(text, locale) { text.uppercase(locale) }
     Row(
         modifier = modifier
             .fillMaxWidth()

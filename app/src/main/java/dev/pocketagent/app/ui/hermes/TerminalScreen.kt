@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -30,6 +31,9 @@ import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onPreviewKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -75,13 +79,16 @@ fun TerminalScreen() {
     val state by vm.state.collectAsState()
     val lines by term.lines.collectAsState()
     val running by term.running.collectAsState()
+    val colorsOn by term.colors.collectAsState()
     val installed = isInstalled(state)
     val c = Pocket.colors
+    val palette = remember(c) { ansiPalette(c, CONSOLE_OUT, CONSOLE_MUTED) }
 
     var input by rememberSaveable { mutableStateOf("") }
     var histPos by remember { mutableIntStateOf(-1) }   // -1 = the line being typed, 0 = newest command
     val listState = rememberLazyListState()
     val copied = stringResource(R.string.ctl_copied)
+    val colorsDesc = stringResource(R.string.ctl_term_colors_desc)
 
     // A new list object arrives on every change, also when the 5000-line cap keeps the size constant.
     LaunchedEffect(lines.size, System.identityHashCode(lines), lines.lastOrNull()?.text?.length) {
@@ -137,9 +144,15 @@ fun TerminalScreen() {
                             TermKind.INFO -> "" to CONSOLE_MUTED
                             TermKind.OUT -> "" to CONSOLE_OUT
                         }
-                        CText(
-                            (if (l.kind == TermKind.CMD) prefix + l.text.removePrefix("$ ") else l.text), color = color, size = 12.sp, mono = true, lineHeight = 16.sp,
-                        )
+                        if (l.spans.isEmpty()) {
+                            CText(
+                                (if (l.kind == TermKind.CMD) prefix + l.text.removePrefix("$ ") else l.text), color = color, size = 12.sp, mono = true, lineHeight = 16.sp,
+                            )
+                        } else {
+                            // Coloured output: the spans carry the colours, the rest uses the stream's normal colour.
+                            val styled = remember(l, palette) { ansiAnnotated(l, palette) }
+                            Text(styled, color = color, fontSize = 12.sp, fontFamily = FontFamily.Monospace, lineHeight = 16.sp)
+                        }
                     }
                 }
             }
@@ -148,6 +161,10 @@ fun TerminalScreen() {
         // ---- quick commands ----
         Column(Modifier.background(c.surface).padding(top = 6.dp)) {
             ChipRow(Modifier.padding(horizontal = 10.dp)) {
+                PocketChip(
+                    stringResource(R.string.ctl_term_colors), selected = colorsOn, onClick = { term.setColors(!colorsOn) },
+                    modifier = Modifier.semantics { contentDescription = colorsDesc },
+                )
                 QUICK_COMMANDS.forEach { cmd ->
                     PocketChip(cmd, selected = false, onClick = { submit(cmd) })
                 }

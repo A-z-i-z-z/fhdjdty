@@ -197,6 +197,7 @@ private fun slashIcon(name: String): PixelIcon = when (name) {
     "skills" -> PixelIcon.SKILL
     "remember", "memory" -> PixelIcon.MEMORY
     "theme" -> PixelIcon.PALETTE
+    "find" -> PixelIcon.SEARCH
     "export" -> PixelIcon.SHARE
     "clear" -> PixelIcon.TRASH
     else -> PixelIcon.BOLT
@@ -213,6 +214,7 @@ private fun slashDescRes(name: String): Int = when (name) {
     "remember" -> R.string.ui_slash_desc_remember
     "memory" -> R.string.ui_slash_desc_memory
     "theme" -> R.string.ui_slash_desc_theme
+    "find" -> R.string.ui_slash_desc_find
     "export" -> R.string.ui_slash_desc_export
     "clear" -> R.string.ui_slash_desc_clear
     else -> R.string.ui_slash_desc_help

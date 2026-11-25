@@ -11,7 +11,17 @@ import dev.pocketagent.app.data.Conversation
 import dev.pocketagent.app.data.Message
 import dev.pocketagent.app.data.Role
 import dev.pocketagent.app.data.SlashCommands
+import dev.pocketagent.app.runtime.RuntimeState
+import dev.pocketagent.app.ui.chat.ChatScrollTarget
 import dev.pocketagent.app.ui.chat.SyntaxHighlight
+import dev.pocketagent.app.ui.chat.chatUsageTotals
+import dev.pocketagent.app.ui.chat.compactTokens
+import dev.pocketagent.app.ui.chat.cycleIndex
+import dev.pocketagent.app.ui.chat.exportFileName
+import dev.pocketagent.app.ui.chat.ExportLabels
+import dev.pocketagent.app.ui.chat.exportMarkdown
+import dev.pocketagent.app.ui.chat.findMatchingMessageIds
+import dev.pocketagent.app.ui.chat.inputAvailable
 import dev.pocketagent.app.ui.chat.markdownToPlain
 import dev.pocketagent.app.voice.TtsTextCleaner
 import dev.pocketagent.app.voice.styleModulation
@@ -27,6 +37,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import java.io.File
+import java.util.Locale
 
 class VoiceAndHighlightTest {
     @get:Rule val tmp = TemporaryFolder()
@@ -207,5 +218,112 @@ class VoiceAndHighlightTest {
         val repo2 = ChatRepository(dir, CoroutineScope(SupervisorJob() + Dispatchers.Unconfined), debounceMs = 10_000L)
         assertEquals(-1, repo2.bot("rebel")!!.voiceSid)
         assertEquals(BotVoiceStyle.DEFAULT, repo2.bot("rebel")!!.voiceStyle)
+    }
+
+    @Test fun inputStaysUsableWhileHermesSleepsOnlyWhenWakeOnSendIsOn() {
+        // Running: usable, unless the saved setup is incomplete.
+        assertTrue(inputAvailable(RuntimeState.Running, setupIncomplete = false, wakeOnSend = false, runtimeInstalled = true))
+        assertFalse(inputAvailable(RuntimeState.Running, setupIncomplete = true, wakeOnSend = true, runtimeInstalled = true))
+        // Asleep, failed or starting: only with wake-on-send and an installed rootfs (the engine's canWake).
+        for (st in listOf(RuntimeState.Stopped("x"), RuntimeState.Error("x"), RuntimeState.Starting("x"))) {
+            assertTrue(inputAvailable(st, setupIncomplete = false, wakeOnSend = true, runtimeInstalled = true))
+            assertFalse(inputAvailable(st, setupIncomplete = false, wakeOnSend = false, runtimeInstalled = true))
+            assertFalse(inputAvailable(st, setupIncomplete = true, wakeOnSend = true, runtimeInstalled = true))
+            // A failed extraction leaves an Error with no rootfs: the Start card must stay.
+            assertFalse(inputAvailable(st, setupIncomplete = false, wakeOnSend = true, runtimeInstalled = false))
+        }
+        // A fresh install and an extraction keep the "asleep" card whatever the setting says.
+        assertFalse(inputAvailable(RuntimeState.NotInstalled, setupIncomplete = false, wakeOnSend = true, runtimeInstalled = true))
+        assertFalse(inputAvailable(RuntimeState.Extracting(0.5f, ""), setupIncomplete = false, wakeOnSend = true, runtimeInstalled = true))
+    }
+
+    @Test fun findInChatMatchesTextIgnoringCaseInChronologicalOrder() {
+        val msgs = listOf(
+            Message("a", "c", Role.USER, null, "Light the FIRE please", 1L),
+            Message("b", "c", Role.NOTE, null, "fire note is not searched", 2L),
+            Message("c", "c", Role.BOT, "hermes", "The fire is lit.", 3L),
+            Message("d", "c", Role.TOOL, "hermes", "echo fire", 4L, toolName = "terminal"),
+            Message("e", "c", Role.BOT, "hermes", "Nothing here", 5L),
+        )
+        assertEquals(listOf("a", "c", "d"), findMatchingMessageIds(msgs, "fire"))
+        assertEquals(listOf("a", "c", "d"), findMatchingMessageIds(msgs, "  FiRe  "))
+        assertTrue(findMatchingMessageIds(msgs, "").isEmpty())
+        assertTrue(findMatchingMessageIds(msgs, "   ").isEmpty())
+        assertTrue(findMatchingMessageIds(msgs, "volcano").isEmpty())
+    }
+
+    @Test fun matchCursorWrapsAround() {
+        assertEquals(1, cycleIndex(0, 3, 1))
+        assertEquals(0, cycleIndex(2, 3, 1))
+        assertEquals(2, cycleIndex(0, 3, -1))
+        assertEquals(0, cycleIndex(-1, 0, -1))
+        assertEquals(0, cycleIndex(5, 0, 1))
+    }
+
+    @Test fun tokenCountsAreCompactAndLocalized() {
+        assertEquals("0", compactTokens(-5L, Locale.US))
+        assertEquals("950", compactTokens(950L, Locale.US))
+        assertEquals("1k", compactTokens(1_000L, Locale.US))
+        assertEquals("1.2k", compactTokens(1_234L, Locale.US))
+        assertEquals("10k", compactTokens(9_999L, Locale.US))
+        assertEquals("12k", compactTokens(12_345L, Locale.US))
+        assertEquals("999k", compactTokens(999_499L, Locale.US))
+        assertEquals("1M", compactTokens(999_500L, Locale.US))
+        assertEquals("1.2M", compactTokens(1_234_567L, Locale.US))
+        assertEquals("1,2k", compactTokens(1_234L, Locale("tr")))
+        assertEquals("1,2M", compactTokens(1_234_567L, Locale.FRANCE))
+    }
+
+    @Test fun chatUsageTotalsCountOnlyMessagesThatCarryTokens() {
+        val msgs = listOf(
+            Message("u", "c", Role.USER, null, "hi", 1L),
+            Message("b1", "c", Role.BOT, "hermes", "a", 2L, tokensIn = 100L, tokensOut = 20L),
+            Message("t", "c", Role.TOOL, "hermes", "x", 3L),
+            Message("b2", "c", Role.BOT, "hermes", "b", 4L, tokensIn = 150L, tokensOut = 30L),
+            Message("b3", "c", Role.BOT, "hermes", "c", 5L),
+        )
+        val t = chatUsageTotals(msgs)
+        assertEquals(2, t.replies)
+        assertEquals(250L, t.tokensIn)
+        assertEquals(50L, t.tokensOut)
+        assertFalse(t.isEmpty)
+        assertTrue(chatUsageTotals(emptyList()).isEmpty)
+    }
+
+    @Test fun exportBuildsMarkdownAndSafeFileNames() {
+        val msgs = listOf(
+            Message("u", "c", Role.USER, null, "Hello", 1L),
+            Message("b", "c", Role.BOT, "hermes", "Hi there", 2L),
+            Message("e", "c", Role.ERROR, null, "boom", 3L),
+        )
+        val md = exportMarkdown("My chat", msgs) { "Hermes" }
+        assertTrue(md.startsWith("# My chat"))
+        assertTrue(md.contains("**You:** Hello"))
+        assertTrue(md.contains("**Hermes:** Hi there"))
+        assertTrue(md.contains("**Error:** boom"))
+
+        val fr = exportMarkdown("Chat", msgs, ExportLabels(you = "Vous", error = "Erreur")) { "Hermes" }
+        assertTrue(fr.contains("**Vous:** Hello"))
+        assertTrue(fr.contains("**Erreur:** boom"))
+        assertFalse(fr.contains("**You:**"))
+
+        assertEquals("My_chat.md", exportFileName("My chat"))
+        assertEquals("Sohbet_Dengbêj.md", exportFileName("Sohbet: Dengbêj"))
+        assertEquals("chat.md", exportFileName("   "))
+        assertEquals("chat.md", exportFileName("///"))
+        assertFalse(exportFileName("../../etc/passwd").contains("/"))
+        assertTrue(exportFileName("x".repeat(200)).length <= 51)
+    }
+
+    @Test fun scrollTargetIsConsumedOnlyIfNotReplaced() {
+        ChatScrollTarget.set("c1", "m1")
+        val first = ChatScrollTarget.pending.value!!
+        assertEquals("c1", first.convId)
+        assertEquals("m1", first.messageId)
+        ChatScrollTarget.set("c2", "m9")
+        ChatScrollTarget.consume(first) // replaced meanwhile: must not clear the newer request
+        assertEquals("m9", ChatScrollTarget.pending.value?.messageId)
+        ChatScrollTarget.consume(ChatScrollTarget.pending.value!!)
+        assertEquals(null, ChatScrollTarget.pending.value)
     }
 }

@@ -4,6 +4,7 @@ import dev.pocketagent.app.data.Fs
 import dev.pocketagent.app.diag.ApiLog
 import dev.pocketagent.app.diag.Diag
 import dev.pocketagent.app.runtime.Paths
+import dev.pocketagent.app.util.FileUtil
 import java.io.File
 import java.io.RandomAccessFile
 
@@ -107,6 +108,51 @@ class HermesHome internal constructor(
         val f = resolveSkill(path)
         if (text.length > MAX_SKILL_BYTES) throw java.io.IOException("skill text is larger than ${MAX_SKILL_BYTES / 1024} KiB")
         Fs.writeAtomicWithBackup(f, text)
+    }
+
+    /**
+     * Creates `skills/<category>/<name>/SKILL.md` from [SkillTemplate] (the front matter Hermes's own skills have) and returns it.
+     * [category] may be empty (the skill then sits directly below `skills/`). Throws [IllegalArgumentException] with a short reason
+     * for a bad name or category and [java.io.IOException] when a skill with that name already exists.
+     */
+    fun createSkill(category: String, name: String, description: String): SkillInfo {
+        val cat = category.trim()
+        val skillName = name.trim()
+        require(SkillTemplate.isValidName(skillName)) { "invalid skill name" }
+        require(cat.isEmpty() || (SkillTemplate.isValidName(cat) && cat !in SkillTemplate.RESERVED_FOLDERS)) { "invalid category" }
+        require(skillName !in SkillTemplate.RESERVED_FOLDERS) { "invalid skill name" }
+        val rel = (if (cat.isEmpty()) "" else "$cat/") + "$skillName/SKILL.md"
+        val f = resolveSkill(rel)                                   // also checks that nothing escapes skills/
+        if (cat.isNotEmpty() && File(skillsDir, "$cat/SKILL.md").exists()) throw java.io.IOException("the category \"$cat\" is itself a skill")
+        if (f.exists() || f.parentFile?.exists() == true) throw java.io.IOException("a skill named \"$skillName\" already exists")
+        val desc = description.trim().replace(Regex("\\s+"), " ").take(SkillTemplate.MAX_DESCRIPTION)
+        Fs.writeAtomic(f, SkillTemplate.render(skillName, desc))
+        return SkillInfo(skillName, desc, cat, rel)
+    }
+
+    /**
+     * Deletes the whole folder of the skill whose `SKILL.md` is at [path] (as in [SkillInfo.path]), then its category folder when that
+     * is left empty. Refuses anything that is not a `<...>/SKILL.md` below `skills/`, a folder that is a symbolic link, and a
+     * folder that holds another skill. Throws [IllegalArgumentException] / [java.io.IOException].
+     */
+    fun deleteSkill(path: String) {
+        val f = resolveSkill(path)
+        require(f.name == "SKILL.md" && path.replace('\\', '/').contains('/')) { "not a skill file" }
+        val dir = f.parentFile ?: throw IllegalArgumentException("not a skill file")
+        val root = skillsDir.canonicalFile
+        val canonDir = dir.canonicalFile
+        require(canonDir.path.startsWith(root.path + File.separator) && canonDir != root) { "skill folder escapes the skills directory" }
+        if (java.nio.file.Files.isSymbolicLink(dir.toPath())) throw java.io.IOException("the skill folder is a symbolic link")
+        if (!dir.isDirectory) throw java.io.FileNotFoundException("no such skill: $path")
+        val nested = java.nio.file.Files.walk(dir.toPath(), 8).use { st ->
+            st.anyMatch { p -> p.fileName?.toString() == "SKILL.md" && p != f.toPath() }
+        }
+        if (nested) throw java.io.IOException("this folder also holds other skills; delete them one by one")
+        FileUtil.deleteOrThrow(dir)
+        val parent = dir.parentFile
+        if (parent != null && parent.canonicalFile != root && parent.canonicalFile.path.startsWith(root.path + File.separator) && parent.list()?.isEmpty() == true) {
+            parent.delete()
+        }
     }
 
     /** [path] must be a relative `.md` path that stays inside `skills/` (no `..`, no absolute paths, no symlink escape). */
@@ -228,5 +274,59 @@ object SkillParser {
         // Unquoted scalar: a trailing " # comment" is not part of the value.
         val c = v.indexOf(" #")
         return (if (c >= 0) v.substring(0, c) else v).trim()
+    }
+}
+
+/**
+ * The template of a new skill. The front matter follows Hermes's own skills (name, description, version, author, license,
+ * platforms, metadata.hermes) and its linter: the name is lowercase letters, digits, `-` and `_`, at most 64 characters, and
+ * equals the folder name. The body is plain Markdown that the user then edits.
+ */
+object SkillTemplate {
+    /** Folder names Hermes uses for a skill's supporting files: not allowed as a skill or category name. */
+    val RESERVED_FOLDERS = setOf("references", "templates", "scripts", "assets")
+    const val MAX_NAME = 64
+    const val MAX_DESCRIPTION = 300
+    private val NAME = Regex("[a-z0-9][a-z0-9_-]*")
+
+    fun isValidName(name: String): Boolean = name.length in 1..MAX_NAME && NAME.matches(name)
+
+    fun render(name: String, description: String): String {
+        val desc = description.trim().ifEmpty { "Use when ... (say in one sentence when Hermes should use this skill)." }
+        val quoted = "\"" + desc.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", " ") + "\""
+        val title = name.split('-', '_').filter { it.isNotEmpty() }.joinToString(" ").replaceFirstChar { it.uppercase() }
+        return """---
+name: $name
+description: $quoted
+version: 1.0.0
+author: You
+license: MIT
+platforms: [linux, macos, windows]
+metadata:
+  hermes:
+    tags: [Custom]
+    related_skills: []
+---
+
+# $title
+
+Say in two or three sentences what this skill is for and what a good result looks like.
+
+## When to use
+
+- The situations in which Hermes should open this skill.
+- What the user typically asks for.
+
+## Steps
+
+1. The first thing to do.
+2. The next thing to do.
+3. How to check that it worked.
+
+## Notes
+
+- Tools, files or commands this skill relies on.
+- Mistakes to avoid.
+"""
     }
 }

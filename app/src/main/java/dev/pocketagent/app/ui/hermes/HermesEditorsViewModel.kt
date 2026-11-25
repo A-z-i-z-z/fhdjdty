@@ -35,6 +35,12 @@ internal class HermesEditorsViewModel(app: Application) : AndroidViewModel(app) 
 
     val anySkillDirty: Boolean get() = skillStates.values.any { it.dirty }
 
+    /** Drops the editor buffer of a skill that was deleted (its unsaved edits go with it). */
+    fun forgetSkill(path: String) {
+        skillStates.remove(path)
+        if (openSkill?.path == path) openSkill = null
+    }
+
     /** True when this skill has unsaved edits. */
     fun skillDirty(path: String): Boolean = skillStates[path]?.dirty == true
 

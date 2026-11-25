@@ -36,6 +36,21 @@ class Paths(context: Context) {
     val serviceAccountFile = File(secrets, "service-account.json")
     val userCredentialsFile = File(secrets, "authorized-user.json")
     val geminiKeyFile = File(secrets, "gemini_api_key")
+    // One key file per non-Google provider (Phase 3): the same 0600 protection as the Gemini key.
+    val openrouterKeyFile = File(secrets, "openrouter_api_key")
+    val anthropicKeyFile = File(secrets, "anthropic_api_key")
+    val openaiKeyFile = File(secrets, "openai_api_key")
+    val customKeyFile = File(secrets, "custom_api_key")
+
+    /** The file that holds the API key typed for [mode]; null for the modes that use imported JSON credentials instead. */
+    fun providerKeyFile(mode: AuthMode): File? = when (mode) {
+        AuthMode.API_KEY -> geminiKeyFile
+        AuthMode.OPENROUTER -> openrouterKeyFile
+        AuthMode.ANTHROPIC -> anthropicKeyFile
+        AuthMode.OPENAI -> openaiKeyFile
+        AuthMode.CUSTOM -> customKeyFile
+        AuthMode.SERVICE_ACCOUNT, AuthMode.USER_CREDENTIALS -> null
+    }
 
     val prootBin = File(nativeLibDir, "libproot.so")
     val prootLoader = File(nativeLibDir, "libproot-loader.so")

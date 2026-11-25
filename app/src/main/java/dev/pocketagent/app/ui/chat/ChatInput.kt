@@ -130,6 +130,8 @@ internal fun ChatInputBar(
     busy: Boolean,
     runtime: RuntimeState,
     setupIncomplete: Boolean,
+    /** The Hermes rootfs is unpacked (`RuntimeManager.isRootfsValid()`); without it a send cannot wake anything. */
+    runtimeInstalled: Boolean,
     editing: Boolean,
     onCancelEdit: () -> Unit,
     sparkTrigger: Int,
@@ -143,14 +145,19 @@ internal fun ChatInputBar(
     onSlashPick: (SlashCommandDef) -> Unit = {},
     listening: Boolean = false,
     onMicClick: () -> Unit = {},
+    /** Wake-on-send is on: the input stays usable while Hermes sleeps; sending lights the fire first. */
+    wakeOnSend: Boolean = false,
+    /** The engine is waiting for Hermes to start before it delivers the message of this chat. */
+    waking: Boolean = false,
 ) {
     val c = Pocket.colors
-    val canChat = runtime == RuntimeState.Running && !setupIncomplete
+    val canChat = inputAvailable(runtime, setupIncomplete, wakeOnSend, runtimeInstalled)
     Column(Modifier.fillMaxWidth().background(c.surface)) {
         Box(Modifier.fillMaxWidth().height(2.dp).background(c.outline))
         if (!canChat) {
             UnavailableCard(runtime, onStart, onOpenSetup)
         } else {
+            WakingBanner(waking)
             val slashSuggestions = if (!editing && !busy) SlashCommands.suggestions(text) else emptyList()
             SlashCommandPalette(slashSuggestions, onSlashPick)
 
@@ -231,6 +238,22 @@ internal fun ChatInputBar(
                     SparkBurst(sparkTrigger)
                 }
             }
+        }
+    }
+}
+
+/** A slim line above the input while the engine waits for Hermes to start (the message is already shown and will be sent). */
+@Composable
+private fun WakingBanner(visible: Boolean) {
+    val c = Pocket.colors
+    AnimatedVisibility(visible) {
+        Row(
+            Modifier.fillMaxWidth().background(c.accentSoft.copy(alpha = 0.16f)).padding(horizontal = 12.dp, vertical = 6.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            GeneratingEmber(size = 16.dp)
+            Spacer(Modifier.width(8.dp))
+            Text(stringResource(R.string.ui_chat_waking_banner), color = c.text, fontSize = 12.sp, modifier = Modifier.weight(1f))
         }
     }
 }

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Routines : demandes programmées (agent ROUTINES). Préfixe rtn_. -->
+
+    <!-- List screen -->
+    <string name="rtn_title">Routines</string>
+    <string name="rtn_add">Nouvelle routine</string>
+    <string name="rtn_next_subtitle">Prochaine : %1$s · %2$s</string>
+    <string name="rtn_unnamed">Routine sans nom</string>
+    <string name="rtn_started">Lancée. Ouvre sa conversation pour la suivre.</string>
+    <string name="rtn_notif_off_title">Les notifications sont désactivées</string>
+    <string name="rtn_notif_off_body">Les réponses des routines arrivent sous forme de notifications. Sans elles, tu ne verras les réponses qu\'en ouvrant l\'application.</string>
+    <string name="rtn_notif_off_button">Réglages des notifications</string>
+    <string name="rtn_empty_title">Aucune routine pour l\'instant</string>
+    <string name="rtn_empty_body">Une routine envoie une demande à un bot à l\'heure choisie, même quand l\'application est fermée, et te prévient quand la réponse est prête.</string>
+    <string name="rtn_ideas">Idées</string>
+    <string name="rtn_tpl_use">Ajouter cette routine</string>
+    <string name="rtn_edit">Modifier la routine</string>
+    <string name="rtn_running_now">En cours…</string>
+    <string name="rtn_paused">En pause</string>
+    <string name="rtn_next">Prochaine : %1$s</string>
+    <string name="rtn_done">Terminée</string>
+    <string name="rtn_nothing_scheduled">Rien de prévu</string>
+    <string name="rtn_status_ok">répondu</string>
+    <string name="rtn_status_failed">échec</string>
+    <string name="rtn_status_skipped">ignorée</string>
+    <string name="rtn_status_sent">envoyée</string>
+    <string name="rtn_last_run">Dernière exécution : %1$s · %2$s</string>
+    <string name="rtn_active">Active</string>
+    <string name="rtn_active_help">Désactive-la pour la mettre en pause sans la supprimer.</string>
+    <string name="rtn_run_now">Lancer maintenant</string>
+    <string name="rtn_open_chat">Ouvrir la conversation</string>
+
+    <!-- Templates -->
+    <string name="rtn_tpl_morning_name">Point du matin</string>
+    <string name="rtn_tpl_morning_desc">Un début de journée chaleureux avec quelques idées utiles.</string>
+    <string name="rtn_tpl_morning_prompt">Bonjour ! Fais-moi un court point pour aujourd\'hui : un salut chaleureux, ce qui mérite d\'être retenu de nos échanges précédents, et trois suggestions utiles pour bien commencer la journée. Moins de 150 mots.</string>
+    <string name="rtn_tpl_journal_name">Journal du soir</string>
+    <string name="rtn_tpl_journal_desc">Une question qui invite à réfléchir sur la journée.</string>
+    <string name="rtn_tpl_journal_prompt">Pose-moi une seule question qui m\'aide à réfléchir à ma journée. Pose seulement la question, rien d\'autre.</string>
+    <string name="rtn_tpl_weekly_name">Bilan de la semaine</string>
+    <string name="rtn_tpl_weekly_desc">Chaque dimanche soir : regarder en arrière et préparer la semaine.</string>
+    <string name="rtn_tpl_weekly_prompt">C\'est l\'heure de mon bilan hebdomadaire. Pose-moi trois questions courtes sous forme de liste numérotée : ce qui s\'est bien passé cette semaine, ce qui a été difficile et sur quoi je veux me concentrer la semaine prochaine.</string>
+    <string name="rtn_tpl_kurdish_name">Mot kurde du jour</string>
+    <string name="rtn_tpl_kurdish_desc">Apprends un mot kurde (kurmandji) chaque matin.</string>
+    <string name="rtn_tpl_kurdish_prompt">Apprends-moi aujourd\'hui un mot kurde (kurmandji) : le mot, sa prononciation, son sens et une phrase d\'exemple avec sa traduction. Choisis un mot que nous n\'avons pas encore utilisé dans cette conversation.</string>
+
+    <!-- Units and schedule texts -->
+    <string name="rtn_unit_min">%1$d min</string>
+    <string name="rtn_unit_h">%1$d h</string>
+    <string name="rtn_unit_d">%1$d j</string>
+    <string name="rtn_unit_hm">%1$d h %2$d min</string>
+    <string name="rtn_every_day">Tous les jours</string>
+    <string name="rtn_weekdays">Jours ouvrés</string>
+    <string name="rtn_weekend">Week-end</string>
+    <string name="rtn_no_day">Aucun jour choisi</string>
+    <string name="rtn_sched_daily">%1$s à %2$s</string>
+    <string name="rtn_sched_interval">Toutes les %1$s</string>
+    <string name="rtn_sched_once">Une fois, %1$s</string>
+    <string name="rtn_when_today">Aujourd\'hui, %1$s</string>
+    <string name="rtn_when_tomorrow">Demain, %1$s</string>
+    <string name="rtn_when_yesterday">Hier, %1$s</string>
+    <string name="rtn_when_day">%1$s, %2$s</string>
+
+    <!-- Editor -->
+    <string name="rtn_new_title">Nouvelle routine</string>
+    <string name="rtn_edit_title">Modifier la routine</string>
+    <string name="rtn_unsaved">Modifications non enregistrées</string>
+    <string name="rtn_save">Enregistrer</string>
+    <string name="rtn_saved">Routine enregistrée</string>
+    <string name="rtn_missing">Cette routine n\'existe plus.</string>
+    <string name="rtn_back">Retour</string>
+    <string name="rtn_section_what">Que demander</string>
+    <string name="rtn_name">Nom</string>
+    <string name="rtn_name_hint">Par exemple : Point du matin</string>
+    <string name="rtn_prompt">Demande</string>
+    <string name="rtn_prompt_hint">Que doit faire le bot à chaque fois ?</string>
+    <string name="rtn_prompt_help">La demande est envoyée au bot comme un message que tu aurais écrit toi-même. La réponse apparaît dans la conversation propre à cette routine.</string>
+    <string name="rtn_section_bot">Qui répond</string>
+    <string name="rtn_section_when">Quand</string>
+    <string name="rtn_kind_daily">Quotidienne</string>
+    <string name="rtn_kind_interval">Répétée</string>
+    <string name="rtn_kind_once">Une fois</string>
+    <string name="rtn_time">Heure</string>
+    <string name="rtn_days">Jours</string>
+    <string name="rtn_every">Répéter toutes les</string>
+    <string name="rtn_interval_help">Compté depuis la dernière exécution. Les intervalles courts consomment de la batterie et des jetons.</string>
+    <string name="rtn_date">Date</string>
+    <string name="rtn_prev_day">Jour précédent</string>
+    <string name="rtn_next_day">Jour suivant</string>
+    <string name="rtn_today">Aujourd\'hui</string>
+    <string name="rtn_tomorrow">Demain</string>
+    <string name="rtn_in_a_week">Dans une semaine</string>
+    <string name="rtn_hour_up">Heure plus</string>
+    <string name="rtn_hour_down">Heure moins</string>
+    <string name="rtn_minute_up">Minute plus</string>
+    <string name="rtn_minute_down">Minute moins</string>
+    <string name="rtn_need_day">Choisis au moins un jour.</string>
+    <string name="rtn_once_past">Cette heure est déjà passée.</string>
+    <string name="rtn_first_run">Prochaine exécution : %1$s</string>
+    <string name="rtn_section_model">Modèle et effort</string>
+    <string name="rtn_model_help">Facultatif. Laisse sur Par défaut pour utiliser le réglage du bot ou de Hermes. Un effort de réflexion faible consomme moins de jetons.</string>
+    <string name="rtn_model">Modèle</string>
+    <string name="rtn_model_default">Par défaut</string>
+    <string name="rtn_effort">Effort de réflexion</string>
+    <string name="rtn_need_name">Donne un nom à la routine.</string>
+    <string name="rtn_need_prompt">Écris ce que la routine doit demander.</string>
+    <string name="rtn_save_first">Enregistre d\'abord tes modifications.</string>
+    <string name="rtn_delete">Supprimer</string>
+    <string name="rtn_discard_title">Abandonner les modifications ?</string>
+    <string name="rtn_discard_body">Tes modifications de cette routine seront perdues.</string>
+    <string name="rtn_discard">Abandonner</string>
+    <string name="rtn_delete_title">Supprimer %1$s ?</string>
+    <string name="rtn_delete_body">La routine ne s\'exécutera plus. Sa conversation et les réponses passées sont conservées.</string>
+
+    <!-- Failure notifications (the reason line) -->
+    <string name="rtn_default_chat_title">Routine</string>
+    <string name="rtn_fail_empty">La routine n\'a pas de demande.</string>
+    <string name="rtn_fail_chats">Les conversations n\'ont pas pu être chargées.</string>
+    <string name="rtn_fail_budget">Le budget quotidien de jetons est atteint, la routine ne s\'est donc pas exécutée. Tu peux le modifier dans Réglages, Utilisation.</string>
+    <string name="rtn_fail_not_installed">Hermes n\'est pas encore installé. Ouvre l\'application une fois pour terminer l\'installation.</string>
+    <string name="rtn_fail_start">Hermes n\'a pas pu démarrer. Ouvre l\'application pour voir pourquoi.</string>
+    <string name="rtn_fail_send">La demande n\'a pas pu être envoyée.</string>
+    <string name="rtn_fail_no_answer">Hermes n\'a pas répondu.</string>
+</resources>

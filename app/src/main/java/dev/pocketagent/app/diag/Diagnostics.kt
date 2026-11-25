@@ -101,8 +101,13 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
 
         safe("Settings and provider configuration") {
             val s = rt.settings
-            val inputs = s.providerInputs(rt.secrets.geminiApiKey())
-            val probs = dev.pocketagent.app.runtime.ProviderConfig.problems(inputs)
+            val inputs = dev.pocketagent.app.runtime.ProviderConfig.savedInputs(s, rt.secrets)
+            val probs = dev.pocketagent.app.runtime.ProviderConfig.savedProblems(s, rt.secrets)
+            // Presence only, never a value: every key is also registered with the redactor.
+            val otherKeys = listOf(
+                dev.pocketagent.app.runtime.AuthMode.OPENROUTER, dev.pocketagent.app.runtime.AuthMode.ANTHROPIC,
+                dev.pocketagent.app.runtime.AuthMode.OPENAI, dev.pocketagent.app.runtime.AuthMode.CUSTOM,
+            ).joinToString(" ") { "${it.name.lowercase()}=${if (rt.secrets.hasProviderKey(it)) "present" else "absent"}" }
             """
             configured: ${dev.pocketagent.app.runtime.ProviderConfig.describe(inputs)}
             config problems: ${if (probs.isEmpty()) "none" else probs.joinToString()}
@@ -110,6 +115,7 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
             service account imported: ${rt.secrets.hasServiceAccount}  project=${s.saProjectId.ifEmpty { "-" }} email=${s.saMaskedEmail.ifEmpty { "-" }}
             user (authorized_user) credentials imported: ${rt.secrets.hasUserCredentials}  ${s.userCredMasked}
             Gemini API key: ${if (rt.secrets.hasGeminiApiKey) "present (${rt.secrets.geminiApiKey().length} chars)" else "absent"}
+            other provider API keys: $otherKeys  custom base url: ${dev.pocketagent.app.runtime.ProviderConfig.baseUrlForReport(s.customBaseUrl)}
             API server key: ${if (rt.paths.apiKeyFile.isFile) "present (${rt.paths.apiKeyFile.length()} bytes)" else "not generated yet"}
             guest credential files: sa=${rt.paths.guestServiceAccount.isFile} adc=${rt.paths.guestAdcFile.isFile}
             """.trimIndent()
@@ -223,7 +229,8 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
 
         safe("Hermes .env (secrets redacted)") {
             val f = rt.paths.hermesEnv
-            if (f.isFile) f.readText() else "(missing)"
+            // Values of KEY/TOKEN/SECRET/PASSWORD variables are masked here whatever their length (the redactor ignores short ones).
+            if (f.isFile) Redactor.maskEnvSecrets(f.readText()) else "(missing)"
         }
         safe("Hermes config.yaml") {
             val f = rt.paths.hermesConfig

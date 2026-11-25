@@ -9,7 +9,7 @@ import dev.pocketagent.app.util.FileUtil
  */
 object HermesConfig {
     fun apply(paths: Paths, settings: Settings, secrets: SecretStore, apiServerKey: String, apiPort: Int) {
-        val inputs = settings.providerInputs(secrets.geminiApiKey())
+        val inputs = ProviderConfig.savedInputs(settings, secrets)
         paths.hermesHome.mkdirs()
         paths.guestSecretsDir.mkdirs()
         FileUtil.chmod(paths.guestSecretsDir, 448 /* 0700 */)

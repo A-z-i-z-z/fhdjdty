@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -37,38 +38,90 @@ import dev.pocketagent.app.hermes.HermesDoc
 import dev.pocketagent.app.hermes.HermesHome
 import dev.pocketagent.app.hermes.LogKind
 import dev.pocketagent.app.hermes.SkillInfo
+import dev.pocketagent.app.hermes.SkillTemplate
 import dev.pocketagent.app.ui.components.ButtonKind
 import dev.pocketagent.app.ui.components.PixelButton
+import dev.pocketagent.app.ui.components.PixelIconButton
 import dev.pocketagent.app.ui.components.PixelIcon
 import dev.pocketagent.app.ui.components.PixelPanel
 import dev.pocketagent.app.ui.components.PocketChip
+import dev.pocketagent.app.ui.components.PocketDialog
 import dev.pocketagent.app.ui.components.PocketTextField
 import dev.pocketagent.app.ui.components.SectionHeader
 import dev.pocketagent.app.ui.settings.CText
 import dev.pocketagent.app.ui.settings.ChipRow
+import dev.pocketagent.app.ui.settings.ConfirmDialog
+import dev.pocketagent.app.ui.settings.ErrorText
 import dev.pocketagent.app.ui.settings.Muted
 import dev.pocketagent.app.ui.settings.copyText
 import dev.pocketagent.app.ui.settings.shareText
 import dev.pocketagent.app.ui.settings.toast
 import dev.pocketagent.app.ui.theme.Pocket
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 // ---- Skills --------------------------------------------------------------------------------------------------
 
 @Composable
 internal fun SkillsTab(hvm: HermesEditorsViewModel, installed: Boolean, running: Boolean, onRestart: () -> Unit) {
+    val ctx = LocalContext.current
+    val scope = rememberCoroutineScope()
     val home = hvm.home
     var skills by remember { mutableStateOf<List<SkillInfo>?>(null) }
     var reload by remember { mutableIntStateOf(0) }
     var query by rememberSaveable { mutableStateOf("") }
     var failed by remember { mutableStateOf(false) }
+    var showNew by remember { mutableStateOf(false) }
+    var newError by remember { mutableStateOf<String?>(null) }
+    var confirmDelete by remember { mutableStateOf<SkillInfo?>(null) }
+    val createdMsg = stringResource(R.string.ctl_skill_created)
+    val deletedMsg = stringResource(R.string.ctl_skill_deleted)
+    val badNameMsg = stringResource(R.string.ctl_skill_name_bad)
+    val existsMsg = stringResource(R.string.ctl_skill_exists)
 
     LaunchedEffect(installed, reload) {
         skills = null; failed = false
         skills = withContext(Dispatchers.IO) {
             try { home.listSkills() } catch (e: Exception) { failed = true; emptyList() }
         }
+    }
+
+    if (showNew) NewSkillDialog(
+        error = newError,
+        onDismiss = { showNew = false; newError = null },
+        onCreate = { category, name, description ->
+            newError = null
+            scope.launch {
+                var created: SkillInfo? = null
+                var error: String? = null
+                withContext(Dispatchers.IO) {
+                    try { created = home.createSkill(category, name, description) }
+                    catch (e: IllegalArgumentException) { error = badNameMsg }
+                    catch (e: java.io.IOException) { error = existsMsg }
+                    catch (e: Exception) { error = ctx.getString(R.string.ctl_skill_create_failed, e.message ?: e.javaClass.simpleName) }
+                }
+                val info = created
+                if (info != null) { showNew = false; reload++; hvm.openSkill = info; toast(ctx, createdMsg) } else newError = error
+            }
+        },
+    )
+    confirmDelete?.let { s ->
+        ConfirmDialog(
+            title = stringResource(R.string.ctl_skill_delete_title, s.name), text = stringResource(R.string.ctl_skill_delete_body),
+            confirmLabel = stringResource(R.string.ctl_skill_delete), danger = true,
+            onConfirm = {
+                confirmDelete = null
+                scope.launch {
+                    val err = withContext(Dispatchers.IO) {
+                        try { home.deleteSkill(s.path); null } catch (e: Exception) { e.message ?: e.javaClass.simpleName }
+                    }
+                    if (err == null) { hvm.forgetSkill(s.path); reload++; toast(ctx, deletedMsg) }
+                    else toast(ctx, ctx.getString(R.string.ctl_skill_delete_failed, err))
+                }
+            },
+            onDismiss = { confirmDelete = null },
+        )
     }
 
     val current = hvm.openSkill
@@ -79,6 +132,10 @@ internal fun SkillsTab(hvm: HermesEditorsViewModel, installed: Boolean, running:
             Row(Modifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 6.dp), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                 PixelButton(stringResource(R.string.ctl_skills_back), onClick = { hvm.openSkill = null }, icon = PixelIcon.BACK, kind = ButtonKind.GHOST)
                 CText(current.name, weight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f))
+                PixelIconButton(
+                    PixelIcon.TRASH, onClick = { confirmDelete = current },
+                    contentDescription = stringResource(R.string.ctl_skill_delete), tint = Pocket.colors.error,
+                )
             }
             DocEditor(
                 state, info = current.path, explain = current.description.ifBlank { stringResource(R.string.ctl_skill_explain) },
@@ -92,6 +149,10 @@ internal fun SkillsTab(hvm: HermesEditorsViewModel, installed: Boolean, running:
     Column(Modifier.fillMaxSize()) {
         Column(Modifier.padding(horizontal = 12.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Muted(stringResource(R.string.ctl_skills_explain))
+            PixelButton(
+                stringResource(R.string.ctl_skill_new), onClick = { newError = null; showNew = true },
+                icon = PixelIcon.PLUS, kind = ButtonKind.SECONDARY, enabled = installed,
+            )
             PocketTextField(query, { query = it }, Modifier.fillMaxWidth(), placeholder = stringResource(R.string.ctl_skills_search), singleLine = true)
         }
         when {
@@ -120,6 +181,31 @@ internal fun SkillsTab(hvm: HermesEditorsViewModel, installed: Boolean, running:
                 }
             }
         }
+    }
+}
+
+/** Name, description and category of a new skill; the SKILL.md itself comes from [SkillTemplate]. */
+@Composable
+private fun NewSkillDialog(error: String?, onDismiss: () -> Unit, onCreate: (category: String, name: String, description: String) -> Unit) {
+    var name by rememberSaveable { mutableStateOf("") }
+    var description by rememberSaveable { mutableStateOf("") }
+    var category by rememberSaveable { mutableStateOf("custom") }
+    val nameOk = SkillTemplate.isValidName(name.trim())
+    val catOk = category.isBlank() || SkillTemplate.isValidName(category.trim())
+    PocketDialog(
+        title = stringResource(R.string.ctl_skill_new_title), onDismiss = onDismiss,
+        confirm = {
+            PixelButton(stringResource(R.string.ctl_skill_create), enabled = nameOk && catOk, onClick = { onCreate(category.trim(), name.trim(), description.trim()) })
+        },
+        dismiss = { PixelButton(stringResource(R.string.cancel), onClick = onDismiss, kind = ButtonKind.GHOST) },
+    ) {
+        Muted(stringResource(R.string.ctl_skill_new_help))
+        PocketTextField(name, { name = it.take(SkillTemplate.MAX_NAME) }, Modifier.fillMaxWidth(), label = stringResource(R.string.ctl_skill_f_name), singleLine = true, monospace = true)
+        if (name.isNotEmpty() && !nameOk) ErrorText(stringResource(R.string.ctl_skill_name_bad))
+        PocketTextField(description, { description = it.take(SkillTemplate.MAX_DESCRIPTION) }, Modifier.fillMaxWidth(), label = stringResource(R.string.ctl_skill_f_desc), minLines = 2, maxLines = 4)
+        PocketTextField(category, { category = it.take(SkillTemplate.MAX_NAME) }, Modifier.fillMaxWidth(), label = stringResource(R.string.ctl_skill_f_category), singleLine = true, monospace = true)
+        if (!catOk) ErrorText(stringResource(R.string.ctl_skill_name_bad))
+        if (error != null) ErrorText(error)
     }
 }
 

@@ -121,7 +121,8 @@ class AttachmentStore(private val context: Context, private val paths: Paths) {
     /** Returns a `data:image/jpeg;base64,...` URL for an image attachment, or null if absent/too large. */
     fun toDataUrl(attachment: Attachment): String? {
         if (attachment.kind != AttachmentKind.IMAGE) return null
-        val f = File(attachment.localPath)
+        // Message JSON can come from a restored backup: only ever read inside the attachments folder (by base name).
+        val f = resolveIn(appDir, attachment.localPath) ?: return null
         if (!f.isFile || f.length() > MAX_DATA_URL_BYTES) return null
         return try {
             val bytes = f.readBytes()
@@ -134,7 +135,7 @@ class AttachmentStore(private val context: Context, private val paths: Paths) {
 
     /** Decodes a scaled bitmap thumbnail from [path] for UI display. */
     fun loadThumbnail(path: String, maxPx: Int = 360): Bitmap? {
-        val f = File(path)
+        val f = resolveIn(appDir, path) ?: return null
         if (!f.isFile) return null
         return try {
             val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
@@ -244,6 +245,24 @@ class AttachmentStore(private val context: Context, private val paths: Paths) {
     private fun newId(): String = UUID.randomUUID().toString().replace("-", "").take(12)
 
     companion object {
+        private val FLAT_NAME = Regex("[A-Za-z0-9._-]{1,200}")
+
+        /**
+         * Maps a stored attachment path to a file inside [dir], using only its base name: an absolute path from another
+         * Android user/profile (`/data/user/N/...`) or another install still finds the restored file, and a path that points
+         * anywhere else (`../secrets/x`, an absolute path to another folder, a symlink out of [dir]) gives null.
+         */
+        fun resolveIn(dir: File, path: String): File? {
+            if (path.isBlank()) return null
+            val name = path.substringAfterLast('/').substringAfterLast('\\')
+            if (name.startsWith(".") || !FLAT_NAME.matches(name)) return null
+            val f = File(dir, name)
+            return try {
+                val base = dir.canonicalFile
+                if (f.canonicalFile.parentFile == base) f else null
+            } catch (_: java.io.IOException) { null }
+        }
+
         private const val MAX_IMAGE_DIM = 1600
         private const val JPEG_QUALITY = 84
         private const val MAX_DOC_BYTES = 20L * 1024L * 1024L

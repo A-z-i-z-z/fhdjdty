@@ -95,6 +95,71 @@ class HermesHomeTest {
         assertEquals("the .bak is not listed as a skill", 1, hh.listSkills().size)
     }
 
+    // ---- creating and deleting skills ----------------------------------------------------------------------------------------
+
+    @Test fun createSkillWritesTheTemplateAndListsIt() {
+        val (hh, home) = home()
+        val info = hh.createSkill("custom", "my-recipe_2", "Cook \"quick\" dinners\nfast")
+        assertEquals("custom/my-recipe_2/SKILL.md", info.path)
+        assertEquals("custom", info.category)
+        val text = File(home, "skills/custom/my-recipe_2/SKILL.md").readText()
+        val fm = SkillParser.parse(text)
+        assertEquals("my-recipe_2", fm.name)
+        assertEquals("Cook \"quick\" dinners fast", fm.description)
+        assertTrue(text.contains("version: 1.0.0"))
+        assertTrue(text.contains("metadata:\n  hermes:"))
+        assertTrue(text.contains("# My recipe 2"))
+        assertEquals(listOf("my-recipe_2"), hh.listSkills().map { it.name })
+        // without a category the skill sits directly below skills/
+        assertEquals("solo/SKILL.md", hh.createSkill("", "solo", "").path)
+        assertTrue(SkillParser.parse(File(home, "skills/solo/SKILL.md").readText()).description!!.startsWith("Use when"))
+    }
+
+    @Test fun createSkillRefusesBadNamesAndDuplicates() {
+        val (hh, home) = home()
+        for (bad in listOf("", "Upper", "has space", "../x", "a/b", "-lead", "x".repeat(65), "references", "né")) {
+            try { hh.createSkill("custom", bad, "d"); fail("name '$bad' should have been refused") } catch (_: IllegalArgumentException) { }
+        }
+        for (bad in listOf("Cat", "a/b", "..", "scripts")) {
+            try { hh.createSkill(bad, "ok", "d"); fail("category '$bad' should have been refused") } catch (_: IllegalArgumentException) { }
+        }
+        assertFalse(File(home, "skills").exists() && File(home, "skills").walkTopDown().any { it.name == "SKILL.md" })
+        hh.createSkill("custom", "once", "d")
+        try { hh.createSkill("custom", "once", "again"); fail("duplicate") } catch (_: java.io.IOException) { }
+        File(home, "skills/isskill").mkdirs(); File(home, "skills/isskill/SKILL.md").writeText("---\nname: isskill\n---\n")
+        try { hh.createSkill("isskill", "inner", "d"); fail("a skill is not a category") } catch (_: java.io.IOException) { }
+    }
+
+    @Test fun deleteSkillRemovesItsFolderAndAnEmptyCategoryOnly() {
+        val (hh, home) = home()
+        hh.createSkill("custom", "one", "d"); hh.createSkill("custom", "two", "d")
+        File(home, "skills/custom/one/references").mkdirs(); File(home, "skills/custom/one/references/a.md").writeText("x")
+        hh.deleteSkill("custom/one/SKILL.md")
+        assertFalse(File(home, "skills/custom/one").exists())
+        assertTrue(File(home, "skills/custom/two/SKILL.md").isFile)
+        assertTrue("category stays while it holds another skill", File(home, "skills/custom").isDirectory)
+        hh.deleteSkill("custom/two/SKILL.md")
+        assertFalse("an empty category folder is removed too", File(home, "skills/custom").exists())
+        assertTrue(File(home, "skills").isDirectory)
+    }
+
+    @Test fun deleteSkillRefusesAnythingElse() {
+        val (hh, home) = home()
+        File(home, "outside").mkdirs(); File(home, "outside/SKILL.md").writeText("x")
+        hh.createSkill("cat", "keep", "d")
+        File(home, "skills/cat/nested").mkdirs()
+        for (bad in listOf("../outside/SKILL.md", "SKILL.md", "cat/keep/other.md", "/abs/SKILL.md", "", "cat/../../outside/SKILL.md")) {
+            try { hh.deleteSkill(bad); fail("delete of '$bad' should have been refused") } catch (_: IllegalArgumentException) { }
+        }
+        assertTrue(File(home, "outside/SKILL.md").isFile)
+        assertTrue(File(home, "skills/cat/keep/SKILL.md").isFile)
+        // a folder that holds another skill is not deleted
+        File(home, "skills/cat/keep/inner").mkdirs(); File(home, "skills/cat/keep/inner/SKILL.md").writeText("---\nname: inner\n---\n")
+        try { hh.deleteSkill("cat/keep/SKILL.md"); fail("nested skill") } catch (_: java.io.IOException) { }
+        assertTrue(File(home, "skills/cat/keep/inner/SKILL.md").isFile)
+        try { hh.deleteSkill("cat/missing/SKILL.md"); fail("missing") } catch (_: java.io.IOException) { }
+    }
+
     // ---- documents --------------------------------------------------------------------------------------------------------
 
     @Test fun docsReadWriteWithBackupAndConfigIsReadOnly() {

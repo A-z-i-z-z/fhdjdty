@@ -126,6 +126,7 @@ fun BotsScreen() {
                     },
                 )
             }
+            item { BotShareSection() }
             item { SectionHeader(stringResource(R.string.ctl_bots_templates)) }
             item { Muted(stringResource(R.string.ctl_bots_templates_hint)) }
             items(BotPresets.templates.size, key = { "template-$it" }) { i ->

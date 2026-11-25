@@ -52,6 +52,12 @@ sealed class ChatEvent {
         val runId: String, val command: String, val description: String,
         val choices: List<String>, val requestId: String, val raw: String,
     ) : ChatEvent()
+    /**
+     * Token counts of the whole turn (all model calls of one request, tool loops included), from the `usage` object on the
+     * final chunk. Hermes builds a fresh agent per request, so these are per request, not per session. Emitted only when
+     * some count is greater than 0 (a failed agent reports zeros), and always before [Finish].
+     */
+    data class Usage(val promptTokens: Long, val completionTokens: Long, val totalTokens: Long) : ChatEvent()
     object Done : ChatEvent()
 }
 
@@ -93,6 +99,15 @@ object ChatStreamDecoder {
         val out = ArrayList<ChatEvent>()
         // A failed turn ends with ONE chunk that carries both `error` and `finish_reason`: report the error first, then the finish.
         obj.optJSONObject("error")?.let { out += ChatEvent.StreamError(it.str("message", d), d) }
+        // Token counts ride on the chunk that carries finish_reason (or on a chunk of their own): report them before the finish.
+        obj.optJSONObject("usage")?.let { u ->
+            val p = u.optLong("prompt_tokens", 0L).coerceAtLeast(0L)
+            val c = u.optLong("completion_tokens", 0L).coerceAtLeast(0L)
+            if (p > 0L || c > 0L) {
+                val t = u.optLong("total_tokens", 0L).let { if (it > 0L) it else p + c }
+                out += ChatEvent.Usage(p, c, t)
+            }
+        }
         val choices = obj.optJSONArray("choices") ?: return out
         for (i in 0 until choices.length()) {
             val c = choices.optJSONObject(i) ?: continue

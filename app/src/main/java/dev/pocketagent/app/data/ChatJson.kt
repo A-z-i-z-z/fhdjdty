@@ -51,6 +51,8 @@ internal object ChatJson {
             if (c.mode != ChatMode.NORMAL) it.put("mode", c.mode.name)
             if (c.modelOverride.isNotEmpty()) it.put("modelOverride", c.modelOverride)
             if (c.effortOverride.isNotEmpty()) it.put("effortOverride", c.effortOverride)
+            if (c.unread > 0) it.put("unread", c.unread)
+            if (c.routineId.isNotEmpty()) it.put("routineId", c.routineId)
         }
 
     fun convFromJson(o: JSONObject): Conversation? {
@@ -70,6 +72,8 @@ internal object ChatJson {
             mode = try { ChatMode.valueOf(o.str("mode") ?: "") } catch (_: Exception) { ChatMode.NORMAL },
             modelOverride = o.str("modelOverride") ?: "",
             effortOverride = o.str("effortOverride") ?: "",
+            unread = if (o.has("unread") && !o.isNull("unread")) o.optInt("unread", 0).coerceAtLeast(0) else 0,
+            routineId = o.str("routineId") ?: "",
         )
     }
 
@@ -112,6 +116,10 @@ internal object ChatJson {
         if (m.reasoning.isNotEmpty()) o.put("reasoning", m.reasoning)
         if (m.attachments.isNotEmpty()) o.put("attachments", JSONArray().also { arr -> m.attachments.forEach { arr.put(attachmentToJson(it)) } })
         if (m.forgedBotIds.isNotEmpty()) o.put("forgedBotIds", JSONArray(m.forgedBotIds))
+        if (m.tokensIn > 0L) o.put("tokensIn", m.tokensIn)
+        if (m.tokensOut > 0L) o.put("tokensOut", m.tokensOut)
+        if (m.model.isNotEmpty()) o.put("model", m.model)
+        if (m.starred) o.put("starred", true)
         return o
     }
 
@@ -140,6 +148,10 @@ internal object ChatJson {
             reasoning = o.str("reasoning") ?: "",
             attachments = attachments,
             forgedBotIds = forged,
+            tokensIn = o.lng("tokensIn", 0L).coerceAtLeast(0L),
+            tokensOut = o.lng("tokensOut", 0L).coerceAtLeast(0L),
+            model = o.str("model") ?: "",
+            starred = o.bool("starred", false),
         )
     }
 

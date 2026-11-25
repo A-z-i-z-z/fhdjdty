@@ -17,7 +17,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        handleIncomingIntent(intent)
+        // A restored activity (process death, rotation) gets its original intent back: it was consumed already.
+        if (savedInstanceState == null) handleIncomingIntent(intent)
         setContent { AppRoot() }
     }
 
@@ -34,8 +35,27 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun handleIncomingIntent(intent: Intent?) {
-        if (intent?.action != Intent.ACTION_SEND) return
+        if (intent == null) return
+        // Never replay a consumed intent from Recents (applies to every kind below).
         if ((intent.flags and Intent.FLAG_ACTIVITY_LAUNCHED_FROM_HISTORY) != 0) return
+
+        // Notification, launcher shortcut, Quick Settings tile: a navigation request for AppRoot.
+        val link = AppLinks.parse(intent)
+        if (link != null) {
+            PocketApp.from(this).pendingLink.value = link
+            intent.action = Intent.ACTION_MAIN // consumed: Recents / recreation must not replay it
+            return
+        }
+
+        // "Ask Agiri" in the text-selection menu: the selected text goes through the same flow as a share.
+        val selected = AppLinks.processText(intent.action, intent.getCharSequenceExtra(Intent.EXTRA_PROCESS_TEXT), intent.flags)
+        if (selected != null) {
+            PocketApp.from(this).incomingShare.value = IncomingShare(text = selected, uri = null, mime = "text/plain")
+            intent.action = Intent.ACTION_MAIN
+            return
+        }
+
+        if (intent.action != Intent.ACTION_SEND) return
         val text = intent.getStringExtra(Intent.EXTRA_TEXT)?.trim()?.takeIf { it.isNotEmpty() }
         val streamUri: Uri? = if (Build.VERSION.SDK_INT >= 33) {
             intent.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java)

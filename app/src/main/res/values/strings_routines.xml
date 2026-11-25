@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Routines: scheduled prompts (agent ROUTINES). Prefix rtn_. -->
+
+    <!-- List screen -->
+    <string name="rtn_title">Routines</string>
+    <string name="rtn_add">New routine</string>
+    <string name="rtn_next_subtitle">Next: %1$s · %2$s</string>
+    <string name="rtn_unnamed">Untitled routine</string>
+    <string name="rtn_started">Started. Open its chat to follow along.</string>
+    <string name="rtn_notif_off_title">Notifications are off</string>
+    <string name="rtn_notif_off_body">Routine answers arrive as notifications. Without them you will only see the answers when you open the app.</string>
+    <string name="rtn_notif_off_button">Notification settings</string>
+    <string name="rtn_empty_title">No routines yet</string>
+    <string name="rtn_empty_body">A routine sends a prompt to a bot at a set time, even when the app is closed, and tells you when the answer is ready.</string>
+    <string name="rtn_ideas">Ideas</string>
+    <string name="rtn_tpl_use">Add this routine</string>
+    <string name="rtn_edit">Edit routine</string>
+    <string name="rtn_running_now">Running now…</string>
+    <string name="rtn_paused">Paused</string>
+    <string name="rtn_next">Next: %1$s</string>
+    <string name="rtn_done">Done</string>
+    <string name="rtn_nothing_scheduled">Nothing scheduled</string>
+    <string name="rtn_status_ok">answered</string>
+    <string name="rtn_status_failed">failed</string>
+    <string name="rtn_status_skipped">skipped</string>
+    <string name="rtn_status_sent">sent</string>
+    <string name="rtn_last_run">Last run: %1$s · %2$s</string>
+    <string name="rtn_active">Active</string>
+    <string name="rtn_active_help">Switch off to pause it without deleting it.</string>
+    <string name="rtn_run_now">Run now</string>
+    <string name="rtn_open_chat">Open chat</string>
+
+    <!-- Templates -->
+    <string name="rtn_tpl_morning_name">Morning briefing</string>
+    <string name="rtn_tpl_morning_desc">A friendly start of the day with a few useful ideas.</string>
+    <string name="rtn_tpl_morning_prompt">Good morning! Give me a short briefing for today: a friendly greeting, anything worth remembering from our earlier chats, and three useful suggestions to start the day. Keep it under 150 words.</string>
+    <string name="rtn_tpl_journal_name">Evening journal</string>
+    <string name="rtn_tpl_journal_desc">One thoughtful question to reflect on your day.</string>
+    <string name="rtn_tpl_journal_prompt">Ask me one thoughtful question that helps me reflect on my day. Ask only the question, nothing else.</string>
+    <string name="rtn_tpl_weekly_name">Weekly review</string>
+    <string name="rtn_tpl_weekly_desc">Every Sunday evening: look back and plan the week ahead.</string>
+    <string name="rtn_tpl_weekly_prompt">It is time for my weekly review. Ask me three short questions as a numbered list: what went well this week, what was hard, and what I want to focus on next week.</string>
+    <string name="rtn_tpl_kurdish_name">Kurdish word of the day</string>
+    <string name="rtn_tpl_kurdish_desc">Learn one Kurmanji word every morning.</string>
+    <string name="rtn_tpl_kurdish_prompt">Teach me one Kurdish (Kurmanji) word today: the word, how to pronounce it, what it means and one example sentence with a translation. Choose a word we have not used before in this chat.</string>
+
+    <!-- Units and schedule texts -->
+    <string name="rtn_unit_min">%1$d min</string>
+    <string name="rtn_unit_h">%1$d h</string>
+    <string name="rtn_unit_d">%1$d d</string>
+    <string name="rtn_unit_hm">%1$d h %2$d min</string>
+    <string name="rtn_every_day">Every day</string>
+    <string name="rtn_weekdays">Weekdays</string>
+    <string name="rtn_weekend">Weekend</string>
+    <string name="rtn_no_day">No day selected</string>
+    <string name="rtn_sched_daily">%1$s at %2$s</string>
+    <string name="rtn_sched_interval">Every %1$s</string>
+    <string name="rtn_sched_once">Once, %1$s</string>
+    <string name="rtn_when_today">Today, %1$s</string>
+    <string name="rtn_when_tomorrow">Tomorrow, %1$s</string>
+    <string name="rtn_when_yesterday">Yesterday, %1$s</string>
+    <string name="rtn_when_day">%1$s, %2$s</string>
+
+    <!-- Editor -->
+    <string name="rtn_new_title">New routine</string>
+    <string name="rtn_edit_title">Edit routine</string>
+    <string name="rtn_unsaved">Unsaved changes</string>
+    <string name="rtn_save">Save</string>
+    <string name="rtn_saved">Routine saved</string>
+    <string name="rtn_missing">This routine no longer exists.</string>
+    <string name="rtn_back">Back</string>
+    <string name="rtn_section_what">What to ask</string>
+    <string name="rtn_name">Name</string>
+    <string name="rtn_name_hint">For example: Morning briefing</string>
+    <string name="rtn_prompt">Prompt</string>
+    <string name="rtn_prompt_hint">What should the bot do each time?</string>
+    <string name="rtn_prompt_help">The prompt is sent to the bot like a message you typed yourself. The answer appears in this routine\'s own chat.</string>
+    <string name="rtn_section_bot">Who answers</string>
+    <string name="rtn_section_when">When</string>
+    <string name="rtn_kind_daily">Daily</string>
+    <string name="rtn_kind_interval">Repeating</string>
+    <string name="rtn_kind_once">Once</string>
+    <string name="rtn_time">Time</string>
+    <string name="rtn_days">Days</string>
+    <string name="rtn_every">Repeat every</string>
+    <string name="rtn_interval_help">Counted from the last run. Short intervals use battery and tokens.</string>
+    <string name="rtn_date">Date</string>
+    <string name="rtn_prev_day">Previous day</string>
+    <string name="rtn_next_day">Next day</string>
+    <string name="rtn_today">Today</string>
+    <string name="rtn_tomorrow">Tomorrow</string>
+    <string name="rtn_in_a_week">In a week</string>
+    <string name="rtn_hour_up">Hour up</string>
+    <string name="rtn_hour_down">Hour down</string>
+    <string name="rtn_minute_up">Minute up</string>
+    <string name="rtn_minute_down">Minute down</string>
+    <string name="rtn_need_day">Pick at least one day.</string>
+    <string name="rtn_once_past">That time has already passed.</string>
+    <string name="rtn_first_run">Next run: %1$s</string>
+    <string name="rtn_section_model">Model and effort</string>
+    <string name="rtn_model_help">Optional. Leave it on Default to use the bot\'s or Hermes\'s own setting. A low thinking effort uses fewer tokens.</string>
+    <string name="rtn_model">Model</string>
+    <string name="rtn_model_default">Default</string>
+    <string name="rtn_effort">Thinking effort</string>
+    <string name="rtn_need_name">Give the routine a name.</string>
+    <string name="rtn_need_prompt">Write what the routine should ask.</string>
+    <string name="rtn_save_first">Save your changes first.</string>
+    <string name="rtn_delete">Delete</string>
+    <string name="rtn_discard_title">Discard changes?</string>
+    <string name="rtn_discard_body">Your changes to this routine will be lost.</string>
+    <string name="rtn_discard">Discard</string>
+    <string name="rtn_delete_title">Delete %1$s?</string>
+    <string name="rtn_delete_body">The routine stops running. Its chat and the past answers are kept.</string>
+
+    <!-- Failure notifications (the reason line) -->
+    <string name="rtn_default_chat_title">Routine</string>
+    <string name="rtn_fail_empty">The routine has no prompt.</string>
+    <string name="rtn_fail_chats">The chats could not be loaded.</string>
+    <string name="rtn_fail_budget">The daily token budget is reached, so the routine did not run. You can change it in Settings, Usage.</string>
+    <string name="rtn_fail_not_installed">Hermes is not set up yet. Open the app once to finish the setup.</string>
+    <string name="rtn_fail_start">Hermes could not start. Open the app to see why.</string>
+    <string name="rtn_fail_send">The prompt could not be sent.</string>
+    <string name="rtn_fail_no_answer">Hermes did not answer.</string>
+</resources>

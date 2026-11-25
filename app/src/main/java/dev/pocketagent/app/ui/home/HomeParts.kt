@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -115,13 +116,29 @@ internal fun NewBotCard(onClick: () -> Unit, modifier: Modifier = Modifier) {
 }
 
 @Composable
-internal fun HomeTile(icon: PixelIcon, label: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
+internal fun HomeTile(
+    icon: PixelIcon,
+    label: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    /** A second, muted line under the label (for example the time of the next routine). */
+    subtitle: String? = null,
+) {
     val c = Pocket.colors
-    PixelPanel(modifier.clickable(role = Role.Button, onClick = onClick), color = c.surface) {
-        Row(Modifier.fillMaxWidth().padding(horizontal = 14.dp, vertical = 14.dp), verticalAlignment = Alignment.CenterVertically) {
+    // fillMaxHeight: in a Row with height(IntrinsicSize.Min) both tiles take the height of the taller one; the content stays centred.
+    PixelPanel(modifier.fillMaxHeight().clickable(role = Role.Button, onClick = onClick), color = c.surface) {
+        Row(
+            Modifier.align(Alignment.CenterStart).fillMaxWidth().padding(horizontal = 14.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
             PixelIconView(icon, tint = c.accent, size = 26.dp)
             Spacer(Modifier.width(12.dp))
-            Text(label, color = c.text, fontSize = 14.sp, fontWeight = FontWeight.Medium, maxLines = 2, overflow = TextOverflow.Ellipsis)
+            Column {
+                Text(label, color = c.text, fontSize = 14.sp, fontWeight = FontWeight.Medium, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                if (subtitle != null) {
+                    Text(subtitle, color = c.textMuted, fontSize = 12.sp, maxLines = 2, overflow = TextOverflow.Ellipsis)
+                }
+            }
         }
     }
 }

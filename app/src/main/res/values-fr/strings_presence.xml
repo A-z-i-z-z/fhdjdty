@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- notification channels -->
+    <string name="prs_channel_replies">Réponses</string>
+    <string name="prs_channel_replies_desc">Les réponses de vos agents quand vous êtes dans une autre application.</string>
+    <string name="prs_channel_approvals">Demandes d\'autorisation</string>
+    <string name="prs_channel_approvals_desc">Hermes demande avant d\'exécuter une commande qui pourrait modifier quelque chose.</string>
+    <string name="prs_channel_routines">Routines</string>
+    <string name="prs_channel_routines_desc">Résultats et problèmes de vos routines planifiées.</string>
+
+    <!-- the ongoing runtime notification -->
+    <plurals name="prs_notif_running_answering">
+        <item quantity="one">L\'environnement de l\'agent fonctionne · %1$d discussion en cours de réponse</item>
+        <item quantity="other">L\'environnement de l\'agent fonctionne · %1$d discussions en cours de réponse</item>
+    </plurals>
+
+    <!-- reply notifications -->
+    <string name="prs_action_reply">Répondre</string>
+    <string name="prs_action_mark_read">Marquer comme lu</string>
+    <string name="prs_reply_label">Votre réponse</string>
+    <string name="prs_untitled_chat">Discussion sans titre</string>
+    <string name="prs_public_reply">Nouvelle réponse</string>
+    <string name="prs_public_failed">Quelque chose demande votre attention</string>
+    <string name="prs_failed_text">Impossible de répondre. Ouvrez la discussion pour voir pourquoi.</string>
+    <string name="prs_send_failed_text">Votre réponse n\'a pas été envoyée. Ouvrez la discussion et réessayez.</string>
+
+    <!-- approval notifications -->
+    <string name="prs_approval_title">%1$s demande l\'autorisation</string>
+    <string name="prs_public_approval">Autorisation requise</string>
+    <string name="prs_action_allow">Autoriser une fois</string>
+    <string name="prs_action_deny">Refuser</string>
+
+    <!-- routine problems -->
+    <string name="prs_routine_failed_title">La routine « %1$s » ne s\'est pas exécutée</string>
+    <string name="prs_routine_unnamed">Routine sans nom</string>
+</resources>

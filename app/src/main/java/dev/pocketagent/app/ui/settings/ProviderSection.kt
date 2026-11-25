@@ -36,18 +36,53 @@ import dev.pocketagent.app.ui.components.PocketDialog
 import dev.pocketagent.app.ui.components.PocketSwitchRow
 import dev.pocketagent.app.ui.components.PocketTextField
 
-/** "Provider and model": everything the old Setup card did (modes, key, credential import, model, effort, region, project). */
+/** The explanation shown under the provider chips for a non-Google provider. */
+private fun providerHint(mode: AuthMode): Int = when (mode) {
+    AuthMode.OPENROUTER -> R.string.prov_hint_openrouter
+    AuthMode.ANTHROPIC -> R.string.prov_hint_anthropic
+    AuthMode.OPENAI -> R.string.prov_hint_openai
+    AuthMode.CUSTOM -> R.string.prov_hint_custom
+    AuthMode.API_KEY, AuthMode.SERVICE_ACCOUNT, AuthMode.USER_CREDENTIALS -> R.string.ctl_provider_intro
+}
+
+/** The label of the API key field of [mode]. */
+private fun providerKeyLabel(mode: AuthMode): Int = when (mode) {
+    AuthMode.OPENROUTER -> R.string.prov_field_key_openrouter
+    AuthMode.ANTHROPIC -> R.string.prov_field_key_anthropic
+    AuthMode.OPENAI -> R.string.prov_field_key_openai
+    AuthMode.CUSTOM -> R.string.prov_field_key_custom
+    AuthMode.API_KEY, AuthMode.SERVICE_ACCOUNT, AuthMode.USER_CREDENTIALS -> R.string.field_api_key
+}
+
+/**
+ * "Provider and model": the provider picker (Google first, then OpenRouter, Anthropic, OpenAI and a custom endpoint), then
+ * that provider's fields (key, import, model, effort, region, project).
+ */
 @Composable
 internal fun ProviderSection(vm: MainViewModel) {
     val picker = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri -> uri?.let { vm.importFromUri(it) } }
     var showPaste by remember { mutableStateOf(false) }
 
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        Muted(stringResource(R.string.ctl_provider_intro))
-        CText(stringResource(R.string.setup_mode), size = 14.sp, weight = FontWeight.SemiBold)
-        ChoiceRow(vm.authMode == AuthMode.API_KEY, stringResource(R.string.mode_api_key), { vm.selectMode(AuthMode.API_KEY) })
-        ChoiceRow(vm.authMode == AuthMode.SERVICE_ACCOUNT, stringResource(R.string.mode_sa), { vm.selectMode(AuthMode.SERVICE_ACCOUNT) })
-        ChoiceRow(vm.authMode == AuthMode.USER_CREDENTIALS, stringResource(R.string.mode_user), { vm.selectMode(AuthMode.USER_CREDENTIALS) })
+        // The intro names Gemini: only the Google modes show it (the other providers have their own prov_hint_* text below).
+        if (vm.authMode.google) Muted(stringResource(R.string.ctl_provider_intro))
+        // Provider first: Google (all three Gemini routes, unchanged) stays first, then the other providers.
+        CText(stringResource(R.string.prov_pick), size = 14.sp, weight = FontWeight.SemiBold)
+        ChipRow {
+            PocketChip(stringResource(R.string.prov_google), selected = vm.authMode.google, onClick = { if (!vm.authMode.google) vm.selectMode(vm.lastGoogleMode) })
+            PocketChip(stringResource(R.string.prov_openrouter), selected = vm.authMode == AuthMode.OPENROUTER, onClick = { vm.selectMode(AuthMode.OPENROUTER) })
+            PocketChip(stringResource(R.string.prov_anthropic), selected = vm.authMode == AuthMode.ANTHROPIC, onClick = { vm.selectMode(AuthMode.ANTHROPIC) })
+            PocketChip(stringResource(R.string.prov_openai), selected = vm.authMode == AuthMode.OPENAI, onClick = { vm.selectMode(AuthMode.OPENAI) })
+            PocketChip(stringResource(R.string.prov_custom), selected = vm.authMode == AuthMode.CUSTOM, onClick = { vm.selectMode(AuthMode.CUSTOM) })
+        }
+        Muted(stringResource(R.string.prov_keys_note), size = 12.sp)
+
+        if (vm.authMode.google) {
+            CText(stringResource(R.string.setup_mode), size = 14.sp, weight = FontWeight.SemiBold)
+            ChoiceRow(vm.authMode == AuthMode.API_KEY, stringResource(R.string.mode_api_key), { vm.selectMode(AuthMode.API_KEY) })
+            ChoiceRow(vm.authMode == AuthMode.SERVICE_ACCOUNT, stringResource(R.string.mode_sa), { vm.selectMode(AuthMode.SERVICE_ACCOUNT) })
+            ChoiceRow(vm.authMode == AuthMode.USER_CREDENTIALS, stringResource(R.string.mode_user), { vm.selectMode(AuthMode.USER_CREDENTIALS) })
+        }
 
         when (vm.authMode) {
             AuthMode.API_KEY -> {
@@ -81,11 +116,32 @@ internal fun ProviderSection(vm: MainViewModel) {
                     kind = ButtonKind.GHOST, icon = PixelIcon.TRASH,
                 )
             }
+            AuthMode.OPENROUTER, AuthMode.ANTHROPIC, AuthMode.OPENAI, AuthMode.CUSTOM -> {
+                Muted(stringResource(providerHint(vm.authMode)), size = 12.sp)
+                if (vm.authMode == AuthMode.CUSTOM) {
+                    PocketTextField(
+                        vm.customBaseUrl, { vm.customBaseUrl = it }, Modifier.fillMaxWidth(),
+                        label = stringResource(R.string.prov_field_base_url), placeholder = stringResource(R.string.prov_base_url_placeholder),
+                        singleLine = true, monospace = true,
+                    )
+                    if (vm.customBaseUrl.trim().startsWith("http://", ignoreCase = true) && ProviderConfig.normalizeBaseUrl(vm.customBaseUrl) != null) {
+                        Muted(stringResource(R.string.prov_http_note), size = 12.sp)
+                    }
+                }
+                // The key is never shown again after saving: "stored" + remove, exactly like the Gemini key.
+                PocketTextField(
+                    vm.apiKeyInput, { vm.apiKeyInput = it }, Modifier.fillMaxWidth(),
+                    label = stringResource(if (vm.hasStoredApiKey) R.string.field_api_key_stored else providerKeyLabel(vm.authMode)),
+                    singleLine = true, password = true,
+                )
+                if (vm.hasStoredApiKey) PixelButton(stringResource(R.string.btn_remove_key), onClick = { vm.clearApiKey() }, kind = ButtonKind.GHOST, icon = PixelIcon.TRASH)
+            }
         }
 
         PocketTextField(vm.model, { vm.model = it }, Modifier.fillMaxWidth(), label = stringResource(R.string.field_model), singleLine = true, monospace = true)
-        ChipRow {
-            ProviderConfig.suggestions(vm.authMode, vm.endpoint).forEach { id ->
+        val suggestions = ProviderConfig.suggestions(vm.authMode, vm.endpoint)
+        if (suggestions.isNotEmpty()) ChipRow {
+            suggestions.forEach { id ->
                 PocketChip(id, selected = vm.model == id, onClick = { vm.model = id })
             }
         }
@@ -97,7 +153,7 @@ internal fun ProviderSection(vm: MainViewModel) {
         }
         Muted(stringResource(R.string.effort_hint), size = 12.sp)
 
-        val showRegionProject = vm.authMode != AuthMode.API_KEY || vm.endpoint == ApiEndpoint.VERTEX_EXPRESS
+        val showRegionProject = vm.authMode.google && (vm.authMode != AuthMode.API_KEY || vm.endpoint == ApiEndpoint.VERTEX_EXPRESS)
         if (showRegionProject) {
             PocketTextField(vm.region, { vm.region = it }, Modifier.fillMaxWidth(), label = stringResource(R.string.field_region), singleLine = true)
             PocketTextField(
@@ -109,12 +165,16 @@ internal fun ProviderSection(vm: MainViewModel) {
         val problems = vm.problems()
         problems.forEach { p ->
             ErrorText(stringResource(when (p) {
-                ProviderConfig.Problem.NO_API_KEY -> R.string.problem_no_key
+                ProviderConfig.Problem.NO_API_KEY -> if (vm.authMode.google) R.string.problem_no_key else R.string.prov_problem_no_key
                 ProviderConfig.Problem.NO_PROJECT_FOR_USER_CREDENTIALS -> R.string.problem_no_project
                 ProviderConfig.Problem.EMPTY_MODEL -> R.string.problem_no_model
                 ProviderConfig.Problem.INVALID_PROJECT -> R.string.problem_bad_project
                 ProviderConfig.Problem.INVALID_REGION -> R.string.problem_bad_region
                 ProviderConfig.Problem.INVALID_REASONING_EFFORT -> R.string.problem_bad_effort
+                ProviderConfig.Problem.INVALID_API_KEY_FORMAT -> R.string.prov_problem_bad_key
+                ProviderConfig.Problem.NO_BASE_URL -> R.string.prov_problem_no_url
+                ProviderConfig.Problem.INVALID_BASE_URL -> R.string.prov_problem_bad_url
+                ProviderConfig.Problem.NO_CREDENTIALS -> R.string.problem_no_credentials
             }))
         }
         val needCredFile = (vm.authMode == AuthMode.SERVICE_ACCOUNT && !vm.hasServiceAccount) || (vm.authMode == AuthMode.USER_CREDENTIALS && !vm.hasUserCredentials)

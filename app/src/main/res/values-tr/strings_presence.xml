@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- notification channels -->
+    <string name="prs_channel_replies">Yanıtlar</string>
+    <string name="prs_channel_replies_desc">Başka bir uygulamadayken ajanlarından gelen yanıtlar.</string>
+    <string name="prs_channel_approvals">İzin istekleri</string>
+    <string name="prs_channel_approvals_desc">Hermes, bir şeyi değiştirebilecek bir komutu çalıştırmadan önce sorar.</string>
+    <string name="prs_channel_routines">Rutinler</string>
+    <string name="prs_channel_routines_desc">Zamanlanmış rutinlerinin sonuçları ve sorunları.</string>
+
+    <!-- the ongoing runtime notification -->
+    <plurals name="prs_notif_running_answering">
+        <item quantity="one">Ajan çalışma ortamı çalışıyor · %1$d sohbet yanıtlıyor</item>
+        <item quantity="other">Ajan çalışma ortamı çalışıyor · %1$d sohbet yanıtlıyor</item>
+    </plurals>
+
+    <!-- reply notifications -->
+    <string name="prs_action_reply">Yanıtla</string>
+    <string name="prs_action_mark_read">Okundu işaretle</string>
+    <string name="prs_reply_label">Yanıtın</string>
+    <string name="prs_untitled_chat">Adsız sohbet</string>
+    <string name="prs_public_reply">Yeni yanıt</string>
+    <string name="prs_public_failed">Bir şey dikkatini bekliyor</string>
+    <string name="prs_failed_text">Yanıt veremedi. Nedenini görmek için sohbeti aç.</string>
+    <string name="prs_send_failed_text">Yanıtın gönderilemedi. Sohbeti açıp yeniden dene.</string>
+
+    <!-- approval notifications -->
+    <string name="prs_approval_title">%1$s izin istiyor</string>
+    <string name="prs_public_approval">İzin gerekiyor</string>
+    <string name="prs_action_allow">Bir kez izin ver</string>
+    <string name="prs_action_deny">Reddet</string>
+
+    <!-- routine problems -->
+    <string name="prs_routine_failed_title">“%1$s” rutini çalışmadı</string>
+    <string name="prs_routine_unnamed">Adsız rutin</string>
+</resources>

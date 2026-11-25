@@ -47,6 +47,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -68,6 +69,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import android.widget.Toast
+import dev.pocketagent.app.AppLink
 import dev.pocketagent.app.IncomingShare
 import dev.pocketagent.app.PocketApp
 import dev.pocketagent.app.R
@@ -78,6 +80,7 @@ import dev.pocketagent.app.ui.chat.AvatarStack
 import dev.pocketagent.app.ui.chat.ChatListScreen
 import dev.pocketagent.app.ui.chat.ChatScreen
 import dev.pocketagent.app.ui.chat.ChatShareInbox
+import dev.pocketagent.app.ui.chat.StarredScreen
 import dev.pocketagent.app.ui.chat.bottomSafeInsets
 import dev.pocketagent.app.ui.chat.titleOf
 import dev.pocketagent.app.ui.components.ButtonKind
@@ -88,6 +91,8 @@ import dev.pocketagent.app.ui.components.PocketDialog
 import dev.pocketagent.app.ui.hermes.HermesScreen
 import dev.pocketagent.app.ui.hermes.TerminalScreen
 import dev.pocketagent.app.ui.home.HomeScreen
+import dev.pocketagent.app.ui.routines.RoutineEditorScreen
+import dev.pocketagent.app.ui.routines.RoutinesScreen
 import dev.pocketagent.app.ui.settings.SettingsScreen
 import dev.pocketagent.app.ui.theme.AnimLevel
 import dev.pocketagent.app.ui.theme.AppearanceStore
@@ -95,6 +100,7 @@ import dev.pocketagent.app.ui.theme.Pocket
 import dev.pocketagent.app.ui.theme.PocketTheme
 import dev.pocketagent.app.ui.theme.SystemStatusBarIcons
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Locale
@@ -168,8 +174,8 @@ private val TABS = listOf(
 
 /** Index into [TABS] of the tab a route belongs to. */
 private fun Route.tabIndex(): Int = when (this) {
-    Route.Home -> 0
-    Route.Chats, is Route.Chat -> 1
+    Route.Home, Route.Routines, is Route.RoutineEditor -> 0
+    Route.Chats, is Route.Chat, Route.Starred -> 1
     Route.Bots, is Route.BotEditor -> 2
     Route.Hermes, Route.Terminal -> 3
     is Route.Settings -> 4
@@ -178,7 +184,7 @@ private fun Route.tabIndex(): Int = when (this) {
 /** The bottom bar is shown on the five tab roots only (not in a chat, an editor or the terminal). */
 private fun Route.showsBar(): Boolean = when (this) {
     Route.Home, Route.Chats, Route.Bots, Route.Hermes, is Route.Settings -> true
-    is Route.Chat, is Route.BotEditor, Route.Terminal -> false
+    is Route.Chat, is Route.BotEditor, Route.Terminal, Route.Routines, is Route.RoutineEditor, Route.Starred -> false
 }
 
 /** 0 for a tab root, 1 for a detail screen pushed on top of one. */
@@ -219,6 +225,7 @@ private fun AppShell() {
     val ctx = LocalContext.current
     val app = remember { PocketApp.from(ctx) }
     val share by app.incomingShare.collectAsState()
+    val link by app.pendingLink.collectAsState()
     val scope = rememberCoroutineScope()
     val c = Pocket.colors
     val anim = Pocket.anim
@@ -228,6 +235,16 @@ private fun AppShell() {
 
     // HomeScreen always paints the dark Zagros night sky full-bleed behind the status bar, even in light themes.
     SystemStatusBarIcons(darkIcons = route != Route.Home && !c.isDark)
+
+    // Links from notifications, launcher shortcuts and the Quick Settings tile (see AppLinks / MainActivity).
+    LaunchedEffect(link) {
+        val l = link ?: return@LaunchedEffect
+        // On a cold start the chats are still loading: wait before looking a chat up or creating one.
+        if (l is AppLink.OpenChat || l is AppLink.NewChat) app.chat.loaded.first { it }
+        // No suspension point below this line, so the consume-and-navigate step cannot be cancelled half way.
+        if (!app.pendingLink.compareAndSet(l, null)) return@LaunchedEffect
+        navigateToLink(nav, app, l)
+    }
 
     // Back: pop the stack; on the root of a tab other than Home go to Home; on Home the system leaves the app.
     BackHandler(enabled = nav.canPop || route != Route.Home) {
@@ -285,6 +302,42 @@ private fun AppShell() {
                     }
                 },
             )
+        }
+    }
+}
+
+/** Applies a consumed [AppLink] to the back stack. */
+private fun navigateToLink(nav: Navigator, app: PocketApp, link: AppLink) {
+    when (link) {
+        is AppLink.OpenChat -> {
+            val target = Route.Chat(link.convId)
+            if (app.chat.conversation(link.convId) == null) {
+                nav.tab(Route.Chats) // the chat was deleted meanwhile: show the list instead
+            } else if (nav.current != target) {
+                nav.tab(Route.Chats)
+                nav.go(target)
+            }
+        }
+        AppLink.NewChat -> {
+            // Reuse an untouched empty chat with plain Hermes so repeated taps do not pile up empty chats.
+            val reusable = app.chat.conversations.value.firstOrNull {
+                it.botIds == listOf(BotPresets.HERMES_ID) && it.title.isBlank() && it.lastPreview.isBlank() && !it.pinned
+            }
+            val conv = reusable ?: app.chat.createConversation(listOf(BotPresets.HERMES_ID))
+            nav.tab(Route.Chats)
+            nav.go(Route.Chat(conv.id))
+        }
+        AppLink.Terminal -> {
+            nav.tab(Route.Hermes)
+            nav.go(Route.Terminal)
+        }
+        AppLink.Routines -> {
+            nav.tab(Route.Home)
+            nav.go(Route.Routines)
+        }
+        AppLink.Usage -> {
+            nav.tab(Route.Settings())
+            nav.go(Route.Settings("usage"))
         }
     }
 }
@@ -359,6 +412,9 @@ private fun RouteContent(route: Route) {
         Route.Hermes -> HermesScreen()
         Route.Terminal -> TerminalScreen()
         is Route.Settings -> SettingsScreen(route.section)
+        Route.Routines -> RoutinesScreen()
+        is Route.RoutineEditor -> RoutineEditorScreen(route.routineId)
+        Route.Starred -> StarredScreen()
     }
 }
 

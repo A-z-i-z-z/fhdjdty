@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Rutinler: zamanlanmış istekler (agent ROUTINES). Önek rtn_. -->
+
+    <!-- List screen -->
+    <string name="rtn_title">Rutinler</string>
+    <string name="rtn_add">Yeni rutin</string>
+    <string name="rtn_next_subtitle">Sıradaki: %1$s · %2$s</string>
+    <string name="rtn_unnamed">Adsız rutin</string>
+    <string name="rtn_started">Başladı. Sohbetini açıp izleyebilirsin.</string>
+    <string name="rtn_notif_off_title">Bildirimler kapalı</string>
+    <string name="rtn_notif_off_body">Rutin yanıtları bildirim olarak gelir. Bildirimler kapalıyken yanıtları ancak uygulamayı açınca görürsün.</string>
+    <string name="rtn_notif_off_button">Bildirim ayarları</string>
+    <string name="rtn_empty_title">Henüz rutin yok</string>
+    <string name="rtn_empty_body">Rutin, uygulama kapalıyken bile belirlediğin saatte bir bota istek gönderir ve yanıt hazır olunca sana haber verir.</string>
+    <string name="rtn_ideas">Fikirler</string>
+    <string name="rtn_tpl_use">Bu rutini ekle</string>
+    <string name="rtn_edit">Rutini düzenle</string>
+    <string name="rtn_running_now">Şimdi çalışıyor…</string>
+    <string name="rtn_paused">Duraklatıldı</string>
+    <string name="rtn_next">Sıradaki: %1$s</string>
+    <string name="rtn_done">Tamamlandı</string>
+    <string name="rtn_nothing_scheduled">Zamanlanmış bir şey yok</string>
+    <string name="rtn_status_ok">yanıtlandı</string>
+    <string name="rtn_status_failed">başarısız</string>
+    <string name="rtn_status_skipped">atlandı</string>
+    <string name="rtn_status_sent">gönderildi</string>
+    <string name="rtn_last_run">Son çalışma: %1$s · %2$s</string>
+    <string name="rtn_active">Etkin</string>
+    <string name="rtn_active_help">Silmeden duraklatmak için kapat.</string>
+    <string name="rtn_run_now">Şimdi çalıştır</string>
+    <string name="rtn_open_chat">Sohbeti aç</string>
+
+    <!-- Templates -->
+    <string name="rtn_tpl_morning_name">Sabah özeti</string>
+    <string name="rtn_tpl_morning_desc">Güne birkaç yararlı fikirle dostça bir başlangıç.</string>
+    <string name="rtn_tpl_morning_prompt">Günaydın! Bugün için kısa bir özet ver: sıcak bir selam, önceki sohbetlerimizden hatırlamaya değer bir şey varsa o ve güne başlamak için üç yararlı öneri. 150 kelimeyi geçmesin.</string>
+    <string name="rtn_tpl_journal_name">Akşam günlüğü</string>
+    <string name="rtn_tpl_journal_desc">Gününü düşünmen için tek bir derin soru.</string>
+    <string name="rtn_tpl_journal_prompt">Gün boyunca yaşadıklarımı düşünmeme yardım edecek tek bir derin soru sor. Yalnızca soruyu sor, başka bir şey yazma.</string>
+    <string name="rtn_tpl_weekly_name">Haftalık değerlendirme</string>
+    <string name="rtn_tpl_weekly_desc">Her pazar akşamı: geriye bak, yeni haftayı planla.</string>
+    <string name="rtn_tpl_weekly_prompt">Haftalık değerlendirme zamanı. Bana numaralı bir liste olarak üç kısa soru sor: bu hafta neler iyi gitti, neler zordu ve gelecek hafta neye odaklanmak istiyorum.</string>
+    <string name="rtn_tpl_kurdish_name">Günün Kürtçe kelimesi</string>
+    <string name="rtn_tpl_kurdish_desc">Her sabah bir Kurmancî kelime öğren.</string>
+    <string name="rtn_tpl_kurdish_prompt">Bugün bana bir Kürtçe (Kurmancî) kelime öğret: kelimenin kendisi, okunuşu, anlamı ve çevirisiyle birlikte bir örnek cümle. Bu sohbette daha önce kullanmadığımız bir kelime seç.</string>
+
+    <!-- Units and schedule texts -->
+    <string name="rtn_unit_min">%1$d dk</string>
+    <string name="rtn_unit_h">%1$d sa</string>
+    <string name="rtn_unit_d">%1$d gün</string>
+    <string name="rtn_unit_hm">%1$d sa %2$d dk</string>
+    <string name="rtn_every_day">Her gün</string>
+    <string name="rtn_weekdays">Hafta içi</string>
+    <string name="rtn_weekend">Hafta sonu</string>
+    <string name="rtn_no_day">Gün seçilmedi</string>
+    <string name="rtn_sched_daily">%1$s, %2$s</string>
+    <string name="rtn_sched_interval">Her %1$s</string>
+    <string name="rtn_sched_once">Bir kez, %1$s</string>
+    <string name="rtn_when_today">Bugün, %1$s</string>
+    <string name="rtn_when_tomorrow">Yarın, %1$s</string>
+    <string name="rtn_when_yesterday">Dün, %1$s</string>
+    <string name="rtn_when_day">%1$s, %2$s</string>
+
+    <!-- Editor -->
+    <string name="rtn_new_title">Yeni rutin</string>
+    <string name="rtn_edit_title">Rutini düzenle</string>
+    <string name="rtn_unsaved">Kaydedilmemiş değişiklikler</string>
+    <string name="rtn_save">Kaydet</string>
+    <string name="rtn_saved">Rutin kaydedildi</string>
+    <string name="rtn_missing">Bu rutin artık yok.</string>
+    <string name="rtn_back">Geri</string>
+    <string name="rtn_section_what">Ne sorulacak</string>
+    <string name="rtn_name">Ad</string>
+    <string name="rtn_name_hint">Örneğin: Sabah özeti</string>
+    <string name="rtn_prompt">İstek metni</string>
+    <string name="rtn_prompt_hint">Bot her seferinde ne yapsın?</string>
+    <string name="rtn_prompt_help">İstek, senin yazdığın bir mesaj gibi bota gönderilir. Yanıt, bu rutinin kendi sohbetinde görünür.</string>
+    <string name="rtn_section_bot">Kim yanıtlasın</string>
+    <string name="rtn_section_when">Ne zaman</string>
+    <string name="rtn_kind_daily">Günlük</string>
+    <string name="rtn_kind_interval">Tekrarlayan</string>
+    <string name="rtn_kind_once">Bir kez</string>
+    <string name="rtn_time">Saat</string>
+    <string name="rtn_days">Günler</string>
+    <string name="rtn_every">Tekrar aralığı</string>
+    <string name="rtn_interval_help">Son çalışmadan itibaren sayılır. Kısa aralıklar pil ve token harcar.</string>
+    <string name="rtn_date">Tarih</string>
+    <string name="rtn_prev_day">Önceki gün</string>
+    <string name="rtn_next_day">Sonraki gün</string>
+    <string name="rtn_today">Bugün</string>
+    <string name="rtn_tomorrow">Yarın</string>
+    <string name="rtn_in_a_week">Bir hafta sonra</string>
+    <string name="rtn_hour_up">Saati artır</string>
+    <string name="rtn_hour_down">Saati azalt</string>
+    <string name="rtn_minute_up">Dakikayı artır</string>
+    <string name="rtn_minute_down">Dakikayı azalt</string>
+    <string name="rtn_need_day">En az bir gün seç.</string>
+    <string name="rtn_once_past">Bu zaman çoktan geçti.</string>
+    <string name="rtn_first_run">Sıradaki çalışma: %1$s</string>
+    <string name="rtn_section_model">Model ve çaba</string>
+    <string name="rtn_model_help">İsteğe bağlı. Botun ya da Hermes\'in kendi ayarı için Varsayılan\'da bırak. Düşük düşünme çabası daha az token harcar.</string>
+    <string name="rtn_model">Model</string>
+    <string name="rtn_model_default">Varsayılan</string>
+    <string name="rtn_effort">Düşünme çabası</string>
+    <string name="rtn_need_name">Rutine bir ad ver.</string>
+    <string name="rtn_need_prompt">Rutinin ne soracağını yaz.</string>
+    <string name="rtn_save_first">Önce değişiklikleri kaydet.</string>
+    <string name="rtn_delete">Sil</string>
+    <string name="rtn_discard_title">Değişiklikler silinsin mi?</string>
+    <string name="rtn_discard_body">Bu rutinde yaptığın değişiklikler kaybolacak.</string>
+    <string name="rtn_discard">Vazgeç ve sil</string>
+    <string name="rtn_delete_title">%1$s silinsin mi?</string>
+    <string name="rtn_delete_body">Rutin çalışmayı bırakır. Sohbeti ve geçmiş yanıtlar korunur.</string>
+
+    <!-- Failure notifications (the reason line) -->
+    <string name="rtn_default_chat_title">Rutin</string>
+    <string name="rtn_fail_empty">Rutinin istek metni yok.</string>
+    <string name="rtn_fail_chats">Sohbetler yüklenemedi.</string>
+    <string name="rtn_fail_budget">Günlük token bütçesine ulaşıldı, bu yüzden rutin çalışmadı. Bunu Ayarlar, Kullanım bölümünden değiştirebilirsin.</string>
+    <string name="rtn_fail_not_installed">Hermes henüz kurulmadı. Kurulumu bitirmek için uygulamayı bir kez aç.</string>
+    <string name="rtn_fail_start">Hermes başlatılamadı. Nedenini görmek için uygulamayı aç.</string>
+    <string name="rtn_fail_send">İstek gönderilemedi.</string>
+    <string name="rtn_fail_no_answer">Hermes yanıt vermedi.</string>
+</resources>

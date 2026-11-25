@@ -185,6 +185,9 @@ private class SceneCache {
     fun glowRy(level: Int) = glowHalfH[level]
 }
 
+/** The colour of the top of the night sky (always dark, also in light themes). Home's status-bar scrim uses the same one. */
+internal fun hearthSkyTop(colors: PocketColors): Color = if (colors.isDark) colors.bgDeep else Color(0xFF130A16)
+
 /**
  * The home hero: a night over the Zagros, a stone ring with a hand-keyed fire, drifting embers and Pet.
  * Fills the width; give it a height of about 250-320 dp (default 280 dp). [progress] (0..1) drives KINDLING.
@@ -208,7 +211,7 @@ fun HearthScene(
     val cache = remember { SceneCache() }
     val sprites = remember { SceneSprites() }
 
-    val skyTop = (if (colors.isDark) colors.bgDeep else Color(0xFF130A16)).toArgb()
+    val skyTop = hearthSkyTop(colors).toArgb()
     val skyBase = if (colors.isDark) colors.bg else Color(0xFF1D1220)
     val skyBottom = lerp(skyBase, colors.fireLow, 0.16f).toArgb()
     val farRamp = remember(skyBase) { IntArray(4) { lerp(Color(FAR_RAMP[it]), skyBase, 0.2f).toArgb() } }
