@@ -533,3 +533,10 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   `api/ApprovalContract.kt`, `api/ErrorText.kt`) and are being finished. Slice A of Wave 1a is at
   its integration (compile and tests in `dist/wt-w1`); slice B is in its script reviews
   (`dist/wt-w1b`). Phone: no.
+- **19:50 UTC, the contract of Wave 1b is being written** (workflow `w1b-contract`; documents only,
+  under `docs/waves/w1b/` and `docs/waves/w1b-contract.md`; no code, no phone): a split of the
+  plan's 1b items into areas (`docs/waves/w1b/SPLIT.md`), one Sonnet draft per area, a merge into
+  one contract in the shape of the 1a contract, three Opus reviews (facts; seams and safety; product
+  and design) and their findings worked in (`docs/waves/w1b/contract-review.md`). Four workflows now
+  run side by side: the Wave 0 defect fixes (main tree), Wave 1a slice A (`dist/wt-w1`), slice B
+  (`dist/wt-w1b`), and this one. Phone: no.
