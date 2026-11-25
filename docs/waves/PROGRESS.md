@@ -396,3 +396,16 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
     twin-only robot scenarios, S7, and S2/S4. **S2 needs no second tap:** an optimised build with the
     twin's package name installs over the twin as an update (plan for it: a Gradle switch that gives
     the release build type the twin's suffix; version code above the twin's).
+- **15:50, step 1a.b done: the Wave 1a contract is reviewed.** `docs/waves/w1a-contract.md` (about
+  860 lines). Two Opus reviewers: 41 findings, 2 blockers (a clash with `SpriteBank.find`; a change
+  that would have broken the parity test of Wave 0), 19 major; the safety reviewer recomputed the
+  astronomy and most reference values matched. All applied (`docs/waves/w1/contract-review.md`).
+  HOME and SCENE were each split in two and the debug-link extras became an agent of their own:
+  eleven areas (SKY, SCENE, WEATHER, FIRE, PET, ART-PET, ART-WORLD, HOME-HERO, HOME-LIST, APPEAR,
+  LINKS). **The lead's rulings are section 11 of the contract; the one that matters for whoever
+  continues: the build is cut into five closed slices (A to E), and Wave 1 code is built in the
+  worktree `dist/wt-w1` on the local branch `w1a` until Wave 0's phone proof is over.**
+- **15:50, slice A of Wave 1a started** (pure logic and its tests, new files only: the sky's
+  mathematics, the calendar, places and the weather model with its guard, the fire feed, Pêt's
+  brain, Home's suggestions). Sonnet per area, Opus review each, one compile and test run in the
+  worktree, then a merge into the work branch.
