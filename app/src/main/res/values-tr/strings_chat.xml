@@ -129,6 +129,9 @@
     <string name="ui_chat_copied">Kopyalandı</string>
     <string name="ui_chat_tool_cd">Araç çağrısı</string>
     <string name="ui_chat_no_output">(ayrıntı yok)</string>
+    <string name="ui_chat_tool_command">Komut</string>
+    <string name="ui_chat_tool_copy_command">Komutu kopyala</string>
+    <string name="ui_chat_tool_no_output_note">Hermes, bir aracın yazdığı çıktıyı bu bağlantı üzerinden göndermez, yalnızca komutu gönderir. Sonucu sohbetteki yanıt anlatabilir.</string>
     <string name="ui_chat_empty_title">Bir merhaba de</string>
     <string name="ui_chat_empty_body">İlk mesajı aşağıya yaz.</string>
     <string name="ui_chat_members_title">Üyeler</string>

@@ -20,6 +20,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -212,12 +215,17 @@ internal fun AboutSection() {
     val c = Pocket.colors
     val app = remember { PocketApp.from(ctx) }
     var petTaps by remember { mutableIntStateOf(0) }
+    // The mascot is a hidden control (five taps open the keeper's stats). It gets a spoken name and the button role
+    // so a screen reader announces it, but no click label: the label must not give the secret away.
+    val petLabel = t(R.string.ctl_about_pet_desc)
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Mascot(
                 if (petTaps >= 5) MascotMood.HAPPY else MascotMood.WAVING,
                 size = 80.dp,
-                modifier = Modifier.clickable { petTaps++ },
+                modifier = Modifier
+                    .clickable(role = Role.Button) { petTaps++ }
+                    .semantics { contentDescription = petLabel },
             )
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 CText(t(R.string.app_name), size = 20.sp, weight = FontWeight.Bold)

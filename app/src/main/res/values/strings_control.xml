@@ -213,6 +213,8 @@
     <string name="ctl_about_hermes">Agirî runs Hermes Agent v0.23.3 by Nous Research (MIT licence). The agent\'s skills and memory are their work.</string>
     <string name="ctl_about_pet_title">PÊT, THE NEWT</string>
     <string name="ctl_about_pet">Pêt is a little Kurdistan newt, a salamander: the spirit that lives in fire. Its name means \"spark\" in Kurmanji. It keeps the Newroz fire burning while you work.</string>
+    <!-- t: spoken label of the small newt picture beside the app name in About; keep the name Pêt; it must not say the picture can be tapped -->
+    <string name="ctl_about_pet_desc">Pêt, the newt mascot</string>
     <string name="ctl_about_licences_title">LICENCES</string>
     <string name="ctl_about_licences">Includes open-source software and assets, each under its own licence: Hermes Agent (MIT), PRoot (GPL-2.0), Debian GNU/Linux, Python, sherpa-onnx (Apache-2.0), Supertonic 3 (MIT / OpenRAIL-M, optional on-device download), and uisfx sound cues (CC0-1.0). Full texts are in the project repository.</string>
     <string name="ctl_about_secret_title">HEARTHKEEPER STATS</string>

@@ -213,6 +213,7 @@
     <string name="ctl_about_hermes">Agirî fait tourner Hermes Agent v0.23.3 de Nous Research (licence MIT). Les compétences et la mémoire de l\'agent sont leur travail.</string>
     <string name="ctl_about_pet_title">PÊT, LE TRITON</string>
     <string name="ctl_about_pet">Pêt est un petit triton du Kurdistan, une salamandre : l\'esprit qui vit dans le feu. Son nom signifie « étincelle » en kurmandji. Il garde le feu de Newroz allumé pendant que vous travaillez.</string>
+    <string name="ctl_about_pet_desc">Pêt, la mascotte triton</string>
     <string name="ctl_about_licences_title">LICENCES</string>
     <string name="ctl_about_licences">Contient des logiciels et ressources libres, chacun sous sa licence : Hermes Agent (MIT), PRoot (GPL-2.0), Debian GNU/Linux, Python, sherpa-onnx (Apache-2.0), Supertonic 3 (MIT / OpenRAIL-M, téléchargement local optionnel) et sons uisfx (CC0-1.0). Textes complets dans le dépôt.</string>
     <string name="ctl_about_secret_title">STATS DU GARDIEN DU FOYER</string>

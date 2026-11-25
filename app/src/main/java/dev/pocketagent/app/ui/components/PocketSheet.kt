@@ -1,5 +1,6 @@
 package dev.pocketagent.app.ui.components
 
+import androidx.compose.animation.core.FiniteAnimationSpec
 import androidx.compose.animation.core.animate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -36,14 +37,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
@@ -53,24 +52,32 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.dismiss
 import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
 import dev.pocketagent.app.R
 import dev.pocketagent.app.ui.nav.robotRoot
+import dev.pocketagent.app.ui.theme.AnimLevel
 import dev.pocketagent.app.ui.theme.Corner
 import dev.pocketagent.app.ui.theme.Pocket
 import dev.pocketagent.app.ui.theme.Space
 import dev.pocketagent.app.ui.theme.Type
 import dev.pocketagent.app.ui.theme.designUnitPx
 import dev.pocketagent.app.ui.theme.motion
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
 import dev.pocketagent.app.ui.text.t
+import dev.pocketagent.app.util.AppLog
 
 // The one bottom sheet of the app (pattern 4): it rises with the glide spring, follows the finger by its grabber
 // and title, flings away by velocity, and sits over a dither scrim. Its own window, so it also covers the bars.
@@ -124,6 +131,13 @@ private fun bottomSafeInsets(): WindowInsets =
  * and is not wrapped in a scroll: put a LazyColumn with weight(1f, fill = false) in it when it can be long. The
  * sheet pads itself for the navigation bar and the keyboard. Tags: sheet, sheet.scrim, sheet.handle,
  * sheet.title.
+ *
+ * How it moves (see [SheetSlide]): with animations on it starts one height below the screen and glides up;
+ * with animations off it is at rest from the first frame. Its place is a FRACTION of its own height that the
+ * layer turns into pixels at draw time, so nothing about being visible waits for a measurement. The motion runs
+ * in an effect keyed only by the count of started motions (a layout pass cannot cancel it) and is finished by force,
+ * with a line in the app log, when no frame moves it for [SheetSlide.STALL_MS].
+ * For a screen reader the dimmed area is a button "Close", and the sheet is a pane with its own name.
  */
 @Composable
 fun PocketSheet(
@@ -136,35 +150,23 @@ fun PocketSheet(
     val c = Pocket.colors
     val motion = Pocket.motion
     val density = LocalDensity.current
-    val scope = rememberCoroutineScope()
     val currentDismiss by rememberUpdatedState(onDismiss)
-    var heightPx by remember { mutableIntStateOf(0) }
-    var translatePx by remember { mutableFloatStateOf(0f) }
-    var started by remember { mutableStateOf(false) }
-    var closing by remember { mutableStateOf(false) }
-
-    val requestClose: (() -> Unit) -> Unit = { then ->
-        if (!closing) {
-            closing = true
-            scope.launch {
-                animate(
-                    initialValue = translatePx,
-                    targetValue = maxOf(heightPx.toFloat(), translatePx),
-                    animationSpec = motion.glide(),
-                ) { v, _ -> translatePx = v }
-                currentDismiss()
-                then()
-            }
-        }
+    val animated = motion.level != AnimLevel.OFF
+    val slideState = remember { mutableStateOf(SheetSlide.opening(animated)) }
+    val heightState = remember { mutableIntStateOf(0) }
+    val afterClose = remember { ArrayList<() -> Unit>() }
+    // The scrim only needs to know its step (0 to 4), not every frame of the slide.
+    val scrimStep by remember {
+        derivedStateOf { scrimStepFor(slideState.value.openFraction(heightState.intValue.toFloat())) }
     }
+    val drive by remember { derivedStateOf { slideState.value.drive } }
 
-    LaunchedEffect(heightPx > 0) {
-        if (heightPx > 0 && !started) {
-            started = true
-            val h = heightPx.toFloat()
-            translatePx = h
-            animate(initialValue = h, targetValue = 0f, animationSpec = motion.glide()) { v, _ ->
-                if (!closing) translatePx = v
+    val requestClose = remember<(() -> Unit) -> Unit> {
+        { then ->
+            val next = slideState.value.closing(heightState.intValue.toFloat())
+            if (next != null) {
+                afterClose.add(then)
+                slideState.value = next
             }
         }
     }
@@ -174,26 +176,26 @@ fun PocketSheet(
     val grabberWidth = with(density) { (12 * unitPx).toDp() }
     val grabberHeight = with(density) { (2 * unitPx).toDp() }
     val closeLabel = t(R.string.ui_dlg_close)
+    val scrimLabel = t(R.string.design_scrim_close)
+    val paneName = title ?: t(R.string.design_sheet_pane)
 
-    val dragState = rememberDraggableState { delta ->
-        if (!closing) translatePx = (translatePx + delta).coerceAtLeast(0f)
-    }
+    val dragState = rememberDraggableState { delta -> slideState.value = slideState.value.dragged(delta) }
     val dragStrip = Modifier.draggable(
         state = dragState,
         orientation = Orientation.Vertical,
         onDragStopped = { velocity ->
-            if (!closing) {
-                when (SheetPhysics.settle(translatePx, velocity, heightPx.toFloat())) {
+            val now = slideState.value
+            if (now.phase != SheetPhase.CLOSING) {
+                val h = heightState.intValue.toFloat()
+                when (SheetPhysics.settle(now.dragPx, velocity, h)) {
                     SheetOutcome.CLOSE -> requestClose {}
-                    SheetOutcome.OPEN -> animate(initialValue = translatePx, targetValue = 0f, animationSpec = motion.glide()) { v, _ ->
-                        if (!closing) translatePx = v
-                    }
+                    SheetOutcome.OPEN -> slideState.value = now.releasedOpen(h)
                 }
             }
         },
     )
 
-    Dialog(
+    PocketWindow(
         onDismissRequest = { requestClose {} },
         properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false),
     ) {
@@ -202,16 +204,51 @@ fun PocketSheet(
         HoldPetNotesWhileOpen()
         val none = remember { MutableInteractionSource() }
 
-        BoxWithConstraints(Modifier.robotRoot().fillMaxSize()) {
+        // The motion of the sheet: opening, coming home after a short drag, closing. Keyed by the count of started
+        // motions only, never by a measurement, so a layout pass (the height going to 0 and back while the window or
+        // the insets are laid out) cannot cancel it and leave the sheet half way. The window shares the frame clock
+        // of the caller's composition; if frames still stop, playSlide's watchdog finishes the motion by force.
+        LaunchedEffect(drive) {
+            val from = slideState.value
+            val spec = if (animated) motion.glide<Float>() else null
+            if (from.phase == SheetPhase.CLOSING) {
+                playSlide(
+                    from.hidden, from.closeTarget, spec,
+                    apply = { v -> slideState.value = slideState.value.exitFrame(v) },
+                    onStall = ::logStall,
+                )
+                currentDismiss()
+                val after = afterClose.toList()
+                afterClose.clear()
+                after.forEach { it() }
+            } else {
+                if (from.hidden > 0f) {
+                    playSlide(
+                        from.hidden, 0f, spec,
+                        apply = { v -> slideState.value = slideState.value.enterFrame(v) },
+                        onStall = ::logStall,
+                    )
+                }
+                slideState.value = slideState.value.rested()
+            }
+        }
+
+        BoxWithConstraints(
+            Modifier.robotRoot().semantics { isTraversalGroup = true }.fillMaxSize(),
+        ) {
             val maxPanelHeight = maxHeight * maxHeightFraction.coerceIn(0.2f, 1f)
-            val openFraction = if (!started || heightPx <= 0) 0f else 1f - translatePx / heightPx
             Box(
                 Modifier
                     .fillMaxSize()
                     .testTag("sheet.scrim")
-                    .clickable(interactionSource = none, indication = null) { requestClose {} },
+                    // Read after the sheet itself, which has the default index 0.
+                    .semantics { traversalIndex = 1f }
+                    .clickable(interactionSource = none, indication = null, onClickLabel = scrimLabel, role = Role.Button) {
+                        requestClose {}
+                    }
+                    .semantics { contentDescription = scrimLabel },
             ) {
-                if (window != null) DitherScrim(step = scrimStepFor(openFraction), modifier = Modifier.fillMaxSize())
+                if (window != null) DitherScrim(step = scrimStep, modifier = Modifier.fillMaxSize())
             }
             Box(
                 Modifier.fillMaxSize().windowInsetsPadding(WindowInsets.statusBars).imePadding(),
@@ -223,8 +260,16 @@ fun PocketSheet(
                         .fillMaxWidth()
                         .heightIn(max = maxPanelHeight)
                         .offset(y = cut)
-                        .onSizeChanged { heightPx = it.height }
-                        .graphicsLayer { translationY = if (started) translatePx else size.height }
+                        .onSizeChanged { heightState.intValue = it.height }
+                        .graphicsLayer { translationY = slideState.value.translationPx(size.height) }
+                        .semantics {
+                            isTraversalGroup = true
+                            paneTitle = paneName
+                            dismiss(label = scrimLabel) {
+                                requestClose {}
+                                true
+                            }
+                        }
                         .testTag("sheet")
                         .pointerInput(Unit) { detectTapGestures { } },
                     color = c.surface,
@@ -267,6 +312,55 @@ fun PocketSheet(
                 }
             }
         }
+    }
+}
+
+private fun logStall() {
+    AppLog.w("Sheet", "no frame moved the sheet for ${SheetSlide.STALL_MS} ms; the motion was finished by force")
+}
+
+/**
+ * Moves a value from [from] to [to] with [spec] and hands every frame to [apply]. With no spec (animations off), or
+ * when there is nothing to move, it applies [to] at once and needs no frame at all. A watchdog looks for PROGRESS:
+ * every [stallMs] it checks that at least one frame arrived since its last look. If none did, whether the clock never
+ * ticked or stopped half way, the motion is cancelled, [onStall] is called and [apply] gets [to], so a sheet can
+ * neither stay (partly) below the screen nor refuse to close. [apply] gets [to] again at the end of a normal motion.
+ */
+internal suspend fun playSlide(
+    from: Float,
+    to: Float,
+    spec: FiniteAnimationSpec<Float>?,
+    apply: (Float) -> Unit,
+    stallMs: Long = SheetSlide.STALL_MS,
+    onStall: () -> Unit = {},
+) {
+    if (spec == null || from == to) {
+        apply(to)
+        return
+    }
+    coroutineScope {
+        var frames = 0
+        val run = launch {
+            animate(initialValue = from, targetValue = to, animationSpec = spec) { v, _ ->
+                frames++
+                apply(v)
+            }
+        }
+        val watchdog = launch {
+            var seen = frames
+            while (true) {
+                delay(stallMs)
+                if (frames == seen) {
+                    onStall()
+                    run.cancel()
+                    break
+                }
+                seen = frames
+            }
+        }
+        run.join()
+        watchdog.cancel()
+        apply(to)
     }
 }
 

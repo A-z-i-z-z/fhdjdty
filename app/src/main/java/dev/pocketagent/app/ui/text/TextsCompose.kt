@@ -8,8 +8,10 @@ import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import dev.pocketagent.app.ui.LocalAppLanguage
 import java.util.Locale
 
 /*
@@ -21,9 +23,17 @@ import java.util.Locale
 /** Changes when the text layers were rebuilt, so that [t] and [tn] readers recompose. */
 val LocalTextsRevision: ProvidableCompositionLocal<Int> = compositionLocalOf { 0 }
 
-/** The language in force in this composition (what LocaleScope provides). */
+/**
+ * The language in force in this composition: the app's own choice (LocalAppLanguage, which no window replaces),
+ * else the configuration LocaleScope provides. Inside a Dialog the configuration is the phone's unless
+ * PocketWindow gave it again; the language local keeps t() right even then.
+ */
 @Composable
-fun appLocale(): Locale = LocalConfiguration.current.locales[0]
+fun appLocale(): Locale {
+    val language = LocalAppLanguage.current
+    val fromConfiguration = LocalConfiguration.current.locales[0]
+    return remember(language, fromConfiguration) { resolveAppLocale(language, fromConfiguration) }
+}
 
 /** The text [id], formatted with [args]. The same call as stringResource, through the layers of [Texts]. */
 @Suppress("UNUSED_EXPRESSION")

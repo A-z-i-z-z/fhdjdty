@@ -79,21 +79,20 @@ internal fun ToolOutputSheet(messageId: String, messages: StateFlow<List<Message
         val sheet = this
         Column(Modifier.fillMaxWidth().testTag("chat.tool.sheet").padding(horizontal = Space.gutter)) {
             Text(statusText, color = if (failed) c.error else c.textMuted, fontSize = 12.sp)
-            if (running) {
-                Text(
-                    t(R.string.stm_tool_sheet_live), color = c.textMuted, fontSize = 12.sp,
-                    modifier = Modifier.padding(top = Space.xxs),
-                )
-            }
             if (chunks.isEmpty()) {
                 Text(
                     t(R.string.ui_chat_no_output), color = c.textMuted, fontSize = 13.sp,
                     modifier = Modifier.padding(top = Space.m),
                 )
             } else {
+                // What Hermes's stream carries for a tool call is its name and a preview of the command, never what it printed.
+                Text(
+                    t(R.string.ui_chat_tool_command), color = c.textMuted, fontSize = 12.sp,
+                    modifier = Modifier.padding(top = Space.m),
+                )
                 SelectionContainer(Modifier.weight(1f, fill = false)) {
                     LazyColumn(
-                        Modifier.padding(top = Space.m).fillMaxWidth().background(c.codeBg).testTag("chat.tool.output"),
+                        Modifier.padding(top = Space.xxs).fillMaxWidth().background(c.codeBg).testTag("chat.tool.output"),
                     ) {
                         items(chunks.size) { index ->
                             Text(
@@ -113,12 +112,17 @@ internal fun ToolOutputSheet(messageId: String, messages: StateFlow<List<Message
                     color = c.textMuted, fontSize = 12.sp, modifier = Modifier.padding(top = Space.s),
                 )
             }
+            // Said plainly, so an empty area is never mistaken for a tool that printed nothing (Hermes does not send tool output on this API).
+            Text(
+                t(R.string.ui_chat_tool_no_output_note), color = c.textMuted, fontSize = 12.sp,
+                modifier = Modifier.padding(top = Space.s).testTag("chat.tool.note"),
+            )
             Row(
                 Modifier.fillMaxWidth().padding(vertical = Space.m),
                 horizontalArrangement = Arrangement.spacedBy(Space.s),
             ) {
                 PixelButton(
-                    t(R.string.stm_tool_sheet_copy),
+                    t(R.string.ui_chat_tool_copy_command),
                     onClick = { copyToClipboard(ctx, msg.text) },
                     modifier = Modifier.testTag("chat.tool.copy"),
                     icon = PixelIcon.COPY,

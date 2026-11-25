@@ -4,6 +4,12 @@
     <string name="eng_loop_pass">Mode boucle : passe %1$d/%2$d</string>
     <string name="eng_loop_refine">Mode boucle : passe %1$d/%2$d — affinage…</string>
     <string name="eng_approval_send_failed">Impossible d\'envoyer votre réponse à Hermes : %1$s</string>
+    <string name="eng_approval_card_error">Votre réponse n\'a pas atteint Hermes : %1$s</string>
+    <string name="eng_approval_gone">Hermes n\'attend plus cette demande. Appuyez sur Arrêter, puis renvoyez votre message.</string>
+    <string name="eng_err_reason">Hermes a signalé une erreur : %1$s</string>
+    <string name="eng_err_unknown">Hermes a signalé une erreur sans dire pourquoi. Les détails sont dans le journal de l\'application.</string>
+    <string name="eng_err_http">Hermes a répondu par une erreur (HTTP %1$d) : %2$s</string>
+    <string name="eng_err_http_plain">Hermes a répondu par une erreur (HTTP %1$d). Les détails sont dans le journal de l\'application.</string>
     <string name="eng_internal_error">Erreur interne : %1$s</string>
     <string name="eng_hermes_not_running">Hermes ne tourne pas. Démarrez-le depuis l\'accueil, attendez « En marche », puis réessayez.</string>
     <string name="eng_hermes_start_failed">Hermes n\'a pas pu démarrer. Ouvrez l\'accueil pour voir pourquoi.</string>

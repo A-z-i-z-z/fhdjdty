@@ -82,6 +82,15 @@ if (show) ActionSheet("Chat", listOf(SheetAction(PixelIcon.PIN, "Pin") { pin() }
 Sheets and dialogs sit over the dither scrim (pattern 6); a sheet drags by its grabber and title, flings by velocity, and
 closes on the scrim, back or the grabber's "close" action. While one is open, notes wait.
 
+Every window of its own goes through `PocketWindow` (never call `Dialog`, `Popup`, `AlertDialog`, `ModalBottomSheet` or
+`DropdownMenu` directly): a Compose dialog is a separate window that gets the PHONE's context, configuration and
+resources again, so `PocketWindow` hands the app's own (language, font scale, layout direction) back inside. A sheet's
+place is plain data (`SheetSlide`, pure and unit-tested) and is a fraction of its own height, so it is visible from the
+first frame with animations off and never depends on a measurement; with animations on it glides in from one height down.
+The motion's effect is keyed only by the count of started motions. If frames stop while it runs (no frame for 1.5 s), it is
+finished by force and `Sheet` writes a warning to the app log; a sheet that pops in after about 1.5 s instead of gliding
+therefore means the frame clock of the window is the real cause.
+
 ## PixelText and PixelTitle
 `PixelText("Newroz piroz be", color = ..., pixel = 2.dp)` draws the bitmap font: 5x7 capitals on a 12-row grid (the box is
 12 font pixels high: room for accents above and descenders below, so it centres on the capitals). It wraps like `Text`

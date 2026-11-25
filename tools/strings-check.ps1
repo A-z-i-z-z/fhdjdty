@@ -22,7 +22,9 @@
                  number but never add one); an English text with two unnumbered placeholders
     blank        an empty text; a key defined twice in a language
     stretched    values-en-rXZ inside src/main (it must never ship); a stale generated language under
-                 src/debug (keys, placeholders, or a text under 1.4 times the English length)
+                 src/debug (keys, placeholders, or a text under 1.4 times the English length); a key in
+                 values-en-rXZ that values-en lacks, or that the twin overlay overrides (it would leak into
+                 a normal English screen)
     protected    a name in assets/text/protected-keys.txt that does not exist
     note         a key of strings_engine.xml without a translator note
     length       a text longer than the room of its control (kinds: tools/strings-kinds.txt, or the
@@ -441,15 +443,48 @@ foreach ($lang in $others) {
 
 # ---- the stretched language and the protected list -------------------------------------------------------------
 
+# The names the twin overlay (src/twin/res) overrides. They are in neither generated folder: a key that only the
+# stretched folder holds would beat the default text for every English request (see make-test-language.ps1).
+$twinNames = New-Object 'System.Collections.Generic.HashSet[string]' ([StringComparer]::Ordinal)
+$twinRes = Join-Path (Join-Path $srcDir 'twin') 'res'
+if (Test-Path -LiteralPath $twinRes) {
+    foreach ($td in @(Get-ChildItem -LiteralPath $twinRes -Directory -Filter 'values*')) {
+        foreach ($tf in @(Get-ChildItem -LiteralPath $td.FullName -File -Filter 'strings*.xml')) {
+            $ttext = [regex]::Replace((Read-Utf8 $tf.FullName), '(?s)<!--.*?-->', '')
+            foreach ($tm in [regex]::Matches($ttext, '<(?:string|plurals)\s[^>]*?name\s*=\s*"([^"]+)"')) { [void]$twinNames.Add($tm.Groups[1].Value) }
+        }
+    }
+}
+
 $stretchDir = Join-Path (Join-Path $srcDir 'debug') ('res/values-en-' + 'rXZ')
+$plainEnDir = Join-Path (Join-Path $srcDir 'debug') 'res/values-en'
 $stretchNames = 0
 if (Test-Path -LiteralPath $stretchDir) {
     $sd = Read-Language $stretchDir 'en-XZ'
+    # The plain English copy next to it (values-en) must hold exactly the keys of the stretched folder.
+    $pd = $null
+    if (Test-Path -LiteralPath $plainEnDir) { $pd = Read-Language $plainEnDir 'en-copy' }
+    foreach ($fn in $sd.Keys) {
+        foreach ($key in $sd[$fn].Keys) {
+            if ($twinNames.Contains($key)) { Add-Err 'stretched' $fn $key 'en-XZ' 'is a text the twin overlay overrides: it must not be in the stretched language (run tools\make-test-language.ps1)'; continue }
+            if ($null -ne $pd -and -not ($pd.ContainsKey($fn) -and $pd[$fn].ContainsKey($key))) {
+                Add-Err 'stretched' $fn $key 'en-XZ' 'is not in values-en: the stretched text would leak into a normal English screen (run tools\make-test-language.ps1)'
+            }
+        }
+    }
+    if ($null -ne $pd) {
+        foreach ($fn in $pd.Keys) {
+            foreach ($key in $pd[$fn].Keys) {
+                if (-not ($sd.ContainsKey($fn) -and $sd[$fn].ContainsKey($key))) { Add-Err 'stretched' $fn $key 'en-copy' 'is in values-en but not in the stretched language (run tools\make-test-language.ps1)' }
+            }
+        }
+    }
     foreach ($fn in $en.Keys) {
         if (-not $sd.ContainsKey($fn)) { Add-Err 'stretched' $fn '' 'en-XZ' 'file is missing (run tools\make-test-language.ps1)'; continue }
         foreach ($key in $en[$fn].Keys) {
             $ee = $en[$fn][$key]
             if (-not $ee.Translatable) { continue }
+            if ($twinNames.Contains($key)) { continue }
             if (-not $sd[$fn].ContainsKey($key)) { Add-Err 'stretched' $fn $key 'en-XZ' 'missing (run tools\make-test-language.ps1)'; continue }
             $se = $sd[$fn][$key]
             foreach ($q in $ee.Forms.Keys) {

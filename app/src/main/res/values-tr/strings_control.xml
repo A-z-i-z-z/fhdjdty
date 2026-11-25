@@ -213,6 +213,7 @@
     <string name="ctl_about_hermes">Agirî, Nous Research\'ün Hermes Agent v0.23.3 sürümünü çalıştırır (MIT lisansı). Ajanın becerileri ve belleği onların emeğidir.</string>
     <string name="ctl_about_pet_title">PÊT, SEMENDER</string>
     <string name="ctl_about_pet">Pêt, küçük bir Kürdistan semenderidir: ateşte yaşayan ruh. Adı Kurmancî\'de \"kıvılcım\" demek. Sen çalışırken Newroz ateşini yanık tutar.</string>
+    <string name="ctl_about_pet_desc">Pêt, semender maskotu</string>
     <string name="ctl_about_licences_title">LİSANSLAR</string>
     <string name="ctl_about_licences">Açık kaynaklı yazılım ve varlıklar içerir, her biri kendi lisansı altında: Hermes Agent (MIT), PRoot (GPL-2.0), Debian GNU/Linux, Python, sherpa-onnx (Apache-2.0), Supertonic 3 (MIT / OpenRAIL-M, isteğe bağlı cihaz içi indirme) ve uisfx sesleri (CC0-1.0). Tam metinler proje deposunda.</string>
     <string name="ctl_about_secret_title">OCAK BEKÇİSİ İSTATİSTİKLERİ</string>

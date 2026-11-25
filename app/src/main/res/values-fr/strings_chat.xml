@@ -129,6 +129,9 @@
     <string name="ui_chat_copied">Copié</string>
     <string name="ui_chat_tool_cd">Appel d\'outil</string>
     <string name="ui_chat_no_output">(aucun détail)</string>
+    <string name="ui_chat_tool_command">Commande</string>
+    <string name="ui_chat_tool_copy_command">Copier la commande</string>
+    <string name="ui_chat_tool_no_output_note">Hermes n\'envoie pas ce qu\'un outil a affiché sur cette connexion, seulement la commande. La réponse dans la conversation peut décrire le résultat.</string>
     <string name="ui_chat_empty_title">Dites bonjour</string>
     <string name="ui_chat_empty_body">Écrivez le premier message ci-dessous.</string>
     <string name="ui_chat_members_title">Membres</string>

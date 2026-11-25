@@ -33,12 +33,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.isTraversalGroup
+import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
+import dev.pocketagent.app.R
 import dev.pocketagent.app.ui.nav.robotRoot
 import dev.pocketagent.app.ui.theme.Corner
 import dev.pocketagent.app.ui.theme.Dur
@@ -46,6 +51,7 @@ import dev.pocketagent.app.ui.theme.Ease
 import dev.pocketagent.app.ui.theme.Pocket
 import dev.pocketagent.app.ui.theme.Space
 import dev.pocketagent.app.ui.theme.motion
+import dev.pocketagent.app.ui.text.t
 
 /**
  * Modal dialog drawn as a pixel panel: title in the pixel font, scrollable [content], and a button row
@@ -64,7 +70,8 @@ fun PocketDialog(
 ) {
     val c = Pocket.colors
     val motion = Pocket.motion
-    Dialog(
+    val scrimLabel = t(R.string.design_scrim_close)
+    PocketWindow(
         onDismissRequest = onDismiss,
         properties = DialogProperties(usePlatformDefaultWidth = false, decorFitsSystemWindows = false),
     ) {
@@ -90,12 +97,22 @@ fun PocketDialog(
         HoldPetNotesWhileOpen()
 
         // The scrim sits in the outer box, outside every padding, so it covers the whole window including the bars.
-        Box(Modifier.robotRoot().fillMaxSize()) {
-            if (window != null) DitherScrim(step = scrimStep, modifier = Modifier.fillMaxSize())
+        // The labelled, clickable scrim is a SIBLING placed before the padded box, not its parent: a parent is read
+        // before its children, so a screen reader would say "Close, button" before the title. As a sibling with
+        // traversal index 1 it is read after the panel. Taps in the padding fall through the padded box to it.
+        Box(Modifier.robotRoot().fillMaxSize().semantics { isTraversalGroup = true }) {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .semantics { traversalIndex = 1f }
+                    .clickable(interactionSource = none, indication = null, onClickLabel = scrimLabel, role = Role.Button, onClick = onDismiss)
+                    .semantics { contentDescription = scrimLabel },
+            ) {
+                if (window != null) DitherScrim(step = scrimStep, modifier = Modifier.fillMaxSize())
+            }
             BoxWithConstraints(
                 modifier = Modifier
                     .fillMaxSize()
-                    .clickable(interactionSource = none, indication = null, onClick = onDismiss)
                     .systemBarsPadding()
                     .imePadding()
                     .padding(Space.xl),
@@ -112,6 +129,7 @@ fun PocketDialog(
                             scaleY = POP_FROM + (1f - POP_FROM) * k
                             alpha = k
                         }
+                        .semantics { paneTitle = title }
                         .testTag("dialog")
                         .clickable(interactionSource = none, indication = null, onClick = {}),
                     color = c.surfaceHigh,

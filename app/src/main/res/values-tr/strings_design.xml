@@ -4,4 +4,6 @@
     <string name="design_typing">Düşünüyor</string>
     <string name="design_note_dismiss">Kapat</string>
     <string name="design_ember_active">Çalışıyor</string>
+    <string name="design_scrim_close">Kapat</string>
+    <string name="design_sheet_pane">Alt panel</string>
 </resources>

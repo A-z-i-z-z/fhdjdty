@@ -311,6 +311,10 @@ internal fun ApprovalCard(approval: PendingApproval, botName: String?, onChoice:
                 )
             }
         }
+        // The last answer did not reach Hermes: say so here; the buttons below stay usable (and so does Stop).
+        approval.errorLine?.let {
+            Text(it, color = c.error, fontSize = 13.sp, modifier = Modifier.testTag("chat.approval.error"))
+        }
         val choices = approval.choices.ifEmpty { listOf("once", "deny") }
         choices.chunked(2).forEach { row ->
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(Space.s)) {

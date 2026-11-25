@@ -4,4 +4,6 @@
     <string name="design_typing">Réfléchit</string>
     <string name="design_note_dismiss">Fermer</string>
     <string name="design_ember_active">En cours</string>
+    <string name="design_scrim_close">Fermer</string>
+    <string name="design_sheet_pane">Panneau du bas</string>
 </resources>

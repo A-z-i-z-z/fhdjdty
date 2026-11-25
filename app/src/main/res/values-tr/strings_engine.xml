@@ -4,6 +4,12 @@
     <string name="eng_loop_pass">Döngü modu: tur %1$d/%2$d</string>
     <string name="eng_loop_refine">Döngü modu: tur %1$d/%2$d — iyileştiriliyor…</string>
     <string name="eng_approval_send_failed">Yanıtın Hermes\'e gönderilemedi: %1$s</string>
+    <string name="eng_approval_card_error">Yanıtın Hermes\'e ulaşmadı: %1$s</string>
+    <string name="eng_approval_gone">Hermes artık bu isteği beklemiyor. Durdur\'a bas, sonra mesajını yeniden gönder.</string>
+    <string name="eng_err_reason">Hermes bir hata bildirdi: %1$s</string>
+    <string name="eng_err_unknown">Hermes nedenini söylemeden bir hata bildirdi. Ayrıntılar uygulama günlüğünde.</string>
+    <string name="eng_err_http">Hermes hata ile yanıt verdi (HTTP %1$d): %2$s</string>
+    <string name="eng_err_http_plain">Hermes hata ile yanıt verdi (HTTP %1$d). Ayrıntılar uygulama günlüğünde.</string>
     <string name="eng_internal_error">İç hata: %1$s</string>
     <string name="eng_hermes_not_running">Hermes çalışmıyor. Ana sayfadan başlat, "Çalışıyor" yazana kadar bekle, sonra yeniden dene.</string>
     <string name="eng_hermes_start_failed">Hermes başlatılamadı. Nedenini görmek için ana sayfayı aç.</string>

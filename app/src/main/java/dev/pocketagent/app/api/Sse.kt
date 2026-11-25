@@ -40,7 +40,7 @@ sealed class ChatEvent {
     /** `event: hermes.tool.progress` — e.g. {"tool":"terminal","label":"ls","status":"running","toolCallId":"call_1"}. */
     data class Tool(val tool: String, val label: String, val status: String, val callId: String) : ChatEvent()
     data class Finish(val reason: String, val errorCode: String?) : ChatEvent()
-    /** An error object delivered inside the stream (HTTP status was 200). */
+    /** An error object delivered inside the stream (HTTP status was 200). [message] is Hermes's own text (may be empty); [raw] is the whole chunk, for the log only. */
     data class StreamError(val message: String, val raw: String) : ChatEvent()
     /** `event: hermes.status` — lifecycle/warning text while the stream is quiet (provider wait, retry countdown, fallback switch). */
     data class Status(val kind: String, val text: String) : ChatEvent()
@@ -51,6 +51,8 @@ sealed class ChatEvent {
     data class Approval(
         val runId: String, val command: String, val description: String,
         val choices: List<String>, val requestId: String, val raw: String,
+        /** `execution_generation` of the run (an integer Hermes requires back in the answer); null when the event did not carry one. */
+        val generation: Long? = null,
     ) : ChatEvent()
     /**
      * Token counts of the whole turn (all model calls of one request, tool loops included), from the `usage` object on the
@@ -93,12 +95,13 @@ object ChatStreamDecoder {
                 choices = choices,
                 requestId = obj.str("request_id", ""),
                 raw = d,
+                generation = if (obj.has("execution_generation") && !obj.isNull("execution_generation")) obj.optLong("execution_generation", -1L).takeIf { it >= 0L } else null,
             ))
         }
         if (ev.event != null && ev.event != "message") return emptyList() // unknown named event: ignore
         val out = ArrayList<ChatEvent>()
         // A failed turn ends with ONE chunk that carries both `error` and `finish_reason`: report the error first, then the finish.
-        obj.optJSONObject("error")?.let { out += ChatEvent.StreamError(it.str("message", d), d) }
+        obj.optJSONObject("error")?.let { out += ChatEvent.StreamError(it.str("message", ""), d) }
         // Token counts ride on the chunk that carries finish_reason (or on a chunk of their own): report them before the finish.
         obj.optJSONObject("usage")?.let { u ->
             val p = u.optLong("prompt_tokens", 0L).coerceAtLeast(0L)

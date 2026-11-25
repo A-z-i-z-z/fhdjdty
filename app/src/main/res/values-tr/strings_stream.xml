@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="stm_tool_card_open">Tüm çıktıyı aç</string>
-    <string name="stm_tool_sheet_fallback_title">Araç çıktısı</string>
-    <string name="stm_tool_sheet_live">Hâlâ çalışıyor. Çıktı geldikçe güncellenir.</string>
-    <string name="stm_tool_sheet_copy">Çıktıyı kopyala</string>
+    <string name="stm_tool_card_open">Komutu göster</string>
+    <string name="stm_tool_sheet_fallback_title">Araç çağrısı</string>
     <plurals name="stm_tool_sheet_truncated">
         <item quantity="one">Yalnızca ilk %1$s karakter gösteriliyor (toplam %2$s).</item>
         <item quantity="other">Yalnızca ilk %1$s karakter gösteriliyor (toplam %2$s).</item>

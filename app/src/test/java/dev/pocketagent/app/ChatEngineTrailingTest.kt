@@ -49,7 +49,7 @@ class ChatEngineTrailingTest {
         val repo = ChatRepository(dir, CoroutineScope(Dispatchers.IO), 20L)
         runBlocking { repo.loaded.first { it } }
         val engine = ChatEngine(
-            repo, backend, { _, _, _ -> HttpResult(200, "{}", 0) }, {}, {}, { "vertex" }, { true }, CoroutineScope(Dispatchers.IO),
+            repo, backend, { _, _, _, _ -> HttpResult(200, "{}", 0) }, {}, {}, { "vertex" }, { true }, CoroutineScope(Dispatchers.IO),
         )
         return Triple(repo, engine, dir)
     }

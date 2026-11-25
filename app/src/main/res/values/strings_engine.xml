@@ -11,6 +11,18 @@
     <string name="eng_loop_refine">Loop mode: pass %1$d/%2$d — refining…</string>
     <!-- t: Error line after Allow or Deny could not be sent; %1$s is a short technical reason in English -->
     <string name="eng_approval_send_failed">Could not send your answer to Hermes: %1$s</string>
+    <!-- t: Line on the permission card when the answer did not reach Hermes; %1$s is a short reason, usually in English; the card can be answered again -->
+    <string name="eng_approval_card_error">Your answer did not reach Hermes: %1$s</string>
+    <!-- t: Line on the permission card when Hermes no longer waits for the request; Stop is the translated name of the stop button; no placeholders -->
+    <string name="eng_approval_gone">Hermes is no longer waiting for this request. Press Stop, then send your message again.</string>
+    <!-- t: Error line in a chat; %1$s is the short message Hermes gave, usually in English, never raw data -->
+    <string name="eng_err_reason">Hermes reported an error: %1$s</string>
+    <!-- t: Error line in a chat when the error carried no message; no placeholders -->
+    <string name="eng_err_unknown">Hermes reported an error without saying why. The details are in the app log.</string>
+    <!-- t: Error line in a chat; %1$d is the HTTP status number, %2$s the short message Hermes gave, usually in English; keep HTTP -->
+    <string name="eng_err_http">Hermes answered with an error (HTTP %1$d): %2$s</string>
+    <!-- t: Error line in a chat when the answer had no readable message; %1$d is the HTTP status number; keep HTTP -->
+    <string name="eng_err_http_plain">Hermes answered with an error (HTTP %1$d). The details are in the app log.</string>
     <!-- t: Error line for an unexpected failure; %1$s is a technical Class: message text in English -->
     <string name="eng_internal_error">Internal error: %1$s</string>
     <!-- t: Error line when a message is sent while Hermes is stopped; Running is the state shown on Home -->

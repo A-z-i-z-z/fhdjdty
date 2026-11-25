@@ -141,6 +141,7 @@ class PocketApp : Application() {
             canWake = { presencePrefs.settings.value.wakeOnSend && runtime.isRootfsValid() },
             awaitReady = { cancelled -> RuntimeAwait.awaitRunning(runtime, 6 * 60_000L, cancelled) },
             usage = usage,
+            isPractice = { runtime.lastGuestOptions.practice || GuestPrefs.practiceActive },
         )
         hermesHome = HermesHome(paths)
         terminal = TerminalSession(runtime, paths.terminalHistory)

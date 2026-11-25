@@ -3,13 +3,9 @@
     <!-- Streaming chat and the tool output sheet (agent STREAM). Prefix stm_. English only; Turkish and French come in the translation stage. -->
 
     <!-- t: Spoken click label of a tool card in the chat (screen reader only, never drawn); a short verb phrase, 3 words at most | kind: button -->
-    <string name="stm_tool_card_open">Open full output</string>
+    <string name="stm_tool_card_open">Show the command</string>
     <!-- t: Title of the bottom sheet that shows the output of a tool when the tool has no name; one line, at most 24 characters | kind: title -->
-    <string name="stm_tool_sheet_fallback_title">Tool output</string>
-    <!-- t: Line under the sheet title while the tool is still running; the output below it keeps growing; two lines at most | kind: body -->
-    <string name="stm_tool_sheet_live">Still running. This output updates as it arrives.</string>
-    <!-- t: Button in the tool output sheet that copies the whole output to the clipboard; at most 16 characters | kind: button -->
-    <string name="stm_tool_sheet_copy">Copy output</string>
+    <string name="stm_tool_sheet_fallback_title">Tool call</string>
     <!-- t: Line under a long tool output that was cut. %1$s = number of characters shown, %2$s = number of characters in all, both already formatted with the user's number format; the plural is chosen by the first number; add the forms your language needs; one or two lines | kind: body -->
     <plurals name="stm_tool_sheet_truncated">
         <item quantity="other">Only the first %1$s characters are shown (%2$s in all).</item>

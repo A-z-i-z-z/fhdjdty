@@ -6,4 +6,8 @@
     <string name="design_note_dismiss">Dismiss</string>
     <!-- t: Screen-reader label of a thin animated line at the top of a chat that shows the assistant is busy; never shown as text. One word | kind: body -->
     <string name="design_ember_active">Working</string>
+    <!-- t: Screen-reader label of the dimmed area behind a bottom sheet or dialog; a tap on it closes the window; never shown as text. One word, a verb | kind: button -->
+    <string name="design_scrim_close">Close</string>
+    <!-- t: Screen-reader name of a bottom sheet that has no title of its own; announced when it opens; never shown as text | kind: body -->
+    <string name="design_sheet_pane">Bottom sheet</string>
 </resources>

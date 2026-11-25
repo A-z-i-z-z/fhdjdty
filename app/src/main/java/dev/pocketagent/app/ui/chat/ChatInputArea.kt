@@ -12,7 +12,15 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.isImeVisible
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -39,6 +47,7 @@ import dev.pocketagent.app.ui.text.Texts
  * The bottom of the chat: the approval card (when the agent asks), the input bar, and voice input with its launchers. It
  * reads the text being typed, so it is the part that recomposes on every keystroke; the message list does not.
  */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 internal fun ChatInputArea(state: ChatScreenState, conv: Conversation) {
     val ctx = LocalContext.current
@@ -175,7 +184,10 @@ internal fun ChatInputArea(state: ChatScreenState, conv: Conversation) {
     Column(Modifier.fillMaxWidth()) {
         val approval = approvals[convId]
         if (approval != null) {
-            Box(Modifier.fillMaxWidth().testTag("chat.approval")) {
+            // The card scrolls inside a limited height, so the input field keeps its room (a long command with the keyboard open
+            // used to fill the whole area and squeeze the field).
+            val maxCard = (LocalConfiguration.current.screenHeightDp * (if (WindowInsets.isImeVisible) 0.22f else 0.4f)).dp
+            Box(Modifier.fillMaxWidth().heightIn(max = maxCard).verticalScroll(rememberScrollState()).testTag("chat.approval")) {
                 ApprovalCard(approval, botsById[approval.botId]?.name) { engine.resolveApproval(convId, it) }
             }
         }

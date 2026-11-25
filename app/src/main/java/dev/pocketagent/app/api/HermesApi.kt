@@ -134,16 +134,55 @@ class HermesApi(
         }
     }
 
+    /** GET /v1/runs/{runId}: the run's generation and its open approval prompts (see [ApprovalContract]). */
+    fun runState(runId: String): HttpResult {
+        if (!RUN_ID.matches(runId)) return HttpResult(-1, "", 0, "invalid run id")
+        return get("/v1/runs/$runId", auth = true, timeoutMs = 5000)
+    }
+
     /**
-     * Answers an `approval.request` event (see [ChatEvent.Approval]): POST /v1/runs/{runId}/approval.
-     * [choice] is once, session, always or deny. The run id comes from the stream, so it is checked before it goes into a URL.
+     * Answers an `approval.request` event (see [ChatEvent.Approval]): POST /v1/runs/{runId}/approval with the three keys Hermes
+     * requires (see [ApprovalContract]). [choice] is once, session, always or deny. [requestId] and [generation] come from the
+     * event; when one of them is missing, or Hermes says the generation is stale, they are read from `GET /v1/runs/{id}` (once).
+     * The run id comes from the stream, so it is checked before it goes into a URL.
      */
-    fun resolveApproval(runId: String, choice: String, requestId: String? = null): HttpResult {
-        if (!Regex("^[A-Za-z0-9_.:-]{1,128}$").matches(runId)) return HttpResult(-1, "", 0, "invalid run id")
-        val body = JSONObject().put("choice", choice).also { if (!requestId.isNullOrBlank()) it.put("request_id", requestId) }.toString()
+    fun resolveApproval(runId: String, choice: String, requestId: String? = null, generation: Long? = null): HttpResult {
+        if (!RUN_ID.matches(runId)) return HttpResult(-1, "", 0, "invalid run id")
+        if (choice !in ApprovalContract.CHOICES) return HttpResult(-1, "", 0, "invalid choice")
+        var rid = requestId?.takeIf { it.isNotBlank() }
+        var gen = generation
+        if (rid == null || gen == null) {
+            val st = fetchRunState(runId)
+            gen = gen ?: st?.generation
+            if (rid == null) rid = st?.approvalIds?.singleOrNull()
+        }
+        if (rid == null || gen == null) return HttpResult(-1, "", 0, "the request carries no generation or id, and Hermes lists no single open request")
+        var r = postJson("/v1/runs/$runId/approval", ApprovalContract.body(rid, gen, choice), "POST /v1/runs/*/approval choice=$choice")
+        if (ApprovalContract.isStale(r)) {
+            val fresh = fetchRunState(runId)?.generation
+            if (fresh != null && fresh != gen) {
+                r = postJson("/v1/runs/$runId/approval", ApprovalContract.body(rid, fresh, choice), "POST /v1/runs/*/approval choice=$choice (retry)")
+            }
+        }
+        return r
+    }
+
+    /** POST /v1/runs/{runId}/stop: asks Hermes to interrupt the run itself (our stream closing is not always enough while it waits for an answer). */
+    fun stopRun(runId: String): HttpResult {
+        if (!RUN_ID.matches(runId)) return HttpResult(-1, "", 0, "invalid run id")
+        // Short timeouts: Stop waits for this call (the engine also bounds it), and a slow Hermes must not keep the chat busy.
+        return postJson("/v1/runs/$runId/stop", "{}", "POST /v1/runs/*/stop", connectMs = 2000, readMs = 4000)
+    }
+
+    private fun fetchRunState(runId: String): ApprovalContract.RunState? {
+        val r = runState(runId)
+        return if (r.ok) ApprovalContract.parseRun(r.body) else null
+    }
+
+    private fun postJson(path: String, body: String, label: String, connectMs: Int = 5000, readMs: Int = 15_000): HttpResult {
         val t0 = System.nanoTime()
         return try {
-            val c = open("/v1/runs/$runId/approval", "POST", true, 5000, 15_000)
+            val c = open(path, "POST", true, connectMs, readMs)
             c.setRequestProperty("Content-Type", "application/json")
             c.doOutput = true
             c.outputStream.use { it.write(body.toByteArray(Charsets.UTF_8)) }
@@ -151,11 +190,11 @@ class HermesApi(
             val text = readAll(if (code >= 400) c.errorStream else c.inputStream)
             c.disconnect()
             val ms = (System.nanoTime() - t0) / 1_000_000
-            ApiLog.add("POST /v1/runs/*/approval choice=$choice -> $code ${ms}ms" + if (code >= 400) " body=${trim(text)}" else "")
+            ApiLog.add("$label -> $code ${ms}ms" + if (code >= 400) " body=${trim(text)}" else "")
             HttpResult(code, text, ms)
         } catch (e: Exception) {
             val ms = (System.nanoTime() - t0) / 1_000_000
-            ApiLog.add("POST /v1/runs/*/approval -> ${e.javaClass.simpleName}: ${e.message} ${ms}ms")
+            ApiLog.add("$label -> ${e.javaClass.simpleName}: ${e.message} ${ms}ms")
             HttpResult(-1, "", ms, "${e.javaClass.simpleName}: ${e.message}")
         }
     }
@@ -207,7 +246,7 @@ class HermesApi(
                             is ChatEvent.Delta -> chars2 += ce.text.length
                             is ChatEvent.Tool -> tools++
                             is ChatEvent.StreamError -> ApiLog.add("stream error event: ${trim(ce.raw)}")
-                            is ChatEvent.Approval -> ApiLog.add("approval requested (run ${ce.runId}, choices ${ce.choices})")
+                            is ChatEvent.Approval -> ApiLog.add("approval requested (run ${ce.runId}, generation ${ce.generation}, choices ${ce.choices})")
                             is ChatEvent.Usage -> ApiLog.add("usage: in=${ce.promptTokens} out=${ce.completionTokens} total=${ce.totalTokens}")
                             is ChatEvent.Done -> sawDone = true
                             else -> {}
@@ -250,4 +289,8 @@ class HermesApi(
         s?.bufferedReader(Charsets.UTF_8)?.use { it.readText() } ?: ""
 
     private fun trim(s: String) = Diag.redactor.redact(s).replace('\n', ' ').take(600)
+
+    private companion object {
+        val RUN_ID = Regex("^[A-Za-z0-9_.:-]{1,128}$")
+    }
 }

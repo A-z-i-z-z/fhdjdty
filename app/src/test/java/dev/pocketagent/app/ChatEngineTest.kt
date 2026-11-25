@@ -53,7 +53,7 @@ class ChatEngineTest {
         val dir = File(tmp.root, "chat")
         val repo = ChatRepository(dir, CoroutineScope(Dispatchers.IO), 20L)
         runBlocking { repo.loaded.first { it } }
-        val engine = ChatEngine(repo, backend, { _, _, _ -> HttpResult(200, "{}", 0) }, {}, {}, { provider }, { ready }, CoroutineScope(Dispatchers.IO))
+        val engine = ChatEngine(repo, backend, { _, _, _, _ -> HttpResult(200, "{}", 0) }, {}, {}, { provider }, { ready }, CoroutineScope(Dispatchers.IO))
         return Triple(repo, engine, dir)
     }
 
@@ -176,7 +176,7 @@ class ChatEngineTest {
         idle(engine, c.id)
         val msgs = repo.messagesSnapshot(c.id)
         assertEquals(listOf(Role.USER, Role.ERROR), msgs.map { it.role })
-        assertEquals("HTTP 401: {\"error\":\"bad key\"}", msgs[1].text)
+        assertEquals("Hermes answered with an error (HTTP 401): bad key", msgs[1].text)
         assertEquals("hermes", msgs[1].botId)
     }
 
@@ -311,7 +311,7 @@ class ChatEngineTest {
         val dir = File(tmp.root, "chat")
         val repo = ChatRepository(dir, CoroutineScope(Dispatchers.IO), 20L)
         runBlocking { repo.loaded.first { it } }
-        val engine = ChatEngine(repo, backend, { _, _, _ -> HttpResult(200, "{}", 0) }, {}, {}, { "vertex" }, { true }, CoroutineScope(Dispatchers.IO))
+        val engine = ChatEngine(repo, backend, { _, _, _, _ -> HttpResult(200, "{}", 0) }, {}, {}, { "vertex" }, { true }, CoroutineScope(Dispatchers.IO))
         val c = repo.createConversation(listOf("hermes"))
         engine.send(c.id, "long task")
         assertTrue(started.await(5, java.util.concurrent.TimeUnit.SECONDS))
@@ -335,7 +335,7 @@ class ChatEngineTest {
         }
         val repo = ChatRepository(File(tmp.root, "chat"), CoroutineScope(Dispatchers.IO), 20L)
         runBlocking { repo.loaded.first { it } }
-        val engine = ChatEngine(repo, backend, { _, _, _ -> HttpResult(200, "{}", 0) }, {}, {}, { "vertex" }, { true }, CoroutineScope(Dispatchers.IO))
+        val engine = ChatEngine(repo, backend, { _, _, _, _ -> HttpResult(200, "{}", 0) }, {}, {}, { "vertex" }, { true }, CoroutineScope(Dispatchers.IO))
         val a = repo.createConversation(listOf("hermes"))
         val b = repo.createConversation(listOf("hermes"))
         engine.send(a.id, "one")
@@ -361,7 +361,7 @@ class ChatEngineTest {
         }
         val repo = ChatRepository(File(tmp.root, "chat"), CoroutineScope(Dispatchers.IO), 20L)
         runBlocking { repo.loaded.first { it } }
-        val engine = ChatEngine(repo, backend, { run, choice, _ -> answered += "$run:$choice"; HttpResult(200, "{}", 0) }, {}, {}, { "vertex" }, { true }, CoroutineScope(Dispatchers.IO))
+        val engine = ChatEngine(repo, backend, { run, choice, _, _ -> answered += "$run:$choice"; HttpResult(200, "{}", 0) }, {}, {}, { "vertex" }, { true }, CoroutineScope(Dispatchers.IO))
         val c = repo.createConversation(listOf("hermes"))
         engine.send(c.id, "clean up")
         val end = System.currentTimeMillis() + 5000
@@ -403,7 +403,7 @@ class ChatEngineTest {
         val backend = ChatBackend { _, _, onEvent -> gate.await(5, java.util.concurrent.TimeUnit.SECONDS); onEvent(ChatEvent.Delta("x")); onEvent(ChatEvent.Done); ChatOutcome.Completed }
         val repo = ChatRepository(File(tmp.root, "chat"), CoroutineScope(Dispatchers.IO), 20L)
         runBlocking { repo.loaded.first { it } }
-        val engine = ChatEngine(repo, backend, { _, _, _ -> HttpResult(200, "{}", 0) }, {}, {}, { "vertex" }, { true }, CoroutineScope(Dispatchers.IO))
+        val engine = ChatEngine(repo, backend, { _, _, _, _ -> HttpResult(200, "{}", 0) }, {}, {}, { "vertex" }, { true }, CoroutineScope(Dispatchers.IO))
         val c = repo.createConversation(listOf("hermes"))
         assertFalse("empty text", engine.send(c.id, "   "))
         assertTrue(engine.send(c.id, "one"))
@@ -424,16 +424,18 @@ class ChatEngineTest {
         }
         val repo = ChatRepository(File(tmp.root, "chat"), CoroutineScope(Dispatchers.IO), 20L)
         runBlocking { repo.loaded.first { it } }
-        val engine = ChatEngine(repo, backend, { _, _, _ -> HttpResult(-1, "", 0, "invalid run id") }, {}, {}, { "vertex" }, { true }, CoroutineScope(Dispatchers.IO))
+        val engine = ChatEngine(repo, backend, { _, _, _, _ -> HttpResult(-1, "", 0, "invalid run id") }, {}, {}, { "vertex" }, { true }, CoroutineScope(Dispatchers.IO))
         val c = repo.createConversation(listOf("hermes"))
         engine.send(c.id, "go")
         val end = System.currentTimeMillis() + 5000
         while (engine.approvals.value[c.id] == null && System.currentTimeMillis() < end) Thread.sleep(5)
         engine.resolveApproval(c.id, "once")
         val e2 = System.currentTimeMillis() + 5000
-        while (repo.messagesSnapshot(c.id).none { it.role == Role.ERROR } && System.currentTimeMillis() < e2) Thread.sleep(5)
-        assertNotNull("card is back", engine.approvals.value[c.id])
-        assertTrue(repo.messagesSnapshot(c.id).any { it.role == Role.ERROR && it.text.contains("invalid run id") })
+        while (engine.approvals.value[c.id] == null && System.currentTimeMillis() < e2) Thread.sleep(5)
+        val back = engine.approvals.value[c.id]
+        assertNotNull("card is back", back)
+        assertTrue("the card says why: ${back!!.errorLine}", back.errorLine!!.contains("invalid run id"))
+        assertEquals("the same request is still answerable", "rm -rf x", back.command)
         release.countDown()
         idle(engine, c.id)
         assertNull("card is gone once the turn is over", engine.approvals.value[c.id])
@@ -507,7 +509,7 @@ class ChatEngineTest {
         runBlocking { repo.loaded.first { it } }
         val usage = UsageStore(File(tmp.root, "usage.json"), CoroutineScope(Dispatchers.IO))
         val engine = ChatEngine(
-            repo, backend, { _, _, _ -> HttpResult(200, "{}", 0) }, {}, {}, { "vertex" }, ready, CoroutineScope(Dispatchers.IO),
+            repo, backend, { _, _, _, _ -> HttpResult(200, "{}", 0) }, {}, {}, { "vertex" }, ready, CoroutineScope(Dispatchers.IO),
             canWake = canWake, awaitReady = awaitReady, usage = usage,
         )
         eng = engine

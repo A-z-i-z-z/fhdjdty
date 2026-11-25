@@ -1,5 +1,7 @@
 package dev.pocketagent.app.data
 
+import dev.pocketagent.app.api.ApiErrorText
+import dev.pocketagent.app.api.ApprovalContract
 import dev.pocketagent.app.api.ChatEvent
 import dev.pocketagent.app.api.ChatMessage
 import dev.pocketagent.app.api.ChatOutcome
@@ -8,12 +10,14 @@ import dev.pocketagent.app.api.HermesApi
 import dev.pocketagent.app.api.HttpResult
 import dev.pocketagent.app.api.StreamHandle
 import dev.pocketagent.app.diag.Diag
+import dev.pocketagent.app.runtime.GuestPrefs
 import dev.pocketagent.app.runtime.WakeLocks
 import dev.pocketagent.app.util.AppLog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,6 +26,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.atomic.AtomicInteger
 import dev.pocketagent.app.R
@@ -47,10 +52,16 @@ internal fun interface ChatBackend {
     fun stream(request: ChatRequest, handle: StreamHandle, onEvent: (ChatEvent) -> Unit): ChatOutcome
 }
 
-/** Hermes is waiting for permission to run a flagged command in conversation [convId]; answer with [ChatEngine.resolveApproval]. */
+/**
+ * Hermes is waiting for permission to run a flagged command in conversation [convId]; answer with [ChatEngine.resolveApproval].
+ * [generation] is the run's `execution_generation` from the request (null when the event did not carry one; the API client then
+ * reads it from Hermes). [errorLine] is set when the last answer did not reach Hermes: the card shows it and stays answerable.
+ */
 data class PendingApproval(
     val convId: String, val botId: String, val runId: String, val requestId: String,
     val command: String, val description: String, val choices: List<String>,
+    val generation: Long? = null,
+    val errorLine: String? = null,
 )
 
 /** Provider-specific spelling of a model id: the `vertex` provider wants "google/<model>", the `gemini` provider the bare id. */
@@ -116,7 +127,7 @@ internal object ModelIds {
 class ChatEngine internal constructor(
     private val repo: ChatRepository,
     private val backend: ChatBackend,
-    private val approve: (runId: String, choice: String, requestId: String?) -> HttpResult,
+    private val approve: (runId: String, choice: String, requestId: String?, generation: Long?) -> HttpResult,
     private val acquireWake: (String) -> Unit,
     private val releaseWake: (String) -> Unit,
     /** Hermes provider name of the app's current setup ("gemini" or "vertex"): bots with their own model use it. */
@@ -131,6 +142,13 @@ class ChatEngine internal constructor(
     private val awaitReady: (cancelled: () -> Boolean) -> Boolean = { isReady() },
     /** Token statistics and the daily budget; null in tests that do not care. */
     private val usage: UsageStore? = null,
+    /** True while the scripted practice model answers: such a turn never counts in the statistics or the budget and is never blocked by it. */
+    private val isPractice: () -> Boolean = { false },
+    /**
+     * Asks Hermes to interrupt the run [runId] itself (used by Stop while a permission request is waiting or being answered).
+     * True when Hermes accepted it; an interrupt alone ends the wait without running the command, so a deny is sent only when it fails.
+     */
+    private val interruptRun: (runId: String) -> Boolean = { false },
 ) {
     constructor(
         repo: ChatRepository, api: HermesApi, wakeLocks: WakeLocks,
@@ -139,11 +157,13 @@ class ChatEngine internal constructor(
         canWake: () -> Boolean = { false },
         awaitReady: (cancelled: () -> Boolean) -> Boolean = { isReady() },
         usage: UsageStore? = null,
+        isPractice: () -> Boolean = { GuestPrefs.practiceActive },
     ) : this(
         repo, ChatBackend { req, h, ev -> api.streamCompletion(req, h, ev) },
-        { runId, choice, requestId -> api.resolveApproval(runId, choice, requestId) },
+        { runId, choice, requestId, generation -> api.resolveApproval(runId, choice, requestId, generation) },
         { why -> wakeLocks.acquire(why, 30 * 60_000L) }, { why -> wakeLocks.release(why) },
         provider, isReady, CoroutineScope(SupervisorJob() + Dispatchers.IO), imageLoader, canWake, awaitReady, usage,
+        isPractice, { runId -> api.stopRun(runId).ok },
     )
 
     private val _busy = MutableStateFlow<Set<String>>(emptySet())
@@ -175,6 +195,8 @@ class ChatEngine internal constructor(
         @Volatile var handle: StreamHandle? = null
     }
     private val runs = ConcurrentHashMap<String, Run>()
+    /** convId -> the permission request whose answer is on its way to Hermes right now (the card is already gone, Stop must still see it). */
+    private val answering = ConcurrentHashMap<String, PendingApproval>()
     /** "provider|model" pairs already reported as "model of another provider" in this process (one NOTE each). */
     private val warnedForeignModels: MutableSet<String> = ConcurrentHashMap.newKeySet()
 
@@ -287,27 +309,92 @@ class ChatEngine internal constructor(
         }
     }
 
-    /** Stops the running generation of [convId]; text received so far stays. */
+    /**
+     * Stops the running generation of [convId]; text received so far stays. While a permission request is waiting, Hermes's agent
+     * is blocked on it and closing our stream alone does not free it (the chat's session stayed blocked for minutes). Hermes is
+     * asked to interrupt the run first (that ends the wait without running the command); only when that fails is the request
+     * denied; then the stream is closed. The same holds while an answer to the request is still on its way ([answering]).
+     * Both calls are bounded to [STOP_CALL_MS] so a slow Hermes cannot keep the chat busy for long. Events that arrive in that
+     * short time are dropped, so nothing is added after the user pressed Stop.
+     */
     fun stop(convId: String) {
         val r = runs[convId] ?: return
         r.stop = true
-        r.handle?.cancel()
+        val waiting = _approvals.value[convId]
+        val target = waiting ?: answering[convId]
+        if (target == null) {
+            r.handle?.cancel()
+            return
+        }
+        if (waiting != null) _approvals.update { it - convId }
+        scope.launch {
+            val interrupted = target.runId.isNotEmpty() &&
+                boundedCall("stopping the run") { interruptRun(target.runId) } == true
+            if (!interrupted && waiting != null) {
+                boundedCall("deny on stop") { approve(target.runId, "deny", target.requestId.ifEmpty { null }, target.generation) }
+            }
+            r.handle?.cancel()
+        }
     }
 
-    /** Answers the pending approval of [convId]: once, session, always or deny (see [PendingApproval.choices]). */
+    /** Runs a blocking call to Hermes on another thread and waits at most [STOP_CALL_MS] for it; null when it failed or took too long. */
+    private suspend fun <T> boundedCall(what: String, block: () -> T): T? {
+        val job = scope.async { block() }
+        return try { withTimeoutOrNull(STOP_CALL_MS) { job.await() } }
+        catch (e: Throwable) { AppLog.w("Chat", "$what failed: ${e.javaClass.simpleName}"); null }
+    }
+
+    /**
+     * Answers the pending approval of [convId]: once, session, always or deny (see [PendingApproval.choices]). When the answer does
+     * not reach Hermes, the card comes back with a readable line ([PendingApproval.errorLine]) and can be answered again; Stop
+     * always ends the run.
+     */
     fun resolveApproval(convId: String, choice: String) {
         val p = _approvals.value[convId] ?: return
         _approvals.update { it - convId }
+        // Stop must still find this request while the answer is on its way (see stop()).
+        answering[convId] = p
         scope.launch {
-            val r = try { approve(p.runId, choice, p.requestId.ifEmpty { null }) }
-            catch (e: Throwable) { HttpResult(-1, "", 0, "${e.javaClass.simpleName}: ${e.message}") }
-            if (!r.ok) {
-                AppLog.w("Chat", "approval answer failed: ${r.describe().take(200)}")
-                // The card must not vanish silently: put it back (unless the turn has moved on) and say what happened.
-                if (runs.containsKey(convId)) _approvals.update { if (it.containsKey(convId)) it else it + (convId to p) }
-                try { addIssue(convId, Role.ERROR, p.botId, Diag.redactor.redact(Texts.text(R.string.eng_approval_send_failed, r.describe()))) } catch (_: Throwable) { }
+            try {
+                val r = try { approve(p.runId, choice, p.requestId.ifEmpty { null }, p.generation) }
+                catch (e: Throwable) { HttpResult(-1, "", 0, "${e.javaClass.simpleName}: ${e.message}") }
+                if (!r.ok) {
+                    AppLog.w("Chat", "approval answer failed: ${Diag.redactor.redact(r.describe()).take(300)}")
+                    val line = Diag.redactor.redact(approvalFailureLine(r))
+                    // The card must not vanish silently: put it back with the reason. When the turn is over, a chat line says it
+                    // instead; in both of the other cases Hermes may still be waiting for this request, so it is asked to end the
+                    // run (harmless on a run that has ended). A Stop pressed meanwhile already did that, once more does no harm.
+                    val run = runs[convId]
+                    if (run != null && !run.stop) {
+                        _approvals.update { if (it.containsKey(convId)) it else it + (convId to p.copy(errorLine = line)) }
+                    } else {
+                        if (run == null) try { addIssue(convId, Role.ERROR, p.botId, Texts.text(R.string.eng_approval_send_failed, line)) } catch (_: Throwable) { }
+                        try { if (p.runId.isNotEmpty()) interruptRun(p.runId) } catch (_: Throwable) { }
+                    }
+                }
+            } finally {
+                answering.remove(convId, p)
             }
         }
+    }
+
+    /** The chat line for an error object inside the stream: Hermes's own message, shortened, or a plain sentence when it said nothing. */
+    internal fun streamErrorLine(message: String?): String {
+        val best = ApiErrorText.parse(message).best
+        return if (best != null) Texts.text(R.string.eng_err_reason, best) else Texts.text(R.string.eng_err_unknown)
+    }
+
+    /** The chat line for a non-2xx answer: the status and the readable message found in the body (JSON, text or HTML), never the body itself. */
+    internal fun httpErrorLine(code: Int, body: String): String {
+        val best = ApiErrorText.parse(body).best
+        return if (best != null) Texts.text(R.string.eng_err_http, code, best) else Texts.text(R.string.eng_err_http_plain, code)
+    }
+
+    /** One short readable reason why an answer did not reach Hermes (the raw body stays in the log). */
+    internal fun approvalFailureLine(r: HttpResult): String {
+        if (ApprovalContract.isGone(r)) return Texts.text(R.string.eng_approval_gone)
+        val reason = ApiErrorText.parse(r.body).best ?: r.error?.take(160) ?: "HTTP ${r.code}"
+        return Texts.text(R.string.eng_approval_card_error, reason)
     }
 
     // ---- running ---------------------------------------------------------------------------------------------------
@@ -397,22 +484,30 @@ class ChatEngine internal constructor(
         return true
     }
 
+    /** True (after leaving the error line) when the BLOCK budget is used up and this turn is a real one. */
+    private fun budgetBlocks(convId: String, botId: String, practice: Boolean): Boolean {
+        val u = usage ?: return false
+        if (practice || u.budget.value.mode != BudgetMode.BLOCK || !u.overBudget()) return false
+        addIssue(convId, Role.ERROR, botId, Texts.text(R.string.eng_budget_blocked, u.budget.value.dailyTokens))
+        _events.tryEmit(EngineEvent.TurnFailed(convId))
+        return true
+    }
+
     /** One bot's answer. Returns true when the stream completed cleanly (the next bot of a group may go on). */
     private fun generate(run: Run, convId: String, botId: String, ephemeralUserTurn: String? = null): Boolean {
         val conv = repo.conversation(convId) ?: return false
         val bot = repo.bot(botId)
         if (bot == null) { addIssue(convId, Role.ERROR, null, Texts.text(R.string.eng_bot_not_found)); return false }
         if (run.stop) return false
+        // A turn on the practice model costs nothing: it is neither counted nor blocked by the budget. Decided once, at the start.
+        val practiceEarly = isPractice()
         // The daily budget first: a blocked turn must not even light the fire.
-        usage?.let { u ->
-            if (u.budget.value.mode == BudgetMode.BLOCK && u.overBudget()) {
-                val limit = u.budget.value.dailyTokens
-                addIssue(convId, Role.ERROR, bot.id, Texts.text(R.string.eng_budget_blocked, limit))
-                _events.tryEmit(EngineEvent.TurnFailed(convId))
-                return false
-            }
-        }
+        if (budgetBlocks(convId, bot.id, practiceEarly)) return false
         if (!ensureReady(run, convId, bot.id)) return false
+        // A send that woke Hermes may have changed practice versus real during the launch (the practice mode expires, or its
+        // switch was turned off while Hermes slept): read it again, and check the budget again if the turn turned out to be real.
+        val practice = isPractice()
+        if (practiceEarly && !practice && budgetBlocks(convId, bot.id, practice)) return false
         val history = repo.messagesSnapshot(convId)
         val providerName = provider()
         // Precedence: per-conversation override -> bot override -> Hermes global default
@@ -442,7 +537,7 @@ class ChatEngine internal constructor(
         if (run.stop) handle.cancel()
         _speaking.update { it + (convId to bot.id) }
         _events.tryEmit(EngineEvent.TurnStarted(convId, bot.id))
-        val turn = Turn(convId, bot.id, modelId)
+        val turn = Turn(run, convId, bot.id, modelId, practice)
         val outcome = try {
             backend.stream(req, handle) { ev -> turn.onEvent(ev) }
         } finally {
@@ -456,7 +551,7 @@ class ChatEngine internal constructor(
      * write (see [StreamPush]) comes from a timer, so every entry point takes [lock] and the text builders are only touched
      * inside it. Lock order is always this lock, then the repository's.
      */
-    private inner class Turn(val convId: String, val botId: String, val modelId: String = "") {
+    private inner class Turn(val run: Run, val convId: String, val botId: String, val modelId: String = "", val practice: Boolean = false) {
         private val t0 = System.currentTimeMillis()
         private var usageIn = 0L
         private var usageOut = 0L
@@ -568,7 +663,8 @@ class ChatEngine internal constructor(
             if (_status.value.containsKey(convId)) _status.update { it - convId }
         }
 
-        fun onEvent(ev: ChatEvent) = synchronized(lock) { handle(ev) }
+        /** Events that arrive after the user pressed Stop are dropped (Stop may wait for Hermes for a moment before it closes the stream). */
+        fun onEvent(ev: ChatEvent) = synchronized(lock) { if (!run.stop) handle(ev) }
 
         private fun handle(ev: ChatEvent) {
             when (ev) {
@@ -628,14 +724,16 @@ class ChatEngine internal constructor(
                 is ChatEvent.Approval -> {
                     val cmd = Diag.redactor.redact(ev.command)
                     val desc = Diag.redactor.redact(ev.description)
-                    _approvals.update { it + (convId to PendingApproval(convId, botId, ev.runId, ev.requestId, cmd, desc, ev.choices)) }
+                    _approvals.update { it + (convId to PendingApproval(convId, botId, ev.runId, ev.requestId, cmd, desc, ev.choices, ev.generation)) }
                     _events.tryEmit(EngineEvent.ApprovalRequested(convId))
                     closeBubble()
                     addIssue(convId, Role.NOTE, botId, Texts.text(R.string.eng_approval_pending, (if (cmd.isNotBlank()) cmd else desc) + (if (cmd.isNotBlank() && desc.isNotBlank()) "\n($desc)" else "")))
                 }
                 is ChatEvent.StreamError -> {
                     clearTransient(); closeBubble(); hadError = true
-                    addIssue(convId, Role.ERROR, botId, Diag.redactor.redact(ev.raw))
+                    // The raw chunk only goes to the log (redacted); the chat gets one readable line.
+                    AppLog.w("Chat", "stream error chunk: ${Diag.redactor.redact(ev.raw).take(600)}")
+                    addIssue(convId, Role.ERROR, botId, Diag.redactor.redact(streamErrorLine(ev.message)))
                 }
                 is ChatEvent.Finish -> {
                     when {
@@ -660,6 +758,7 @@ class ChatEngine internal constructor(
             if (tin <= 0L && tout <= 0L) return
             lastClosedId?.let { cid -> repo.updateMessage(convId, cid) { it.copy(tokensIn = tin, tokensOut = tout) } }
             val u = usage ?: return
+            if (practice) return   // the message above may show its numbers; the day totals, the models and the budget never see them
             val before = u.todayTotal()
             u.record(modelId, tin, tout)
             val b = u.budget.value
@@ -678,7 +777,10 @@ class ChatEngine internal constructor(
             finishLocked(outcome)
         }
 
-        private fun finishLocked(outcome: ChatOutcome): Boolean {
+        private fun finishLocked(raw: ChatOutcome): Boolean {
+            // After Stop, Hermes may end the stream on its own ([DONE] or a plain close) before our stream is cancelled.
+            // Such a turn is always a cancelled one: no unread count, no notification, no empty-reply or transport line.
+            val outcome = if (run.stop) ChatOutcome.Cancelled else raw
             _approvals.update { it - convId }
             clearTransient()
             // Safety net: a turn whose ONLY output looked like thought summaries (no tool, no real text) was the answer after all.
@@ -704,7 +806,8 @@ class ChatEngine internal constructor(
                 }
                 ChatOutcome.Cancelled -> {}
                 is ChatOutcome.HttpError -> {
-                    addIssue(convId, Role.ERROR, botId, "HTTP ${outcome.code}: ${Diag.redactor.redact(outcome.body)}")
+                    AppLog.w("Chat", "HTTP ${outcome.code} answer: ${Diag.redactor.redact(outcome.body).take(600)}")
+                    addIssue(convId, Role.ERROR, botId, Diag.redactor.redact(httpErrorLine(outcome.code, outcome.body)))
                     _events.tryEmit(EngineEvent.TurnFailed(convId))
                 }
                 is ChatOutcome.TransportError -> {
@@ -719,6 +822,8 @@ class ChatEngine internal constructor(
     companion object {
         /** Value of [status] for a conversation while the engine waits for Hermes to start; the UI shows a localized text for it. */
         const val STATUS_WAKING = "@waking"
+        /** The longest Stop waits for each call to Hermes (interrupt, deny) before it closes the stream anyway. */
+        private const val STOP_CALL_MS = 5_000L
         private const val PUSH_INTERVAL_MS = 60L
         private const val TRAILING_PUSH_MS = 60L
         private const val MAX_REASONING_CHARS = 30_000

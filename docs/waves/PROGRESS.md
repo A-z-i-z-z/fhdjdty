@@ -564,3 +564,45 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   **Merging:** the slices are merged into the work branch only after the Wave 0 defect fixes are
   committed there, so that the fixes can be proven on the twin without Wave 1 code if wanted.
   Phone: no.
+- **20:20 UTC, the defect fixes of Wave 0 are written, reviewed, built and unit-tested; NOT yet
+  proven on the phone** (the phone is away). Report: `docs/waves/w0/fix-report.md`.
+  - **Sheets invisible at normal animation speed:** the exact trigger could not be reproduced
+    without the phone. The most probable cause: the sheet started hidden and was only moved into
+    view by an animation that was started outside the dialog window and keyed on a measured height.
+    `PocketSheet.kt` was rewritten on a small pure state holder (`SheetSlide.kt`, about 20 unit
+    tests): visibility no longer depends on a measurement, the motion runs inside the window, and a
+    watchdog finishes it by force after 1.5 s (log line `Sheet: no frame moved the sheet for
+    1500 ms`: **if the proof sees that line, the real cause is still open**).
+  - **Language inside dialog windows:** every dialog and sheet now goes through one door
+    (`ui/components/PocketWindow.kt`) that hands the app's own language, layout direction and
+    density into the window; `t()` takes the chosen language first.
+  - **Approvals:** Hermes's contract was read in its source (three keys: `request_id`,
+    `execution_generation`, `choice`; the generation comes with the approval event). The app now
+    sends exactly that from the card and the notification, retries once on a stale generation, shows
+    a failed answer on the card, and **Stop really stops the run at Hermes** (`POST
+    /v1/runs/<id>/stop`), also while an answer is on its way; a stopped turn can never count as a
+    finished reply.
+  - **A failed turn** shows one short readable line (`api/ErrorText.kt`); the raw body goes to the
+    log only.
+  - **Tool output:** Hermes does not send a tool's output on this API (only the command and its
+    state), so the sheet now says so and its button reads "Show the command".
+  - **Practice turns** are never counted in the day totals, the model totals or the budget; a turn
+    that wakes Hermes decides practice or real after the launch.
+  - **The stretched test language** can no longer leak into plain English (the generator keeps the
+    two generated folders on the same keys; a test and `strings-check` enforce it); the About mascot
+    and the scrims have spoken labels.
+  - **Numbers:** twin and owner-debug compile; **879 unit tests, 0 unexpected failures** (808
+    before); `lint-ui`, `strings-check` (baseline 939, not raised) and the test-language check pass.
+    Two Opus rounds: 8 findings in the areas, 3 on the whole diff (one major: Stop while a card
+    waits could end as a normal reply), all repaired.
+  - **Not handled** (listed in the report): right-to-left details, the debug gallery, the
+    smoothness question, `dialog.confirm` tags on three OK buttons, a robot scenario for sheets at
+    animation scale 1.
+  - **Next for this step, when the phone is back:** install the twin
+    (`tools\local-build.ps1 -Install`), practice model on, animation scales at 1, and prove: the
+    four sheets rise and close; dialogs in the app's language with the phone on Turkish; the four
+    approval answers (HTTP 200) and Stop while a card waits and right after an answer; a FAIL turn's
+    text; the About name; Usage not moving on practice turns. The full item list is in the saved
+    workflow script and at the end of `fix-report.md`. Only after that does Wave 0 go back onto the
+    owner's app (`tools\local-build.ps1 -OwnerDebug -BuildNumber 16 -Install`, version code above
+    1000899, after a fresh copy into `dist/owner-backup/`). Phone: no.

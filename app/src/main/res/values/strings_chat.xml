@@ -129,6 +129,12 @@
     <string name="ui_chat_copied">Copied</string>
     <string name="ui_chat_tool_cd">Tool call</string>
     <string name="ui_chat_no_output">(no details)</string>
+    <!-- t: Label above the command text in the tool sheet; one word | kind: chip -->
+    <string name="ui_chat_tool_command">Command</string>
+    <!-- t: Button in the tool sheet that copies the command to the clipboard; at most 16 characters | kind: button -->
+    <string name="ui_chat_tool_copy_command">Copy command</string>
+    <!-- t: Note in the tool sheet: the agent sends only the command that ran, not its printed output; two or three lines | kind: body -->
+    <string name="ui_chat_tool_no_output_note">Hermes does not send what a tool printed over this connection, only the command. The answer in the chat may describe the result.</string>
     <string name="ui_chat_empty_title">Say hello</string>
     <string name="ui_chat_empty_body">Write the first message below.</string>
     <string name="ui_chat_members_title">Members</string>
