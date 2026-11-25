@@ -5,7 +5,7 @@ touching anything. **Keep it current:** at the end of a working session update "
 and add to "Hard-won facts" whenever something cost real time to find out. `README.md` is the
 user-facing description; this file is the working memory.
 
-Last updated: 2026-11-25
+Last updated: 2026-11-25 (Wave 0 built)
 
 ## What this is
 
@@ -226,12 +226,67 @@ Target device: Galaxy S24 Ultra, One UI 9 / Android 17 (SDK 37), arm64, 4 KB pag
   it is more current than this section. The plan and the design language are committed (`0e6d1b8`) and
   are never edited or shortened.
 
+- **Wave 0, "Foundation", is built (2026-11-25, commit `d52bf49`; version 0.2).** Written by about
+  sixty agent runs from `docs/waves/w0-contract.md` (read it: it is the map of the new code; the area
+  files, the reviews and every agent's report are in `docs/waves/w0/`). Twin, owner-debug and the
+  optimised build compile; 804 unit tests, 0 unexpected failures. What it adds:
+  - **Three builds.** `release` = the owner's optimised build (R8, not debuggable,
+    `dev.pocketagent.app`); `debug` = the test twin (`dev.pocketagent.app.debug`, "Agirî Test", its
+    own icons and shortcuts under `app/src/twin/`); `debug` with `-PownerDebug=true` = owner-debug
+    (the owner's package, debuggable; the interim build while the twin cannot be installed).
+    `BuildConfig.APP_VARIANT` (`owner`, `twin`, `owner-debug`), `TEST_HOOKS` (true for debug builds:
+    gates everything a test may read or navigate) and `IS_TWIN` (gates everything that writes test
+    data in bulk). Version codes: owner `(10000 + CI run) * 100 + local sequence`, twin
+    `run * 100 + sequence`. All three are signed with the committed key until the owner makes a
+    private one (environment variables or a properties file outside the repository; CI secrets
+    `AGIRI_KEYSTORE_B64`, `AGIRI_KEYSTORE_PASSWORD`, `AGIRI_KEY_ALIAS`, `AGIRI_KEY_PASSWORD`, and
+    never without `AGIRI_LINEAGE_B64`, because Android refuses an update signed with a new key).
+  - **The practice model** (zero tokens): `rootfs/smoke/mock_llm.py` (one file for CI and the app)
+    runs inside the guest as a child of the launch (`runtime/practice-start.sh`,
+    `runtime/PracticeModel.kt`). Switch: Settings > Runtime. It never touches the owner's provider
+    setup or credentials, shows a banner, and on a build that is not the twin it expires after two
+    hours and is switched off at every cold start. Keywords in a message script its behaviour
+    (`RUN_TOOL`, `ASK_APPROVAL`, `LONG`, `THINK`, `SLOW`, `FAIL`, `MEMORY`, `FORGE`, `MEDIA` and more).
+  - **The phone robot and the numbers:** `tools/phone-test.ps1` (scenarios in `tools/scenarios/`),
+    `tools/phone-perf.ps1`, both on `tools/phone-lib.ps1`. Every input goes through one function that
+    first checks the focused window. Destructive steps work on the twin only; on the owner's package
+    only scenarios marked `"safe": true` run, and only with `-Owner`. `tools/lint-ui.ps1` (a ratchet
+    that only goes down), `tools/strings-check.ps1`, `tools/make-test-language.ps1`.
+  - **Debug links** (debug builds): action `dev.pocketagent.app.DEBUG` with extras `route`, `clock`,
+    `lang`, `rtl`, `nav`, `reset`, `seed` (twin only) and a `token` that only `run-as` can read
+    (`files/debug-link.token`); see `DebugLinks.kt` and `tools/scenarios/README.md`.
+  - **Tokens, motion, touch and components v2** (`ui/theme/Tokens.kt`, `Motion.kt`, `Haptics.kt`;
+    `PocketSheet`, the one `ConfirmDialog`, `PetNotes` instead of toasts, `SwipeRow`, `Skeleton`,
+    `EmberLine`); the animation level follows the system's animation setting and battery saver.
+  - **Navigation v2** (`ui/Nav.kt`, `NavStack`, `NavDisplay`): entries with ids, each screen's state
+    kept while it is on the stack, one `SharedTransitionLayout`. The back swipe cannot drive the
+    screen on this phone (S1 failed), so the transition plays after the gesture.
+  - **The stage** (`ui/pixel/stage/`): `PixelStage` and `SceneRenderer` free of Android classes; the
+    picture equals the old one pixel for pixel (parity test); the art builder is `tools/art/`.
+  - **Streaming** (`StreamPush`, `StreamSmoother`, `MarkdownStream`) and the chat screen split into a
+    state holder and four parts; tool output opens in a sheet.
+  - **Safety stop-gaps in the generated configuration:** `platform_toolsets.api_server` is an
+    explicit list without the browser set, `cronjob_manage`, `image_generate`, `text_to_speech` and
+    the `connections` toolset; no title call; `security.allow_lazy_installs: false` (except in the
+    Anthropic mode, which installs its SDK on first use); the switch for keyless web lookups;
+    a listing of foreign code in `hooks/` and `plugins/`; exit reasons, a crash report offer and
+    **Export logs** in Diagnostics; request parts longer than 60,000 characters are split.
+  - **One function for every text:** `t()`, `tn()`, `Texts.get()` (`ui/text/`); the engine's texts
+    are resources (`strings_engine.xml`); Turkish and French for every key; a stretched test language
+    (`values-en-rXZ`, debug builds) and right-to-left by debug link.
+  - **Cut on purpose** (no consumer yet): the baseline profile file, the ember arc between tabs,
+    language packs from a file, the twin-only robot scenarios and perf P2/P3, the memory phases.
+    **Deviations from the plan:** no private key yet; the Linux image is unchanged; the platform's
+    formatters for dates, numbers and money wait for Wave 1; capitals made in code stay until Wave 1.
+  - **What is proven on the phone, and what is not, is in `docs/waves/PROGRESS.md`** (the twin
+    cannot be installed until the owner taps "Install anyway" once; see there).
+
 Next steps, in order:
-1. Continue from the first unfinished step in `docs/waves/PROGRESS.md` (Wave 0 at the time of writing:
-   experiments S1 to S7 on the phone, then `docs/waves/w0-contract.md`, build, review once, prove, ship).
+1. Continue from the first unfinished step in `docs/waves/PROGRESS.md`.
 2. Rules that hold for the whole run: never uninstall `dev.pocketagent.app` and never install over it
-   anything signed with another key; experiments and tests run on a twin with its own package name;
-   $0 spend; real-model turns only on `google/gemini-4-hydrogen` at low effort.
+   anything signed with another key or carrying another Linux image; experiments and destructive
+   tests run on a twin with its own package name; $0 spend; real-model turns only on
+   `google/gemini-4-hydrogen` at low effort.
 3. Leftovers that need a person or a real device state and stay manual: the live camera shutter, spoken
    dictation, a new provider with a real key.
 
@@ -252,6 +307,12 @@ Next steps, in order:
 | `rootfs/` | Builds the Debian trixie arm64 rootfs with Hermes preinstalled; `rootfs/smoke/` boots Hermes under proot against a mock LLM. |
 | `proot/build-proot.sh` | Builds static proot + loader from a pinned commit with the NDK. |
 | `tools/local-build.ps1` | Fast local build, install and unit-test runner for Windows (see "Faster iteration"). |
+| `docs/waves/PROGRESS.md` | **The running record of the road to 1.0:** every step, what was checked on the phone, the commit, what is next, what waits for the owner. |
+| `docs/waves/w0-contract.md`, `docs/waves/w0/` | The contract of Wave 0 (ownership, the registry of shared symbols, rulings), the area files, the lead's decisions, every agent's report and both reviews. |
+| `tools/phone-test.ps1`, `tools/phone-perf.ps1`, `tools/phone-lib.ps1`, `tools/scenarios/` | The phone robot, the smoothness numbers and their shared library; scenario files (JSON). |
+| `tools/lint-ui.ps1`, `tools/strings-check.ps1`, `tools/make-test-language.ps1`, `tools/build-ids.ps1`, `tools/ci/` | The ratchet lint, the text checks, the stretched test language, the one place tools take package names from, CI helpers (APK check, size gate, signing). |
+| `tools/art/` | The art builder (`craft_art.py`, contact sheets); needs Python with Pillow. |
+| `app/src/twin/` | The twin's own label, icons and shortcuts (not in owner-debug builds). `app/src/debug/res/values-en-rXZ/` is the generated stretched test language. |
 | `.github/workflows/build.yml` | CI: unit tests, proot, rootfs, smoke test, APK, prerelease. |
 | `dist/` | Git-ignored. Downloaded builds and screenshots. |
 
@@ -321,12 +382,18 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
 
   | Switch | What it does |
   |---|---|
-  | (none) | Build the debug APK with the rootfs and proot from `dist\runtime-parts\` |
+  | (none) | Build **the twin** (`dev.pocketagent.app.debug`) with the rootfs and proot from `dist\runtime-parts\` |
+  | `-OwnerDebug` | Build the owner's package as a debug build (the interim build while the twin cannot be installed) |
+  | `-Release` | Build the owner's optimised build (R8); `-Install` then also needs `-AcknowledgeS2` and compiles the app on the phone |
   | `-FetchParts [phase0-N]` | Refresh those parts from a release APK (hash-checked); default latest |
-  | `-Install` / `-Start` | Install on the connected phone / also launch the app |
-  | `-BuildNumber N` | Version number; must not go below what is installed, so raise it each time |
-  | `-Test` | Run the unit tests from a copy outside the apostrophe path (see below) |
+  | `-Install` / `-Start` | Install on the connected phone / also launch the app. Over the owner's package only after its checks pass: same certificate, higher version code, a fresh copy in `dist\owner-backup\`, the same Linux image as on the phone (`-AllowReextract` to override the last) |
+  | `-BuildNumber N` | The CI run number the build belongs to (version 0.2.N); the local sequence is found from the phone |
+  | `-Test` | Run the unit tests from a copy outside the apostrophe path (see below); with `-OwnerDebug` for that variant |
+  | `-CheckSigning` | Print the certificate of the built APK and of the installed app |
   | `-ListDevices` | Show connected phones |
+
+  Set `AGIRI_NO_ADB=1` to build without asking the phone anything. The first install of the twin is
+  stopped by Play Protect until the owner taps "Install anyway" once (see "Hard-won facts").
 
 - It needs JDK 21 (Android Studio's `jbr` is used) and the Android SDK with platform
   `android-37.2` and build-tools 36.0.0; both are installed on the owner's PC.
