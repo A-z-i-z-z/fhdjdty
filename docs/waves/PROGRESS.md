@@ -464,3 +464,17 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
     owner's files before and after: identical. The rolled-back app starts, Hermes Running after
     11 s, no crash. Hermes was left running (the app starts it when opened). A third safety copy is
     `dist/owner-backup/2026-11-25-before-rollback.tar`. Phone: yes.
+- **16:15, the defect fixes are being made** (workflow `w0-defect-fixes`; uncommitted changes in the
+  main tree while it runs). Three areas side by side, each written by Sonnet, read by Opus, repaired:
+  SHEET (the invisible sheets, the language inside dialog windows, the scrim's label; files
+  `ui/components/`, `ui/text/`), ENGINE (the approval answer with `execution_generation`, a failed
+  answer shown on the card, a readable error for a failed turn, the tool-output sheet, practice
+  tokens kept out of the usage totals; files `api/`, `data/`, `ui/chat/`), MISC (the stretched test
+  language leaking into English, the About mascot's label; `ui/settings/RuntimeSection.kt`,
+  `tools/make-test-language.ps1`). Then one agent integrates (compile twin and owner-debug, unit
+  tests, the checks), one installs the **twin** and proves every item on the phone with the animation
+  scales at 1 (report: `docs/waves/w0/fix-proof.md`), and Opus reads the whole diff. **If you take
+  over and find uncommitted changes in the main tree without that report:** the workflow was cut
+  off; read `git diff`, run `tools\local-build.ps1 -Test`, and either finish the proof on the twin
+  or `git stash` the changes and start the fixes again from the list in the handoff section.
+  Phone: not yet.
