@@ -11,8 +11,11 @@ for the wave named under "Where we are". Continue from the first step that is no
 ## Where we are
 
 - **Wave:** 0, Foundation (plan section 7.0).
-- **Step in progress:** experiments S1 to S7 on the phone, and the survey of the code for the contract.
-- **Next:** write `docs/waves/w0-contract.md`, then the ten build agents.
+- **Step in progress:** the contract `docs/waves/w0-contract.md` is being merged from the nine area
+  drafts in `docs/waves/w0/` and reviewed once by Opus. Experiment S1+S3 is still running.
+- **Next:** the build, in the five stages listed at the end of `docs/waves/w0/LEAD-DECISIONS.md`.
+- **The one thing the owner must do for the plan's test twin:** see the first row of "Waiting for the
+  owner".
 
 ## The owner's orders for this run (given 2026-11-25, through the watcher session)
 
@@ -50,6 +53,7 @@ Decisions that belong to later waves are assumed when their wave starts and are 
 
 | What | Why it waits | How the work goes on without it |
 |---|---|---|
+| **One tap on "Install anyway" ("Yine de yükleyin") when the test twin is installed for the first time.** Command, from the repository root, once Wave 0's build tools exist: `powershell -NoProfile -ExecutionPolicy Bypass -File tools\local-build.ps1 -Start` (it installs `dev.pocketagent.app.debug`, "Agirî Test"; the phone then shows Play Protect's "unsafe app blocked" dialog; open its details and tap "Install anyway") | Google Play Protect blocks the first install of any new package that targets API 28. Only the owner may override a security warning on their phone; no agent taps it, changes Play Protect, or uses a flag that skips verification | The wave is proven on the owner's own package with a debug build signed with the same key (`owner-debug`, exactly the kind of build that was on the phone before), after a read-only copy of the app's data to `dist/owner-backup/`; only non-destructive checks run there. Everything that wipes, seeds, restores or replaces the Linux image, and experiments S2, S4, S6 and S7, wait for the twin |
 | A private signing key for the owner's build (plan 0.1, experiment S6) | The key must exist only on the owner's PC and as a CI secret, and installing a differently signed build over the owner's app is forbidden in this run | The owner's build keeps the committed key. S6 is tried only under a throwaway package name. The build scripts are written so that the key becomes a one-step change later |
 | A test credential imported into the test twin (plan section 6, "What the owner does") | The twin never sees the owner's credentials, and secrets are never typed by an agent | Everything is proven on the practice model (zero tokens). The few real-model checks are done in the owner's app after a wave has shipped to it, on Hydrogen at low effort |
 | A spending cap at the provider (decision 20) | An account setting at the provider | The app's own daily budget; test turns stay few |
@@ -82,3 +86,28 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
     `docs/waves/w0-contract.md` and reviewed by Opus once the first experiment chain has reported.
   - If this run is interrupted here: nothing in the main checkout has changed yet. Reuse whatever is
     in `dist/exp-results/` and `dist/w0/`, and redo what is missing.
+- **06:15, experiment E0 (the twin): the build works, the install is blocked.** In the throwaway
+  worktree the debug build got `applicationIdSuffix ".debug"` and the label "Agirî Test"; only three
+  things spell the package and needed a change (the shortcuts' `targetPackage`, the label in all
+  three languages, `buildFeatures.resValues`); everything else already follows the build (the
+  provider authority, the restart process, aliases, channels). `adb install` of the new package was
+  refused by Play Protect (`INSTALL_FAILED_VERIFICATION_FAILURE`, "built for an older version of
+  Android"). The agent did not tap "Install anyway". The owner's app was not touched (version code 32
+  and its update time read before and after). Write-up: `dist/exp-results/E0-twin.md`. Phone: yes.
+- **06:15, experiment S5 (the practice model): passes in a shell harness.** The same launcher, proot
+  and Linux image, run as the adb shell user under `/data/local/tmp/exp-s5` (1.2 GB, still there; a
+  ready harness; remove with `adb shell rm -rf /data/local/tmp/exp-s5`). One launch starts the mock
+  and then Hermes; "hello" is answered by the mock, also after stop and start; a scripted tool call
+  (`uname -a` through Hermes's terminal tool) works end to end; stop takes the mock down in under a
+  second. Not seen through the app's own interface (no twin). The design that follows is in
+  `dist/exp-results/S5-practice-model.md` and in decision G7. Phone: yes (shell harness only).
+- **06:20, the contract drafts are done** (eleven agents): two surveys and nine area drafts, now
+  committed under `docs/waves/w0/`.
+- **06:40, the lead's decisions on the drafts** are in `docs/waves/w0/LEAD-DECISIONS.md`. The ones a
+  reader must know: the twin waits for the owner's tap (G1); an interim `owner-debug` build proves
+  the wave on the owner's package without destructive tests (G2 to G6); the owner's phone gets the
+  optimised build only after S2 has passed in the twin (G5); the `connections` toolset is withheld in
+  addition to the plan's four (assumed, owner may change); `RoundedCornerShape` is not replaced in
+  Wave 0; every new text gets Turkish and French in the same wave.
+- **06:45, step 0.d started: merging the contract** (one Sonnet merger, two Opus reviewers for seams
+  and for safety, one round of fixes).

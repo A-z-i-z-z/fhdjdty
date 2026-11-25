@@ -549,6 +549,28 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
   its own activity and be shown elsewhere as a picture); a camera viewfinder inside the app would need
   the `CAMERA` permission, which would break today's permission-free `TakePicture`.
 
+- **Play Protect blocks the first install of a new package that targets API 28** (seen 2026-11-25,
+  One UI 9): `adb install` of `dev.pocketagent.app.debug` ends in
+  `INSTALL_FAILED_VERIFICATION_FAILURE` and the phone shows "unsafe app blocked ... built for an older
+  version of Android" with an "Install anyway" link. Updates of an installed package with the same
+  key are not blocked. Only the owner taps that link; agents never do, and never change Play Protect
+  or the adb-install verifier settings.
+- **The guest has no `python3` on its path.** Python is Hermes's private one:
+  `/root/.hermes/tools/python-*/bin/python3` (the venv's `python` links to it).
+- **The practice model works inside the guest as a child of the same launch** (S5, shell harness):
+  guest command `sh /opt/agiri/practice/start.sh <port>` starts the mock in the background, waits for
+  "listening", then `exec hermes gateway run --replace -v`; the launcher file is unchanged. A mock
+  started by a second launch survives a stop but is killed by the marker sweep. The mock must send
+  `usage` (also in the last stream chunk) or the app shows zero tokens, and a `context_length` in
+  `/v1/models` or Hermes probes and falls back to 256,000. With the endpoint down Hermes does not
+  fail fast: it retries after 15, 32, 60 s. The first turn after a cold start takes 15 to 30 s.
+  Hermes makes a second, non-streaming call for a session title after a first turn.
+- **Hermes cannot run as the adb shell user without a patch:** SELinux forbids binding a unix socket
+  in the `shell` domain, so the gateway's control socket fails. The harness under
+  `/data/local/tmp/exp-s5` patches its throwaway copy; the app (`untrusted_app`) is not affected.
+- **`adb push` of a 1.2 GB tar and `tar xf` into an empty directory** is the way to put the Linux
+  image on the phone outside the app; piping xz into `adb shell tar x` from Git Bash does not work.
+
 ## Phase 1 notes (the new app, 2026-11-23)
 
 - Navigation is a small hand-written back stack (`ui/Nav.kt`), tabs Home, Chats, Bots, Hermes,
