@@ -276,3 +276,13 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
 - **12:20, step 0.j, part 3 started:** the robot's safe scenarios and the smoothness numbers after;
   then the practice model through the app's own interface, navigation, and one real turn on
   Hydrogen at low effort; at the end Hermes is stopped again, as the owner had left it.
+- **12:35, Wave 1 is being prepared while the phone proof of Wave 0 runs.** Read-only: one Haiku survey
+  of the code as it is after Wave 0 and eight Sonnet contract drafts for **Wave 1a** (the scene and
+  the real sky, the weather, the fire, Pêt, the two art areas, Home 2.0, Appearance), written to
+  `dist/w1a/` and copied to `docs/waves/w1/` when they are done. Decisions assumed for this half
+  (owner may change): the sky follows the real day by default, with "always night" (today's look)
+  as a choice; the hand-keyed flame stays and the living edge is added around it, with "Classic
+  fire" as a choice; the weather is built and tested with a pinned weather but ships dark, because
+  the service needs a contact address that only the owner can choose (no request can leave the
+  phone while it is empty); no new permission; an existing installation keeps the day it knows
+  today. Wave 1b (tab bar, Library, splash, Welcome, ten languages) follows after 1a.
