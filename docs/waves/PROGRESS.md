@@ -507,3 +507,14 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   two hours** and the owner is away from the PC: all phone work must be at a safe point before
   then (nothing half-installed, the owner's app working), and nothing may assume the phone is back
   until the owner says so.
+- **16:20 UTC, the two data files are downloaded** (a Haiku agent; nothing committed, nothing run):
+  `dist/wt-w1b/dist/data-w1a/hyg/hygdata_v41.csv` (33,932,548 bytes, SHA-256 `d9f69fd8…e4ebd`,
+  119,626 rows, columns as expected: `id ra dec mag ci proper` and more; licence read from the
+  repository's own file: CC BY-SA 4.0) and
+  `dist/wt-w1b/dist/data-w1a/ne/ne_10m_populated_places_simple.geojson` (4,932,147 bytes, SHA-256
+  `fd3fa867…ac42f`, 7,342 places, properties `nameascii`, `name`, `adm0_a3`, `iso_a2`, `pop_max`,
+  `featurecla` as the contract expects; public domain, terms saved next to it). Both licences equal
+  the lead's table. The HYG repository says newer versions now live on another site; v41 is the last
+  one on GitHub and is what the plan needs. **Still to do with them** (contract 7.1 steps 1 and 2, in
+  the worktree `dist/wt-w1b`, once slice B's scripts are reviewed): `stars.py --hyg ...` and
+  `make_places.py --cities ...`, then their `--verify` / `--check`. Phone: no.
