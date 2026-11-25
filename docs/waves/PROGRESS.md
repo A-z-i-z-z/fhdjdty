@@ -640,3 +640,20 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   (`pet_carry`, `empty_stool`) are repaired; an Opus reviewer ports the Kotlin readers to a
   throwaway script and parses the tables with it, compares stars and cities with the sources, and
   checks the licence wording for `NOTICE`. Phone: no.
+- **20:20 UTC (by the PC's clock; the clock times of the entries between 19:45 and here were
+  estimates and run up to half an hour fast), the phone is back** (the owner said so through the
+  watcher session: use the twin first, the owner's app only for checks that change nothing).
+  **The proof of the fixes on the twin is running** (workflow `w0-fix-proof-on-twin`, main tree;
+  the saved script holds the full item list): install the twin over the installed twin, practice
+  model on, animation scales at 1, every item judged from the screenshot and the screen dump
+  (report: `docs/waves/w0/fix-proof.md`); code the prover changes on the way is read by Opus,
+  repaired and proven again; then, only if no severe item fails, the twin-only experiments: S2
+  (the optimised build with the twin's package: start, Hermes on practice, approval, icon switch,
+  backup, the neural voice under R8), S4 (compile filter and cold start), the smoothness numbers
+  of the optimised twin against the debug twin back to back, S7 (memory), and the debug twin put
+  back (report: `docs/waves/w0/twin-experiments.md`). The scenario-writing workflow was stopped
+  before it changed anything (the robot's scripts must not change under the prover); it is to be
+  started again after the proof. **If you take over while this runs:** the twin may be the
+  optimised build (not debuggable); `tools\local-build.ps1 -Install` puts the debug twin back; the
+  system animation scales must be 1; uncommitted changes under `app/` and `tools/` in the main tree
+  belong to the prover. Phone: in use (twin only).
