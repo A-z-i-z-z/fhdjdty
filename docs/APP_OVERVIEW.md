@@ -213,6 +213,16 @@ different phone.
 - Accessibility has had care (roles, descriptions) but no audit with a screen reader.
 - Automated tests cover logic only; there are no UI tests, and the phone checks are done by hand
   through adb.
+- No lasting place for the agent's own files: what it writes outside Hermes's state folders (for
+  example in `/root`) is deleted when an update replaces the Linux image.
+- The build the owner runs is a debug build; no optimised build exists, and smoothness has never been
+  measured.
+
+A plan that answers this list, and goes far beyond it, was written on 2026-11-24 and is **not built**:
+`docs/phase4-plan.md` (second edition, with the findings of two independent reviews worked in on
+2026-11-25: fourteen waves to version 1.0, among them a creative workspace with documents, slides
+and pictures, research with sources, voice, phone powers and eighteen languages; every wave names
+its core and its extras) with `docs/design-language.md` (how it should look, move and sound).
 
 ## Where things are
 
@@ -221,6 +231,7 @@ different phone.
 | Handoff notes, build and test loop, hard-won facts | `AGENTS.md` |
 | User-facing readme | `README.md` |
 | Contracts between the parts of the app | `docs/phase1-contract.md`, `docs/phase3-plan.md` |
+| The plan for the road to 1.0 (not built) and the design language | `docs/phase4-plan.md`, `docs/design-language.md` |
 | App source | `app/src/main/java/dev/pocketagent/app/` (`runtime`, `service`, `api`, `data`, `routines`, `hermes`, `voice`, `diag`, `ui/*`) |
 | Pixel art sources | `app/src/main/assets/pixel/*.pxl` |
 | Strings (en / tr / fr) | `app/src/main/res/values*/strings*.xml` |

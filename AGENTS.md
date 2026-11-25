@@ -5,7 +5,7 @@ touching anything. **Keep it current:** at the end of a working session update "
 and add to "Hard-won facts" whenever something cost real time to find out. `README.md` is the
 user-facing description; this file is the working memory.
 
-Last updated: 2026-11-24
+Last updated: 2026-11-25
 
 ## What this is
 
@@ -24,6 +24,10 @@ Target device: Galaxy S24 Ultra, One UI 9 / Android 17 (SDK 37), arm64, 4 KB pag
   a small model does research and lookups, a strong model reviews every change before it is pushed.
   Diagnosis on the phone (adb, logs, throwaway experiments) is done directly.
 - Wants $0 spend on their own money. Do not enable paid services, upgrade trials or raise spend caps.
+- Wants a global app: English first, many languages, and the Kurdish identity not overdone (said
+  2026-11-24). New features, waves and screens get plain English names. What already shipped (the name
+  Agirî, Pêt, the hearth, the six theme names) stays; days and scenes of a culture are options a user
+  switches on. Expects the app to match the leading assistants feature for feature and add its own.
 - Never ask for secrets in chat and never print them. Credentials are entered or imported in the
   app. Do not put account names, project ids, e-mail addresses or device serials in this repo: it
   is public.
@@ -194,12 +198,37 @@ Target device: Galaxy S24 Ultra, One UI 9 / Android 17 (SDK 37), arm64, 4 KB pag
     `7523b1b`) had failed for a reason outside the code: Gradle could not download the Kotlin Compose
     plugin that time; the build files were unchanged and the next run passed.
 
+- **The road to 1.0 is planned (2026-11-24, second edition the same day, its review worked in on
+  2026-11-25); nothing of it is built.** The owner asked for a "masterpiece plan" and said not to
+  execute it, then asked for a much richer second edition with notes of their own: a creative
+  workspace (an output panel, documents and slides, pictures, deep research with sources), everything
+  the leading assistants offer plus features of its own, and a global app with English first. Two
+  documents: `docs/phase4-plan.md` (fourteen waves, 0 "Foundation" to 13 "One"; the five largest ship
+  in two halves and every wave names its core and its extras; with the comparison against the leading
+  assistants, the findings behind the plan, a map of where things live in the app (section 4.1),
+  ownership tables, 45 experiments with fallbacks, risks and the owner's decisions) and
+  `docs/design-language.md` ("Hearthlight 2", second edition: four rules, tokens, motion, touch,
+  sound, the living scene, Pêt, every screen including the Canvas, slides and research, the map, six
+  kinds of screen with five states each, and type for every script; binding for every interface
+  agent). They rest on a survey of the whole app and its screenshots, the source of the Hermes that
+  ships in the image, Android's rules for a target-28 app, the speech models sherpa-onnx can run, and
+  what the leading assistants offer on phones in November 2026. The first edition's independent review
+  found thirty problems (four serious, all in how the agent's phone powers were guarded). The second
+  edition was reviewed by two strong-model reviewers (facts and safety; product and consistency):
+  sixty findings, eight of them serious, the most consequential checked in the Hermes source and all
+  worked in, without a second review round. Not committed (the owner did not ask for a commit).
+
 Next steps, in order:
-1. Try on the phone what the list above says was not tried. Older leftovers: editing `SOUL.md`
-   end-to-end, the live camera shutter, spoken dictation, `/loop`, an approval card, a rootfs update over
-   an existing install with user data.
-2. Ideas not built are listed at the end of `docs/APP_OVERVIEW.md` ("What does not exist"). The owner
-   plans to have a detailed plan for the next steps written from that file.
+1. Wait for the owner's go-ahead and their answers to section 13 of `docs/phase4-plan.md` (the order of
+   the waves, the optimised build and the test twin, whether a wave may ship without its extras, a
+   spending cap at the provider for the twin's credential, the first ten languages, the contact address
+   the weather service needs, the 1.0 date). Do not start building before that.
+2. Then Wave 0: run experiments S1 to S7 on the phone (section 8 of the plan), write
+   `docs/waves/w0-contract.md` in the style of `docs/phase3-plan.md`, build, review once, prove, ship.
+   Wave 0 also pays the old debt: everything listed above as "not tried on the phone" becomes a scripted
+   scenario on the practice model (editing `SOUL.md`, `/loop`, the approval card and the rest).
+3. Leftovers that need a person or a real device state and stay manual: the live camera shutter, spoken
+   dictation, a rootfs update over an existing install with user data.
 
 ## Repo map
 
@@ -210,6 +239,8 @@ Next steps, in order:
 | `docs/phase1-contract.md` | The API contract between UI, art, design system and engine. |
 | `docs/phase3-plan.md` | Plan and contract of Phase 3 (presence, routines, usage, backup, providers, Android surface). |
 | `docs/APP_OVERVIEW.md` | What the app is and does, what is proven and what does not exist: the briefing for planning. |
+| `docs/phase4-plan.md` | The road to 1.0, second edition with its review worked in: fourteen waves (core and extras, five of them in two halves), where Agirî stands against the leading assistants, the findings behind the plan (file and line), where things live in the app (section 4.1), 45 experiments, risks, the owner's decisions. **Planned, not built.** Per-wave contracts will go to `docs/waves/`. |
+| `docs/design-language.md` | "Hearthlight 2", second edition: four rules, tokens (the design pixel in whole device pixels), motion (28 patterns), touch, sound, the living scene under the real sky, Pêt, every screen (Home, chat, Canvas, slides, pictures, research, voice), the map of the app, six kinds of screen and their five states, type and layout for every language. Binding for interface work from Wave 0 on. |
 | `app/.../routines/`, `service/`, `AppLinks.kt`, `RestartActivity.kt` | Scheduled prompts; foreground service, notifications, presence, tile; deep links; the process restart after a restore. |
 | `runtime/pocketagent-proot.sh` | The ONE launcher that enters the rootfs. Shipped as an app asset and used unchanged by the CI smoke test. POSIX sh only (Android runs it with mksh). |
 | `runtime/test-launcher.sh` | Fast launcher test with a fake proot; runs anywhere (`sh runtime/test-launcher.sh [shells...]`). |
@@ -412,6 +443,106 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
 - **Parallel agents on one tree work when the contract names every shared symbol** and each file has one
   owner; `PocketApp.kt`, the manifest, `Nav.kt` and each strings file had exactly one. The first compile
   of eight agents' work needed three small fixes.
+- **The agent's own files do not survive an update.** Only the names listed in `runtime/UserState.kt`
+  inside `HERMES_HOME` are parked when the rootfs is replaced, and every CI build brings a new rootfs.
+  What the agent writes in `/root` or anywhere else in the guest is deleted. The launcher already takes
+  extra mounts (`PA_EXTRA_BIND`, unused so far); the plan mounts a folder from outside the image (Wave 2).
+- **The app the owner runs is a debug build** (`isMinifyEnabled = false`, CI runs `assembleDebug`):
+  every impression of speed and smoothness so far is of unoptimised code.
+- **Hermes's source can be read without the phone:** extract `./root/.hermes/hermes-agent` from
+  `dist/runtime-parts/rootfs/rootfs-arm64.tar.xz`. What was read there for planning is in
+  `docs/phase4-plan.md`, sections 3.2, 3.3 and 14, with file and line: the Runs API (`/v1/runs`: stop, steer,
+  events that can be joined again, sub-agents, cost), toolsets only through
+  `platform_toolsets.api_server`, profiles under `/p/<name>/`, `hermes prompt-size`,
+  `memory.write_approval` / `skills.write_approval` (for an API client the waiting writes are files
+  under `pending/`), the MCP client, the browser attaching through `browser.cdp_url`. **None of it has
+  been tried on the phone:** section 8 of the plan lists the experiments that must come first.
+- **Hermes has an official gate before every tool call** (read in the source, not tried): a plugin in
+  `HERMES_HOME/plugins/<name>/` (`plugin.yaml`, `register(ctx)`, listed under `plugins.enabled`) gets
+  `pre_tool_call` with the tool, its arguments and the session, and may answer `block`, `approve` (send
+  the call to the human-approval gate) or `modify`. Shell hooks (`hooks:` in the configuration) do the
+  same with one process per call. The plan's whole safety design stands on this (the gate is built in
+  Wave 3, the phone's powers behind it in Wave 9).
+- **More read in the Hermes source that changes how to build:** the gateway reads `config.yaml` again
+  for every request (tool lists change without a restart); a second profile switches profile serving on
+  by itself, and each profile then reads only its own `.env`; `no_mcp` in a tool list shuts out every
+  MCP server, so the app's own must be named instead; `cronjob_manage` is a default tool and
+  `HERMES_HOME/hooks/<name>/handler.py` is code the gateway runs, both ways for a misled agent to leave
+  something behind (and `hooks` and `plugins` survive an update); `hermes prompt-size` counts characters.
+- **The version code is the build number, and local builds ran ahead of CI** (32 on the phone, 14 in
+  CI): the next CI builds would be refused as downgrades. The plan's Wave 0 moves the owner's build to
+  a CI-only numbering and a private key, and gives agents a twin app with its own package name.
+- **Kurdish speech exists for the library that is already embedded** (found 2026-11-24, not tried on the
+  phone). A Kurmanji Piper voice with two speakers, ready-converted, is in the `tts-models` release of
+  k2-fsa/sherpa-onnx: `vits-piper-ku_TR-berfin_renas-medium-int8.tar.bz2` (24 MB; also 42 and 80 MB),
+  CC-BY-NC-4.0 (non-commercial, credit required: a download on request, never bundled). It loads through
+  `OfflineTtsVitsModelConfig`, which the embedded 2.0.3 AAR contains. The AAR also contains
+  `OfflineOmnilingualAsrCtcModelConfig`: the 1,600-language recogniser (365 MB int8, Apache-2.0) lists
+  Kurmanji and Sorani, accuracy unknown. Whisper has no Kurdish. The class list was read from
+  `dist/sherpa-classes.jar` (git-ignored: it is `classes.jar` taken out of the sherpa-onnx AAR in
+  Gradle's cache). The same jar shows the other voice families (Kokoro, Kitten, Matcha), language
+  identification, punctuation, speaker separation and noise removal; the plan's Wave 8 treats the
+  Kurmanji voice as one entry of a catalogue of voices for many languages.
+- **Hermes already carries most of a creative workspace as skills** (read in the source 2026-11-24, not
+  tried on the phone): `skills/productivity/microsoft-office` (nineteen scripts that create, read and
+  edit Word, PowerPoint and Excel files from plain JSON descriptions), `skills/productivity/pdf`, and
+  `skills/research/grounded-citations` (a list of sources with numbers, quotes and "unverified" flags;
+  its file is given per call with `--ledger`, or through `HERMES_CITATION_LEDGER`, which is read only
+  at start). The libraries they need are the optional extras `documents` and `documents-pdf`
+  (`pyproject.toml`), which the app's image does **not** install. The office skill does not use
+  Hermes's own Python: it looks for an interpreter that has the libraries and otherwise downloads and
+  builds a side environment (`hermes pm environment documents`) in a folder an update deletes, so the
+  plan's Wave 6 builds exactly that environment into the image. Hermes's own preview script for slides
+  needs an office suite the image does not have; the plan draws the same JSON descriptions natively.
+  `pptx_create.py` knows four chart kinds (bar, bar_h, line, pie); `docx_create.py` has no links, code
+  blocks, footnotes or mathematics.
+- **Hermes has no Google provider for pictures** (`plugins/image_gen/`: deepinfra, fal, krea, meta-ai,
+  openai, openai-codex, openrouter, xai; OpenRouter resells Google's picture models), and Google's
+  picture models have no free allowance (roughly 3 to 15 US cents a picture, read 2026-11-24). Under
+  the $0 rule no picture may be generated in a test: the plan builds pictures against a stand-in that
+  costs nothing, behind a price card. Two default tools can spend or send without being asked:
+  `image_generate` (active as soon as `image_gen.provider` is set) and `text_to_speech` (its default
+  provider is a public cloud voice); and session titles are made by a model call unless
+  `auxiliary.title_generation.model_upgrade_enabled` is false. The plan's Wave 0 removes all three.
+  The provider's key lies in the guest's `.env`, so a terminal command can always reach it: the key is
+  never the defence, and the hard stop is a spending cap at the provider.
+- **`post_tool_call` hands a plugin every tool's result**, and plugins also get hooks around every
+  request to the model and around Hermes's own side calls (`pre_api_request`, `post_api_request`,
+  `pre_auxiliary_call`, `post_auxiliary_call`) and at a sub-agent's start and stop. A run reports its
+  usage only at its end, so a running count has to come from those hooks. The plan's ledger, its
+  source marks and its meter stand on them (Wave 3; whether a request can be refused or changed from a
+  hook is experiment S10). File checkpoints (`checkpoints.enabled`) are taken once per turn, only
+  before the file tools and before commands that look destructive, restored only by the typed
+  `/rollback` (which the API does not carry), and their store does not survive an update: the plan's
+  Undo stands on the app's own git snapshots of the workspace instead.
+- **Facts for the scene and for other scripts** (research of 2026-11-24, to be read again before use):
+  weather without a key from `api.met.no` (it wants an identifying request header, so the owner must
+  choose a contact address that reveals nothing personal); a table of the visible stars from the HYG
+  database (CC BY-SA 4.0); open pixel fonts for Chinese, Japanese and Korean (Ark Pixel at 12 pixels,
+  SIL OFL) and perhaps for Arabic and Hebrew (Handjet; whether its letters join is unverified); none
+  for Indic scripts or Thai.
+- **Android facts for a target-28 app, read on the reference pages on 2026-11-24 and not tried:** a PDF
+  page's text and form fields are platform calls only from API 35; an entry of the text-selection menu
+  can return replacement text; `Presentation` drives a second display; the framework's
+  `BiometricPrompt` exists from API 28; a microphone service must be started while the app is visible;
+  Android 17 limits memory per app (`adb shell am memory-limiter status`), and whether Hermes's
+  processes count is unknown (experiment S7 of the plan).
+- **Read in the Hermes source during the review of 2026-11-25 (not tried):** a `pre_tool_call` plugin
+  that raises an error lets the call through (`agent/agent_runtime_helpers.py:2034-2047`), so the
+  gate's plugin must catch everything and refuse; sub-agents of a turn that comes through the API are
+  cut loose from the turn unless `delegation.gateway_mode` is `inline`, a child's approval requests are
+  refused, and a child may take 250 steps (`tools/delegate_tool_config.py`); pages are read "without a
+  key" by outside services (Exa, Parallel, Firecrawl, Keenable) with a twenty-minute cache, and a long
+  page comes back as head and tail with the whole text in a cache file; MCP sign-ins live in
+  `HERMES_HOME/mcp-tokens/` (not parked by `runtime/UserState.kt`), the browser sign-in opens a browser
+  inside the guest, and the sign-in by code is `hermes mcp login`; `DELETE /api/sessions/{id}` exists.
+- **Facts about today's app that the plan's review turned up:** a `pocket-bot` block in an answer saves
+  a bot without asking (`data/ChatEngine.kt:493-509`); the themes are an enum (`ThemeId` in
+  `ui/theme/Appearance.kt`), so a theme made by the user needs them to become data; the text-selection
+  entry opens `MainActivity`, a single instance that cannot hand text back; a web view that lives in
+  another process cannot be placed inside the app's own Compose screen (a sandboxed page has to run in
+  its own activity and be shown elsewhere as a picture); a camera viewfinder inside the app would need
+  the `CAMERA` permission, which would break today's permission-free `TakePicture`.
 
 ## Phase 1 notes (the new app, 2026-11-23)
 
@@ -436,6 +567,9 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
 - **Phase 2:** the chosen pixel-art identity, animations, themes, accent colours, personalisation.
 - **Phase 3 (built 2026-11-24):** the always-on hearth: presence, routines, usage, backup, more
   providers, Android surface. See `docs/phase3-plan.md`.
+- **Phase 4 and beyond (planned 2026-11-24, not built):** fourteen waves to version 1.0: Foundation,
+  Home, Conversation, Engine, Thrift, Canvas, Create, Know, Voice, Hands, Everywhere, Memory, World,
+  One. See `docs/phase4-plan.md` and `docs/design-language.md`.
 - Always: everything inside the APK, and keep the one-tap diagnostics copy.
 
 ## Open decisions with the owner
@@ -443,3 +577,10 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
 1. ~~The app name~~ — **Confirmed: "Agirî"** (keeping `applicationId = "dev.pocketagent.app"`).
 2. ~~Design direction~~ — Hearthlight / Newroz pixel-art identity with Pêt & 6 selectable themes + 6 selectable app icons shipped.
 3. Which Gemini model to use by default long-term (currently kept on `google/gemini-4-hydrogen` at `low` effort for $0 testing).
+4. The decisions in section 13 of `docs/phase4-plan.md` (22 rows): the order of the waves, the optimised
+   build for daily use and the test twin, whether a wave may ship without its extras, a spending cap at
+   the provider for the twin's credential, the first ten languages, five taste gates (the fire, the
+   sky, the answer layout, the Canvas panel, the deck themes), the weather and its contact address,
+   whether one real picture may ever be paid for, the voices and a priced live voice, the defaults for
+   phone powers, where the updater looks for releases, the star of the last wave, the 1.0 date
+   (proposed: the June solstice, 21 June 2027; late summer if every extra has to be inside 1.0).
