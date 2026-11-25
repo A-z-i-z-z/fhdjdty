@@ -74,20 +74,46 @@ fun MarkdownText(
     }
 }
 
+/**
+ * The blocks of a streamed message (see [MarkdownStream]): every block is keyed by its absolute index, so a block that
+ * moves from [tail] to [stable] keeps its composition. Only the last tail block shows the soft edge of [fadeLast] characters.
+ */
+@Composable
+internal fun MdBlocks(
+    stable: List<MdBlock>,
+    tail: List<MdBlock>,
+    color: Color,
+    fontSize: TextUnit,
+    onRunCode: ((lang: String, code: String) -> Unit)?,
+    fadeLast: Int,
+    modifier: Modifier = Modifier,
+) {
+    Column(modifier, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+        stable.forEachIndexed { index, block -> key(index) { MdBlockView(block, color, fontSize, onRunCode) } }
+        val n = stable.size
+        tail.forEachIndexed { i, block ->
+            key(n + i) { MdBlockView(block, color, fontSize, onRunCode, if (i == tail.lastIndex) fadeLast else 0) }
+        }
+    }
+}
+
 @Composable
 private fun MdBlockView(
     block: MdBlock,
     color: Color,
     fontSize: TextUnit,
     onRunCode: ((lang: String, code: String) -> Unit)?,
+    fadeLast: Int = 0,
 ) {
     val c = Pocket.colors
     when (block) {
-        is MdBlock.Paragraph -> Text(rememberAnnotated(block.spans), color = color, fontSize = fontSize, lineHeight = fontSize * 1.45f)
+        is MdBlock.Paragraph -> Text(
+            rememberAnnotated(block.spans, fadeLast, color), color = color, fontSize = fontSize, lineHeight = fontSize * 1.45f,
+        )
         is MdBlock.Heading -> {
             val size = when (block.level) { 1 -> fontSize * 1.35f; 2 -> fontSize * 1.2f; 3 -> fontSize * 1.1f; else -> fontSize }
             Text(
-                rememberAnnotated(block.spans), color = color, fontSize = size, fontWeight = FontWeight.Bold,
+                rememberAnnotated(block.spans, fadeLast, color), color = color, fontSize = size, fontWeight = FontWeight.Bold,
                 lineHeight = size * 1.3f, modifier = Modifier.padding(top = 4.dp),
             )
         }
@@ -96,7 +122,10 @@ private fun MdBlockView(
                 block.marker, color = color.copy(alpha = 0.75f), fontSize = fontSize,
                 modifier = Modifier.width(if (block.marker.length > 2) 28.dp else 20.dp),
             )
-            Text(rememberAnnotated(block.spans), color = color, fontSize = fontSize, lineHeight = fontSize * 1.4f, modifier = Modifier.weight(1f))
+            Text(
+                rememberAnnotated(block.spans, fadeLast, color), color = color, fontSize = fontSize, lineHeight = fontSize * 1.4f,
+                modifier = Modifier.weight(1f),
+            )
         }
         is MdBlock.Code -> CodeBlock(block, onRunCode)
         is MdBlock.Quote -> Row(Modifier.height(IntrinsicSize.Min)) {
@@ -112,16 +141,25 @@ private fun MdBlockView(
 }
 
 @Composable
-private fun rememberAnnotated(spans: List<MdSpan>): AnnotatedString {
+private fun rememberAnnotated(spans: List<MdSpan>, fadeLast: Int = 0, baseColor: Color = Color.Unspecified): AnnotatedString {
     val c = Pocket.colors
     val uri = LocalUriHandler.current
-    return remember(spans, c.codeBg, c.accent, uri) { buildSpans(spans, c.codeBg, c.accent, uri) }
+    return remember(spans, c.codeBg, c.accent, uri, fadeLast, baseColor) {
+        buildSpans(spans, c.codeBg, c.accent, uri, fadeLast, baseColor)
+    }
 }
 
 private fun isSafeUrl(url: String): Boolean =
     url.startsWith("http://", true) || url.startsWith("https://", true) || url.startsWith("mailto:", true)
 
-private fun buildSpans(spans: List<MdSpan>, codeBg: Color, linkColor: Color, uri: UriHandler): AnnotatedString =
+private fun buildSpans(
+    spans: List<MdSpan>,
+    codeBg: Color,
+    linkColor: Color,
+    uri: UriHandler,
+    fadeLast: Int = 0,
+    baseColor: Color = Color.Unspecified,
+): AnnotatedString =
     buildAnnotatedString {
         for (s in spans) {
             val style = SpanStyle(
@@ -142,6 +180,17 @@ private fun buildSpans(spans: List<MdSpan>, codeBg: Color, linkColor: Color, uri
                 withLink(link) { withStyle(style) { append(s.text) } }
             } else {
                 withStyle(style) { append(s.text) }
+            }
+        }
+        // The soft edge of a streaming message: the newest characters are drawn lighter, the oldest of them almost opaque.
+        if (fadeLast > 0 && baseColor != Color.Unspecified) {
+            val len = length
+            val n = minOf(fadeLast, len, StreamSmoother.FADE_ALPHAS.size)
+            for (k in 0 until n) {
+                addStyle(
+                    SpanStyle(color = baseColor.copy(alpha = baseColor.alpha * StreamSmoother.FADE_ALPHAS[k])),
+                    len - 1 - k, len - k,
+                )
             }
         }
     }

@@ -1,0 +1,24 @@
+{
+  "name": "P4-stream2000",
+  "title": "A 2,000-character answer streaming into a chat (practice model)",
+  "flags": ["perf"],
+  "practice": true,
+  "measure": {"kind": "frames", "budget": {"within8_3Pct": 95}},
+  "timeoutSec": 300,
+  "cleanupChain": true,
+  "steps": [
+    {"op": "link", "action": "NEW_CHAT"},
+    {"op": "wait", "tag": "chat.input", "timeout": 15, "captureChat": "p4chat"},
+    {"op": "type", "tag": "chat.input", "text": "LONG 2000"},
+    {"op": "measure", "action": "start"},
+    {"op": "tap", "tag": "chat.send"},
+    {"op": "wait", "textContains": "[LONG-END]", "timeout": 90},
+    {"op": "measure", "action": "stop"}
+  ],
+  "cleanup": [
+    {"op": "expect", "navIs": "chat:{{var:p4chat}}", "chatHas": "LONG 2000", "timeout": 5},
+    {"op": "tap", "tag": "chat.menu", "timeout": 5},
+    {"op": "tap", "tagRe": "^sheet\\.action\\.\\d+$", "idx": -1, "timeout": 5},
+    {"op": "tap", "tag": "dialog.confirm", "timeout": 5}
+  ]
+}

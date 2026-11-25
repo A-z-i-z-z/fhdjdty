@@ -66,6 +66,38 @@ object PixelFont {
         return w
     }
 
+    /**
+     * Width in grid columns of [text] on one line, spacing included, or null when a character has no glyph
+     * (or the text has a line break): then PixelText would fall back to the system font. Pure.
+     */
+    fun textCols(text: String): Int? {
+        val t = prepare(text).replace('\t', ' ')
+        var w = 0
+        var first = true
+        for (ch in t) {
+            if (ch < ' ') return null
+            val g = glyph(ch) ?: return null
+            if (!first) w += SPACING
+            w += g.width
+            first = false
+        }
+        return w
+    }
+
+    /**
+     * Kerning of one pair: 0, or -1 when the second glyph moves one column closer. Only pairs whose strokes
+     * cannot touch in the same row are listed (a unit test proves it). Off in Wave 0: PixelText applies it
+     * only when asked for.
+     */
+    fun kern(prev: Char, next: Char): Int = if (KERN.contains((prev.code shl 16) or next.code)) -1 else 0
+
+    /** The kerned pairs, two characters each. */
+    val KERN_PAIRS: List<String> = listOf("AT", "LT", "LV", "LY", "TA", "FA", "T.", "T,", "Y.", "V.", "r.", "r,")
+
+    private val KERN: HashSet<Int> = HashSet<Int>().also { set ->
+        for (p in KERN_PAIRS) set.add((p[0].code shl 16) or p[1].code)
+    }
+
     // ---------------------------------------------------------------- data
 
     private val MAP = mapOf(
@@ -263,5 +295,30 @@ object PixelFont {
         accent('ù', 'u', GRAVE, 2)
         accent('ë', 'e', DIAER, 2)
         accent('ï', 'ı', DIAER3, 2)
+
+        // Wave 0 additions, last: the v1 glyphs above are never edited (PixelFontGoldenTest proves it).
+        defV2()
+    }
+
+    /** Pixel font v2: ligatures, the diaeresis on Y, guillemets and a few symbols. Needs the v1 glyphs. */
+    private fun defV2() {
+        // ligatures, 7 columns wide (capitals on rows 3 to 9, lowercase on rows 5 to 9)
+        def('Æ', 3, "..xxxxx/.xx.x../.x..x../xxxxxx./x...x../x...x../x...xxx")
+        def('æ', 5, ".xx.xx./...x..x/.xxxxxx/x..x.../.xxxxxx")
+        def('Œ', 3, ".xxxxxx/x..x.../x..x.../x..xxx./x..x.../x..x.../.xxxxxx")
+        def('œ', 5, ".xx.xx./x..x..x/x..xxxx/x..x.../.xx.xxx")
+        // the diaeresis on Y (the capital sits on rows 3 to 9, so the mark is on rows 0 and 1)
+        accent('Ÿ', 'Y', DIAER, 0)
+        accent('ÿ', 'y', DIAER, 2)
+        // guillemets on the x-height rows
+        def('«', 5, "..x.x/.x.x./x.x../.x.x./..x.x")
+        def('»', 5, "x.x../.x.x./..x.x/.x.x./x.x..")
+        // symbols
+        def('€', 3, ".xxxx/x..../xxxx./x..../xxxx./x..../.xxxx")
+        def('£', 3, "..xx./.x..x/.x.../xxxx./.x.../.x.../xxxxx")
+        def('°', 3, ".x./x.x/.x.")
+        def('±', 3, "..x../..x../xxxxx/..x../..x../...../xxxxx")
+        def('↑', 3, "..x../.x.x./x.x.x/..x../..x../..x../..x..")
+        def('↓', 3, "..x../..x../..x../..x../x.x.x/.x.x./..x..")
     }
 }

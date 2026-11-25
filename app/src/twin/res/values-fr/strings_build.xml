@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Twin-only overrides of three existing keys (the test twin "Agirî Test" beside the owner's app). The same text in the
+     three locale folders, because values-tr and values-fr of the main source set would otherwise win. Not translated. -->
+<resources>
+    <!-- t: name of the test twin app on the launcher and in share sheets; never translate | kind: title -->
+    <string name="app_name">Agirî Test</string>
+    <!-- t: text-selection menu entry of the test twin; must differ from the owner's entry "Ask Agirî" | kind: row -->
+    <string name="srf_ask_agiri">Ask Agirî Test</string>
+    <!-- t: label of the test twin's Quick Settings tile, below the tile icon | kind: widget -->
+    <string name="srf_tile_label">Agirî Test fire</string>
+</resources>

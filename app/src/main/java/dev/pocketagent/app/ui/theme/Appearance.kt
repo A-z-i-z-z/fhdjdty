@@ -30,6 +30,8 @@ data class Appearance(
     val bubbleStyle: BubbleStyle = BubbleStyle.PIXEL,
     val language: String = "", /* "", "en", "tr", "fr" */
     val pixelFontTitles: Boolean = true,
+    /** Touch feedback; no screen for it in Wave 0 (the default is the full vocabulary). */
+    val haptics: HapticLevel = HapticLevel.FULL,
 )
 
 /**
@@ -57,6 +59,7 @@ class AppearanceStore private constructor(context: Context) {
             .putString(K_BUBBLE, next.bubbleStyle.name)
             .putString(K_LANG, next.language)
             .putBoolean(K_PIXEL_TITLES, next.pixelFontTitles)
+            .putString(K_HAPTICS, next.haptics.name)
             .apply()
     }
 
@@ -73,6 +76,7 @@ class AppearanceStore private constructor(context: Context) {
                 bubbleStyle = parse(prefs.getString(K_BUBBLE, null), d.bubbleStyle),
                 language = prefs.getString(K_LANG, d.language) ?: "",
                 pixelFontTitles = prefs.getBoolean(K_PIXEL_TITLES, d.pixelFontTitles),
+                haptics = parse(prefs.getString(K_HAPTICS, null), d.haptics),
             )
         )
     }
@@ -96,6 +100,7 @@ class AppearanceStore private constructor(context: Context) {
         private const val K_BUBBLE = "bubbleStyle"
         private const val K_LANG = "language"
         private const val K_PIXEL_TITLES = "pixelFontTitles"
+        private const val K_HAPTICS = "haptics"
 
         @Volatile private var instance: AppearanceStore? = null
 

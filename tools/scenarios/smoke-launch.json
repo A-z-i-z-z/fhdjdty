@@ -1,0 +1,18 @@
+{
+  "name": "smoke-launch",
+  "title": "The app starts from nothing and shows its five tabs",
+  "flags": ["core", "smoke"],
+  "safe": true,
+  "timeoutSec": 120,
+  "steps": [
+    {"op": "forceStop"},
+    {"op": "link", "intent": {"action": "android.intent.action.MAIN"}},
+    {"op": "wait", "timeout": 15, "any": [{"tag": "tab.home"}, {"desc": "Home"}]},
+    {"op": "expect", "any": [{"tag": "tab.home"}, {"desc": "Home"}]},
+    {"op": "expect", "any": [{"tag": "tab.chats"}, {"desc": "Chats"}]},
+    {"op": "expect", "any": [{"tag": "tab.bots"}, {"desc": "Bots"}]},
+    {"op": "expect", "any": [{"tag": "tab.hermes"}, {"desc": "Hermes"}]},
+    {"op": "expect", "any": [{"tag": "tab.settings"}, {"desc": "Settings"}]},
+    {"op": "noCrash"}
+  ]
+}

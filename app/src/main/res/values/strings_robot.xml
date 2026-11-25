@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Practice model (Settings > Runtime): Hermes answers from a built-in script, so the whole app can be tried for zero tokens -->
+    <!-- t: Title of the switch in Settings > Runtime (advanced) that makes Hermes answer from a built-in script instead of a real model; keep it short, one line, about 28 characters | kind: row -->
+    <string name="rbt_practice_title">Practice model (no tokens)</string>
+    <!-- t: Subtitle under that switch; explains that replies are scripted, nothing is sent to any provider, nothing is spent, and the person's own setup comes back when the switch is off; up to 4 lines | kind: body -->
+    <string name="rbt_practice_sub">Hermes answers from a built-in script instead of a real model. Nothing is sent to any provider and nothing is spent. Your own setup stays as it is and comes back when this is off.</string>
+    <!-- t: Short note under the switch, shown after the switch was changed while Hermes runs; Hermes is restarting to apply it; one line | kind: body -->
+    <string name="rbt_practice_restart">Hermes restarts to apply this.</string>
+    <!-- t: Text of the banner at the top of every screen while the practice model is on; replies are scripted; up to 2 lines | kind: widget -->
+    <string name="rbt_practice_on">The practice model is on: replies are scripted.</string>
+    <!-- t: Hint under the switch while it is on; %1$s is a comma-separated list of upper-case magic words (RUN_TOOL, LONG, ...) that make the scripted model do something special; never translate the words themselves; up to 3 lines | kind: body -->
+    <string name="rbt_practice_words">Magic words to type in a chat: %1$s</string>
+    <!-- t: Second line of the practice banner on the owner's own app: the practice model switches itself off after this many minutes; %1$d is the number of minutes left (0 to 120); about 20 characters | kind: widget -->
+    <plurals name="rbt_practice_left">
+        <item quantity="one">%1$d minute left</item>
+        <item quantity="other">%1$d minutes left</item>
+    </plurals>
+
+    <!-- Export logs (Settings > Diagnostics); the working and failed texts are cfg_diag_exporting and cfg_diag_export_failed -->
+    <!-- t: Button in Settings > Diagnostics that makes one zip of the logs and opens the share sheet; one line, about 14 characters | kind: button -->
+    <string name="rbt_export_logs">Export logs</string>
+    <!-- t: Small text under the Export logs button; says what the zip holds (the app log, the runtime log, the last launch line) and that secrets are removed; up to 3 lines | kind: body -->
+    <string name="rbt_export_logs_hint">One zip of the app log, the runtime log and the last launch line, with secrets removed.</string>
+</resources>

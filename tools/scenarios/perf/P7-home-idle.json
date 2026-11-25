@@ -1,0 +1,14 @@
+{
+  "name": "P7-home-idle",
+  "title": "Home idle for ten seconds: frames drawn (no budget yet; the scene's cost shows here)",
+  "flags": ["perf"],
+  "measure": {"kind": "idle", "budget": {}},
+  "timeoutSec": 120,
+  "steps": [
+    {"op": "tap", "cache": true, "any": [{"tag": "tab.home"}, {"desc": "Home"}]},
+    {"op": "wait", "ms": 1500},
+    {"op": "measure", "action": "start"},
+    {"op": "wait", "ms": 10000},
+    {"op": "measure", "action": "stop"}
+  ]
+}

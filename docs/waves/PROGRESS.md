@@ -166,3 +166,16 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   review and one round of fixes. Nobody compiles in this stage. If this run is interrupted here: the
   tree holds unfinished, uncompiled work of several agents; `git status` shows it; either continue
   from the contract area by area or `git stash` it and start stage 1 again.
+- **10:30, step 0.e done: stage 1 is written and reviewed, not yet compiled.** Thirty agent runs (ten
+  builds, ten Opus reviews, ten rounds of fixes; 36 findings, 3 of them blockers, all applied). The
+  run was paused for about two hours by the subscription's usage limit and resumed by itself. What
+  each area built, where it departed from the contract, what it asks of other areas and what it left
+  undone is in `docs/waves/w0/stage1-report.md`. Cut on purpose, all without a consumer: the baseline
+  profile file, the ember arc between tabs, the twin-only scenario files and perf P2/P3, the memory
+  phases of the perf tool, language packs from a file (the text function works without them).
+  Committed as a checkpoint, **not pushed** (it has never been compiled). Phone: no.
+- **10:35, step 0.f started: stages 2 to 4.** One Sonnet agent first settles the requests the areas
+  made of each other (`docs/waves/w0/stage1-resolution.md`), then SWEEP (five batches, Sonnet), WORDS
+  (eleven batches, Haiku), TRANSLATE (Turkish and French for every new text). Then stage 5:
+  compile, unit tests, the checks. If this run is interrupted here: the last commit is the stage-1
+  checkpoint; `git status` shows how far the sweeps got; they can simply be run again.

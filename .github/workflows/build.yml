@@ -33,18 +33,48 @@ jobs:
         run: |
           yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses >/dev/null || true
           "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-37.2" "build-tools;36.0.0" >/dev/null
-      - name: Unit tests
-        run: ./gradlew --no-daemon :app:testDebugUnitTest
+      # The order of the next steps is the contract's (docs/waves/w0-contract.md, 3.2): cheap script checks first,
+      # the Gradle unit tests last. Every step fails the job on a non-zero exit.
+      - name: PowerShell version
+        run: pwsh --version
       - name: Shell syntax checks
         run: |
-          for f in runtime/pocketagent-proot.sh rootfs/*.sh rootfs/smoke/*.sh proot/*.sh; do bash -n "$f" && echo "ok $f"; done
-          sh -n runtime/pocketagent-proot.sh && echo "ok (sh) runtime/pocketagent-proot.sh"
-          bash -n runtime/test-launcher.sh && sh -n runtime/test-launcher.sh && echo "ok runtime/test-launcher.sh"
+          # sh -n for POSIX scripts (the launcher, the practice starter, tools/ci); bash -n for scripts whose shebang says bash.
+          for f in $(find runtime rootfs proot tools/ci -name '*.sh' | sort); do
+            if head -n 1 "$f" | grep -q bash; then
+              bash -n "$f" || { echo "syntax error: $f"; exit 1; }
+              echo "ok (bash) $f"
+            else
+              sh -n "$f" || { echo "syntax error: $f"; exit 1; }
+              echo "ok (sh) $f"
+            fi
+          done
+      - name: Practice model compiles and passes its selftest
+        run: |
+          python3 -m py_compile rootfs/smoke/mock_llm.py
+          python3 rootfs/smoke/mock_llm.py --selftest
+      - name: Generated pixel art is current
+        run: python3 tools/art/craft_art.py --check
+      - name: UI lint ratchet
+        run: pwsh -NoProfile -File tools/lint-ui.ps1 -Check
+      - name: Strings check
+        run: pwsh -NoProfile -File tools/strings-check.ps1
+      - name: Stretched test language is current
+        run: pwsh -NoProfile -File tools/make-test-language.ps1 -Check
+      - name: Phone tools self-tests
+        run: |
+          pwsh -NoProfile -File tools/phone-test.ps1 -SelfTest
+          pwsh -NoProfile -File tools/phone-perf.ps1 -SelfTest
+          pwsh -NoProfile -File tools/lint-ui.ps1 -SelfTest
+      - name: APK size script test
+        run: sh tools/ci/test-apk-size.sh
       - name: Launcher test (fake proot under a path containing '=', like Android's nativeLibraryDir)
         run: |
           # mksh is the shell Android runs the launcher with
           sudo apt-get update -qq && sudo apt-get install -y -qq mksh
           sh runtime/test-launcher.sh sh dash bash mksh
+      - name: Unit tests
+        run: ./gradlew --no-daemon :app:testDebugUnitTest
 
   proot:
     name: Build proot (NDK, arm64)
@@ -163,37 +193,87 @@ jobs:
             ./gradlew --no-daemon :app:testDebugUnitTest --tests '*RealRootfsExtractionTest*' -i | grep -E "extractor:|PASSED|FAILED|BUILD" || true
           POCKETAGENT_ROOTFS_ARCHIVE="$PWD/dl/rootfs/rootfs-arm64.tar.xz" \
             ./gradlew --no-daemon :app:testDebugUnitTest --tests '*RealRootfsExtractionTest*'
-      - name: Build APK (rootfs and proot embedded)
+      - name: Detect private signing key
+        id: key
+        env:
+          # only whether the secret exists is read here; its value is never put in this step's environment
+          HAS_KEY: ${{ secrets.AGIRI_KEYSTORE_B64 != '' }}
         run: |
-          ./gradlew --no-daemon :app:assembleDebug \
+          if [ "$HAS_KEY" = "true" ]; then echo "kind=private" >> "$GITHUB_OUTPUT"; else echo "kind=committed" >> "$GITHUB_OUTPUT"; fi
+          echo "owner signing key: $(grep kind "$GITHUB_OUTPUT" | tail -n 1)"
+      - name: Build both APKs (rootfs and proot embedded)
+        run: |
+          # release = the owner build (R8, not debuggable); debug = the test twin. Same run number, version codes by the scheme in app/build.gradle.kts.
+          ./gradlew --no-daemon :app:assembleRelease :app:assembleDebug \
             -ProotfsArchive="$PWD/dl/rootfs/rootfs-arm64.tar.xz" \
             -PprootDir="$PWD/dl/proot" \
-            -PbuildNumber="${{ github.run_number }}" \
-            -PgitCommit="${GITHUB_SHA::12}"
-      - name: Verify and name the APK
-        id: apk
+            -PciRun="${{ github.run_number }}" \
+            -PgitCommit="${GITHUB_SHA::12}" \
+            -PsigningKind="${{ steps.key.outputs.kind }}"
+      - name: Stage the two APKs
         run: |
-          APK=app/build/outputs/apk/debug/app-debug.apk
-          NAME="PocketAgent-phase0-${{ github.run_number }}-${GITHUB_SHA::7}.apk"
-          cp "$APK" "$NAME"
-          unzip -l "$NAME" | grep -E "lib/arm64-v8a/libproot|assets/rootfs"
-          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --print-certs "$NAME" | head -n 3
-          SIZE=$(stat -c %s "$NAME")
-          echo "APK size: $SIZE bytes ($(numfmt --to=iec "$SIZE"))"
-          echo "name=$NAME" >> "$GITHUB_OUTPUT"
-          echo "size=$SIZE" >> "$GITHUB_OUTPUT"
-          sha256sum "$NAME" > SHA256SUMS.txt
+          RUN="${{ github.run_number }}"
+          cp app/build/outputs/apk/release/app-release.apk "Agiri-$RUN-unsigned.apk"
+          cp app/build/outputs/apk/debug/app-debug.apk "Agiri-$RUN-test.apk"
+          ls -l Agiri-*.apk
+      - name: Sign the owner APK
+        id: sign
+        env:
+          # the only step that sees the private key
+          KS_B64: ${{ secrets.AGIRI_KEYSTORE_B64 }}
+          KS_PASS: ${{ secrets.AGIRI_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.AGIRI_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.AGIRI_KEY_PASSWORD }}
+          LINEAGE_B64: ${{ secrets.AGIRI_LINEAGE_B64 }}
+        run: |
+          export PATH="$ANDROID_HOME/build-tools/36.0.0:$PATH"
+          RUN="${{ github.run_number }}"
+          sh tools/ci/sign-owner.sh "Agiri-$RUN-unsigned.apk" "Agiri-$RUN.apk" > sign.log
+          cat sign.log
+          echo "signing=$(sed -n 's/^signing=//p' sign.log | head -n 1)" >> "$GITHUB_OUTPUT"
+      - name: Verify both APKs
+        run: |
+          export PATH="$ANDROID_HOME/build-tools/36.0.0:$PATH"
+          RUN="${{ github.run_number }}"
+          sh tools/ci/verify-apk.sh "Agiri-$RUN.apk" dev.pocketagent.app 0 "$(( (10000 + RUN) * 100 ))"
+          sh tools/ci/verify-apk.sh "Agiri-$RUN-test.apk" dev.pocketagent.app.debug 1 "$(( RUN * 100 ))"
+      - name: Size report
+        run: |
+          export PATH="$ANDROID_HOME/build-tools/36.0.0:$PATH"
+          RUN="${{ github.run_number }}"
+          rc=0
+          sh tools/ci/apk-size.sh "Agiri-$RUN.apk" owner tools/size-budget.txt size-owner.txt || rc=$?
+          sh tools/ci/apk-size.sh "Agiri-$RUN-test.apk" twin tools/size-budget.txt size-twin.txt || true
+          { echo "signing=${{ steps.sign.outputs.signing }}"; cat size-owner.txt; echo; cat size-twin.txt; } > size-report.txt
+          cat size-report.txt
           {
-            echo '### APK'
-            echo "$NAME: $(numfmt --to=iec "$SIZE") ($SIZE bytes)"
+            echo '### APKs'
+            echo '```'
+            ls -l "Agiri-$RUN.apk" "Agiri-$RUN-test.apk"
+            cat size-report.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          # a verdict "over" fails the job; the report above is still written
+          exit "$rc"
+      - name: Checksums and summary
+        run: |
+          RUN="${{ github.run_number }}"
+          sha256sum "Agiri-$RUN.apk" "Agiri-$RUN-test.apk" > SHA256SUMS.txt
+          export PATH="$ANDROID_HOME/build-tools/36.0.0:$PATH"
+          {
+            echo '### Signers'
+            echo '```'
+            echo "owner  $(apksigner verify --print-certs "Agiri-$RUN.apk" | grep 'Signer #1 certificate SHA-256')"
+            echo "twin   $(apksigner verify --print-certs "Agiri-$RUN-test.apk" | grep 'Signer #1 certificate SHA-256')"
+            echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
       - name: Collect release files
         run: |
+          RUN="${{ github.run_number }}"
           mkdir -p release-files
-          cp "${{ steps.apk.outputs.name }}" SHA256SUMS.txt release-files/
+          cp "Agiri-$RUN.apk" "Agiri-$RUN-test.apk" SHA256SUMS.txt size-report.txt release-files/
           cp dl/rootfs/rootfs-arm64.info release-files/rootfs-arm64.info
           cp dl/proot/proot-build.info release-files/proot-build.info
-          echo "${{ steps.apk.outputs.size }}" > release-files/apk-size.txt
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: apk
@@ -214,23 +294,30 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: phase0-${{ github.run_number }}
+          RUN: ${{ github.run_number }}
         run: |
           cd release-files
-          APK="$(ls PocketAgent-phase0-*.apk)"
-          SIZE="$(cat apk-size.txt)"
+          OWNER_APK="Agiri-$RUN.apk"
+          TWIN_APK="Agiri-$RUN-test.apk"
+          SIGNING="$(sed -n 's/^signing=//p' size-report.txt | head -n 1)"
+          if [ "$SIGNING" = "private" ]; then
+            OWNER_KEY="the owner's private key"
+          else
+            OWNER_KEY="the shared public test key (no private key is configured in CI)"
+          fi
           cat > notes.md <<EOF
-          Phase 0 sideload test build #${{ github.run_number }} (commit ${GITHUB_SHA::7}).
+          Build #$RUN (commit ${GITHUB_SHA::7}).
 
-          Install this .apk (only from this Releases page: all builds share one public test signing key).
-          Open it, press "Install and start", then paste the "Copy diagnostics" output back if anything fails.
-
+          - $OWNER_APK is the owner's app (dev.pocketagent.app), optimised (R8), not debuggable. Signed with $OWNER_KEY.
+          - $TWIN_APK is the test twin (dev.pocketagent.app.debug, "Agiri Test"), debuggable, with the test hooks. It is always signed with the shared public test key.
+          - Install only APKs from this Releases page (or your own local build). tools/local-build.ps1 installs on the owner's app only after its safety checks.
+          - Do not install $OWNER_APK over an existing install unless it comes from the same release as the installed app: every CI build carries a new Linux image, and installing it re-extracts the image and moves the agent's data. Owner installs go through tools/local-build.ps1, which checks this.
           - Hermes: ${HERMES_TAG} (${HERMES_COMMIT})
-          - APK size: $(numfmt --to=iec "$SIZE")
-          - Signed with the shared sideload debug key, so builds update each other.
+          - Sizes: see size-report.txt; checksums: SHA256SUMS.txt.
           EOF
           # The tag is created on the default branch, not on this commit: the Actions token gets a 403
           # when a tag points at a commit that touches .github/workflows. The build commit is in the notes.
           gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --target "${{ github.event.repository.default_branch }}" \
-            --prerelease --title "Phase 0 build ${{ github.run_number }}" --notes-file notes.md \
-            "$APK" SHA256SUMS.txt rootfs-arm64.info proot-build.info
+            --prerelease --title "Build $RUN" --notes-file notes.md \
+            "$OWNER_APK" "$TWIN_APK" SHA256SUMS.txt rootfs-arm64.info proot-build.info size-report.txt
           echo "Release: https://github.com/$GITHUB_REPOSITORY/releases/tag/$TAG" | tee -a "$GITHUB_STEP_SUMMARY"

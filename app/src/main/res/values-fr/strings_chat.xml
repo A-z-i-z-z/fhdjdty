@@ -100,7 +100,10 @@
     <string name="ui_new_mode_mention">Seulement les bots mentionnés</string>
     <string name="ui_new_title_field">Nom du groupe (facultatif)</string>
     <string name="ui_new_create">Créer le groupe</string>
-    <string name="ui_new_selected">%1$d sélectionné(s)</string>
+    <plurals name="ui_new_selected">
+        <item quantity="one">%1$d sélectionné</item>
+        <item quantity="other">%1$d sélectionnés</item>
+    </plurals>
     <string name="ui_new_need_bots">Un groupe demande au moins deux bots. Créez d\'abord un autre bot.</string>
     <string name="ui_new_make_bot">Nouveau bot</string>
 
@@ -136,7 +139,10 @@
     <string name="ui_chat_mention_cd">Mentionner %1$s</string>
     <string name="ui_chat_deleted_bot">Bot supprimé</string>
     <string name="ui_chat_code_copy">Copier le code</string>
-    <string name="ui_chat_members_count">%1$d membres</string>
+    <plurals name="ui_chat_members_count">
+        <item quantity="one">%1$d membre</item>
+        <item quantity="other">%1$d membres</item>
+    </plurals>
     <string name="ui_chat_not_found">Cette discussion n\'existe plus.</string>
     <string name="ui_chat_empty_reply">(réponse vide)</string>
     <string name="ui_chat_sec">%1$d s</string>
@@ -295,7 +301,10 @@
     <string name="ui_filter_unread">Non lus</string>
     <string name="ui_act_mark_read">Marquer comme lu</string>
     <string name="ui_act_mark_unread">Marquer comme non lu</string>
-    <string name="ui_unread_cd">%1$d non lus</string>
+    <plurals name="ui_unread_cd">
+        <item quantity="one">%1$d non lu</item>
+        <item quantity="other">%1$d non lus</item>
+    </plurals>
     <string name="ui_chats_draft">Brouillon : %1$s</string>
     <string name="ui_chats_routine_cd">Discussion de routine</string>
     <string name="ui_act_export">Exporter la discussion</string>
@@ -315,7 +324,10 @@
     <string name="ui_home_routines_none">Rien de prévu</string>
     <string name="ui_home_tile_saved">Messages enregistrés</string>
     <string name="ui_home_usage_today">Aujourd\'hui : %1$s tokens</string>
-    <string name="ui_home_unread">%1$d non lus</string>
+    <plurals name="ui_home_unread">
+        <item quantity="one">%1$d non lu</item>
+        <item quantity="other">%1$d non lus</item>
+    </plurals>
     <string name="ui_time_tomorrow">Demain</string>
     <string name="ui_time_day_at">%1$s, %2$s</string>
 </resources>

@@ -2,4 +2,8 @@
 <resources>
     <string name="design_back">Back</string>
     <string name="design_typing">Thinking</string>
+    <!-- t: Screen-reader label of the action that hides a small note at the bottom of the screen; never shown as text. One word, a verb | kind: button -->
+    <string name="design_note_dismiss">Dismiss</string>
+    <!-- t: Screen-reader label of a thin animated line at the top of a chat that shows the assistant is busy; never shown as text. One word | kind: body -->
+    <string name="design_ember_active">Working</string>
 </resources>

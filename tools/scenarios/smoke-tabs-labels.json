@@ -1,0 +1,25 @@
+{
+  "name": "smoke-tabs-labels",
+  "title": "Every tab opens and every control on it has a spoken label",
+  "flags": ["core", "smoke"],
+  "safe": true,
+  "timeoutSec": 180,
+  "steps": [
+    {"op": "tap", "any": [{"tag": "tab.home"}, {"desc": "Home"}]},
+    {"op": "wait", "any": [{"tag": "screen.home"}], "navTop": "home", "timeout": 10},
+    {"op": "a11y"},
+    {"op": "tap", "any": [{"tag": "tab.chats"}, {"desc": "Chats"}]},
+    {"op": "wait", "any": [{"tag": "screen.chats"}], "navTop": "chats", "timeout": 10},
+    {"op": "a11y"},
+    {"op": "tap", "any": [{"tag": "tab.bots"}, {"desc": "Bots"}]},
+    {"op": "wait", "any": [{"tag": "screen.bots"}], "navTop": "bots", "timeout": 10},
+    {"op": "a11y"},
+    {"op": "tap", "any": [{"tag": "tab.hermes"}, {"desc": "Hermes"}]},
+    {"op": "wait", "any": [{"tag": "screen.hermes"}], "navTop": "hermes", "timeout": 10},
+    {"op": "a11y"},
+    {"op": "tap", "any": [{"tag": "tab.settings"}, {"desc": "Settings"}]},
+    {"op": "wait", "any": [{"tag": "screen.settings"}], "navTop": "settings", "timeout": 10},
+    {"op": "a11y"},
+    {"op": "noCrash"}
+  ]
+}

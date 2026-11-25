@@ -74,6 +74,22 @@ class RuntimeManager(
     @Volatile private var apiVerified = false
 
     @Volatile var lastLaunchEnv: Map<String, String> = emptyMap(); private set
+    /**
+     * The options of the configuration last written to the guest. Set at the start of every launch (before the configuration is
+     * written) and by every rewrite; kept until the next launch or rewrite writes another. Read by the engine's provider lambda
+     * (a per-chat model override goes out as the practice provider while this says practice) and by the diagnostics.
+     */
+    @Volatile var lastGuestOptions: GuestOptions = GuestOptions(); private set
+    /**
+     * Held while the options are worked out and the configuration is written, by a launch and by a rewrite alike: the two must not
+     * interleave (a rewrite landing between a launch's options and its write could put the owner's provider setup into a practice
+     * run). A plain monitor, not [mutex], so it can never deadlock with start/stop.
+     */
+    private val guestConfigLock = Any()
+    /** What `hooks/` and `plugins/` of HERMES_HOME held that the app did not write, as of the last launch. */
+    @Volatile var guestCodeReport: List<GuestCodeEntry> = emptyList(); private set
+    /** The practice port of the run that is alive (or was started last); null for a normal run and after it ended. */
+    @Volatile private var runPracticePort: Int? = null
     @Volatile var lastLaunchCommand: List<String> = emptyList(); private set
     @Volatile var lastExtractStats: String = ""; private set
     @Volatile var lastSelfTest: String = ""; private set
@@ -233,8 +249,59 @@ class RuntimeManager(
 
     /** Rewrites the guest .env/config.yaml from the current settings (e.g. after the API key was removed). */
     fun rewriteGuestConfigIfInstalled() {
-        try { if (isRootfsValid()) HermesConfig.apply(paths, settings, secrets, secrets.apiKey(), apiPort) }
-        catch (e: Exception) { AppLog.w("Runtime", "could not rewrite guest config", e) }
+        try {
+            if (!isRootfsValid()) return
+            synchronized(guestConfigLock) {
+                val opts = currentGuestOptions()
+                lastGuestOptions = opts
+                HermesConfig.apply(paths, settings, secrets, secrets.apiKey(), apiPort, opts)
+            }
+        } catch (e: Exception) { AppLog.w("Runtime", "could not rewrite guest config", e) }
+    }
+
+    /**
+     * The options a rewrite uses. While a Hermes process is alive its mode never flips: a run started as the practice model keeps
+     * its practice port, a normal run stays normal (the gateway reads config.yaml again for every request, so a rewrite in the
+     * other mode would point a live Hermes at a model that is not running). Only the web switch follows the setting live. While
+     * stopped, the practice switch decides (the files are regenerated at every start anyway).
+     */
+    private fun currentGuestOptions(): GuestOptions {
+        val prefs = GuestPrefs.get(context)
+        // A run is "active" from the first step of its launch (the practice port is picked before the process exists) until it ends.
+        val runActive = processAlive() || _state.value is RuntimeState.Starting
+        // A launch that has not picked its ports yet (state Starting, no practice port recorded) while the practice switch is on: the
+        // rewrite must never build the owner's inputs here. It writes the practice form with a stand-in port; the launch's own write
+        // comes last (it holds the same lock) and puts the real port in.
+        val prePortWindow = runActive && runPracticePort == null && _state.value is RuntimeState.Starting && prefs.practiceModel.value
+        val practicePort = when {
+            prePortWindow -> PracticeModel.SMOKE_PORT
+            runActive -> runPracticePort
+            prefs.practiceModel.value -> PracticeModel.SMOKE_PORT
+            else -> null
+        }
+        return GuestOptions(prefs.webKeyless.value, practicePort)
+    }
+
+    /**
+     * Applies a changed guest switch (web lookups, practice model). [restartIfRunning] true (the practice switch): a running or
+     * starting Hermes is restarted, and a Hermes stopped by an error is started again when the practice switch no longer matches the
+     * configuration last written (a failed practice launch must not leave Hermes stopped after the switch is turned off). False
+     * (the web switch): only the configuration is rewritten, Hermes picks it up by itself. Does nothing without an installed rootfs.
+     * The file work runs on the runtime's own thread, so this is safe to call from a click handler.
+     */
+    fun onGuestOptionsChanged(restartIfRunning: Boolean) {
+        scope.launch {
+            try {
+                val prefs = GuestPrefs.get(context)   // enforces the expiry
+                if (!isRootfsValid()) return@launch
+                val s = _state.value
+                if (restartIfRunning && (s == RuntimeState.Running || s is RuntimeState.Starting)) { restart(); return@launch }
+                if (restartIfRunning && s is RuntimeState.Error && lastGuestOptions.practice != prefs.practiceModel.value) { start(); return@launch }
+                rewriteGuestConfigIfInstalled()
+            } catch (e: Exception) {
+                AppLog.w("Runtime", "could not apply the guest options", e)
+            }
+        }
     }
 
     private fun ensureServiceStarted() {
@@ -361,11 +428,14 @@ class RuntimeManager(
         return env
     }
 
-    private fun pickFreePort(): Int {
+    /** A free loopback port that is not [exclude] (the practice model must not share the API port). */
+    private fun pickFreePort(exclude: Int = -1): Int {
         repeat(20) {
-            try { ServerSocket(0, 1, InetAddress.getByName(Paths.API_HOST)).use { return it.localPort } } catch (_: Exception) { }
+            try {
+                ServerSocket(0, 1, InetAddress.getByName(Paths.API_HOST)).use { if (it.localPort != exclude) return it.localPort }
+            } catch (_: Exception) { }
         }
-        return Paths.DEFAULT_API_PORT
+        return if (exclude == Paths.DEFAULT_API_PORT) Paths.DEFAULT_API_PORT + 1 else Paths.DEFAULT_API_PORT
     }
 
     /** Returns true when ownership of the wake lock has been handed to the health-wait coroutine. */
@@ -376,23 +446,58 @@ class RuntimeManager(
             setState(RuntimeState.Error("Stub build: no proot binary bundled.")); return false
         }
         if (!paths.prootBin.exists()) { setState(RuntimeState.Error("proot binary missing: ${paths.prootBin}")); return false }
-        val inputs = settings.providerInputs(secrets.geminiApiKey())
-        val blocking = ProviderConfig.blocking(ProviderConfig.problems(inputs))
-        if (blocking.isNotEmpty()) { setState(RuntimeState.Error("Invalid configuration: $blocking (fix it under Setup)")); return false }
+        // An expired practice flag is turned off here, before the options are read: it must never survive into this launch.
+        val guestPrefs = GuestPrefs.get(context)
+        guestPrefs.enforceExpiry()
+        val practice = guestPrefs.practiceModel.value
+        if (!practice) {
+            // The practice model has no provider setup to validate; every other run is checked as before.
+            val inputs = settings.providerInputs(secrets.geminiApiKey())
+            val blocking = ProviderConfig.blocking(ProviderConfig.problems(inputs))
+            if (blocking.isNotEmpty()) { setState(RuntimeState.Error("Invalid configuration: $blocking (fix it under Setup)")); return false }
+        }
 
         paths.runtimeDir.mkdirs(); paths.state.mkdirs(); paths.logs.mkdirs()
         installLauncher()
         val port = pickFreePort()
         apiPort = port; apiVerified = false
-        HermesConfig.apply(paths, settings, secrets, secrets.apiKey(), port)
+        val practicePort = if (practice) pickFreePort(exclude = port) else null
+        val opts = GuestOptions(guestPrefs.webKeyless.value, practicePort)
+        // Under the lock a rewrite cannot interleave with this write. Set before the configuration is written: it describes the
+        // configuration the guest is about to have (see the field).
+        synchronized(guestConfigLock) {
+            lastGuestOptions = opts
+            runPracticePort = practicePort
+            paths.hermesLogs.mkdirs()
+            HermesConfig.apply(paths, settings, secrets, secrets.apiKey(), port, opts)
+        }
+
+        if (practice) {
+            try { PracticeModel.install(context, paths) }
+            catch (e: java.io.IOException) {
+                AppLog.e("Runtime", "practice model could not be installed", e)
+                setState(RuntimeState.Error("Practice model could not be installed: ${e.message}")); return false
+            }
+        }
+
+        // The code Hermes would run from its own folders that the app did not write: listed, never changed.
+        try {
+            guestCodeReport = GuestCodeScan.scan(paths.hermesHome)
+            if (guestCodeReport.isEmpty()) AppLog.i("Runtime", "no foreign hooks or plugins")
+            else AppLog.w("Runtime", "guest code not written by the app: ${GuestCodeScan.summary(guestCodeReport)}")
+        } catch (e: Exception) {
+            guestCodeReport = emptyList()
+            AppLog.w("Runtime", "could not scan hooks and plugins", e)
+        }
 
         val env = launchEnv(paths.state)
         env["PA_CLEAN_STALE"] = "1" // the launcher removes leftover gateway pid/lock/socket files of a killed run
-        val cmd = listOf("/system/bin/sh", paths.launcher.path, "--", "hermes", "gateway", "run", "--replace", "-v")
+        val cmd = HermesConfig.launchCommand(paths.launcher.path, practicePort)
         lastLaunchEnv = env; lastLaunchCommand = cmd
 
         rotateRuntimeLog()
-        val header = "=== ${java.util.Date()} start build=${BuildConfig.GIT_COMMIT} port=$port noSeccomp=${settings.noSeccomp}\n=== cmd: ${cmd.joinToString(" ")}\n"
+        val practiceNote = if (practicePort != null) "practice=on practicePort=$practicePort" else "practice=off"
+        val header = "=== ${java.util.Date()} start build=${BuildConfig.GIT_COMMIT} port=$port $practiceNote noSeccomp=${settings.noSeccomp}\n=== cmd: ${cmd.joinToString(" ")}\n"
         paths.runtimeLog.appendText(header)
 
         // Everything this launch prints lands after this offset (the log is appended across runs).
@@ -407,7 +512,7 @@ class RuntimeManager(
         val handle = RunHandle(generationCounter.incrementAndGet(), p, port, logOffset)
         current = handle
         recomputeForeground()
-        AppLog.i("Runtime", "process started (gen ${handle.generation}, pid ${pidOf(p)}, port $port)")
+        AppLog.i("Runtime", "process started (gen ${handle.generation}, pid ${pidOf(p)}, port $port) $practiceNote")
         scope.launch { watchExit(handle) }
         scope.launch { monitor(handle) }
         scope.launch { waitForHealth(handle, token) }
@@ -462,7 +567,7 @@ class RuntimeManager(
                             AppLog.w("Runtime", "still starting after ${elapsed}s: running the self-test")
                             selfTest(auto = true)
                         }
-                        if (still()) setState(RuntimeState.Starting("still starting (${elapsed} s, process alive, no API yet)"))
+                        if (still()) setState(RuntimeState.Starting("$STILL_STARTING (${elapsed} s, process alive, no API yet)"))
                     } else if (still()) setState(RuntimeState.Starting("waiting for Hermes API (${elapsed} s)"))
                 }
                 delay(1000)
@@ -511,6 +616,7 @@ class RuntimeManager(
         AppLog.i("Runtime", "child (gen ${h.generation}) exited: ${rec.describe()}${if (superseded) " [superseded run, state untouched]" else ""}")
         if (superseded) { recomputeForeground(); return }
         current = null
+        runPracticePort = null
         apiVerified = false
         val cur = _state.value
         when {
@@ -561,6 +667,7 @@ class RuntimeManager(
             }
         }
         apiVerified = false
+        runPracticePort = null
         killStaleGuests("after stop")
         if (_state.value.isBusyOrRunning || _state.value is RuntimeState.Error) setState(RuntimeState.Stopped("stopped ($reason)"))
         recomputeForeground()
@@ -751,6 +858,11 @@ class RuntimeManager(
             wakeLocks.release("terminal")
             endOp()
         }
+    }
+
+    companion object {
+        /** The start of the step text while the process is alive but the API is not up yet (HomeScreen and the runtime section look for it). */
+        const val STILL_STARTING = "still starting"
     }
 
     // ---- construction ---------------------------------------------------------------------------------

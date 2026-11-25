@@ -8,7 +8,6 @@ import androidx.compose.runtime.IntState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.LongState
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Modifier
@@ -80,22 +79,7 @@ internal object SpriteBitmaps {
     }
 
     private fun build(sprite: Sprite, frame: Int, hasTint: Boolean, tint: Int, ramp: IntArray?): ImageBitmap {
-        val pal = IntArray(sprite.palette.size) { sprite.palette[it].argb }
-        if (ramp != null && ramp.isNotEmpty()) {
-            for (k in 0 until 4) {
-                val slot = sprite.rampSlots[k]
-                if (slot >= 0) pal[slot] = ramp[min(k, ramp.size - 1)]
-            }
-        }
-        if (hasTint) {
-            val ta = tint ushr 24
-            for (i in pal.indices) {
-                val a = (((pal[i] ushr 24) * ta) + 127) / 255
-                pal[i] = (a shl 24) or (tint and 0xFFFFFF)
-            }
-        }
-        val src = sprite.frames[frame].indices
-        val px = IntArray(src.size) { val s = src[it]; if (s < 0) 0 else pal[s] }
+        val px = SpriteRaster.argb(sprite, frame, hasTint, tint, ramp)
         return Bitmap.createBitmap(px, sprite.width, sprite.height, Bitmap.Config.ARGB_8888).asImageBitmap()
     }
 }
@@ -186,26 +170,11 @@ internal fun rememberSpriteFrame(sprite: Sprite, fixedFrame: Int?, playing: Bool
 }
 
 /**
- * A clock in milliseconds for scenes that animate many things at once: one coroutine, about 30 updates
- * per second, read inside draw lambdas only. Stays 0 when [active] is false.
+ * A clock in milliseconds for scenes that animate many things at once: one coroutine, at most 30 updates
+ * per second, read inside draw lambdas only. Stays 0 when [active] is false. Delegates to [rememberSceneClock].
  */
 @Composable
-internal fun rememberClock(active: Boolean): LongState {
-    val s = remember { mutableLongStateOf(0L) }
-    LaunchedEffect(active) {
-        if (!active) {
-            s.longValue = 0L
-            return@LaunchedEffect
-        }
-        val t0 = withFrameMillis { it }
-        while (true) {
-            val t = withFrameMillis { it }
-            s.longValue = t - t0
-            delay(22)
-        }
-    }
-    return s
-}
+internal fun rememberClock(active: Boolean): LongState = rememberSceneClock(active)
 
 /**
  * Crisp nearest-neighbour sprite. The sprite is centred and scaled by the largest integer factor that fits

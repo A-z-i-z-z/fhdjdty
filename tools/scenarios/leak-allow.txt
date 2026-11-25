@@ -1,0 +1,16 @@
+# Texts that stay as they are in the stretched test language: product and bot names, file names, model ids.
+# One regular expression per line (tools/strings-check.ps1 -ScanDump -Allow). Lines starting with # and empty lines are ignored.
+# The first runs of sweep-stretched-and-mirrored will show more; add only texts that are not translatable.
+^Agir
+^Hermes
+^Rebel$
+^Coder$
+^Dengb
+^P.t$
+MEMORY\.md
+SOUL\.md
+USER\.md
+config\.yaml
+^google/
+^gemini-
+^practice-model

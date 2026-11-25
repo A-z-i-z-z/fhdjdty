@@ -1,0 +1,9 @@
+{
+  "name": "P6-coldstart",
+  "title": "Cold start to the first frame of Home",
+  "flags": ["perf"],
+  "measure": {"kind": "coldstart", "budget": {"coldMs": 700}},
+  "timeoutSec": 300,
+  "steps": [
+  ]
+}

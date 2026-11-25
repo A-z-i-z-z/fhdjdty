@@ -1,0 +1,4 @@
+{
+  "note": "Findings of the spoken-label check that are known and accepted. Each entry: screen (the screen.* tag, the 8-character signature, or *), id (the tag, or class@bounds as printed on the A11Y line, or *), reason (why it is fine). Keep this list short: an entry is a promise that someone looked.",
+  "allow": []
+}

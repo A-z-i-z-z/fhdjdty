@@ -4,12 +4,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -21,14 +17,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,11 +38,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.lerp
-import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role as SemRole
 import androidx.compose.ui.semantics.contentDescription
@@ -75,7 +67,11 @@ import dev.pocketagent.app.ui.components.PocketChip
 import dev.pocketagent.app.ui.components.TypingIndicator
 import dev.pocketagent.app.ui.theme.AnimLevel
 import dev.pocketagent.app.ui.theme.BubbleStyle
+import dev.pocketagent.app.ui.theme.HapticCue
+import dev.pocketagent.app.ui.theme.Loop
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.theme.motion
+import dev.pocketagent.app.ui.theme.rememberHaptics
 import dev.pocketagent.app.voice.SoundCue
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -88,12 +84,12 @@ private val AVATAR = 34.dp
 /** Long press with haptic feedback, plus the same action for accessibility services. */
 @Composable
 private fun Modifier.longPressAction(label: String, action: () -> Unit): Modifier {
-    val haptic = LocalHapticFeedback.current
+    val haptics = rememberHaptics()
     val current by rememberUpdatedState(action)
     return this
         .pointerInput(Unit) {
             detectTapGestures(onLongPress = {
-                haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                haptics.play(HapticCue.HOLD)
                 current()
             })
         }
@@ -104,55 +100,37 @@ private fun Modifier.longPressAction(label: String, action: () -> Unit): Modifie
 internal fun MessageRow(
     msg: Message,
     bot: Bot?,
-    showHeader: Boolean,
-    showName: Boolean,
-    isLastInRun: Boolean,
-    showDay: Boolean,
-    canRetry: Boolean,
-    onLongPress: (Message) -> Unit,
-    onRetry: () -> Unit,
-    onCopy: (String) -> Unit,
+    layout: RowLayout,
+    actions: ChatRowActions,
+    botsById: Map<String, Bot>,
+    convBotIds: List<String>,
     modifier: Modifier = Modifier,
-    botsById: Map<String, Bot> = emptyMap(),
-    convBotIds: List<String> = emptyList(),
-    isGroup: Boolean = false,
-    canRegenerate: Boolean = false,
-    isSpeaking: Boolean = false,
-    onSpeak: (Message) -> Unit = {},
-    onFork: (Message) -> Unit = {},
-    onRunCode: ((lang: String, code: String) -> Unit)? = null,
-    onOpenImage: (Attachment) -> Unit = {},
-    onOpenMemory: () -> Unit = {},
-    onChatWithBot: (String) -> Unit = {},
-    onAddBotToChat: (String) -> Unit = {},
-    onEditBot: (String) -> Unit = {},
-    /** The current match of "find in chat", or a message just opened from the saved messages: drawn with an accent outline. */
-    highlighted: Boolean = false,
 ) {
     val label = stringResource(R.string.ui_chat_message_cd)
-    val press = { onLongPress(msg) }
+    val press = { actions.onLongPress(msg) }
     val accent = Pocket.colors.accent
-    Column(modifier.fillMaxWidth().padding(top = if (showHeader) 8.dp else 0.dp)) {
-        if (showDay) DayChip(msg.createdAt)
+    val grouping = layout.grouping
+    Column(modifier.fillMaxWidth().padding(top = if (grouping.showHeader) 8.dp else 0.dp)) {
+        if (grouping.showDay) DayChip(msg.createdAt)
         // The wrapper is always there (only its modifier changes) so highlighting never resets the state of the row below.
         Box(
             Modifier.fillMaxWidth().then(
-                if (highlighted) Modifier.border(2.dp, accent, RoundedCornerShape(8.dp)).padding(2.dp) else Modifier,
+                if (layout.highlighted) Modifier.border(2.dp, accent, RoundedCornerShape(8.dp)).padding(2.dp) else Modifier,
             ),
         ) {
             when (msg.role) {
-                Role.USER -> UserMessage(msg, isLastInRun, label, press, onOpenImage)
+                Role.USER -> UserMessage(msg, grouping.isLastInRun, label, press, actions.onOpenImage)
                 Role.BOT -> BotMessage(
-                    msg, bot, showHeader, showName, isLastInRun, label, press,
-                    botsById, convBotIds, isGroup,
-                    canRegenerate, isSpeaking, onSpeak, onCopy, onFork, onRetry, onRunCode,
-                    onChatWithBot, onAddBotToChat, onEditBot,
+                    msg, bot, grouping.showHeader, layout.showName, grouping.isLastInRun, label, press,
+                    botsById, convBotIds, layout.isGroup,
+                    layout.canRegenerate, layout.isSpeaking, actions.onSpeak, actions.onCopy, actions.onFork, actions.onRetry,
+                    actions.onRunCode, actions.onChatWithBot, actions.onAddBotToChat, actions.onEditBot,
                 )
-                Role.TOOL -> ToolCard(msg, label, press, onOpenMemory)
-                Role.ERROR -> ErrorCard(msg, canRetry, label, press, onRetry, onCopy)
+                Role.TOOL -> ToolCard(msg, label, press, layout.toolIndex, actions.onOpenMemory) { actions.onOpenToolOutput(msg) }
+                Role.ERROR -> ErrorCard(msg, layout.canRetry, label, press, actions.onRetry, actions.onCopy)
                 Role.NOTE -> Text(
                     msg.text, color = Pocket.colors.textMuted, fontSize = 12.sp, textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp, vertical = 4.dp),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 32.dp, vertical = 4.dp).testTag("chat.msg.note"),
                 )
             }
         }
@@ -231,7 +209,7 @@ private fun UserMessage(
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.End) {
         Bubble(
             c.userBubble, lerp(c.userBubble, Color.Black, 0.3f), own = true,
-            modifier = Modifier.widthIn(max = maxBubbleWidth()).longPressAction(label, onLongPress),
+            modifier = Modifier.widthIn(max = maxBubbleWidth()).testTag("chat.msg.user").longPressAction(label, onLongPress),
         ) {
             Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 if (msg.attachments.isNotEmpty()) {
@@ -261,14 +239,15 @@ private fun BotMessage(
     onCopy: (String) -> Unit,
     onFork: (Message) -> Unit,
     onRegenerate: () -> Unit,
-    onRunCode: ((lang: String, code: String) -> Unit)?,
+    onRunCode: (lang: String, code: String) -> Unit,
     onChatWithBot: (String) -> Unit,
     onAddBotToChat: (String) -> Unit,
     onEditBot: (String) -> Unit,
 ) {
     val c = Pocket.colors
     val ctx = LocalContext.current
-    val haptic = LocalHapticFeedback.current
+    val haptics = rememberHaptics()
+    val motion = Pocket.motion
     val scope = rememberCoroutineScope()
     val bounce = remember { Animatable(0f) }
     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -280,11 +259,11 @@ private fun BotMessage(
                     bot, AVATAR,
                     modifier = Modifier.pointerInput(msg.id) {
                         detectTapGestures(onDoubleTap = {
-                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
+                            haptics.play(HapticCue.TICK)
                             PocketApp.from(ctx).sounds.play(SoundCue.SPARK)
                             scope.launch {
                                 bounce.snapTo(-14f)
-                                bounce.animateTo(0f, spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium))
+                                bounce.animateTo(0f, motion.bouncy())
                             }
                         })
                     },
@@ -302,7 +281,7 @@ private fun BotMessage(
             }
             Bubble(
                 c.botBubble, if (isSpeaking) c.accent else c.outline, own = false,
-                modifier = Modifier.longPressAction(label, onLongPress),
+                modifier = Modifier.testTag(if (msg.streaming) "chat.msg.bot.live" else "chat.msg.bot").longPressAction(label, onLongPress),
             ) {
                 Column {
                     if (msg.reasoning.isNotBlank()) ReasoningBlock(msg)
@@ -312,7 +291,10 @@ private fun BotMessage(
                         msg.text.isBlank() -> Text(
                             stringResource(R.string.ui_chat_empty_reply), color = c.textMuted, fontSize = 14.sp, fontStyle = FontStyle.Italic,
                         )
-                        else -> MarkdownText(msg.text, color = c.onBotBubble, onRunCode = onRunCode)
+                        else -> StreamingMarkdown(
+                            text = msg.text, streaming = msg.streaming, createdAtMs = msg.createdAt,
+                            color = c.onBotBubble, onRunCode = onRunCode,
+                        )
                     }
                     if (msg.streaming && msg.text.isNotBlank()) BlinkingCaret()
                 }
@@ -423,7 +405,7 @@ private fun ReasoningBlock(msg: Message) {
     val live = msg.streaming && msg.text.isBlank()
     Column(Modifier.padding(bottom = 6.dp)) {
         Row(
-            Modifier.clickable(role = SemRole.Button) { open = !open }.padding(vertical = 2.dp),
+            Modifier.testTag("chat.thought").clickable(role = SemRole.Button) { open = !open }.padding(vertical = 2.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (live) GeneratingEmber(size = 14.dp) else PixelIconView(PixelIcon.SPARK, tint = c.textMuted, size = 14.dp)
@@ -449,10 +431,11 @@ private fun ReasoningBlock(msg: Message) {
 private fun BlinkingCaret() {
     val c = Pocket.colors
     val anim = Pocket.anim
+    val motion = Pocket.motion
     val t = rememberInfiniteTransition(label = "caret")
     val a = t.animateFloat(
         initialValue = 1f, targetValue = 0.15f,
-        animationSpec = infiniteRepeatable(tween(520, easing = LinearEasing), RepeatMode.Reverse), label = "caretAlpha",
+        animationSpec = motion.loop(Loop.CARET, RepeatMode.Reverse, LinearEasing), label = "caretAlpha",
     )
     Box(
         Modifier.padding(top = 4.dp).size(width = 8.dp, height = 14.dp)
@@ -464,20 +447,26 @@ private fun BlinkingCaret() {
 // ---- tool --------------------------------------------------------------------------------------------------------
 
 @Composable
-private fun ToolCard(msg: Message, label: String, onLongPress: () -> Unit, onOpenMemory: () -> Unit) {
+private fun ToolCard(
+    msg: Message, label: String, onLongPress: () -> Unit, toolIndex: Int, onOpenMemory: () -> Unit, onOpenOutput: () -> Unit,
+) {
     val c = Pocket.colors
-    var expanded by rememberSaveable(msg.id) { mutableStateOf(false) }
-    val status = msg.toolStatus.orEmpty().lowercase()
-    val running = msg.streaming || status == "running"
-    val failed = status.contains("interrupt") || status.contains("error") || status.contains("fail")
+    val running = isToolRunning(msg)
+    val failed = isToolFailed(msg)
     val isMemory = msg.toolName?.contains("memory", ignoreCase = true) == true
     val preview = msg.text.lineSequence().firstOrNull { it.isNotBlank() }.orEmpty().trim()
+    val openLabel = stringResource(R.string.stm_tool_card_open)
     Row(Modifier.fillMaxWidth().padding(start = AVATAR + 8.dp)) {
         PixelPanel(
-            Modifier.widthIn(max = maxBubbleWidth()).longPressAction(label, onLongPress),
+            Modifier.widthIn(max = maxBubbleWidth()).testTag("chat.msg.tool").longPressAction(label, onLongPress),
             color = c.toolBubble, border = if (isMemory && !running && !failed) c.accent else c.outline, corner = 1,
         ) {
-            Column(Modifier.clickable(role = SemRole.Button) { expanded = !expanded }.padding(10.dp)) {
+            // The card shows the first line; the whole output opens in a sheet (the old inline scroll box is gone).
+            Column(
+                Modifier.testTag("chat.tool.$toolIndex")
+                    .clickable(onClickLabel = openLabel, role = SemRole.Button, onClick = onOpenOutput)
+                    .padding(10.dp),
+            ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     PixelIconView(if (isMemory) PixelIcon.MEMORY else PixelIcon.TOOL, tint = if (isMemory) c.accent else c.onToolBubble, size = 18.dp)
                     Spacer(Modifier.width(8.dp))
@@ -500,9 +489,9 @@ private fun ToolCard(msg: Message, label: String, onLongPress: () -> Unit, onOpe
                         Text(stringResource(R.string.ui_chat_tool_done), color = c.onToolBubble.copy(alpha = 0.7f), fontSize = 11.sp)
                     }
                     Spacer(Modifier.width(6.dp))
-                    PixelIconView(if (expanded) PixelIcon.UP else PixelIcon.DOWN, tint = c.onToolBubble.copy(alpha = 0.7f), size = 12.dp)
+                    PixelIconView(PixelIcon.MORE, tint = c.onToolBubble.copy(alpha = 0.7f), size = 12.dp)
                 }
-                if (!expanded && preview.isNotEmpty()) {
+                if (preview.isNotEmpty()) {
                     Text(
                         preview, color = c.onToolBubble.copy(alpha = 0.7f), fontSize = 12.sp, fontFamily = FontFamily.Monospace,
                         maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.padding(top = 4.dp),
@@ -510,18 +499,10 @@ private fun ToolCard(msg: Message, label: String, onLongPress: () -> Unit, onOpe
                 }
                 if (isMemory && !running && !failed) {
                     Spacer(Modifier.height(6.dp))
-                    PocketChip(stringResource(R.string.ui_chat_memory_open), false, onOpenMemory, icon = PixelIcon.MEMORY)
-                }
-                AnimatedVisibility(expanded) {
-                    Box(
-                        Modifier.padding(top = 8.dp).fillMaxWidth().clip(RoundedCornerShape(4.dp)).background(c.codeBg)
-                            .heightIn(max = 240.dp).verticalScroll(rememberScrollState()).padding(8.dp),
-                    ) {
-                        Text(
-                            msg.text.take(6000).ifBlank { stringResource(R.string.ui_chat_no_output) },
-                            color = c.text, fontSize = 12.sp, fontFamily = FontFamily.Monospace, lineHeight = 16.sp,
-                        )
-                    }
+                    PocketChip(
+                        stringResource(R.string.ui_chat_memory_open), false, onOpenMemory,
+                        modifier = Modifier.testTag("chat.memory.open"), icon = PixelIcon.MEMORY,
+                    )
                 }
             }
         }
@@ -538,7 +519,7 @@ private fun ErrorCard(
     val c = Pocket.colors
     val shape = RoundedCornerShape(6.dp)
     Column(
-        Modifier.fillMaxWidth().padding(start = AVATAR + 8.dp).clip(shape)
+        Modifier.fillMaxWidth().padding(start = AVATAR + 8.dp).testTag("chat.msg.error").clip(shape)
             .background(c.error.copy(alpha = 0.12f)).border(1.dp, c.error.copy(alpha = 0.6f), shape)
             .longPressAction(label, onLongPress).padding(12.dp),
     ) {

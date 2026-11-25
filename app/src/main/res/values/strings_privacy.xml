@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Privacy row in Settings > Behaviour (agent CONFIG-R). Prefix cfg_priv_. -->
+
+    <!-- t: Small accent heading above the web-lookups switch in Settings > Behaviour; one short word, about 12 characters | kind: row -->
+    <string name="cfg_priv_title">Privacy</string>
+    <!-- t: Title of the switch row that allows or forbids free public web lookups for the agent; one line, about 20 characters | kind: row -->
+    <string name="cfg_priv_web_title">Web lookups</string>
+    <!-- t: Subtitle under the web-lookups switch, up to 5 lines. Says what leaves the phone when the agent searches the web or reads a page, and that turning the switch off removes web search. Exa, Parallel, Firecrawl and Keenable are product names: keep them | kind: row -->
+    <string name="cfg_priv_web_sub">When the agent searches the web or reads a page, the search words or the page address go to free public services (Exa, Parallel, Firecrawl and Keenable). No name or account is sent. Turn this off and the agent has no web search.</string>
+</resources>

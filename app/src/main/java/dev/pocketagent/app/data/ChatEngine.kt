@@ -12,7 +12,9 @@ import dev.pocketagent.app.runtime.WakeLocks
 import dev.pocketagent.app.util.AppLog
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -449,7 +451,11 @@ class ChatEngine internal constructor(
         return turn.finish(outcome)
     }
 
-    /** The state of one bot's streamed answer. Called from one thread only (the generation thread). */
+    /**
+     * The state of one bot's streamed answer. Events and the end of the turn come from the generation thread; the trailing
+     * write (see [StreamPush]) comes from a timer, so every entry point takes [lock] and the text builders are only touched
+     * inside it. Lock order is always this lock, then the repository's.
+     */
     private inner class Turn(val convId: String, val botId: String, val modelId: String = "") {
         private val t0 = System.currentTimeMillis()
         private var usageIn = 0L
@@ -457,7 +463,9 @@ class ChatEngine internal constructor(
         private var bubbleId: String? = null
         private val text = StringBuilder()
         private val reasoning = StringBuilder()
-        private var lastPush = 0L
+        private val lock = Any()
+        private val gate = StreamPush(PUSH_INTERVAL_MS, TRAILING_PUSH_MS)
+        private var trailing: Job? = null
         private val tools = HashMap<String, String>()   // tool call id -> TOOL message id
         private var produced = false
         private var hadError = false
@@ -475,13 +483,45 @@ class ChatEngine internal constructor(
             text.setLength(0); reasoning.setLength(0)
         }
 
+        private fun nowMs(): Long = System.nanoTime() / 1_000_000
+
+        /** Called with [lock] held. */
         private fun push(force: Boolean) {
             val id = bubbleId ?: return
-            val now = System.nanoTime() / 1_000_000
-            if (!force && now - lastPush < PUSH_INTERVAL_MS) return
-            lastPush = now
+            val now = nowMs()
+            if (force) {
+                gate.onForced(now)
+                writeNow(id)
+                return
+            }
+            when (gate.onChange(now)) {
+                StreamPush.Action.PUSH -> writeNow(id)
+                StreamPush.Action.ARM -> armTrailing()
+                StreamPush.Action.NONE -> Unit
+            }
+        }
+
+        /** Copies the text of the open bubble into the repository. Called with [lock] held. */
+        private fun writeNow(id: String) {
             val t = text.toString(); val r = reasoning.toString()
             repo.updateMessage(convId, id) { it.copy(text = t, reasoning = r) }
+        }
+
+        /** One timer: a write [TRAILING_PUSH_MS] after the last change when no further change pushed it sooner. Called with [lock] held. */
+        private fun armTrailing() {
+            trailing = scope.launch {
+                var wait = TRAILING_PUSH_MS
+                while (true) {
+                    delay(wait)
+                    val next = synchronized(lock) {
+                        val n = gate.onTimer(nowMs())
+                        if (n == 0L) bubbleId?.let { writeNow(it) }
+                        n
+                    }
+                    if (next <= 0L) break
+                    wait = next
+                }
+            }
         }
 
         private fun closeBubble() {
@@ -528,7 +568,9 @@ class ChatEngine internal constructor(
             if (_status.value.containsKey(convId)) _status.update { it - convId }
         }
 
-        fun onEvent(ev: ChatEvent) {
+        fun onEvent(ev: ChatEvent) = synchronized(lock) { handle(ev) }
+
+        private fun handle(ev: ChatEvent) {
             when (ev) {
                 is ChatEvent.Delta -> {
                     clearTransient()
@@ -632,7 +674,13 @@ class ChatEngine internal constructor(
         }
 
         /** Closes the answer and records how the stream ended. Returns true when the round may go on. */
-        fun finish(outcome: ChatOutcome): Boolean {
+        fun finish(outcome: ChatOutcome): Boolean = synchronized(lock) {
+            trailing?.cancel()
+            trailing = null
+            finishLocked(outcome)
+        }
+
+        private fun finishLocked(outcome: ChatOutcome): Boolean {
             _approvals.update { it - convId }
             clearTransient()
             // Safety net: a turn whose ONLY output looked like thought summaries (no tool, no real text) was the answer after all.
@@ -674,6 +722,7 @@ class ChatEngine internal constructor(
         /** Value of [status] for a conversation while the engine waits for Hermes to start; the UI shows a localized text for it. */
         const val STATUS_WAKING = "@waking"
         private const val PUSH_INTERVAL_MS = 60L
+        private const val TRAILING_PUSH_MS = 60L
         private const val MAX_REASONING_CHARS = 30_000
         /** Values Hermes accepts as `model_options.reasoning_effort` that the app offers. */
         val EFFORTS = setOf("none", "minimal", "low", "medium", "high", "xhigh")

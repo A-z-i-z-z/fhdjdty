@@ -3,18 +3,14 @@ package dev.pocketagent.app.ui.components
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.defaultMinSize
-import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
@@ -28,20 +24,23 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.lerp
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import dev.pocketagent.app.ui.text.EnumLabels
+import dev.pocketagent.app.ui.text.t
 import dev.pocketagent.app.ui.theme.AnimLevel
+import dev.pocketagent.app.ui.theme.HapticCue
+import dev.pocketagent.app.ui.theme.Loop
 import dev.pocketagent.app.ui.theme.Pocket
 import dev.pocketagent.app.ui.theme.PocketColors
-import kotlin.math.roundToInt
+import dev.pocketagent.app.ui.theme.Space
+import dev.pocketagent.app.ui.theme.motion
+import dev.pocketagent.app.ui.theme.rememberHaptics
 
 enum class ButtonKind { PRIMARY, SECONDARY, GHOST, DANGER }
 
@@ -84,9 +83,10 @@ private fun buttonLook(kind: ButtonKind, c: PocketColors, enabled: Boolean): But
 }
 
 /**
- * Pixel button. The face sits on a one-pixel lip and sinks onto it while pressed; PRIMARY has a slow
- * ember glow (static when animations are reduced or off). At least 48 dp high. Label is in the system
- * font (semibold) so long translated strings wrap instead of overflowing.
+ * Pixel button. The face sits on a one-pixel lip and sinks onto it while pressed, on every kind (the ghost
+ * button has no face: its label sinks and it keeps its tint); PRIMARY has a slow ember glow (static when
+ * animations are reduced or off). At least 48 dp high. Label is in the system font (semibold) so long
+ * translated strings wrap instead of overflowing.
  */
 @Composable
 fun PixelButton(
@@ -98,19 +98,18 @@ fun PixelButton(
     enabled: Boolean = true,
 ) {
     val c = Pocket.colors
-    val anim = Pocket.anim
+    val motion = Pocket.motion
     val look = remember(kind, c, enabled) { buttonLook(kind, c, enabled) }
     val interaction = remember { MutableInteractionSource() }
-    val pressed = interaction.collectIsPressedAsState()
-    val view = LocalView.current
     val pixel = 2.dp
-    val sinkPx = with(LocalDensity.current) { pixel.toPx() }.roundToInt().coerceAtLeast(1)
+    val press = rememberPixelPress(interaction, pixel)
+    val haptics = rememberHaptics()
 
     val wantsGlow = kind == ButtonKind.PRIMARY && enabled
-    val glowState: State<Float>? = if (wantsGlow && anim == AnimLevel.FULL) {
+    val glowState: State<Float>? = if (wantsGlow && motion.level == AnimLevel.FULL) {
         rememberInfiniteTransition(label = "pixelButtonGlow").animateFloat(
             initialValue = 0.10f, targetValue = 0.26f, label = "glow",
-            animationSpec = infiniteRepeatable(tween(1700, easing = LinearEasing), RepeatMode.Reverse),
+            animationSpec = motion.loop(Loop.GLOW, RepeatMode.Reverse, LinearEasing),
         )
     } else null
     val glowColor = if (wantsGlow) c.fireMid else null
@@ -120,7 +119,7 @@ fun PixelButton(
             face = look.face, border = look.border, corner = 2, pixel = pixel,
             highlight = look.highlight, glow = glowColor,
             glowAlpha = { glowState?.value ?: 0.16f },
-            lip = look.lip, pressed = { pressed.value },
+            lip = look.lip, pressDepthPx = { press.sinkPx },
         )
     } else {
         Modifier
@@ -128,7 +127,7 @@ fun PixelButton(
 
     Box(
         modifier = modifier
-            .defaultMinSize(minWidth = 64.dp, minHeight = 48.dp)
+            .defaultMinSize(minWidth = 64.dp, minHeight = Space.touch)
             .then(surface)
             .clip(PixelShape(2, pixel))
             .clickable(
@@ -136,15 +135,15 @@ fun PixelButton(
                 indication = if (look.filled) null else LocalIndication.current,
                 enabled = enabled,
                 role = Role.Button,
-                onClick = { view.pixelTap(); onClick() },
+                onClick = { haptics.play(HapticCue.CLICK); onClick() },
             ),
         contentAlignment = Alignment.Center,
     ) {
         Row(
             modifier = Modifier
-                .offset { IntOffset(0, if (look.filled && pressed.value) sinkPx else 0) }
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 8.dp + if (look.filled) pixel else 0.dp),
-            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+                .pixelPressOffset(press)
+                .padding(start = Space.l, end = Space.l, top = Space.s, bottom = Space.s + if (look.filled) pixel else 0.dp),
+            horizontalArrangement = Arrangement.spacedBy(Space.s, Alignment.CenterHorizontally),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (icon != null) PixelIconView(icon, tint = look.label, size = 24.dp)
@@ -162,8 +161,9 @@ fun PixelButton(
 
 
 /**
- * Icon-only button: 48 dp touch target, 24 dp icon, hard-edged press tint. [contentDescription] is read
- * by screen readers; give one that says what the button does.
+ * Icon-only button: 48 dp touch target, 24 dp icon, hard-edged press tint, and the icon sinks one design
+ * pixel while pressed. [contentDescription] is read by screen readers; give one that says what the button
+ * does (without one the spoken name of the icon is used).
  */
 @Composable
 fun PixelIconButton(
@@ -174,17 +174,25 @@ fun PixelIconButton(
     tint: Color = Pocket.colors.text,
     enabled: Boolean = true,
 ) {
-    val view = LocalView.current
-    val label = contentDescription ?: icon.name.lowercase()
+    val haptics = rememberHaptics()
+    val interaction = remember { MutableInteractionSource() }
+    val press = rememberPixelPress(interaction)
+    val label = contentDescription ?: EnumLabels.icon(icon.name)?.let { t(it) } ?: icon.name
     Box(
         modifier = modifier
-            .size(48.dp)
+            .size(Space.touch)
             .clip(PixelShape(2, 2.dp))
-            .clickable(enabled = enabled, role = Role.Button, onClick = { view.pixelTap(); onClick() })
+            .clickable(
+                interactionSource = interaction,
+                indication = LocalIndication.current,
+                enabled = enabled,
+                role = Role.Button,
+                onClick = { haptics.play(HapticCue.CLICK); onClick() },
+            )
             .semantics { this.contentDescription = label }
             .alpha(if (enabled) 1f else 0.4f),
         contentAlignment = Alignment.Center,
     ) {
-        PixelIconView(icon, tint = tint, size = 24.dp)
+        PixelIconView(icon, modifier = Modifier.pixelPressOffset(press), tint = tint, size = 24.dp)
     }
 }

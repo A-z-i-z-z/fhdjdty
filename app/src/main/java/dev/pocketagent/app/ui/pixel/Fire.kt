@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import dev.pocketagent.app.ui.pixel.stage.EmberSet
 import dev.pocketagent.app.ui.theme.AnimLevel
 import dev.pocketagent.app.ui.theme.Pocket
 import kotlin.math.floor
@@ -33,36 +34,10 @@ fun Fire(modifier: Modifier = Modifier, intensity: Float = 1f) {
 }
 
 /**
- * Pre-computed constants of a pool of embers. Every particle is a pure function of the clock, so drawing
- * needs no mutable state and allocates nothing.
- */
-internal class EmberSet(val capacity: Int, seed: Long) {
-    val spawnX = FloatArray(capacity)
-    val periodMs = FloatArray(capacity)
-    val phase = FloatArray(capacity)
-    val swayAmp = FloatArray(capacity)
-    val swayFreq = FloatArray(capacity)
-    val drift = FloatArray(capacity)
-    val big = BooleanArray(capacity)
-
-    init {
-        val r = java.util.Random(seed)
-        for (i in 0 until capacity) {
-            spawnX[i] = r.nextFloat() * 2f - 1f
-            periodMs[i] = 2200f + r.nextFloat() * 2800f
-            phase[i] = r.nextFloat()
-            swayAmp[i] = 1.5f + r.nextFloat() * 3.5f
-            swayFreq[i] = 0.8f + r.nextFloat() * 1.4f
-            drift[i] = r.nextFloat() * 1.6f - 0.5f
-            big[i] = r.nextFloat() < 0.22f
-        }
-    }
-}
-
-/**
- * Draws the first [count] embers of [set] at time [t] ms. Cells are [unit] device pixels; coordinates are
- * snapped to that grid. Embers spawn along a line of +-[halfWidthCells] around [originX] at [originY] and
- * rise [riseCells] cells, sway, drift, cool from gold to red and fade out; some flicker off for a moment.
+ * Draws the first [count] embers of [set] (the pool lives in the stage package) at time [t] ms. Cells are
+ * [unit] device pixels; coordinates are snapped to that grid. Embers spawn along a line of +-[halfWidthCells]
+ * around [originX] at [originY] and rise [riseCells] cells, sway, drift, cool from gold to red and fade out;
+ * some flicker off for a moment.
  */
 internal fun DrawScope.drawEmbers(
     set: EmberSet, count: Int, t: Long, unit: Float,

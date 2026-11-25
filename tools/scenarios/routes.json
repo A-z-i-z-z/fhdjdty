@@ -1,0 +1,27 @@
+{
+  "note": "The routes the sweep scenarios visit with the debug link. chat:{{latestChat}} is skipped when there is no chat yet (optional). bot:id and routine:id need an id and are not listed.",
+  "routes": [
+    {"route": "home", "screen": "screen.home"},
+    {"route": "chats", "screen": "screen.chats"},
+    {"route": "chat:{{latestChat}}", "screen": "screen.chat", "optional": true},
+    {"route": "bots", "screen": "screen.bots"},
+    {"route": "botnew", "screen": "screen.boteditor"},
+    {"route": "hermes", "screen": "screen.hermes"},
+    {"route": "terminal", "screen": "screen.terminal"},
+    {"route": "settings", "screen": "screen.settings"},
+    {"route": "settings:provider", "screen": "screen.settings"},
+    {"route": "settings:usage", "screen": "screen.settings"},
+    {"route": "settings:behaviour", "screen": "screen.settings"},
+    {"route": "settings:appearance", "screen": "screen.settings"},
+    {"route": "settings:voice", "screen": "screen.settings"},
+    {"route": "settings:language", "screen": "screen.settings"},
+    {"route": "settings:backup", "screen": "screen.settings"},
+    {"route": "settings:runtime", "screen": "screen.settings"},
+    {"route": "settings:diagnostics", "screen": "screen.settings"},
+    {"route": "settings:about", "screen": "screen.settings"},
+    {"route": "routines", "screen": "screen.routines"},
+    {"route": "routinenew", "screen": "screen.routineeditor"},
+    {"route": "starred", "screen": "screen.starred"},
+    {"route": "gallery", "screen": "screen.gallery"}
+  ]
+}

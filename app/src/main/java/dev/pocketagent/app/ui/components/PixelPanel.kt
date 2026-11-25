@@ -1,7 +1,5 @@
 package dev.pocketagent.app.ui.components
 
-import android.view.HapticFeedbackConstants
-import android.view.View
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
@@ -17,24 +15,17 @@ import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawscope.translate
-import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.theme.bevelRim
+import dev.pocketagent.app.ui.theme.bevelShade
+import dev.pocketagent.app.ui.theme.designUnitPx
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
-
-/** Light tap used by buttons and toggles. */
-internal fun View.pixelTap() {
-    performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY)
-}
-
-internal fun View.pixelTick() {
-    performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK)
-}
 
 /**
  * Appends a rectangle whose four corners are cut in a staircase of [n] steps of [p] device pixels
@@ -86,8 +77,10 @@ class PixelShape(private val corner: Int = 2, private val pixel: Dp = 2.dp) : Sh
 
 /**
  * Draws the pixel look behind a component: 1-pixel border, face, optional lit top line / shaded bottom
- * line, optional ember glow rings outside, optional bottom "lip" that the face sinks into when pressed.
- * All paths are built once per size in the cache block; the draw block only fills them.
+ * line, optional ember glow rings outside, optional dithered drop shadow, optional bottom "lip" that the face
+ * sinks into when pressed. The lip is drawn always; the face moves down by [pressDepthPx] (at the depth of
+ * the lip the picture is the old pressed picture). All paths are built once per size in the cache block;
+ * the draw block only fills them.
  */
 internal fun Modifier.pixelSurface(
     face: Color,
@@ -99,7 +92,8 @@ internal fun Modifier.pixelSurface(
     glow: Color? = null,
     glowAlpha: () -> Float = { 0.2f },
     lip: Color? = null,
-    pressed: (() -> Boolean)? = null,
+    pressDepthPx: (() -> Int)? = null,
+    shadow: Color? = null,
 ): Modifier = drawWithCache {
     val p = designPx(pixel)
     val w = size.width
@@ -111,6 +105,8 @@ internal fun Modifier.pixelSurface(
     val lipPath = if (lip != null) Path().apply { stepRect(0f, p, w, h + p, n, p) } else null
     val ring1 = if (glow != null) Path().apply { stepRect(-p, -p, w + p, h + p, n + 1, p) } else null
     val ring2 = if (glow != null) Path().apply { stepRect(-2 * p, -2 * p, w + 2 * p, h + 2 * p, n + 2, p) } else null
+    val shadowPath = if (shadow != null) Path().apply { stepRect(2 * p, 2 * p, w + 2 * p, h + 2 * p, n, p) } else null
+    val shadowBrush = if (shadow != null) ditherBrush(designUnitPx(density), 2, shadow) else null
     val hlX = if (n >= 1) n * p else p
     val hlW = w - 2 * hlX
     val hlSize = Size(max(hlW, 0f), p)
@@ -120,9 +116,10 @@ internal fun Modifier.pixelSurface(
             drawPath(ring2, glow, alpha = a * 0.45f)
             drawPath(ring1, glow, alpha = a)
         }
-        val down = pressed != null && pressed()
-        if (lipPath != null && lip != null && !down) drawPath(lipPath, lip)
-        translate(0f, if (down) lipH else 0f) {
+        if (shadowPath != null && shadowBrush != null) drawPath(shadowPath, shadowBrush)
+        val sink = pressDepthPx?.invoke()?.toFloat() ?: 0f
+        if (lipPath != null && lip != null) drawPath(lipPath, lip)
+        translate(0f, sink) {
             drawPath(outer, border)
             drawPath(inner, face)
             if (highlight != null && hlW > 0f) drawRect(highlight, Offset(hlX, p), hlSize)
@@ -131,9 +128,19 @@ internal fun Modifier.pixelSurface(
     }
 }
 
+/** The five looks of a panel. RAISED is today's panel. */
+enum class PanelVariant { FLAT, RAISED, INSET, GLOWING, FLOATING }
+
+/** Pure: an old call with `highlight = false` and no variant means FLAT; every other variant stands as given. */
+fun resolveVariant(highlight: Boolean, variant: PanelVariant): PanelVariant =
+    if (!highlight && variant == PanelVariant.RAISED) PanelVariant.FLAT else variant
+
 /**
- * Stone-and-wood style container: stepped pixel corners, a pixel-thick [border], and a lit top edge
- * ([highlight]) plus shaded bottom edge for depth. Content is clipped to the shape; add your own padding.
+ * Stone-and-wood style container: stepped pixel corners, a pixel-thick [border], and a lit top edge plus
+ * shaded bottom edge for depth ([variant]: RAISED lit above and shaded below, INSET the other way round,
+ * FLAT neither, GLOWING raised plus two rings of firelight, FLOATING raised plus a dithered drop shadow).
+ * Content is clipped to the shape; add your own padding. With [highlight] true and the default variant it
+ * draws exactly the pixels it always drew.
  */
 @Composable
 fun PixelPanel(
@@ -143,14 +150,33 @@ fun PixelPanel(
     corner: Int = 2,
     pixel: Dp = 2.dp,
     highlight: Boolean = true,
+    variant: PanelVariant = PanelVariant.RAISED,
     content: @Composable BoxScope.() -> Unit,
 ) {
-    val dark = Pocket.colors.isDark
+    val c = Pocket.colors
+    val dark = c.isDark
     val shape = remember(corner, pixel) { PixelShape(corner, pixel) }
-    val hl = if (highlight) lerp(color, Color.White, if (dark) 0.10f else 0.55f) else null
-    val sh = if (highlight) lerp(color, Color.Black, if (dark) 0.22f else 0.07f) else null
+    val v = resolveVariant(highlight, variant)
+    val lit = bevelRim(color, dark)
+    val shaded = bevelShade(color, dark)
+    val hl = when (v) {
+        PanelVariant.FLAT -> null
+        PanelVariant.INSET -> shaded
+        else -> lit
+    }
+    val sh = when (v) {
+        PanelVariant.FLAT -> null
+        PanelVariant.INSET -> lit
+        else -> shaded
+    }
     Box(
-        modifier = modifier.clip(shape).pixelSurface(color, border, corner, pixel, hl, sh),
+        modifier = modifier
+            .pixelSurface(
+                face = color, border = border, corner = corner, pixel = pixel, highlight = hl, shade = sh,
+                glow = if (v == PanelVariant.GLOWING) c.glow else null,
+                shadow = if (v == PanelVariant.FLOATING) c.scrim else null,
+            )
+            .clip(shape),
         content = content,
     )
 }

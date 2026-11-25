@@ -1,0 +1,37 @@
+# Which kind of control a text lives in, for the length check of tools/strings-check.ps1.
+#
+# A key can name its own kind in its note (the part "| kind: chip" of the comment above it); that wins.
+# Otherwise the first line of [kinds] whose glob matches the key decides, and a key that matches none is
+# a "body" text: no limit. Rooms in English characters (docs/design-language.md, 13.2):
+#   tab 10, button 22, chip 18, title 28, row 40, pet 80, widget 14.
+# A placeholder counts as 2 characters. English must fit the room; a translation must fit
+# floor(room * 1.4), the size of the stretched test language.
+#
+# Format: one "<kind> <glob>" per line; a glob may use * and ?; "#" starts a comment.
+
+[kinds]
+tab ui_nav_*
+tab ctl_tab_*
+button btn_*
+button ui_dlg_save
+button ui_dlg_cancel
+button ui_dlg_close
+button ui_dlg_delete_confirm
+button ui_dlg_clear_confirm
+chip ui_filter_all
+chip ui_filter_pinned
+chip ui_filter_groups
+chip ui_filter_direct
+chip ui_filter_modes
+chip ui_filter_unread
+title ctl_set_*
+
+# Texts that show a number next to a count noun ("%1$d bots") but cannot become one plural: several
+# numbers in one line. Everything else with a bare count must be a <plurals>.
+[plural-allow]
+ctl_bak_done
+ctl_bak_restore_confirm_body
+ui_cmd_pet_quip1
+ui_cmd_pet_quip3
+ctl_budget
+ctl_voice_downloading

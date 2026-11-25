@@ -1,0 +1,15 @@
+{
+  "name": "smoke-hermes-running",
+  "title": "Hermes starts by itself and reaches Running",
+  "flags": ["core", "smoke"],
+  "safe": true,
+  "timeoutSec": 260,
+  "steps": [
+    {"op": "tap", "any": [{"tag": "tab.settings"}, {"desc": "Settings"}]},
+    {"op": "tap", "any": [{"tag": "settings.section.runtime"}, {"text": "Runtime"}]},
+    {"op": "wait", "state": "Running", "timeout": 180},
+    {"op": "expect", "tag": "settings.runtime.state"},
+    {"op": "a11y"},
+    {"op": "noCrash"}
+  ]
+}

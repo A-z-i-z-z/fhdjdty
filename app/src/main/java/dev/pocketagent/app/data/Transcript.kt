@@ -108,7 +108,47 @@ object Transcript {
             }
         }
         while (turns.isNotEmpty() && turns.last().role == "assistant") turns.removeAt(turns.size - 1)
-        return listOf(ChatMessage("system", systemPrompt(conv, bot, participants))) + turns
+        // A system prompt longer than Hermes's per-part cap goes out as several system messages (Hermes joins them with a newline
+        // and caps each one separately); the "[chat reference ...]" line stays in the LAST part. A normal prompt is one message.
+        val system = splitLong(systemPrompt(conv, bot, participants)).map { ChatMessage("system", it) }
+        return system + turns
+    }
+
+    /** Hermes cuts one text part of a message at 65,536 characters: parts stay below this. */
+    const val MAX_PART_CHARS = 60_000
+
+    /**
+     * Cuts [text] into parts of at most [max] characters (Hermes joins the text parts of one message with a newline, so the pieces
+     * read as the original). Text up to [max] is one part, unchanged. Otherwise each part ends at the last newline in the
+     * second half of its window (the newline is dropped: the join puts it back), else at the last space (it becomes that newline),
+     * else hard at [max] characters, one earlier when that would split a surrogate pair. Every part has 1..[max] characters.
+     * Kotlin counts UTF-16 units and Hermes code points, so a part under [max] here is under it there too.
+     */
+    fun splitLong(text: String, max: Int = MAX_PART_CHARS): List<String> {
+        require(max >= 2) { "max must be at least 2" }
+        if (text.length <= max) return listOf(text)
+        val parts = ArrayList<String>()
+        var pos = 0
+        while (text.length - pos > max) {
+            // The cut character sits at index `at`, pos + max / 2 .. pos + max - 1, so the rest is never empty.
+            val lo = pos + max / 2
+            val hi = pos + max - 1
+            var at = -1
+            for (i in hi downTo lo) if (text[i] == '\n') { at = i; break }
+            if (at < 0) for (i in hi downTo lo) if (text[i] == ' ') { at = i; break }
+            if (at >= 0) {
+                parts += text.substring(pos, at)
+                pos = at + 1
+            } else {
+                var cut = pos + max
+                // never between the two halves of a surrogate pair
+                if (Character.isHighSurrogate(text[cut - 1]) && Character.isLowSurrogate(text[cut])) cut -= 1
+                parts += text.substring(pos, cut)
+                pos = cut
+            }
+        }
+        parts += text.substring(pos)
+        return parts
     }
 
     private fun formatUserMessage(

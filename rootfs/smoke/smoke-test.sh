@@ -12,8 +12,10 @@
 #   2. For every provider fixture (the very files the app's config generator is unit-tested
 #      against): boot `hermes gateway run`, assert /health, auth enforcement on /v1/models,
 #      /v1/capabilities, loopback-only bind. One boot runs with PA_NO_SECCOMP=1.
-#   3. End-to-end chat against a local mock LLM: non-streaming, SSE streaming, a tool call
-#      (real terminal tool executed inside proot), and session continuity.
+#   3. End-to-end chat against the practice model (the scripted model, started INSIDE the guest by
+#      runtime/practice-start.sh exactly like the app does): non-streaming, SSE streaming, a tool call
+#      (real terminal tool executed inside proot), session continuity, and no chat-title model call.
+#   The "studio" boot of phase 2 also asserts GET /v1/toolsets: exactly the ten allowed toolsets are enabled.
 # Not covered (needs real Google credentials): an actual Gemini/Vertex call.
 set -uo pipefail
 
@@ -50,8 +52,8 @@ case "$PROOT" in *=*) ;; *) echo "internal error: the proot path must contain '=
 H="$ROOTFS/root/.hermes"
 PORT=8642
 KEY="smoke-api-key-0123456789abcdef0123456789"   # same as in the fixtures
-MOCK_PORT=18080
-GW_PID=""; MOCK_PID=""
+MOCK_PORT=18080   # PracticeModel.SMOKE_PORT: the practice model of phase 3 listens here (inside the guest, shared loopback)
+GW_PID=""
 FAILS=0
 FAILURES=()
 
@@ -95,7 +97,6 @@ stop_gateway() {
 
 cleanup() {
   stop_gateway
-  [ -n "$MOCK_PID" ] && kill "$MOCK_PID" 2>/dev/null
 }
 trap cleanup EXIT
 
@@ -104,6 +105,35 @@ start_gateway() { # logfile
   # of a killed run (the smoke test no longer does it, so the crash-recovery phase below is meaningful).
   PA_CLEAN_STALE=1 sh "$LAUNCH" -- hermes gateway run --replace -v >> "$1" 2>&1 &
   GW_PID=$!
+}
+
+# The practice launch of the app (HermesConfig.launchCommand with a practice port): one launcher call that runs
+# /opt/agiri/practice/start.sh, which starts the scripted model and then execs `hermes gateway run --replace -v`.
+start_practice_gateway() { # logfile
+  PA_CLEAN_STALE=1 sh "$LAUNCH" -- sh /opt/agiri/practice/start.sh "$MOCK_PORT" >> "$1" 2>&1 &
+  GW_PID=$!
+}
+
+# GET /v1/toolsets answers {"data": [{"name": ..., "enabled": true|false, ...}, ...]}. The set of enabled names must be EXACTLY the ten
+# of ProviderConfig.AGENT_TOOLSETS (Hermes also adds plugin, MCP and platform-native toolsets: "the ten are on and the five are off"
+# would let an extra one pass) and none of ProviderConfig.WITHHELD_TOOLSETS. Keep both lists in step with ProviderConfig.kt.
+toolsets_ok() { # json
+  python3 - "$1" <<'PY'
+import json, sys
+want = {"web", "terminal", "file", "code_execution", "vision", "skills", "todo", "memory", "session_search", "delegation"}
+withheld = {"browser", "cronjob", "image_gen", "tts", "connections"}
+try:
+    d = json.loads(sys.argv[1])
+    on = {t["name"] for t in d["data"] if t.get("enabled")}
+except Exception as e:
+    print("unreadable /v1/toolsets answer:", e)
+    sys.exit(2)
+print("enabled toolsets:", sorted(on))
+extra, missing, bad = sorted(on - want), sorted(want - on), sorted(on & withheld)
+if extra or missing or bad:
+    print("unexpected:", extra, "missing:", missing, "withheld but enabled:", bad)
+    sys.exit(1)
+PY
 }
 
 wait_health() { # seconds
@@ -154,7 +184,7 @@ echo "$pyc" | awk '/^PYC .*workspace/ {split($3,a,"=");split($4,b,"="); if (b[2]
 grep -qF -- "$PROOT" "$PA_STATE/last-launch.txt" && pass "every boot here runs through a proot path containing '=' (Android's nativeLibraryDir shape)" || fail "last-launch.txt does not show the '=' proot path"
 
 # ---------------------------------------------------------------------------------------------
-for fx in studio express vertex-sa vertex-user studio-nokey studio-effort; do
+for fx in studio express vertex-sa vertex-user studio-nokey studio-effort studio-nokeyless; do
   echo "== phase 2: boot gateway with fixture '$fx'"
   stop_gateway
   install_fixture "$fx"
@@ -171,6 +201,11 @@ for fx in studio express vertex-sa vertex-user studio-nokey studio-effort; do
     echo "$m" | grep -q '"id": *"hermes-agent"' && pass "[$fx] /v1/models with key lists hermes-agent" || fail "[$fx] models body: $m"
     c="$(curl -s -m 10 -H "Authorization: Bearer $KEY" "http://127.0.0.1:$PORT/v1/capabilities")"
     echo "$c" | grep -q '"required": *true' && pass "[$fx] capabilities: auth required" || fail "[$fx] capabilities: $c"
+    if [ "$fx" = studio ]; then
+      ts="$(curl -s -m 30 -H "Authorization: Bearer $KEY" "http://127.0.0.1:$PORT/v1/toolsets")"
+      if tsout="$(toolsets_ok "$ts" 2>&1)"; then pass "[$fx] /v1/toolsets: exactly the ten allowed toolsets are enabled and the five withheld ones are not"
+      else fail "[$fx] /v1/toolsets: $tsout :: $(echo "$ts" | cut -c1-300)"; fi
+    fi
     if command -v ss >/dev/null 2>&1; then
       if ss -ltnH 2>/dev/null | awk '{print $4}' | grep -E ":$PORT\$" | grep -vq '^127\.0\.0\.1:'; then fail "[$fx] API port is bound beyond loopback: $(ss -ltnH | grep ":$PORT")"; else pass "[$fx] API port bound to loopback only"; fi
     fi
@@ -224,22 +259,23 @@ stop_gateway
 PORT=$OLDPORT
 
 # ---------------------------------------------------------------------------------------------
-echo "== phase 3: end-to-end chat against a local mock LLM"
+echo "== phase 3: end-to-end chat against the practice model (started inside the guest, like the app does)"
 stop_gateway
-cat > "$H/config.yaml" <<EOF
-model:
-  default: "mock-model"
-  provider: custom
-  base_url: http://127.0.0.1:$MOCK_PORT/v1
-  api_key: mock-key
-EOF
-cp "$HERE/fixtures/studio.env" "$H/.env"; sed -i '/^GEMINI_/d' "$H/.env"; chmod 600 "$H/.env"
-MOCKLOG="$WORK/mock.log"; : > "$MOCKLOG"
-python3 "$HERE/mock_llm.py" --port "$MOCK_PORT" --log "$MOCKLOG" > "$WORK/mock.out" 2>&1 &
-MOCK_PID=$!
-sleep 1
+# The practice model lives in the guest now (/opt/agiri/practice, outside HERMES_HOME): the same two files the app installs
+# (PracticeModel.install), the same configuration the app writes (the practice fixtures), the same launch (HermesConfig.launchCommand).
+PDIR="$ROOTFS/opt/agiri/practice"
+mkdir -p "$PDIR"
+cp "$HERE/mock_llm.py" "$PDIR/practice_model.py"
+cp "$REPO/runtime/practice-start.sh" "$PDIR/start.sh"; chmod 700 "$PDIR/start.sh"
+cp "$HERE/fixtures/practice.yaml" "$H/config.yaml"
+cp "$HERE/fixtures/practice.env" "$H/.env"; chmod 600 "$H/.env"
+# proot shares the host network: a taken port would make start.sh exit 71 and turn the whole phase red for a reason that is not a bug.
+if curl -s -m 2 "http://127.0.0.1:$MOCK_PORT/health" >/dev/null 2>&1; then
+  fail "port $MOCK_PORT is already taken on this machine: the practice model cannot start"
+fi
+MOCKLOG="$PDIR/requests.jsonl"; : > "$MOCKLOG"   # the guest mock appends: start from an empty file
 LOG="$WORK/gateway-chat.log"
-start_gateway "$LOG"
+start_practice_gateway "$LOG"
 if wait_health 240; then
   AUTH=(-H "Authorization: Bearer $KEY" -H "Content-Type: application/json")
   U="http://127.0.0.1:$PORT/v1/chat/completions"
@@ -259,6 +295,11 @@ if wait_health 240; then
   last_roles="$(grep '"POST"' "$MOCKLOG" | tail -n 1)"
   n="$(echo "$last_roles" | sed -n 's/.*"n_msgs": *\([0-9]*\).*/\1/p')"
   if [ -n "$n" ] && [ "$n" -ge 3 ]; then pass "session continuity: 2nd turn carried history ($n messages sent to the LLM)"; else fail "session continuity: LLM saw only ${n:-?} messages for turn 2 ($last_roles)"; fi
+
+  # No chat-title model call: auxiliary.title_generation.model_upgrade_enabled is false. Title calls come after the answer, so wait a little.
+  sleep 5
+  if grep -q "You name chat sessions" "$MOCKLOG"; then fail "a chat-title model call reached the model (title upgrade is not off)"; grep -m1 "You name chat sessions" "$MOCKLOG" | cut -c1-300
+  else pass "no chat-title model call after $(grep -c '"POST"' "$MOCKLOG") model requests"; fi
 else
   fail "chat phase: gateway did not become healthy"
   dump_log "$LOG"

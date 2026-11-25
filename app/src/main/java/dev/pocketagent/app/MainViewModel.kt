@@ -25,6 +25,7 @@ import dev.pocketagent.app.util.AppLog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /** Result of an import attempt; the UI maps it to string resources. Holds no secret values. */
 sealed class ImportResult {
@@ -227,6 +228,12 @@ class MainViewModel(app: Application) : AndroidViewModel(app) {
             null,
         ).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     } catch (e: Exception) { AppLog.e("Diag", "share failed", e); null }
+
+    /**
+     * The share-sheet intent for the "Export logs" zip, or null when the export failed (it is logged). The zip is built on the IO
+     * dispatcher, so the caller may be on the main thread.
+     */
+    suspend fun shareLogsIntent(): Intent? = withContext(Dispatchers.IO) { diagnostics.exportLogsIntent() }
 
     fun clearDiagMessage() { diagMessage = null }
 }

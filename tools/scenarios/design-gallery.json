@@ -1,0 +1,26 @@
+{
+  "name": "design-gallery",
+  "title": "The design gallery opens a sheet, a dialog and a note",
+  "flags": ["core"],
+  "safe": true,
+  "timeoutSec": 120,
+  "steps": [
+    {"op": "link", "debug": {"route": "gallery"}},
+    {"op": "wait", "tag": "gallery", "timeout": 10},
+    {"op": "tap", "tag": "gallery.sheet"},
+    {"op": "wait", "tag": "sheet", "timeout": 8},
+    {"op": "shot", "name": "sheet"},
+    {"op": "a11y"},
+    {"op": "key", "key": "BACK"},
+    {"op": "wait", "tag": "sheet", "gone": true, "timeout": 8},
+    {"op": "tap", "tag": "gallery.dialog"},
+    {"op": "wait", "tag": "dialog", "timeout": 8},
+    {"op": "shot", "name": "dialog"},
+    {"op": "tap", "tag": "dialog.cancel"},
+    {"op": "wait", "tag": "dialog", "gone": true, "timeout": 8},
+    {"op": "tap", "tag": "gallery.note"},
+    {"op": "wait", "tag": "petnote", "timeout": 8},
+    {"op": "shot", "name": "note"},
+    {"op": "noCrash"}
+  ]
+}

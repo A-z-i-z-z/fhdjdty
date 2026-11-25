@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import dev.pocketagent.app.ui.pixel.Mascot
 import dev.pocketagent.app.ui.pixel.MascotMood
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.theme.Space
 
 /**
  * Friendly placeholder for empty lists: Pêt the newt (or a spark icon when the mascot is switched off
@@ -35,7 +36,7 @@ fun EmptyState(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 28.dp, vertical = 24.dp),
+            .padding(horizontal = 28.dp, vertical = Space.xl),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -44,7 +45,7 @@ fun EmptyState(
         } else {
             PixelIconView(PixelIcon.SPARK, tint = c.fireMid, size = 48.dp)
         }
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(Space.l))
         if (Pocket.appearance.pixelFontTitles) {
             PixelText(
                 text = title,
@@ -60,7 +61,7 @@ fun EmptyState(
                 modifier = Modifier.fillMaxWidth().semantics { heading() },
             )
         }
-        Spacer(Modifier.height(8.dp))
+        Spacer(Modifier.height(Space.s))
         Text(
             text = body, color = c.textMuted, textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium, modifier = Modifier.fillMaxWidth(),

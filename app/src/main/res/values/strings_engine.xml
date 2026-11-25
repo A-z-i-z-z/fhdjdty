@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Texts that used to be written into the code (feature 0.11). Every key has a note: what it says, where it appears, what each placeholder is, how much room it has. -->
+
+    <!-- Chat engine lines (data, ChatEngine): error and note lines written into a chat -->
+    <!-- t: Error line in a chat whose bots were all deleted; no placeholders -->
+    <string name="eng_no_bots">This chat has no bots (they were deleted). Add a bot to the chat first.</string>
+    <!-- t: Note line when a loop pass starts; %1$d is this pass, %2$d the total; keep the slash; same wording as eng_loop_refine | kind: row -->
+    <string name="eng_loop_pass">Loop mode: pass %1$d/%2$d</string>
+    <!-- t: Note line from pass 2 on; %1$d is this pass, %2$d the total; same wording as eng_loop_pass | kind: row -->
+    <string name="eng_loop_refine">Loop mode: pass %1$d/%2$d — refining…</string>
+    <!-- t: Error line after Allow or Deny could not be sent; %1$s is a short technical reason in English -->
+    <string name="eng_approval_send_failed">Could not send your answer to Hermes: %1$s</string>
+    <!-- t: Error line for an unexpected failure; %1$s is a technical Class: message text in English -->
+    <string name="eng_internal_error">Internal error: %1$s</string>
+    <!-- t: Error line when a message is sent while Hermes is stopped; Running is the state shown on Home -->
+    <string name="eng_hermes_not_running">Hermes is not running. Start it from the home screen, wait until it says Running, then try again.</string>
+    <!-- t: Error line when Hermes failed to start after a message was sent; no placeholders -->
+    <string name="eng_hermes_start_failed">Hermes could not start. Open the home screen to see why.</string>
+    <!-- t: Error line when the bot of a chat no longer exists; no placeholders -->
+    <string name="eng_bot_not_found">Bot not found (it was deleted).</string>
+    <!-- t: Error line when the blocking budget is reached; %1$d is the limit; Settings and Usage are the translated names of the Settings tab and the Usage section -->
+    <string name="eng_budget_blocked">The daily token budget (%1$d tokens) is reached, so this message was not sent to the model. Raise or turn off the limit under Settings &gt; Usage, or try again tomorrow.</string>
+    <!-- t: Note line shown once per chat; %1$s is a model id; keep the quotes around it -->
+    <string name="eng_model_foreign">The model \"%1$s\" set for this chat or bot belongs to another provider, so the default model of the current provider is used instead. Change it in the chat controls or the bot editor.</string>
+    <!-- t: Reason on an approval card; %1$s is the command or its description, or both on two lines; PROTECTED, a decision text -->
+    <string name="eng_approval_pending">Hermes asks permission before it runs this and is waiting for an answer:\n%1$s</string>
+    <!-- t: Note line when a reply stopped at the length limit; no placeholders -->
+    <string name="eng_cut_off">The answer was cut off (length limit reached).</string>
+    <!-- t: Error line; %1$s is a technical reason code and stays as it is; keep finish_reason untranslated -->
+    <string name="eng_run_abnormal">The run ended abnormally: finish_reason=%1$s</string>
+    <!-- t: Error line with a code; %1$s and %2$s are technical codes; keep finish_reason and error_code untranslated -->
+    <string name="eng_run_abnormal_code">The run ended abnormally: finish_reason=%1$s error_code=%2$s</string>
+    <!-- t: Warning note, once per day; %1$d is the number of tokens used; Settings and Usage are translated names -->
+    <string name="eng_budget_warn">Daily token budget reached: %1$d tokens used today. Hermes keeps answering; change the limit under Settings &gt; Usage.</string>
+    <!-- t: Note line when a bot answered with nothing; no placeholders -->
+    <string name="eng_empty_reply">The bot returned an empty reply.</string>
+
+    <!-- Terminal lines (hermes, TerminalSession) -->
+    <!-- t: Terminal line when a second command is started while one runs; no placeholders -->
+    <string name="eng_term_busy">A command is still running. Wait for it or cancel it first.</string>
+    <!-- t: Terminal line when the runtime is missing; no placeholders -->
+    <string name="eng_term_not_installed">The Hermes runtime is not installed yet. Start Hermes once from the home screen so it can set itself up, then try again.</string>
+    <!-- t: Terminal line after a command was cancelled; keep the square brackets | kind: chip -->
+    <string name="eng_term_cancelled">[cancelled]</string>
+    <!-- t: Terminal line after a command failed; %1$d is the exit code; keep the square brackets | kind: chip -->
+    <string name="eng_term_exit_code">[exit code %1$d]</string>
+    <!-- t: Terminal line when a command could not start; %1$s is a technical Class: message text in English -->
+    <string name="eng_term_run_failed">Could not run the command: %1$s</string>
+
+    <!-- Attachment errors (data, AttachmentStore); they reach the user through a short note -->
+    <!-- t: Error when a picked image cannot be read; short phrase, no placeholders | kind: row -->
+    <string name="eng_attach_decode">Could not decode image</string>
+    <!-- t: Error when a picture cannot be compressed; short phrase; JPEG stays | kind: row -->
+    <string name="eng_attach_encode">Could not encode JPEG</string>
+    <!-- t: Error when a document is too big; %1$d is the limit in MiB; keep MiB | kind: row -->
+    <string name="eng_attach_too_large">File is larger than %1$d MiB</string>
+    <!-- t: Error when a picked document cannot be opened; short phrase, no placeholders | kind: row -->
+    <string name="eng_attach_open">Could not open selected document</string>
+
+    <!-- Small literals that were written into the code -->
+    <!-- t: Greeting in the sample bot bubble of the appearance preview; one or two words; the only exclamation mark allowed | kind: chip -->
+    <string name="eng_preview_hi">Hi!</string>
+    <!-- t: Greeting in the sample user bubble of the appearance preview; one word | kind: chip -->
+    <string name="eng_preview_hello">Hello</string>
+    <!-- t: Heading line of the memory report; %1$d is the characters used, %2$d the limit; the file name stays | kind: row -->
+    <string name="eng_memory_md_used">MEMORY.md (%1$d/%2$d):</string>
+    <!-- t: Heading line of the user-notes report; %1$d is the characters used, %2$d the limit; the file name stays | kind: row -->
+    <string name="eng_user_md_used">USER.md (%1$d/%2$d):</string>
+    <!-- t: Short note after a file path when the file does not exist yet; keep the round brackets; no leading space | kind: chip -->
+    <string name="eng_doc_not_created">(not created yet)</string>
+    <!-- t: Name of a colour theme in the theme picker; a proper name, normally kept as it is | kind: chip -->
+    <string name="eng_theme_newroz">Newroz</string>
+    <!-- t: Name of a colour theme in the theme picker; a proper name, normally kept as it is | kind: chip -->
+    <string name="eng_theme_zagros">Zagros</string>
+    <!-- t: Name of a colour theme in the theme picker; a proper name, normally kept as it is | kind: chip -->
+    <string name="eng_theme_semender">Semender</string>
+    <!-- t: Name of a colour theme in the theme picker; a proper name, normally kept as it is | kind: chip -->
+    <string name="eng_theme_nergiz">Nergiz</string>
+    <!-- t: Name of a colour theme in the theme picker; a proper name, normally kept as it is | kind: chip -->
+    <string name="eng_theme_kawa">Kawa</string>
+    <!-- t: Name of a colour theme in the theme picker; a proper name, normally kept as it is | kind: chip -->
+    <string name="eng_theme_roj">Roj</string>
+
+    <!-- Runtime lines (runtime, RuntimeManager); Home shows them as the reason of an error. Arguments that are exceptions, sizes, paths or codes stay technical English -->
+    <!-- t: Home error line; %1$s is a technical message in English -->
+    <string name="eng_rt_delete_failed">Could not delete the runtime: %1$s</string>
+    <!-- t: Home error line for a build made without the Linux image; keep rootfs and CI -->
+    <string name="eng_rt_stub_rootfs">This build contains no rootfs (stub build). Install the APK produced by CI.</string>
+    <!-- t: Home error line; %1$s is a file name, %2$s a technical Class: message text; Delete runtime files is the translated name of the Settings button btn_reset_runtime -->
+    <string name="eng_rt_stamp_unreadable">Cannot read %1$s: %2$s. The runtime was NOT reinstalled, so nothing was deleted. Fix the file\'s permissions, or use Delete runtime files to reinstall from scratch.</string>
+    <!-- t: Home error line; the three placeholders are sizes such as 1.2 GiB: needed, free, reclaimable -->
+    <string name="eng_rt_no_space">Not enough free storage: need about %1$s, have %2$s free plus %3$s reclaimable from the old runtime</string>
+    <!-- t: Home error line; %1$s is a technical Class: message text in English -->
+    <string name="eng_rt_extract_failed">Extraction failed: %1$s</string>
+    <!-- t: Home error line for a build made without proot; keep the word proot -->
+    <string name="eng_rt_stub_proot">Stub build: no proot binary bundled.</string>
+    <!-- t: Home error line; %1$s is a file path; keep the word proot -->
+    <string name="eng_rt_proot_missing">proot binary missing: %1$s</string>
+    <!-- t: Home error line; %1$s is a list of problems in English; Setup is the translated name of the Provider section of Settings -->
+    <string name="eng_rt_bad_config">Invalid configuration: %1$s (fix it under Setup)</string>
+    <!-- t: Home error line; Stop and Start are the translated names of the two Home buttons -->
+    <string name="eng_rt_not_healthy">Hermes did not become healthy within 20 minutes (process still alive; see runtime log). Press Stop, then Start.</string>
+    <!-- t: Home error line; %1$d is a network port number; Start is the translated name of the Home button -->
+    <string name="eng_rt_foreign_port">Port %1$d is answered by a process that is not our Hermes (another app?). Press Start to retry on a new port.</string>
+    <!-- t: Home error line; %1$d is a network port number; keep /health; Start is the translated name of the Home button -->
+    <string name="eng_rt_port_unannounced">The API on port %1$d answers /health, but our Hermes never announced that port in its own output within 90 s, so the API key was NOT sent (could be another app on the port, or Hermes logging differently). Press Start to retry.</string>
+    <!-- t: Home error line; %1$s is the server answer, up to 200 characters, in English; keep HTTP 401 -->
+    <string name="eng_rt_key_rejected">Hermes is up but rejected our API key (HTTP 401): %1$s</string>
+    <!-- t: Home error line; %1$s is a technical description of the exit in English -->
+    <string name="eng_rt_exited">Hermes exited unexpectedly: %1$s</string>
+    <!-- t: Home error line when a hint exists; %1$s is the technical exit description, %2$s a short hint, both in English -->
+    <string name="eng_rt_exited_hint">Hermes exited unexpectedly: %1$s - %2$s</string>
+    <!-- t: Terminal line for a build made without the Linux image; keep proot and rootfs -->
+    <string name="eng_rt_term_stub">This build contains no proot or rootfs (stub build).</string>
+    <!-- t: Terminal line when the runtime is missing; no placeholders -->
+    <string name="eng_rt_term_not_installed">The Hermes runtime is not installed yet.</string>
+    <!-- t: Terminal line when the shell cannot start; %1$s is a technical Class: message text in English -->
+    <string name="eng_rt_term_shell_failed">Could not start the shell: %1$s</string>
+    <!-- t: Voice error line; %1$d is an error code; TTS means text to speech and stays | kind: row -->
+    <string name="eng_tts_error">System TTS error (%1$d)</string>
+    <!-- t: Voice error line; TTS means text to speech and stays | kind: row -->
+    <string name="eng_tts_unavailable">System TTS unavailable</string>
+    <!-- t: Voice error line; %1$d is a status code; TTS means text to speech and stays | kind: row -->
+    <string name="eng_tts_init_failed">System TTS init failed (%1$d)</string>
+
+    <!-- Spoken names of pixel icons (icon-only buttons with no other description) -->
+    <!-- t: Spoken name of the hearth icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_hearth">Home</string>
+    <!-- t: Spoken name of the chats icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_chats">Chats</string>
+    <!-- t: Spoken name of the bots icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_bots">Bots</string>
+    <!-- t: Spoken name of the scroll icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_scroll">Hermes files</string>
+    <!-- t: Spoken name of the terminal icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_terminal">Terminal</string>
+    <!-- t: Spoken name of the gear icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_gear">Settings</string>
+    <!-- t: Spoken name of the send icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_send">Send</string>
+    <!-- t: Spoken name of the stop icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_stop">Stop</string>
+    <!-- t: Spoken name of the plus icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_plus">Add</string>
+    <!-- t: Spoken name of the back icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_back">Back</string>
+    <!-- t: Spoken name of the more icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_more">More</string>
+    <!-- t: Spoken name of the copy icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_copy">Copy</string>
+    <!-- t: Spoken name of the edit icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_edit">Edit</string>
+    <!-- t: Spoken name of the trash icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_trash">Delete</string>
+    <!-- t: Spoken name of the pin icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_pin">Pin</string>
+    <!-- t: Spoken name of the group icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_group">Group</string>
+    <!-- t: Spoken name of the tool icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_tool">Tool</string>
+    <!-- t: Spoken name of the memory icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_memory">Memory</string>
+    <!-- t: Spoken name of the skill icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_skill">Skill</string>
+    <!-- t: Spoken name of the soul icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_soul">Soul</string>
+    <!-- t: Spoken name of the search icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_search">Search</string>
+    <!-- t: Spoken name of the refresh icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_refresh">Refresh</string>
+    <!-- t: Spoken name of the play icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_play">Play</string>
+    <!-- t: Spoken name of the check icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_check">Done</string>
+    <!-- t: Spoken name of the close icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_close">Close</string>
+    <!-- t: Spoken name of the palette icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_palette">Palette</string>
+    <!-- t: Spoken name of the globe icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_globe">Language</string>
+    <!-- t: Spoken name of the bug icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_bug">Debug</string>
+    <!-- t: Spoken name of the down icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_down">Down</string>
+    <!-- t: Spoken name of the up icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_up">Up</string>
+    <!-- t: Spoken name of the spark icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_spark">Spark</string>
+    <!-- t: Spoken name of the share icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_share">Share</string>
+    <!-- t: Spoken name of the user icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_user">You</string>
+    <!-- t: Spoken name of the key icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_key">Key</string>
+    <!-- t: Spoken name of the info icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_info">Info</string>
+    <!-- t: Spoken name of the mic icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_mic">Microphone</string>
+    <!-- t: Spoken name of the clip icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_clip">Attach</string>
+    <!-- t: Spoken name of the camera icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_camera">Camera</string>
+    <!-- t: Spoken name of the image icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_image">Image</string>
+    <!-- t: Spoken name of the file icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_file">File</string>
+    <!-- t: Spoken name of the bolt icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_bolt">Bolt</string>
+    <!-- t: Spoken name of the forge icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_forge">Forge</string>
+    <!-- t: Spoken name of the volume icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_volume">Volume</string>
+    <!-- t: Spoken name of the mute icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_mute">Mute</string>
+    <!-- t: Spoken name of the fork icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_fork">Fork</string>
+    <!-- t: Spoken name of the sliders icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_sliders">Controls</string>
+    <!-- t: Spoken name of the filter icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_filter">Filter</string>
+    <!-- t: Spoken name of the appicon icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_appicon">App icon</string>
+    <!-- t: Spoken name of the wave icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_wave">Wave</string>
+    <!-- t: Spoken name of the music icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_music">Music</string>
+    <!-- t: Spoken name of the clock icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_clock">Clock</string>
+    <!-- t: Spoken name of the star icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_star">Starred</string>
+    <!-- t: Spoken name of the star off icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_star_off">Not starred</string>
+    <!-- t: Spoken name of the bell icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_bell">Notifications</string>
+    <!-- t: Spoken name of the chart icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_chart">Chart</string>
+    <!-- t: Spoken name of the archive icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_archive">Archive</string>
+    <!-- t: Spoken name of the download icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_download">Download</string>
+    <!-- t: Spoken name of the upload icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_upload">Upload</string>
+    <!-- t: Spoken name of the moon icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_moon">Moon</string>
+    <!-- t: Spoken name of the link icon button when no other description is given; one or two words, read aloud and not drawn -->
+    <string name="eng_icon_link">Link</string>
+
+    <!-- Spoken names of the bot avatars -->
+    <!-- t: Spoken name of the newt avatar in the avatar picker; one word, read aloud -->
+    <string name="eng_avatar_newt">Newt</string>
+    <!-- t: Spoken name of the wolf avatar in the avatar picker; one word, read aloud -->
+    <string name="eng_avatar_wolf">Wolf</string>
+    <!-- t: Spoken name of the fox avatar in the avatar picker; one word, read aloud -->
+    <string name="eng_avatar_fox">Fox</string>
+    <!-- t: Spoken name of the owl avatar in the avatar picker; one word, read aloud -->
+    <string name="eng_avatar_owl">Owl</string>
+    <!-- t: Spoken name of the eagle avatar in the avatar picker; one word, read aloud -->
+    <string name="eng_avatar_eagle">Eagle</string>
+    <!-- t: Spoken name of the goat avatar in the avatar picker; one word, read aloud -->
+    <string name="eng_avatar_goat">Goat</string>
+    <!-- t: Spoken name of the partridge avatar in the avatar picker; one word, read aloud -->
+    <string name="eng_avatar_partridge">Partridge</string>
+    <!-- t: Spoken name of the bee avatar in the avatar picker; one word, read aloud -->
+    <string name="eng_avatar_bee">Bee</string>
+    <!-- t: Spoken name of the lynx avatar in the avatar picker; one word, read aloud -->
+    <string name="eng_avatar_lynx">Lynx</string>
+    <!-- t: Spoken name of the cat avatar in the avatar picker; one word, read aloud -->
+    <string name="eng_avatar_cat">Cat</string>
+    <!-- t: Spoken name of the robot avatar in the avatar picker; one word, read aloud -->
+    <string name="eng_avatar_robot">Robot</string>
+    <!-- t: Spoken name of the sun avatar in the avatar picker; one word, read aloud -->
+    <string name="eng_avatar_sun">Sun</string>
+    <!-- t: Spoken name of the mountain avatar in the avatar picker; one word, read aloud -->
+    <string name="eng_avatar_mountain">Mountain</string>
+    <!-- t: Spoken name of the horse avatar in the avatar picker; one word, read aloud -->
+    <string name="eng_avatar_horse">Horse</string>
+    <!-- t: Spoken name of the bear avatar in the avatar picker; one word, read aloud -->
+    <string name="eng_avatar_bear">Bear</string>
+    <!-- t: Spoken name of the dragon avatar in the avatar picker; one word, read aloud -->
+    <string name="eng_avatar_dragon">Dragon</string>
+</resources>

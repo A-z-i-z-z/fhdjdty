@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Export logs (the button itself is drawn in Settings > Runtime > Diagnostics; these are its states and the share sheet) -->
+    <!-- t: The Export logs button while the zip is being made; Settings > Diagnostics; same room as the button, about 14 characters | kind: button -->
+    <string name="cfg_diag_exporting">Exporting…</string>
+    <!-- t: Error line under the Export logs button when the zip could not be made; the button is the retry; up to 2 lines | kind: body -->
+    <string name="cfg_diag_export_failed">The logs could not be exported. Try again.</string>
+    <!-- t: Mail subject in the share sheet for the exported logs; Agirî is the app name, keep it; one line, about 20 characters | kind: body -->
+    <string name="cfg_diag_share_subject">Agirî logs</string>
+
+    <!-- Why the app last stopped (card in Settings > Diagnostics) -->
+    <!-- t: Title of the card that lists how the app last stopped; Settings > Diagnostics; one line, about 26 characters | kind: title -->
+    <string name="cfg_diag_exits_title">Why the app last stopped</string>
+    <!-- t: Empty card: Android has no record of the app stopping; one short line | kind: body -->
+    <string name="cfg_diag_exits_none">No record yet.</string>
+    <!-- t: Card text on phones older than Android 11, which cannot tell us why the app stopped; up to 2 lines | kind: body -->
+    <string name="cfg_diag_exits_old_android">Android 11 or newer is needed to read this.</string>
+
+    <!-- t: What happened when the app stopped, one sentence, no full stop: it crashed; used in the card rows and inside the crash dialog (%1$s of cfg_crash_body); about 30 characters | kind: row -->
+    <string name="cfg_exit_crash">The app crashed</string>
+    <!-- t: Same use: it crashed in native (compiled) code; about 40 characters | kind: row -->
+    <string name="cfg_exit_native">The app crashed in native code</string>
+    <!-- t: Same use: the app did not respond (Android calls this ANR); about 40 characters | kind: row -->
+    <string name="cfg_exit_anr">The app stopped responding</string>
+    <!-- t: Same use: the app could not even start; about 30 characters | kind: row -->
+    <string name="cfg_exit_start">The app could not start</string>
+    <!-- t: Same use: Android took the app away because the phone needed memory; about 40 characters | kind: row -->
+    <string name="cfg_exit_memory">Android needed the memory back</string>
+    <!-- t: Same use: Android ended the app from outside; about 30 characters | kind: row -->
+    <string name="cfg_exit_killed">Android stopped the app</string>
+    <!-- t: Same use: the person closed the app themselves; about 25 characters | kind: row -->
+    <string name="cfg_exit_user">You closed the app</string>
+    <!-- t: Same use: the app was updated and restarted; about 25 characters | kind: row -->
+    <string name="cfg_exit_updated">The app was updated</string>
+    <!-- t: Same use: the app closed itself on purpose, for example after a restore; about 30 characters | kind: row -->
+    <string name="cfg_exit_self">The app closed itself</string>
+    <!-- t: Same use: any other reason that has no sentence of its own; about 40 characters | kind: row -->
+    <string name="cfg_exit_other">The app stopped for another reason</string>
+
+    <!-- Code that Hermes runs from its folders (card in Settings > Diagnostics) -->
+    <!-- t: Title of the card that lists hooks and plugins the app did not write; Hermes is a product name, keep it; one line, about 35 characters | kind: title -->
+    <string name="cfg_diag_guest_title">Code Hermes runs from its folders</string>
+    <!-- t: Empty card: the hooks and plugins folders hold nothing the app did not write; up to 2 lines | kind: body -->
+    <string name="cfg_diag_guest_none">Nothing found in the hooks and plugins folders.</string>
+    <!-- t: Line above the list of found items; %1$d is how many items were found; up to 3 lines; hooks and plugins are folder names, keep them recognisable | kind: body -->
+    <plurals name="cfg_diag_guest_found">
+        <item quantity="one">%1$d item in the hooks and plugins folders was not written by the app.</item>
+        <item quantity="other">%1$d items in the hooks and plugins folders were not written by the app.</item>
+    </plurals>
+    <!-- t: Row prefix before the path of a found item: a hook (a small script Hermes runs on events); one word | kind: row -->
+    <string name="cfg_guest_kind_hook">Hook</string>
+    <!-- t: Row prefix before the path of a found item: a plugin (an add-on for Hermes); one word | kind: row -->
+    <string name="cfg_guest_kind_plugin">Plugin</string>
+
+    <!-- The crash dialog, shown at the next launch while the app is open -->
+    <!-- t: Title of the dialog offered after the app crashed; up to 40 characters | kind: title -->
+    <string name="cfg_crash_title">Agirî stopped unexpectedly</string>
+    <!-- t: Body of the crash dialog; %1$s is one of the cfg_exit sentences without a full stop, %2$s is the date and time from the platform formatter; the report holds no keys or passwords; up to 5 lines | kind: body -->
+    <string name="cfg_crash_body">%2$s: %1$s. A report can be copied for the person who fixes problems. It contains no keys or passwords.</string>
+    <!-- t: Dialog button that copies the crash report to the clipboard; at most 14 characters | kind: button -->
+    <string name="cfg_crash_copy">Copy report</string>
+    <!-- t: Dialog button that closes the crash dialog without copying; at most 14 characters | kind: button -->
+    <string name="cfg_crash_not_now">Not now</string>
+    <!-- t: Short note shown after the crash report was copied to the clipboard; about 25 characters | kind: pet -->
+    <string name="cfg_crash_copied">Report copied</string>
+    <!-- t: Error line in the crash dialog when the clipboard refused the report; the dialog stays open so the person can try again; up to 2 lines | kind: body -->
+    <string name="cfg_crash_copy_failed">The report could not be copied. Try again.</string>
+</resources>

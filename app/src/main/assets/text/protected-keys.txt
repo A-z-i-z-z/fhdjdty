@@ -1,0 +1,61 @@
+# Texts that no later layer (a language pack, a translation tool) may replace: the words of decisions,
+# deletions and warnings. One entry name per line; "#" starts a comment; a trailing star ("price_*")
+# protects every name that starts with what comes before it.
+# Who may change this file: the owner of the app decides, and the decision is written down in AGENTS.md.
+# tools/strings-check.ps1 fails when an exact name here does not exist in the English strings.
+
+# Decisions and their words
+ok
+cancel
+ui_dlg_cancel
+ui_home_btn_cancel
+ui_chat_appr_title
+ui_chat_appr_who
+ui_chat_appr_once
+ui_chat_appr_session
+ui_chat_appr_always
+ui_chat_appr_deny
+prs_approval_title
+prs_public_approval
+prs_action_allow
+prs_action_deny
+eng_approval_pending
+ui_run_term_title
+ui_run_term_body
+
+# Delete and clear confirmations
+ui_dlg_delete_title
+ui_dlg_delete_body
+ui_dlg_delete_confirm
+ui_dlg_clear_title
+ui_dlg_clear_body
+ui_dlg_clear_confirm
+ctl_bot_delete_title
+ctl_skill_delete_title
+ctl_voice_delete_title
+ctl_rt_reset_body
+ctl_rt_reset_confirm
+ctl_usage_clear_title
+ctl_usage_clear_confirm
+ctl_save_confirm_title
+ctl_save_confirm_body
+
+# Create and import
+ui_new_create
+ctl_skill_create
+ctl_bak_create
+ctl_bots_import_confirm
+
+# The line shown while the microphone records
+ui_voice_listening
+
+# Backup warnings
+ctl_bak_never
+ctl_bak_restore_confirm_title
+ctl_bak_restore_confirm_body
+ctl_bak_restore_confirm
+ctl_bak_err_halfway
+ctl_bak_err_safety
+
+# Prices that later waves add
+price_*

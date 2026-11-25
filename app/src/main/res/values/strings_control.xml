@@ -21,7 +21,10 @@
 
     <!-- bots -->
     <string name="ctl_bots_title">Bots</string>
-    <string name="ctl_bots_count">%1$d bots</string>
+    <plurals name="ctl_bots_count">
+        <item quantity="one">%1$d bot</item>
+        <item quantity="other">%1$d bots</item>
+    </plurals>
     <string name="ctl_bots_intro">Each bot is a character with its own personality. Tap one to edit it, or press the chat icon to talk to it.</string>
     <string name="ctl_bots_new">New bot</string>
     <string name="ctl_bots_select_on">Choose bots for a group chat</string>
@@ -56,7 +59,10 @@
     <string name="ctl_bot_prompt_help">This text tells the model who the bot is and how to behave. It is sent with every conversation of this bot. Tap a chip to add a ready-made sentence.</string>
     <string name="ctl_bot_prompt">Personality (system prompt)</string>
     <string name="ctl_bot_prompt_hint">You are a patient teacher who …</string>
-    <string name="ctl_bot_chars">%1$d characters</string>
+    <plurals name="ctl_bot_chars">
+        <item quantity="one">%1$d character</item>
+        <item quantity="other">%1$d characters</item>
+    </plurals>
     <string name="ctl_bot_mono">Monospace</string>
     <string name="ctl_ins_turkish">Speak Turkish</string>
     <string name="ctl_ins_kurdish">Speak Kurdish</string>
@@ -100,7 +106,10 @@
     <string name="ctl_doc_placeholder">Empty</string>
     <string name="ctl_budget">%1$d of %2$d characters used</string>
     <string name="ctl_budget_over">Over the budget. Hermes keeps this file small on purpose: shorten or merge entries.</string>
-    <string name="ctl_chars">%1$d characters</string>
+    <plurals name="ctl_chars">
+        <item quantity="one">%1$d character</item>
+        <item quantity="other">%1$d characters</item>
+    </plurals>
     <string name="ctl_mode_entries">Entries</string>
     <string name="ctl_mode_raw">Raw text</string>
     <string name="ctl_entries_empty">No entries yet.</string>
@@ -289,7 +298,10 @@
     <string name="ctl_usage_legend_in">In (what you send)</string>
     <string name="ctl_usage_legend_out">Out (what you get back)</string>
     <string name="ctl_usage_in_out">%1$s in · %2$s out</string>
-    <string name="ctl_usage_turns">%1$d replies</string>
+    <plurals name="ctl_usage_turns">
+        <item quantity="one">%1$d reply</item>
+        <item quantity="other">%1$d replies</item>
+    </plurals>
     <string name="ctl_usage_models">By model</string>
     <string name="ctl_usage_model_default">Hermes default</string>
     <string name="ctl_usage_budget_title">Daily budget</string>
@@ -387,10 +399,16 @@
     <string name="ctl_bots_exported">Bots saved</string>
     <string name="ctl_bots_export_failed">Could not export the bots.</string>
     <string name="ctl_bots_export_too_big">This is too much text to share. Save it to a file instead.</string>
-    <string name="ctl_bots_import_title">Import %1$d bots?</string>
+    <plurals name="ctl_bots_import_title">
+        <item quantity="one">Import %1$d bot?</item>
+        <item quantity="other">Import %1$d bots?</item>
+    </plurals>
     <string name="ctl_bots_import_body">These bots will be added as copies:\n%1$s\n\nRead their personality text before you chat: it steers the agent.</string>
     <string name="ctl_bots_import_confirm">Import</string>
-    <string name="ctl_bots_imported">%1$d bots imported</string>
+    <plurals name="ctl_bots_imported">
+        <item quantity="one">%1$d bot imported</item>
+        <item quantity="other">%1$d bots imported</item>
+    </plurals>
     <string name="ctl_bots_import_failed">Could not import: %1$s</string>
     <string name="ctl_bots_import_empty">The clipboard is empty.</string>
     <string name="ctl_bots_import_none">the file holds no bots</string>

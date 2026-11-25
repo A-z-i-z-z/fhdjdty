@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Twin launcher foreground "newroz": the owner's foreground with the TEST badge on top. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/ic_launcher_foreground"/>
+    <item android:drawable="@drawable/twin_badge"/>
+</layer-list>

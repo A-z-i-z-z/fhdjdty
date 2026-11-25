@@ -1,9 +1,6 @@
 package dev.pocketagent.app.ui.components
 
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.snap
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,18 +22,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.lerp
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
-import dev.pocketagent.app.ui.theme.AnimLevel
+import dev.pocketagent.app.ui.theme.HapticCue
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.theme.Space
+import dev.pocketagent.app.ui.theme.motion
+import dev.pocketagent.app.ui.theme.rememberHaptics
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.roundToInt
 
 /**
  * Full-width settings row: title (+ optional subtitle) on the left, a pixel toggle on the right.
- * The whole row is the touch target (min 56 dp) and announces itself as a switch.
+ * The whole row is the touch target (min 56 dp) and announces itself as a switch. [modifier] goes first, so a
+ * caller can tag or size the row.
  */
 @Composable
 fun PocketSwitchRow(
@@ -44,19 +44,20 @@ fun PocketSwitchRow(
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     subtitle: String? = null,
+    modifier: Modifier = Modifier,
 ) {
     val c = Pocket.colors
-    val view = LocalView.current
+    val haptics = rememberHaptics()
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .heightIn(min = 56.dp)
             .toggleable(
                 value = checked,
                 role = Role.Switch,
-                onValueChange = { view.pixelTick(); onCheckedChange(it) },
+                onValueChange = { haptics.play(HapticCue.TICK); onCheckedChange(it) },
             )
-            .padding(horizontal = 16.dp, vertical = 10.dp),
+            .padding(horizontal = Space.l, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Column(Modifier.weight(1f)) {
@@ -65,7 +66,7 @@ fun PocketSwitchRow(
                 Text(text = subtitle, color = c.textMuted, style = MaterialTheme.typography.bodySmall)
             }
         }
-        Spacer(Modifier.width(12.dp))
+        Spacer(Modifier.width(Space.m))
         PixelSwitch(checked)
     }
 }
@@ -74,10 +75,10 @@ fun PocketSwitchRow(
 @Composable
 private fun PixelSwitch(checked: Boolean) {
     val c = Pocket.colors
-    val anim = Pocket.anim
+    val motion = Pocket.motion
     val t = animateFloatAsState(
         targetValue = if (checked) 1f else 0f,
-        animationSpec = if (anim == AnimLevel.OFF) snap() else tween(120, easing = LinearEasing),
+        animationSpec = motion.fast(),
         label = "pixelSwitch",
     )
     val track = if (checked) c.accent else c.bgDeep

@@ -40,8 +40,12 @@ val LocalAppearance = staticCompositionLocalOf { Appearance() }
 /** Read-only access to the current theme from any composable. */
 object Pocket {
     val colors: PocketColors @Composable get() = LocalPocketColors.current
+
+    /** The settings as stored. [anim] and `motion` (Motion.kt) are what the app obeys. */
     val appearance: Appearance @Composable get() = LocalAppearance.current
-    val anim: AnimLevel @Composable get() = LocalAppearance.current.animations
+
+    /** The EFFECTIVE animation level: the setting, lowered by the system animator scale and battery saver. */
+    val anim: AnimLevel @Composable get() = LocalAnimLevel.current
 }
 
 /**
@@ -71,10 +75,15 @@ fun PocketTheme(appearance: Appearance, content: @Composable () -> Unit) {
         Density(base.density, (base.fontScale * appearance.textScale).coerceIn(0.5f, 2.4f))
     }
     SystemBars(colors)
+    val system = rememberSystemMotion()
+    val level = effectiveAnimLevel(appearance.animations, system.animatorScale, system.powerSave)
+    val motion = remember(level) { MotionScheme(level) }
     CompositionLocalProvider(
         LocalPocketColors provides colors,
         LocalAppearance provides appearance,
         LocalDensity provides density,
+        LocalAnimLevel provides level,
+        LocalMotion provides motion,
     ) {
         MaterialTheme(colorScheme = scheme, typography = PocketTypography, shapes = PocketShapes) {
             CompositionLocalProvider(

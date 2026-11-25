@@ -26,6 +26,7 @@ import dev.pocketagent.app.ui.components.PixelButton
 import dev.pocketagent.app.ui.components.PixelIcon
 import dev.pocketagent.app.ui.components.PocketChip
 import dev.pocketagent.app.ui.components.PocketSwitchRow
+import dev.pocketagent.app.ui.diag.WebLookupsRow
 import dev.pocketagent.app.ui.theme.Pocket
 
 /** The idle-stop choices in minutes (0 = never); a stored value that is not listed gets its own chip. */
@@ -108,6 +109,8 @@ internal fun BehaviourSection(vm: dev.pocketagent.app.MainViewModel) {
             Muted(stringResource(R.string.battery_hint))
             PixelButton(stringResource(R.string.btn_battery), onClick = { ctx.startActivity(vm.batteryOptimizationIntent()) }, kind = ButtonKind.SECONDARY)
         }
+
+        WebLookupsRow()
     }
 }
 

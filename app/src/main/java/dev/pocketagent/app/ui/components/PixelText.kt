@@ -2,6 +2,8 @@ package dev.pocketagent.app.ui.components
 
 import android.graphics.Paint
 import android.graphics.Typeface
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -19,10 +21,14 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.text
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.pocketagent.app.ui.theme.PixelFont
+import dev.pocketagent.app.ui.theme.PixelType
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.theme.Type
+import dev.pocketagent.app.ui.theme.pixelFontPx
 import kotlin.math.ceil
 import kotlin.math.max
 import kotlin.math.roundToInt
@@ -37,6 +43,10 @@ import kotlin.math.roundToInt
  * ellipsis, and with [center] centres each line inside the available width. Characters the font does not
  * have are drawn with the system font at matching height. [shadow] adds a 1-pixel drop shadow.
  *
+ * The font pixel follows the text-size setting in three steps (see [pixelFontPx]) unless [followTextScale] is
+ * false; at the default text size it is exactly the old rounded size. [kerning] pulls the listed pairs one
+ * column closer (off by default). A line that is cut with "..." reports it to [CutProbe].
+ *
  * Implementation: a plain Layout whose measure pass builds a list of pixel rectangles (stored in a
  * holder) and a drawBehind that fills them with drawRect.
  */
@@ -49,8 +59,11 @@ fun PixelText(
     shadow: Color? = null,
     maxLines: Int = Int.MAX_VALUE,
     center: Boolean = false,
+    followTextScale: Boolean = true,
+    kerning: Boolean = false,
 ) {
-    val px = with(LocalDensity.current) { pixel.toPx() }.roundToInt().coerceAtLeast(1)
+    val density = LocalDensity.current
+    val px = pixelFontPx(pixel.value, density.density, density.fontScale, followTextScale)
     val holder = remember { BuiltHolder() }
     val label = text
     val hasShadow = shadow != null
@@ -68,7 +81,11 @@ fun PixelText(
             },
         measurePolicy = MeasurePolicy { _, constraints ->
             val maxW = if (constraints.hasBoundedWidth) constraints.maxWidth else Int.MAX_VALUE
-            val b = build(label, px, maxW, constraints.minWidth, maxLines, center, hasShadow)
+            val b = build(label, px, maxW, constraints.minWidth, maxLines, center, hasShadow, kerning)
+            val before = holder.built
+            if (b.truncated && (before == null || !before.truncated || before.source != b.source || before.width != b.width)) {
+                CutProbe.report(label)
+            }
             holder.built = b
             val w = b.width.coerceIn(constraints.minWidth, if (constraints.hasBoundedWidth) constraints.maxWidth else Int.MAX_VALUE)
             val h = b.height.coerceIn(constraints.minHeight, if (constraints.hasBoundedHeight) constraints.maxHeight else Int.MAX_VALUE)
@@ -101,6 +118,7 @@ private class Extra(val s: String, val x: Float, val y: Float)
 private class Built(
     val source: String, val px: Int, val width: Int, val height: Int,
     val rects: FloatArray, val count: Int, val extras: List<Extra>, val paint: Paint?,
+    val truncated: Boolean = false,
 )
 
 /**
@@ -109,6 +127,7 @@ private class Built(
  */
 private fun build(
     raw: String, px: Int, maxW: Int, minW: Int, maxLines: Int, center: Boolean, hasShadow: Boolean,
+    kerning: Boolean = false,
 ): Built {
     val text = PixelFont.prepare(raw).replace('\t', ' ').filter { it >= ' ' || it == '\n' }
     val shadowExtra = if (hasShadow) px else 0
@@ -134,14 +153,19 @@ private fun build(
         return ceil(paintOf().measureText(String(Character.toChars(cp)))).toInt()
     }
 
+    fun kernOf(prev: Int, next: Int): Int =
+        if (kerning && prev in 1 until 0x10000 && next in 1 until 0x10000) PixelFont.kern(prev.toChar(), next.toChar()) * px else 0
+
     fun strWidth(s: String): Int {
         var w = 0
         var n = 0
         var i = 0
+        var prev = 0
         while (i < s.length) {
             val cp = s.codePointAt(i)
             i += Character.charCount(cp)
-            w += cpWidth(cp)
+            w += cpWidth(cp) + kernOf(prev, cp)
+            prev = cp
             n++
         }
         return if (n == 0) 0 else w + (n - 1) * px
@@ -203,11 +227,13 @@ private fun build(
         val y0 = li * (lineH + px)
         var i = 0
         var first = true
+        var prev = 0
         while (i < line.length) {
             val cp = line.codePointAt(i)
             i += Character.charCount(cp)
-            if (!first) x += px
+            if (!first) x += px + kernOf(prev, cp)
             first = false
+            prev = cp
             val g = if (cp < 0x10000) PixelFont.glyph(cp.toChar()) else null
             if (g != null) {
                 for (r in 0 until PixelFont.ROWS) {
@@ -228,5 +254,48 @@ private fun build(
             }
         }
     }
-    return Built(raw, px, w, h, rects, count, extras, paint)
+    return Built(raw, px, w, h, rects, count, extras, paint, truncated)
+}
+
+/**
+ * Pure: the first of [candidatesPx] (device pixels of one font pixel, in order of preference) at which a title of
+ * [cols] grid columns fits in [availablePx]; null when [cols] is null (a character without a glyph) or none fits.
+ */
+fun pickTitleStep(cols: Int?, availablePx: Int, candidatesPx: List<Int>): Int? {
+    if (cols == null) return null
+    for (px in candidatesPx) if (cols.toLong() * px <= availablePx) return px
+    return null
+}
+
+/**
+ * A one-line title in the pixel font that is never cut while half the bar is free: it tries the font pixel
+ * that follows the text-size setting, then the plain [pixel], then three quarters of it, and only when none of
+ * them fits (or a character has no glyph) it falls back to the system font in [Type.title], cut with "...".
+ */
+@Composable
+fun PixelTitle(
+    text: String,
+    modifier: Modifier = Modifier,
+    color: Color = Pocket.colors.text,
+    pixel: Dp = PixelType.title,
+    shadow: Color? = null,
+) {
+    val density = LocalDensity.current
+    val cols = remember(text) { PixelFont.textCols(text) }
+    BoxWithConstraints(modifier) {
+        val scaled = pixelFontPx(pixel.value, density.density, density.fontScale, true)
+        val plain = pixelFontPx(pixel.value, density.density, density.fontScale, false)
+        val small = max(1, (plain * 0.75f).roundToInt())
+        val room = if (constraints.hasBoundedWidth) constraints.maxWidth else Int.MAX_VALUE
+        val reserve = if (shadow != null) scaled else 0
+        val pick = pickTitleStep(cols, if (room == Int.MAX_VALUE) room else max(0, room - reserve), listOf(scaled, plain, small).distinct())
+        if (pick != null) {
+            PixelText(
+                text = text, color = color, pixel = with(density) { pick.toDp() }, shadow = shadow,
+                maxLines = 1, followTextScale = false,
+            )
+        } else {
+            Text(text = text, color = color, style = Type.title, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        }
+    }
 }

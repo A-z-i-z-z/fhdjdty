@@ -20,6 +20,10 @@ data class PocketColors(
     val fireLow: Color, val fireMid: Color, val fireHigh: Color, val ember: Color,
     val userBubble: Color, val onUserBubble: Color, val botBubble: Color, val onBotBubble: Color,
     val toolBubble: Color, val onToolBubble: Color, val codeBg: Color, val error: Color, val success: Color, val warning: Color,
+    /** Firelight for ambient effects (the glow rings of a panel). Derived: the theme's mid fire. */
+    val glow: Color = fireMid,
+    /** The colour of the dither scrim behind sheets and dialogs. Derived from the variant. */
+    val scrim: Color = if (isDark) Color.Black else Color(0xFF2A1A24),
 )
 
 /**

@@ -1,10 +1,7 @@
 package dev.pocketagent.app.ui.components
 
-import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
@@ -19,8 +16,9 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import dev.pocketagent.app.R
-import dev.pocketagent.app.ui.theme.AnimLevel
+import dev.pocketagent.app.ui.theme.Loop
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.theme.motion
 import kotlin.math.PI
 import kotlin.math.floor
 import kotlin.math.max
@@ -33,17 +31,17 @@ import kotlin.math.sin
  */
 @Composable
 fun TypingIndicator(modifier: Modifier = Modifier, color: Color = Pocket.colors.fireMid) {
-    val anim = Pocket.anim
+    val motion = Pocket.motion
     val hot = Pocket.colors.fireHigh
     val cool = Pocket.colors.fireLow
     val description = stringResource(R.string.design_typing)
-    val phase: State<Float>? = if (anim != AnimLevel.OFF) {
+    val phase: State<Float>? = if (motion.loops) {
         rememberInfiniteTransition(label = "typing").animateFloat(
             initialValue = 0f, targetValue = 1f, label = "hop",
-            animationSpec = infiniteRepeatable(tween(if (anim == AnimLevel.FULL) 1000 else 1800, easing = LinearEasing)),
+            animationSpec = motion.loop(Loop.TYPING),
         )
     } else null
-    val maxHop = if (anim == AnimLevel.FULL) 3 else 1
+    val maxHop = if (motion.particles) 3 else 1
     Spacer(
         modifier
             .size(width = 39.dp, height = 21.dp)

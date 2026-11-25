@@ -1,0 +1,16 @@
+{
+  "name": "smoke-terminal-version",
+  "title": "The terminal runs hermes --version and answers",
+  "flags": ["core", "smoke"],
+  "safe": true,
+  "timeoutSec": 180,
+  "steps": [
+    {"op": "link", "action": "TERMINAL"},
+    {"op": "wait", "any": [{"tag": "screen.terminal"}], "navTop": "terminal", "timeout": 15},
+    {"op": "type", "tag": "terminal.input", "text": "hermes --version"},
+    {"op": "tap", "tag": "terminal.run"},
+    {"op": "expect", "textContains": "Hermes Agent v0.23.3", "timeout": 90},
+    {"op": "shot", "name": "terminal"},
+    {"op": "noCrash"}
+  ]
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- The marker of the test twin: an amber band with the word TEST in 3 by 5 cell pixel letters (cell = 2 units),
+     drawn over the owner's launcher foreground. Inside the adaptive icon's safe zone (central 66 of 108 units). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#FFF5A524" android:pathData="M36,67h36v14h-36z"/>
+    <path android:fillColor="#FF140A20" android:pathData="M39,69h6v2h-6zM47,69h6v2h-6zM55,69h6v2h-6zM63,69h6v2h-6zM41,71h2v2h-2zM47,71h2v2h-2zM55,71h2v2h-2zM65,71h2v2h-2zM41,73h2v2h-2zM47,73h6v2h-6zM55,73h6v2h-6zM65,73h2v2h-2zM41,75h2v2h-2zM47,75h2v2h-2zM59,75h2v2h-2zM65,75h2v2h-2zM41,77h2v2h-2zM47,77h6v2h-6zM55,77h6v2h-6zM65,77h2v2h-2z"/>
+</vector>

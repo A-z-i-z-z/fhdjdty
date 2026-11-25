@@ -37,15 +37,38 @@ private val TABLE_SEP = Regex("^\\s*\\|?\\s*:?-+:?\\s*(\\|\\s*:?-+:?\\s*)*\\|?\\
 private val BR = Regex("(?i)<br\\s*/?>")
 
 fun parseMarkdown(src: String): List<MdBlock> =
-    parseBlocks(src.replace("\r\n", "\n").replace('\r', '\n').split('\n'))
+    parseMarkdownLines(src.replace("\r\n", "\n").replace('\r', '\n').split('\n')).blocks
 
-private fun parseBlocks(lines: List<String>): List<MdBlock> {
+/** The top-level blocks of a text and where each one sits, as line indexes (Wave 0: the stream parser keeps finished blocks). */
+internal class MdParsed(val blocks: List<MdBlock>, val startLines: IntArray, val endLines: IntArray)
+
+/**
+ * Same result as [parseMarkdown] for the already normalised [lines]. `endLines[i]` is the first line block i did NOT
+ * consume (the line that ended it, or lines.size when the end of the input ended it); `startLines[i]` is its first line.
+ */
+internal fun parseMarkdownLines(lines: List<String>): MdParsed {
+    val ranges = ArrayList<IntArray>()
+    val blocks = parseBlocks(lines, ranges)
+    return MdParsed(
+        blocks,
+        IntArray(ranges.size) { ranges[it][0] },
+        IntArray(ranges.size) { ranges[it][1] },
+    )
+}
+
+/** [ranges], when given, receives one [start, end) line pair per top-level block, in block order (quotes pass null). */
+private fun parseBlocks(lines: List<String>, ranges: MutableList<IntArray>? = null): List<MdBlock> {
     val out = ArrayList<MdBlock>()
     val para = StringBuilder()
-    fun flushPara() {
-        if (para.isNotEmpty()) { out += MdBlock.Paragraph(parseInline(para.toString())); para.clear() }
-    }
     var i = 0
+    var paraStart = 0
+    fun flushPara() {
+        if (para.isNotEmpty()) {
+            out += MdBlock.Paragraph(parseInline(para.toString()))
+            ranges?.add(intArrayOf(paraStart, i))
+            para.clear()
+        }
+    }
     while (i < lines.size) {
         val line = lines[i]
         if (line.isBlank()) { flushPara(); i++; continue }
@@ -53,6 +76,7 @@ private fun parseBlocks(lines: List<String>): List<MdBlock> {
         val fence = FENCE.matchEntire(line)
         if (fence != null) {
             flushPara()
+            val start = i
             val marker = fence.groupValues[1]
             val lang = fence.groupValues[2]
             val code = ArrayList<String>()
@@ -60,6 +84,7 @@ private fun parseBlocks(lines: List<String>): List<MdBlock> {
             while (i < lines.size && !isClosingFence(lines[i], marker)) { code += lines[i]; i++ }
             if (i < lines.size) i++ // the closing fence
             out += MdBlock.Code(lang, code.joinToString("\n"))
+            ranges?.add(intArrayOf(start, i))
             continue
         }
 
@@ -68,35 +93,45 @@ private fun parseBlocks(lines: List<String>): List<MdBlock> {
             flushPara()
             val text = heading.groupValues[2].trim().trimEnd('#').trim()
             out += MdBlock.Heading(heading.groupValues[1].length, parseInline(text))
+            ranges?.add(intArrayOf(i, i + 1))
             i++; continue
         }
 
-        if (RULE.matches(line)) { flushPara(); out += MdBlock.Rule; i++; continue }
+        if (RULE.matches(line)) {
+            flushPara(); out += MdBlock.Rule
+            ranges?.add(intArrayOf(i, i + 1))
+            i++; continue
+        }
 
         if (QUOTE.matches(line)) {
             flushPara()
+            val start = i
             val inner = ArrayList<String>()
             while (i < lines.size) {
                 val q = QUOTE.matchEntire(lines[i]) ?: break
                 inner += q.groupValues[1]; i++
             }
             out += MdBlock.Quote(parseBlocks(inner))
+            ranges?.add(intArrayOf(start, i))
             continue
         }
 
         if (line.contains('|') && i + 1 < lines.size && lines[i + 1].contains('|') && TABLE_SEP.matches(lines[i + 1])) {
             flushPara()
+            val start = i
             val header = splitRow(line)
             i += 2
             val rows = ArrayList<List<List<MdSpan>>>()
             while (i < lines.size && lines[i].isNotBlank() && lines[i].contains('|')) { rows += splitRow(lines[i]); i++ }
             out += MdBlock.Table(header, rows)
+            ranges?.add(intArrayOf(start, i))
             continue
         }
 
         val item = ITEM.matchEntire(line)
         if (item != null) {
             flushPara()
+            val start = i
             val indent = item.groupValues[1].replace("\t", "    ").length
             val rawMarker = item.groupValues[2]
             val marker = if (rawMarker[0].isDigit()) rawMarker.dropLast(1) + "." else "•"
@@ -107,10 +142,11 @@ private fun parseBlocks(lines: List<String>): List<MdBlock> {
                 !ITEM.matches(lines[i]) && !FENCE.matches(lines[i])
             ) { text.append('\n').append(lines[i].trim()); i++ }
             out += MdBlock.Item((indent / 2).coerceAtMost(4), marker, parseInline(text.toString()))
+            ranges?.add(intArrayOf(start, i))
             continue
         }
 
-        if (para.isNotEmpty()) para.append('\n')
+        if (para.isNotEmpty()) para.append('\n') else paraStart = i
         para.append(line.trim())
         i++
     }

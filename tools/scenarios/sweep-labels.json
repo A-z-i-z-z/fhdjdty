@@ -1,0 +1,12 @@
+{
+  "name": "sweep-labels",
+  "title": "Every route has spoken labels, and nothing is cut at double text size",
+  "flags": ["core"],
+  "safe": true,
+  "cutCheck": true,
+  "timeoutSec": 600,
+  "steps": [
+    {"op": "eachRoute", "steps": [{"op": "link", "debug": {"reset": "1", "route": "{{var:route}}"}}, {"op": "wait", "any": [{"tag": "{{var:screen}}"}], "navTop": "{{var:route}}", "timeout": 10}, {"op": "wait", "ms": 400}, {"op": "a11y"}]},
+    {"op": "noCrash"}
+  ]
+}

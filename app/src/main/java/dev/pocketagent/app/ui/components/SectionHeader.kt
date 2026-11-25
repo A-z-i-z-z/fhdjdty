@@ -21,6 +21,7 @@ import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import dev.pocketagent.app.ui.theme.Pocket
+import dev.pocketagent.app.ui.theme.Space
 import java.util.Locale
 import kotlin.math.floor
 import kotlin.math.max
@@ -38,7 +39,7 @@ fun SectionHeader(text: String, modifier: Modifier = Modifier) {
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 10.dp)
+            .padding(horizontal = Space.gutter, vertical = 10.dp)
             .semantics { heading() },
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -50,7 +51,7 @@ fun SectionHeader(text: String, modifier: Modifier = Modifier) {
             drawRect(c.fireMid, Offset(x0, y0 + u), Size(3 * u, 2 * u))
             drawRect(c.fireLow, Offset(x0 + u, y0 + 3 * u), Size(u, u))
         }
-        Spacer(Modifier.width(8.dp))
+        Spacer(Modifier.width(Space.s))
         PixelText(text = label, color = c.accentSoft, pixel = 1.5.dp, maxLines = 1)
         Spacer(Modifier.width(10.dp))
         Spacer(

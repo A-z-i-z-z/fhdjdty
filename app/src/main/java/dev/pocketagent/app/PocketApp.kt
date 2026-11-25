@@ -10,13 +10,16 @@ import dev.pocketagent.app.data.ChatRepository
 import dev.pocketagent.app.data.DraftStore
 import dev.pocketagent.app.data.EngineEvent
 import dev.pocketagent.app.data.UsageStore
+import dev.pocketagent.app.diag.CrashReports
 import dev.pocketagent.app.diag.Diag
 import dev.pocketagent.app.diag.Diagnostics
 import dev.pocketagent.app.hermes.HermesHome
 import dev.pocketagent.app.hermes.TerminalSession
 import dev.pocketagent.app.routines.RoutineScheduler
 import dev.pocketagent.app.routines.RoutineStore
+import dev.pocketagent.app.runtime.GuestPrefs
 import dev.pocketagent.app.runtime.Paths
+import dev.pocketagent.app.runtime.PracticeModel
 import dev.pocketagent.app.runtime.PresencePrefs
 import dev.pocketagent.app.runtime.ProviderConfig
 import dev.pocketagent.app.runtime.RuntimeAwait
@@ -52,6 +55,10 @@ data class IncomingShare(
 class PocketApp : Application() {
     lateinit var runtime: RuntimeManager; private set
     lateinit var diagnostics: Diagnostics; private set
+    /** The web-lookup switch and the practice-model switch (the guest's generated configuration depends on them). */
+    lateinit var guestPrefs: GuestPrefs; private set
+    /** Reads Android's exit records at start and offers a copyable report after a crash. */
+    lateinit var crashReports: CrashReports; private set
     lateinit var wakeLocks: WakeLocks; private set
     /** Bots, conversations and messages (JSON files in filesDir/chat). */
     lateinit var chat: ChatRepository; private set
@@ -100,17 +107,22 @@ class PocketApp : Application() {
         if (RestartProcess.isRestartProcess(RestartProcess.currentProcessName())) return
         Diag.install()
         AppLog.init(this)
+        // Texts first (nothing below shows a text yet): a failure here is logged and never stops the app from starting.
+        try { dev.pocketagent.app.ui.text.Texts.install(this) } catch (e: Throwable) { AppLog.e("App", "texts failed to install", e) }
         // Right after the log exists and before anything else is constructed: a crash while building the runtime
         // (build 8's) must reach app.log. It depends on AppLog only.
         Thread.setDefaultUncaughtExceptionHandler(CrashLogger(Thread.getDefaultUncaughtExceptionHandler()))
         val paths = Paths(this)
         val settings = Settings(this)
+        // Before anything that can call ProviderConfig.savedProblems: it reads the practice flag this sets.
+        guestPrefs = GuestPrefs.get(this)
         val secrets = SecretStore(paths, settings)
         wakeLocks = WakeLocks(this)
         runtime = RuntimeManager(this, paths, settings, secrets, wakeLocks)
         diagnostics = Diagnostics(this, runtime)
-        // Pixel sprites: a broken sprite file must never stop the app from starting.
-        try { dev.pocketagent.app.ui.pixel.SpriteBank.init(this) } catch (e: Throwable) { AppLog.e("App", "sprite bank failed to load", e) }
+        crashReports = CrashReports(this, diagnostics)
+        // Pixel sprites load in the background: a broken sprite file must never stop the app from starting.
+        try { dev.pocketagent.app.ui.pixel.SpriteBank.preload(this) } catch (e: Throwable) { AppLog.e("App", "sprite bank failed to load", e) }
         chat = ChatRepository(this)
         attachments = AttachmentStore(this, paths)
         usage = UsageStore(this)
@@ -119,7 +131,9 @@ class PocketApp : Application() {
         // Everything the engine reads lazily (presencePrefs, usage, runtime) exists before the first message can be sent.
         engine = ChatEngine(
             chat, runtime.api, wakeLocks,
-            provider = { ProviderConfig.providerName(settings.providerInputs("")) },
+            // The practice switch flips at once but Hermes changes its configuration only after its asynchronous restart: while either
+            // side says practice, a per-chat or per-bot model override goes out as the practice provider, never as a real one.
+            provider = { if (runtime.lastGuestOptions.practice || GuestPrefs.practiceActive) PracticeModel.PROVIDER else ProviderConfig.providerName(settings.providerInputs("")) },
             isReady = { runtime.state.value == RuntimeState.Running },
             imageLoader = { attachments.toDataUrl(it) },
             canWake = { presencePrefs.settings.value.wakeOnSend && runtime.isRootfsValid() },
@@ -141,7 +155,22 @@ class PocketApp : Application() {
         // Last: these may read any member above.
         try { presence.install() } catch (e: Throwable) { AppLog.e("App", "presence failed to install", e) }
         try { routineScheduler.rescheduleAll() } catch (e: Throwable) { AppLog.e("App", "routine alarms could not be scheduled", e) }
-        AppLog.i("App", "started Agiri build ${BuildConfig.GIT_COMMIT} (${BuildConfig.VERSION_NAME})")
+        wave0Slots()
+        AppLog.i(
+            "App",
+            "started Agiri build ${BuildConfig.GIT_COMMIT} (${BuildConfig.VERSION_NAME}) variant=${BuildConfig.APP_VARIANT} " +
+                "signing=${BuildConfig.SIGNING_KIND} package=${BuildConfig.APPLICATION_ID}",
+        )
+    }
+
+    /**
+     * WAVE 0 SLOTS: the one place other areas ask for an init line. One try/catch per slot; never construct anything slow here.
+     * An area that needs a line writes `slot: <AREA>: <exact line>` in its report for the next wave.
+     */
+    private fun wave0Slots() {
+        // slot: CRASH: read Android's exit records of the last run and prepare the crash offer (blocking calls, so off the main thread).
+        try { appScope.launch(Dispatchers.IO) { try { crashReports.evaluate() } catch (e: Throwable) { AppLog.e("App", "crash report check failed", e) } } }
+        catch (e: Throwable) { AppLog.e("App", "crash report slot failed", e) }
     }
 
     /** Drafts of deleted chats are dropped, but only once the chat list is really loaded (it is empty until then). */

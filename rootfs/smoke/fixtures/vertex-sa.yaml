@@ -5,3 +5,23 @@ model:
 vertex:
   project_id: "smoke-project"
   region: "global"
+# Fail-closed tool list and privacy switches (Wave 0 stop-gaps).
+platform_toolsets:
+  api_server:
+    - web
+    - terminal
+    - file
+    - code_execution
+    - vision
+    - skills
+    - todo
+    - memory
+    - session_search
+    - delegation
+auxiliary:
+  title_generation:
+    model_upgrade_enabled: false
+security:
+  allow_lazy_installs: false
+web:
+  keyless_fallback: true

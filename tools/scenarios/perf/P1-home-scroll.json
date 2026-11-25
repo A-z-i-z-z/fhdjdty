@@ -1,0 +1,14 @@
+{
+  "name": "P1-home-scroll",
+  "title": "Scrolling Home, ten swipes",
+  "flags": ["perf"],
+  "measure": {"kind": "frames", "budget": {"within8_3Pct": 95, "over33": 0}},
+  "timeoutSec": 300,
+  "steps": [
+    {"op": "tap", "cache": true, "any": [{"tag": "tab.home"}, {"desc": "Home"}]},
+    {"op": "measure", "action": "start"},
+    {"op": "swipe", "dir": "up", "ms": 300, "times": 5},
+    {"op": "swipe", "dir": "down", "ms": 300, "times": 5},
+    {"op": "measure", "action": "stop"}
+  ]
+}

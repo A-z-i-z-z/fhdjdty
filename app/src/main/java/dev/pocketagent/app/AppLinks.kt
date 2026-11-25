@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import dev.pocketagent.app.ui.Route
 
 /**
  * A navigation request that arrives from outside the UI: a notification, a launcher shortcut, the Quick Settings
@@ -16,6 +17,8 @@ sealed interface AppLink {
     data object Terminal : AppLink
     data object Routines : AppLink
     data object Usage : AppLink
+    /** Made only by [DebugLinks] (a build with test hooks): opens [route] with the stack that route is reached by. */
+    data class DebugOpen(val route: Route) : AppLink
 }
 
 object AppLinks {
@@ -24,6 +27,8 @@ object AppLinks {
     const val ACTION_TERMINAL = "dev.pocketagent.app.TERMINAL"
     const val ACTION_ROUTINES = "dev.pocketagent.app.ROUTINES"
     const val ACTION_USAGE = "dev.pocketagent.app.USAGE"
+    /** The debug link of a build with test hooks. Not parsed here: see [DebugLinks]. It is addressed to MainActivity by name. */
+    const val ACTION_DEBUG = "dev.pocketagent.app.DEBUG"
     const val EXTRA_CONV_ID = "conv_id"
 
     private const val SCHEME = "agiri"

@@ -6,12 +6,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import dev.pocketagent.app.ui.pixel.PixelImage
 import dev.pocketagent.app.ui.pixel.SpriteBank
+import dev.pocketagent.app.ui.text.Mirroring
 import dev.pocketagent.app.ui.theme.Pocket
 
 /**
@@ -29,7 +33,10 @@ enum class PixelIcon {
     val spriteName: String get() = "icon_" + name.lowercase()
 }
 
-/** Decorative by default; pass [contentDescription] when the icon stands alone and carries meaning. */
+/**
+ * Decorative by default; pass [contentDescription] when the icon stands alone and carries meaning. In a
+ * right-to-left layout the icons that point somewhere (back, send, play, share) are drawn mirrored.
+ */
 @Composable
 fun PixelIconView(
     icon: PixelIcon,
@@ -39,7 +46,9 @@ fun PixelIconView(
     contentDescription: String? = null,
 ) {
     val sprite = remember(icon) { SpriteBank.find(icon.spriteName) }
-    val base = modifier.size(size)
+    val mirrored = LocalLayoutDirection.current == LayoutDirection.Rtl && Mirroring.iconMirrors(icon.name)
+    val sized = modifier.size(size)
+    val base = if (mirrored) sized.graphicsLayer { scaleX = -1f } else sized
     val sem = if (contentDescription != null) base.semantics { this.contentDescription = contentDescription } else base
     if (sprite == null) {
         Spacer(sem)

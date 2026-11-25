@@ -14,10 +14,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -26,15 +28,23 @@ import dev.pocketagent.app.BuildConfig
 import dev.pocketagent.app.MainViewModel
 import dev.pocketagent.app.PocketApp
 import dev.pocketagent.app.R
+import dev.pocketagent.app.runtime.GuestPrefs
+import dev.pocketagent.app.runtime.PracticeModel
+import dev.pocketagent.app.runtime.RuntimeManager
 import dev.pocketagent.app.runtime.RuntimeState
+import dev.pocketagent.app.ui.RobotTags
 import dev.pocketagent.app.ui.components.ButtonKind
+import dev.pocketagent.app.ui.components.ConfirmDialog
 import dev.pocketagent.app.ui.components.PixelButton
 import dev.pocketagent.app.ui.components.PixelIcon
 import dev.pocketagent.app.ui.components.PixelPanel
 import dev.pocketagent.app.ui.components.PocketSwitchRow
+import dev.pocketagent.app.ui.diag.DiagnosticsExtras
 import dev.pocketagent.app.ui.pixel.Mascot
 import dev.pocketagent.app.ui.pixel.MascotMood
 import dev.pocketagent.app.ui.theme.Pocket
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 
 /** Runtime: status, start/stop/restart, battery hint, seccomp switch, self-test, delete runtime files. */
 @Composable
@@ -50,7 +60,7 @@ internal fun RuntimeSection(vm: MainViewModel) {
         val (label, detail) = runtimeLabel(state)
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             StatusDot(runtimeColor(state))
-            CText(label, size = 18.sp, weight = FontWeight.SemiBold)
+            CText(label, modifier = Modifier.testTag(RobotTags.RUNTIME_STATE), size = 18.sp, weight = FontWeight.SemiBold)
         }
         if (detail.isNotEmpty()) SelectionContainer { CText(detail, color = c.textMuted, size = 13.sp) }
         if (state is RuntimeState.Extracting) {
@@ -62,20 +72,20 @@ internal fun RuntimeSection(vm: MainViewModel) {
         val canStart = state is RuntimeState.NotInstalled || state is RuntimeState.Stopped || state is RuntimeState.Error
         PixelButton(
             stringResource(if (state is RuntimeState.NotInstalled) R.string.btn_install_start else R.string.btn_start),
-            onClick = { vm.start() }, modifier = Modifier.fillMaxWidth(), icon = PixelIcon.PLAY, enabled = canStart,
+            onClick = { vm.start() }, modifier = Modifier.fillMaxWidth().testTag(RobotTags.RUNTIME_START), icon = PixelIcon.PLAY, enabled = canStart,
         )
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             PixelButton(
-                stringResource(R.string.btn_stop), onClick = { vm.stop() }, modifier = Modifier.weight(1f),
+                stringResource(R.string.btn_stop), onClick = { vm.stop() }, modifier = Modifier.weight(1f).testTag(RobotTags.RUNTIME_STOP),
                 icon = PixelIcon.STOP, kind = ButtonKind.SECONDARY, enabled = state.isBusyOrRunning || state is RuntimeState.Error,
             )
             PixelButton(
-                stringResource(R.string.btn_restart), onClick = { vm.restart() }, modifier = Modifier.weight(1f),
+                stringResource(R.string.btn_restart), onClick = { vm.restart() }, modifier = Modifier.weight(1f).testTag(RobotTags.RUNTIME_RESTART),
                 icon = PixelIcon.REFRESH, kind = ButtonKind.SECONDARY, enabled = state == RuntimeState.Running,
             )
         }
 
-        if (state is RuntimeState.Starting && (state as RuntimeState.Starting).step.startsWith("still starting")) {
+        if (state is RuntimeState.Starting && (state as RuntimeState.Starting).step.startsWith(RuntimeManager.STILL_STARTING)) {
             ErrorText(stringResource(R.string.slow_start_hint))
         }
         if (selfTestActive) {
@@ -96,6 +106,7 @@ internal fun RuntimeSection(vm: MainViewModel) {
             stringResource(R.string.debug_no_seccomp), vm.noSeccomp, { vm.updateNoSeccomp(it) },
             subtitle = stringResource(R.string.debug_no_seccomp_hint),
         )
+        PracticeSwitch(state)
         PixelButton(
             stringResource(R.string.btn_selftest), onClick = { vm.runSelfTest() },
             kind = ButtonKind.SECONDARY, icon = PixelIcon.BUG, enabled = !selfTestActive,
@@ -113,10 +124,40 @@ internal fun RuntimeSection(vm: MainViewModel) {
     }
 
     if (confirmReset) ConfirmDialog(
-        title = stringResource(R.string.btn_reset_runtime), text = stringResource(R.string.ctl_rt_reset_body),
+        title = stringResource(R.string.btn_reset_runtime), body = stringResource(R.string.ctl_rt_reset_body),
         confirmLabel = stringResource(R.string.ctl_rt_reset_confirm), danger = true,
         onConfirm = { confirmReset = false; vm.resetRuntime() }, onDismiss = { confirmReset = false },
     )
+}
+
+/**
+ * The practice model switch: Hermes answers from a built-in script (zero tokens) while it is on. Turning it on or off restarts
+ * Hermes when it runs; the owner's provider setup is never read or written by practice mode.
+ */
+@Composable
+private fun PracticeSwitch(state: RuntimeState) {
+    val ctx = LocalContext.current
+    val prefs = remember { GuestPrefs.get(ctx) }
+    val on by prefs.practiceModel.collectAsState()
+    var changed by remember { mutableStateOf(false) }
+    PocketSwitchRow(
+        stringResource(R.string.rbt_practice_title), on,
+        { v ->
+            prefs.setPracticeModel(v)
+            PocketApp.from(ctx).runtime.onGuestOptionsChanged(true)
+            changed = true
+        },
+        subtitle = stringResource(R.string.rbt_practice_sub),
+        modifier = Modifier.testTag(RobotTags.RUNTIME_PRACTICE),
+    )
+    if (changed && (state == RuntimeState.Running || state is RuntimeState.Starting)) {
+        Muted(stringResource(R.string.rbt_practice_restart), size = 12.sp)
+    }
+    if (on) {
+        // On the owner's own app the words that write into real data (MEMORY, FORGE) or hold memory (BALLAST) are not advertised.
+        val words = if (BuildConfig.IS_TWIN) PracticeModel.KEYWORDS else PracticeModel.KEYWORDS - setOf("MEMORY", "FORGE", "BALLAST")
+        Muted(stringResource(R.string.rbt_practice_words, words.joinToString(", ")), size = 12.sp)
+    }
 }
 
 @Composable
@@ -128,7 +169,10 @@ private fun SectionLabel(text: String) {
 @Composable
 internal fun DiagnosticsSection(vm: MainViewModel) {
     val ctx = LocalContext.current
+    val scope = rememberCoroutineScope()
     val selfTestActive by vm.selfTestActive.collectAsState()
+    var exporting by remember { mutableStateOf(false) }
+    var exportFailed by remember { mutableStateOf(false) }
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Muted(stringResource(R.string.ctl_diag_explain))
         if (selfTestActive) ErrorText(stringResource(R.string.selftest_running_hint))
@@ -137,6 +181,27 @@ internal fun DiagnosticsSection(vm: MainViewModel) {
             stringResource(R.string.btn_share_diag), onClick = { vm.shareDiagnosticsIntent()?.let { ctx.startActivity(it) } },
             modifier = Modifier.fillMaxWidth(), icon = PixelIcon.SHARE, kind = ButtonKind.SECONDARY,
         )
+        PixelButton(
+            stringResource(if (exporting) R.string.cfg_diag_exporting else R.string.rbt_export_logs),
+            onClick = {
+                if (!exporting) {
+                    exporting = true
+                    exportFailed = false
+                    scope.launch {
+                        var intent: android.content.Intent? = null
+                        try { intent = vm.shareLogsIntent() } catch (e: CancellationException) { throw e } catch (_: Exception) { }
+                        exporting = false
+                        if (intent == null) exportFailed = true
+                        else try { ctx.startActivity(intent) } catch (_: Exception) { exportFailed = true }
+                    }
+                }
+            },
+            modifier = Modifier.fillMaxWidth().testTag(RobotTags.DIAG_EXPORT_LOGS), icon = PixelIcon.ARCHIVE, kind = ButtonKind.SECONDARY,
+            enabled = !exporting,
+        )
+        Muted(stringResource(R.string.rbt_export_logs_hint), size = 12.sp)
+        if (exportFailed) ErrorText(stringResource(R.string.cfg_diag_export_failed))
+        DiagnosticsExtras()
     }
 }
 

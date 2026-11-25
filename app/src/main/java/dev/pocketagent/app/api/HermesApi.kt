@@ -1,5 +1,6 @@
 package dev.pocketagent.app.api
 
+import dev.pocketagent.app.data.Transcript
 import dev.pocketagent.app.diag.ApiLog
 import dev.pocketagent.app.diag.Diag
 import dev.pocketagent.app.runtime.Paths
@@ -56,11 +57,19 @@ data class ChatRequest(
             JSONArray().also { a ->
                 messages.forEach { msg ->
                     val obj = JSONObject().put("role", msg.role)
+                    // Hermes cuts one text part at 65,536 characters: a longer user or assistant text goes out as several text parts
+                    // (it joins them with a newline). System messages are never touched here: Transcript.build already split them.
+                    val textParts = if (msg.role == "system") listOf(msg.content) else Transcript.splitLong(msg.content)
                     if (msg.imageDataUrls.isEmpty()) {
-                        obj.put("content", msg.content)
+                        if (textParts.size <= 1) obj.put("content", msg.content)
+                        else obj.put("content", JSONArray().also { arr -> textParts.forEach { arr.put(JSONObject().put("type", "text").put("text", it)) } })
                     } else {
                         val parts = JSONArray()
-                        parts.put(JSONObject().put("type", "text").put("text", msg.content.ifBlank { "Analyze the attached image(s)." }))
+                        if (msg.content.isBlank()) {
+                            parts.put(JSONObject().put("type", "text").put("text", "Analyze the attached image(s)."))
+                        } else {
+                            textParts.forEach { parts.put(JSONObject().put("type", "text").put("text", it)) }
+                        }
                         for (url in msg.imageDataUrls) {
                             parts.put(JSONObject().put("type", "image_url").put("image_url", JSONObject().put("url", url)))
                         }

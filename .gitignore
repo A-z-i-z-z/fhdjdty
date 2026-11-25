@@ -19,3 +19,8 @@ captures/
 libproot*.so
 *.zst
 *.xz
+# owner signing material (Wave 0): never commit a private key, a properties file with passwords, or a lineage
+owner-signing.properties
+*.jks
+*.p12
+lineage*.bin

@@ -7,20 +7,14 @@ import android.content.res.Resources
 import android.text.TextUtils
 import android.view.View
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.ContentTransform
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.snap
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -37,7 +31,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.isImeVisible
 import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -46,30 +42,38 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.ProvidableCompositionLocal
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.LocalResources
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import android.widget.Toast
 import dev.pocketagent.app.AppLink
+import dev.pocketagent.app.BuildConfig
+import dev.pocketagent.app.DebugLinks
+import dev.pocketagent.app.DebugOverrides
 import dev.pocketagent.app.IncomingShare
 import dev.pocketagent.app.PocketApp
 import dev.pocketagent.app.R
@@ -84,21 +88,32 @@ import dev.pocketagent.app.ui.chat.StarredScreen
 import dev.pocketagent.app.ui.chat.bottomSafeInsets
 import dev.pocketagent.app.ui.chat.titleOf
 import dev.pocketagent.app.ui.components.ButtonKind
+import dev.pocketagent.app.ui.components.DesignGallery
+import dev.pocketagent.app.ui.components.PetNoteHost
+import dev.pocketagent.app.ui.components.PetNoteKind
+import dev.pocketagent.app.ui.components.PetNotes
 import dev.pocketagent.app.ui.components.PixelButton
 import dev.pocketagent.app.ui.components.PixelIcon
 import dev.pocketagent.app.ui.components.PixelIconView
 import dev.pocketagent.app.ui.components.PocketDialog
+import dev.pocketagent.app.ui.diag.CrashReportOffer
 import dev.pocketagent.app.ui.hermes.HermesScreen
 import dev.pocketagent.app.ui.hermes.TerminalScreen
 import dev.pocketagent.app.ui.home.HomeScreen
+import dev.pocketagent.app.ui.nav.NavDisplay
+import dev.pocketagent.app.ui.nav.NavTags
+import dev.pocketagent.app.ui.nav.robotRoot
 import dev.pocketagent.app.ui.routines.RoutineEditorScreen
 import dev.pocketagent.app.ui.routines.RoutinesScreen
+import dev.pocketagent.app.ui.settings.PracticeBanner
 import dev.pocketagent.app.ui.settings.SettingsScreen
+import dev.pocketagent.app.ui.text.ProvideTexts
 import dev.pocketagent.app.ui.theme.AnimLevel
 import dev.pocketagent.app.ui.theme.AppearanceStore
 import dev.pocketagent.app.ui.theme.Pocket
 import dev.pocketagent.app.ui.theme.PocketTheme
 import dev.pocketagent.app.ui.theme.SystemStatusBarIcons
+import dev.pocketagent.app.ui.theme.motion
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -115,12 +130,21 @@ fun AppRoot() {
     val ctx = LocalContext.current
     val store = remember { AppearanceStore.get(ctx) }
     val appearance by store.appearance.collectAsState()
-    LocaleScope(appearance.language) {
-        PocketTheme(appearance) { AppShell() }
+    // In a build with test hooks the debug link can force a language and a layout direction (in memory only);
+    // otherwise both are null and the saved language rules.
+    val overrideLanguage by DebugOverrides.language.collectAsState()
+    val overrideRtl by DebugOverrides.forceRtl.collectAsState()
+    LocaleScope(overrideLanguage ?: appearance.language, overrideRtl) {
+        ProvideTexts {
+            PocketTheme(appearance) { AppShell() }
+        }
     }
 }
 
 // ---- in-app language ------------------------------------------------------------------------------------------
+
+/** The language in force for the screens: "" = the system language; includes the debug override of a test build. */
+val LocalAppLanguage: ProvidableCompositionLocal<String> = staticCompositionLocalOf { "" }
 
 private class LocalizedContext(base: Context, private val localized: Context) : ContextWrapper(base) {
     override fun getResources(): Resources = localized.resources
@@ -130,21 +154,30 @@ private class LocaleHolder(val context: Context, val configuration: Configuratio
 
 /**
  * Makes `stringResource` (and anything reading the locals below) follow [language] ("" = the system language).
+ * [forceRtl] (a debug override, normally null) forces right-to-left (true) or left-to-right (false) whatever the language.
  * The wrapper keeps the Activity reachable through the context chain, which activity-compose relies on.
  */
 @Composable
-private fun LocaleScope(language: String, content: @Composable () -> Unit) {
+private fun LocaleScope(language: String, forceRtl: Boolean?, content: @Composable () -> Unit) {
     val base = LocalContext.current
     val baseConf = LocalConfiguration.current
-    val holder = remember(language, base, baseConf) {
+    val holder = remember(language, forceRtl, base, baseConf) {
         val locale = if (language.isBlank()) null else Locale.forLanguageTag(language)
-        if (locale == null) {
+        if (locale == null && forceRtl == null) {
             LocaleHolder(base, baseConf, if (baseConf.layoutDirection == View.LAYOUT_DIRECTION_RTL) LayoutDirection.Rtl else LayoutDirection.Ltr)
         } else {
             val conf = Configuration(baseConf)
-            conf.setLocale(locale)
-            conf.setLayoutDirection(locale)
-            val rtl = TextUtils.getLayoutDirectionFromLocale(locale) == View.LAYOUT_DIRECTION_RTL
+            var rtl = baseConf.layoutDirection == View.LAYOUT_DIRECTION_RTL
+            if (locale != null) {
+                conf.setLocale(locale)
+                conf.setLayoutDirection(locale)
+                rtl = TextUtils.getLayoutDirectionFromLocale(locale) == View.LAYOUT_DIRECTION_RTL
+            }
+            if (forceRtl != null) {
+                rtl = forceRtl
+                val dir = if (forceRtl) Configuration.SCREENLAYOUT_LAYOUTDIR_RTL else Configuration.SCREENLAYOUT_LAYOUTDIR_LTR
+                conf.screenLayout = (conf.screenLayout and Configuration.SCREENLAYOUT_LAYOUTDIR_MASK.inv()) or dir
+            }
             LocaleHolder(
                 LocalizedContext(base, base.createConfigurationContext(conf)), conf,
                 if (rtl) LayoutDirection.Rtl else LayoutDirection.Ltr,
@@ -157,66 +190,21 @@ private fun LocaleScope(language: String, content: @Composable () -> Unit) {
         LocalConfiguration provides holder.configuration,
         LocalResources provides holder.context.resources,
         LocalLayoutDirection provides holder.direction,
+        LocalAppLanguage provides language,
     ) { content() }
 }
 
 // ---- shell ---------------------------------------------------------------------------------------------------------
 
-private class TabSpec(val route: Route, val icon: PixelIcon, val label: Int)
+private class TabSpec(val route: Route, val icon: PixelIcon, val label: Int, val tag: String)
 
 private val TABS = listOf(
-    TabSpec(Route.Home, PixelIcon.HEARTH, R.string.ui_nav_home),
-    TabSpec(Route.Chats, PixelIcon.CHATS, R.string.ui_nav_chats),
-    TabSpec(Route.Bots, PixelIcon.BOTS, R.string.ui_nav_bots),
-    TabSpec(Route.Hermes, PixelIcon.SCROLL, R.string.ui_nav_hermes),
-    TabSpec(Route.Settings(), PixelIcon.GEAR, R.string.ui_nav_settings),
+    TabSpec(Route.Home, PixelIcon.HEARTH, R.string.ui_nav_home, NavTags.TAB_HOME),
+    TabSpec(Route.Chats, PixelIcon.CHATS, R.string.ui_nav_chats, NavTags.TAB_CHATS),
+    TabSpec(Route.Bots, PixelIcon.BOTS, R.string.ui_nav_bots, NavTags.TAB_BOTS),
+    TabSpec(Route.Hermes, PixelIcon.SCROLL, R.string.ui_nav_hermes, NavTags.TAB_HERMES),
+    TabSpec(Route.Settings(), PixelIcon.GEAR, R.string.ui_nav_settings, NavTags.TAB_SETTINGS),
 )
-
-/** Index into [TABS] of the tab a route belongs to. */
-private fun Route.tabIndex(): Int = when (this) {
-    Route.Home, Route.Routines, is Route.RoutineEditor -> 0
-    Route.Chats, is Route.Chat, Route.Starred -> 1
-    Route.Bots, is Route.BotEditor -> 2
-    Route.Hermes, Route.Terminal -> 3
-    is Route.Settings -> 4
-}
-
-/** The bottom bar is shown on the five tab roots only (not in a chat, an editor or the terminal). */
-private fun Route.showsBar(): Boolean = when (this) {
-    Route.Home, Route.Chats, Route.Bots, Route.Hermes, is Route.Settings -> true
-    is Route.Chat, is Route.BotEditor, Route.Terminal, Route.Routines, is Route.RoutineEditor, Route.Starred -> false
-}
-
-/** 0 for a tab root, 1 for a detail screen pushed on top of one. */
-private fun Route.rank(): Int = if (showsBar()) 0 else 1
-
-private fun routeTransition(from: Route, to: Route, anim: AnimLevel): ContentTransform {
-    if (anim == AnimLevel.OFF) return ContentTransform(EnterTransition.None, ExitTransition.None)
-    if (anim == AnimLevel.REDUCED) return ContentTransform(fadeIn(tween(140)), fadeOut(tween(100)))
-    val spec = tween<IntOffset>(240, easing = FastOutSlowInEasing)
-    val fadeInSpec = tween<Float>(200)
-    val fadeOutSpec = tween<Float>(140)
-    val fromRank = from.rank()
-    val toRank = to.rank()
-    return when {
-        toRank > fromRank || (toRank == 1 && fromRank == 1) -> ContentTransform(
-            slideInHorizontally(spec) { it / 4 } + fadeIn(fadeInSpec),
-            slideOutHorizontally(spec) { -it / 8 } + fadeOut(fadeOutSpec),
-        )
-        toRank < fromRank -> ContentTransform(
-            slideInHorizontally(spec) { -it / 8 } + fadeIn(fadeInSpec),
-            slideOutHorizontally(spec) { it / 4 } + fadeOut(fadeOutSpec),
-            targetContentZIndex = -1f,
-        )
-        else -> {
-            val dir = if (to.tabIndex() >= from.tabIndex()) 1 else -1
-            ContentTransform(
-                slideInHorizontally(spec) { dir * it / 10 } + fadeIn(fadeInSpec),
-                fadeOut(fadeOutSpec),
-            )
-        }
-    }
-}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -228,79 +216,90 @@ private fun AppShell() {
     val link by app.pendingLink.collectAsState()
     val scope = rememberCoroutineScope()
     val c = Pocket.colors
-    val anim = Pocket.anim
+    val motion = Pocket.motion
     val route = nav.current
     val imeOpen = WindowInsets.isImeVisible
     val showBar = route.showsBar() && !imeOpen
+    // Height of the bar's own content (without the navigation bar inset): the pet's note rests just above it.
+    var barHeight by remember { mutableStateOf(0.dp) }
 
     // HomeScreen always paints the dark Zagros night sky full-bleed behind the status bar, even in light themes.
     SystemStatusBarIcons(darkIcons = route != Route.Home && !c.isDark)
 
-    // Links from notifications, launcher shortcuts and the Quick Settings tile (see AppLinks / MainActivity).
+    // Links from notifications, launcher shortcuts, the Quick Settings tile and the debug link (see AppLinks / MainActivity).
     LaunchedEffect(link) {
         val l = link ?: return@LaunchedEffect
         // On a cold start the chats are still loading: wait before looking a chat up or creating one.
-        if (l is AppLink.OpenChat || l is AppLink.NewChat) app.chat.loaded.first { it }
+        if (l is AppLink.OpenChat || l is AppLink.NewChat || l is AppLink.DebugOpen) app.chat.loaded.first { it }
         // No suspension point below this line, so the consume-and-navigate step cannot be cancelled half way.
         if (!app.pendingLink.compareAndSet(l, null)) return@LaunchedEffect
         navigateToLink(nav, app, l)
     }
 
     // Back: pop the stack; on the root of a tab other than Home go to Home; on Home the system leaves the app.
+    // A plain back handler on purpose: the back gesture of this phone arrives as one key press at the end (experiment
+    // S1), so the pop motion plays after it. A screen with its own enabled BackHandler is deeper and wins.
     BackHandler(enabled = nav.canPop || route != Route.Home) {
         if (!nav.back()) nav.tab(Route.Home)
     }
 
     CompositionLocalProvider(LocalNavigator provides nav) {
-        Column(Modifier.fillMaxSize().background(c.bg).imePadding()) {
-            Box(
-                Modifier.weight(1f).fillMaxWidth()
-                    .then(if (!showBar) Modifier.windowInsetsPadding(bottomSafeInsets()) else Modifier),
-            ) {
-                AnimatedContent(
-                    targetState = route,
-                    modifier = Modifier.fillMaxSize(),
-                    transitionSpec = { routeTransition(initialState, targetState, anim) },
-                    label = "route",
-                ) { r ->
-                    // PocketTopBar handles status-bar inset once with bgDeep; HomeScreen bleeds its night sky full-bleed.
-                    Box(Modifier.fillMaxSize().background(c.bg)) { RouteContent(r) }
+        Box(Modifier.fillMaxSize().robotRoot()) {
+            Column(Modifier.fillMaxSize().background(c.bg).imePadding()) {
+                Box(
+                    Modifier.weight(1f).fillMaxWidth()
+                        .then(if (!showBar) Modifier.windowInsetsPadding(bottomSafeInsets()) else Modifier),
+                ) {
+                    NavDisplay(nav, Modifier.fillMaxSize()) { entry ->
+                        // PocketTopBar handles status-bar inset once with bgDeep; HomeScreen bleeds its night sky full-bleed.
+                        Box(Modifier.fillMaxSize().background(c.bg).testTag(NavTags.screen(entry.route))) { RouteContent(entry.route) }
+                    }
+                }
+                AnimatedVisibility(
+                    visible = showBar,
+                    enter = if (motion.level == AnimLevel.OFF) EnterTransition.None else slideInVertically(motion.fast()) { it } + fadeIn(motion.fast()),
+                    exit = if (motion.level == AnimLevel.OFF) ExitTransition.None else slideOutVertically(motion.fast()) { it } + fadeOut(motion.fast()),
+                ) {
+                    PocketBottomBar(route, nav, onHeight = { barHeight = it })
                 }
             }
-            AnimatedVisibility(
-                visible = showBar,
-                enter = if (anim == AnimLevel.OFF) EnterTransition.None else slideInVertically(tween(180)) { it } + fadeIn(tween(180)),
-                exit = if (anim == AnimLevel.OFF) ExitTransition.None else slideOutVertically(tween(140)) { it } + fadeOut(tween(140)),
-            ) {
-                PocketBottomBar(route, nav)
-            }
-        }
 
-        share?.let { payload ->
-            IncomingShareDialog(
-                share = payload,
-                onDismiss = { app.incomingShare.value = null },
-                onPickConv = { convId ->
-                    app.incomingShare.value = null
-                    scope.launch {
-                        val importedAtt = if (payload.uri != null) {
-                            try {
-                                withContext(Dispatchers.IO) {
-                                    if (payload.mime?.startsWith("image/", ignoreCase = true) == true) {
-                                        app.attachments.importImage(payload.uri)
-                                    } else {
-                                        app.attachments.importDocument(payload.uri)
+            // On top of the screens: the practice-model banner (no layout effect), the crash offer, the share dialog,
+            // and last the pet's notes.
+            PracticeBanner(Modifier.align(Alignment.TopCenter).statusBarsPadding())
+            CrashReportOffer()
+
+            share?.let { payload ->
+                IncomingShareDialog(
+                    share = payload,
+                    onDismiss = { app.incomingShare.value = null },
+                    onPickConv = { convId ->
+                        app.incomingShare.value = null
+                        scope.launch {
+                            val importedAtt = if (payload.uri != null) {
+                                try {
+                                    withContext(Dispatchers.IO) {
+                                        if (payload.mime?.startsWith("image/", ignoreCase = true) == true) {
+                                            app.attachments.importImage(payload.uri)
+                                        } else {
+                                            app.attachments.importDocument(payload.uri)
+                                        }
                                     }
+                                } catch (e: Exception) {
+                                    PetNotes.show(ctx.getString(R.string.ui_attach_failed, e.message ?: "share"), PetNoteKind.ERROR)
+                                    null
                                 }
-                            } catch (e: Exception) {
-                                Toast.makeText(ctx, ctx.getString(R.string.ui_attach_failed, e.message ?: "share"), Toast.LENGTH_SHORT).show()
-                                null
-                            }
-                        } else null
-                        ChatShareInbox.enqueue(convId, payload.text, importedAtt)
-                        nav.go(Route.Chat(convId))
-                    }
-                },
+                            } else null
+                            ChatShareInbox.enqueue(convId, payload.text, importedAtt)
+                            nav.go(Route.Chat(convId))
+                        }
+                    },
+                )
+            }
+
+            PetNoteHost(
+                Modifier.align(Alignment.BottomCenter).imePadding().navigationBarsPadding()
+                    .padding(bottom = if (showBar) barHeight else 0.dp),
             )
         }
     }
@@ -339,6 +338,7 @@ private fun navigateToLink(nav: Navigator, app: PocketApp, link: AppLink) {
             nav.tab(Route.Settings())
             nav.go(Route.Settings("usage"))
         }
+        is AppLink.DebugOpen -> nav.reset(DebugLinks.stackFor(link.route))
     }
 }
 
@@ -360,40 +360,43 @@ private fun IncomingShareDialog(
         onDismiss = onDismiss,
         dismiss = { PixelButton(stringResource(R.string.ui_dlg_cancel), onClick = onDismiss, kind = ButtonKind.GHOST) },
     ) {
-        if (!share.text.isNullOrBlank()) {
-            Text(
-                share.text.take(160),
-                color = c.textMuted, fontSize = 12.5.sp, maxLines = 2, overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(bottom = 8.dp),
+        Column(Modifier.testTag(NavTags.SHARE_DIALOG)) {
+            if (!share.text.isNullOrBlank()) {
+                Text(
+                    share.text.take(160),
+                    color = c.textMuted, fontSize = 12.5.sp, maxLines = 2, overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(bottom = 8.dp),
+                )
+            }
+            PixelButton(
+                stringResource(R.string.ui_share_new_chat),
+                onClick = {
+                    val fresh = app.chat.createConversation(listOf(BotPresets.HERMES_ID))
+                    onPickConv(fresh.id)
+                },
+                modifier = Modifier.fillMaxWidth().testTag(NavTags.SHARE_NEW),
+                icon = PixelIcon.PLUS,
             )
-        }
-        PixelButton(
-            stringResource(R.string.ui_share_new_chat),
-            onClick = {
-                val fresh = app.chat.createConversation(listOf(BotPresets.HERMES_ID))
-                onPickConv(fresh.id)
-            },
-            modifier = Modifier.fillMaxWidth(),
-            icon = PixelIcon.PLUS,
-        )
-        if (convs.isNotEmpty()) {
-            Spacer(Modifier.height(8.dp))
-            Column(Modifier.heightIn(max = 260.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                convs.take(8).forEach { cv ->
-                    Row(
-                        Modifier
-                            .fillMaxWidth()
-                            .clickable(role = Role.Button) { onPickConv(cv.id) }
-                            .padding(vertical = 8.dp, horizontal = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        AvatarStack(cv.botIds.map { botsById[it] }, 32.dp)
-                        Spacer(Modifier.width(10.dp))
-                        Text(
-                            titleOf(cv, botsById, untitled),
-                            color = c.text, fontSize = 14.sp, fontWeight = FontWeight.Medium,
-                            maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f),
-                        )
+            if (convs.isNotEmpty()) {
+                Spacer(Modifier.height(8.dp))
+                Column(Modifier.heightIn(max = 260.dp).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                    convs.take(8).forEach { cv ->
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .clickable(role = Role.Button) { onPickConv(cv.id) }
+                                .testTag(NavTags.SHARE_ITEM)
+                                .padding(vertical = 8.dp, horizontal = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            AvatarStack(cv.botIds.map { botsById[it] }, 32.dp)
+                            Spacer(Modifier.width(10.dp))
+                            Text(
+                                titleOf(cv, botsById, untitled),
+                                color = c.text, fontSize = 14.sp, fontWeight = FontWeight.Medium,
+                                maxLines = 1, overflow = TextOverflow.Ellipsis, modifier = Modifier.weight(1f),
+                            )
+                        }
                     }
                 }
             }
@@ -415,16 +418,23 @@ private fun RouteContent(route: Route) {
         Route.Routines -> RoutinesScreen()
         is Route.RoutineEditor -> RoutineEditorScreen(route.routineId)
         Route.Starred -> StarredScreen()
+        // The design gallery exists only in a build with test hooks; any other build shows Home.
+        Route.Gallery -> if (BuildConfig.TEST_HOOKS) DesignGallery() else HomeScreen()
     }
 }
 
 // ---- bottom bar -------------------------------------------------------------------------------------------------
 
 @Composable
-private fun PocketBottomBar(route: Route, nav: Navigator) {
+private fun PocketBottomBar(route: Route, nav: Navigator, onHeight: (Dp) -> Unit) {
     val c = Pocket.colors
+    val density = LocalDensity.current
     val selectedIndex = route.tabIndex()
-    Column(Modifier.fillMaxWidth().background(c.surface).windowInsetsPadding(bottomSafeInsets())) {
+    Column(
+        Modifier.fillMaxWidth().background(c.surface).windowInsetsPadding(bottomSafeInsets())
+            .onSizeChanged { size -> onHeight(with(density) { size.height.toDp() }) }
+            .testTag(NavTags.BAR),
+    ) {
         Box(Modifier.fillMaxWidth().height(2.dp).background(c.outline))
         Row(Modifier.fillMaxWidth().height(60.dp), verticalAlignment = Alignment.CenterVertically) {
             TABS.forEachIndexed { index, tab ->
@@ -440,15 +450,15 @@ private fun PocketBottomBar(route: Route, nav: Navigator) {
 @Composable
 private fun BottomTab(tab: TabSpec, selected: Boolean, modifier: Modifier, onClick: () -> Unit) {
     val c = Pocket.colors
-    val anim = Pocket.anim
+    val motion = Pocket.motion
     val label = stringResource(tab.label)
     val emberWidth by animateDpAsState(
         targetValue = if (selected) 16.dp else 0.dp,
-        animationSpec = if (anim == AnimLevel.OFF) snap<Dp>() else tween<Dp>(180),
+        animationSpec = if (motion.level == AnimLevel.OFF) snap<Dp>() else motion.fast<Dp>(),
         label = "ember",
     )
     Column(
-        modifier.fillMaxSize().selectable(selected = selected, role = Role.Tab, onClick = onClick),
+        modifier.fillMaxSize().selectable(selected = selected, role = Role.Tab, onClick = onClick).testTag(tab.tag),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {

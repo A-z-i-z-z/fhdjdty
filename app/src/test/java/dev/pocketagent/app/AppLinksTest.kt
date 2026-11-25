@@ -56,6 +56,13 @@ class AppLinksTest {
         assertEquals("dev.pocketagent.app.TERMINAL", AppLinks.ACTION_TERMINAL)
         assertEquals("dev.pocketagent.app.ROUTINES", AppLinks.ACTION_ROUTINES)
         assertEquals("conv_id", AppLinks.EXTRA_CONV_ID)
+        assertEquals("dev.pocketagent.app.DEBUG", AppLinks.ACTION_DEBUG)
+    }
+
+    @Test fun theDebugActionIsNotALinkOfTheNormalParser() {
+        // Only DebugLinks reads it (in a build with test hooks); the normal parser never makes a link of it.
+        assertNull(AppLinks.parseParts(AppLinks.ACTION_DEBUG, "abc", 0))
+        assertEquals(Route.Gallery, AppLink.DebugOpen(Route.Gallery).route)
     }
 
     // ---- AppLinks.processText --------------------------------------------------------------------------------
@@ -91,6 +98,8 @@ class AppLinksTest {
         roundTrip(Route.RoutineEditor(null))
         roundTrip(Route.RoutineEditor("r1a2b3c4"))
         roundTrip(Route.Starred)
+        roundTrip(Route.Gallery)
+        assertEquals("gallery", Route.Gallery.encode())
     }
 
     @Test fun newRouteEncodings() {

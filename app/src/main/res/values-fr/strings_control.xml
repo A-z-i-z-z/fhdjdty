@@ -21,7 +21,10 @@
 
     <!-- bots -->
     <string name="ctl_bots_title">Bots</string>
-    <string name="ctl_bots_count">%1$d bots</string>
+    <plurals name="ctl_bots_count">
+        <item quantity="one">%1$d bot</item>
+        <item quantity="other">%1$d bots</item>
+    </plurals>
     <string name="ctl_bots_intro">Chaque bot est un personnage avec sa propre personnalité. Touchez-en un pour le modifier, ou l\'icône de discussion pour lui parler.</string>
     <string name="ctl_bots_new">Nouveau bot</string>
     <string name="ctl_bots_select_on">Choisir des bots pour une discussion de groupe</string>
@@ -56,7 +59,10 @@
     <string name="ctl_bot_prompt_help">Ce texte indique au modèle qui est le bot et comment se comporter. Il est envoyé avec chaque conversation de ce bot. Touchez une puce pour ajouter une phrase toute prête.</string>
     <string name="ctl_bot_prompt">Personnalité (prompt système)</string>
     <string name="ctl_bot_prompt_hint">Tu es un professeur patient qui …</string>
-    <string name="ctl_bot_chars">%1$d caractères</string>
+    <plurals name="ctl_bot_chars">
+        <item quantity="one">%1$d caractère</item>
+        <item quantity="other">%1$d caractères</item>
+    </plurals>
     <string name="ctl_bot_mono">Chasse fixe</string>
     <string name="ctl_ins_turkish">Parler turc</string>
     <string name="ctl_ins_kurdish">Parler kurde</string>
@@ -100,7 +106,10 @@
     <string name="ctl_doc_placeholder">Vide</string>
     <string name="ctl_budget">%1$d caractères utilisés sur %2$d</string>
     <string name="ctl_budget_over">Budget dépassé. Hermes garde ce fichier court exprès : raccourcissez ou fusionnez des entrées.</string>
-    <string name="ctl_chars">%1$d caractères</string>
+    <plurals name="ctl_chars">
+        <item quantity="one">%1$d caractère</item>
+        <item quantity="other">%1$d caractères</item>
+    </plurals>
     <string name="ctl_mode_entries">Entrées</string>
     <string name="ctl_mode_raw">Texte brut</string>
     <string name="ctl_entries_empty">Pas encore d\'entrée.</string>
@@ -289,7 +298,10 @@
     <string name="ctl_usage_legend_in">Envoyés (ce que tu envoies)</string>
     <string name="ctl_usage_legend_out">Reçus (ce que tu reçois)</string>
     <string name="ctl_usage_in_out">%1$s envoyés · %2$s reçus</string>
-    <string name="ctl_usage_turns">%1$d réponses</string>
+    <plurals name="ctl_usage_turns">
+        <item quantity="one">%1$d réponse</item>
+        <item quantity="other">%1$d réponses</item>
+    </plurals>
     <string name="ctl_usage_models">Par modèle</string>
     <string name="ctl_usage_model_default">Par défaut de Hermes</string>
     <string name="ctl_usage_budget_title">Budget quotidien</string>
@@ -387,10 +399,16 @@
     <string name="ctl_bots_exported">Bots enregistrés</string>
     <string name="ctl_bots_export_failed">Impossible d\'exporter les bots.</string>
     <string name="ctl_bots_export_too_big">Il y a trop de texte à partager. Enregistre plutôt un fichier.</string>
-    <string name="ctl_bots_import_title">Importer %1$d bots ?</string>
+    <plurals name="ctl_bots_import_title">
+        <item quantity="one">Importer %1$d bot ?</item>
+        <item quantity="other">Importer %1$d bots ?</item>
+    </plurals>
     <string name="ctl_bots_import_body">Ces bots seront ajoutés comme copies :\n%1$s\n\nLis leur texte de personnalité avant de discuter : c\'est lui qui guide l\'agent.</string>
     <string name="ctl_bots_import_confirm">Importer</string>
-    <string name="ctl_bots_imported">%1$d bots importés</string>
+    <plurals name="ctl_bots_imported">
+        <item quantity="one">%1$d bot importé</item>
+        <item quantity="other">%1$d bots importés</item>
+    </plurals>
     <string name="ctl_bots_import_failed">Import impossible : %1$s</string>
     <string name="ctl_bots_import_empty">Le presse-papiers est vide.</string>
     <string name="ctl_bots_import_none">le fichier ne contient aucun bot</string>

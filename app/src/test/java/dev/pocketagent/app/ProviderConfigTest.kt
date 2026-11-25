@@ -1,20 +1,40 @@
 package dev.pocketagent.app
 
 import dev.pocketagent.app.runtime.ApiEndpoint
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.SharedPreferences
+import android.content.pm.ApplicationInfo
 import dev.pocketagent.app.runtime.AuthMode
+import dev.pocketagent.app.runtime.GuestOptions
+import dev.pocketagent.app.runtime.GuestPrefs
+import dev.pocketagent.app.runtime.Paths
 import dev.pocketagent.app.runtime.ProviderConfig
 import dev.pocketagent.app.runtime.ProviderInputs
+import dev.pocketagent.app.runtime.SecretStore
+import dev.pocketagent.app.runtime.Settings
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 import java.io.File
+import java.lang.reflect.Proxy
 
 /**
  * The fixtures under rootfs/smoke/fixtures are the golden files: CI boots the real Hermes gateway
  * with each of them, and this test proves the app generates byte-identical files for the same inputs.
  */
 class ProviderConfigTest {
+    @get:Rule val tmp = TemporaryFolder()
+
+    // The practice flag is process-global: no test order may leak it into another test (or into another class).
+    @Before fun practiceOff() { GuestPrefs.practiceActive = false }
+    @After fun practiceOffAgain() { GuestPrefs.practiceActive = false }
+
     private val fx = File("../rootfs/smoke/fixtures")
     private val apiKey = "smoke-api-key-0123456789abcdef0123456789"
 
@@ -102,11 +122,12 @@ class ProviderConfigTest {
     }
 
     @Test fun effortSetIsWrittenAsAgentBlock() {
-        assertEquals(golden("studio.yaml") + "agent:\n  reasoning_effort: \"low\"\n",
+        // the agent block sits between the model part and the guard block
+        assertEquals(golden("studio-effort.yaml"),
             ProviderConfig.renderYaml(ProviderInputs(AuthMode.API_KEY, ApiEndpoint.STUDIO, "gemini-4-hydrogen", "global", "", "smoke-gemini-key", "low")))
         // after the vertex block too, and for every allowed level
         val v = ProviderConfig.renderYaml(inputs("xhigh", AuthMode.SERVICE_ACCOUNT))
-        assertTrue(v.endsWith("vertex:\n  project_id: \"smoke-project\"\n  region: \"global\"\nagent:\n  reasoning_effort: \"xhigh\"\n"))
+        assertTrue(v.contains("vertex:\n  project_id: \"smoke-project\"\n  region: \"global\"\nagent:\n  reasoning_effort: \"xhigh\"\n" + GUARD))
         for (e in ProviderConfig.REASONING_EFFORTS) {
             assertTrue(e, ProviderConfig.problems(inputs(e)).isEmpty())
             assertTrue(e, ProviderConfig.renderYaml(inputs(e)).contains("  reasoning_effort: \"$e\"\n"))
@@ -148,6 +169,133 @@ class ProviderConfigTest {
         assertEquals(1, Regex("(?m)^  provider:").findAll(y).count())
     }
 
+    // ---- Wave 0: the guard block (fail-closed tool list and privacy switches) ----------------------------------------
+    // The literal text lives here once, in the test source, not produced by the function under test.
+
+    private val GUARD = "# Fail-closed tool list and privacy switches (Wave 0 stop-gaps).\n" +
+        "platform_toolsets:\n  api_server:\n" +
+        "    - web\n    - terminal\n    - file\n    - code_execution\n    - vision\n    - skills\n    - todo\n    - memory\n" +
+        "    - session_search\n    - delegation\n" +
+        "auxiliary:\n  title_generation:\n    model_upgrade_enabled: false\n" +
+        "security:\n  allow_lazy_installs: false\n" +
+        "web:\n  keyless_fallback: true\n"
+
+    /** Lead ruling 11.8: in the Anthropic mode Hermes installs its SDK on first use, so the security block is left out. */
+    private val GUARD_ANTHROPIC = GUARD.replace("security:\n  allow_lazy_installs: false\n", "")
+
+    private fun everyMode(): List<ProviderInputs> = AuthMode.values().map { m ->
+        ProviderInputs(m, ApiEndpoint.STUDIO, "some-model", "global", "smoke-project", "smoke-gemini-key", "", "provider-key-0123456789", "https://x.example.com/v1")
+    }
+
+    @Test fun guardBlockTextIsExact() {
+        assertEquals(GUARD, ProviderConfig.renderGuardYaml())
+        assertEquals(GUARD.replace("keyless_fallback: true", "keyless_fallback: false"), ProviderConfig.renderGuardYaml(GuestOptions(webKeylessFallback = false)))
+        assertTrue(GUARD.endsWith("\n")); assertFalse(GUARD.contains("\r"))
+    }
+
+    @Test fun everyModeEndsWithTheGuardBlock() {
+        assertEquals(7, AuthMode.values().size)
+        for (i in everyMode()) {
+            val y = ProviderConfig.renderYaml(i)
+            val want = if (i.mode == AuthMode.ANTHROPIC) GUARD_ANTHROPIC else GUARD
+            assertTrue(i.mode.name, y.endsWith(want))
+            assertEquals(i.mode.name, 1, Regex("(?m)^platform_toolsets:").findAll(y).count())
+            assertEquals(i.mode.name, ProviderConfig.renderModelYaml(i) + want, y)
+        }
+    }
+
+    /** The model part is what renderYaml wrote before the guard existed: the existing golden minus the guard proves it byte for byte. */
+    @Test fun modelPartIsTheOldOutput() {
+        assertEquals(golden("studio.yaml").removeSuffix(GUARD), ProviderConfig.renderModelYaml(
+            ProviderInputs(AuthMode.API_KEY, ApiEndpoint.STUDIO, "gemini-4-hydrogen", "global", "", "smoke-gemini-key")))
+    }
+
+    @Test fun anthropicKeepsLazyInstalls() {
+        for (i in everyMode().filter { it.mode != AuthMode.ANTHROPIC }) {
+            assertTrue(i.mode.name, ProviderConfig.renderYaml(i).contains("security:\n  allow_lazy_installs: false\n"))
+        }
+        val a = ProviderConfig.renderYaml(everyMode().single { it.mode == AuthMode.ANTHROPIC })
+        assertFalse(a.contains("security:")); assertFalse(a.contains("allow_lazy_installs"))
+        // the other guard lines stay in the Anthropic mode
+        assertTrue(a.contains("model_upgrade_enabled: false")); assertTrue(a.contains("keyless_fallback: true")); assertTrue(a.contains("platform_toolsets:"))
+        // the practice model is a custom endpoint: lazy installs stay off there
+        assertTrue(ProviderConfig.renderPracticeYaml(18080).contains("allow_lazy_installs: false"))
+    }
+
+    @Test fun toolListIsFailClosed() {
+        val listed = ProviderConfig.renderGuardYaml().lines().filter { it.startsWith("    - ") }.map { it.removePrefix("    - ") }
+        assertEquals(ProviderConfig.AGENT_TOOLSETS, listed)
+        assertEquals(10, ProviderConfig.AGENT_TOOLSETS.size)
+        assertEquals(ProviderConfig.AGENT_TOOLSETS.size, ProviderConfig.AGENT_TOOLSETS.toSet().size)
+        val never = ProviderConfig.WITHHELD_TOOLSETS + listOf("clarify", "kanban", "computer_use")
+        assertTrue(ProviderConfig.AGENT_TOOLSETS.none { it in never })
+        assertEquals(listOf("browser", "cronjob", "image_gen", "tts", "connections"), ProviderConfig.WITHHELD_TOOLSETS)
+    }
+
+    /** B13: with model.provider always written Hermes keeps side tasks on the main provider; nothing may be written that would break that. */
+    @Test fun sideTasksArePinnedByConstruction() {
+        val allowedTop = setOf("model", "vertex", "agent", "platform_toolsets", "auxiliary", "security", "web")
+        for (i in everyMode() + listOf(inputs("low"), inputs("high", AuthMode.SERVICE_ACCOUNT))) {
+            val y = ProviderConfig.renderYaml(i)
+            val top = y.lines().filter { it.isNotEmpty() && !it.startsWith(" ") && !it.startsWith("#") }.map { it.substringBefore(':') }.toSet()
+            assertTrue("${i.mode}: $top", allowedTop.containsAll(top))
+            assertTrue(i.mode.name, Regex("(?m)^  provider: \\S+").containsMatchIn(y))
+            for (word in listOf("free_only", "fallback_providers", "openrouter_model")) assertFalse("${i.mode} $word", y.contains(word))
+            val aux = y.substring(y.indexOf("auxiliary:")).substringBefore("security:").substringBefore("web:")
+            assertEquals(i.mode.name, "auxiliary:\n  title_generation:\n    model_upgrade_enabled: false\n", aux)
+        }
+    }
+
+    @Test fun webSwitchIsWritten() {
+        val i = ProviderInputs(AuthMode.API_KEY, ApiEndpoint.STUDIO, "gemini-4-hydrogen", "global", "", "smoke-gemini-key")
+        val off = ProviderConfig.renderYaml(i, GuestOptions(webKeylessFallback = false))
+        assertEquals(golden("studio-nokeyless.yaml"), off)
+        assertEquals(golden("studio-nokeyless.env"), ProviderConfig.renderEnv(apiKey, i))
+        assertTrue(off.endsWith("web:\n  keyless_fallback: false\n"))
+        assertTrue(ProviderConfig.renderYaml(i, GuestOptions(webKeylessFallback = true)).endsWith("web:\n  keyless_fallback: true\n"))
+    }
+
+    @Test fun practiceFixturesMatch() {
+        assertEquals(golden("practice.yaml"), ProviderConfig.renderPracticeYaml(18080))
+        assertEquals(golden("practice.env"), ProviderConfig.renderPracticeEnv(apiKey))
+        val env = ProviderConfig.renderPracticeEnv(apiKey, 40123)
+        assertTrue(env.contains("API_SERVER_PORT=40123"))
+        // no provider key of any kind: the only line with KEY= is the API server's own
+        assertEquals(listOf("API_SERVER_KEY=$apiKey"), env.lines().filter { Regex("^[A-Z_]*KEY[A-Z_]*=").containsMatchIn(it) })
+        val y = ProviderConfig.renderPracticeYaml(18080)
+        assertTrue(y.contains("  api_key: \"practice\"\n"))
+        assertTrue(y.contains("  provider: custom\n") && y.contains("  default: \"practice-model\"\n") && y.contains("  base_url: \"http://127.0.0.1:18080/v1\"\n"))
+        assertFalse(y.contains("key_env"))
+        assertTrue(y.endsWith(GUARD))
+        assertTrue(ProviderConfig.renderPracticeYaml(18080, GuestOptions(webKeylessFallback = false)).endsWith("keyless_fallback: false\n"))
+    }
+
+    @Test fun savedProblemsAreEmptyWhilePracticeIsActive() {
+        val ctx = fakeContext(tmp.newFolder("app", "files"))
+        val paths = Paths(ctx); val settings = Settings(ctx)
+        val secrets = SecretStore(paths, settings)
+        // Negative control: without the practice flag the default setup (API key mode, no key file) reports a missing key, so the
+        // empty list below can only come from the practice guard.
+        GuestPrefs.practiceActive = false
+        assertFalse(ProviderConfig.savedProblems(settings, secrets).isEmpty())
+        GuestPrefs.practiceActive = true
+        assertTrue(ProviderConfig.savedProblems(settings, secrets).isEmpty())
+    }
+
+    private fun fakeContext(files: File): Context {
+        val cache = File(files.parentFile, "cache").also { it.mkdirs() }
+        val libs = File(files.parentFile, "lib").also { it.mkdirs() }
+        val prefs = Proxy.newProxyInstance(javaClass.classLoader, arrayOf(SharedPreferences::class.java)) { _, m, args ->
+            when (m.name) { "getString", "getInt", "getLong", "getFloat", "getBoolean" -> args[1]; "contains" -> false; else -> null }
+        } as SharedPreferences
+        return object : ContextWrapper(null) {
+            override fun getFilesDir(): File = files
+            override fun getCacheDir(): File = cache
+            override fun getApplicationInfo(): ApplicationInfo = ApplicationInfo().also { it.nativeLibraryDir = libs.path }
+            override fun getSharedPreferences(name: String?, mode: Int): SharedPreferences = prefs
+        }
+    }
+
     // ---- Phase 3 providers: OpenRouter, Anthropic, OpenAI, custom endpoint -----------------------------------------
     // The three Google tests above are the golden files of the existing modes and are unchanged. The new modes have no CI
     // fixture yet, so their expected text is spelled out here (it follows what Hermes v0.23.3 reads, see ProviderConfig).
@@ -163,26 +311,27 @@ class ProviderConfigTest {
     @Test fun openRouterMode() {
         val i = other(AuthMode.OPENROUTER, "google/gemini-3.8-flash", "sk-or-v1-testkey0123456789")
         assertEquals(header + "OPENROUTER_API_KEY=sk-or-v1-testkey0123456789\n", ProviderConfig.renderEnv(apiKey, i))
-        assertEquals(yamlHeader + "  default: \"google/gemini-3.8-flash\"\n  provider: openrouter\n", ProviderConfig.renderYaml(i))
+        assertEquals(yamlHeader + "  default: \"google/gemini-3.8-flash\"\n  provider: openrouter\n" + GUARD, ProviderConfig.renderYaml(i))
     }
 
     @Test fun anthropicMode() {
         val i = other(AuthMode.ANTHROPIC, "claude-sonnet-5", "sk-ant-api03-testkey0123456789")
         assertEquals(header + "ANTHROPIC_API_KEY=sk-ant-api03-testkey0123456789\n", ProviderConfig.renderEnv(apiKey, i))
-        assertEquals(yamlHeader + "  default: \"claude-sonnet-5\"\n  provider: anthropic\n", ProviderConfig.renderYaml(i))
+        // Anthropic is the one mode whose guard block leaves allow_lazy_installs out (see anthropicKeepsLazyInstalls)
+        assertEquals(yamlHeader + "  default: \"claude-sonnet-5\"\n  provider: anthropic\n" + GUARD_ANTHROPIC, ProviderConfig.renderYaml(i))
     }
 
     @Test fun openAiMode() {
         val i = other(AuthMode.OPENAI, "gpt-5.4-mini", "sk-proj-testkey0123456789")
         assertEquals(header + "OPENAI_API_KEY=sk-proj-testkey0123456789\n", ProviderConfig.renderEnv(apiKey, i))
-        assertEquals(yamlHeader + "  default: \"gpt-5.4-mini\"\n  provider: openai-api\n", ProviderConfig.renderYaml(i))
+        assertEquals(yamlHeader + "  default: \"gpt-5.4-mini\"\n  provider: openai-api\n" + GUARD, ProviderConfig.renderYaml(i))
     }
 
     @Test fun customModeWithKey() {
         val i = other(AuthMode.CUSTOM, "llama3.1:8b", "custom-key-0123456789", "http://192.168.1.20:11434/v1/")
         assertEquals(header + "AGIRI_CUSTOM_API_KEY=custom-key-0123456789\n", ProviderConfig.renderEnv(apiKey, i))
         assertEquals(
-            yamlHeader + "  default: \"llama3.1:8b\"\n  provider: custom\n  base_url: \"http://192.168.1.20:11434/v1\"\n  key_env: \"AGIRI_CUSTOM_API_KEY\"\n",
+            yamlHeader + "  default: \"llama3.1:8b\"\n  provider: custom\n  base_url: \"http://192.168.1.20:11434/v1\"\n  key_env: \"AGIRI_CUSTOM_API_KEY\"\n" + GUARD,
             ProviderConfig.renderYaml(i))
         // The key itself never goes into config.yaml.
         assertFalse(ProviderConfig.renderYaml(i).contains("custom-key-0123456789"))
@@ -191,7 +340,7 @@ class ProviderConfigTest {
     @Test fun customModeWithoutKeyIsFineForLocalServers() {
         val i = other(AuthMode.CUSTOM, "qwen3:4b", "", "https://llm.example.com/v1")
         assertEquals(header + "# AGIRI_CUSTOM_API_KEY is not set (fine for servers that need no key)\n", ProviderConfig.renderEnv(apiKey, i))
-        assertEquals(yamlHeader + "  default: \"qwen3:4b\"\n  provider: custom\n  base_url: \"https://llm.example.com/v1\"\n", ProviderConfig.renderYaml(i))
+        assertEquals(yamlHeader + "  default: \"qwen3:4b\"\n  provider: custom\n  base_url: \"https://llm.example.com/v1\"\n" + GUARD, ProviderConfig.renderYaml(i))
         assertTrue(ProviderConfig.problems(i).isEmpty())
     }
 
@@ -206,9 +355,9 @@ class ProviderConfigTest {
 
     @Test fun effortIsWrittenForTheNewModesToo() {
         val y = ProviderConfig.renderYaml(other(AuthMode.ANTHROPIC, "claude-sonnet-5", "k", effort = "low"))
-        assertEquals(yamlHeader + "  default: \"claude-sonnet-5\"\n  provider: anthropic\nagent:\n  reasoning_effort: \"low\"\n", y)
+        assertEquals(yamlHeader + "  default: \"claude-sonnet-5\"\n  provider: anthropic\nagent:\n  reasoning_effort: \"low\"\n" + GUARD_ANTHROPIC, y)
         val c = ProviderConfig.renderYaml(other(AuthMode.CUSTOM, "m", "k", "https://x.example.com", "high"))
-        assertTrue(c.endsWith("  key_env: \"AGIRI_CUSTOM_API_KEY\"\nagent:\n  reasoning_effort: \"high\"\n"))
+        assertTrue(c.endsWith("  key_env: \"AGIRI_CUSTOM_API_KEY\"\nagent:\n  reasoning_effort: \"high\"\n" + GUARD))
     }
 
     @Test fun newModesNeverWriteAVertexBlockOrAnotherProvidersVariables() {

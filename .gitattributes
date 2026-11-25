@@ -2,3 +2,4 @@
 gradlew text eol=lf
 rootfs/smoke/fixtures/* text eol=lf
 *.pxl text eol=lf
+*.py text eol=lf

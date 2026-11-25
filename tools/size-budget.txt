@@ -1,0 +1,5 @@
+# Size budget of the owner build (Wave 0). key=value; everything after # is a comment. Read by tools/ci/apk-size.sh.
+# "app_bytes" means the APK without the Linux image: apk_bytes minus the stored size of assets/rootfs.tar.xz.
+owner_baseline_bytes=0        # app_bytes of the first green release build; the lead (INTEGRATE) fills it after run 1 of Wave 0
+owner_ceiling_bytes=0         # 0 = not set yet (verdict=unset, never fails). Wave 0 sets baseline + 1048576; every wave adds its share of the 15 MiB
+twin_recorded_bytes=27318540  # debug build before Wave 0 (no R8), recorded only: the twin is never gated

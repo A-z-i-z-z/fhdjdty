@@ -100,7 +100,10 @@
     <string name="ui_new_mode_mention">Yalnızca etiketlenen</string>
     <string name="ui_new_title_field">Grup adı (isteğe bağlı)</string>
     <string name="ui_new_create">Grubu oluştur</string>
-    <string name="ui_new_selected">%1$d seçildi</string>
+    <plurals name="ui_new_selected">
+        <item quantity="one">%1$d seçildi</item>
+        <item quantity="other">%1$d seçildi</item>
+    </plurals>
     <string name="ui_new_need_bots">Grup için en az iki bot gerekir. Önce bir bot daha oluştur.</string>
     <string name="ui_new_make_bot">Yeni bot</string>
 
@@ -136,7 +139,10 @@
     <string name="ui_chat_mention_cd">%1$s etiketle</string>
     <string name="ui_chat_deleted_bot">Silinmiş bot</string>
     <string name="ui_chat_code_copy">Kodu kopyala</string>
-    <string name="ui_chat_members_count">%1$d üye</string>
+    <plurals name="ui_chat_members_count">
+        <item quantity="one">%1$d üye</item>
+        <item quantity="other">%1$d üye</item>
+    </plurals>
     <string name="ui_chat_not_found">Bu sohbet artık yok.</string>
     <string name="ui_chat_empty_reply">(boş yanıt)</string>
     <string name="ui_chat_sec">%1$d sn</string>
@@ -295,7 +301,10 @@
     <string name="ui_filter_unread">Okunmamış</string>
     <string name="ui_act_mark_read">Okundu işaretle</string>
     <string name="ui_act_mark_unread">Okunmadı işaretle</string>
-    <string name="ui_unread_cd">%1$d okunmamış</string>
+    <plurals name="ui_unread_cd">
+        <item quantity="one">%1$d okunmamış</item>
+        <item quantity="other">%1$d okunmamış</item>
+    </plurals>
     <string name="ui_chats_draft">Taslak: %1$s</string>
     <string name="ui_chats_routine_cd">Rutin sohbeti</string>
     <string name="ui_act_export">Sohbeti dışa aktar</string>
@@ -315,7 +324,10 @@
     <string name="ui_home_routines_none">Planlanmış bir şey yok</string>
     <string name="ui_home_tile_saved">Kaydedilen mesajlar</string>
     <string name="ui_home_usage_today">Bugün: %1$s token</string>
-    <string name="ui_home_unread">%1$d okunmamış</string>
+    <plurals name="ui_home_unread">
+        <item quantity="one">%1$d okunmamış</item>
+        <item quantity="other">%1$d okunmamış</item>
+    </plurals>
     <string name="ui_time_tomorrow">Yarın</string>
     <string name="ui_time_day_at">%1$s, %2$s</string>
 </resources>

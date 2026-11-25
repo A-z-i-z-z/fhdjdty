@@ -1,0 +1,13 @@
+{
+  "warnings": 996,
+  "lengthKnown": [
+    "strings.xml:btn_battery:en",
+    "strings.xml:btn_battery:fr",
+    "strings.xml:btn_remove_cred:en",
+    "strings.xml:btn_remove_cred:fr",
+    "strings.xml:btn_remove_cred:tr",
+    "strings.xml:btn_remove_key:fr",
+    "strings.xml:btn_reset_runtime:fr",
+    "strings.xml:btn_selftest:tr"
+  ]
+}

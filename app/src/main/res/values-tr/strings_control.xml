@@ -21,7 +21,10 @@
 
     <!-- bots -->
     <string name="ctl_bots_title">Botlar</string>
-    <string name="ctl_bots_count">%1$d bot</string>
+    <plurals name="ctl_bots_count">
+        <item quantity="one">%1$d bot</item>
+        <item quantity="other">%1$d bot</item>
+    </plurals>
     <string name="ctl_bots_intro">Her bot, kendi kişiliği olan bir karakterdir. Düzenlemek için birine dokun, konuşmak için sohbet simgesine bas.</string>
     <string name="ctl_bots_new">Yeni bot</string>
     <string name="ctl_bots_select_on">Grup sohbeti için bot seç</string>
@@ -56,7 +59,10 @@
     <string name="ctl_bot_prompt_help">Bu metin modele botun kim olduğunu ve nasıl davranacağını söyler. Bu botun her sohbetiyle birlikte gönderilir. Hazır bir cümle eklemek için bir düğmeye dokun.</string>
     <string name="ctl_bot_prompt">Kişilik (sistem istemi)</string>
     <string name="ctl_bot_prompt_hint">Sen sabırlı bir öğretmensin ve …</string>
-    <string name="ctl_bot_chars">%1$d karakter</string>
+    <plurals name="ctl_bot_chars">
+        <item quantity="one">%1$d karakter</item>
+        <item quantity="other">%1$d karakter</item>
+    </plurals>
     <string name="ctl_bot_mono">Eşit aralıklı yazı</string>
     <string name="ctl_ins_turkish">Türkçe konuş</string>
     <string name="ctl_ins_kurdish">Kürtçe konuş</string>
@@ -100,7 +106,10 @@
     <string name="ctl_doc_placeholder">Boş</string>
     <string name="ctl_budget">%1$d / %2$d karakter kullanıldı</string>
     <string name="ctl_budget_over">Sınır aşıldı. Hermes bu dosyayı bilerek küçük tutar: kayıtları kısalt veya birleştir.</string>
-    <string name="ctl_chars">%1$d karakter</string>
+    <plurals name="ctl_chars">
+        <item quantity="one">%1$d karakter</item>
+        <item quantity="other">%1$d karakter</item>
+    </plurals>
     <string name="ctl_mode_entries">Kayıtlar</string>
     <string name="ctl_mode_raw">Ham metin</string>
     <string name="ctl_entries_empty">Henüz kayıt yok.</string>
@@ -289,7 +298,10 @@
     <string name="ctl_usage_legend_in">Giden (senin gönderdiğin)</string>
     <string name="ctl_usage_legend_out">Gelen (aldığın yanıt)</string>
     <string name="ctl_usage_in_out">%1$s giden · %2$s gelen</string>
-    <string name="ctl_usage_turns">%1$d yanıt</string>
+    <plurals name="ctl_usage_turns">
+        <item quantity="one">%1$d yanıt</item>
+        <item quantity="other">%1$d yanıt</item>
+    </plurals>
     <string name="ctl_usage_models">Modele göre</string>
     <string name="ctl_usage_model_default">Hermes varsayılanı</string>
     <string name="ctl_usage_budget_title">Günlük bütçe</string>
@@ -387,10 +399,16 @@
     <string name="ctl_bots_exported">Botlar kaydedildi</string>
     <string name="ctl_bots_export_failed">Botlar dışa aktarılamadı.</string>
     <string name="ctl_bots_export_too_big">Paylaşmak için çok fazla metin var. Bunun yerine dosyaya kaydet.</string>
-    <string name="ctl_bots_import_title">%1$d bot içe aktarılsın mı?</string>
+    <plurals name="ctl_bots_import_title">
+        <item quantity="one">%1$d bot içe aktarılsın mı?</item>
+        <item quantity="other">%1$d bot içe aktarılsın mı?</item>
+    </plurals>
     <string name="ctl_bots_import_body">Bu botlar kopya olarak eklenecek:\n%1$s\n\nSohbetten önce kişilik metinlerini oku: ajanı onlar yönlendirir.</string>
     <string name="ctl_bots_import_confirm">İçe aktar</string>
-    <string name="ctl_bots_imported">%1$d bot içe aktarıldı</string>
+    <plurals name="ctl_bots_imported">
+        <item quantity="one">%1$d bot içe aktarıldı</item>
+        <item quantity="other">%1$d bot içe aktarıldı</item>
+    </plurals>
     <string name="ctl_bots_import_failed">İçe aktarılamadı: %1$s</string>
     <string name="ctl_bots_import_empty">Pano boş.</string>
     <string name="ctl_bots_import_none">dosyada bot yok</string>

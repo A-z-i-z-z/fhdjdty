@@ -1,7 +1,9 @@
 package dev.pocketagent.app.diag
 
 import android.app.ActivityManager
+import android.content.ClipData
 import android.content.Context
+import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.net.ConnectivityManager
 import android.os.BatteryManager
@@ -10,9 +12,15 @@ import android.os.PowerManager
 import android.os.StatFs
 import android.system.Os
 import android.system.OsConstants
+import androidx.core.content.FileProvider
 import dev.pocketagent.app.BuildConfig
+import dev.pocketagent.app.R
 import dev.pocketagent.app.runtime.ExitRecord
+import dev.pocketagent.app.runtime.GuestCodeScan
+import dev.pocketagent.app.runtime.GuestPrefs
 import dev.pocketagent.app.runtime.RuntimeManager
+import dev.pocketagent.app.ui.pixel.SpriteBank
+import dev.pocketagent.app.ui.text.Texts
 import dev.pocketagent.app.util.AppLog
 import dev.pocketagent.app.util.FileUtil
 import java.io.File
@@ -71,6 +79,8 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
             package: ${context.packageName}
             version: ${pi.versionName} (code ${pi.longVersionCode})
             git commit: ${BuildConfig.GIT_COMMIT}
+            variant: ${BuildConfig.APP_VARIANT}  signing key: ${BuildConfig.SIGNING_KIND}  ci run: ${BuildConfig.CI_RUN}
+            test hooks: ${BuildConfig.TEST_HOOKS}  twin: ${BuildConfig.IS_TWIN}  link scheme: ${BuildConfig.DEEP_LINK_SCHEME}
             build type: ${BuildConfig.BUILD_TYPE}  debuggable=${(ai.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0}
             targetSdk: ${ai.targetSdkVersion}  minSdk: ${ai.minSdkVersion ?: "?"}
             installed: ${t(pi.firstInstallTime)}  updated: ${t(pi.lastUpdateTime)}
@@ -121,6 +131,34 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
             """.trimIndent()
         }
 
+        safe("Guest options and practice model") {
+            val gp = GuestPrefs.get(context)
+            val o = rt.lastGuestOptions
+            val minutes = gp.practiceMinutesLeft()
+            """
+            practice model: ${if (gp.practiceModel.value) "on" else "off"}${if (minutes != null) "  (about $minutes min left)" else ""}
+            web lookups (keyless fallback) switch: ${if (gp.webKeyless.value) "on" else "off"}
+            configuration last written to the guest: practice=${if (o.practice) "on, port ${o.practicePort}" else "off"}  web keyless fallback=${o.webKeylessFallback}
+            """.trimIndent()
+        }
+
+        safe("Code Hermes runs from its folders (hooks and plugins the app did not write)") {
+            val g = rt.guestCodeReport
+            if (g.isEmpty()) "(nothing found)" else buildString {
+                appendLine("summary: ${GuestCodeScan.summary(g)}")
+                g.forEach { e ->
+                    appendLine("  ${e.kind.name.lowercase()} ${e.path}  files=${e.files} bytes=${e.bytes} newest=${t(e.newestModified)} complete=${e.complete}${if (e.symlink) " symlink" else ""}")
+                }
+            }.trimEnd()
+        }
+
+        safe("Texts and language") { Texts.describe() }
+
+        safe("Pixel sprite load errors") {
+            val errs = SpriteBank.loadErrors
+            if (errs.isEmpty()) "(none)" else errs.joinToString("\n") { "  $it" }
+        }
+
         safe("Child process exits") {
             val e = rt.exitRecords()
             if (e.isEmpty()) "(none recorded)" else e.joinToString("\n") { r ->
@@ -129,12 +167,9 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
         }
 
         safe("Historical process exit reasons (ActivityManager)") {
-            if (Build.VERSION.SDK_INT < 30) "(needs Android 11+)" else {
-                val am = context.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-                val list = am.getHistoricalProcessExitReasons(context.packageName, 0, 20)
-                if (list.isEmpty()) "(none)" else list.joinToString("\n") { i ->
-                    "  ${t(i.timestamp)}  reason=${reasonName(i.reason)}(${i.reason}) status=${i.status} importance=${i.importance} pss=${i.pss}KB rss=${i.rss}KB pid=${i.pid}  desc=${i.description}"
-                }
+            if (Build.VERSION.SDK_INT < ExitReasons.MIN_SDK) "(needs Android 11+)" else {
+                val list = ExitReasons.read(context, 20)
+                if (list.isEmpty()) "(none)" else list.joinToString("\n") { "  " + ExitReasons.describe(it) { ts -> t(ts) } }
             }
         }
 
@@ -241,13 +276,6 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
         return sb.toString()
     }
 
-    private fun reasonName(r: Int) = when (r) {
-        1 -> "EXIT_SELF"; 2 -> "SIGNALED"; 3 -> "LOW_MEMORY"; 4 -> "CRASH"; 5 -> "CRASH_NATIVE"; 6 -> "ANR"
-        7 -> "INITIALIZATION_FAILURE"; 8 -> "PERMISSION_CHANGE"; 9 -> "EXCESSIVE_RESOURCE_USAGE"; 10 -> "USER_REQUESTED"
-        11 -> "USER_STOPPED"; 12 -> "DEPENDENCY_DIED"; 13 -> "OTHER"; 14 -> "FREEZER"; 15 -> "PACKAGE_STATE_CHANGE"
-        16 -> "PACKAGE_UPDATED"; else -> "UNKNOWN"
-    }
-
     /** Writes the full dump to cache/diagnostics and returns the file (for sharing). */
     fun writeFullToFile(): File {
         val dir = rt.paths.diagnosticsDir.also { it.mkdirs() }
@@ -257,6 +285,48 @@ class Diagnostics(private val context: Context, private val rt: RuntimeManager) 
         f.writeText(buildFull())
         AppLog.i("Diag", "full dump written (${f.length()} bytes)")
         return f
+    }
+
+    /**
+     * One redacted zip of the logs (app log, runtime log, last launch line and the full dump), written to cache/diagnostics as
+     * agiri-logs-yyyyMMdd-HHmmss.zip. BLOCKING: call it off the main thread. Keeps the newest three. Throws on failure.
+     */
+    @Synchronized
+    fun exportLogs(): File {
+        val dir = rt.paths.diagnosticsDir.also { it.mkdirs() }
+        val stamp = SimpleDateFormat("yyyyMMdd-HHmmss", Locale.US).format(Date())
+        val dest = File(dir, "agiri-logs-$stamp.zip")
+        val part = File(dir, "agiri-logs-$stamp.zip.part")
+        try {
+            part.outputStream().buffered().use { out ->
+                LogExport.zip(out, LogExport.sources(rt.paths.logs, rt.paths.lastLaunch) { buildFull() }, { redact(it) })
+            }
+            if (!part.renameTo(dest)) {
+                dest.delete()
+                if (!part.renameTo(dest)) throw java.io.IOException("cannot replace ${dest.name}")
+            }
+        } finally {
+            if (part.exists()) part.delete()
+        }
+        // Keep the new zip and the two before it; stale partial files go too.
+        dir.listFiles { f -> f.name.startsWith("agiri-logs-") && (f.name.endsWith(".zip") || f.name.endsWith(".zip.part")) }
+            ?.filter { it != dest }?.sortedBy { it.lastModified() }?.dropLast(2)?.forEach { it.delete() }
+        AppLog.i("Diag", "logs exported (${dest.length()} bytes)")
+        return dest
+    }
+
+    /** The share-sheet intent for [exportLogs] (a chooser for one zip file through the FileProvider), or null when it failed. BLOCKING. */
+    fun exportLogsIntent(): Intent? = try {
+        val f = exportLogs()
+        val uri = FileProvider.getUriForFile(context, context.packageName + ".fileprovider", f)
+        val send = Intent(Intent.ACTION_SEND).setType("application/zip").putExtra(Intent.EXTRA_STREAM, uri)
+            .putExtra(Intent.EXTRA_SUBJECT, context.getString(R.string.cfg_diag_share_subject))
+            .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        send.clipData = ClipData.newRawUri(f.name, uri)
+        Intent.createChooser(send, null).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    } catch (e: Exception) {
+        AppLog.e("Diag", "log export failed", e)
+        null
     }
 
     companion object { const val CLIPBOARD_LIMIT = 60_000 }

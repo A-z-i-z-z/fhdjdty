@@ -1,0 +1,4 @@
+{
+  "note": "Findings of the cut-text check (font scale 2.0) that are known and accepted. Same entry format as a11y-allow.json; id is the printed class@bounds or tag of the node.",
+  "allow": []
+}

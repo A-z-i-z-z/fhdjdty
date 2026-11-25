@@ -1,0 +1,17 @@
+{
+  "name": "sweep-stretched-and-mirrored",
+  "title": "Every route in the stretched test language (no plain English left) and mirrored",
+  "flags": ["core"],
+  "safe": true,
+  "vars": {"lang": "en-XZ"},
+  "timeoutSec": 900,
+  "steps": [
+    {"op": "eachRoute", "steps": [{"op": "link", "debug": {"reset": "1", "lang": "{{var:lang}}", "route": "{{var:route}}"}}, {"op": "wait", "any": [{"tag": "{{var:screen}}"}], "navTop": "{{var:route}}", "timeout": 10}, {"op": "wait", "ms": 500}, {"op": "scanDump"}, {"op": "shot", "name": "stretched"}]},
+    {"op": "eachRoute", "steps": [{"op": "link", "debug": {"reset": "1", "rtl": "1", "route": "{{var:route}}"}}, {"op": "wait", "any": [{"tag": "{{var:screen}}"}], "navTop": "{{var:route}}", "timeout": 10}, {"op": "wait", "ms": 500}, {"op": "shot", "name": "mirrored"}]},
+    {"op": "link", "debug": {"reset": "1", "lang": "system", "rtl": "auto"}},
+    {"op": "noCrash"}
+  ],
+  "cleanup": [
+    {"op": "link", "debug": {"reset": "1", "lang": "system", "rtl": "auto"}}
+  ]
+}

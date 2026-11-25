@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Resources the resource shrinker must keep although no code reference shows them: launcher icons chosen by the
+  user at run time (the switchable icons), static shortcut and tile icons, notification icon, the sound cues, and
+  every string and plural (looked up by id through the text layer, which can also resolve ids by name).
+  Lenient shrinking stays the default (no shrinkMode attribute).
+-->
+<resources xmlns:tools="http://schemas.android.com/tools"
+    tools:keep="@mipmap/ic_launcher*,@drawable/ic_launcher*,@drawable/ic_shortcut_*,@drawable/ic_tile_fire,@drawable/ic_notification,@raw/sfx_*,@string/*,@plurals/*" />
