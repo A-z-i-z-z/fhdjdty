@@ -657,3 +657,17 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   optimised build (not debuggable); `tools\local-build.ps1 -Install` puts the debug twin back; the
   system animation scales must be 1; uncommitted changes under `app/` and `tools/` in the main tree
   belong to the prover. Phone: in use (twin only).
+- **20:30 UTC, PRIORITY CHANGE from the owner (through the watcher session):** little usage is left
+  and this is very likely the last window of the subscription. From now on: (1) finish Wave 0 and
+  put it on the owner's app: prove the fixes on the twin, take a fresh copy into
+  `dist/owner-backup/`, install with `tools\local-build.ps1 -OwnerDebug -BuildNumber 16 -Install`,
+  check it starts with Hermes Running and the data unchanged, commit, push (the owner said yes to
+  this install; if the proof finds a severe defect that cannot be fixed quickly, the owner's app
+  stays on the rollback build); (2) no new large work; running Wave 1a slices are stopped at a
+  committed point; (3) agents are spent sparingly; (4) the handoff stays complete and pushed.
+  Done at once: **the Wave 1b contract workflow was stopped.** What it left is committed as it is
+  under `docs/waves/w1b/`: the split of the wave into areas (`SPLIT.md`) and the area drafts that
+  were finished (unreviewed, NOT merged into a contract; a successor writes
+  `docs/waves/w1b-contract.md` from them the way `w1a-contract.md` was made). The twin experiments
+  (S2, S4, S7, smoothness) are dropped from this session unless usage remains after the owner's
+  install. Slice C is stopped after its integration (no whole-slice review). Phone: in use (twin).
