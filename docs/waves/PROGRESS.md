@@ -60,6 +60,23 @@ Decisions that belong to later waves are assumed when their wave starts and are 
 | S4, second half: does ahead-of-time compilation survive a reboot and a day | A reboot would lock the phone behind its PIN for the rest of the night | The compile command is repeated at every install (the plan's fallback), and the check after a reboot is left for a day when the owner is at hand |
 | The three manual checks of plan 0.4 | They need a person or a key: the camera shutter, spoken dictation, a new provider with a real key | Listed in `docs/APP_OVERVIEW.md` as not tried |
 
+## Things the owner should know
+
+- **An experiment agent's taps went astray once (2026-11-25, about 06:32 UTC).** While the
+  navigation experiment ran on a throwaway copy of the app, that copy crashed and the agent's next
+  scripted taps landed on the phone's launcher: they opened the **AutoTrader** app from the dock and
+  about two taps hit its start screen (a consent screen may have been showing; the agent cannot tell
+  whether anything was chosen), and one back swipe went into it. Nothing else was touched; from then
+  on every input is guarded by a check of which app has the focus. The owner may want to look at
+  AutoTrader's consent or privacy settings once.
+- The throwaway copies used by that experiment were built with a higher target API (35) so that Play
+  Protect accepted them; they could not run Hermes and were uninstalled at the end. Three developer
+  settings were changed and restored (`enable_back_animation`, `predictive_back_system_animation`,
+  `animator_duration_scale`).
+- `/data/local/tmp/exp-s5` (1.2 GB) on the phone is the shell harness of experiment S5. It is left
+  in place because it is useful for more experiments; remove it with
+  `adb shell rm -rf /data/local/tmp/exp-s5`.
+
 ## Log
 
 Newest entry last. Times are UTC. "Phone" says whether the step was checked on the real phone.
@@ -111,3 +128,26 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   Wave 0; every new text gets Turkish and French in the same wave.
 - **06:45, step 0.d started: merging the contract** (one Sonnet merger, two Opus reviewers for seams
   and for safety, one round of fixes).
+- **06:50, experiments S1 and S3 (navigation) reported.** Clock note: the times of the entries
+  above were estimates and run about 25 minutes ahead; from here on they are read from the clock.
+  - **S1 fails on this phone:** a back swipe never reports progress. Samsung's side-gesture service
+    turns the swipe into a back *key* when the finger lifts (logcat: `performSwipeAction ...
+    action=key_back`, then "Trigger back without dispatching to animator"); the app's callback sees
+    start, one progress of 0.0 and invoke within 3 ms. The two developer toggles for back animations
+    change nothing. Consequence: the fallback of the register. The back transition plays after the
+    gesture ends, and no seekable back machinery is written in Wave 0.
+  - **S3 passes:** one `SharedTransitionLayout` around the navigator's existing `AnimatedContent`, two
+    CompositionLocals and one modifier carry an avatar from the chat list to the chat's top bar and
+    back, with no flicker in sampled frames; its cost is within the noise of a debug build.
+  - **Play Protect lets a new package through at target API 35** (29 and 33 are blocked). Such a copy
+    cannot run Hermes (the service crashes, and running programs from the data folder needs target
+    28), so it only serves experiments on the interface.
+  - Frame numbers of the debug build during a screen change: about two thirds of the frames miss
+    8.3 ms and the worst frame is 70 to 140 ms (the first composition of the destination). This is the
+    "before" that the optimised build has to beat.
+  - Write-up: `dist/exp-results/S1-S3-navigation.md`. Phone: yes (interface only, target-35 copy).
+- **06:50, the safety copy of the owner's data exists:** `dist/owner-backup/2026-11-25-before-w0.tar`
+  (5.5 MB, 446 entries: preferences, chats, the app's own backups, terminal history, and from the
+  agent's home: sessions, memories, skills, cron, hooks, plugins, `SOUL.md`, the databases; no
+  credentials, no `.env`). Taken read-only with `run-as` and `tar`. To put a file back by hand:
+  `adb shell run-as dev.pocketagent.app` and copy it into place with the app stopped.

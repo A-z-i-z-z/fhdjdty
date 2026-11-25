@@ -571,6 +571,28 @@ CI rebuilds the Linux system and proot on every push, which is wasted time for a
 - **`adb push` of a 1.2 GB tar and `tar xf` into an empty directory** is the way to put the Linux
   image on the phone outside the app; piping xz into `adb shell tar x` from Git Bash does not work.
 
+- **A back swipe reports no progress on this phone (S1, 2026-11-25).** One UI's side-gesture service
+  (`com.samsung.android.sidegesturepad`) sends a back *key* when the finger lifts; a
+  `PredictiveBackHandler` or `OnBackAnimationCallback` gets start, one progress of 0.0 and invoke
+  within 3 ms, never a value above 0 and never a cancel, whatever the target API and the developer
+  toggles. Play the back transition after the gesture. A left-edge swipe near the top (y about 400)
+  opens Samsung's Edge panel instead.
+- **Shared elements work with the hand-written navigator (S3):** wrap the navigator's
+  `AnimatedContent` in one `SharedTransitionLayout`, provide the two scopes through CompositionLocals,
+  and key the element by the conversation id. Compose BOM 2026.11.01 (animation 1.13.0), activity
+  1.13.0; `@OptIn(ExperimentalSharedTransitionApi::class)`.
+- **Play Protect's block depends on the target API:** a new package at target 28, 29 or 33 is blocked,
+  at 35 it installs. A copy built for 35 cannot run Hermes (foreground-service type missing, and no
+  exec from the data folder), so it is good for interface experiments only, and it shows a
+  compatibility dialog at every cold start.
+- **Scripted taps must check the focused app first.** When the app under test crashes, the next
+  `input tap` lands on the launcher and opens whatever is there (it happened: a third-party app was
+  opened). Read `dumpsys window | grep mCurrentFocus` before every tap or swipe and stop if it is
+  not the package under test.
+- **`dumpsys gfxinfo <pkg> framestats` keeps only the last 120 frames:** reset and dump once per
+  transition, and read the columns by the names in the header (`IntendedVsync`, `FrameCompleted`).
+  The panel runs at 120 Hz, so a frame has 8.3 ms.
+
 ## Phase 1 notes (the new app, 2026-11-23)
 
 - Navigation is a small hand-written back stack (`ui/Nav.kt`), tabs Home, Chats, Bots, Hermes,
