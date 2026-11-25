@@ -69,3 +69,16 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
 - **05:50, step 0.b: this log is opened.** State of the phone at the start: the owner's app is local
   build 32 (version code 32, 0.1.32, debug, committed key); the phone is awake, "stay awake while
   charging" is on, 48 GB free. No twin installed yet. Phone: read only.
+- **06:10, step 0.c started: experiments and contract drafts run side by side.**
+  - Phone experiments, first chain (one Sonnet agent after another, in the throwaway worktree
+    `dist/wt/exp`, branch `exp/w0-experiments`, never pushed): the test twin (`dev.pocketagent.app.debug`
+    next to the owner's app), S5 (practice model inside the guest), S1 and S3 (back-swipe progress,
+    shared elements). Each writes its findings to `dist/exp-results/<id>.md` (git-ignored); the facts
+    are copied into `AGENTS.md` "Hard-won facts" when the chain ends. Second chain afterwards: S2 and
+    S4 (optimised build), S6 (key rotation, throwaway package only), S7 (memory).
+  - Contract drafts (no code changes): two Haiku surveys of the code (`dist/w0/survey-*.md`), then one
+    Sonnet draft per build area of plan 7.0 (`dist/w0/draft-<AREA>.md`: BUILD, ROBOT, DESIGN, NAV,
+    STAGE, STREAM, CONFIG, TEXT) and the recipes for the two mechanical sweeps. They are merged into
+    `docs/waves/w0-contract.md` and reviewed by Opus once the first experiment chain has reported.
+  - If this run is interrupted here: nothing in the main checkout has changed yet. Reuse whatever is
+    in `dist/exp-results/` and `dist/w0/`, and redo what is missing.
