@@ -151,3 +151,18 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
   agent's home: sessions, memories, skills, cron, hooks, plugins, `SOUL.md`, the databases; no
   credentials, no `.env`). Taken read-only with `run-as` and `tar`. To put a file back by hand:
   `adb shell run-as dev.pocketagent.app` and copy it into place with the app stopped.
+- **07:10, step 0.d done: the contract is written and reviewed.** `docs/waves/w0-contract.md` (642
+  lines; ground rules, ownership of every file, the registry of every shared symbol, 71 rulings on the
+  drafts' requests, amendments per area, strings, manifest, the later stages, the proof list, and the
+  lead's rulings in section 11). Two Opus reviewers (seams; safety and feasibility) found 36 problems
+  (3 would have turned CI red, 17 major); all were applied in one round, none refuted. What changed
+  because of the review: ROBOT and CONFIG are each split into two agents; the robot may change system
+  settings only through one guarded function; destructive robot steps refuse the owner's package in
+  code; practice mode expires after two hours on a build that is not the twin; an install over the
+  owner's app is refused when it would replace the Linux image; a rollback path is described. The
+  Linux image is not changed in Wave 0 (ruling 11.8). Phone: not applicable.
+- **07:10, step 0.e started: stage 1 of the build.** Ten Sonnet agents in parallel (BUILD, ROBOT-P,
+  ROBOT-T, DESIGN, NAV, STAGE, STREAM, CONFIG-R, CONFIG-D, TEXT), each followed at once by its own Opus
+  review and one round of fixes. Nobody compiles in this stage. If this run is interrupted here: the
+  tree holds unfinished, uncompiled work of several agents; `git status` shows it; either continue
+  from the contract area by area or `git stash` it and start stage 1 again.
