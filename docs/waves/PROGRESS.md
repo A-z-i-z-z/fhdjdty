@@ -250,3 +250,29 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
     after-number is taken the same way as the before-number (a start from a dead process).
   - CI for `d52bf49`: the unit-test job (with the Linux `pwsh` checks) is green; the rest is running.
     The install on the phone waits for the smoke test, which boots Hermes with the new configuration.
+- **12:13, CI for `d52bf49` is green end to end** (run 16): unit tests with the Linux `pwsh` checks,
+  proot, rootfs, the smoke test (Hermes boots with the guard block, the tool list is the expected
+  ten sets, no title call, and phase 3 runs through the practice model inside the guest), both APKs,
+  the prerelease `phase0-16` with `Agiri-16.apk` and `Agiri-16-test.apk`. **Do not install
+  `Agiri-16.apk` over an existing install yet:** it is the optimised build (S2 untried) and carries
+  CI's own Linux image, which would be extracted again over the agent's data.
+- **12:14, step 0.j, part 2: Wave 0 is installed over the owner's app (owner-debug) and starts.**
+  - Before the install: a second safety copy (`dist/owner-backup/2026-11-25-before-install.tar`) and
+    checksums of the owner's chat files, `SOUL.md`, memory and preferences.
+  - Installed with `tools\local-build.ps1 -OwnerDebug -Install -NoBuild`; the script's checks passed
+    ("same certificate, higher version code, data copy present, same Linux image"). The app is now
+    version code 1000801, `0.2.8-local1`, debuggable, same key.
+  - First start over the existing data: `variant=owner-debug`, "no foreign hooks or plugins",
+    `practice=off`, auto-start, **Hermes Running after 10 s** with the owner's saved credentials
+    (health OK, `/v1/models` 200). No crash in logcat or `app.log`. The generated `config.yaml`
+    carries the four new guard keys.
+  - **The owner's data is byte for byte what it was:** the checksums of `bots.json`,
+    `conversations.json`, `drafts.json`, `routines.json`, `usage.json`, the message file, `SOUL.md`,
+    `USER.md`, the three preference files and the rootfs stamp are identical before and after; the
+    secrets folder still holds its two files. New files written by the wave: `crash_reports.xml`,
+    `files/debug-link.token`.
+  - Home looks the same as before (pictures `dist/proof/w0/before/01-home.png` and
+    `dist/proof/w0/after/01-home.png`). Phone: **yes**.
+- **12:20, step 0.j, part 3 started:** the robot's safe scenarios and the smoothness numbers after;
+  then the practice model through the app's own interface, navigation, and one real turn on
+  Hydrogen at low effort; at the end Hermes is stopped again, as the owner had left it.
