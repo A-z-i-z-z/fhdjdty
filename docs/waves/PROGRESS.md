@@ -232,3 +232,21 @@ Newest entry last. Times are UTC. "Phone" says whether the step was checked on t
 - **11:55, step 0.j started: proving on the phone** (owner-debug over the owner's app; see decisions
   G2 to G6): "before" pictures and numbers from build 32, the rollback APK, the install, the start,
   the robot's safe scenarios, the practice model through the app's own interface, one real turn.
+- **12:00, step 0.j, part 1 done: the "before" state and the way back.** Nothing was installed.
+  - Pictures of build 32 (Home, Chats, Bots, Hermes, Settings): `dist/proof/w0/before/`.
+  - Smoothness of build 32 (debug build, 120 Hz, a frame has 8.3 ms): cold start 1,108 ms (one
+    sample); Home scroll: 23 % of 3,042 frames within 8.3 ms, 95th percentile 11.7 ms, worst 25 ms;
+    Home idle for 10 s: 12 % of 2,459 frames within 8.3 ms, every frame about 10 ms (the idle scene
+    alone costs more than a frame). Files: `dist/perf/build32/`.
+  - The rollback APK exists and is verified: `dist/rollback/agiri-rollback-1000899.apk` (the
+    pre-wave code, package `dev.pocketagent.app`, version code 1000899, same key, same Linux image).
+    To go back: `adb install -r dist\rollback\agiri-rollback-1000899.apk` (no data is lost; the
+    pre-wave code ignores the wave's new files).
+  - **The owner should know:** Hermes had been stopped by hand the evening before. Opening the app
+    for the pictures auto-started it. It is stopped again through the app when the proof is over.
+  - Tool findings: two perf scenarios could not find the Home tab on a build without test tags
+    (fixed: a text alternative). The perf tool's cold-start scenario force-stops the app; under
+    `-Owner` that is not wanted (a force-stop cancels the owner's alarms), so it was not run; the
+    after-number is taken the same way as the before-number (a start from a dead process).
+  - CI for `d52bf49`: the unit-test job (with the Linux `pwsh` checks) is green; the rest is running.
+    The install on the phone waits for the smoke test, which boots Hermes with the new configuration.

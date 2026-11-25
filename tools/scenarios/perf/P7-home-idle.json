@@ -5,7 +5,7 @@
   "measure": {"kind": "idle", "budget": {}},
   "timeoutSec": 120,
   "steps": [
-    {"op": "tap", "cache": true, "any": [{"tag": "tab.home"}, {"desc": "Home"}]},
+    {"op": "tap", "cache": true, "any": [{"tag": "tab.home"}, {"desc": "Home"}, {"text": "Home"}]},
     {"op": "wait", "ms": 1500},
     {"op": "measure", "action": "start"},
     {"op": "wait", "ms": 10000},
